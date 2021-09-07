@@ -1,4 +1,4 @@
-package stest.tron.wallet.dailybuild.http;
+package stest.stabila.wallet.dailybuild.http;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -12,9 +12,9 @@ import org.testng.annotations.Test;
 import org.stabila.common.crypto.ECKey;
 import org.stabila.common.utils.ByteArray;
 import org.stabila.common.utils.Utils;
-import stest.tron.wallet.common.client.Configuration;
-import stest.tron.wallet.common.client.utils.HttpMethed;
-import stest.tron.wallet.common.client.utils.PublicMethed;
+import stest.stabila.wallet.common.client.Configuration;
+import stest.stabila.wallet.common.client.utils.HttpMethed;
+import stest.stabila.wallet.common.client.utils.PublicMethed;
 
 @Slf4j
 public class HttpTestAccount003 {
@@ -209,7 +209,7 @@ public class HttpTestAccount003 {
   /**
    * constructor.
    */
-  @Test(enabled = true, description = "Unfreeze balance for tron power by http")
+  @Test(enabled = true, description = "Unfreeze balance for stabila power by http")
   public void test10UnfreezeTronPower() {
     response = HttpMethed.unFreezeBalance(httpnode, updateAccountAddress,2,updateAccountKey);
     responseContent = HttpMethed.parseResponseContent(response);

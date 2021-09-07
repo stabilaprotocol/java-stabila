@@ -245,7 +245,7 @@ public class ArchiveManifest implements Callable<Boolean> {
     @Parameter
     private List<String> parameters = new ArrayList<>();
 
-    @Parameter(names = {"-d", "--database-directory"}, description = "java-tron database directory")
+    @Parameter(names = {"-d", "--database-directory"}, description = "java-stabila database directory")
     private  String databaseDirectory = "output-directory/database";
 
     @Parameter(names = {"-b", "--batch-size" }, description = "deal manifest batch size")

@@ -169,7 +169,7 @@ contract KittyBase is KittyAccessControl {
     /// @dev The Birth event is fired whenever a new kitten comes into existence. This obviously
     ///  includes any time a cat is created through the giveBirth method, but it is also called
     ///  when a new gen0 cat is created.
-    event Birth(address owner, uint256 kittyId, uint256 matronId, uint256 sireId, uint256 genes);
+    event Birth(address owner, uint256 kittyId, uint256 mastabilaId, uint256 sireId, uint256 genes);
 
     /// @dev Transfer event as defined in current draft of ERC721. Emitted every time a kitten
     ///  ownership is assigned, including births.
@@ -192,7 +192,7 @@ contract KittyBase is KittyAccessControl {
 
         // The minimum timestamp after which this cat can engage in breeding
         // activities again. This same timestamp is used for the pregnancy
-        // timer (for matrons) as well as the siring cooldown.
+        // timer (for mastabilas) as well as the siring cooldown.
         uint64 cooldownEndBlock;
 
         // The ID of the parents of this kitty, set to 0 for gen0 cats.
@@ -201,10 +201,10 @@ contract KittyBase is KittyAccessControl {
         // that Ethereum currently has a limit of about 500 million
         // transactions per year! So, this definitely won't be a problem
         // for several years (even as Ethereum learns to scale).
-        uint32 matronId;
+        uint32 mastabilaId;
         uint32 sireId;
 
-        // Set to the ID of the sire cat for matrons that are pregnant,
+        // Set to the ID of the sire cat for mastabilas that are pregnant,
         // zero otherwise. A non-zero value here is how we know a cat
         // is pregnant. Used to retrieve the genetic material for the new
         // kitten when the birth transpires.
@@ -214,21 +214,21 @@ contract KittyBase is KittyAccessControl {
         // the current cooldown duration for this Kitty. This starts at zero
         // for gen0 cats, and is initialized to floor(generation/2) for others.
         // Incremented by one for each successful breeding action, regardless
-        // of whether this cat is acting as matron or sire.
+        // of whether this cat is acting as mastabila or sire.
         uint16 cooldownIndex;
 
         // The "generation number" of this cat. Cats minted by the CK contract
         // for sale are called "gen0" and have a generation number of 0. The
         // generation number of all other cats is the larger of the two generation
         // numbers of their parents, plus one.
-        // (i.e. max(matron.generation, sire.generation) + 1)
+        // (i.e. max(mastabila.generation, sire.generation) + 1)
         uint16 generation;
     }
 
     /*** CONSTANTS ***/
 
     /// @dev A lookup table indicating the cooldown duration after any successful
-    ///  breeding action, called "pregnancy time" for matrons and "siring cooldown"
+    ///  breeding action, called "pregnancy time" for mastabilas and "siring cooldown"
     ///  for sires. Designed such that the cooldown roughly doubles each time a cat
     ///  is bred, encouraging owners not to just keep breeding the same cat over
     ///  and over again. Caps out at one week (a cat can breed an unbounded number
@@ -258,7 +258,7 @@ contract KittyBase is KittyAccessControl {
     /// @dev An array containing the Kitty struct for all Kitties in existence. The ID
     ///  of each cat is actually an index into this array. Note that ID 0 is a negacat,
     ///  the unKitty, the mythical beast that is the parent of all gen0 cats. A bizarre
-    ///  creature that is both matron and sire... to itself! Has an invalid genetic code.
+    ///  creature that is both mastabila and sire... to itself! Has an invalid genetic code.
     ///  In other words, cat ID 0 is invalid... ;-)
     Kitty[] kitties;
 
@@ -312,13 +312,13 @@ contract KittyBase is KittyAccessControl {
     ///  method doesn't do any checking and should only be called when the
     ///  input data is known to be valid. Will generate both a Birth event
     ///  and a Transfer event.
-    /// @param _matronId The kitty ID of the matron of this cat (zero for gen0)
+    /// @param _mastabilaId The kitty ID of the mastabila of this cat (zero for gen0)
     /// @param _sireId The kitty ID of the sire of this cat (zero for gen0)
     /// @param _generation The generation number of this cat, must be computed by caller.
     /// @param _genes The kitty's genetic code.
     /// @param _owner The inital owner of this cat, must be non-zero (except for the unKitty, ID 0)
     function _createKitty(
-        uint256 _matronId,
+        uint256 _mastabilaId,
         uint256 _sireId,
         uint256 _generation,
         uint256 _genes,
@@ -331,7 +331,7 @@ contract KittyBase is KittyAccessControl {
         // sure that these conditions are never broken. However! _createKitty() is already
         // an expensive call (for storage), and it doesn't hurt to be especially careful
         // to ensure our data structures are always valid.
-        require(_matronId == uint256(uint32(_matronId)));
+        require(_mastabilaId == uint256(uint32(_mastabilaId)));
         require(_sireId == uint256(uint32(_sireId)));
         require(_generation == uint256(uint16(_generation)));
 
@@ -345,7 +345,7 @@ contract KittyBase is KittyAccessControl {
             genes: _genes,
             birthTime: uint64(now),
             cooldownEndBlock: 0,
-            matronId: uint32(_matronId),
+            mastabilaId: uint32(_mastabilaId),
             sireId: uint32(_sireId),
             siringWithId: 0,
             cooldownIndex: cooldownIndex,
@@ -361,7 +361,7 @@ contract KittyBase is KittyAccessControl {
         emit Birth(
             _owner,
             newKittenId,
-            uint256(_kitty.matronId),
+            uint256(_kitty.mastabilaId),
             uint256(_kitty.sireId),
             _kitty.genes
         );
