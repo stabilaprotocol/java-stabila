@@ -5,7 +5,7 @@ import org.stabila.core.capsule.BlockCapsule;
 
 public interface BlockHandle {
 
-  State getState();
+  org.stabila.consensus.base.State getState();
 
   Object getLock();
 

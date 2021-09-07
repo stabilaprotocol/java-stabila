@@ -6045,8 +6045,8 @@ public class PublicMethed {
   /**
    * constructor.
    */
-  public static List<Note> addShieldOutputList(List<Note> shieldOutList, String shieldToAddress,
-      String toAmountString, String menoString) {
+  public static List<GrpcAPI.Note> addShieldOutputList(List<GrpcAPI.Note> shieldOutList, String shieldToAddress,
+                                                       String toAmountString, String menoString) {
     String shieldAddress = shieldToAddress;
     String amountString = toAmountString;
     if (menoString.equals("null")) {
