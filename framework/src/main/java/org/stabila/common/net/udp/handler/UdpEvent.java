@@ -19,7 +19,7 @@
 package org.stabila.common.net.udp.handler;
 
 import java.net.InetSocketAddress;
-import org.tron.common.net.udp.message.Message;
+import org.stabila.common.net.udp.message.Message;
 
 public class UdpEvent {
 

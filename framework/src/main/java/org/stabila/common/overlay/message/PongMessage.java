@@ -1,7 +1,7 @@
 package org.stabila.common.overlay.message;
 
 import org.bouncycastle.util.encoders.Hex;
-import org.tron.core.net.message.MessageTypes;
+import org.stabila.core.net.message.MessageTypes;
 
 public class PongMessage extends P2pMessage {
 

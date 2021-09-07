@@ -2,7 +2,7 @@ package org.stabila.core.metrics.blockchain;
 
 import java.util.List;
 import lombok.Data;
-import org.tron.core.metrics.net.RateInfo;
+import org.stabila.core.metrics.net.RateInfo;
 
 @Data
 public class BlockChainInfo {

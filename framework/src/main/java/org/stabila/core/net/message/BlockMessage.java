@@ -1,12 +1,12 @@
 package org.stabila.core.net.message;
 
-import org.tron.common.overlay.message.Message;
-import org.tron.common.utils.Sha256Hash;
-import org.tron.core.capsule.BlockCapsule;
-import org.tron.core.capsule.BlockCapsule.BlockId;
-import org.tron.core.capsule.TransactionCapsule;
+import org.stabila.common.overlay.message.Message;
+import org.stabila.common.utils.Sha256Hash;
+import org.stabila.core.capsule.BlockCapsule;
+import org.stabila.core.capsule.BlockCapsule.BlockId;
+import org.stabila.core.capsule.TransactionCapsule;
 
-public class BlockMessage extends TronMessage {
+public class BlockMessage extends StabilaMessage {
 
   private BlockCapsule block;
 

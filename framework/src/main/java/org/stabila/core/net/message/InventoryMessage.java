@@ -4,13 +4,13 @@ import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.tron.common.utils.Sha256Hash;
-import org.tron.protos.Protocol;
-import org.tron.protos.Protocol.Inventory;
-import org.tron.protos.Protocol.Inventory.InventoryType;
+import org.stabila.common.utils.Sha256Hash;
+import org.stabila.protos.Protocol;
+import org.stabila.protos.Protocol.Inventory;
+import org.stabila.protos.Protocol.Inventory.InventoryType;
 
 
-public class InventoryMessage extends TronMessage {
+public class InventoryMessage extends StabilaMessage {
 
   protected Inventory inv;
 

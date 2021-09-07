@@ -3,16 +3,16 @@ package org.stabila.core.consensus;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.tron.common.backup.BackupManager;
-import org.tron.common.backup.BackupManager.BackupStatusEnum;
-import org.tron.consensus.Consensus;
-import org.tron.consensus.base.BlockHandle;
-import org.tron.consensus.base.Param.Miner;
-import org.tron.consensus.base.State;
-import org.tron.core.capsule.BlockCapsule;
-import org.tron.core.db.Manager;
-import org.tron.core.net.TronNetService;
-import org.tron.core.net.message.BlockMessage;
+import org.stabila.common.backup.BackupManager;
+import org.stabila.common.backup.BackupManager.BackupStatusEnum;
+import org.stabila.consensus.Consensus;
+import org.stabila.consensus.base.BlockHandle;
+import org.stabila.consensus.base.Param.Miner;
+import org.stabila.consensus.base.State;
+import org.stabila.core.capsule.BlockCapsule;
+import org.stabila.core.db.Manager;
+import org.stabila.core.net.StabilaNetService;
+import org.stabila.core.net.message.BlockMessage;
 
 @Slf4j(topic = "consensus")
 @Component
@@ -25,7 +25,7 @@ public class BlockHandleImpl implements BlockHandle {
   private BackupManager backupManager;
 
   @Autowired
-  private TronNetService tronNetService;
+  private StabilaNetService stabilaNetService;
 
   @Autowired
   private Consensus consensus;
@@ -50,9 +50,9 @@ public class BlockHandleImpl implements BlockHandle {
     try {
       consensus.receiveBlock(blockCapsule);
       BlockMessage blockMessage = new BlockMessage(blockCapsule);
-      tronNetService.fastForward(blockMessage);
+      stabilaNetService.fastForward(blockMessage);
       manager.pushBlock(blockCapsule);
-      tronNetService.broadcast(blockMessage);
+      stabilaNetService.broadcast(blockMessage);
     } catch (Exception e) {
       logger.error("Handle block {} failed.", blockCapsule.getBlockId().getString(), e);
       return null;

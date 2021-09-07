@@ -1,6 +1,6 @@
 package org.stabila.common.overlay.server;
 
-import org.tron.common.overlay.message.Message;
+import org.stabila.common.overlay.message.Message;
 
 public class MessageRoundTrip {
 

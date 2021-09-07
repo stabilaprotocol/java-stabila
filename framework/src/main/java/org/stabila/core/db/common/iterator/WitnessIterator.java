@@ -2,7 +2,7 @@ package org.stabila.core.db.common.iterator;
 
 import java.util.Iterator;
 import java.util.Map.Entry;
-import org.tron.core.capsule.WitnessCapsule;
+import org.stabila.core.capsule.WitnessCapsule;
 
 public class WitnessIterator extends AbstractIterator<WitnessCapsule> {
 

@@ -12,8 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
-import org.tron.common.parameter.CommonParameter;
-import org.tron.core.config.args.Args;
+import org.stabila.common.parameter.CommonParameter;
+import org.stabila.core.config.args.Args;
 
 @Slf4j(topic = "net")
 @Component
@@ -36,7 +36,7 @@ public class PeerServer {
 
     EventLoopGroup bossGroup = new NioEventLoopGroup(1);
     EventLoopGroup workerGroup = new NioEventLoopGroup(parameter.getTcpNettyWorkThreadNum());
-    StabilaChannelInitializer tronChannelInitializer = ctx.getBean(StabilaChannelInitializer.class, "");
+    StabilaChannelInitializer stabilaChannelInitializer = ctx.getBean(StabilaChannelInitializer.class, "");
 
     try {
       ServerBootstrap b = new ServerBootstrap();
@@ -48,7 +48,7 @@ public class PeerServer {
       b.option(ChannelOption.CONNECT_TIMEOUT_MILLIS, this.parameter.getNodeConnectionTimeout());
 
       b.handler(new LoggingHandler());
-      b.childHandler(tronChannelInitializer);
+      b.childHandler(stabilaChannelInitializer);
 
       // Start the client.
       logger.info("TCP listener started, bind port {}", port);

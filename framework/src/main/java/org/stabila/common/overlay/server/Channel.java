@@ -14,19 +14,19 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-import org.tron.common.overlay.discover.node.Node;
-import org.tron.common.overlay.discover.node.NodeHandler;
-import org.tron.common.overlay.discover.node.NodeManager;
-import org.tron.common.overlay.discover.node.statistics.NodeStatistics;
-import org.tron.common.overlay.message.DisconnectMessage;
-import org.tron.common.overlay.message.HelloMessage;
-import org.tron.common.overlay.message.MessageCodec;
-import org.tron.common.overlay.message.StaticMessages;
-import org.tron.core.db.ByteArrayWrapper;
-import org.tron.core.exception.P2pException;
-import org.tron.core.net.PbftHandler;
-import org.tron.core.net.TronNetHandler;
-import org.tron.protos.Protocol.ReasonCode;
+import org.stabila.common.overlay.discover.node.Node;
+import org.stabila.common.overlay.discover.node.NodeHandler;
+import org.stabila.common.overlay.discover.node.NodeManager;
+import org.stabila.common.overlay.discover.node.statistics.NodeStatistics;
+import org.stabila.common.overlay.message.DisconnectMessage;
+import org.stabila.common.overlay.message.HelloMessage;
+import org.stabila.common.overlay.message.MessageCodec;
+import org.stabila.common.overlay.message.StaticMessages;
+import org.stabila.core.db.ByteArrayWrapper;
+import org.stabila.core.exception.P2pException;
+import org.stabila.core.net.PbftHandler;
+import org.stabila.core.net.StabilaNetHandler;
+import org.stabila.protos.Protocol.ReasonCode;
 
 @Slf4j(topic = "net")
 @Component
@@ -49,7 +49,7 @@ public class Channel {
   @Autowired
   private P2pHandler p2pHandler;
   @Autowired
-  private TronNetHandler tronNetHandler;
+  private StabilaNetHandler stabilaNetHandler;
   @Autowired
   private PbftHandler pbftHandler;
   private ChannelManager channelManager;
@@ -57,7 +57,7 @@ public class Channel {
   private InetSocketAddress inetSocketAddress;
   private Node node;
   private long startTime;
-  private TronState tronState = TronState.INIT;
+  private StabilaState stabilaState = StabilaState.INIT;
   private boolean isActive;
 
   private volatile boolean isDisconnect;
@@ -88,11 +88,11 @@ public class Channel {
     msgQueue.setChannel(this);
     handshakeHandler.setChannel(this, remoteId);
     p2pHandler.setChannel(this);
-    tronNetHandler.setChannel(this);
+    stabilaNetHandler.setChannel(this);
     pbftHandler.setChannel(this);
 
     p2pHandler.setMsgQueue(msgQueue);
-    tronNetHandler.setMsgQueue(msgQueue);
+    stabilaNetHandler.setMsgQueue(msgQueue);
     pbftHandler.setMsgQueue(msgQueue);
   }
 
@@ -103,10 +103,10 @@ public class Channel {
     msgQueue.activate(ctx);
     ctx.pipeline().addLast("messageCodec", messageCodec);
     ctx.pipeline().addLast("p2p", p2pHandler);
-    ctx.pipeline().addLast("data", tronNetHandler);
+    ctx.pipeline().addLast("data", stabilaNetHandler);
     ctx.pipeline().addLast("pbft", pbftHandler);
     setStartTime(msg.getTimestamp());
-    setTronState(TronState.HANDSHAKE_FINISHED);
+    setStabilaState(StabilaState.HANDSHAKE_FINISHED);
     getNodeStatistics().p2pHandShake.add();
     logger.info("Finish handshake with {}.", ctx.channel().remoteAddress());
   }
@@ -196,9 +196,9 @@ public class Channel {
     this.startTime = startTime;
   }
 
-  public void setTronState(TronState tronState) {
-    this.tronState = tronState;
-    logger.info("Peer {} status change to {}.", inetSocketAddress, tronState);
+  public void setStabilaState(StabilaState stabilaState) {
+    this.stabilaState = stabilaState;
+    logger.info("Peer {} status change to {}.", inetSocketAddress, stabilaState);
   }
 
   public boolean isActive() {
@@ -249,7 +249,7 @@ public class Channel {
     return String.format("%s | %s", inetSocketAddress, getPeerId());
   }
 
-  public enum TronState {
+  public enum StabilaState {
     INIT,
     HANDSHAKE_FINISHED,
     START_TO_SYNC,

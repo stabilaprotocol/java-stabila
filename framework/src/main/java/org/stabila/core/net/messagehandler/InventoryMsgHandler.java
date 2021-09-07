@@ -3,22 +3,22 @@ package org.stabila.core.net.messagehandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.tron.common.utils.Sha256Hash;
-import org.tron.core.config.args.Args;
-import org.tron.core.net.TronNetDelegate;
-import org.tron.core.net.message.InventoryMessage;
-import org.tron.core.net.message.TronMessage;
-import org.tron.core.net.peer.Item;
-import org.tron.core.net.peer.PeerConnection;
-import org.tron.core.net.service.AdvService;
-import org.tron.protos.Protocol.Inventory.InventoryType;
+import org.stabila.common.utils.Sha256Hash;
+import org.stabila.core.config.args.Args;
+import org.stabila.core.net.StabilaNetDelegate;
+import org.stabila.core.net.message.InventoryMessage;
+import org.stabila.core.net.message.StabilaMessage;
+import org.stabila.core.net.peer.Item;
+import org.stabila.core.net.peer.PeerConnection;
+import org.stabila.core.net.service.AdvService;
+import org.stabila.protos.Protocol.Inventory.InventoryType;
 
 @Slf4j(topic = "net")
 @Component
-public class InventoryMsgHandler implements TronMsgHandler {
+public class InventoryMsgHandler implements StabilaMsgHandler {
 
   @Autowired
-  private TronNetDelegate tronNetDelegate;
+  private StabilaNetDelegate stabilaNetDelegate;
 
   @Autowired
   private AdvService advService;
@@ -29,7 +29,7 @@ public class InventoryMsgHandler implements TronMsgHandler {
   private int maxCountIn10s = 10_000;
 
   @Override
-  public void processMessage(PeerConnection peer, TronMessage msg) {
+  public void processMessage(PeerConnection peer, StabilaMessage msg) {
     InventoryMessage inventoryMessage = (InventoryMessage) msg;
     InventoryType type = inventoryMessage.getInventoryType();
 
@@ -55,7 +55,7 @@ public class InventoryMsgHandler implements TronMsgHandler {
     }
 
     if (type.equals(InventoryType.TRX)) {
-      int count = peer.getNodeStatistics().messageStatistics.tronInTrxInventoryElement.getCount(10);
+      int count = peer.getNodeStatistics().messageStatistics.stabilaInTrxInventoryElement.getCount(10);
       if (count > maxCountIn10s) {
         logger.warn("Drop inv: {} size: {} from Peer {}, Inv count: {} is overload.",
             type, size, peer.getInetAddress(), count);

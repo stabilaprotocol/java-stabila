@@ -18,8 +18,8 @@
 
 package org.stabila.common.overlay.discover.table;
 
-import org.tron.common.overlay.discover.table.KademliaOptions;
-import org.tron.common.overlay.discover.table.TimeComparator;
+import org.stabila.common.overlay.discover.table.KademliaOptions;
+import org.stabila.common.overlay.discover.table.TimeComparator;
 
 import java.util.ArrayList;
 import java.util.Collections;

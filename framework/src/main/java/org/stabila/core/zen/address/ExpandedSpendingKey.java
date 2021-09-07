@@ -4,9 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.tron.common.utils.ByteArray;
-import org.tron.common.zksnark.JLibrustzcash;
-import org.tron.core.exception.ZksnarkException;
+import org.stabila.common.utils.ByteArray;
+import org.stabila.common.zksnark.JLibrustzcash;
+import org.stabila.core.exception.ZksnarkException;
 
 @Slf4j(topic = "shieldTransaction")
 @AllArgsConstructor

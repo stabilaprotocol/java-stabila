@@ -1,8 +1,8 @@
 package org.stabila.core.net.service;
 
-import static org.tron.core.config.Parameter.ChainConstant.BLOCK_PRODUCED_INTERVAL;
-import static org.tron.core.config.Parameter.NetConstants.MAX_TRX_FETCH_PER_PEER;
-import static org.tron.core.config.Parameter.NetConstants.MSG_CACHE_DURATION_IN_BLOCKS;
+import static org.stabila.core.config.Parameter.ChainConstant.BLOCK_PRODUCED_INTERVAL;
+import static org.stabila.core.config.Parameter.NetConstants.MAX_TRX_FETCH_PER_PEER;
+import static org.stabila.core.config.Parameter.NetConstants.MSG_CACHE_DURATION_IN_BLOCKS;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -21,20 +21,20 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.tron.common.overlay.discover.node.statistics.MessageCount;
-import org.tron.common.overlay.message.Message;
-import org.tron.common.utils.Sha256Hash;
-import org.tron.common.utils.Time;
-import org.tron.core.capsule.BlockCapsule.BlockId;
-import org.tron.core.config.args.Args;
-import org.tron.core.net.TronNetDelegate;
-import org.tron.core.net.message.BlockMessage;
-import org.tron.core.net.message.FetchInvDataMessage;
-import org.tron.core.net.message.InventoryMessage;
-import org.tron.core.net.message.TransactionMessage;
-import org.tron.core.net.peer.Item;
-import org.tron.core.net.peer.PeerConnection;
-import org.tron.protos.Protocol.Inventory.InventoryType;
+import org.stabila.common.overlay.discover.node.statistics.MessageCount;
+import org.stabila.common.overlay.message.Message;
+import org.stabila.common.utils.Sha256Hash;
+import org.stabila.common.utils.Time;
+import org.stabila.core.capsule.BlockCapsule.BlockId;
+import org.stabila.core.config.args.Args;
+import org.stabila.core.net.StabilaNetDelegate;
+import org.stabila.core.net.message.BlockMessage;
+import org.stabila.core.net.message.FetchInvDataMessage;
+import org.stabila.core.net.message.InventoryMessage;
+import org.stabila.core.net.message.TransactionMessage;
+import org.stabila.core.net.peer.Item;
+import org.stabila.core.net.peer.PeerConnection;
+import org.stabila.protos.Protocol.Inventory.InventoryType;
 
 @Slf4j(topic = "net")
 @Component
@@ -46,7 +46,7 @@ public class AdvService {
   private final int MAX_SPREAD_SIZE = 1_000;
 
   @Autowired
-  private TronNetDelegate tronNetDelegate;
+  private StabilaNetDelegate stabilaNetDelegate;
 
   private ConcurrentHashMap<Item, Long> invToFetch = new ConcurrentHashMap<>();
 
@@ -183,7 +183,7 @@ public class AdvService {
 
   public void fastForward(BlockMessage msg) {
     Item item = new Item(msg.getBlockId(), InventoryType.BLOCK);
-    List<PeerConnection> peers = tronNetDelegate.getActivePeer().stream()
+    List<PeerConnection> peers = stabilaNetDelegate.getActivePeer().stream()
         .filter(peer -> !peer.isNeedSyncFromPeer() && !peer.isNeedSyncFromUs())
         .filter(peer -> peer.getAdvInvReceive().getIfPresent(item) == null
             && peer.getAdvInvSpread().getIfPresent(item) == null)
@@ -204,7 +204,7 @@ public class AdvService {
   public void onDisconnect(PeerConnection peer) {
     if (!peer.getAdvInvRequest().isEmpty()) {
       peer.getAdvInvRequest().keySet().forEach(item -> {
-        if (tronNetDelegate.getActivePeer().stream()
+        if (stabilaNetDelegate.getActivePeer().stream()
             .anyMatch(p -> !p.equals(peer) && p.getAdvInvReceive().getIfPresent(item) != null)) {
           invToFetch.put(item, System.currentTimeMillis());
         } else {
@@ -219,7 +219,7 @@ public class AdvService {
   }
 
   private void consumerInvToFetch() {
-    Collection<PeerConnection> peers = tronNetDelegate.getActivePeer().stream()
+    Collection<PeerConnection> peers = stabilaNetDelegate.getActivePeer().stream()
         .filter(peer -> peer.isIdle())
         .collect(Collectors.toList());
 
@@ -253,7 +253,7 @@ public class AdvService {
 
   private synchronized void consumerInvToSpread() {
 
-    List<PeerConnection> peers = tronNetDelegate.getActivePeer().stream()
+    List<PeerConnection> peers = stabilaNetDelegate.getActivePeer().stream()
         .filter(peer -> !peer.isNeedSyncFromPeer() && !peer.isNeedSyncFromUs())
         .collect(Collectors.toList());
 

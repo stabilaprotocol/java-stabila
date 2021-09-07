@@ -1,10 +1,10 @@
 /*
- * java-tron is free software: you can redistribute it and/or modify
+ * java-stabila is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * java-tron is distributed in the hope that it will be useful,
+ * java-stabila is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
@@ -15,10 +15,10 @@
 
 package org.stabila.common.application;
 
-import org.tron.common.parameter.CommonParameter;
-import org.tron.core.ChainBaseManager;
-import org.tron.core.config.args.Args;
-import org.tron.core.db.Manager;
+import org.stabila.common.parameter.CommonParameter;
+import org.stabila.core.ChainBaseManager;
+import org.stabila.core.config.args.Args;
+import org.stabila.core.db.Manager;
 
 public interface Application {
 

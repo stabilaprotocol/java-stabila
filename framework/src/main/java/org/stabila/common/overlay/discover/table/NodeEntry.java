@@ -18,8 +18,8 @@
 
 package org.stabila.common.overlay.discover.table;
 
-import org.tron.common.overlay.discover.node.Node;
-import org.tron.common.overlay.discover.table.KademliaOptions;
+import org.stabila.common.overlay.discover.node.Node;
+import org.stabila.common.overlay.discover.table.KademliaOptions;
 
 /**
  * Created by kest on 5/25/15.

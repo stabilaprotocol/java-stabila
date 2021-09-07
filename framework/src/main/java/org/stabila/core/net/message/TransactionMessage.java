@@ -1,11 +1,11 @@
 package org.stabila.core.net.message;
 
-import org.tron.common.overlay.message.Message;
-import org.tron.common.utils.Sha256Hash;
-import org.tron.core.capsule.TransactionCapsule;
-import org.tron.protos.Protocol.Transaction;
+import org.stabila.common.overlay.message.Message;
+import org.stabila.common.utils.Sha256Hash;
+import org.stabila.core.capsule.TransactionCapsule;
+import org.stabila.protos.Protocol.Transaction;
 
-public class TransactionMessage extends TronMessage {
+public class TransactionMessage extends StabilaMessage {
 
   private TransactionCapsule transactionCapsule;
 

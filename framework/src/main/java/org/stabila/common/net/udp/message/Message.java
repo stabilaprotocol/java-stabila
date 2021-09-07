@@ -1,17 +1,17 @@
 package org.stabila.common.net.udp.message;
 
 import org.apache.commons.lang3.ArrayUtils;
-import org.tron.common.net.udp.message.backup.KeepAliveMessage;
-import org.tron.common.net.udp.message.discover.FindNodeMessage;
-import org.tron.common.net.udp.message.discover.NeighborsMessage;
-import org.tron.common.net.udp.message.discover.PingMessage;
-import org.tron.common.net.udp.message.discover.PongMessage;
-import org.tron.common.overlay.discover.node.Node;
-import org.tron.common.parameter.CommonParameter;
-import org.tron.common.utils.ByteArray;
-import org.tron.common.utils.Sha256Hash;
-import org.tron.core.exception.P2pException;
-import org.tron.protos.Discover.Endpoint;
+import org.stabila.common.net.udp.message.backup.KeepAliveMessage;
+import org.stabila.common.net.udp.message.discover.FindNodeMessage;
+import org.stabila.common.net.udp.message.discover.NeighborsMessage;
+import org.stabila.common.net.udp.message.discover.PingMessage;
+import org.stabila.common.net.udp.message.discover.PongMessage;
+import org.stabila.common.overlay.discover.node.Node;
+import org.stabila.common.parameter.CommonParameter;
+import org.stabila.common.utils.ByteArray;
+import org.stabila.common.utils.Sha256Hash;
+import org.stabila.core.exception.P2pException;
+import org.stabila.protos.Discover.Endpoint;
 
 public abstract class Message {
 

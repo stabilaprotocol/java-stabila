@@ -3,28 +3,28 @@ package org.stabila.core.net;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.tron.common.overlay.message.Message;
-import org.tron.common.overlay.server.ChannelManager;
-import org.tron.core.exception.P2pException;
-import org.tron.core.exception.P2pException.TypeEnum;
-import org.tron.core.net.message.BlockMessage;
-import org.tron.core.net.message.TronMessage;
-import org.tron.core.net.messagehandler.BlockMsgHandler;
-import org.tron.core.net.messagehandler.ChainInventoryMsgHandler;
-import org.tron.core.net.messagehandler.FetchInvDataMsgHandler;
-import org.tron.core.net.messagehandler.InventoryMsgHandler;
-import org.tron.core.net.messagehandler.PbftDataSyncHandler;
-import org.tron.core.net.messagehandler.SyncBlockChainMsgHandler;
-import org.tron.core.net.messagehandler.TransactionsMsgHandler;
-import org.tron.core.net.peer.PeerConnection;
-import org.tron.core.net.peer.PeerStatusCheck;
-import org.tron.core.net.service.AdvService;
-import org.tron.core.net.service.SyncService;
-import org.tron.protos.Protocol.ReasonCode;
+import org.stabila.common.overlay.message.Message;
+import org.stabila.common.overlay.server.ChannelManager;
+import org.stabila.core.exception.P2pException;
+import org.stabila.core.exception.P2pException.TypeEnum;
+import org.stabila.core.net.message.BlockMessage;
+import org.stabila.core.net.message.StabilaMessage;
+import org.stabila.core.net.messagehandler.BlockMsgHandler;
+import org.stabila.core.net.messagehandler.ChainInventoryMsgHandler;
+import org.stabila.core.net.messagehandler.FetchInvDataMsgHandler;
+import org.stabila.core.net.messagehandler.InventoryMsgHandler;
+import org.stabila.core.net.messagehandler.PbftDataSyncHandler;
+import org.stabila.core.net.messagehandler.SyncBlockChainMsgHandler;
+import org.stabila.core.net.messagehandler.TransactionsMsgHandler;
+import org.stabila.core.net.peer.PeerConnection;
+import org.stabila.core.net.peer.PeerStatusCheck;
+import org.stabila.core.net.service.AdvService;
+import org.stabila.core.net.service.SyncService;
+import org.stabila.protos.Protocol.ReasonCode;
 
 @Slf4j(topic = "net")
 @Component
-public class TronNetService {
+public class StabilaNetService {
 
   @Autowired
   private ChannelManager channelManager;
@@ -66,7 +66,7 @@ public class TronNetService {
     syncService.init();
     peerStatusCheck.init();
     transactionsMsgHandler.init();
-    logger.info("TronNetService start successfully.");
+    logger.info("StabilaNetService start successfully.");
   }
 
   public void stop() {
@@ -75,7 +75,7 @@ public class TronNetService {
     syncService.close();
     peerStatusCheck.close();
     transactionsMsgHandler.close();
-    logger.info("TronNetService closed successfully.");
+    logger.info("StabilaNetService closed successfully.");
   }
 
   public void broadcast(Message msg) {
@@ -86,7 +86,7 @@ public class TronNetService {
     advService.fastForward(msg);
   }
 
-  protected void onMessage(PeerConnection peer, TronMessage msg) {
+  protected void onMessage(PeerConnection peer, StabilaMessage msg) {
     try {
       switch (msg.getType()) {
         case SYNC_BLOCK_CHAIN:
@@ -118,7 +118,7 @@ public class TronNetService {
     }
   }
 
-  private void processException(PeerConnection peer, TronMessage msg, Exception ex) {
+  private void processException(PeerConnection peer, StabilaMessage msg, Exception ex) {
     ReasonCode code;
 
     if (ex instanceof P2pException) {

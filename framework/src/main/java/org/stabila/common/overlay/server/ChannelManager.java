@@ -1,9 +1,9 @@
 package org.stabila.common.overlay.server;
 
-import static org.tron.protos.Protocol.ReasonCode.DUPLICATE_PEER;
-import static org.tron.protos.Protocol.ReasonCode.TOO_MANY_PEERS;
-import static org.tron.protos.Protocol.ReasonCode.TOO_MANY_PEERS_WITH_SAME_IP;
-import static org.tron.protos.Protocol.ReasonCode.UNKNOWN;
+import static org.stabila.protos.Protocol.ReasonCode.DUPLICATE_PEER;
+import static org.stabila.protos.Protocol.ReasonCode.TOO_MANY_PEERS;
+import static org.stabila.protos.Protocol.ReasonCode.TOO_MANY_PEERS_WITH_SAME_IP;
+import static org.stabila.protos.Protocol.ReasonCode.UNKNOWN;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -17,14 +17,14 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.tron.common.overlay.client.PeerClient;
-import org.tron.common.overlay.discover.node.Node;
-import org.tron.common.parameter.CommonParameter;
-import org.tron.core.config.args.Args;
-import org.tron.core.db.ByteArrayWrapper;
-import org.tron.core.metrics.MetricsKey;
-import org.tron.core.metrics.MetricsUtil;
-import org.tron.protos.Protocol.ReasonCode;
+import org.stabila.common.overlay.client.PeerClient;
+import org.stabila.common.overlay.discover.node.Node;
+import org.stabila.common.parameter.CommonParameter;
+import org.stabila.core.config.args.Args;
+import org.stabila.core.db.ByteArrayWrapper;
+import org.stabila.core.metrics.MetricsKey;
+import org.stabila.core.metrics.MetricsUtil;
+import org.stabila.protos.Protocol.ReasonCode;
 
 @Slf4j(topic = "net")
 @Component

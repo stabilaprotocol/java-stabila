@@ -5,11 +5,11 @@ import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.tron.core.capsule.BlockCapsule.BlockId;
-import org.tron.protos.Protocol;
-import org.tron.protos.Protocol.ChainInventory;
+import org.stabila.core.capsule.BlockCapsule.BlockId;
+import org.stabila.protos.Protocol;
+import org.stabila.protos.Protocol.ChainInventory;
 
-public class ChainInventoryMessage extends TronMessage {
+public class ChainInventoryMessage extends StabilaMessage {
 
   protected ChainInventory chainInventory;
 

@@ -1,6 +1,6 @@
 package org.stabila.core.net.service;
 
-import static org.tron.core.config.Parameter.NetConstants.MAX_BLOCK_FETCH_PER_PEER;
+import static org.stabila.core.config.Parameter.NetConstants.MAX_BLOCK_FETCH_PER_PEER;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -18,28 +18,28 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.tron.common.overlay.server.Channel.TronState;
-import org.tron.common.utils.Pair;
-import org.tron.core.capsule.BlockCapsule;
-import org.tron.core.capsule.BlockCapsule.BlockId;
-import org.tron.core.config.Parameter.NetConstants;
-import org.tron.core.exception.P2pException;
-import org.tron.core.exception.P2pException.TypeEnum;
-import org.tron.core.net.TronNetDelegate;
-import org.tron.core.net.message.BlockMessage;
-import org.tron.core.net.message.FetchInvDataMessage;
-import org.tron.core.net.message.SyncBlockChainMessage;
-import org.tron.core.net.messagehandler.PbftDataSyncHandler;
-import org.tron.core.net.peer.PeerConnection;
-import org.tron.protos.Protocol.Inventory.InventoryType;
-import org.tron.protos.Protocol.ReasonCode;
+import org.stabila.common.overlay.server.Channel.StabilaState;
+import org.stabila.common.utils.Pair;
+import org.stabila.core.capsule.BlockCapsule;
+import org.stabila.core.capsule.BlockCapsule.BlockId;
+import org.stabila.core.config.Parameter.NetConstants;
+import org.stabila.core.exception.P2pException;
+import org.stabila.core.exception.P2pException.TypeEnum;
+import org.stabila.core.net.StabilaNetDelegate;
+import org.stabila.core.net.message.BlockMessage;
+import org.stabila.core.net.message.FetchInvDataMessage;
+import org.stabila.core.net.message.SyncBlockChainMessage;
+import org.stabila.core.net.messagehandler.PbftDataSyncHandler;
+import org.stabila.core.net.peer.PeerConnection;
+import org.stabila.protos.Protocol.Inventory.InventoryType;
+import org.stabila.protos.Protocol.ReasonCode;
 
 @Slf4j(topic = "net")
 @Component
 public class SyncService {
 
   @Autowired
-  private TronNetDelegate tronNetDelegate;
+  private StabilaNetDelegate stabilaNetDelegate;
 
   @Autowired
   private PbftDataSyncHandler pbftDataSyncHandler;
@@ -92,11 +92,11 @@ public class SyncService {
   }
 
   public void startSync(PeerConnection peer) {
-    peer.setTronState(TronState.SYNCING);
+    peer.setStabilaState(StabilaState.SYNCING);
     peer.setNeedSyncFromPeer(true);
     peer.getSyncBlockToFetch().clear();
     peer.setRemainNum(0);
-    peer.setBlockBothHave(tronNetDelegate.getGenesisBlockId());
+    peer.setBlockBothHave(stabilaNetDelegate.getGenesisBlockId());
     syncNext(peer);
   }
 
@@ -147,18 +147,18 @@ public class SyncService {
     List<BlockId> blockIds = new ArrayList<>(peer.getSyncBlockToFetch());
     List<BlockId> forkList = new LinkedList<>();
     LinkedList<BlockId> summary = new LinkedList<>();
-    long syncBeginNumber = tronNetDelegate.getSyncBeginNumber();
+    long syncBeginNumber = stabilaNetDelegate.getSyncBeginNumber();
     long low = syncBeginNumber < 0 ? 0 : syncBeginNumber;
     long highNoFork;
     long high;
 
     if (beginBlockId.getNum() == 0) {
-      highNoFork = high = tronNetDelegate.getHeadBlockId().getNum();
+      highNoFork = high = stabilaNetDelegate.getHeadBlockId().getNum();
     } else {
-      if (tronNetDelegate.containBlockInMainChain(beginBlockId)) {
+      if (stabilaNetDelegate.containBlockInMainChain(beginBlockId)) {
         highNoFork = high = beginBlockId.getNum();
       } else {
-        forkList = tronNetDelegate.getBlockChainHashesOnFork(beginBlockId);
+        forkList = stabilaNetDelegate.getBlockChainHashesOnFork(beginBlockId);
         if (forkList.isEmpty()) {
           throw new P2pException(TypeEnum.SYNC_FAILED,
               "can't find blockId: " + beginBlockId.getString());
@@ -181,7 +181,7 @@ public class SyncService {
 
     while (low <= realHigh) {
       if (low <= highNoFork) {
-        summary.offer(tronNetDelegate.getBlockIdByNum(low));
+        summary.offer(stabilaNetDelegate.getBlockIdByNum(low));
       } else if (low <= high) {
         summary.offer(forkList.get((int) (low - highNoFork - 1)));
       } else {
@@ -196,7 +196,7 @@ public class SyncService {
   private void startFetchSyncBlock() {
     HashMap<PeerConnection, List<BlockId>> send = new HashMap<>();
 
-    tronNetDelegate.getActivePeer().stream()
+    stabilaNetDelegate.getActivePeer().stream()
         .filter(peer -> peer.isNeedSyncFromPeer() && peer.isIdle())
         .forEach(peer -> {
           if (!send.containsKey(peer)) {
@@ -234,7 +234,7 @@ public class SyncService {
 
       isProcessed[0] = false;
 
-      synchronized (tronNetDelegate.getBlockLock()) {
+      synchronized (stabilaNetDelegate.getBlockLock()) {
         blockWaitToProcess.forEach((msg, peerConnection) -> {
           if (peerConnection.isDisconnect()) {
             blockWaitToProcess.remove(msg);
@@ -242,7 +242,7 @@ public class SyncService {
             return;
           }
           final boolean[] isFound = {false};
-          tronNetDelegate.getActivePeer().stream()
+          stabilaNetDelegate.getActivePeer().stream()
               .filter(peer -> msg.getBlockId().equals(peer.getSyncBlockToFetch().peek()))
               .forEach(peer -> {
                 peer.getSyncBlockToFetch().pop();
@@ -263,13 +263,13 @@ public class SyncService {
     boolean flag = true;
     BlockId blockId = block.getBlockId();
     try {
-      tronNetDelegate.processBlock(block, true);
+      stabilaNetDelegate.processBlock(block, true);
       pbftDataSyncHandler.processPBFTCommitData(block);
     } catch (Exception e) {
       logger.error("Process sync block {} failed.", blockId.getString(), e);
       flag = false;
     }
-    for (PeerConnection peer : tronNetDelegate.getActivePeer()) {
+    for (PeerConnection peer : stabilaNetDelegate.getActivePeer()) {
       if (peer.getSyncBlockInProcess().remove(blockId)) {
         if (flag) {
           peer.setBlockBothHave(blockId);

@@ -9,18 +9,18 @@ import java.util.Map;
 import java.util.SortedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.tron.core.metrics.MetricsKey;
-import org.tron.core.metrics.MetricsUtil;
-import org.tron.core.net.TronNetDelegate;
-import org.tron.core.net.peer.PeerConnection;
-import org.tron.protos.Protocol;
+import org.stabila.core.metrics.MetricsKey;
+import org.stabila.core.metrics.MetricsUtil;
+import org.stabila.core.net.StabilaNetDelegate;
+import org.stabila.core.net.peer.PeerConnection;
+import org.stabila.protos.Protocol;
 
 
 @Component
 public class NetMetricManager {
 
   @Autowired
-  private TronNetDelegate tronNetDelegate;
+  private StabilaNetDelegate stabilaNetDelegate;
 
   /**
    * get net info.
@@ -35,9 +35,9 @@ public class NetMetricManager {
 
   private void setNetInfo(NetInfo netInfo) {
     //set connection info
-    netInfo.setConnectionCount(tronNetDelegate.getActivePeer().size());
+    netInfo.setConnectionCount(stabilaNetDelegate.getActivePeer().size());
     int validConnectionCount = 0;
-    for (PeerConnection peerConnection : tronNetDelegate.getActivePeer()) {
+    for (PeerConnection peerConnection : stabilaNetDelegate.getActivePeer()) {
       if (!(peerConnection.isNeedSyncFromUs() || peerConnection.isNeedSyncFromPeer())) {
         validConnectionCount++;
       }

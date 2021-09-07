@@ -1,34 +1,34 @@
 package org.stabila.core.net.messagehandler;
 
-import static org.tron.core.config.Parameter.ChainConstant.BLOCK_PRODUCED_INTERVAL;
-import static org.tron.core.config.Parameter.ChainConstant.BLOCK_SIZE;
+import static org.stabila.core.config.Parameter.ChainConstant.BLOCK_PRODUCED_INTERVAL;
+import static org.stabila.core.config.Parameter.ChainConstant.BLOCK_SIZE;
 
 import lombok.extern.slf4j.Slf4j;
 import org.bouncycastle.util.encoders.Hex;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.tron.core.Constant;
-import org.tron.core.capsule.BlockCapsule;
-import org.tron.core.capsule.BlockCapsule.BlockId;
-import org.tron.core.config.args.Args;
-import org.tron.core.exception.P2pException;
-import org.tron.core.exception.P2pException.TypeEnum;
-import org.tron.core.net.TronNetDelegate;
-import org.tron.core.net.message.BlockMessage;
-import org.tron.core.net.message.TronMessage;
-import org.tron.core.net.peer.Item;
-import org.tron.core.net.peer.PeerConnection;
-import org.tron.core.net.service.AdvService;
-import org.tron.core.net.service.SyncService;
-import org.tron.core.services.WitnessProductBlockService;
-import org.tron.protos.Protocol.Inventory.InventoryType;
+import org.stabila.core.Constant;
+import org.stabila.core.capsule.BlockCapsule;
+import org.stabila.core.capsule.BlockCapsule.BlockId;
+import org.stabila.core.config.args.Args;
+import org.stabila.core.exception.P2pException;
+import org.stabila.core.exception.P2pException.TypeEnum;
+import org.stabila.core.net.StabilaNetDelegate;
+import org.stabila.core.net.message.BlockMessage;
+import org.stabila.core.net.message.StabilaMessage;
+import org.stabila.core.net.peer.Item;
+import org.stabila.core.net.peer.PeerConnection;
+import org.stabila.core.net.service.AdvService;
+import org.stabila.core.net.service.SyncService;
+import org.stabila.core.services.WitnessProductBlockService;
+import org.stabila.protos.Protocol.Inventory.InventoryType;
 
 @Slf4j(topic = "net")
 @Component
-public class BlockMsgHandler implements TronMsgHandler {
+public class BlockMsgHandler implements StabilaMsgHandler {
 
   @Autowired
-  private TronNetDelegate tronNetDelegate;
+  private StabilaNetDelegate stabilaNetDelegate;
 
   @Autowired
   private AdvService advService;
@@ -44,7 +44,7 @@ public class BlockMsgHandler implements TronMsgHandler {
   private boolean fastForward = Args.getInstance().isFastForward();
 
   @Override
-  public void processMessage(PeerConnection peer, TronMessage msg) throws P2pException {
+  public void processMessage(PeerConnection peer, StabilaMessage msg) throws P2pException {
 
     BlockMessage blockMessage = (BlockMessage) msg;
     BlockId blockId = blockMessage.getBlockId();
@@ -59,7 +59,7 @@ public class BlockMsgHandler implements TronMsgHandler {
     } else {
       Long time = peer.getAdvInvRequest().remove(new Item(blockId, InventoryType.BLOCK));
       long now = System.currentTimeMillis();
-      long interval = blockId.getNum() - tronNetDelegate.getHeadBlockId().getNum();
+      long interval = blockId.getNum() - stabilaNetDelegate.getHeadBlockId().getNum();
       processBlock(peer, blockMessage.getBlockCapsule());
       logger.info(
           "Receive block/interval {}/{} from {} fetch/delay {}/{}ms, "
@@ -93,9 +93,9 @@ public class BlockMsgHandler implements TronMsgHandler {
 
   private void processBlock(PeerConnection peer, BlockCapsule block) throws P2pException {
     BlockId blockId = block.getBlockId();
-    if (!tronNetDelegate.containBlock(block.getParentBlockId())) {
+    if (!stabilaNetDelegate.containBlock(block.getParentBlockId())) {
       logger.warn("Get unlink block {} from {}, head is {}.", blockId.getString(),
-          peer.getInetAddress(), tronNetDelegate.getHeadBlockId().getString());
+          peer.getInetAddress(), stabilaNetDelegate.getHeadBlockId().getString());
       syncService.startSync(peer);
       return;
     }
@@ -107,20 +107,20 @@ public class BlockMsgHandler implements TronMsgHandler {
     }
 
     if (fastForward) {
-      if (block.getNum() < tronNetDelegate.getHeadBlockId().getNum()) {
+      if (block.getNum() < stabilaNetDelegate.getHeadBlockId().getNum()) {
         logger.warn("Receive a low block {}, head {}",
-            blockId.getString(), tronNetDelegate.getHeadBlockId().getString());
+            blockId.getString(), stabilaNetDelegate.getHeadBlockId().getString());
         return;
       }
-      if (tronNetDelegate.validBlock(block)) {
+      if (stabilaNetDelegate.validBlock(block)) {
         advService.fastForward(new BlockMessage(block));
-        tronNetDelegate.trustNode(peer);
+        stabilaNetDelegate.trustNode(peer);
       }
     }
 
-    tronNetDelegate.processBlock(block, false);
+    stabilaNetDelegate.processBlock(block, false);
     witnessProductBlockService.validWitnessProductTwoBlock(block);
-    tronNetDelegate.getActivePeer().forEach(p -> {
+    stabilaNetDelegate.getActivePeer().forEach(p -> {
       if (p.getAdvInvReceive().getIfPresent(blockId) != null) {
         p.setBlockBothHave(blockId);
       }

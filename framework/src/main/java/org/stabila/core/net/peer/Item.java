@@ -1,8 +1,8 @@
 package org.stabila.core.net.peer;
 
 import lombok.Getter;
-import org.tron.common.utils.Sha256Hash;
-import org.tron.protos.Protocol.Inventory.InventoryType;
+import org.stabila.common.utils.Sha256Hash;
+import org.stabila.protos.Protocol.Inventory.InventoryType;
 
 @Getter
 public class Item {

@@ -15,17 +15,17 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-import org.tron.common.overlay.message.HelloMessage;
-import org.tron.common.overlay.message.Message;
-import org.tron.common.overlay.server.Channel;
-import org.tron.common.utils.Pair;
-import org.tron.common.utils.Sha256Hash;
-import org.tron.core.Constant;
-import org.tron.core.capsule.BlockCapsule.BlockId;
-import org.tron.core.config.Parameter.NetConstants;
-import org.tron.core.net.TronNetDelegate;
-import org.tron.core.net.service.AdvService;
-import org.tron.core.net.service.SyncService;
+import org.stabila.common.overlay.message.HelloMessage;
+import org.stabila.common.overlay.message.Message;
+import org.stabila.common.overlay.server.Channel;
+import org.stabila.common.utils.Pair;
+import org.stabila.common.utils.Sha256Hash;
+import org.stabila.core.Constant;
+import org.stabila.core.capsule.BlockCapsule.BlockId;
+import org.stabila.core.config.Parameter.NetConstants;
+import org.stabila.core.net.StabilaNetDelegate;
+import org.stabila.core.net.service.AdvService;
+import org.stabila.core.net.service.SyncService;
 
 @Slf4j(topic = "net")
 @Component
@@ -33,7 +33,7 @@ import org.tron.core.net.service.SyncService;
 public class PeerConnection extends Channel {
 
   @Autowired
-  private TronNetDelegate tronNetDelegate;
+  private StabilaNetDelegate stabilaNetDelegate;
 
   @Autowired
   private SyncService syncService;
@@ -114,19 +114,19 @@ public class PeerConnection extends Channel {
   }
 
   public void onConnect() {
-    long headBlockNum = tronNetDelegate.getHeadBlockId().getNum();
+    long headBlockNum = stabilaNetDelegate.getHeadBlockId().getNum();
     long peerHeadBlockNum = getHelloMessage().getHeadBlockId().getNum();
 
     if (peerHeadBlockNum > headBlockNum) {
       needSyncFromUs = false;
-      setTronState(TronState.SYNCING);
+      setStabilaState(StabilaState.SYNCING);
       syncService.startSync(this);
     } else {
       needSyncFromPeer = false;
       if (peerHeadBlockNum == headBlockNum) {
         needSyncFromUs = false;
       }
-      setTronState(TronState.SYNC_COMPLETED);
+      setStabilaState(StabilaState.SYNC_COMPLETED);
     }
   }
 

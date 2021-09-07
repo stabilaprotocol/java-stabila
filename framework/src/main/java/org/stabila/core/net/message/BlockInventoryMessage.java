@@ -3,11 +3,11 @@ package org.stabila.core.net.message;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.tron.core.capsule.BlockCapsule.BlockId;
-import org.tron.protos.Protocol;
-import org.tron.protos.Protocol.BlockInventory;
+import org.stabila.core.capsule.BlockCapsule.BlockId;
+import org.stabila.protos.Protocol;
+import org.stabila.protos.Protocol.BlockInventory;
 
-public class BlockInventoryMessage extends TronMessage {
+public class BlockInventoryMessage extends StabilaMessage {
 
   protected BlockInventory blockInventory;
 

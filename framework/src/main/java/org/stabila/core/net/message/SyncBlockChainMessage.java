@@ -1,8 +1,8 @@
 package org.stabila.core.net.message;
 
 import java.util.List;
-import org.tron.core.capsule.BlockCapsule.BlockId;
-import org.tron.protos.Protocol.BlockInventory.Type;
+import org.stabila.core.capsule.BlockCapsule.BlockId;
+import org.stabila.protos.Protocol.BlockInventory.Type;
 
 public class SyncBlockChainMessage extends BlockInventoryMessage {
 

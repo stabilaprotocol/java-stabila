@@ -6,16 +6,16 @@ import java.util.concurrent.TimeUnit;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.tron.core.config.Parameter.NetConstants;
-import org.tron.core.net.TronNetDelegate;
-import org.tron.protos.Protocol.ReasonCode;
+import org.stabila.core.config.Parameter.NetConstants;
+import org.stabila.core.net.StabilaNetDelegate;
+import org.stabila.protos.Protocol.ReasonCode;
 
 @Slf4j(topic = "net")
 @Component
 public class PeerStatusCheck {
 
   @Autowired
-  private TronNetDelegate tronNetDelegate;
+  private StabilaNetDelegate stabilaNetDelegate;
 
   private ScheduledExecutorService peerStatusCheckExecutor = Executors
       .newSingleThreadScheduledExecutor();
@@ -40,7 +40,7 @@ public class PeerStatusCheck {
 
     long now = System.currentTimeMillis();
 
-    tronNetDelegate.getActivePeer().forEach(peer -> {
+    stabilaNetDelegate.getActivePeer().forEach(peer -> {
 
       boolean isDisconnected = false;
 

@@ -21,8 +21,8 @@ package org.stabila.common.overlay.discover.dht;
 import java.math.BigInteger;
 import org.bouncycastle.util.BigIntegers;
 import org.bouncycastle.util.encoders.Hex;
-import org.tron.common.utils.Utils;
-import org.tron.core.Constant;
+import org.stabila.common.utils.Utils;
+import org.stabila.core.Constant;
 
 public class Peer {
 

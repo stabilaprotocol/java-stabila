@@ -1,6 +1,6 @@
 package org.stabila.core.net.messagehandler;
 
-import static org.tron.core.config.Parameter.ChainConstant.BLOCK_PRODUCED_INTERVAL;
+import static org.stabila.core.config.Parameter.ChainConstant.BLOCK_PRODUCED_INTERVAL;
 
 import java.util.Deque;
 import java.util.LinkedList;
@@ -9,29 +9,29 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.tron.core.capsule.BlockCapsule.BlockId;
-import org.tron.core.config.Parameter.ChainConstant;
-import org.tron.core.config.Parameter.NetConstants;
-import org.tron.core.exception.P2pException;
-import org.tron.core.exception.P2pException.TypeEnum;
-import org.tron.core.net.TronNetDelegate;
-import org.tron.core.net.message.ChainInventoryMessage;
-import org.tron.core.net.message.TronMessage;
-import org.tron.core.net.peer.PeerConnection;
-import org.tron.core.net.service.SyncService;
+import org.stabila.core.capsule.BlockCapsule.BlockId;
+import org.stabila.core.config.Parameter.ChainConstant;
+import org.stabila.core.config.Parameter.NetConstants;
+import org.stabila.core.exception.P2pException;
+import org.stabila.core.exception.P2pException.TypeEnum;
+import org.stabila.core.net.StabilaNetDelegate;
+import org.stabila.core.net.message.ChainInventoryMessage;
+import org.stabila.core.net.message.StabilaMessage;
+import org.stabila.core.net.peer.PeerConnection;
+import org.stabila.core.net.service.SyncService;
 
 @Slf4j(topic = "net")
 @Component
-public class ChainInventoryMsgHandler implements TronMsgHandler {
+public class ChainInventoryMsgHandler implements StabilaMsgHandler {
 
   @Autowired
-  private TronNetDelegate tronNetDelegate;
+  private StabilaNetDelegate stabilaNetDelegate;
 
   @Autowired
   private SyncService syncService;
 
   @Override
-  public void processMessage(PeerConnection peer, TronMessage msg) throws P2pException {
+  public void processMessage(PeerConnection peer, StabilaMessage msg) throws P2pException {
 
     ChainInventoryMessage chainInventoryMessage = (ChainInventoryMessage) msg;
 
@@ -43,7 +43,7 @@ public class ChainInventoryMsgHandler implements TronMsgHandler {
 
     Deque<BlockId> blockIdWeGet = new LinkedList<>(chainInventoryMessage.getBlockIds());
 
-    if (blockIdWeGet.size() == 1 && tronNetDelegate.containBlock(blockIdWeGet.peek())) {
+    if (blockIdWeGet.size() == 1 && stabilaNetDelegate.containBlock(blockIdWeGet.peek())) {
       peer.setNeedSyncFromPeer(false);
       return;
     }
@@ -60,8 +60,8 @@ public class ChainInventoryMsgHandler implements TronMsgHandler {
     peer.setRemainNum(chainInventoryMessage.getRemainNum());
     peer.getSyncBlockToFetch().addAll(blockIdWeGet);
 
-    synchronized (tronNetDelegate.getBlockLock()) {
-      while (!peer.getSyncBlockToFetch().isEmpty() && tronNetDelegate
+    synchronized (stabilaNetDelegate.getBlockLock()) {
+      while (!peer.getSyncBlockToFetch().isEmpty() && stabilaNetDelegate
           .containBlock(peer.getSyncBlockToFetch().peek())) {
         BlockId blockId = peer.getSyncBlockToFetch().pop();
         peer.setBlockBothHave(blockId);
@@ -110,12 +110,12 @@ public class ChainInventoryMsgHandler implements TronMsgHandler {
           + ", peer: " + blockIds.get(0).getString());
     }
 
-    if (tronNetDelegate.getHeadBlockId().getNum() > 0) {
+    if (stabilaNetDelegate.getHeadBlockId().getNum() > 0) {
       long maxRemainTime =
-          ChainConstant.CLOCK_MAX_DELAY + System.currentTimeMillis() - tronNetDelegate
-              .getBlockTime(tronNetDelegate.getSolidBlockId());
+          ChainConstant.CLOCK_MAX_DELAY + System.currentTimeMillis() - stabilaNetDelegate
+              .getBlockTime(stabilaNetDelegate.getSolidBlockId());
       long maxFutureNum =
-          maxRemainTime / BLOCK_PRODUCED_INTERVAL + tronNetDelegate.getSolidBlockId().getNum();
+          maxRemainTime / BLOCK_PRODUCED_INTERVAL + stabilaNetDelegate.getSolidBlockId().getNum();
       long lastNum = blockIds.get(blockIds.size() - 1).getNum();
       if (lastNum + msg.getRemainNum() > maxFutureNum) {
         throw new P2pException(TypeEnum.BAD_MESSAGE, "lastNum: " + lastNum + " + remainNum: "

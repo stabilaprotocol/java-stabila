@@ -6,17 +6,17 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.tron.common.crypto.Hash;
-import org.tron.core.capsule.BytesCapsule;
-import org.tron.core.db.TronStoreWithRevoking;
-import org.tron.core.db.accountstate.AccountStateEntity;
-import org.tron.core.db.accountstate.TrieService;
-import org.tron.core.db2.common.DB;
-import org.tron.core.trie.TrieImpl;
+import org.stabila.common.crypto.Hash;
+import org.stabila.core.capsule.BytesCapsule;
+import org.stabila.core.db.StabilaStoreWithRevoking;
+import org.stabila.core.db.accountstate.AccountStateEntity;
+import org.stabila.core.db.accountstate.TrieService;
+import org.stabila.core.db2.common.DB;
+import org.stabila.core.trie.TrieImpl;
 
 @Slf4j(topic = "AccountState")
 @Component
-public class AccountStateStoreTrie extends TronStoreWithRevoking<BytesCapsule> implements
+public class AccountStateStoreTrie extends StabilaStoreWithRevoking<BytesCapsule> implements
     DB<byte[], BytesCapsule> {
 
   @Autowired

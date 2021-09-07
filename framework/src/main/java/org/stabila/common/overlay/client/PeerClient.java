@@ -14,11 +14,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
-import org.tron.common.overlay.discover.node.Node;
-import org.tron.common.overlay.discover.node.NodeHandler;
-import org.tron.common.overlay.server.TronChannelInitializer;
-import org.tron.core.config.args.Args;
-import org.tron.protos.Protocol.ReasonCode;
+import org.stabila.common.overlay.discover.node.Node;
+import org.stabila.common.overlay.discover.node.NodeHandler;
+import org.stabila.common.overlay.server.StabilaChannelInitializer;
+import org.stabila.core.config.args.Args;
+import org.stabila.protos.Protocol.ReasonCode;
 
 @Slf4j(topic = "net")
 @Component
@@ -35,7 +35,7 @@ public class PeerClient {
 
       @Override
       public Thread newThread(Runnable r) {
-        return new Thread(r, "TronJClientWorker-" + cnt.getAndIncrement());
+        return new Thread(r, "StabilaJClientWorker-" + cnt.getAndIncrement());
       }
     });
   }
@@ -69,9 +69,9 @@ public class PeerClient {
 
     logger.info("connect peer {} {} {}", host, port, remoteId);
 
-    TronChannelInitializer tronChannelInitializer = ctx
-        .getBean(TronChannelInitializer.class, remoteId);
-    tronChannelInitializer.setPeerDiscoveryMode(discoveryMode);
+    StabilaChannelInitializer stabilaChannelInitializer = ctx
+        .getBean(StabilaChannelInitializer.class, remoteId);
+    stabilaChannelInitializer.setPeerDiscoveryMode(discoveryMode);
 
     Bootstrap b = new Bootstrap();
     b.group(workerGroup);
@@ -82,7 +82,7 @@ public class PeerClient {
     b.option(ChannelOption.CONNECT_TIMEOUT_MILLIS, Args.getInstance().getNodeConnectionTimeout());
     b.remoteAddress(host, port);
 
-    b.handler(tronChannelInitializer);
+    b.handler(stabilaChannelInitializer);
 
     // Start the client.
     return b.connect();

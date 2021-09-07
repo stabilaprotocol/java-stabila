@@ -18,18 +18,18 @@
 
 package org.stabila.core.net.message;
 
-import org.tron.common.overlay.message.Message;
+import org.stabila.common.overlay.message.Message;
 
-public abstract class TronMessage extends Message {
+public abstract class StabilaMessage extends Message {
 
-  public TronMessage() {
+  public StabilaMessage() {
   }
 
-  public TronMessage(byte[] rawData) {
+  public StabilaMessage(byte[] rawData) {
     super(rawData);
   }
 
-  public TronMessage(byte type, byte[] rawData) {
+  public StabilaMessage(byte type, byte[] rawData) {
     super(type, rawData);
   }
 }

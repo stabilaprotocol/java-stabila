@@ -24,7 +24,7 @@ import io.netty.channel.socket.DatagramPacket;
 import io.netty.handler.codec.MessageToMessageDecoder;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
-import org.tron.common.net.udp.message.Message;
+import org.stabila.common.net.udp.message.Message;
 
 @Slf4j(topic = "net")
 public class PacketDecoder extends MessageToMessageDecoder<DatagramPacket> {

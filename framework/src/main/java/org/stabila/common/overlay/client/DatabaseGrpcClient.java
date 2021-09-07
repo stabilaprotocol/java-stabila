@@ -2,11 +2,11 @@ package org.stabila.common.overlay.client;
 
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
-import org.tron.api.DatabaseGrpc;
-import org.tron.api.GrpcAPI.EmptyMessage;
-import org.tron.api.GrpcAPI.NumberMessage;
-import org.tron.protos.Protocol.Block;
-import org.tron.protos.Protocol.DynamicProperties;
+import org.stabila.api.DatabaseGrpc;
+import org.stabila.api.GrpcAPI.EmptyMessage;
+import org.stabila.api.GrpcAPI.NumberMessage;
+import org.stabila.protos.Protocol.Block;
+import org.stabila.protos.Protocol.DynamicProperties;
 
 public class DatabaseGrpcClient {
 

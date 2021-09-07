@@ -21,8 +21,8 @@ package org.stabila.common.overlay.discover;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import org.tron.common.overlay.discover.node.NodeManager;
-import org.tron.common.overlay.discover.table.KademliaOptions;
+import org.stabila.common.overlay.discover.node.NodeManager;
+import org.stabila.common.overlay.discover.table.KademliaOptions;
 
 public class DiscoveryExecutor {
 

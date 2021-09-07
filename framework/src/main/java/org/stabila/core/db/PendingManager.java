@@ -1,8 +1,8 @@
 package org.stabila.core.db;
 
 import lombok.extern.slf4j.Slf4j;
-import org.tron.core.capsule.TransactionCapsule;
-import org.tron.core.config.args.Args;
+import org.stabila.core.capsule.TransactionCapsule;
+import org.stabila.core.config.args.Args;
 
 @Slf4j(topic = "DB")
 public class PendingManager implements AutoCloseable {

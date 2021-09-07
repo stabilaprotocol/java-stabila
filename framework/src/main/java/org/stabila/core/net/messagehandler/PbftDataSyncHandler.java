@@ -17,24 +17,24 @@ import java.util.concurrent.Future;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.tron.common.crypto.ECKey;
-import org.tron.common.utils.ByteArray;
-import org.tron.common.utils.Sha256Hash;
-import org.tron.consensus.base.Param;
-import org.tron.core.ChainBaseManager;
-import org.tron.core.capsule.BlockCapsule;
-import org.tron.core.capsule.TransactionCapsule;
-import org.tron.core.db.PbftSignDataStore;
-import org.tron.core.exception.P2pException;
-import org.tron.core.net.message.PbftCommitMessage;
-import org.tron.core.net.message.TronMessage;
-import org.tron.core.net.peer.PeerConnection;
-import org.tron.protos.Protocol.PBFTMessage.DataType;
-import org.tron.protos.Protocol.PBFTMessage.Raw;
+import org.stabila.common.crypto.ECKey;
+import org.stabila.common.utils.ByteArray;
+import org.stabila.common.utils.Sha256Hash;
+import org.stabila.consensus.base.Param;
+import org.stabila.core.ChainBaseManager;
+import org.stabila.core.capsule.BlockCapsule;
+import org.stabila.core.capsule.TransactionCapsule;
+import org.stabila.core.db.PbftSignDataStore;
+import org.stabila.core.exception.P2pException;
+import org.stabila.core.net.message.PbftCommitMessage;
+import org.stabila.core.net.message.StabilaMessage;
+import org.stabila.core.net.peer.PeerConnection;
+import org.stabila.protos.Protocol.PBFTMessage.DataType;
+import org.stabila.protos.Protocol.PBFTMessage.Raw;
 
 @Slf4j(topic = "pbft-data-sync")
 @Service
-public class PbftDataSyncHandler implements TronMsgHandler {
+public class PbftDataSyncHandler implements StabilaMsgHandler {
 
   private Map<Long, PbftCommitMessage> pbftCommitMessageCache = new ConcurrentHashMap<>();
 
@@ -45,7 +45,7 @@ public class PbftDataSyncHandler implements TronMsgHandler {
   private ChainBaseManager chainBaseManager;
 
   @Override
-  public void processMessage(PeerConnection peer, TronMessage msg) throws P2pException {
+  public void processMessage(PeerConnection peer, StabilaMessage msg) throws P2pException {
     PbftCommitMessage pbftCommitMessage = (PbftCommitMessage) msg;
     try {
       Raw raw = Raw.parseFrom(pbftCommitMessage.getPBFTCommitResult().getData());

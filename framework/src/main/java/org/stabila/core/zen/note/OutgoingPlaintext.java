@@ -1,17 +1,17 @@
 package org.stabila.core.zen.note;
 
-import static org.tron.core.utils.ZenChainParams.ZC_JUBJUB_POINT_SIZE;
-import static org.tron.core.utils.ZenChainParams.ZC_JUBJUB_SCALAR_SIZE;
-import static org.tron.core.utils.ZenChainParams.ZC_OUTPLAINTEXT_SIZE;
+import static org.stabila.core.utils.ZenChainParams.ZC_JUBJUB_POINT_SIZE;
+import static org.stabila.core.utils.ZenChainParams.ZC_JUBJUB_SCALAR_SIZE;
+import static org.stabila.core.utils.ZenChainParams.ZC_OUTPLAINTEXT_SIZE;
 
 import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import org.tron.core.exception.ZksnarkException;
-import org.tron.core.zen.note.NoteEncryption.Encryption;
-import org.tron.core.zen.note.NoteEncryption.Encryption.OutCiphertext;
-import org.tron.core.zen.note.NoteEncryption.Encryption.OutPlaintext;
+import org.stabila.core.exception.ZksnarkException;
+import org.stabila.core.zen.note.NoteEncryption.Encryption;
+import org.stabila.core.zen.note.NoteEncryption.Encryption.OutCiphertext;
+import org.stabila.core.zen.note.NoteEncryption.Encryption.OutPlaintext;
 
 @AllArgsConstructor
 public class OutgoingPlaintext {

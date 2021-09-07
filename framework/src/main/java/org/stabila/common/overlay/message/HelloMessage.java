@@ -2,14 +2,14 @@ package org.stabila.common.overlay.message;
 
 import com.google.protobuf.ByteString;
 import lombok.Getter;
-import org.tron.common.overlay.discover.node.Node;
-import org.tron.common.utils.ByteArray;
-import org.tron.core.capsule.BlockCapsule;
-import org.tron.core.config.args.Args;
-import org.tron.core.net.message.MessageTypes;
-import org.tron.protos.Discover.Endpoint;
-import org.tron.protos.Protocol;
-import org.tron.protos.Protocol.HelloMessage.Builder;
+import org.stabila.common.overlay.discover.node.Node;
+import org.stabila.common.utils.ByteArray;
+import org.stabila.core.capsule.BlockCapsule;
+import org.stabila.core.config.args.Args;
+import org.stabila.core.net.message.MessageTypes;
+import org.stabila.protos.Discover.Endpoint;
+import org.stabila.protos.Protocol;
+import org.stabila.protos.Protocol.HelloMessage.Builder;
 
 public class HelloMessage extends P2pMessage {
 

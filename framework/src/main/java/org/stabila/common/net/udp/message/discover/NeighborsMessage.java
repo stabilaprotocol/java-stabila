@@ -1,17 +1,17 @@
 package org.stabila.common.net.udp.message.discover;
 
-import static org.tron.common.net.udp.message.UdpMessageTypeEnum.DISCOVER_NEIGHBORS;
+import static org.stabila.common.net.udp.message.UdpMessageTypeEnum.DISCOVER_NEIGHBORS;
 
 import com.google.protobuf.ByteString;
 import java.util.ArrayList;
 import java.util.List;
-import org.tron.common.net.udp.message.Message;
-import org.tron.common.overlay.discover.node.Node;
-import org.tron.common.utils.ByteArray;
-import org.tron.protos.Discover;
-import org.tron.protos.Discover.Endpoint;
-import org.tron.protos.Discover.Neighbours;
-import org.tron.protos.Discover.Neighbours.Builder;
+import org.stabila.common.net.udp.message.Message;
+import org.stabila.common.overlay.discover.node.Node;
+import org.stabila.common.utils.ByteArray;
+import org.stabila.protos.Discover;
+import org.stabila.protos.Discover.Endpoint;
+import org.stabila.protos.Discover.Neighbours;
+import org.stabila.protos.Discover.Neighbours.Builder;
 
 public class NeighborsMessage extends Message {
 

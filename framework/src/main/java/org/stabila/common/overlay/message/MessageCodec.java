@@ -6,13 +6,13 @@ import io.netty.handler.codec.ByteToMessageDecoder;
 import java.util.List;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-import org.tron.common.overlay.server.Channel;
-import org.tron.core.exception.P2pException;
-import org.tron.core.metrics.MetricsKey;
-import org.tron.core.metrics.MetricsUtil;
-import org.tron.core.net.message.MessageTypes;
-import org.tron.core.net.message.PbftMessageFactory;
-import org.tron.core.net.message.TronMessageFactory;
+import org.stabila.common.overlay.server.Channel;
+import org.stabila.core.exception.P2pException;
+import org.stabila.core.metrics.MetricsKey;
+import org.stabila.core.metrics.MetricsUtil;
+import org.stabila.core.net.message.MessageTypes;
+import org.stabila.core.net.message.PbftMessageFactory;
+import org.stabila.core.net.message.StabilaMessageFactory;
 
 @Component
 @Scope("prototype")
@@ -20,7 +20,7 @@ public class MessageCodec extends ByteToMessageDecoder {
 
   private Channel channel;
   private P2pMessageFactory p2pMessageFactory = new P2pMessageFactory();
-  private TronMessageFactory tronMessageFactory = new TronMessageFactory();
+  private StabilaMessageFactory stabilaMessageFactory = new StabilaMessageFactory();
   private PbftMessageFactory pbftMessageFactory = new PbftMessageFactory();
 
   @Override
@@ -48,8 +48,8 @@ public class MessageCodec extends ByteToMessageDecoder {
     if (MessageTypes.inP2pRange(type)) {
       return p2pMessageFactory.create(encoded);
     }
-    if (MessageTypes.inTronRange(type)) {
-      return tronMessageFactory.create(encoded);
+    if (MessageTypes.inStabilaRange(type)) {
+      return stabilaMessageFactory.create(encoded);
     }
     if (MessageTypes.inPbftRange(type)) {
       return pbftMessageFactory.create(encoded);

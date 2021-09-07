@@ -3,9 +3,9 @@ package org.stabila.common.overlay.discover;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
-import org.tron.common.overlay.discover.node.Node;
-import org.tron.common.overlay.discover.node.NodeManager;
-import org.tron.common.overlay.discover.table.KademliaOptions;
+import org.stabila.common.overlay.discover.node.Node;
+import org.stabila.common.overlay.discover.node.NodeManager;
+import org.stabila.common.overlay.discover.table.KademliaOptions;
 
 @Slf4j(topic = "discover")
 public class DiscoverTask implements Runnable {

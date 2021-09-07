@@ -1,8 +1,8 @@
 package org.stabila.common.overlay.message;
 
-import org.tron.core.net.message.MessageTypes;
-import org.tron.protos.Protocol;
-import org.tron.protos.Protocol.ReasonCode;
+import org.stabila.core.net.message.MessageTypes;
+import org.stabila.protos.Protocol;
+import org.stabila.protos.Protocol.ReasonCode;
 
 public class DisconnectMessage extends P2pMessage {
 

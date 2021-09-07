@@ -1,12 +1,12 @@
 package org.stabila.common.overlay.discover.node.statistics;
 
 import lombok.extern.slf4j.Slf4j;
-import org.tron.common.net.udp.message.UdpMessageTypeEnum;
-import org.tron.common.overlay.message.Message;
-import org.tron.core.net.message.FetchInvDataMessage;
-import org.tron.core.net.message.InventoryMessage;
-import org.tron.core.net.message.MessageTypes;
-import org.tron.core.net.message.TransactionsMessage;
+import org.stabila.common.net.udp.message.UdpMessageTypeEnum;
+import org.stabila.common.overlay.message.Message;
+import org.stabila.core.net.message.FetchInvDataMessage;
+import org.stabila.core.net.message.InventoryMessage;
+import org.stabila.core.net.message.MessageTypes;
+import org.stabila.core.net.message.TransactionsMessage;
 
 @Slf4j
 public class MessageStatistics {
@@ -31,43 +31,43 @@ public class MessageStatistics {
   public final MessageCount p2pInDisconnect = new MessageCount();
   public final MessageCount p2pOutDisconnect = new MessageCount();
 
-  //tcp tron
-  public final MessageCount tronInMessage = new MessageCount();
-  public final MessageCount tronOutMessage = new MessageCount();
+  //tcp stabila
+  public final MessageCount stabilaInMessage = new MessageCount();
+  public final MessageCount stabilaOutMessage = new MessageCount();
 
-  public final MessageCount tronInSyncBlockChain = new MessageCount();
-  public final MessageCount tronOutSyncBlockChain = new MessageCount();
-  public final MessageCount tronInBlockChainInventory = new MessageCount();
-  public final MessageCount tronOutBlockChainInventory = new MessageCount();
+  public final MessageCount stabilaInSyncBlockChain = new MessageCount();
+  public final MessageCount stabilaOutSyncBlockChain = new MessageCount();
+  public final MessageCount stabilaInBlockChainInventory = new MessageCount();
+  public final MessageCount stabilaOutBlockChainInventory = new MessageCount();
 
-  public final MessageCount tronInTrxInventory = new MessageCount();
-  public final MessageCount tronOutTrxInventory = new MessageCount();
-  public final MessageCount tronInTrxInventoryElement = new MessageCount();
-  public final MessageCount tronOutTrxInventoryElement = new MessageCount();
+  public final MessageCount stabilaInTrxInventory = new MessageCount();
+  public final MessageCount stabilaOutTrxInventory = new MessageCount();
+  public final MessageCount stabilaInTrxInventoryElement = new MessageCount();
+  public final MessageCount stabilaOutTrxInventoryElement = new MessageCount();
 
-  public final MessageCount tronInBlockInventory = new MessageCount();
-  public final MessageCount tronOutBlockInventory = new MessageCount();
-  public final MessageCount tronInBlockInventoryElement = new MessageCount();
-  public final MessageCount tronOutBlockInventoryElement = new MessageCount();
+  public final MessageCount stabilaInBlockInventory = new MessageCount();
+  public final MessageCount stabilaOutBlockInventory = new MessageCount();
+  public final MessageCount stabilaInBlockInventoryElement = new MessageCount();
+  public final MessageCount stabilaOutBlockInventoryElement = new MessageCount();
 
-  public final MessageCount tronInTrxFetchInvData = new MessageCount();
-  public final MessageCount tronOutTrxFetchInvData = new MessageCount();
-  public final MessageCount tronInTrxFetchInvDataElement = new MessageCount();
-  public final MessageCount tronOutTrxFetchInvDataElement = new MessageCount();
+  public final MessageCount stabilaInTrxFetchInvData = new MessageCount();
+  public final MessageCount stabilaOutTrxFetchInvData = new MessageCount();
+  public final MessageCount stabilaInTrxFetchInvDataElement = new MessageCount();
+  public final MessageCount stabilaOutTrxFetchInvDataElement = new MessageCount();
 
-  public final MessageCount tronInBlockFetchInvData = new MessageCount();
-  public final MessageCount tronOutBlockFetchInvData = new MessageCount();
-  public final MessageCount tronInBlockFetchInvDataElement = new MessageCount();
-  public final MessageCount tronOutBlockFetchInvDataElement = new MessageCount();
+  public final MessageCount stabilaInBlockFetchInvData = new MessageCount();
+  public final MessageCount stabilaOutBlockFetchInvData = new MessageCount();
+  public final MessageCount stabilaInBlockFetchInvDataElement = new MessageCount();
+  public final MessageCount stabilaOutBlockFetchInvDataElement = new MessageCount();
 
 
-  public final MessageCount tronInTrx = new MessageCount();
-  public final MessageCount tronOutTrx = new MessageCount();
-  public final MessageCount tronInTrxs = new MessageCount();
-  public final MessageCount tronOutTrxs = new MessageCount();
-  public final MessageCount tronInBlock = new MessageCount();
-  public final MessageCount tronOutBlock = new MessageCount();
-  public final MessageCount tronOutAdvBlock = new MessageCount();
+  public final MessageCount stabilaInTrx = new MessageCount();
+  public final MessageCount stabilaOutTrx = new MessageCount();
+  public final MessageCount stabilaInTrxs = new MessageCount();
+  public final MessageCount stabilaOutTrxs = new MessageCount();
+  public final MessageCount stabilaInBlock = new MessageCount();
+  public final MessageCount stabilaOutBlock = new MessageCount();
+  public final MessageCount stabilaOutAdvBlock = new MessageCount();
 
   public void addUdpInMessage(UdpMessageTypeEnum type) {
     addUdpMessage(type, true);
@@ -123,9 +123,9 @@ public class MessageStatistics {
   private void addTcpMessage(Message msg, boolean flag) {
 
     if (flag) {
-      tronInMessage.add();
+      stabilaInMessage.add();
     } else {
-      tronOutMessage.add();
+      stabilaOutMessage.add();
     }
 
     switch (msg.getType()) {
@@ -159,58 +159,58 @@ public class MessageStatistics {
         break;
       case SYNC_BLOCK_CHAIN:
         if (flag) {
-          tronInSyncBlockChain.add();
+          stabilaInSyncBlockChain.add();
         } else {
-          tronOutSyncBlockChain.add();
+          stabilaOutSyncBlockChain.add();
         }
         break;
       case BLOCK_CHAIN_INVENTORY:
         if (flag) {
-          tronInBlockChainInventory.add();
+          stabilaInBlockChainInventory.add();
         } else {
-          tronOutBlockChainInventory.add();
+          stabilaOutBlockChainInventory.add();
         }
         break;
       case INVENTORY:
         InventoryMessage inventoryMessage = (InventoryMessage) msg;
         int inventorySize = inventoryMessage.getInventory().getIdsCount();
         messageProcess(inventoryMessage.getInvMessageType(),
-                tronInTrxInventory,tronInTrxInventoryElement,tronInBlockInventory,
-                tronInBlockInventoryElement,tronOutTrxInventory,tronOutTrxInventoryElement,
-                tronOutBlockInventory,tronOutBlockInventoryElement,
+                stabilaInTrxInventory,stabilaInTrxInventoryElement,stabilaInBlockInventory,
+                stabilaInBlockInventoryElement,stabilaOutTrxInventory,stabilaOutTrxInventoryElement,
+                stabilaOutBlockInventory,stabilaOutBlockInventoryElement,
                 flag, inventorySize);
         break;
       case FETCH_INV_DATA:
         FetchInvDataMessage fetchInvDataMessage = (FetchInvDataMessage) msg;
         int fetchSize = fetchInvDataMessage.getInventory().getIdsCount();
         messageProcess(fetchInvDataMessage.getInvMessageType(),
-                tronInTrxFetchInvData,tronInTrxFetchInvDataElement,tronInBlockFetchInvData,
-                tronInBlockFetchInvDataElement,tronOutTrxFetchInvData,tronOutTrxFetchInvDataElement,
-                tronOutBlockFetchInvData,tronOutBlockFetchInvDataElement,
+                stabilaInTrxFetchInvData,stabilaInTrxFetchInvDataElement,stabilaInBlockFetchInvData,
+                stabilaInBlockFetchInvDataElement,stabilaOutTrxFetchInvData,stabilaOutTrxFetchInvDataElement,
+                stabilaOutBlockFetchInvData,stabilaOutBlockFetchInvDataElement,
                 flag, fetchSize);
         break;
       case TRXS:
         TransactionsMessage transactionsMessage = (TransactionsMessage) msg;
         if (flag) {
-          tronInTrxs.add();
-          tronInTrx.add(transactionsMessage.getTransactions().getTransactionsCount());
+          stabilaInTrxs.add();
+          stabilaInTrx.add(transactionsMessage.getTransactions().getTransactionsCount());
         } else {
-          tronOutTrxs.add();
-          tronOutTrx.add(transactionsMessage.getTransactions().getTransactionsCount());
+          stabilaOutTrxs.add();
+          stabilaOutTrx.add(transactionsMessage.getTransactions().getTransactionsCount());
         }
         break;
       case TRX:
         if (flag) {
-          tronInMessage.add();
+          stabilaInMessage.add();
         } else {
-          tronOutMessage.add();
+          stabilaOutMessage.add();
         }
         break;
       case BLOCK:
         if (flag) {
-          tronInBlock.add();
+          stabilaInBlock.add();
         }
-        tronOutBlock.add();
+        stabilaOutBlock.add();
         break;
       default:
         break;

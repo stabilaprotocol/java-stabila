@@ -1,7 +1,7 @@
 package org.stabila.core.capsule.utils;
 
 import java.util.ArrayList;
-import org.tron.common.utils.ByteArray;
+import org.stabila.common.utils.ByteArray;
 
 /**
  */

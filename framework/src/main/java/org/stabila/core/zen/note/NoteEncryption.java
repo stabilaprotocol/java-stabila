@@ -1,32 +1,32 @@
 package org.stabila.core.zen.note;
 
-import static org.tron.common.zksnark.JLibsodium.CRYPTO_AEAD_CHACHA20POLY1305_IETF_NPUBBYTES;
-import static org.tron.core.utils.ZenChainParams.ZC_ENCCIPHERTEXT_SIZE;
-import static org.tron.core.utils.ZenChainParams.ZC_ENCPLAINTEXT_SIZE;
-import static org.tron.core.utils.ZenChainParams.ZC_OUTCIPHERTEXT_SIZE;
-import static org.tron.core.utils.ZenChainParams.ZC_OUTPLAINTEXT_SIZE;
-import static org.tron.core.zen.note.NoteEncryption.Encryption.NOTEENCRYPTION_CIPHER_KEYSIZE;
+import static org.stabila.common.zksnark.JLibsodium.CRYPTO_AEAD_CHACHA20POLY1305_IETF_NPUBBYTES;
+import static org.stabila.core.utils.ZenChainParams.ZC_ENCCIPHERTEXT_SIZE;
+import static org.stabila.core.utils.ZenChainParams.ZC_ENCPLAINTEXT_SIZE;
+import static org.stabila.core.utils.ZenChainParams.ZC_OUTCIPHERTEXT_SIZE;
+import static org.stabila.core.utils.ZenChainParams.ZC_OUTPLAINTEXT_SIZE;
+import static org.stabila.core.zen.note.NoteEncryption.Encryption.NOTEENCRYPTION_CIPHER_KEYSIZE;
 
 import java.math.BigInteger;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import org.tron.common.utils.ByteUtil;
-import org.tron.common.zksnark.JLibrustzcash;
-import org.tron.common.zksnark.JLibsodium;
-import org.tron.common.zksnark.JLibsodiumParam.Black2bSaltPersonalParams;
-import org.tron.common.zksnark.JLibsodiumParam.Chacha20Poly1305IetfEncryptParams;
-import org.tron.common.zksnark.JLibsodiumParam.Chacha20poly1305IetfDecryptParams;
-import org.tron.common.zksnark.LibrustzcashParam.KaAgreeParams;
-import org.tron.common.zksnark.LibrustzcashParam.KaDerivepublicParams;
-import org.tron.core.exception.ZksnarkException;
-import org.tron.core.utils.ZenChainParams;
-import org.tron.core.zen.address.DiversifierT;
-import org.tron.core.zen.note.NoteEncryption.Encryption.EncCiphertext;
-import org.tron.core.zen.note.NoteEncryption.Encryption.EncPlaintext;
-import org.tron.core.zen.note.NoteEncryption.Encryption.OutCiphertext;
-import org.tron.core.zen.note.NoteEncryption.Encryption.OutPlaintext;
+import org.stabila.common.utils.ByteUtil;
+import org.stabila.common.zksnark.JLibrustzcash;
+import org.stabila.common.zksnark.JLibsodium;
+import org.stabila.common.zksnark.JLibsodiumParam.Black2bSaltPersonalParams;
+import org.stabila.common.zksnark.JLibsodiumParam.Chacha20Poly1305IetfEncryptParams;
+import org.stabila.common.zksnark.JLibsodiumParam.Chacha20poly1305IetfDecryptParams;
+import org.stabila.common.zksnark.LibrustzcashParam.KaAgreeParams;
+import org.stabila.common.zksnark.LibrustzcashParam.KaDerivepublicParams;
+import org.stabila.core.exception.ZksnarkException;
+import org.stabila.core.utils.ZenChainParams;
+import org.stabila.core.zen.address.DiversifierT;
+import org.stabila.core.zen.note.NoteEncryption.Encryption.EncCiphertext;
+import org.stabila.core.zen.note.NoteEncryption.Encryption.EncPlaintext;
+import org.stabila.core.zen.note.NoteEncryption.Encryption.OutCiphertext;
+import org.stabila.core.zen.note.NoteEncryption.Encryption.OutPlaintext;
 
 @AllArgsConstructor
 public class NoteEncryption {
@@ -124,7 +124,7 @@ public class NoteEncryption {
       System.arraycopy(epk, 0, block, 96, 32);
 
       byte[] personalization = new byte[JLibsodium.CRYPTO_GENERICHASH_BLAKE2B_PERSONALBYTES];
-      byte[] temp = "Ztron_Derive_ock".getBytes();
+      byte[] temp = "Zstabila_Derive_ock".getBytes();
       System.arraycopy(temp, 0, personalization, 0, temp.length);
       if (JLibsodium.cryptoGenerichashBlack2bSaltPersonal(new Black2bSaltPersonalParams(
           ock, NOTEENCRYPTION_CIPHER_KEYSIZE,
@@ -146,7 +146,7 @@ public class NoteEncryption {
       System.arraycopy(sharedsecret, 0, block, 0, 32);
       System.arraycopy(epk, 0, block, 32, 32);
       byte[] personalization = new byte[JLibsodium.CRYPTO_GENERICHASH_BLAKE2B_PERSONALBYTES];
-      byte[] temp = "Ztron_SaplingKDF".getBytes();
+      byte[] temp = "Zstabila_SaplingKDF".getBytes();
       System.arraycopy(temp, 0, personalization, 0, temp.length);
       if (JLibsodium.cryptoGenerichashBlack2bSaltPersonal(new Black2bSaltPersonalParams(
           kEnc, NOTEENCRYPTION_CIPHER_KEYSIZE,

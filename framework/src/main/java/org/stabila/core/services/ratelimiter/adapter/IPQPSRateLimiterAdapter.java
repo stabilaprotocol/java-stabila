@@ -1,7 +1,7 @@
 package org.stabila.core.services.ratelimiter.adapter;
 
-import org.tron.core.services.ratelimiter.RuntimeData;
-import org.tron.core.services.ratelimiter.strategy.IPQpsStrategy;
+import org.stabila.core.services.ratelimiter.RuntimeData;
+import org.stabila.core.services.ratelimiter.strategy.IPQpsStrategy;
 
 public class IPQPSRateLimiterAdapter implements IRateLimiter {
 

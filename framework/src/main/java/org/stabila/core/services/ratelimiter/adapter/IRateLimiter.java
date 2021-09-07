@@ -1,6 +1,6 @@
 package org.stabila.core.services.ratelimiter.adapter;
 
-import org.tron.core.services.ratelimiter.RuntimeData;
+import org.stabila.core.services.ratelimiter.RuntimeData;
 
 public interface IRateLimiter {
 

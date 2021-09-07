@@ -18,8 +18,8 @@
 
 package org.stabila.common.overlay.discover;
 
-import org.tron.common.overlay.discover.node.NodeHandler;
-import org.tron.common.overlay.discover.node.NodeManager;
+import org.stabila.common.overlay.discover.node.NodeHandler;
+import org.stabila.common.overlay.discover.node.NodeManager;
 
 /**
  * Allows to handle discovered nodes state changes Created by Anton Nashatyrev on 21.07.2015.

@@ -2,8 +2,8 @@ package org.stabila.common.logsfilter.capsule;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.tron.common.logsfilter.EventPluginLoader;
-import org.tron.common.logsfilter.trigger.ContractLogTrigger;
+import org.stabila.common.logsfilter.EventPluginLoader;
+import org.stabila.common.logsfilter.trigger.ContractLogTrigger;
 
 public class SolidityLogCapsule extends TriggerCapsule {
 

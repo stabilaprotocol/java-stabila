@@ -6,14 +6,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.rocksdb.RocksDBException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.tron.common.parameter.CommonParameter;
-import org.tron.common.utils.PropUtil;
-import org.tron.core.capsule.BlockCapsule;
-import org.tron.core.config.args.Args;
-import org.tron.core.db.RevokingDatabase;
-import org.tron.core.db2.core.Chainbase;
-import org.tron.core.db2.core.SnapshotManager;
-import org.tron.core.db2.core.SnapshotRoot;
+import org.stabila.common.parameter.CommonParameter;
+import org.stabila.common.utils.PropUtil;
+import org.stabila.core.capsule.BlockCapsule;
+import org.stabila.core.config.args.Args;
+import org.stabila.core.db.RevokingDatabase;
+import org.stabila.core.db2.core.Chainbase;
+import org.stabila.core.db2.core.SnapshotManager;
+import org.stabila.core.db2.core.SnapshotRoot;
 
 @Slf4j
 @Component
@@ -120,8 +120,8 @@ public class BackupDbUtil {
     List<Chainbase> stores = ((SnapshotManager) db).getDbs();
     for (Chainbase store : stores) {
       if (((SnapshotRoot) (store.getHead().getRoot())).getDb().getClass()
-          == org.tron.core.db2.common.RocksDB.class) {
-        ((org.tron.core.db2.common.RocksDB) ((SnapshotRoot) (store.getHead().getRoot())).getDb())
+          == org.stabila.core.db2.common.RocksDB.class) {
+        ((org.stabila.core.db2.common.RocksDB) ((SnapshotRoot) (store.getHead().getRoot())).getDb())
             .getDb().backup(path);
       }
     }
@@ -139,8 +139,8 @@ public class BackupDbUtil {
     List<Chainbase> stores = ((SnapshotManager) db).getDbs();
     for (Chainbase store : stores) {
       if (((SnapshotRoot) (store.getHead().getRoot())).getDb().getClass()
-          == org.tron.core.db2.common.RocksDB.class) {
-        ((org.tron.core.db2.common.RocksDB) (((SnapshotRoot) (store.getHead().getRoot())).getDb()))
+          == org.stabila.core.db2.common.RocksDB.class) {
+        ((org.stabila.core.db2.common.RocksDB) (((SnapshotRoot) (store.getHead().getRoot())).getDb()))
             .getDb().deleteDbBakPath(path);
       }
     }

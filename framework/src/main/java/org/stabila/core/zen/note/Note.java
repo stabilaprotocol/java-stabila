@@ -1,11 +1,11 @@
 package org.stabila.core.zen.note;
 
-import static org.tron.core.utils.ZenChainParams.ZC_DIVERSIFIER_SIZE;
-import static org.tron.core.utils.ZenChainParams.ZC_ENCPLAINTEXT_SIZE;
-import static org.tron.core.utils.ZenChainParams.ZC_MEMO_SIZE;
-import static org.tron.core.utils.ZenChainParams.ZC_NOTEPLAINTEXT_LEADING;
-import static org.tron.core.utils.ZenChainParams.ZC_R_SIZE;
-import static org.tron.core.utils.ZenChainParams.ZC_V_SIZE;
+import static org.stabila.core.utils.ZenChainParams.ZC_DIVERSIFIER_SIZE;
+import static org.stabila.core.utils.ZenChainParams.ZC_ENCPLAINTEXT_SIZE;
+import static org.stabila.core.utils.ZenChainParams.ZC_MEMO_SIZE;
+import static org.stabila.core.utils.ZenChainParams.ZC_NOTEPLAINTEXT_LEADING;
+import static org.stabila.core.utils.ZenChainParams.ZC_R_SIZE;
+import static org.stabila.core.utils.ZenChainParams.ZC_V_SIZE;
 
 import java.nio.ByteBuffer;
 import java.util.Arrays;
@@ -13,16 +13,16 @@ import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import org.tron.common.utils.ByteArray;
-import org.tron.common.zksnark.JLibrustzcash;
-import org.tron.common.zksnark.LibrustzcashParam.ComputeCmParams;
-import org.tron.common.zksnark.LibrustzcashParam.ComputeNfParams;
-import org.tron.common.zksnark.LibrustzcashParam.IvkToPkdParams;
-import org.tron.core.exception.ZksnarkException;
-import org.tron.core.zen.address.DiversifierT;
-import org.tron.core.zen.address.FullViewingKey;
-import org.tron.core.zen.address.IncomingViewingKey;
-import org.tron.core.zen.address.PaymentAddress;
+import org.stabila.common.utils.ByteArray;
+import org.stabila.common.zksnark.JLibrustzcash;
+import org.stabila.common.zksnark.LibrustzcashParam.ComputeCmParams;
+import org.stabila.common.zksnark.LibrustzcashParam.ComputeNfParams;
+import org.stabila.common.zksnark.LibrustzcashParam.IvkToPkdParams;
+import org.stabila.core.exception.ZksnarkException;
+import org.stabila.core.zen.address.DiversifierT;
+import org.stabila.core.zen.address.FullViewingKey;
+import org.stabila.core.zen.address.IncomingViewingKey;
+import org.stabila.core.zen.address.PaymentAddress;
 
 
 public class Note {
