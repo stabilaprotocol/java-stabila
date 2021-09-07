@@ -39,7 +39,7 @@ public class SnapshotImpl extends AbstractSnapshot<Key, Value> {
   private byte[] get(Snapshot head, byte[] key) {
     Snapshot snapshot = head;
     Value value;
-    while (isImpl(snapshot)) {
+    while (Snapshot.isImpl(snapshot)) {
       if ((value = ((SnapshotImpl) snapshot).db.get(Key.of(key))) != null) {
         return value.getBytes();
       }
