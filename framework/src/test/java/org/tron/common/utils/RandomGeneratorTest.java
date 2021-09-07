@@ -8,7 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.joda.time.DateTime;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.tron.core.capsule.WitnessCapsule;
+import org.stabila.core.capsule.WitnessCapsule;
 
 @Slf4j
 @Ignore

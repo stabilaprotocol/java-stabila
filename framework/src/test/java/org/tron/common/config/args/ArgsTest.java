@@ -6,8 +6,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.tron.common.utils.FileUtil;
-import org.tron.core.Constant;
-import org.tron.core.config.args.Args;
+import org.stabila.core.Constant;
+import org.stabila.core.config.args.Args;
 
 public class ArgsTest {
 

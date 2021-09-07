@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.tron.common.utils.ByteArray;
 import org.tron.common.utils.ByteUtil;
-import org.tron.core.exception.ZksnarkException;
+import org.stabila.core.exception.ZksnarkException;
 
 public class LibrustzcashParam {
 

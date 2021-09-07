@@ -6,13 +6,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.tron.common.utils.Base58;
-import org.tron.core.exception.ZksnarkException;
-import org.tron.core.zen.address.DiversifierT;
-import org.tron.core.zen.address.FullViewingKey;
-import org.tron.core.zen.address.IncomingViewingKey;
-import org.tron.core.zen.address.KeyIo;
-import org.tron.core.zen.address.PaymentAddress;
-import org.tron.core.zen.address.SpendingKey;
+import org.stabila.core.exception.ZksnarkException;
+import org.stabila.core.zen.address.DiversifierT;
+import org.stabila.core.zen.address.FullViewingKey;
+import org.stabila.core.zen.address.IncomingViewingKey;
+import org.stabila.core.zen.address.KeyIo;
+import org.stabila.core.zen.address.PaymentAddress;
+import org.stabila.core.zen.address.SpendingKey;
 
 @AllArgsConstructor
 public class ShieldedAddressInfo {

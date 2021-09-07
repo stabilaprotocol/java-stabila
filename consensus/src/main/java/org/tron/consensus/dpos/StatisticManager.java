@@ -4,8 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.tron.consensus.ConsensusDelegate;
-import org.tron.core.capsule.BlockCapsule;
-import org.tron.core.capsule.WitnessCapsule;
+import org.stabila.core.capsule.BlockCapsule;
+import org.stabila.core.capsule.WitnessCapsule;
 
 @Slf4j(topic = "consensus")
 @Component

@@ -1,6 +1,6 @@
 package org.tron.common.logsfilter;
 
-import static org.tron.core.Constant.ADD_PRE_FIX_BYTE_MAINNET;
+import static org.stabila.core.Constant.ADD_PRE_FIX_BYTE_MAINNET;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -11,7 +11,7 @@ import org.junit.Test;
 import org.testng.Assert;
 import org.tron.common.crypto.Hash;
 import org.tron.common.utils.ByteArray;
-import org.tron.core.Wallet;
+import org.stabila.core.Wallet;
 
 public class EventParserJsonTest {
 

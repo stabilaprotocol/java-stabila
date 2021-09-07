@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import org.tron.common.parameter.CommonParameter;
-import org.tron.core.config.args.Args;
+import org.stabila.core.config.args.Args;
 
 @Slf4j(topic = "net")
 @Component

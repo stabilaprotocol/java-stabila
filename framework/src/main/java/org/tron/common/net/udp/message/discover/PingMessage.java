@@ -6,7 +6,7 @@ import com.google.protobuf.ByteString;
 import org.tron.common.net.udp.message.Message;
 import org.tron.common.overlay.discover.node.Node;
 import org.tron.common.utils.ByteArray;
-import org.tron.core.config.args.Args;
+import org.stabila.core.config.args.Args;
 import org.tron.protos.Discover;
 import org.tron.protos.Discover.Endpoint;
 

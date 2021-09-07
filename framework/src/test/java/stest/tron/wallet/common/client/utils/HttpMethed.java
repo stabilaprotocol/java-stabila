@@ -24,11 +24,12 @@ import org.apache.http.impl.conn.PoolingClientConnectionManager;
 import org.apache.http.params.CoreConnectionPNames;
 import org.apache.http.util.EntityUtils;
 import org.junit.Assert;
+import org.stabila.core.zen.note.Note;
 import org.testng.collections.Lists;
 import org.tron.api.GrpcAPI;
 import org.tron.common.utils.ByteArray;
 import org.tron.common.utils.ByteUtil;
-import org.tron.core.zen.address.DiversifierT;
+import org.stabila.core.zen.address.DiversifierT;
 import stest.tron.wallet.common.client.Configuration;
 
 @Slf4j
@@ -3658,7 +3659,7 @@ public class HttpMethed {
                 .put("payment_address", noteTx.getPaymentAddress())
                 .put("rcm", ByteArray.toHexString(noteTx.getR()))
                 .put("memo", ByteArray.toHexString(noteTx.getMemo())))
-            .put("alpha", ByteArray.toHexString(org.tron.core.zen.note.Note.generateR()))
+            .put("alpha", ByteArray.toHexString(Note.generateR()))
             .put("voucher", Lists.newArrayList(vouchers)).put("path", Lists.newArrayList(paths)));
 
         map.put("shielded_spends", shieldedSpends);
@@ -4428,7 +4429,7 @@ public class HttpMethed {
         JSONArray vouchersPbft = HttpMethed.responseContent.getJSONArray("vouchers");
         JSONArray pathsPbft = HttpMethed.responseContent.getJSONArray("paths");
         Assert.assertTrue(pathsPbft.equals(paths));
-        alpha = org.tron.core.zen.note.Note.generateR();
+        alpha = Note.generateR();
 
         List shieldedSpends = Lists.newArrayList(new JSONObjectWarp().put("note",
             new JSONObjectWarp().put("value", noteTx.getValue())

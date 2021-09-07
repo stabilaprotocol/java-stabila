@@ -30,7 +30,7 @@ import org.tron.common.net.udp.message.discover.NeighborsMessage;
 import org.tron.common.net.udp.message.discover.PingMessage;
 import org.tron.common.net.udp.message.discover.PongMessage;
 import org.tron.common.overlay.discover.node.statistics.NodeStatistics;
-import org.tron.core.config.args.Args;
+import org.stabila.core.config.args.Args;
 
 @Slf4j(topic = "discover")
 public class NodeHandler {

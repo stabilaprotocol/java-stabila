@@ -2,7 +2,7 @@ package org.tron.common.utils;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
-import org.tron.core.Constant;
+import org.stabila.core.Constant;
 
 @Slf4j(topic = "Commons")
 public class DecodeUtil {

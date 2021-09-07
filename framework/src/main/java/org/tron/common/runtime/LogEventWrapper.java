@@ -5,7 +5,7 @@ import java.util.Objects;
 import lombok.Getter;
 import lombok.Setter;
 import org.tron.common.logsfilter.trigger.ContractTrigger;
-import org.tron.core.vm.utils.MUtil;
+import org.stabila.core.vm.utils.MUtil;
 import org.tron.protos.contract.SmartContractOuterClass.SmartContract;
 import org.tron.protos.contract.SmartContractOuterClass.SmartContract.ABI.Entry.Param;
 

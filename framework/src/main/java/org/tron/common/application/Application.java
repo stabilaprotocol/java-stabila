@@ -16,9 +16,9 @@
 package org.tron.common.application;
 
 import org.tron.common.parameter.CommonParameter;
-import org.tron.core.ChainBaseManager;
-import org.tron.core.config.args.Args;
-import org.tron.core.db.Manager;
+import org.stabila.core.ChainBaseManager;
+import org.stabila.core.config.args.Args;
+import org.stabila.core.db.Manager;
 
 public interface Application {
 

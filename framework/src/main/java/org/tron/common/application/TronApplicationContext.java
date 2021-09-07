@@ -5,7 +5,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.tron.common.overlay.discover.DiscoverServer;
 import org.tron.common.overlay.discover.node.NodeManager;
 import org.tron.common.overlay.server.ChannelManager;
-import org.tron.core.db.Manager;
+import org.stabila.core.db.Manager;
 
 public class TronApplicationContext extends AnnotationConfigApplicationContext {
 

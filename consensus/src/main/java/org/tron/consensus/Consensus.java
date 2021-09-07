@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import org.tron.consensus.base.ConsensusInterface;
 import org.tron.consensus.base.Param;
 import org.tron.consensus.dpos.DposService;
-import org.tron.core.capsule.BlockCapsule;
+import org.stabila.core.capsule.BlockCapsule;
 
 @Slf4j(topic = "consensus")
 @Component

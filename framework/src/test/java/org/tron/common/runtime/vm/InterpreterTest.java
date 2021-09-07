@@ -25,11 +25,11 @@ import org.junit.Test;
 import org.tron.common.parameter.CommonParameter;
 import org.tron.common.runtime.InternalTransaction;
 import org.tron.common.runtime.InternalTransaction.TrxType;
-import org.tron.core.config.args.Args;
-import org.tron.core.exception.ContractValidateException;
-import org.tron.core.vm.VM;
-import org.tron.core.vm.program.Program;
-import org.tron.core.vm.program.invoke.ProgramInvokeMockImpl;
+import org.stabila.core.config.args.Args;
+import org.stabila.core.exception.ContractValidateException;
+import org.stabila.core.vm.VM;
+import org.stabila.core.vm.program.Program;
+import org.stabila.core.vm.program.invoke.ProgramInvokeMockImpl;
 import org.tron.protos.Protocol.Transaction;
 
 @Slf4j

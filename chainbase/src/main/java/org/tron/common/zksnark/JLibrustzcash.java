@@ -24,7 +24,7 @@ import org.tron.common.zksnark.LibrustzcashParam.SpendSigParams;
 import org.tron.common.zksnark.LibrustzcashParam.Zip32XfvkAddressParams;
 import org.tron.common.zksnark.LibrustzcashParam.Zip32XskDeriveParams;
 import org.tron.common.zksnark.LibrustzcashParam.Zip32XskMasterParams;
-import org.tron.core.exception.ZksnarkException;
+import org.stabila.core.exception.ZksnarkException;
 
 @Slf4j
 public class JLibrustzcash {

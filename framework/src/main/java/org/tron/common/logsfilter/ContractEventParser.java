@@ -10,7 +10,7 @@ import org.bouncycastle.util.encoders.Hex;
 import org.pf4j.util.StringUtils;
 import org.tron.common.runtime.vm.DataWord;
 import org.tron.common.utils.StringUtil;
-import org.tron.core.db.TransactionTrace;
+import org.stabila.core.db.TransactionTrace;
 
 @Slf4j(topic = "Parser")
 public class ContractEventParser {

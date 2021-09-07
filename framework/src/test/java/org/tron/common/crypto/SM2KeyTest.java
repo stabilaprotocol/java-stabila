@@ -17,7 +17,7 @@ import org.bouncycastle.util.encoders.Hex;
 import org.junit.Test;
 import org.tron.common.crypto.sm2.SM2;
 import org.tron.common.crypto.sm2.SM2Signer;
-import org.tron.core.Wallet;
+import org.stabila.core.Wallet;
 
 @Slf4j
 public class SM2KeyTest {

@@ -1,6 +1,6 @@
 package org.tron.common.overlay.message;
 
-import static org.tron.core.exception.P2pException.TypeEnum.PROTOBUF_ERROR;
+import static org.stabila.core.exception.P2pException.TypeEnum.PROTOBUF_ERROR;
 
 import com.google.protobuf.CodedInputStream;
 import io.netty.buffer.ByteBuf;
@@ -14,9 +14,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.util.ReflectionUtils;
 import org.tron.common.parameter.CommonParameter;
 import org.tron.common.utils.Sha256Hash;
-import org.tron.core.exception.P2pException;
-import org.tron.core.net.message.MessageTypes;
-import org.tron.core.store.DynamicPropertiesStore;
+import org.stabila.core.exception.P2pException;
+import org.stabila.core.net.message.MessageTypes;
+import org.stabila.core.store.DynamicPropertiesStore;
 
 public abstract class Message {
 

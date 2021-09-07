@@ -18,7 +18,7 @@ import org.tron.api.GrpcAPI.ProposalList;
 import org.tron.api.WalletGrpc;
 import org.tron.api.WalletSolidityGrpc;
 import org.tron.common.utils.ByteArray;
-import org.tron.core.Wallet;
+import org.stabila.core.Wallet;
 import org.tron.protos.Protocol.ChainParameters;
 import org.tron.protos.Protocol.Proposal;
 import stest.tron.wallet.common.client.Configuration;

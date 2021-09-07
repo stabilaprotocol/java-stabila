@@ -26,7 +26,7 @@ import org.bouncycastle.util.encoders.Hex;
 import org.tron.common.utils.ByteArray;
 import org.tron.common.utils.ByteUtil;
 import org.tron.common.utils.FastByteComparisons;
-import org.tron.core.db.ByteArrayWrapper;
+import org.stabila.core.db.ByteArrayWrapper;
 
 /**
  * DataWord is the 32-byte array representation of a 256-bit number Calculations can be done on this

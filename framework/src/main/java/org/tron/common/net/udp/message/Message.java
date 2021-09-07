@@ -10,7 +10,7 @@ import org.tron.common.overlay.discover.node.Node;
 import org.tron.common.parameter.CommonParameter;
 import org.tron.common.utils.ByteArray;
 import org.tron.common.utils.Sha256Hash;
-import org.tron.core.exception.P2pException;
+import org.stabila.core.exception.P2pException;
 import org.tron.protos.Discover.Endpoint;
 
 public abstract class Message {

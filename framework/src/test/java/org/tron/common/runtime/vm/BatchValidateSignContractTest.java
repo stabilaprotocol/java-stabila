@@ -11,9 +11,9 @@ import org.testng.Assert;
 import org.tron.common.crypto.ECKey;
 import org.tron.common.crypto.Hash;
 import org.tron.common.utils.StringUtil;
-import org.tron.core.db.TransactionTrace;
-import org.tron.core.vm.PrecompiledContracts;
-import org.tron.core.vm.PrecompiledContracts.BatchValidateSign;
+import org.stabila.core.db.TransactionTrace;
+import org.stabila.core.vm.PrecompiledContracts;
+import org.stabila.core.vm.PrecompiledContracts.BatchValidateSign;
 import stest.tron.wallet.common.client.utils.AbiUtil;
 
 @Slf4j

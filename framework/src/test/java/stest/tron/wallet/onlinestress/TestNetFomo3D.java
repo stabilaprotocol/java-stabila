@@ -19,7 +19,7 @@ import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 import org.tron.api.GrpcAPI.AccountResourceMessage;
 import org.tron.api.WalletGrpc;
-import org.tron.core.Wallet;
+import org.stabila.core.Wallet;
 import org.tron.protos.Protocol.Account;
 import org.tron.protos.Protocol.TransactionInfo;
 import org.tron.protos.contract.SmartContractOuterClass.SmartContract;

@@ -1,7 +1,5 @@
 package stest.tron.wallet.dailybuild.tvmnewcommand.create2;
 
-import static org.hamcrest.core.StringContains.containsString;
-
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import java.util.HashMap;
@@ -19,7 +17,7 @@ import org.tron.api.WalletGrpc;
 import org.tron.common.crypto.ECKey;
 import org.tron.common.utils.ByteArray;
 import org.tron.common.utils.Utils;
-import org.tron.core.Wallet;
+import org.stabila.core.Wallet;
 import org.tron.protos.Protocol.TransactionInfo;
 import org.tron.protos.contract.SmartContractOuterClass.SmartContract;
 import stest.tron.wallet.common.client.Configuration;

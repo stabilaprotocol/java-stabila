@@ -27,7 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.bouncycastle.util.encoders.Hex;
 import org.junit.Test;
 import org.testng.Assert;
-import org.tron.core.vm.program.Memory;
+import org.stabila.core.vm.program.Memory;
 
 @Slf4j
 public class MemoryTest {

@@ -9,9 +9,9 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.tron.common.utils.ByteUtil;
-import org.tron.core.capsule.IncrementalMerkleTreeCapsule;
-import org.tron.core.capsule.PedersenHashCapsule;
-import org.tron.core.exception.ZksnarkException;
+import org.stabila.core.capsule.IncrementalMerkleTreeCapsule;
+import org.stabila.core.capsule.PedersenHashCapsule;
+import org.stabila.core.exception.ZksnarkException;
 import org.tron.protos.contract.ShieldContract.PedersenHash;
 
 @Slf4j

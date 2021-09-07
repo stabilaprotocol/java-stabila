@@ -1,6 +1,6 @@
 package org.tron.consensus.dpos;
 
-import static org.tron.core.config.Parameter.ChainConstant.WITNESS_STANDBY_LENGTH;
+import static org.stabila.core.config.Parameter.ChainConstant.WITNESS_STANDBY_LENGTH;
 
 import com.google.protobuf.ByteString;
 import java.util.List;
@@ -8,7 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.tron.consensus.ConsensusDelegate;
-import org.tron.core.capsule.AccountCapsule;
+import org.stabila.core.capsule.AccountCapsule;
 
 @Slf4j(topic = "consensus")
 @Component

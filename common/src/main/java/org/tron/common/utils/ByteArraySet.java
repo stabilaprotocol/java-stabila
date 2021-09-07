@@ -24,7 +24,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Set;
-import org.tron.core.db.ByteArrayWrapper;
+import org.stabila.core.db.ByteArrayWrapper;
 
 
 public class ByteArraySet implements Set<byte[]> {

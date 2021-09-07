@@ -3,7 +3,7 @@ package org.tron.common.utils;
 import org.rocksdb.ComparatorOptions;
 import org.rocksdb.DirectSlice;
 import org.rocksdb.util.DirectBytewiseComparator;
-import org.tron.core.capsule.utils.MarketUtils;
+import org.stabila.core.capsule.utils.MarketUtils;
 
 public class MarketOrderPriceComparatorForRockDB extends DirectBytewiseComparator {
 

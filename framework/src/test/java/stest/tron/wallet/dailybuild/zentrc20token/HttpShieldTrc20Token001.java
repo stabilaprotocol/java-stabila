@@ -13,7 +13,7 @@ import org.tron.api.GrpcAPI.Note;
 import org.tron.common.crypto.ECKey;
 import org.tron.common.utils.ByteArray;
 import org.tron.common.utils.Utils;
-import org.tron.core.zen.address.DiversifierT;
+import org.stabila.core.zen.address.DiversifierT;
 import stest.tron.wallet.common.client.Configuration;
 import stest.tron.wallet.common.client.utils.HttpMethed;
 import stest.tron.wallet.common.client.utils.ShieldAddressInfo;

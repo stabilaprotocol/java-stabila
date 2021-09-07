@@ -1,6 +1,6 @@
 package org.tron.consensus.dpos;
 
-import static org.tron.core.config.Parameter.ChainConstant.BLOCK_PRODUCED_INTERVAL;
+import static org.stabila.core.config.Parameter.ChainConstant.BLOCK_PRODUCED_INTERVAL;
 
 import com.google.protobuf.ByteString;
 import lombok.Setter;
@@ -15,7 +15,7 @@ import org.tron.common.utils.Sha256Hash;
 import org.tron.consensus.ConsensusDelegate;
 import org.tron.consensus.base.Param.Miner;
 import org.tron.consensus.base.State;
-import org.tron.core.capsule.BlockCapsule;
+import org.stabila.core.capsule.BlockCapsule;
 import org.tron.protos.Protocol.BlockHeader;
 
 @Slf4j(topic = "consensus")

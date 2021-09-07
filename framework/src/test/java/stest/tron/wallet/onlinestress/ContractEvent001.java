@@ -24,7 +24,7 @@ import org.tron.common.crypto.SignInterface;
 import org.tron.common.crypto.SignUtils;
 import org.tron.common.utils.ByteArray;
 import org.tron.common.utils.Utils;
-import org.tron.core.Wallet;
+import org.stabila.core.Wallet;
 import org.tron.protos.contract.SmartContractOuterClass.SmartContract;
 import org.zeromq.ZMQ;
 import stest.tron.wallet.common.client.Configuration;

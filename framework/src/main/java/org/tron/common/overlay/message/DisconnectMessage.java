@@ -1,6 +1,6 @@
 package org.tron.common.overlay.message;
 
-import org.tron.core.net.message.MessageTypes;
+import org.stabila.core.net.message.MessageTypes;
 import org.tron.protos.Protocol;
 import org.tron.protos.Protocol.ReasonCode;
 

@@ -5,7 +5,7 @@ import io.grpc.ManagedChannelBuilder;
 import org.tron.api.TronZksnarkGrpc;
 import org.tron.api.ZksnarkGrpcAPI.ZksnarkRequest;
 import org.tron.api.ZksnarkGrpcAPI.ZksnarkResponse.Code;
-import org.tron.core.capsule.TransactionCapsule;
+import org.stabila.core.capsule.TransactionCapsule;
 import org.tron.protos.Protocol.Transaction;
 
 public class ZksnarkClient {

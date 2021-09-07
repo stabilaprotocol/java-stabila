@@ -9,10 +9,10 @@ import org.testng.Assert;
 import org.tron.common.runtime.TVMTestResult;
 import org.tron.common.runtime.TvmTestUtils;
 import org.tron.common.utils.WalletUtil;
-import org.tron.core.exception.ContractExeException;
-import org.tron.core.exception.ContractValidateException;
-import org.tron.core.exception.ReceiptCheckErrException;
-import org.tron.core.exception.VMIllegalException;
+import org.stabila.core.exception.ContractExeException;
+import org.stabila.core.exception.ContractValidateException;
+import org.stabila.core.exception.ReceiptCheckErrException;
+import org.stabila.core.exception.VMIllegalException;
 import org.tron.protos.Protocol.Transaction;
 import stest.tron.wallet.common.client.utils.AbiUtil;
 

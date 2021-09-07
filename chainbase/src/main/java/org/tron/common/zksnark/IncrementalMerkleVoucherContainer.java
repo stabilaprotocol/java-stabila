@@ -4,9 +4,9 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 import lombok.Getter;
 import lombok.Setter;
-import org.tron.core.capsule.IncrementalMerkleTreeCapsule;
-import org.tron.core.capsule.IncrementalMerkleVoucherCapsule;
-import org.tron.core.exception.ZksnarkException;
+import org.stabila.core.capsule.IncrementalMerkleTreeCapsule;
+import org.stabila.core.capsule.IncrementalMerkleVoucherCapsule;
+import org.stabila.core.exception.ZksnarkException;
 import org.tron.protos.contract.ShieldContract.PedersenHash;
 
 public class IncrementalMerkleVoucherContainer {

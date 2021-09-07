@@ -16,8 +16,7 @@ import org.tron.api.GrpcAPI;
 import org.tron.api.GrpcAPI.EmptyMessage;
 import org.tron.api.GrpcAPI.NumberMessage;
 import org.tron.api.WalletGrpc;
-import org.tron.common.utils.ByteArray;
-import org.tron.core.Wallet;
+import org.stabila.core.Wallet;
 import org.tron.protos.Protocol.Block;
 import org.tron.protos.Protocol.ChainParameters;
 import org.tron.protos.Protocol.Transaction;
@@ -26,7 +25,6 @@ import org.tron.protos.contract.SmartContractOuterClass.SmartContract;
 import stest.tron.wallet.common.client.Configuration;
 import stest.tron.wallet.common.client.Parameter.CommonConstant;
 import stest.tron.wallet.common.client.utils.PublicMethed;
-import stest.tron.wallet.common.client.utils.Sha256Hash;
 
 @Slf4j
 public class TestStorageAndCpu {

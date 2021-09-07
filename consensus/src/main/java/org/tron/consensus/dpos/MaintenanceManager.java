@@ -18,13 +18,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.tron.consensus.ConsensusDelegate;
 import org.tron.consensus.pbft.PbftManager;
-import org.tron.core.capsule.AccountCapsule;
-import org.tron.core.capsule.BlockCapsule;
-import org.tron.core.capsule.VotesCapsule;
-import org.tron.core.capsule.WitnessCapsule;
-import org.tron.core.store.DelegationStore;
-import org.tron.core.store.DynamicPropertiesStore;
-import org.tron.core.store.VotesStore;
+import org.stabila.core.capsule.AccountCapsule;
+import org.stabila.core.capsule.BlockCapsule;
+import org.stabila.core.capsule.VotesCapsule;
+import org.stabila.core.capsule.WitnessCapsule;
+import org.stabila.core.store.DelegationStore;
+import org.stabila.core.store.DynamicPropertiesStore;
+import org.stabila.core.store.VotesStore;
 
 @Slf4j(topic = "consensus")
 @Component

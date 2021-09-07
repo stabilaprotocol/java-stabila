@@ -1,6 +1,6 @@
 package stest.tron.wallet.onlinestress;
 
-import static org.tron.core.config.Parameter.ChainSymbol.TRX_SYMBOL_BYTES;
+import static org.stabila.core.config.Parameter.ChainSymbol.TRX_SYMBOL_BYTES;
 
 import com.google.protobuf.ByteString;
 import io.grpc.ManagedChannel;
@@ -19,7 +19,7 @@ import org.tron.api.WalletGrpc;
 import org.tron.common.crypto.ECKey;
 import org.tron.common.utils.ByteArray;
 import org.tron.common.utils.Utils;
-import org.tron.core.Wallet;
+import org.stabila.core.Wallet;
 import org.tron.protos.Protocol.Account;
 import org.tron.protos.Protocol.Exchange;
 import stest.tron.wallet.common.client.Configuration;

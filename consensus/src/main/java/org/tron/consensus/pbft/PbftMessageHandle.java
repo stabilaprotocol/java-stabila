@@ -29,7 +29,7 @@ import org.tron.consensus.base.Param.Miner;
 import org.tron.consensus.dpos.MaintenanceManager;
 import org.tron.consensus.pbft.message.PbftBaseMessage;
 import org.tron.consensus.pbft.message.PbftMessage;
-import org.tron.core.ChainBaseManager;
+import org.stabila.core.ChainBaseManager;
 import org.tron.protos.Protocol.PBFTMessage.DataType;
 
 @Slf4j(topic = "pbft")

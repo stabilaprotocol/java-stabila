@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 import org.tron.common.overlay.discover.node.Node;
 import org.tron.common.overlay.discover.node.NodeHandler;
 import org.tron.common.overlay.server.TronChannelInitializer;
-import org.tron.core.config.args.Args;
+import org.stabila.core.config.args.Args;
 import org.tron.protos.Protocol.ReasonCode;
 
 @Slf4j(topic = "net")

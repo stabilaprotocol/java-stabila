@@ -3,10 +3,10 @@ package org.tron.common.overlay.discover.node.statistics;
 import lombok.extern.slf4j.Slf4j;
 import org.tron.common.net.udp.message.UdpMessageTypeEnum;
 import org.tron.common.overlay.message.Message;
-import org.tron.core.net.message.FetchInvDataMessage;
-import org.tron.core.net.message.InventoryMessage;
-import org.tron.core.net.message.MessageTypes;
-import org.tron.core.net.message.TransactionsMessage;
+import org.stabila.core.net.message.FetchInvDataMessage;
+import org.stabila.core.net.message.InventoryMessage;
+import org.stabila.core.net.message.MessageTypes;
+import org.stabila.core.net.message.TransactionsMessage;
 
 @Slf4j
 public class MessageStatistics {

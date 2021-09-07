@@ -20,7 +20,7 @@ package org.tron.common.overlay.discover.node.statistics;
 
 import java.util.concurrent.atomic.AtomicLong;
 import lombok.Getter;
-import org.tron.core.config.args.Args;
+import org.stabila.core.config.args.Args;
 import org.tron.protos.Protocol.ReasonCode;
 
 public class NodeStatistics {

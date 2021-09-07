@@ -5,7 +5,7 @@ import java.util.List;
 import lombok.Getter;
 import org.tron.common.utils.ByteArray;
 import org.tron.common.utils.ByteUtil;
-import org.tron.core.exception.ZksnarkException;
+import org.stabila.core.exception.ZksnarkException;
 
 public class MerklePath {
 

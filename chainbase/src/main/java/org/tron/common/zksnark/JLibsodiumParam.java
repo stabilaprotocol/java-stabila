@@ -3,7 +3,7 @@ package org.tron.common.zksnark;
 import lombok.Getter;
 import lombok.Setter;
 import org.tron.common.utils.ByteUtil;
-import org.tron.core.exception.ZksnarkException;
+import org.stabila.core.exception.ZksnarkException;
 
 public class JLibsodiumParam {
 

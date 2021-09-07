@@ -33,6 +33,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.bouncycastle.util.encoders.Hex;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.stabila.core.zen.note.Note;
 import org.testng.Assert;
 import org.tron.api.GrpcAPI;
 import org.tron.api.GrpcAPI.AccountNetMessage;
@@ -74,14 +75,14 @@ import org.tron.common.parameter.CommonParameter;
 import org.tron.common.utils.ByteArray;
 import org.tron.common.utils.ByteUtil;
 import org.tron.common.utils.Commons;
-import org.tron.core.Wallet;
-import org.tron.core.capsule.BlockCapsule.BlockId;
-import org.tron.core.zen.address.DiversifierT;
-import org.tron.core.zen.address.ExpandedSpendingKey;
-import org.tron.core.zen.address.FullViewingKey;
-import org.tron.core.zen.address.IncomingViewingKey;
-import org.tron.core.zen.address.PaymentAddress;
-import org.tron.core.zen.address.SpendingKey;
+import org.stabila.core.Wallet;
+import org.stabila.core.capsule.BlockCapsule.BlockId;
+import org.stabila.core.zen.address.DiversifierT;
+import org.stabila.core.zen.address.ExpandedSpendingKey;
+import org.stabila.core.zen.address.FullViewingKey;
+import org.stabila.core.zen.address.IncomingViewingKey;
+import org.stabila.core.zen.address.PaymentAddress;
+import org.stabila.core.zen.address.SpendingKey;
 import org.tron.keystore.WalletFile;
 import org.tron.protos.Protocol;
 import org.tron.protos.Protocol.Account;
@@ -5789,7 +5790,7 @@ public class PublicMethed {
       SpendNote.Builder spendNoteBuilder = SpendNote.newBuilder();
       spendNoteBuilder.setNote(noteBuild.build());
       try {
-        spendNoteBuilder.setAlpha(ByteString.copyFrom(org.tron.core.zen.note.Note.generateR()));
+        spendNoteBuilder.setAlpha(ByteString.copyFrom(Note.generateR()));
       } catch (Exception e) {
         System.out.println(e);
       }
@@ -5930,7 +5931,7 @@ public class PublicMethed {
       SpendNote.Builder spendNoteBuilder = SpendNote.newBuilder();
       spendNoteBuilder.setNote(noteBuild.build());
       try {
-        spendNoteBuilder.setAlpha(ByteString.copyFrom(org.tron.core.zen.note.Note.generateR()));
+        spendNoteBuilder.setAlpha(ByteString.copyFrom(Note.generateR()));
       } catch (Exception e) {
         System.out.println(e);
       }
@@ -6062,7 +6063,7 @@ public class PublicMethed {
     noteBuild.setPaymentAddress(shieldAddress);
     noteBuild.setValue(shieldAmount);
     try {
-      noteBuild.setRcm(ByteString.copyFrom(org.tron.core.zen.note.Note.generateR()));
+      noteBuild.setRcm(ByteString.copyFrom(Note.generateR()));
     } catch (Exception e) {
       System.out.println(e);
     }
@@ -6508,7 +6509,7 @@ public class PublicMethed {
       SpendNote.Builder spendNoteBuilder = SpendNote.newBuilder();
       spendNoteBuilder.setNote(noteBuild.build());
       try {
-        spendNoteBuilder.setAlpha(ByteString.copyFrom(org.tron.core.zen.note.Note.generateR()));
+        spendNoteBuilder.setAlpha(ByteString.copyFrom(Note.generateR()));
       } catch (Exception e) {
         System.out.println(e);
       }

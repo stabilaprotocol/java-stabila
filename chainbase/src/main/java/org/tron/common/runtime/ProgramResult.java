@@ -17,7 +17,7 @@ import org.tron.common.logsfilter.trigger.ContractTrigger;
 import org.tron.common.runtime.vm.DataWord;
 import org.tron.common.runtime.vm.LogInfo;
 import org.tron.common.utils.ByteArraySet;
-import org.tron.core.capsule.TransactionResultCapsule;
+import org.stabila.core.capsule.TransactionResultCapsule;
 import org.tron.protos.Protocol.Transaction.Result.contractResult;
 
 public class ProgramResult {

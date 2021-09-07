@@ -5,14 +5,14 @@ import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.tron.core.capsule.AccountCapsule;
-import org.tron.core.capsule.WitnessCapsule;
-import org.tron.core.store.AccountStore;
-import org.tron.core.store.DelegationStore;
-import org.tron.core.store.DynamicPropertiesStore;
-import org.tron.core.store.VotesStore;
-import org.tron.core.store.WitnessScheduleStore;
-import org.tron.core.store.WitnessStore;
+import org.stabila.core.capsule.AccountCapsule;
+import org.stabila.core.capsule.WitnessCapsule;
+import org.stabila.core.store.AccountStore;
+import org.stabila.core.store.DelegationStore;
+import org.stabila.core.store.DynamicPropertiesStore;
+import org.stabila.core.store.VotesStore;
+import org.stabila.core.store.WitnessScheduleStore;
+import org.stabila.core.store.WitnessStore;
 
 @Slf4j(topic = "consensus")
 @Component

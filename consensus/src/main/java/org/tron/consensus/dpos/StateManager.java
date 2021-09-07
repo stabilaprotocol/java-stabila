@@ -1,7 +1,7 @@
 package org.tron.consensus.dpos;
 
-import static org.tron.core.config.Parameter.ChainConstant.BLOCK_PRODUCED_INTERVAL;
-import static org.tron.core.config.Parameter.ChainConstant.MAX_ACTIVE_WITNESS_NUM;
+import static org.stabila.core.config.Parameter.ChainConstant.BLOCK_PRODUCED_INTERVAL;
+import static org.stabila.core.config.Parameter.ChainConstant.MAX_ACTIVE_WITNESS_NUM;
 
 import com.google.protobuf.ByteString;
 import java.util.Random;
@@ -13,8 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.tron.consensus.ConsensusDelegate;
 import org.tron.consensus.base.State;
-import org.tron.core.capsule.BlockCapsule;
-import org.tron.core.capsule.BlockCapsule.BlockId;
+import org.stabila.core.capsule.BlockCapsule;
+import org.stabila.core.capsule.BlockCapsule.BlockId;
 
 @Slf4j(topic = "consensus")
 @Component
