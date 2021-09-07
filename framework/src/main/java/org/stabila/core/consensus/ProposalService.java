@@ -2,10 +2,10 @@ package org.stabila.core.consensus;
 
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
-import org.stabila.core.capsule.ProposalCapsule;
-import org.stabila.core.config.Parameter;
-import org.stabila.core.db.Manager;
-import org.stabila.core.utils.ProposalUtil;
+import org.tron.core.capsule.ProposalCapsule;
+import org.tron.core.config.Parameter.ForkBlockVersionEnum;
+import org.tron.core.db.Manager;
+import org.tron.core.utils.ProposalUtil;
 
 /**
  * Notice:
@@ -119,7 +119,7 @@ public class ProposalService extends ProposalUtil {
           if (manager.getDynamicPropertiesStore().getAllowAdaptiveEnergy() == 0) {
             manager.getDynamicPropertiesStore().saveAllowAdaptiveEnergy(entry.getValue());
             if (manager.getChainBaseManager()
-                .getForkController().pass(Parameter.ForkBlockVersionEnum.VERSION_3_6_5)) {
+                .getForkController().pass(ForkBlockVersionEnum.VERSION_3_6_5)) {
               //24 * 60 * 2 . one minute,1/2 total limit.
               manager.getDynamicPropertiesStore().saveAdaptiveResourceLimitTargetRatio(2880);
               manager.getDynamicPropertiesStore().saveTotalEnergyTargetLimit(

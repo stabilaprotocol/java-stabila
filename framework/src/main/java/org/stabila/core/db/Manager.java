@@ -1,8 +1,8 @@
 package org.stabila.core.db;
 
-import static org.stabila.common.utils.Commons.adjustBalance;
-import static org.stabila.protos.Protocol.Transaction.Contract.ContractType.TransferContract;
-import static org.stabila.protos.Protocol.Transaction.Result.contractResult.SUCCESS;
+import static org.tron.common.utils.Commons.adjustBalance;
+import static org.tron.protos.Protocol.Transaction.Contract.ContractType.TransferContract;
+import static org.tron.protos.Protocol.Transaction.Result.contractResult.SUCCESS;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -48,102 +48,107 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.bouncycastle.util.encoders.Hex;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.stabila.core.ChainBaseManager;
-import org.stabila.core.actuator.ActuatorCreator;
-import org.stabila.core.capsule.utils.TransactionUtil;
-import org.stabila.core.db2.core.Chainbase;
-import org.stabila.core.db2.core.IStabilaChainBase;
-import org.stabila.core.db2.core.SnapshotManager;
-import org.stabila.core.service.MortgageService;
-import org.stabila.core.utils.TransactionRegister;
-import org.stabila.common.args.GenesisBlock;
-import org.stabila.common.logsfilter.EventPluginLoader;
-import org.stabila.common.logsfilter.FilterQuery;
-import org.stabila.common.logsfilter.capsule.BlockLogTriggerCapsule;
-import org.stabila.common.logsfilter.capsule.ContractTriggerCapsule;
-import org.stabila.common.logsfilter.capsule.SolidityTriggerCapsule;
-import org.stabila.common.logsfilter.capsule.TransactionLogTriggerCapsule;
-import org.stabila.common.logsfilter.capsule.TriggerCapsule;
-import org.stabila.common.logsfilter.trigger.ContractEventTrigger;
-import org.stabila.common.logsfilter.trigger.ContractLogTrigger;
-import org.stabila.common.logsfilter.trigger.ContractTrigger;
-import org.stabila.common.logsfilter.trigger.Trigger;
-import org.stabila.common.overlay.message.Message;
-import org.stabila.common.parameter.CommonParameter;
-import org.stabila.common.runtime.RuntimeImpl;
-import org.stabila.common.utils.*;
-import org.stabila.common.zksnark.MerkleContainer;
-import org.stabila.consensus.Consensus;
-import org.stabila.consensus.base.Param.Miner;
-import org.stabila.core.Constant;
-import org.stabila.core.capsule.AccountCapsule;
-import org.stabila.core.capsule.BlockBalanceTraceCapsule;
-import org.stabila.core.capsule.BlockCapsule;
-import org.stabila.core.capsule.BytesCapsule;
-import org.stabila.core.capsule.TransactionCapsule;
-import org.stabila.core.capsule.TransactionInfoCapsule;
-import org.stabila.core.capsule.TransactionRetCapsule;
-import org.stabila.core.capsule.WitnessCapsule;
-import org.stabila.core.config.Parameter.ChainConstant;
-import org.stabila.core.config.args.Args;
-import org.stabila.core.consensus.ProposalController;
-import org.stabila.core.db.accountstate.TrieService;
-import org.stabila.core.db.accountstate.callback.AccountStateCallBack;
-import org.stabila.core.db.api.AssetUpdateHelper;
-import org.stabila.core.db.api.MoveAbiHelper;
-import org.stabila.core.db2.ISession;
-import org.stabila.core.exception.AccountResourceInsufficientException;
-import org.stabila.core.exception.BadBlockException;
-import org.stabila.core.exception.BadItemException;
-import org.stabila.core.exception.BadNumberBlockException;
-import org.stabila.core.exception.BalanceInsufficientException;
-import org.stabila.core.exception.ContractExeException;
-import org.stabila.core.exception.ContractSizeNotEqualToOneException;
-import org.stabila.core.exception.ContractValidateException;
-import org.stabila.core.exception.DupTransactionException;
-import org.stabila.core.exception.ItemNotFoundException;
-import org.stabila.core.exception.NonCommonBlockException;
-import org.stabila.core.exception.ReceiptCheckErrException;
-import org.stabila.core.exception.TaposException;
-import org.stabila.core.exception.TooBigTransactionException;
-import org.stabila.core.exception.TooBigTransactionResultException;
-import org.stabila.core.exception.TransactionExpirationException;
-import org.stabila.core.exception.UnLinkedBlockException;
-import org.stabila.core.exception.VMIllegalException;
-import org.stabila.core.exception.ValidateScheduleException;
-import org.stabila.core.exception.ValidateSignatureException;
-import org.stabila.core.exception.ZksnarkException;
-import org.stabila.core.metrics.MetricsKey;
-import org.stabila.core.metrics.MetricsUtil;
-import org.stabila.core.store.AccountAssetStore;
-import org.stabila.core.store.AccountIdIndexStore;
-import org.stabila.core.store.AccountIndexStore;
-import org.stabila.core.store.AccountStore;
-import org.stabila.core.store.AssetIssueStore;
-import org.stabila.core.store.AssetIssueV2Store;
-import org.stabila.core.store.CodeStore;
-import org.stabila.core.store.ContractStore;
-import org.stabila.core.store.DelegatedResourceAccountIndexStore;
-import org.stabila.core.store.DelegatedResourceStore;
-import org.stabila.core.store.DelegationStore;
-import org.stabila.core.store.DynamicPropertiesStore;
-import org.stabila.core.store.ExchangeStore;
-import org.stabila.core.store.ExchangeV2Store;
-import org.stabila.core.store.IncrementalMerkleTreeStore;
-import org.stabila.core.store.NullifierStore;
-import org.stabila.core.store.ProposalStore;
-import org.stabila.core.store.StorageRowStore;
-import org.stabila.core.store.StoreFactory;
-import org.stabila.core.store.TransactionHistoryStore;
-import org.stabila.core.store.TransactionRetStore;
-import org.stabila.core.store.VotesStore;
-import org.stabila.core.store.WitnessScheduleStore;
-import org.stabila.core.store.WitnessStore;
-import org.stabila.protos.Protocol.AccountType;
-import org.stabila.protos.Protocol.Transaction;
-import org.stabila.protos.Protocol.Transaction.Contract;
-import org.stabila.protos.Protocol.TransactionInfo;
-import org.stabila.protos.contract.BalanceContract;
+import org.tron.common.args.GenesisBlock;
+import org.tron.common.logsfilter.EventPluginLoader;
+import org.tron.common.logsfilter.FilterQuery;
+import org.tron.common.logsfilter.capsule.BlockLogTriggerCapsule;
+import org.tron.common.logsfilter.capsule.ContractTriggerCapsule;
+import org.tron.common.logsfilter.capsule.SolidityTriggerCapsule;
+import org.tron.common.logsfilter.capsule.TransactionLogTriggerCapsule;
+import org.tron.common.logsfilter.capsule.TriggerCapsule;
+import org.tron.common.logsfilter.trigger.ContractEventTrigger;
+import org.tron.common.logsfilter.trigger.ContractLogTrigger;
+import org.tron.common.logsfilter.trigger.ContractTrigger;
+import org.tron.common.logsfilter.trigger.Trigger;
+import org.tron.common.overlay.message.Message;
+import org.tron.common.parameter.CommonParameter;
+import org.tron.common.runtime.RuntimeImpl;
+import org.tron.common.utils.ByteArray;
+import org.tron.common.utils.Pair;
+import org.tron.common.utils.SessionOptional;
+import org.tron.common.utils.Sha256Hash;
+import org.tron.common.zksnark.MerkleContainer;
+import org.tron.consensus.Consensus;
+import org.tron.consensus.base.Param.Miner;
+import org.tron.core.ChainBaseManager;
+import org.tron.core.Constant;
+import org.tron.core.actuator.ActuatorCreator;
+import org.tron.core.capsule.AccountCapsule;
+import org.tron.core.capsule.BlockBalanceTraceCapsule;
+import org.tron.core.capsule.BlockCapsule;
+import org.tron.core.capsule.BlockCapsule.BlockId;
+import org.tron.core.capsule.BytesCapsule;
+import org.tron.core.capsule.TransactionCapsule;
+import org.tron.core.capsule.TransactionInfoCapsule;
+import org.tron.core.capsule.TransactionRetCapsule;
+import org.tron.core.capsule.WitnessCapsule;
+import org.tron.core.capsule.utils.TransactionUtil;
+import org.tron.core.config.Parameter.ChainConstant;
+import org.tron.core.config.args.Args;
+import org.tron.core.consensus.ProposalController;
+import org.tron.core.db.KhaosDatabase.KhaosBlock;
+import org.tron.core.db.accountstate.TrieService;
+import org.tron.core.db.accountstate.callback.AccountStateCallBack;
+import org.tron.core.db.api.AssetUpdateHelper;
+import org.tron.core.db.api.MoveAbiHelper;
+import org.tron.core.db2.ISession;
+import org.tron.core.db2.core.Chainbase;
+import org.tron.core.db2.core.ITronChainBase;
+import org.tron.core.db2.core.SnapshotManager;
+import org.tron.core.exception.AccountResourceInsufficientException;
+import org.tron.core.exception.BadBlockException;
+import org.tron.core.exception.BadItemException;
+import org.tron.core.exception.BadNumberBlockException;
+import org.tron.core.exception.BalanceInsufficientException;
+import org.tron.core.exception.ContractExeException;
+import org.tron.core.exception.ContractSizeNotEqualToOneException;
+import org.tron.core.exception.ContractValidateException;
+import org.tron.core.exception.DupTransactionException;
+import org.tron.core.exception.ItemNotFoundException;
+import org.tron.core.exception.NonCommonBlockException;
+import org.tron.core.exception.ReceiptCheckErrException;
+import org.tron.core.exception.TaposException;
+import org.tron.core.exception.TooBigTransactionException;
+import org.tron.core.exception.TooBigTransactionResultException;
+import org.tron.core.exception.TransactionExpirationException;
+import org.tron.core.exception.UnLinkedBlockException;
+import org.tron.core.exception.VMIllegalException;
+import org.tron.core.exception.ValidateScheduleException;
+import org.tron.core.exception.ValidateSignatureException;
+import org.tron.core.exception.ZksnarkException;
+import org.tron.core.metrics.MetricsKey;
+import org.tron.core.metrics.MetricsUtil;
+import org.tron.core.service.MortgageService;
+import org.tron.core.store.AccountAssetStore;
+import org.tron.core.store.AccountIdIndexStore;
+import org.tron.core.store.AccountIndexStore;
+import org.tron.core.store.AccountStore;
+import org.tron.core.store.AssetIssueStore;
+import org.tron.core.store.AssetIssueV2Store;
+import org.tron.core.store.CodeStore;
+import org.tron.core.store.ContractStore;
+import org.tron.core.store.DelegatedResourceAccountIndexStore;
+import org.tron.core.store.DelegatedResourceStore;
+import org.tron.core.store.DelegationStore;
+import org.tron.core.store.DynamicPropertiesStore;
+import org.tron.core.store.ExchangeStore;
+import org.tron.core.store.ExchangeV2Store;
+import org.tron.core.store.IncrementalMerkleTreeStore;
+import org.tron.core.store.NullifierStore;
+import org.tron.core.store.ProposalStore;
+import org.tron.core.store.StorageRowStore;
+import org.tron.core.store.StoreFactory;
+import org.tron.core.store.TransactionHistoryStore;
+import org.tron.core.store.TransactionRetStore;
+import org.tron.core.store.VotesStore;
+import org.tron.core.store.WitnessScheduleStore;
+import org.tron.core.store.WitnessStore;
+import org.tron.core.utils.TransactionRegister;
+import org.tron.protos.Protocol.AccountType;
+import org.tron.protos.Protocol.Transaction;
+import org.tron.protos.Protocol.Transaction.Contract;
+import org.tron.protos.Protocol.TransactionInfo;
+import org.tron.protos.contract.BalanceContract;
 
 
 @Slf4j(topic = "DB")
@@ -742,12 +747,12 @@ public class Manager {
         AccountCapsule accountCapsule = getAccountStore().get(address);
         try {
           if (accountCapsule != null) {
-            Commons.adjustBalance(getAccountStore(), accountCapsule, -fee);
+            adjustBalance(getAccountStore(), accountCapsule, -fee);
 
             if (getDynamicPropertiesStore().supportBlackHoleOptimization()) {
               getDynamicPropertiesStore().burnTrx(fee);
             } else {
-              Commons.adjustBalance(getAccountStore(), this.getAccountStore().getBlackhole(), +fee);
+              adjustBalance(getAccountStore(), this.getAccountStore().getBlackhole(), +fee);
             }
           }
         } catch (BalanceInsufficientException e) {
@@ -843,7 +848,7 @@ public class Manager {
 
     MetricsUtil.meterMark(MetricsKey.BLOCKCHAIN_FORK_COUNT);
 
-    Pair<LinkedList<KhaosDatabase.KhaosBlock>, LinkedList<KhaosDatabase.KhaosBlock>> binaryTree;
+    Pair<LinkedList<KhaosBlock>, LinkedList<KhaosBlock>> binaryTree;
     try {
       binaryTree =
           khaosDb.getBranch(
@@ -872,9 +877,9 @@ public class Manager {
     }
 
     if (CollectionUtils.isNotEmpty(binaryTree.getKey())) {
-      List<KhaosDatabase.KhaosBlock> first = new ArrayList<>(binaryTree.getKey());
+      List<KhaosBlock> first = new ArrayList<>(binaryTree.getKey());
       Collections.reverse(first);
-      for (KhaosDatabase.KhaosBlock item : first) {
+      for (KhaosBlock item : first) {
         Exception exception = null;
         // todo  process the exception carefully later
         try (ISession tmpSession = revokingStore.buildSession()) {
@@ -912,9 +917,9 @@ public class Manager {
               eraseBlock();
             }
 
-            List<KhaosDatabase.KhaosBlock> second = new ArrayList<>(binaryTree.getValue());
+            List<KhaosBlock> second = new ArrayList<>(binaryTree.getValue());
             Collections.reverse(second);
-            for (KhaosDatabase.KhaosBlock khaosBlock : second) {
+            for (KhaosBlock khaosBlock : second) {
               // todo  process the exception carefully later
               try (ISession tmpSession = revokingStore.buildSession()) {
                 applyBlock(khaosBlock.getBlk().setSwitch(true));
@@ -1148,21 +1153,21 @@ public class Manager {
   /**
    * Get the fork branch.
    */
-  public LinkedList<BlockCapsule.BlockId> getBlockChainHashesOnFork(final BlockCapsule.BlockId forkBlockHash)
+  public LinkedList<BlockId> getBlockChainHashesOnFork(final BlockId forkBlockHash)
       throws NonCommonBlockException {
-    final Pair<LinkedList<KhaosDatabase.KhaosBlock>, LinkedList<KhaosDatabase.KhaosBlock>> branch =
+    final Pair<LinkedList<KhaosBlock>, LinkedList<KhaosBlock>> branch =
         this.khaosDb.getBranch(
             getDynamicPropertiesStore().getLatestBlockHeaderHash(), forkBlockHash);
 
-    LinkedList<KhaosDatabase.KhaosBlock> blockCapsules = branch.getValue();
+    LinkedList<KhaosBlock> blockCapsules = branch.getValue();
 
     if (blockCapsules.isEmpty()) {
       logger.info("empty branch {}", forkBlockHash);
       return Lists.newLinkedList();
     }
 
-    LinkedList<BlockCapsule.BlockId> result = blockCapsules.stream()
-        .map(KhaosDatabase.KhaosBlock::getBlk)
+    LinkedList<BlockId> result = blockCapsules.stream()
+        .map(KhaosBlock::getBlk)
         .map(BlockCapsule::getBlockId)
         .collect(Collectors.toCollection(LinkedList::new));
 
@@ -1597,7 +1602,7 @@ public class Manager {
   public void updateFork(BlockCapsule block) {
     int blockVersion = block.getInstance().getBlockHeader().getRawData().getVersion();
     if (blockVersion > ChainConstant.BLOCK_VERSION) {
-      logger.warn("newer block version found: " + blockVersion + ", YOU MUST UPGRADE java-stabila!");
+      logger.warn("newer block version found: " + blockVersion + ", YOU MUST UPGRADE java-tron!");
     }
     chainBaseManager
         .getForkController().update(block);
@@ -1639,7 +1644,7 @@ public class Manager {
     logger.info("******** end to close db ********");
   }
 
-  public void closeOneStore(IStabilaChainBase database) {
+  public void closeOneStore(ITronChainBase database) {
     logger.info("******** begin to close " + database.getName() + " ********");
     try {
       database.close();

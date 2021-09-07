@@ -15,17 +15,17 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-import org.stabila.core.capsule.BlockCapsule;
-import org.stabila.core.net.StabilaNetDelegate;
-import org.stabila.common.overlay.message.HelloMessage;
-import org.stabila.common.overlay.message.Message;
-import org.stabila.common.overlay.server.Channel;
-import org.stabila.common.utils.Pair;
-import org.stabila.common.utils.Sha256Hash;
-import org.stabila.core.Constant;
-import org.stabila.core.config.Parameter.NetConstants;
-import org.stabila.core.net.service.AdvService;
-import org.stabila.core.net.service.SyncService;
+import org.tron.common.overlay.message.HelloMessage;
+import org.tron.common.overlay.message.Message;
+import org.tron.common.overlay.server.Channel;
+import org.tron.common.utils.Pair;
+import org.tron.common.utils.Sha256Hash;
+import org.tron.core.Constant;
+import org.tron.core.capsule.BlockCapsule.BlockId;
+import org.tron.core.config.Parameter.NetConstants;
+import org.tron.core.net.TronNetDelegate;
+import org.tron.core.net.service.AdvService;
+import org.tron.core.net.service.SyncService;
 
 @Slf4j(topic = "net")
 @Component
@@ -33,7 +33,7 @@ import org.stabila.core.net.service.SyncService;
 public class PeerConnection extends Channel {
 
   @Autowired
-  private StabilaNetDelegate stabilaNetDelegate;
+  private TronNetDelegate tronNetDelegate;
 
   @Autowired
   private SyncService syncService;
@@ -62,15 +62,15 @@ public class PeerConnection extends Channel {
   private Map<Item, Long> advInvRequest = new ConcurrentHashMap<>();
 
   @Setter
-  private BlockCapsule.BlockId fastForwardBlock;
+  private BlockId fastForwardBlock;
 
   @Getter
-  private BlockCapsule.BlockId blockBothHave = new BlockCapsule.BlockId();
+  private BlockId blockBothHave = new BlockId();
   @Getter
   private volatile long blockBothHaveUpdateTime = System.currentTimeMillis();
   @Setter
   @Getter
-  private BlockCapsule.BlockId lastSyncBlockId;
+  private BlockId lastSyncBlockId;
   @Setter
   @Getter
   private volatile long remainNum;
@@ -79,16 +79,16 @@ public class PeerConnection extends Channel {
       .maximumSize(2 * NetConstants.SYNC_FETCH_BATCH_NUM).recordStats().build();
   @Setter
   @Getter
-  private Deque<BlockCapsule.BlockId> syncBlockToFetch = new ConcurrentLinkedDeque<>();
+  private Deque<BlockId> syncBlockToFetch = new ConcurrentLinkedDeque<>();
   @Setter
   @Getter
-  private Map<BlockCapsule.BlockId, Long> syncBlockRequested = new ConcurrentHashMap<>();
+  private Map<BlockId, Long> syncBlockRequested = new ConcurrentHashMap<>();
   @Setter
   @Getter
-  private Pair<Deque<BlockCapsule.BlockId>, Long> syncChainRequested = null;
+  private Pair<Deque<BlockId>, Long> syncChainRequested = null;
   @Setter
   @Getter
-  private Set<BlockCapsule.BlockId> syncBlockInProcess = new HashSet<>();
+  private Set<BlockId> syncBlockInProcess = new HashSet<>();
   @Setter
   @Getter
   private volatile boolean needSyncFromPeer = true;
@@ -96,7 +96,7 @@ public class PeerConnection extends Channel {
   @Getter
   private volatile boolean needSyncFromUs = true;
 
-  public void setBlockBothHave(BlockCapsule.BlockId blockId) {
+  public void setBlockBothHave(BlockId blockId) {
     this.blockBothHave = blockId;
     this.blockBothHaveUpdateTime = System.currentTimeMillis();
   }
@@ -114,19 +114,19 @@ public class PeerConnection extends Channel {
   }
 
   public void onConnect() {
-    long headBlockNum = stabilaNetDelegate.getHeadBlockId().getNum();
+    long headBlockNum = tronNetDelegate.getHeadBlockId().getNum();
     long peerHeadBlockNum = getHelloMessage().getHeadBlockId().getNum();
 
     if (peerHeadBlockNum > headBlockNum) {
       needSyncFromUs = false;
-      setStabilaState(StabilaState.SYNCING);
+      setTronState(TronState.SYNCING);
       syncService.startSync(this);
     } else {
       needSyncFromPeer = false;
       if (peerHeadBlockNum == headBlockNum) {
         needSyncFromUs = false;
       }
-      setStabilaState(StabilaState.SYNC_COMPLETED);
+      setTronState(TronState.SYNC_COMPLETED);
     }
   }
 

@@ -1,9 +1,8 @@
 package org.stabila.core.net.message;
 
 import java.util.List;
-
-import org.stabila.core.capsule.BlockCapsule;
-import org.stabila.protos.Protocol.BlockInventory.Type;
+import org.tron.core.capsule.BlockCapsule.BlockId;
+import org.tron.protos.Protocol.BlockInventory.Type;
 
 public class SyncBlockChainMessage extends BlockInventoryMessage {
 
@@ -12,14 +11,14 @@ public class SyncBlockChainMessage extends BlockInventoryMessage {
     this.type = MessageTypes.SYNC_BLOCK_CHAIN.asByte();
   }
 
-  public SyncBlockChainMessage(List<BlockCapsule.BlockId> blockIds) {
+  public SyncBlockChainMessage(List<BlockId> blockIds) {
     super(blockIds, Type.SYNC);
     this.type = MessageTypes.SYNC_BLOCK_CHAIN.asByte();
   }
 
   @Override
   public String toString() {
-    List<BlockCapsule.BlockId> blockIdList = getBlockIds();
+    List<BlockId> blockIdList = getBlockIds();
     StringBuilder sb = new StringBuilder();
     int size = blockIdList.size();
     sb.append(super.toString()).append("size: ").append(size);

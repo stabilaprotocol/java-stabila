@@ -1,7 +1,7 @@
 package org.stabila.core.services.ratelimiter.adapter;
 
-import org.stabila.core.services.ratelimiter.RuntimeData;
-import org.stabila.core.services.ratelimiter.strategy.GlobalPreemptibleStrategy;
+import org.tron.core.services.ratelimiter.RuntimeData;
+import org.tron.core.services.ratelimiter.strategy.GlobalPreemptibleStrategy;
 
 public class GlobalPreemptibleAdapter implements IPreemptibleRateLimiter {
 

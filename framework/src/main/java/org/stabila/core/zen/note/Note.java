@@ -1,22 +1,28 @@
 package org.stabila.core.zen.note;
 
+import static org.tron.core.utils.ZenChainParams.ZC_DIVERSIFIER_SIZE;
+import static org.tron.core.utils.ZenChainParams.ZC_ENCPLAINTEXT_SIZE;
+import static org.tron.core.utils.ZenChainParams.ZC_MEMO_SIZE;
+import static org.tron.core.utils.ZenChainParams.ZC_NOTEPLAINTEXT_LEADING;
+import static org.tron.core.utils.ZenChainParams.ZC_R_SIZE;
+import static org.tron.core.utils.ZenChainParams.ZC_V_SIZE;
+
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import org.stabila.core.utils.ZenChainParams;
-import org.stabila.common.utils.ByteArray;
-import org.stabila.common.zksnark.JLibrustzcash;
-import org.stabila.common.zksnark.LibrustzcashParam.ComputeCmParams;
-import org.stabila.common.zksnark.LibrustzcashParam.ComputeNfParams;
-import org.stabila.common.zksnark.LibrustzcashParam.IvkToPkdParams;
-import org.stabila.core.exception.ZksnarkException;
-import org.stabila.core.zen.address.DiversifierT;
-import org.stabila.core.zen.address.FullViewingKey;
-import org.stabila.core.zen.address.IncomingViewingKey;
-import org.stabila.core.zen.address.PaymentAddress;
+import org.tron.common.utils.ByteArray;
+import org.tron.common.zksnark.JLibrustzcash;
+import org.tron.common.zksnark.LibrustzcashParam.ComputeCmParams;
+import org.tron.common.zksnark.LibrustzcashParam.ComputeNfParams;
+import org.tron.common.zksnark.LibrustzcashParam.IvkToPkdParams;
+import org.tron.core.exception.ZksnarkException;
+import org.tron.core.zen.address.DiversifierT;
+import org.tron.core.zen.address.FullViewingKey;
+import org.tron.core.zen.address.IncomingViewingKey;
+import org.tron.core.zen.address.PaymentAddress;
 
 
 public class Note {
@@ -34,11 +40,11 @@ public class Note {
   @Setter
   private byte[] rcm; // 256
   @Getter
-  private byte[] memo = new byte[ZenChainParams.ZC_MEMO_SIZE];
+  private byte[] memo = new byte[ZC_MEMO_SIZE];
 
   public Note() {
     d = new DiversifierT();
-    rcm = new byte[ZenChainParams.ZC_R_SIZE];
+    rcm = new byte[ZC_R_SIZE];
   }
 
   public Note(PaymentAddress address, long value) throws ZksnarkException {
@@ -77,18 +83,18 @@ public class Note {
       throws ZksnarkException {
     byte[] data = encPlaintext.getData();
 
-    ByteBuffer buffer = ByteBuffer.allocate(ZenChainParams.ZC_V_SIZE);
+    ByteBuffer buffer = ByteBuffer.allocate(ZC_V_SIZE);
     if (encPlaintext.getData()[0] != 0x01) {
       throw new ZksnarkException("lead byte of NotePlaintext is not recognized");
     }
 
     Note ret = new Note();
-    byte[] noteD = new byte[ZenChainParams.ZC_DIVERSIFIER_SIZE];
-    System.arraycopy(data, ZenChainParams.ZC_NOTEPLAINTEXT_LEADING, noteD, 0, ZenChainParams.ZC_DIVERSIFIER_SIZE);
+    byte[] noteD = new byte[ZC_DIVERSIFIER_SIZE];
+    System.arraycopy(data, ZC_NOTEPLAINTEXT_LEADING, noteD, 0, ZC_DIVERSIFIER_SIZE);
     ret.d.setData(noteD);
 
-    byte[] valueLong = new byte[ZenChainParams.ZC_V_SIZE];
-    System.arraycopy(data, ZenChainParams.ZC_NOTEPLAINTEXT_LEADING + ZenChainParams.ZC_DIVERSIFIER_SIZE, valueLong, 0, ZenChainParams.ZC_V_SIZE);
+    byte[] valueLong = new byte[ZC_V_SIZE];
+    System.arraycopy(data, ZC_NOTEPLAINTEXT_LEADING + ZC_DIVERSIFIER_SIZE, valueLong, 0, ZC_V_SIZE);
     for (int i = 0; i < valueLong.length / 2; i++) {
       byte temp = valueLong[i];
       valueLong[i] = valueLong[valueLong.length - 1 - i];
@@ -98,18 +104,18 @@ public class Note {
     buffer.flip();
     ret.value = buffer.getLong();
 
-    byte[] noteRcm = new byte[ZenChainParams.ZC_R_SIZE];
+    byte[] noteRcm = new byte[ZC_R_SIZE];
     System.arraycopy(
-        data, ZenChainParams.ZC_NOTEPLAINTEXT_LEADING + ZenChainParams.ZC_DIVERSIFIER_SIZE + ZenChainParams.ZC_V_SIZE, noteRcm, 0, ZenChainParams.ZC_R_SIZE);
+        data, ZC_NOTEPLAINTEXT_LEADING + ZC_DIVERSIFIER_SIZE + ZC_V_SIZE, noteRcm, 0, ZC_R_SIZE);
     ret.rcm = noteRcm;
 
-    byte[] noteMemo = new byte[ZenChainParams.ZC_MEMO_SIZE];
+    byte[] noteMemo = new byte[ZC_MEMO_SIZE];
     System.arraycopy(
         data,
-        ZenChainParams.ZC_NOTEPLAINTEXT_LEADING + ZenChainParams.ZC_DIVERSIFIER_SIZE + ZenChainParams.ZC_V_SIZE + ZenChainParams.ZC_R_SIZE,
+        ZC_NOTEPLAINTEXT_LEADING + ZC_DIVERSIFIER_SIZE + ZC_V_SIZE + ZC_R_SIZE,
         noteMemo,
         0,
-        ZenChainParams.ZC_MEMO_SIZE);
+        ZC_MEMO_SIZE);
     ret.memo = noteMemo;
 
     return ret;
@@ -173,7 +179,7 @@ public class Note {
     if (ByteArray.isEmpty(memo)) {
       return;
     }
-    int memoSize = memo.length < ZenChainParams.ZC_MEMO_SIZE ? memo.length : ZenChainParams.ZC_MEMO_SIZE;
+    int memoSize = memo.length < ZC_MEMO_SIZE ? memo.length : ZC_MEMO_SIZE;
     System.arraycopy(memo, 0, this.memo, 0, memoSize);
   }
 
@@ -244,7 +250,7 @@ public class Note {
    * construct plain_enc with columns of note
    */
   public NoteEncryption.Encryption.EncPlaintext encode() {
-    ByteBuffer buffer = ByteBuffer.allocate(ZenChainParams.ZC_V_SIZE);
+    ByteBuffer buffer = ByteBuffer.allocate(ZC_V_SIZE);
     buffer.putLong(0, value);
     byte[] valueLong = buffer.array();
     for (int i = 0; i < valueLong.length / 2; i++) {
@@ -253,18 +259,18 @@ public class Note {
       valueLong[valueLong.length - 1 - i] = temp;
     }
 
-    byte[] data = new byte[ZenChainParams.ZC_ENCPLAINTEXT_SIZE];
+    byte[] data = new byte[ZC_ENCPLAINTEXT_SIZE];
     data[0] = 0x01;
-    System.arraycopy(d.getData(), 0, data, ZenChainParams.ZC_NOTEPLAINTEXT_LEADING, ZenChainParams.ZC_DIVERSIFIER_SIZE);
-    System.arraycopy(valueLong, 0, data, ZenChainParams.ZC_NOTEPLAINTEXT_LEADING + ZenChainParams.ZC_DIVERSIFIER_SIZE, ZenChainParams.ZC_V_SIZE);
-    System.arraycopy(rcm, 0, data, ZenChainParams.ZC_NOTEPLAINTEXT_LEADING + ZenChainParams.ZC_DIVERSIFIER_SIZE + ZenChainParams.ZC_V_SIZE,
-        ZenChainParams.ZC_R_SIZE);
+    System.arraycopy(d.getData(), 0, data, ZC_NOTEPLAINTEXT_LEADING, ZC_DIVERSIFIER_SIZE);
+    System.arraycopy(valueLong, 0, data, ZC_NOTEPLAINTEXT_LEADING + ZC_DIVERSIFIER_SIZE, ZC_V_SIZE);
+    System.arraycopy(rcm, 0, data, ZC_NOTEPLAINTEXT_LEADING + ZC_DIVERSIFIER_SIZE + ZC_V_SIZE,
+        ZC_R_SIZE);
     System.arraycopy(
         memo,
         0,
         data,
-        ZenChainParams.ZC_NOTEPLAINTEXT_LEADING + ZenChainParams.ZC_DIVERSIFIER_SIZE + ZenChainParams.ZC_V_SIZE + ZenChainParams.ZC_R_SIZE,
-        ZenChainParams.ZC_MEMO_SIZE);
+        ZC_NOTEPLAINTEXT_LEADING + ZC_DIVERSIFIER_SIZE + ZC_V_SIZE + ZC_R_SIZE,
+        ZC_MEMO_SIZE);
 
     NoteEncryption.Encryption.EncPlaintext ret = new NoteEncryption.Encryption.EncPlaintext();
     ret.setData(data);

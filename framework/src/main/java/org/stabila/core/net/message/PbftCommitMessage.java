@@ -1,9 +1,9 @@
 package org.stabila.core.net.message;
 
-import org.stabila.core.capsule.PbftSignCapsule;
-import org.stabila.protos.Protocol.PBFTCommitResult;
+import org.tron.core.capsule.PbftSignCapsule;
+import org.tron.protos.Protocol.PBFTCommitResult;
 
-public class PbftCommitMessage extends StabilaMessage {
+public class PbftCommitMessage extends TronMessage {
 
   private PbftSignCapsule pbftSignCapsule;
 

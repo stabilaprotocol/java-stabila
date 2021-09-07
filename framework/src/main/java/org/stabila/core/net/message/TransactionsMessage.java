@@ -1,12 +1,11 @@
 package org.stabila.core.net.message;
 
 import java.util.List;
+import org.tron.core.capsule.TransactionCapsule;
+import org.tron.protos.Protocol;
+import org.tron.protos.Protocol.Transaction;
 
-import org.stabila.core.capsule.TransactionCapsule;
-import org.stabila.protos.Protocol;
-import org.stabila.protos.Protocol.Transaction;
-
-public class TransactionsMessage extends StabilaMessage {
+public class TransactionsMessage extends TronMessage {
 
   private Protocol.Transactions transactions;
 

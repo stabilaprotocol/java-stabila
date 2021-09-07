@@ -5,12 +5,11 @@ import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.tron.core.capsule.BlockCapsule.BlockId;
+import org.tron.protos.Protocol;
+import org.tron.protos.Protocol.ChainInventory;
 
-import org.stabila.core.capsule.BlockCapsule;
-import org.stabila.protos.Protocol;
-import org.stabila.protos.Protocol.ChainInventory;
-
-public class ChainInventoryMessage extends StabilaMessage {
+public class ChainInventoryMessage extends TronMessage {
 
   protected ChainInventory chainInventory;
 
@@ -20,7 +19,7 @@ public class ChainInventoryMessage extends StabilaMessage {
     chainInventory = Protocol.ChainInventory.parseFrom(data);
   }
 
-  public ChainInventoryMessage(List<BlockCapsule.BlockId> blockIds, Long remainNum) {
+  public ChainInventoryMessage(List<BlockId> blockIds, Long remainNum) {
     ChainInventory.Builder invBuilder = ChainInventory.newBuilder();
     blockIds.forEach(blockId -> {
       ChainInventory.BlockId.Builder b = ChainInventory.BlockId.newBuilder();
@@ -44,11 +43,11 @@ public class ChainInventoryMessage extends StabilaMessage {
     return chainInventory;
   }
 
-  public List<BlockCapsule.BlockId> getBlockIds() {
+  public List<BlockId> getBlockIds() {
 
     try {
       return getChainInventory().getIdsList().stream()
-          .map(blockId -> new BlockCapsule.BlockId(blockId.getHash(), blockId.getNumber()))
+          .map(blockId -> new BlockId(blockId.getHash(), blockId.getNumber()))
           .collect(Collectors.toCollection(ArrayList::new));
     } catch (Exception e) {
       logger.info("breakPoint");
@@ -62,7 +61,7 @@ public class ChainInventoryMessage extends StabilaMessage {
 
   @Override
   public String toString() {
-    Deque<BlockCapsule.BlockId> blockIdWeGet = new LinkedList<>(getBlockIds());
+    Deque<BlockId> blockIdWeGet = new LinkedList<>(getBlockIds());
     StringBuilder sb = new StringBuilder(super.toString());
     int size = blockIdWeGet.size();
     sb.append("size: ").append(size);

@@ -15,20 +15,21 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.stabila.core.ChainBaseManager;
-import org.stabila.core.db.Manager;
-import org.stabila.core.net.peer.PeerConnection;
-import org.stabila.common.entity.NodeInfo;
-import org.stabila.common.entity.NodeInfo.ConfigNodeInfo;
-import org.stabila.common.entity.NodeInfo.MachineInfo;
-import org.stabila.common.entity.NodeInfo.MachineInfo.DeadLockThreadInfo;
-import org.stabila.common.entity.NodeInfo.MachineInfo.MemoryDescInfo;
-import org.stabila.common.entity.PeerInfo;
-import org.stabila.common.overlay.discover.node.NodeManager;
-import org.stabila.common.overlay.server.SyncPool;
-import org.stabila.common.parameter.CommonParameter;
-import org.stabila.program.Version;
-import org.stabila.protos.Protocol.ReasonCode;
+import org.tron.common.entity.NodeInfo;
+import org.tron.common.entity.NodeInfo.ConfigNodeInfo;
+import org.tron.common.entity.NodeInfo.MachineInfo;
+import org.tron.common.entity.NodeInfo.MachineInfo.DeadLockThreadInfo;
+import org.tron.common.entity.NodeInfo.MachineInfo.MemoryDescInfo;
+import org.tron.common.entity.PeerInfo;
+import org.tron.common.overlay.discover.node.NodeManager;
+import org.tron.common.overlay.server.SyncPool;
+import org.tron.common.parameter.CommonParameter;
+import org.tron.core.ChainBaseManager;
+import org.tron.core.db.Manager;
+import org.tron.core.net.peer.PeerConnection;
+import org.tron.core.services.WitnessProductBlockService.CheatWitnessInfo;
+import org.tron.program.Version;
+import org.tron.protos.Protocol.ReasonCode;
 
 @Component
 public class NodeInfoService {
@@ -141,9 +142,9 @@ public class NodeInfoService {
       peerInfo.setLastSyncBlock(peerConnection.getLastSyncBlockId() == null ? ""
           : peerConnection.getLastSyncBlockId().getString());
       ReasonCode reasonCode = peerConnection.getNodeStatistics()
-          .getStabilaLastLocalDisconnectReason();
+          .getTronLastLocalDisconnectReason();
       peerInfo.setLocalDisconnectReason(reasonCode == null ? "" : reasonCode.toString());
-      reasonCode = peerConnection.getNodeStatistics().getStabilaLastRemoteDisconnectReason();
+      reasonCode = peerConnection.getNodeStatistics().getTronLastRemoteDisconnectReason();
       peerInfo.setRemoteDisconnectReason(reasonCode == null ? "" : reasonCode.toString());
       peerInfo.setNeedSyncFromPeer(peerConnection.isNeedSyncFromPeer());
       peerInfo.setNeedSyncFromUs(peerConnection.isNeedSyncFromUs());
@@ -197,7 +198,7 @@ public class NodeInfoService {
   }
 
   protected void setCheatWitnessInfo(NodeInfo nodeInfo) {
-    for (Entry<String, WitnessProductBlockService.CheatWitnessInfo> entry : witnessProductBlockService.queryCheatWitnessInfo()
+    for (Entry<String, CheatWitnessInfo> entry : witnessProductBlockService.queryCheatWitnessInfo()
         .entrySet()) {
       nodeInfo.getCheatWitnessInfoMap().put(entry.getKey(), entry.getValue().toString());
     }

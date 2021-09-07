@@ -3,8 +3,8 @@ package org.stabila.core.services;
 import java.util.concurrent.Callable;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.stabila.core.db.Manager;
-import org.stabila.core.db2.core.Chainbase;
+import org.tron.core.db.Manager;
+import org.tron.core.db2.core.Chainbase;
 
 @Slf4j(topic = "API")
 public abstract class WalletOnCursor {
@@ -13,7 +13,7 @@ public abstract class WalletOnCursor {
   @Autowired
   private Manager dbManager;
 
-  public <T> T futureGet(StabilaCallable<T> callable) {
+  public <T> T futureGet(TronCallable<T> callable) {
     try {
       dbManager.setCursor(cursor);
       return callable.call();
@@ -31,7 +31,7 @@ public abstract class WalletOnCursor {
     }
   }
 
-  public interface StabilaCallable<T> extends Callable<T> {
+  public interface TronCallable<T> extends Callable<T> {
 
     @Override
     T call();

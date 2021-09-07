@@ -3,10 +3,10 @@ package org.stabila.core.zen.address;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import org.stabila.common.zksnark.JLibrustzcash;
-import org.stabila.core.Constant;
-import org.stabila.core.exception.ZksnarkException;
-import org.stabila.keystore.Wallet;
+import org.tron.common.zksnark.JLibrustzcash;
+import org.tron.core.Constant;
+import org.tron.core.exception.ZksnarkException;
+import org.tron.keystore.Wallet;
 
 @AllArgsConstructor
 public class DiversifierT {

@@ -3,7 +3,7 @@ package org.stabila.core.capsule;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
 import lombok.extern.slf4j.Slf4j;
-import org.stabila.protos.contract.ShieldContract.SpendDescription;
+import org.tron.protos.contract.ShieldContract.SpendDescription;
 
 @Slf4j(topic = "capsule")
 public class SpendDescriptionCapsule implements ProtoCapsule<SpendDescription> {

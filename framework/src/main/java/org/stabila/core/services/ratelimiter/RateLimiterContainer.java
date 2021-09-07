@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import lombok.Getter;
 import org.springframework.stereotype.Component;
-import org.stabila.core.services.ratelimiter.adapter.IRateLimiter;
+import org.tron.core.services.ratelimiter.adapter.IRateLimiter;
 
 @Component
 public class RateLimiterContainer {

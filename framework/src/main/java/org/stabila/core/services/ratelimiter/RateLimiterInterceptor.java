@@ -16,16 +16,16 @@ import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.stabila.core.config.args.Args;
-import org.stabila.core.metrics.MetricsKey;
-import org.stabila.core.metrics.MetricsUtil;
-import org.stabila.common.parameter.RateLimiterInitialization.RpcRateLimiterItem;
-import org.stabila.core.services.ratelimiter.adapter.DefaultBaseQqsAdapter;
-import org.stabila.core.services.ratelimiter.adapter.GlobalPreemptibleAdapter;
-import org.stabila.core.services.ratelimiter.adapter.IPQPSRateLimiterAdapter;
-import org.stabila.core.services.ratelimiter.adapter.IPreemptibleRateLimiter;
-import org.stabila.core.services.ratelimiter.adapter.IRateLimiter;
-import org.stabila.core.services.ratelimiter.adapter.QpsRateLimiterAdapter;
+import org.tron.common.parameter.RateLimiterInitialization.RpcRateLimiterItem;
+import org.tron.core.config.args.Args;
+import org.tron.core.metrics.MetricsKey;
+import org.tron.core.metrics.MetricsUtil;
+import org.tron.core.services.ratelimiter.adapter.DefaultBaseQqsAdapter;
+import org.tron.core.services.ratelimiter.adapter.GlobalPreemptibleAdapter;
+import org.tron.core.services.ratelimiter.adapter.IPQPSRateLimiterAdapter;
+import org.tron.core.services.ratelimiter.adapter.IPreemptibleRateLimiter;
+import org.tron.core.services.ratelimiter.adapter.IRateLimiter;
+import org.tron.core.services.ratelimiter.adapter.QpsRateLimiterAdapter;
 
 
 @Slf4j
@@ -71,19 +71,19 @@ public class RateLimiterInterceptor implements ServerInterceptor {
         Constructor constructor;
         switch (cName) {
           case "GlobalPreemptibleAdapter":
-            cls = GlobalPreemptibleAdapter.class;
+            cls = org.tron.core.services.ratelimiter.adapter.GlobalPreemptibleAdapter.class;
             constructor = cls.getConstructor(String.class);
             obj = constructor.newInstance(params);
             container.add(KEY_PREFIX_RPC, component, (IRateLimiter) obj);
             break;
           case "QpsRateLimiterAdapter":
-            cls = QpsRateLimiterAdapter.class;
+            cls = org.tron.core.services.ratelimiter.adapter.QpsRateLimiterAdapter.class;
             constructor = cls.getConstructor(String.class);
             obj = constructor.newInstance(params);
             container.add(KEY_PREFIX_RPC, component, (IRateLimiter) obj);
             break;
           case "IPQPSRateLimiterAdapter":
-            cls = IPQPSRateLimiterAdapter.class;
+            cls = org.tron.core.services.ratelimiter.adapter.IPQPSRateLimiterAdapter.class;
             constructor = cls.getConstructor(String.class);
             obj = constructor.newInstance(params);
             container.add(KEY_PREFIX_RPC, component, (IRateLimiter) obj);
@@ -116,13 +116,13 @@ public class RateLimiterInterceptor implements ServerInterceptor {
       acquireResource = rateLimiter.acquire(new RuntimeData(call));
     }
 
-    Listener<ReqT> listener = new ServerCall.Listener<ReqT>() {
+    Listener<ReqT> listener = new Listener<ReqT>() {
     };
 
     try {
       if (acquireResource) {
         call.setMessageCompression(true);
-        ServerCall.Listener<ReqT> delegate = next.startCall(call, headers);
+        Listener<ReqT> delegate = next.startCall(call, headers);
 
         listener = new SimpleForwardingServerCallListener<ReqT>(delegate) {
           @Override

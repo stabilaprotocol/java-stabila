@@ -7,13 +7,13 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
-public abstract class AbstractIterator<T> implements Iterator<Map.Entry<byte[], T>> {
+public abstract class AbstractIterator<T> implements Iterator<Entry<byte[], T>> {
 
-  protected Iterator<Map.Entry<byte[], byte[]>> iterator;
+  protected Iterator<Entry<byte[], byte[]>> iterator;
   private TypeToken<T> typeToken = new TypeToken<T>(getClass()) {
   };
 
-  public AbstractIterator(Iterator<Map.Entry<byte[], byte[]>> iterator) {
+  public AbstractIterator(Iterator<Entry<byte[], byte[]>> iterator) {
     this.iterator = iterator;
   }
 
@@ -34,7 +34,7 @@ public abstract class AbstractIterator<T> implements Iterator<Map.Entry<byte[], 
   }
 
   @Override
-  public Map.Entry<byte[], T> next() {
+  public Entry<byte[], T> next() {
     Entry<byte[], byte[]> entry = iterator.next();
     return Maps.immutableEntry(entry.getKey(), of(entry.getValue()));
   }

@@ -1,7 +1,7 @@
 package org.stabila.core.metrics.net;
 
 import lombok.Data;
-import org.stabila.protos.Protocol;
+import org.tron.protos.Protocol;
 
 @Data
 public class RateInfo {

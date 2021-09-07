@@ -1,6 +1,6 @@
 package org.stabila.core.db.api;
 
-import static org.stabila.core.config.Parameter.ChainSymbol.TRX_SYMBOL_BYTES;
+import static org.tron.core.config.Parameter.ChainSymbol.TRX_SYMBOL_BYTES;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,15 +10,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import lombok.extern.slf4j.Slf4j;
-import org.stabila.core.ChainBaseManager;
-import org.stabila.common.utils.ByteArray;
-import org.stabila.core.capsule.AccountCapsule;
-import org.stabila.core.capsule.AssetIssueCapsule;
-import org.stabila.core.capsule.BlockCapsule;
-import org.stabila.core.capsule.ExchangeCapsule;
-import org.stabila.core.capsule.TransactionCapsule;
-import org.stabila.protos.Protocol.Transaction.Contract.ContractType;
-import org.stabila.protos.contract.AssetIssueContractOuterClass.AssetIssueContract;
+import org.tron.common.utils.ByteArray;
+import org.tron.core.ChainBaseManager;
+import org.tron.core.capsule.AccountCapsule;
+import org.tron.core.capsule.AssetIssueCapsule;
+import org.tron.core.capsule.BlockCapsule;
+import org.tron.core.capsule.ExchangeCapsule;
+import org.tron.core.capsule.TransactionCapsule;
+import org.tron.protos.Protocol.Transaction.Contract.ContractType;
+import org.tron.protos.contract.AssetIssueContractOuterClass.AssetIssueContract;
 
 @Slf4j(topic = "DB")
 public class AssetUpdateHelper {
@@ -156,7 +156,7 @@ public class AssetUpdateHelper {
       accountCapsule.clearAssetV2();
       if (accountCapsule.getAssetMap().size() != 0) {
         HashMap<String, Long> map = new HashMap<>();
-        for (Map.Entry<String, Long> entry : accountCapsule.getAssetMap().entrySet()) {
+        for (Entry<String, Long> entry : accountCapsule.getAssetMap().entrySet()) {
           map.put(ByteArray.toStr(assetNameToIdMap.get(entry.getKey())), entry.getValue());
         }
 
@@ -166,7 +166,7 @@ public class AssetUpdateHelper {
       accountCapsule.clearFreeAssetNetUsageV2();
       if (accountCapsule.getAllFreeAssetNetUsage().size() != 0) {
         HashMap<String, Long> map = new HashMap<>();
-        for (Map.Entry<String, Long> entry : accountCapsule.getAllFreeAssetNetUsage().entrySet()) {
+        for (Entry<String, Long> entry : accountCapsule.getAllFreeAssetNetUsage().entrySet()) {
           map.put(ByteArray.toStr(assetNameToIdMap.get(entry.getKey())), entry.getValue());
         }
         accountCapsule.addAllFreeAssetNetUsageV2(map);
@@ -175,7 +175,7 @@ public class AssetUpdateHelper {
       accountCapsule.clearLatestAssetOperationTimeV2();
       if (accountCapsule.getLatestAssetOperationTimeMap().size() != 0) {
         HashMap<String, Long> map = new HashMap<>();
-        for (Map.Entry<String, Long> entry :
+        for (Entry<String, Long> entry :
             accountCapsule.getLatestAssetOperationTimeMap().entrySet()) {
           map.put(ByteArray.toStr(assetNameToIdMap.get(entry.getKey())), entry.getValue());
         }

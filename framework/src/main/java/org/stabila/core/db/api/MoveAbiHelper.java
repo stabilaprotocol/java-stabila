@@ -4,10 +4,11 @@ import java.util.Iterator;
 import java.util.Map;
 
 import lombok.extern.slf4j.Slf4j;
-import org.stabila.core.ChainBaseManager;
-import org.stabila.core.capsule.ContractCapsule;
-import org.stabila.core.store.AbiStore;
-import org.stabila.core.store.ContractStore;
+import org.tron.core.ChainBaseManager;
+import org.tron.core.capsule.AbiCapsule;
+import org.tron.core.capsule.ContractCapsule;
+import org.tron.core.store.AbiStore;
+import org.tron.core.store.ContractStore;
 
 @Slf4j(topic = "DB")
 public class MoveAbiHelper {

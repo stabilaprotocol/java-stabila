@@ -1,8 +1,8 @@
 package org.stabila.core.db.accountstate;
 
 import lombok.extern.slf4j.Slf4j;
-import org.stabila.common.utils.StringUtil;
-import org.stabila.protos.Protocol.Account;
+import org.tron.common.utils.StringUtil;
+import org.tron.protos.Protocol.Account;
 
 @Slf4j(topic = "AccountState")
 public class AccountStateEntity {

@@ -6,26 +6,26 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.stabila.core.capsule.BlockCapsule;
-import org.stabila.core.net.StabilaNetDelegate;
-import org.stabila.core.net.message.ChainInventoryMessage;
-import org.stabila.core.net.message.SyncBlockChainMessage;
-import org.stabila.core.net.message.StabilaMessage;
-import org.stabila.core.net.peer.PeerConnection;
-import org.stabila.core.config.Parameter.NetConstants;
-import org.stabila.core.exception.P2pException;
-import org.stabila.core.exception.P2pException.TypeEnum;
-import org.stabila.protos.Protocol;
+import org.tron.core.capsule.BlockCapsule.BlockId;
+import org.tron.core.config.Parameter.NetConstants;
+import org.tron.core.exception.P2pException;
+import org.tron.core.exception.P2pException.TypeEnum;
+import org.tron.core.net.TronNetDelegate;
+import org.tron.core.net.message.ChainInventoryMessage;
+import org.tron.core.net.message.SyncBlockChainMessage;
+import org.tron.core.net.message.TronMessage;
+import org.tron.core.net.peer.PeerConnection;
+import org.tron.protos.Protocol;
 
 @Slf4j(topic = "net")
 @Component
-public class SyncBlockChainMsgHandler implements StabilaMsgHandler {
+public class SyncBlockChainMsgHandler implements TronMsgHandler {
 
   @Autowired
-  private StabilaNetDelegate stabilaNetDelegate;
+  private TronNetDelegate tronNetDelegate;
 
   @Override
-  public void processMessage(PeerConnection peer, StabilaMessage msg) throws P2pException {
+  public void processMessage(PeerConnection peer, TronMessage msg) throws P2pException {
 
     SyncBlockChainMessage syncBlockChainMessage = (SyncBlockChainMessage) msg;
 
@@ -33,9 +33,9 @@ public class SyncBlockChainMsgHandler implements StabilaMsgHandler {
 
     long remainNum = 0;
 
-    List<BlockCapsule.BlockId> summaryChainIds = syncBlockChainMessage.getBlockIds();
+    List<BlockId> summaryChainIds = syncBlockChainMessage.getBlockIds();
 
-    LinkedList<BlockCapsule.BlockId> blockIds = getLostBlockIds(summaryChainIds);
+    LinkedList<BlockId> blockIds = getLostBlockIds(summaryChainIds);
 
     if (blockIds.size() == 0) {
       logger.error("Can't get lost block Ids.");
@@ -45,7 +45,7 @@ public class SyncBlockChainMsgHandler implements StabilaMsgHandler {
       peer.setNeedSyncFromUs(false);
     } else {
       peer.setNeedSyncFromUs(true);
-      remainNum = stabilaNetDelegate.getHeadBlockId().getNum() - blockIds.peekLast().getNum();
+      remainNum = tronNetDelegate.getHeadBlockId().getNum() - blockIds.peekLast().getNum();
     }
 
     peer.setLastSyncBlockId(blockIds.peekLast());
@@ -54,23 +54,23 @@ public class SyncBlockChainMsgHandler implements StabilaMsgHandler {
   }
 
   private void check(PeerConnection peer, SyncBlockChainMessage msg) throws P2pException {
-    List<BlockCapsule.BlockId> blockIds = msg.getBlockIds();
+    List<BlockId> blockIds = msg.getBlockIds();
     if (CollectionUtils.isEmpty(blockIds)) {
       throw new P2pException(TypeEnum.BAD_MESSAGE, "SyncBlockChain blockIds is empty");
     }
 
-    BlockCapsule.BlockId firstId = blockIds.get(0);
-    if (!stabilaNetDelegate.containBlockInMainChain(firstId)) {
+    BlockId firstId = blockIds.get(0);
+    if (!tronNetDelegate.containBlockInMainChain(firstId)) {
       throw new P2pException(TypeEnum.BAD_MESSAGE, "No first block:" + firstId.getString());
     }
 
-    long headNum = stabilaNetDelegate.getHeadBlockId().getNum();
+    long headNum = tronNetDelegate.getHeadBlockId().getNum();
     if (firstId.getNum() > headNum) {
       throw new P2pException(TypeEnum.BAD_MESSAGE,
           "First blockNum:" + firstId.getNum() + " gt my head BlockNum:" + headNum);
     }
 
-    BlockCapsule.BlockId lastSyncBlockId = peer.getLastSyncBlockId();
+    BlockId lastSyncBlockId = peer.getLastSyncBlockId();
     long lastNum = blockIds.get(blockIds.size() - 1).getNum();
     if (lastSyncBlockId != null && lastSyncBlockId.getNum() > lastNum) {
       throw new P2pException(TypeEnum.BAD_MESSAGE,
@@ -78,11 +78,11 @@ public class SyncBlockChainMsgHandler implements StabilaMsgHandler {
     }
   }
 
-  private LinkedList<BlockCapsule.BlockId> getLostBlockIds(List<BlockCapsule.BlockId> blockIds) throws P2pException {
+  private LinkedList<BlockId> getLostBlockIds(List<BlockId> blockIds) throws P2pException {
 
-    BlockCapsule.BlockId unForkId = null;
+    BlockId unForkId = null;
     for (int i = blockIds.size() - 1; i >= 0; i--) {
-      if (stabilaNetDelegate.containBlockInMainChain(blockIds.get(i))) {
+      if (tronNetDelegate.containBlockInMainChain(blockIds.get(i))) {
         unForkId = blockIds.get(i);
         break;
       }
@@ -92,12 +92,12 @@ public class SyncBlockChainMsgHandler implements StabilaMsgHandler {
       throw new P2pException(TypeEnum.SYNC_FAILED, "unForkId is null");
     }
 
-    long len = Math.min(stabilaNetDelegate.getHeadBlockId().getNum(),
+    long len = Math.min(tronNetDelegate.getHeadBlockId().getNum(),
         unForkId.getNum() + NetConstants.SYNC_FETCH_BATCH_NUM);
 
-    LinkedList<BlockCapsule.BlockId> ids = new LinkedList<>();
+    LinkedList<BlockId> ids = new LinkedList<>();
     for (long i = unForkId.getNum(); i <= len; i++) {
-      BlockCapsule.BlockId id = stabilaNetDelegate.getBlockIdByNum(i);
+      BlockId id = tronNetDelegate.getBlockIdByNum(i);
       ids.add(id);
     }
     return ids;

@@ -143,7 +143,7 @@ public class HttpSelfFormatFieldName {
     //UpdateBrokerageContract
     AddressFieldNameMap.put("protocol.UpdateBrokerageContract.owner_address", 1);
 
-    //***** Stabila.proto *****
+    //***** Tron.proto *****
     //AccountId
     AddressFieldNameMap.put("protocol.AccountId.address", 1);
     //Vote
@@ -229,7 +229,7 @@ public class HttpSelfFormatFieldName {
     //ExchangeTransactionContract
     NameFieldNameMap.put("protocol.ExchangeTransactionContract.token_id", 1);
 
-    //***** Stabila.proto *****
+    //***** Tron.proto *****
     //AccountId
     NameFieldNameMap.put("protocol.AccountId.name", 1);
     //Exchange

@@ -19,14 +19,14 @@ package org.stabila.core.zen.address;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
-import org.stabila.common.utils.Bech32;
-import org.stabila.common.utils.Bech32.Bech32Data;
+import org.tron.common.utils.Bech32;
+import org.tron.common.utils.Bech32.Bech32Data;
 
 
 public class KeyIo {
 
   private static int CONVERTED_SAPLING_PAYMENT_ADDRESS_SIZE = ((32 + 11) * 8 + 4) / 5;
-  private static String SAPLING_PAYMENT_ADDRESS = "zstabila";
+  private static String SAPLING_PAYMENT_ADDRESS = "ztron";
 
   public static PaymentAddress decodePaymentAddress(String str) {
     byte[] data;

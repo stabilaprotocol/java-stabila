@@ -1,10 +1,12 @@
 package org.stabila.core.net.message;
 
-import org.stabila.core.capsule.BlockCapsule;
-import org.stabila.core.capsule.TransactionCapsule;
-import org.stabila.common.utils.Sha256Hash;
+import org.tron.common.overlay.message.Message;
+import org.tron.common.utils.Sha256Hash;
+import org.tron.core.capsule.BlockCapsule;
+import org.tron.core.capsule.BlockCapsule.BlockId;
+import org.tron.core.capsule.TransactionCapsule;
 
-public class BlockMessage extends StabilaMessage {
+public class BlockMessage extends TronMessage {
 
   private BlockCapsule block;
 
@@ -12,8 +14,8 @@ public class BlockMessage extends StabilaMessage {
     super(data);
     this.type = MessageTypes.BLOCK.asByte();
     this.block = new BlockCapsule(getCodedInputStream(data));
-    if (isFilter()) {
-      compareBytes(data, block.getInstance().toByteArray());
+    if (Message.isFilter()) {
+      Message.compareBytes(data, block.getInstance().toByteArray());
       TransactionCapsule.validContractProto(block.getInstance().getTransactionsList());
     }
   }
@@ -24,7 +26,7 @@ public class BlockMessage extends StabilaMessage {
     this.block = block;
   }
 
-  public BlockCapsule.BlockId getBlockId() {
+  public BlockId getBlockId() {
     return getBlockCapsule().getBlockId();
   }
 

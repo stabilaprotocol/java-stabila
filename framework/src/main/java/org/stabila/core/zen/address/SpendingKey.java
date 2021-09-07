@@ -5,15 +5,15 @@ import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import org.stabila.common.utils.ByteArray;
-import org.stabila.common.zksnark.JLibrustzcash;
-import org.stabila.common.zksnark.JLibsodium;
-import org.stabila.common.zksnark.JLibsodiumParam.Blake2bFinalParams;
-import org.stabila.common.zksnark.JLibsodiumParam.Blake2bInitSaltPersonalParams;
-import org.stabila.common.zksnark.JLibsodiumParam.Blake2bUpdateParams;
-import org.stabila.core.Constant;
-import org.stabila.core.exception.BadItemException;
-import org.stabila.core.exception.ZksnarkException;
+import org.tron.common.utils.ByteArray;
+import org.tron.common.zksnark.JLibrustzcash;
+import org.tron.common.zksnark.JLibsodium;
+import org.tron.common.zksnark.JLibsodiumParam.Blake2bFinalParams;
+import org.tron.common.zksnark.JLibsodiumParam.Blake2bInitSaltPersonalParams;
+import org.tron.common.zksnark.JLibsodiumParam.Blake2bUpdateParams;
+import org.tron.core.Constant;
+import org.tron.core.exception.BadItemException;
+import org.tron.core.exception.ZksnarkException;
 
 @AllArgsConstructor
 public class SpendingKey {
@@ -80,7 +80,7 @@ public class SpendingKey {
       try {
         JLibsodium.cryptoGenerichashBlake2bInitSaltPersonal(
             new Blake2bInitSaltPersonalParams(state, null, 0, 64, null,
-                Constant.ZSTABILA_EXPANDSEED_PERSONALIZATION));
+                Constant.ZTRON_EXPANDSEED_PERSONALIZATION));
         JLibsodium.cryptoGenerichashBlake2bUpdate(new Blake2bUpdateParams(state, blob, 34));
         JLibsodium.cryptoGenerichashBlake2bFinal(new Blake2bFinalParams(state, res, 11));
         if (JLibrustzcash.librustzcashCheckDiversifier(res)) {
@@ -134,7 +134,7 @@ public class SpendingKey {
       try {
         JLibsodium.cryptoGenerichashBlake2bInitSaltPersonal(new Blake2bInitSaltPersonalParams(
             state, null, 0, 64, null,
-            Constant.ZSTABILA_EXPANDSEED_PERSONALIZATION));
+            Constant.ZTRON_EXPANDSEED_PERSONALIZATION));
         JLibsodium.cryptoGenerichashBlake2bUpdate(new Blake2bUpdateParams(state, blob, 33));
         JLibsodium.cryptoGenerichashBlake2bFinal(new Blake2bFinalParams(state, res, 64));
       } finally {

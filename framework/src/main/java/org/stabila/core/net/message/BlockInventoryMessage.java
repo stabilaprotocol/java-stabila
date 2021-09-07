@@ -3,12 +3,11 @@ package org.stabila.core.net.message;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.tron.core.capsule.BlockCapsule.BlockId;
+import org.tron.protos.Protocol;
+import org.tron.protos.Protocol.BlockInventory;
 
-import org.stabila.core.capsule.BlockCapsule;
-import org.stabila.protos.Protocol;
-import org.stabila.protos.Protocol.BlockInventory;
-
-public class BlockInventoryMessage extends StabilaMessage {
+public class BlockInventoryMessage extends TronMessage {
 
   protected BlockInventory blockInventory;
 
@@ -18,7 +17,7 @@ public class BlockInventoryMessage extends StabilaMessage {
     this.blockInventory = Protocol.BlockInventory.parseFrom(data);
   }
 
-  public BlockInventoryMessage(List<BlockCapsule.BlockId> blockIds, BlockInventory.Type type) {
+  public BlockInventoryMessage(List<BlockId> blockIds, BlockInventory.Type type) {
     BlockInventory.Builder invBuilder = BlockInventory.newBuilder();
     blockIds.forEach(blockId -> {
       BlockInventory.BlockId.Builder b = BlockInventory.BlockId.newBuilder();
@@ -42,9 +41,9 @@ public class BlockInventoryMessage extends StabilaMessage {
     return blockInventory;
   }
 
-  public List<BlockCapsule.BlockId> getBlockIds() {
+  public List<BlockId> getBlockIds() {
     return getBlockInventory().getIdsList().stream()
-        .map(blockId -> new BlockCapsule.BlockId(blockId.getHash(), blockId.getNumber()))
+        .map(blockId -> new BlockId(blockId.getHash(), blockId.getNumber()))
         .collect(Collectors.toCollection(ArrayList::new));
   }
 

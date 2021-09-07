@@ -1,10 +1,11 @@
 package org.stabila.core.net.message;
 
-import org.stabila.core.capsule.TransactionCapsule;
-import org.stabila.common.utils.Sha256Hash;
-import org.stabila.protos.Protocol.Transaction;
+import org.tron.common.overlay.message.Message;
+import org.tron.common.utils.Sha256Hash;
+import org.tron.core.capsule.TransactionCapsule;
+import org.tron.protos.Protocol.Transaction;
 
-public class TransactionMessage extends StabilaMessage {
+public class TransactionMessage extends TronMessage {
 
   private TransactionCapsule transactionCapsule;
 
@@ -12,7 +13,7 @@ public class TransactionMessage extends StabilaMessage {
     super(data);
     this.transactionCapsule = new TransactionCapsule(getCodedInputStream(data));
     this.type = MessageTypes.TRX.asByte();
-    if (isFilter()) {
+    if (Message.isFilter()) {
       compareBytes(data, transactionCapsule.getInstance().toByteArray());
       transactionCapsule
           .validContractProto(transactionCapsule.getInstance().getRawData().getContract(0));

@@ -9,11 +9,11 @@ import javax.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.stabila.core.Wallet;
-import org.stabila.api.GrpcAPI.NumberMessage;
-import org.stabila.api.GrpcAPI.TransactionInfoList;
-import org.stabila.protos.Protocol.TransactionInfo;
-import org.stabila.protos.Protocol.TransactionInfo.Log;
+import org.tron.api.GrpcAPI.NumberMessage;
+import org.tron.api.GrpcAPI.TransactionInfoList;
+import org.tron.core.Wallet;
+import org.tron.protos.Protocol.TransactionInfo;
+import org.tron.protos.Protocol.TransactionInfo.Log;
 
 @Component
 @Slf4j(topic = "API")
@@ -22,10 +22,10 @@ public class GetTransactionInfoByBlockNumServlet extends RateLimiterServlet {
   @Autowired
   private Wallet wallet;
 
-  private JSONObject convertLogAddressToStabilaAddress(TransactionInfo transactionInfo,
+  private JSONObject convertLogAddressToTronAddress(TransactionInfo transactionInfo,
       boolean visible) {
     if (visible) {
-      List<Log> newLogList = Util.convertLogAddressToStabilaAddress(transactionInfo);
+      List<Log> newLogList = Util.convertLogAddressToTronAddress(transactionInfo);
       transactionInfo = transactionInfo.toBuilder().clearLog().addAllLog(newLogList).build();
     }
 
@@ -35,7 +35,7 @@ public class GetTransactionInfoByBlockNumServlet extends RateLimiterServlet {
   private String printTransactionInfoList(TransactionInfoList list, boolean selfType) {
     JSONArray jsonArray = new JSONArray();
     for (TransactionInfo transactionInfo : list.getTransactionInfoList()) {
-      jsonArray.add(convertLogAddressToStabilaAddress(transactionInfo, selfType));
+      jsonArray.add(convertLogAddressToTronAddress(transactionInfo, selfType));
     }
     return jsonArray.toJSONString();
   }

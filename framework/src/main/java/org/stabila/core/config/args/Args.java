@@ -2,9 +2,9 @@ package org.stabila.core.config.args;
 
 import static java.lang.Math.max;
 import static java.lang.System.exit;
-import static org.stabila.core.Constant.ADD_PRE_FIX_BYTE_MAINNET;
-import static org.stabila.core.config.Parameter.ChainConstant.BLOCK_PRODUCE_TIMEOUT_PERCENT;
-import static org.stabila.core.config.Parameter.ChainConstant.MAX_ACTIVE_WITNESS_NUM;
+import static org.tron.core.Constant.ADD_PRE_FIX_BYTE_MAINNET;
+import static org.tron.core.config.Parameter.ChainConstant.BLOCK_PRODUCE_TIMEOUT_PERCENT;
+import static org.tron.core.config.Parameter.ChainConstant.MAX_ACTIVE_WITNESS_NUM;
 
 import com.beust.jcommander.JCommander;
 import com.typesafe.config.Config;
@@ -36,35 +36,35 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.stabila.core.Wallet;
-import org.stabila.core.store.AccountStore;
-import org.stabila.common.args.Account;
-import org.stabila.common.args.GenesisBlock;
-import org.stabila.common.args.Witness;
-import org.stabila.common.config.DbBackupConfig;
-import org.stabila.common.crypto.SignInterface;
-import org.stabila.common.logsfilter.EventPluginConfig;
-import org.stabila.common.logsfilter.FilterQuery;
-import org.stabila.common.logsfilter.TriggerConfig;
-import org.stabila.common.logsfilter.trigger.ContractEventTrigger;
-import org.stabila.common.logsfilter.trigger.ContractLogTrigger;
-import org.stabila.common.overlay.discover.node.Node;
-import org.stabila.common.parameter.CommonParameter;
-import org.stabila.common.parameter.RateLimiterInitialization;
-import org.stabila.common.setting.RocksDbSettings;
-import org.stabila.common.utils.ByteArray;
-import org.stabila.common.utils.Commons;
-import org.stabila.common.utils.FileUtil;
-import org.stabila.common.utils.LocalWitnesses;
-import org.stabila.common.utils.PropUtil;
-import org.stabila.core.Constant;
-import org.stabila.core.config.Configuration;
-import org.stabila.core.config.Parameter.NetConstants;
-import org.stabila.core.config.Parameter.NodeConstant;
-import org.stabila.core.exception.CipherException;
-import org.stabila.keystore.Credentials;
-import org.stabila.keystore.WalletUtils;
-import org.stabila.program.Version;
+import org.tron.common.args.Account;
+import org.tron.common.args.GenesisBlock;
+import org.tron.common.args.Witness;
+import org.tron.common.config.DbBackupConfig;
+import org.tron.common.crypto.SignInterface;
+import org.tron.common.logsfilter.EventPluginConfig;
+import org.tron.common.logsfilter.FilterQuery;
+import org.tron.common.logsfilter.TriggerConfig;
+import org.tron.common.logsfilter.trigger.ContractEventTrigger;
+import org.tron.common.logsfilter.trigger.ContractLogTrigger;
+import org.tron.common.overlay.discover.node.Node;
+import org.tron.common.parameter.CommonParameter;
+import org.tron.common.parameter.RateLimiterInitialization;
+import org.tron.common.setting.RocksDbSettings;
+import org.tron.common.utils.ByteArray;
+import org.tron.common.utils.Commons;
+import org.tron.common.utils.FileUtil;
+import org.tron.common.utils.LocalWitnesses;
+import org.tron.common.utils.PropUtil;
+import org.tron.core.Constant;
+import org.tron.core.Wallet;
+import org.tron.core.config.Configuration;
+import org.tron.core.config.Parameter.NetConstants;
+import org.tron.core.config.Parameter.NodeConstant;
+import org.tron.core.exception.CipherException;
+import org.tron.core.store.AccountStore;
+import org.tron.keystore.Credentials;
+import org.tron.keystore.WalletUtils;
+import org.tron.program.Version;
 
 @Slf4j(topic = "app")
 @NoArgsConstructor
@@ -765,7 +765,7 @@ public class Args extends CommonParameter {
     logConfig();
   }
 
-  private static List<Witness> getWitnessesFromConfig(final com.typesafe.config.Config config) {
+  private static List<Witness> getWitnessesFromConfig(final Config config) {
     return config.getObjectList(Constant.GENESIS_BLOCK_WITNESSES).stream()
         .map(Args::createWitness)
         .collect(Collectors.toCollection(ArrayList::new));
@@ -780,7 +780,7 @@ public class Args extends CommonParameter {
     return witness;
   }
 
-  private static List<Account> getAccountsFromConfig(final com.typesafe.config.Config config) {
+  private static List<Account> getAccountsFromConfig(final Config config) {
     return config.getObjectList(Constant.GENESIS_BLOCK_ASSETS).stream()
         .map(Args::createAccount)
         .collect(Collectors.toCollection(ArrayList::new));
@@ -796,7 +796,7 @@ public class Args extends CommonParameter {
   }
 
   private static RateLimiterInitialization getRateLimiterFromConfig(
-      final com.typesafe.config.Config config) {
+      final Config config) {
 
     RateLimiterInitialization initialization = new RateLimiterInitialization();
     ArrayList<RateLimiterInitialization.HttpRateLimiterItem> list1 = config
@@ -814,7 +814,7 @@ public class Args extends CommonParameter {
     return initialization;
   }
 
-  private static List<Node> getNodes(final com.typesafe.config.Config config, String path) {
+  private static List<Node> getNodes(final Config config, String path) {
     if (!config.hasPath(path)) {
       return Collections.emptyList();
     }
@@ -832,7 +832,7 @@ public class Args extends CommonParameter {
     return ret;
   }
 
-  private static EventPluginConfig getEventPluginConfig(final com.typesafe.config.Config config) {
+  private static EventPluginConfig getEventPluginConfig(final Config config) {
     EventPluginConfig eventPluginConfig = new EventPluginConfig();
 
     boolean useNativeQueue = false;
@@ -909,7 +909,7 @@ public class Args extends CommonParameter {
     return triggerConfig;
   }
 
-  private static FilterQuery getEventFilter(final com.typesafe.config.Config config) {
+  private static FilterQuery getEventFilter(final Config config) {
     FilterQuery filter = new FilterQuery();
     long fromBlockLong = 0;
     long toBlockLong = 0;
@@ -945,7 +945,7 @@ public class Args extends CommonParameter {
     return filter;
   }
 
-  private static void bindIp(final com.typesafe.config.Config config) {
+  private static void bindIp(final Config config) {
     if (!config.hasPath(Constant.NODE_DISCOVERY_BIND_IP)
         || config.getString(Constant.NODE_DISCOVERY_BIND_IP)
         .trim().isEmpty()) {
@@ -964,7 +964,7 @@ public class Args extends CommonParameter {
     }
   }
 
-  private static void externalIp(final com.typesafe.config.Config config) {
+  private static void externalIp(final Config config) {
     if (!config.hasPath(Constant.NODE_DISCOVERY_EXTERNAL_IP) || config
         .getString(Constant.NODE_DISCOVERY_EXTERNAL_IP).trim().isEmpty()) {
       if (PARAMETER.nodeExternalIp == null) {

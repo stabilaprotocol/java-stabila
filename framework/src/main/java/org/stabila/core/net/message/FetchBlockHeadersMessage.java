@@ -1,6 +1,6 @@
 package org.stabila.core.net.message;
 
-import org.stabila.protos.Protocol;
+import org.tron.protos.Protocol;
 
 public class FetchBlockHeadersMessage extends InventoryMessage {
 
