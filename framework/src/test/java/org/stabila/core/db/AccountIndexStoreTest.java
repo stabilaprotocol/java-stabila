@@ -11,7 +11,7 @@ import org.stabila.core.capsule.AccountCapsule;
 import org.stabila.core.config.DefaultConfig;
 import org.stabila.core.config.args.Args;
 import org.stabila.core.store.AccountIndexStore;
-import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.utils.ByteArray;
 import org.stabila.common.utils.FileUtil;
 import org.stabila.protos.Protocol.AccountType;
@@ -21,7 +21,7 @@ public class AccountIndexStoreTest {
   private static String dbPath = "output_AccountIndexStore_test";
   private static String dbDirectory = "db_AccountIndexStore_test";
   private static String indexDirectory = "index_AccountIndexStore_test";
-  private static TronApplicationContext context;
+  private static StabilaApplicationContext context;
   private static AccountIndexStore accountIndexStore;
   private static byte[] address = TransactionStoreTest.randomBytes(32);
   private static byte[] accountName = TransactionStoreTest.randomBytes(32);
@@ -35,7 +35,7 @@ public class AccountIndexStoreTest {
         },
         Constant.TEST_CONF
     );
-    context = new TronApplicationContext(DefaultConfig.class);
+    context = new StabilaApplicationContext(DefaultConfig.class);
   }
 
   @AfterClass

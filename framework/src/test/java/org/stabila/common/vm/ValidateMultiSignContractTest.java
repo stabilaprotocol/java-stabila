@@ -11,7 +11,7 @@ import org.junit.Test;
 import org.testng.Assert;
 import org.stabila.common.application.Application;
 import org.stabila.common.application.ApplicationFactory;
-import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.crypto.ECKey;
 import org.stabila.common.crypto.Hash;
 import org.stabila.common.parameter.CommonParameter;
@@ -37,13 +37,13 @@ public class ValidateMultiSignContractTest {
   private static final String dbPath = "output_ValidateMultiSignContract_test";
   private static final String METHOD_SIGN = "validatemultisign(address,uint256,bytes32,bytes[])";
   private static final byte[] longData;
-  private static TronApplicationContext context;
+  private static StabilaApplicationContext context;
   private static Application appT;
   private static Manager dbManager;
 
   static {
     Args.setParam(new String[]{"--output-directory", dbPath, "--debug"}, Constant.TEST_CONF);
-    context = new TronApplicationContext(DefaultConfig.class);
+    context = new StabilaApplicationContext(DefaultConfig.class);
     appT = ApplicationFactory.create(context);
     dbManager = context.getBean(Manager.class);
     dbManager.getDynamicPropertiesStore().saveAllowMultiSign(1);

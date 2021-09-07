@@ -80,7 +80,7 @@ public class SpendingKey {
       try {
         JLibsodium.cryptoGenerichashBlake2bInitSaltPersonal(
             new Blake2bInitSaltPersonalParams(state, null, 0, 64, null,
-                Constant.ZTRON_EXPANDSEED_PERSONALIZATION));
+                Constant.ZSTABILA_EXPANDSEED_PERSONALIZATION));
         JLibsodium.cryptoGenerichashBlake2bUpdate(new Blake2bUpdateParams(state, blob, 34));
         JLibsodium.cryptoGenerichashBlake2bFinal(new Blake2bFinalParams(state, res, 11));
         if (JLibrustzcash.librustzcashCheckDiversifier(res)) {
@@ -134,7 +134,7 @@ public class SpendingKey {
       try {
         JLibsodium.cryptoGenerichashBlake2bInitSaltPersonal(new Blake2bInitSaltPersonalParams(
             state, null, 0, 64, null,
-            Constant.ZTRON_EXPANDSEED_PERSONALIZATION));
+            Constant.ZSTABILA_EXPANDSEED_PERSONALIZATION));
         JLibsodium.cryptoGenerichashBlake2bUpdate(new Blake2bUpdateParams(state, blob, 33));
         JLibsodium.cryptoGenerichashBlake2bFinal(new Blake2bFinalParams(state, res, 64));
       } finally {

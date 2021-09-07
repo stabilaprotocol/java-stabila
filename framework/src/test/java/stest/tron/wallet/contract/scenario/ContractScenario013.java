@@ -61,7 +61,7 @@ public class ContractScenario013 {
   }
 
   @Test(enabled = true)
-  public void deployTronTrxAndSunContract() {
+  public void deployStabilaTrxAndSunContract() {
     Assert.assertTrue(PublicMethed.sendcoin(contract013Address, 20000000000L, fromAddress,
         testKey002, blockingStubFull));
     AccountResourceMessage accountResource = PublicMethed.getAccountResource(contract013Address,
@@ -91,7 +91,7 @@ public class ContractScenario013 {
   }
 
   @Test(enabled = true)
-  public void triggerTronTrxAndSunContract() {
+  public void triggerStabilaTrxAndSunContract() {
     AccountResourceMessage accountResource = PublicMethed.getAccountResource(contract013Address,
         blockingStubFull);
     Long energyLimit = accountResource.getEnergyLimit();

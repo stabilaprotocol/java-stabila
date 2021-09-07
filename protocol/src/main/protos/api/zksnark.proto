@@ -7,7 +7,7 @@ option java_package = "org.stabila.api"; //Specify the name of the package that 
 option java_outer_classname = "ZksnarkGrpcAPI"; //Specify the class name of the generated Java file
 option go_package = "github.com/tronprotocol/grpc-gateway/api";
 
-service TronZksnark {
+service StabilaZksnark {
   rpc CheckZksnarkProof (ZksnarkRequest) returns (ZksnarkResponse) {
   }
 };

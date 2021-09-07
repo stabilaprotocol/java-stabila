@@ -11,7 +11,7 @@ import org.stabila.api.GrpcAPI.BytesMessage;
 import org.stabila.api.GrpcAPI.TransactionExtention;
 import org.stabila.api.WalletGrpc;
 import org.stabila.api.WalletGrpc.WalletBlockingStub;
-import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.core.Wallet;
 import org.stabila.core.capsule.AccountCapsule;
 import org.stabila.core.db.Manager;
@@ -25,7 +25,7 @@ public class DelegationServiceTest {
   private MortgageService mortgageService;
   private Manager manager;
 
-  public DelegationServiceTest(TronApplicationContext context) {
+  public DelegationServiceTest(StabilaApplicationContext context) {
     mortgageService = context.getBean(MortgageService.class);
     manager = context.getBean(Manager.class);
   }

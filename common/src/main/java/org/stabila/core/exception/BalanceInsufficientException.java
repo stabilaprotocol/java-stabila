@@ -1,6 +1,6 @@
 package org.stabila.core.exception;
 
-public class BalanceInsufficientException extends TronException {
+public class BalanceInsufficientException extends StabilaException {
 
   public BalanceInsufficientException() {
     super();

@@ -2,7 +2,7 @@ package org.stabila.core.net.message;
 
 import org.stabila.protos.Protocol;
 
-public class ItemNotFound extends TronMessage {
+public class ItemNotFound extends StabilaMessage {
 
   private org.stabila.protos.Protocol.Items notFound;
 

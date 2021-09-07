@@ -29,7 +29,7 @@ import org.stabila.core.zen.note.NoteEncryption;
 import org.stabila.core.zen.note.OutgoingPlaintext;
 import org.testng.collections.Lists;
 import org.stabila.api.GrpcAPI;
-import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.parameter.CommonParameter;
 import org.stabila.common.utils.ByteArray;
 import org.stabila.common.utils.ByteUtil;
@@ -109,7 +109,7 @@ public class SendCoinShieldTest {
 
   static {
     Args.setParam(new String[]{"--output-directory", dbPath}, "config-test-mainnet.conf");
-    context = new TronApplicationContext(DefaultConfig.class);
+    context = new StabilaApplicationContext(DefaultConfig.class);
     PUBLIC_ADDRESS_ONE =
         Wallet.getAddressPreFixString() + "a7d8a35b260395c14aa456297662092ba3b76fc0";
     DEFAULT_OVK = ByteArray

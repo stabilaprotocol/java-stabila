@@ -1,6 +1,6 @@
 package org.stabila.core.exception;
 
-public class TooBigTransactionResultException extends TronException {
+public class TooBigTransactionResultException extends StabilaException {
 
   public TooBigTransactionResultException() {
     super("too big transaction result");

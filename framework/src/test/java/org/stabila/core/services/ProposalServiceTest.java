@@ -8,7 +8,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.stabila.core.utils.ProposalUtil;
-import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.utils.FileUtil;
 import org.stabila.core.Constant;
 import org.stabila.core.capsule.ProposalCapsule;
@@ -20,14 +20,14 @@ import org.stabila.protos.Protocol.Proposal;
 
 public class ProposalServiceTest {
 
-  private TronApplicationContext context;
+  private StabilaApplicationContext context;
   private Manager manager;
   private String dbPath = "output_proposal_test";
 
   @Before
   public void init() {
     Args.setParam(new String[]{"-d", dbPath}, Constant.TEST_CONF);
-    context = new TronApplicationContext(DefaultConfig.class);
+    context = new StabilaApplicationContext(DefaultConfig.class);
     manager = context.getBean(Manager.class);
     manager.getDynamicPropertiesStore().saveLatestBlockHeaderNumber(5);
   }

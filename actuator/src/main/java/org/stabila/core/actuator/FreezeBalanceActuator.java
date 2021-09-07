@@ -58,8 +58,8 @@ public class FreezeBalanceActuator extends AbstractActuator {
         .get(freezeBalanceContract.getOwnerAddress().toByteArray());
 
     if (dynamicStore.supportAllowNewResourceModel()
-        && accountCapsule.oldTronPowerIsNotInitialized()) {
-      accountCapsule.initializeOldTronPower();
+        && accountCapsule.oldStabilaPowerIsNotInitialized()) {
+      accountCapsule.initializeOldStabilaPower();
     }
 
     long now = dynamicStore.getLatestBlockHeaderTimestamp();
@@ -103,13 +103,13 @@ public class FreezeBalanceActuator extends AbstractActuator {
         dynamicStore
             .addTotalEnergyWeight(frozenBalance / TRX_PRECISION);
         break;
-      case TRON_POWER:
-        long newFrozenBalanceForTronPower =
-            frozenBalance + accountCapsule.getTronPowerFrozenBalance();
-        accountCapsule.setFrozenForTronPower(newFrozenBalanceForTronPower, expireTime);
+      case STABILA_POWER:
+        long newFrozenBalanceForStabilaPower =
+            frozenBalance + accountCapsule.getStabilaPowerFrozenBalance();
+        accountCapsule.setFrozenForStabilaPower(newFrozenBalanceForStabilaPower, expireTime);
 
         dynamicStore
-            .addTotalTronPowerWeight(frozenBalance / TRX_PRECISION);
+            .addTotalStabilaPowerWeight(frozenBalance / TRX_PRECISION);
         break;
       default:
         logger.debug("Resource Code Error.");
@@ -197,12 +197,12 @@ public class FreezeBalanceActuator extends AbstractActuator {
       case BANDWIDTH:
       case ENERGY:
         break;
-      case TRON_POWER:
+      case STABILA_POWER:
         if (dynamicStore.supportAllowNewResourceModel()) {
           byte[] receiverAddress = freezeBalanceContract.getReceiverAddress().toByteArray();
           if (!ArrayUtils.isEmpty(receiverAddress)) {
             throw new ContractValidateException(
-                "TRON_POWER is not allowed to delegate to other accounts.");
+                "STABILA_POWER is not allowed to delegate to other accounts.");
           }
         } else {
           throw new ContractValidateException(
@@ -212,7 +212,7 @@ public class FreezeBalanceActuator extends AbstractActuator {
       default:
         if (dynamicStore.supportAllowNewResourceModel()) {
           throw new ContractValidateException(
-              "ResourceCode error, valid ResourceCode[BANDWIDTH、ENERGY、TRON_POWER]");
+              "ResourceCode error, valid ResourceCode[BANDWIDTH、ENERGY、STABILA_POWER]");
         } else {
           throw new ContractValidateException(
               "ResourceCode error, valid ResourceCode[BANDWIDTH、ENERGY]");

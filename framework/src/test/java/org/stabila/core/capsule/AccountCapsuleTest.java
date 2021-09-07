@@ -18,7 +18,7 @@ import org.stabila.core.config.args.Args;
 import org.stabila.core.db.Manager;
 import org.stabila.core.store.AccountAssetStore;
 import org.stabila.core.store.AccountStore;
-import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.utils.ByteArray;
 import org.stabila.common.utils.FileUtil;
 import org.stabila.protos.Protocol;
@@ -32,7 +32,7 @@ public class AccountCapsuleTest {
 
   private static final String dbPath = "output_accountCapsule_test";
   private static final Manager dbManager;
-  private static final TronApplicationContext context;
+  private static final StabilaApplicationContext context;
   private static final String OWNER_ADDRESS;
   private static final String ASSET_NAME = "trx";
   private static final long TOTAL_SUPPLY = 10000L;
@@ -50,7 +50,7 @@ public class AccountCapsuleTest {
 
   static {
     Args.setParam(new String[]{"-d", dbPath, "-w"}, Constant.TEST_CONF);
-    context = new TronApplicationContext(DefaultConfig.class);
+    context = new StabilaApplicationContext(DefaultConfig.class);
     dbManager = context.getBean(Manager.class);
 
     OWNER_ADDRESS = Wallet.getAddressPreFixString() + "a06a17a49648a8ad32055c06f60fa14ae46df91234";

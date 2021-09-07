@@ -819,7 +819,7 @@ public class PrecompiledContracts {
       byte[] data = words[2].getData();
 
       byte[] combine = ByteUtil
-          .merge(TransactionTrace.convertToTronAddress(addr), ByteArray.fromInt(permissionId), data);
+          .merge(TransactionTrace.convertToStabilaAddress(addr), ByteArray.fromInt(permissionId), data);
       byte[] hash = Sha256Hash.hash(CommonParameter
           .getInstance().isECKeyCryptoEngine(), combine);
 
@@ -830,7 +830,7 @@ public class PrecompiledContracts {
         return Pair.of(true, DATA_FALSE);
       }
 
-      AccountCapsule account = this.getDeposit().getAccount(TransactionTrace.convertToTronAddress(addr));
+      AccountCapsule account = this.getDeposit().getAccount(TransactionTrace.convertToStabilaAddress(addr));
       if (account != null) {
         try {
           Permission permission = account.getPermissionById(permissionId);
@@ -1560,7 +1560,7 @@ public class PrecompiledContracts {
 
       byte[] callerAddress = getCallerAddress();
       long rewardBalance =
-          VoteRewardUtil.queryReward(TransactionTrace.convertToTronAddress(callerAddress), getDeposit());
+          VoteRewardUtil.queryReward(TransactionTrace.convertToStabilaAddress(callerAddress), getDeposit());
       return Pair.of(true, longTo32Bytes(rewardBalance));
 
     }
@@ -1585,7 +1585,7 @@ public class PrecompiledContracts {
       byte[] addr = words[0].getLast20Bytes();
 
       WitnessCapsule witnessCapsule = this.getDeposit()
-          .getWitness(TransactionTrace.convertToTronAddress(addr));
+          .getWitness(TransactionTrace.convertToStabilaAddress(addr));
       if (witnessCapsule != null) {
         return Pair.of(true, dataBoolean(true));
       } else {
@@ -1612,16 +1612,16 @@ public class PrecompiledContracts {
       }
 
       DataWord[] words = DataWord.parseArray(data);
-      byte[] voteTronAddr = TransactionTrace.convertToTronAddress(words[0].getLast20Bytes());
-      byte[] targetTronAddr = TransactionTrace.convertToTronAddress(words[1].getLast20Bytes());
+      byte[] voteStabilaAddr = TransactionTrace.convertToStabilaAddress(words[0].getLast20Bytes());
+      byte[] targetStabilaAddr = TransactionTrace.convertToStabilaAddress(words[1].getLast20Bytes());
 
       long voteCount = 0;
-      AccountCapsule voteAccountCapsule = this.getDeposit().getAccount(voteTronAddr);
+      AccountCapsule voteAccountCapsule = this.getDeposit().getAccount(voteStabilaAddr);
       if (voteAccountCapsule != null && !voteAccountCapsule.getVotesList().isEmpty()) {
         List<Protocol.Vote> voteList =
             voteAccountCapsule.getVotesList();
         for (Protocol.Vote vote : voteList) {
-          if (ByteString.copyFrom(targetTronAddr).equals(vote.getVoteAddress())) {
+          if (ByteString.copyFrom(targetStabilaAddr).equals(vote.getVoteAddress())) {
             voteCount += vote.getVoteCount();
           }
         }
@@ -1647,10 +1647,10 @@ public class PrecompiledContracts {
       }
 
       DataWord[] words = DataWord.parseArray(data);
-      byte[] voteTronAddr = TransactionTrace.convertToTronAddress(words[0].getLast20Bytes());
+      byte[] voteStabilaAddr = TransactionTrace.convertToStabilaAddress(words[0].getLast20Bytes());
 
       long voteCount = 0;
-      AccountCapsule voteAccountCapsule = this.getDeposit().getAccount(voteTronAddr);
+      AccountCapsule voteAccountCapsule = this.getDeposit().getAccount(voteStabilaAddr);
       if (voteAccountCapsule != null && !voteAccountCapsule.getVotesList().isEmpty()) {
         List<Protocol.Vote> voteList =
             voteAccountCapsule.getVotesList();
@@ -1679,11 +1679,11 @@ public class PrecompiledContracts {
       }
 
       DataWord[] words = DataWord.parseArray(data);
-      byte[] targetTronAddr = TransactionTrace.convertToTronAddress(words[0].getLast20Bytes());
+      byte[] targetStabilaAddr = TransactionTrace.convertToStabilaAddress(words[0].getLast20Bytes());
 
       long voteCount = 0;
       WitnessCapsule witnessCapsule =
-          this.getDeposit().getWitness(targetTronAddr);
+          this.getDeposit().getWitness(targetStabilaAddr);
       if (witnessCapsule != null) {
         voteCount = witnessCapsule.getVoteCount();
       }
@@ -1708,12 +1708,12 @@ public class PrecompiledContracts {
       }
 
       DataWord[] words = DataWord.parseArray(data);
-      byte[] voteTronAddr = TransactionTrace.convertToTronAddress(words[0].getLast20Bytes());
+      byte[] voteStabilaAddr = TransactionTrace.convertToStabilaAddress(words[0].getLast20Bytes());
 
-      AccountCapsule accountCapsule = this.getDeposit().getAccount(voteTronAddr);
+      AccountCapsule accountCapsule = this.getDeposit().getAccount(voteStabilaAddr);
       if (accountCapsule != null) {
         return Pair.of(true,
-            longTo32Bytes(accountCapsule.getTronPower() / Parameter.ChainConstant.TRX_PRECISION));
+            longTo32Bytes(accountCapsule.getStabilaPower() / Parameter.ChainConstant.TRX_PRECISION));
       }
 
       return Pair.of(true, longTo32Bytes(0L));

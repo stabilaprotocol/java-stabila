@@ -16,7 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.stabila.core.capsule.BlockCapsule;
-import org.stabila.core.net.TronNetDelegate;
+import org.stabila.core.net.StabilaNetDelegate;
 import org.stabila.common.overlay.message.HelloMessage;
 import org.stabila.common.overlay.message.Message;
 import org.stabila.common.overlay.server.Channel;
@@ -33,7 +33,7 @@ import org.stabila.core.net.service.SyncService;
 public class PeerConnection extends Channel {
 
   @Autowired
-  private TronNetDelegate tronNetDelegate;
+  private StabilaNetDelegate tronNetDelegate;
 
   @Autowired
   private SyncService syncService;
@@ -119,14 +119,14 @@ public class PeerConnection extends Channel {
 
     if (peerHeadBlockNum > headBlockNum) {
       needSyncFromUs = false;
-      setTronState(TronState.SYNCING);
+      setStabilaState(StabilaState.SYNCING);
       syncService.startSync(this);
     } else {
       needSyncFromPeer = false;
       if (peerHeadBlockNum == headBlockNum) {
         needSyncFromUs = false;
       }
-      setTronState(TronState.SYNC_COMPLETED);
+      setStabilaState(StabilaState.SYNC_COMPLETED);
     }
   }
 

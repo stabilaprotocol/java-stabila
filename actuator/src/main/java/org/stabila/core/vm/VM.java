@@ -1274,7 +1274,7 @@ public class VM {
   }
 
   private boolean isDeadAccount(Program program, DataWord address) {
-    return program.getContractState().getAccount(TransactionTrace.convertToTronAddress(address.getLast20Bytes()))
+    return program.getContractState().getAccount(TransactionTrace.convertToStabilaAddress(address.getLast20Bytes()))
         == null;
   }
 }

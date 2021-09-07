@@ -12,7 +12,7 @@ import org.stabila.core.config.args.Args;
 import org.stabila.core.services.RpcApiService;
 import org.stabila.common.application.Application;
 import org.stabila.common.application.ApplicationFactory;
-import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.parameter.CommonParameter;
 import org.stabila.common.utils.FileUtil;
 import org.stabila.program.Version;
@@ -25,7 +25,7 @@ public class MetricsApiServiceTest {
   private static String dbDirectory = "metrics-database";
   private static String indexDirectory = "metrics-index";
   private static int port = 10001;
-  private TronApplicationContext context;
+  private StabilaApplicationContext context;
   private MetricsApiService metricsApiService;
   private RpcApiService rpcApiService;
   private Application appT;
@@ -47,7 +47,7 @@ public class MetricsApiServiceTest {
     parameter.setNodeListenPort(port);
     parameter.getSeedNode().getIpList().clear();
     parameter.setNodeExternalIp("127.0.0.1");
-    context = new TronApplicationContext(DefaultConfig.class);
+    context = new StabilaApplicationContext(DefaultConfig.class);
     appT = ApplicationFactory.create(context);
     rpcApiService = context.getBean(RpcApiService.class);
     metricsApiService = context.getBean(MetricsApiService.class);

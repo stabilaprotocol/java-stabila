@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.stabila.core.metrics.MetricsKey;
 import org.stabila.core.metrics.MetricsUtil;
-import org.stabila.core.net.TronNetDelegate;
+import org.stabila.core.net.StabilaNetDelegate;
 import org.stabila.core.net.peer.PeerConnection;
 import org.stabila.protos.Protocol;
 
@@ -20,7 +20,7 @@ import org.stabila.protos.Protocol;
 public class NetMetricManager {
 
   @Autowired
-  private TronNetDelegate tronNetDelegate;
+  private StabilaNetDelegate tronNetDelegate;
 
   /**
    * get net info.

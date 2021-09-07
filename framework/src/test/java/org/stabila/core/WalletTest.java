@@ -40,7 +40,7 @@ import org.stabila.api.GrpcAPI.AssetIssueList;
 import org.stabila.api.GrpcAPI.BlockList;
 import org.stabila.api.GrpcAPI.ExchangeList;
 import org.stabila.api.GrpcAPI.ProposalList;
-import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.crypto.ECKey;
 import org.stabila.common.utils.ByteArray;
 import org.stabila.common.utils.FileUtil;
@@ -100,7 +100,7 @@ public class WalletTest {
   public static final long TRANSACTION_TIMESTAMP_THREE = DateTime.now().minusDays(2).getMillis();
   public static final long TRANSACTION_TIMESTAMP_FOUR = DateTime.now().minusDays(1).getMillis();
   public static final long TRANSACTION_TIMESTAMP_FIVE = DateTime.now().getMillis();
-  private static TronApplicationContext context;
+  private static StabilaApplicationContext context;
   private static Wallet wallet;
   private static ChainBaseManager chainBaseManager;
   private static String dbPath = "output_wallet_test";
@@ -119,7 +119,7 @@ public class WalletTest {
 
   static {
     Args.setParam(new String[]{"-d", dbPath}, Constant.TEST_CONF);
-    context = new TronApplicationContext(DefaultConfig.class);
+    context = new StabilaApplicationContext(DefaultConfig.class);
   }
 
   @BeforeClass

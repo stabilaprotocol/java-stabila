@@ -19,7 +19,7 @@ import org.stabila.core.exception.BadItemException;
 import org.stabila.core.exception.ItemNotFoundException;
 import org.stabila.common.application.Application;
 import org.stabila.common.application.ApplicationFactory;
-import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.crypto.ECKey;
 import org.stabila.common.utils.ByteArray;
 import org.stabila.common.utils.FileUtil;
@@ -49,7 +49,7 @@ public class TransactionStoreTest {
   private static String dbDirectory = "db_TransactionStore_test";
   private static String indexDirectory = "index_TransactionStore_test";
   private static TransactionStore transactionStore;
-  private static TronApplicationContext context;
+  private static StabilaApplicationContext context;
   private static Application AppT;
   private static ChainBaseManager chainBaseManager;
 
@@ -60,7 +60,7 @@ public class TransactionStoreTest {
   public static void init() {
     Args.setParam(new String[]{"--output-directory", dbPath, "--storage-db-directory",
         dbDirectory, "--storage-index-directory", indexDirectory, "-w"}, Constant.TEST_CONF);
-    context = new TronApplicationContext(DefaultConfig.class);
+    context = new StabilaApplicationContext(DefaultConfig.class);
     AppT = ApplicationFactory.create(context);
     chainBaseManager = context.getBean(ChainBaseManager.class);
     transactionStore = chainBaseManager.getTransactionStore();

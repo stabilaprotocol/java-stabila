@@ -43,7 +43,7 @@ public class ProgramTrace {
   public ProgramTrace(VMConfig config, ProgramInvoke programInvoke) {
     if (programInvoke != null && config.vmTrace()) {
       contractAddress = Hex
-          .toHexString(TransactionTrace.convertToTronAddress(programInvoke.getContractAddress().getLast20Bytes()));
+          .toHexString(TransactionTrace.convertToStabilaAddress(programInvoke.getContractAddress().getLast20Bytes()));
     }
   }
 

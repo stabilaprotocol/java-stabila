@@ -10,7 +10,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.runtime.RuntimeImpl;
 import org.stabila.common.utils.ByteArray;
 import org.stabila.common.utils.FileUtil;
@@ -52,14 +52,14 @@ public class BandwidthProcessorTest {
   private static final String URL = "https://tron.network";
   private static Manager dbManager;
   private static ChainBaseManager chainBaseManager;
-  private static TronApplicationContext context;
+  private static StabilaApplicationContext context;
   private static long START_TIME;
   private static long END_TIME;
 
 
   static {
     Args.setParam(new String[]{"--output-directory", dbPath}, Constant.TEST_CONF);
-    context = new TronApplicationContext(DefaultConfig.class);
+    context = new StabilaApplicationContext(DefaultConfig.class);
     ASSET_NAME = "test_token";
     ASSET_NAME_V2 = "2";
     OWNER_ADDRESS = Wallet.getAddressPreFixString() + "548794500882809695a8a687866e76d4271a1abc";

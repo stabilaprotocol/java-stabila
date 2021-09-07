@@ -24,7 +24,7 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.stabila.common.crypto.cryptohash.Keccak256;
 import org.stabila.common.crypto.cryptohash.Keccak512;
 
-public final class TronCastleProvider {
+public final class StabilaCastleProvider {
 
   public static Provider getInstance() {
     return Holder.INSTANCE;
@@ -38,8 +38,8 @@ public final class TronCastleProvider {
       Provider p = Security.getProvider("BC");
 
       INSTANCE = (p != null) ? p : new BouncyCastleProvider();
-      INSTANCE.put("MessageDigest.TRON-KECCAK-256", Keccak256.class.getName());
-      INSTANCE.put("MessageDigest.TRON-KECCAK-512", Keccak512.class.getName());
+      INSTANCE.put("MessageDigest.STABILA-KECCAK-256", Keccak256.class.getName());
+      INSTANCE.put("MessageDigest.STABILA-KECCAK-512", Keccak512.class.getName());
     }
   }
 }

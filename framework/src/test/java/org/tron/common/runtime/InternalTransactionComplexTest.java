@@ -9,7 +9,7 @@ import org.junit.Test;
 import org.testng.Assert;
 import org.stabila.common.application.Application;
 import org.stabila.common.application.ApplicationFactory;
-import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.runtime.vm.DataWord;
 import org.stabila.common.storage.DepositImpl;
 import org.stabila.common.utils.FileUtil;
@@ -31,14 +31,14 @@ public class InternalTransactionComplexTest {
   private static final String OWNER_ADDRESS;
   private static Runtime runtime;
   private static Manager dbManager;
-  private static TronApplicationContext context;
+  private static StabilaApplicationContext context;
   private static Application appT;
   private static DepositImpl deposit;
 
   static {
     Args.setParam(new String[]{"--output-directory", dbPath, "--debug", "--support-constant"},
         Constant.TEST_CONF);
-    context = new TronApplicationContext(DefaultConfig.class);
+    context = new StabilaApplicationContext(DefaultConfig.class);
     appT = ApplicationFactory.create(context);
     OWNER_ADDRESS = Wallet.getAddressPreFixString() + "abd4b9367799eaa3197fecb144eb71de1e049abc";
   }

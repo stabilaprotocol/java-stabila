@@ -35,7 +35,7 @@ import org.stabila.api.GrpcAPI.PrivateShieldedTRC20ParametersWithoutAsk;
 import org.stabila.api.GrpcAPI.ShieldedTRC20Parameters;
 import org.stabila.api.GrpcAPI.ShieldedTRC20TriggerContractParameters;
 import org.stabila.api.GrpcAPI.SpendAuthSigParameters;
-import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.utils.ByteArray;
 import org.stabila.common.utils.ByteUtil;
 import org.stabila.common.utils.FileUtil;
@@ -75,7 +75,7 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
 
   static {
     Args.setParam(new String[]{"--output-directory", dbPath}, "config-test-mainnet.conf");
-    context = new TronApplicationContext(DefaultConfig.class);
+    context = new StabilaApplicationContext(DefaultConfig.class);
     SHIELDED_CONTRACT_ADDRESS = WalletClient.decodeFromBase58Check(SHIELDED_CONTRACT_ADDRESS_STR);
     DEFAULT_OVK = ByteArray
         .fromHexString("030c8c2bc59fb3eb8afb047a8ea4b028743d23e7d38c6fa30908358431e2314d");

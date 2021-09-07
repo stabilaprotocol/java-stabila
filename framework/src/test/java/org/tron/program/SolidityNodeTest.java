@@ -8,7 +8,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.stabila.common.application.Application;
 import org.stabila.common.application.ApplicationFactory;
-import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.overlay.client.DatabaseGrpcClient;
 import org.stabila.core.Constant;
 import org.stabila.core.config.DefaultConfig;
@@ -20,7 +20,7 @@ import org.stabila.protos.Protocol.DynamicProperties;
 @Slf4j
 public class SolidityNodeTest {
 
-  private static TronApplicationContext context;
+  private static StabilaApplicationContext context;
 
   private static RpcApiService rpcApiService;
   private static Application appT;
@@ -28,7 +28,7 @@ public class SolidityNodeTest {
 
   static {
     Args.setParam(new String[]{"-d", dbPath}, Constant.TEST_CONF);
-    context = new TronApplicationContext(DefaultConfig.class);
+    context = new StabilaApplicationContext(DefaultConfig.class);
     Args.getInstance().setSolidityNode(true);
     appT = ApplicationFactory.create(context);
     rpcApiService = context.getBean(RpcApiService.class);

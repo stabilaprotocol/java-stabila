@@ -20,21 +20,21 @@ import org.stabila.core.db2.core.SnapshotManager;
 import org.stabila.core.db2.core.SnapshotRoot;
 import org.stabila.common.application.Application;
 import org.stabila.common.application.ApplicationFactory;
-import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.utils.FileUtil;
 import org.stabila.common.utils.SessionOptional;
 
 public class SnapshotRootTest {
 
   private RevokingDbWithCacheNewValueTest.TestRevokingStabilaStore tronDatabase;
-  private TronApplicationContext context;
+  private StabilaApplicationContext context;
   private Application appT;
   private SnapshotManager revokingDatabase;
 
   @Before
   public void init() {
     Args.setParam(new String[]{"-d", "output_revokingStore_test"}, Constant.TEST_CONF);
-    context = new TronApplicationContext(DefaultConfig.class);
+    context = new StabilaApplicationContext(DefaultConfig.class);
     appT = ApplicationFactory.create(context);
   }
 

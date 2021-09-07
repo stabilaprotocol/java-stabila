@@ -22,10 +22,10 @@ public class GetTransactionInfoByBlockNumServlet extends RateLimiterServlet {
   @Autowired
   private Wallet wallet;
 
-  private JSONObject convertLogAddressToTronAddress(TransactionInfo transactionInfo,
+  private JSONObject convertLogAddressToStabilaAddress(TransactionInfo transactionInfo,
       boolean visible) {
     if (visible) {
-      List<Log> newLogList = Util.convertLogAddressToTronAddress(transactionInfo);
+      List<Log> newLogList = Util.convertLogAddressToStabilaAddress(transactionInfo);
       transactionInfo = transactionInfo.toBuilder().clearLog().addAllLog(newLogList).build();
     }
 
@@ -35,7 +35,7 @@ public class GetTransactionInfoByBlockNumServlet extends RateLimiterServlet {
   private String printTransactionInfoList(TransactionInfoList list, boolean selfType) {
     JSONArray jsonArray = new JSONArray();
     for (TransactionInfo transactionInfo : list.getTransactionInfoList()) {
-      jsonArray.add(convertLogAddressToTronAddress(transactionInfo, selfType));
+      jsonArray.add(convertLogAddressToStabilaAddress(transactionInfo, selfType));
     }
     return jsonArray.toJSONString();
   }

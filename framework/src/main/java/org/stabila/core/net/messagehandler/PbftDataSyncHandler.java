@@ -22,7 +22,7 @@ import org.stabila.core.capsule.BlockCapsule;
 import org.stabila.core.capsule.TransactionCapsule;
 import org.stabila.core.db.PbftSignDataStore;
 import org.stabila.core.net.message.PbftCommitMessage;
-import org.stabila.core.net.message.TronMessage;
+import org.stabila.core.net.message.StabilaMessage;
 import org.stabila.core.net.peer.PeerConnection;
 import org.stabila.common.crypto.ECKey;
 import org.stabila.common.utils.ByteArray;
@@ -34,7 +34,7 @@ import org.stabila.protos.Protocol.PBFTMessage.Raw;
 
 @Slf4j(topic = "pbft-data-sync")
 @Service
-public class PbftDataSyncHandler implements TronMsgHandler {
+public class PbftDataSyncHandler implements StabilaMsgHandler {
 
   private Map<Long, PbftCommitMessage> pbftCommitMessageCache = new ConcurrentHashMap<>();
 
@@ -45,7 +45,7 @@ public class PbftDataSyncHandler implements TronMsgHandler {
   private ChainBaseManager chainBaseManager;
 
   @Override
-  public void processMessage(PeerConnection peer, TronMessage msg) throws P2pException {
+  public void processMessage(PeerConnection peer, StabilaMessage msg) throws P2pException {
     PbftCommitMessage pbftCommitMessage = (PbftCommitMessage) msg;
     try {
       Raw raw = Raw.parseFrom(pbftCommitMessage.getPBFTCommitResult().getData());

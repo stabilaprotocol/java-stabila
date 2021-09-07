@@ -477,7 +477,7 @@ public class Util {
     return address;
   }
 
-  public static List<Log> convertLogAddressToTronAddress(TransactionInfo transactionInfo) {
+  public static List<Log> convertLogAddressToStabilaAddress(TransactionInfo transactionInfo) {
     List<Log> newLogList = new ArrayList<>();
 
     for (Log log : transactionInfo.getLogList()) {
@@ -493,7 +493,7 @@ public class Util {
         int start = 20 - oldAddress.length;
         System.arraycopy(oldAddress, 0, newAddress, start, oldAddress.length);
         logBuilder
-            .setAddress(ByteString.copyFrom(TransactionTrace.convertToTronAddress(newAddress)));
+            .setAddress(ByteString.copyFrom(TransactionTrace.convertToStabilaAddress(newAddress)));
       }
 
       newLogList.add(logBuilder.build());

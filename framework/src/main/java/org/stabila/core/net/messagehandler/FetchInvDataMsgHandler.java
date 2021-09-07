@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.stabila.core.capsule.BlockCapsule;
 import org.stabila.core.capsule.PbftSignCapsule;
-import org.stabila.core.net.TronNetDelegate;
+import org.stabila.core.net.StabilaNetDelegate;
 import org.stabila.core.net.peer.Item;
 import org.stabila.core.net.peer.PeerConnection;
 import org.stabila.core.net.service.AdvService;
@@ -30,7 +30,7 @@ import org.stabila.core.net.message.MessageTypes;
 import org.stabila.core.net.message.PbftCommitMessage;
 import org.stabila.core.net.message.TransactionMessage;
 import org.stabila.core.net.message.TransactionsMessage;
-import org.stabila.core.net.message.TronMessage;
+import org.stabila.core.net.message.StabilaMessage;
 import org.stabila.protos.Protocol.Inventory.InventoryType;
 import org.stabila.protos.Protocol.PBFTMessage.Raw;
 import org.stabila.protos.Protocol.ReasonCode;
@@ -38,14 +38,14 @@ import org.stabila.protos.Protocol.Transaction;
 
 @Slf4j(topic = "net")
 @Component
-public class FetchInvDataMsgHandler implements TronMsgHandler {
+public class FetchInvDataMsgHandler implements StabilaMsgHandler {
 
   private volatile Cache<Long, Boolean> epochCache = CacheBuilder.newBuilder().initialCapacity(100)
       .maximumSize(1000).expireAfterWrite(1, TimeUnit.HOURS).build();
 
   private static final int MAX_SIZE = 1_000_000;
   @Autowired
-  private TronNetDelegate stabilaNetDelegate;
+  private StabilaNetDelegate stabilaNetDelegate;
   @Autowired
   private SyncService syncService;
   @Autowired
@@ -54,7 +54,7 @@ public class FetchInvDataMsgHandler implements TronMsgHandler {
   private ConsensusDelegate consensusDelegate;
 
   @Override
-  public void processMessage(PeerConnection peer, TronMessage msg) throws P2pException {
+  public void processMessage(PeerConnection peer, StabilaMessage msg) throws P2pException {
 
     FetchInvDataMessage fetchInvDataMsg = (FetchInvDataMessage) msg;
 

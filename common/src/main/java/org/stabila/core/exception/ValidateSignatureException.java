@@ -1,6 +1,6 @@
 package org.stabila.core.exception;
 
-public class ValidateSignatureException extends TronException {
+public class ValidateSignatureException extends StabilaException {
 
   public ValidateSignatureException() {
     super();

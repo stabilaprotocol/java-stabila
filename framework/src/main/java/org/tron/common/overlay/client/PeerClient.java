@@ -16,7 +16,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import org.stabila.common.overlay.discover.node.Node;
 import org.stabila.common.overlay.discover.node.NodeHandler;
-import org.stabila.common.overlay.server.TronChannelInitializer;
+import org.stabila.common.overlay.server.StabilaChannelInitializer;
 import org.stabila.core.config.args.Args;
 import org.stabila.protos.Protocol.ReasonCode;
 
@@ -35,7 +35,7 @@ public class PeerClient {
 
       @Override
       public Thread newThread(Runnable r) {
-        return new Thread(r, "TronJClientWorker-" + cnt.getAndIncrement());
+        return new Thread(r, "StabilaJClientWorker-" + cnt.getAndIncrement());
       }
     });
   }
@@ -69,8 +69,8 @@ public class PeerClient {
 
     logger.info("connect peer {} {} {}", host, port, remoteId);
 
-    TronChannelInitializer tronChannelInitializer = ctx
-        .getBean(TronChannelInitializer.class, remoteId);
+    StabilaChannelInitializer tronChannelInitializer = ctx
+        .getBean(StabilaChannelInitializer.class, remoteId);
     tronChannelInitializer.setPeerDiscoveryMode(discoveryMode);
 
     Bootstrap b = new Bootstrap();

@@ -291,7 +291,7 @@ public class HttpTestAccount002 {
    * constructor.
    */
   @Test(enabled = true, description = "FreezeBlance for tron power by http")
-  public void test015FreezeTronPower() {
+  public void test015FreezeStabilaPower() {
     HttpMethed.waitToProduceOneBlock(httpnode);
     berforeBalance = HttpMethed.getBalance(httpnode, freezeBalanceAddress);
 
@@ -308,7 +308,7 @@ public class HttpTestAccount002 {
    * constructor.
    */
   @Test(enabled = true, description = "UnFreezeBalance for tron power by http")
-  public void test016UnFreezeBalanceForTronPower() {
+  public void test016UnFreezeBalanceForStabilaPower() {
     berforeBalance = HttpMethed.getBalance(httpnode, freezeBalanceAddress);
 
     //UnFreeze balance with energy for others

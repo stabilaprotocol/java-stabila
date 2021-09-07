@@ -53,7 +53,7 @@ import org.bouncycastle.util.encoders.Base64;
 import org.bouncycastle.util.encoders.Hex;
 import org.stabila.common.crypto.jce.ECKeyFactory;
 import org.stabila.common.crypto.jce.ECKeyPairGenerator;
-import org.stabila.common.crypto.jce.TronCastleProvider;
+import org.stabila.common.crypto.jce.StabilaCastleProvider;
 import org.stabila.common.utils.BIUtil;
 import org.stabila.common.utils.ByteUtil;
 
@@ -152,7 +152,7 @@ public class ECKey implements Serializable, SignInterface {
    * @param secureRandom -
    */
   public ECKey(SecureRandom secureRandom) {
-    this(TronCastleProvider.getInstance(), secureRandom);
+    this(StabilaCastleProvider.getInstance(), secureRandom);
   }
 
   /**
@@ -170,7 +170,7 @@ public class ECKey implements Serializable, SignInterface {
       this.privKey = null;
       this.pub = CURVE.getCurve().decodePoint(key);
     }
-    this.provider = TronCastleProvider.getInstance();
+    this.provider = StabilaCastleProvider.getInstance();
   }
 
   public ECKey(Provider provider, @Nullable PrivateKey privKey, ECPoint pub) {
@@ -200,7 +200,7 @@ public class ECKey implements Serializable, SignInterface {
    */
   public ECKey(@Nullable BigInteger priv, ECPoint pub) {
     this(
-        TronCastleProvider.getInstance(),
+        StabilaCastleProvider.getInstance(),
         privateKeyFromBigInteger(priv),
         pub
     );
@@ -235,7 +235,7 @@ public class ECKey implements Serializable, SignInterface {
     } else {
       try {
         return ECKeyFactory
-            .getInstance(TronCastleProvider.getInstance())
+            .getInstance(StabilaCastleProvider.getInstance())
             .generatePrivate(new ECPrivateKeySpec(priv,
                 CURVE_SPEC));
       } catch (InvalidKeySpecException ex) {

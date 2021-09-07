@@ -37,7 +37,7 @@ import org.stabila.api.GrpcAPI.DecryptNotes;
 import org.stabila.api.GrpcAPI.ReceiveNote;
 import org.stabila.api.GrpcAPI.SpendAuthSigParameters;
 import org.stabila.api.GrpcAPI.TransactionExtention;
-import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.crypto.ECKey;
 import org.stabila.common.parameter.CommonParameter;
 import org.stabila.common.utils.ByteArray;
@@ -120,13 +120,13 @@ public class ShieldedReceiveTest extends BlockGenerate {
   private static Manager dbManager;
   private static ChainBaseManager chainBaseManager;
   private static ConsensusService consensusService;
-  private static TronApplicationContext context;
+  private static StabilaApplicationContext context;
   private static Wallet wallet;
   private static TransactionUtil transactionUtil;
 
   static {
     Args.setParam(new String[]{"--output-directory", dbPath}, "config-localtest.conf");
-    context = new TronApplicationContext(DefaultConfig.class);
+    context = new StabilaApplicationContext(DefaultConfig.class);
     FROM_ADDRESS = Wallet.getAddressPreFixString() + "a7d8a35b260395c14aa456297662092ba3b76fc0";
     ADDRESS_ONE_PRIVATE_KEY = "7f7f701e94d4f1dd60ee5205e7ea8ee31121427210417b608a6b2e96433549a7";
   }

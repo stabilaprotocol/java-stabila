@@ -27,7 +27,7 @@ message SumContract {
 }
 ```
 
-Meanwhile, register the new contract type in `Transaction.Contract.ContractType` emuneration within the `src/main/protos/core/Tron.proto` file. Important data structures, such as transactions, accounts and blocks, are defined in the `Tron.proto` file:
+Meanwhile, register the new contract type in `Transaction.Contract.ContractType` emuneration within the `src/main/protos/core/Stabila.proto` file. Important data structures, such as transactions, accounts and blocks, are defined in the `Stabila.proto` file:
 
 ```protobuf
 message Transaction {
@@ -67,7 +67,7 @@ At last, recompile the modified proto files. Compiling the java-tron project dir
 ./gradlew build -x test
 
 # or build via protoc
-protoc -I=src/main/protos -I=src/main/protos/core --java_out=src/main/java  Tron.proto
+protoc -I=src/main/protos -I=src/main/protos/core --java_out=src/main/java  Stabila.proto
 protoc -I=src/main/protos/core/contract --java_out=src/main/java  math_contract.proto
 protoc -I=src/main/protos/api -I=src/main/protos/core -I=src/main/protos  --java_out=src/main/java api.proto
 ```
@@ -213,7 +213,7 @@ public class SumActuatorTest {
   private String serviceNode = "127.0.0.1:50051";
   private String confFile = "config-localtest.conf";
   private String dbPath = "output-directory";
-  private TronApplicationContext context;
+  private StabilaApplicationContext context;
   private Application appTest;
   private ManagedChannel channelFull = null;
   private WalletGrpc.WalletBlockingStub blockingStubFull = null;
@@ -226,7 +226,7 @@ public class SumActuatorTest {
     CommonParameter argsTest = Args.getInstance();
     Args.setParam(new String[]{"--output-directory", dbPath},
             confFile);
-    context = new TronApplicationContext(DefaultConfig.class);
+    context = new StabilaApplicationContext(DefaultConfig.class);
     RpcApiService rpcApiService = context.getBean(RpcApiService.class);
     appTest = ApplicationFactory.create(context);
     appTest.addService(rpcApiService);
@@ -304,7 +304,7 @@ INFO [API] RpcApiService has started, listening on 50051
 INFO [net] Node config, trust 0, active 0, forward 0.
 INFO [discover] Discovery server started, bind port 6666
 INFO [net] Fast forward config, isWitness: false, keySize: 1, fastForwardNodes: 0
-INFO [net] TronNetService start successfully.
+INFO [net] StabilaNetService start successfully.
 INFO [net] TCP listener started, bind port 6666
 INFO [Configuration] user defined config file doesn't exists, use default config file in jar
 INFO [actuator] 

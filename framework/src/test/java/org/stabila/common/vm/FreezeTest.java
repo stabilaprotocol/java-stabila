@@ -15,7 +15,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.runtime.Runtime;
 import org.stabila.common.runtime.RuntimeImpl;
 import org.stabila.common.runtime.TVMTestResult;
@@ -121,7 +121,7 @@ public class FreezeTest {
   private static final byte[] userC = Commons.decode58Check(userCStr);
 
   private static String dbPath;
-  private static TronApplicationContext context;
+  private static StabilaApplicationContext context;
   private static Manager manager;
   private static byte[] owner;
   private static Deposit rootDeposit;
@@ -130,7 +130,7 @@ public class FreezeTest {
   public void init() throws Exception {
     dbPath = "output_" + FreezeTest.class.getName();
     Args.setParam(new String[]{"--output-directory", dbPath, "--debug"}, Constant.TEST_CONF);
-    context = new TronApplicationContext(DefaultConfig.class);
+    context = new StabilaApplicationContext(DefaultConfig.class);
     manager = context.getBean(Manager.class);
     owner = Hex.decode(Wallet.getAddressPreFixString()
         + "abd4b9367799eaa3197fecb144eb71de1e049abc");
@@ -259,7 +259,7 @@ public class FreezeTest {
                                 long salt) throws Exception {
     TVMTestResult result = triggerContract(
         owner, factoryAddr, fee, SUCCESS, null, "getCreate2Addr(uint256)", salt);
-    return TransactionTrace.convertToTronAddress(
+    return TransactionTrace.convertToStabilaAddress(
         new DataWord(result.getRuntime().getResult().getHReturn()).getLast20Bytes());
   }
 
@@ -267,7 +267,7 @@ public class FreezeTest {
                                        long salt) throws Exception {
     TVMTestResult result = triggerContract(
         owner, factoryAddr, fee, SUCCESS, null, "deployCreate2Contract(uint256)", salt);
-    return TransactionTrace.convertToTronAddress(
+    return TransactionTrace.convertToStabilaAddress(
         new DataWord(result.getRuntime().getResult().getHReturn()).getLast20Bytes());
   }
 
@@ -994,10 +994,10 @@ public class FreezeTest {
     Assert.assertNotNull(newInheritor);
     if (FastByteComparisons.isEqual(inheritorAddr,
         manager.getAccountStore().getBlackholeAddress())) {
-      Assert.assertEquals(contract.getBalance() + contract.getTronPower(),
+      Assert.assertEquals(contract.getBalance() + contract.getStabilaPower(),
           newInheritor.getBalance() - oldBalanceOfInheritor - result.getReceipt().getEnergyFee());
     } else {
-      Assert.assertEquals(contract.getBalance() + contract.getTronPower(),
+      Assert.assertEquals(contract.getBalance() + contract.getStabilaPower(),
           newInheritor.getBalance() - oldBalanceOfInheritor);
     }
 

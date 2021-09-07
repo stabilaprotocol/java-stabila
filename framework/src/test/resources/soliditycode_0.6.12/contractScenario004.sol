@@ -1,8 +1,8 @@
 
 
-contract TronToken {
+contract StabilaToken {
 
-    string public name = "Tronix";      //  token name
+    string public name = "Stabilaix";      //  token name
     string public symbol = "TRX";           //  token symbol
     uint256 public decimals = 6;            //  token digit
 

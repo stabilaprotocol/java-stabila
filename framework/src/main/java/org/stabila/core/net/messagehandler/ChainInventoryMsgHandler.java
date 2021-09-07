@@ -10,9 +10,9 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.stabila.core.capsule.BlockCapsule;
-import org.stabila.core.net.TronNetDelegate;
+import org.stabila.core.net.StabilaNetDelegate;
 import org.stabila.core.net.message.ChainInventoryMessage;
-import org.stabila.core.net.message.TronMessage;
+import org.stabila.core.net.message.StabilaMessage;
 import org.stabila.core.net.peer.PeerConnection;
 import org.stabila.core.net.service.SyncService;
 import org.stabila.core.config.Parameter.ChainConstant;
@@ -22,16 +22,16 @@ import org.stabila.core.exception.P2pException.TypeEnum;
 
 @Slf4j(topic = "net")
 @Component
-public class ChainInventoryMsgHandler implements TronMsgHandler {
+public class ChainInventoryMsgHandler implements StabilaMsgHandler {
 
   @Autowired
-  private TronNetDelegate stabilaNetDelegate;
+  private StabilaNetDelegate stabilaNetDelegate;
 
   @Autowired
   private SyncService syncService;
 
   @Override
-  public void processMessage(PeerConnection peer, TronMessage msg) throws P2pException {
+  public void processMessage(PeerConnection peer, StabilaMessage msg) throws P2pException {
 
     ChainInventoryMessage chainInventoryMessage = (ChainInventoryMessage) msg;
 

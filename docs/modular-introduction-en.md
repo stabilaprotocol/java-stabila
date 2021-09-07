@@ -2,7 +2,7 @@
 
 ## Motivation
 
-An Ethereum-based game called CryptoKitties took up 16% of the platform's traffic at peak hours, making the network heavily congested. Though TRON network is 100 times more efficient than Ethereum, there's still a ceiling to it, so we have to expand the capacity horizontally by splitting java-tron into isolated modules.
+An Ethereum-based game called CryptoKitties took up 16% of the platform's traffic at peak hours, making the network heavily congested. Though STABILA network is 100 times more efficient than Ethereum, there's still a ceiling to it, so we have to expand the capacity horizontally by splitting java-tron into isolated modules.
 
 The modularized java-tron will allow DApp developers to easily create and deploy their own blockchains rather than simply develop an App on the chain (One DApp is One Chain), thus cutting the cost to build blockchain infrastructure and helping developers customize modules to their own needs, for example, by allowing them to select a well-suited consensus mechanism within an abstract consensus module. By modularizing java-tron, developers no longer get hassled by the underlying implementation details of a blockchain, and thus can focus more on their business scenarios.
 
@@ -41,7 +41,7 @@ In addition, chainbase module features a well-designed abstract interface. Any d
 Below are a few important implementation classes and interfaces in chainbase module:
 
 1. RevokingDatabase is the interface of database container that manages all databases that can roll back. SnapshotManager is an implementation of the interface.
-2. TronStoreWithRevoking is the base abstract class of databases that can roll back. Chainbase class is its implementation.
+2. StabilaStoreWithRevoking is the base abstract class of databases that can roll back. Chainbase class is its implementation.
 
 ### consensus
 

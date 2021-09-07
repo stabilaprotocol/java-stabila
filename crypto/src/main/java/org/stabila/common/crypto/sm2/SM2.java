@@ -40,7 +40,7 @@ import org.stabila.common.crypto.ECKey;
 import org.stabila.common.crypto.SignInterface;
 import org.stabila.common.crypto.SignatureInterface;
 import org.stabila.common.crypto.jce.ECKeyFactory;
-import org.stabila.common.crypto.jce.TronCastleProvider;
+import org.stabila.common.crypto.jce.StabilaCastleProvider;
 import org.stabila.common.utils.ByteUtil;
 
 /**
@@ -175,7 +175,7 @@ public class SM2 implements Serializable, SignInterface {
     } else {
       try {
         return ECKeyFactory
-            .getInstance(TronCastleProvider.getInstance())
+            .getInstance(StabilaCastleProvider.getInstance())
             .generatePrivate(new ECPrivateKeySpec(priv,
                 ecc_spec));
       } catch (InvalidKeySpecException ex) {

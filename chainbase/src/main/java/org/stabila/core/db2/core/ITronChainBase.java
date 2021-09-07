@@ -6,7 +6,7 @@ import org.stabila.common.utils.Quitable;
 import org.stabila.core.exception.BadItemException;
 import org.stabila.core.exception.ItemNotFoundException;
 
-public interface ITronChainBase<T> extends Iterable<Entry<byte[], T>>, Quitable {
+public interface IStabilaChainBase<T> extends Iterable<Entry<byte[], T>>, Quitable {
 
   /**
    * reset the database.

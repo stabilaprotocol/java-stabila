@@ -209,7 +209,7 @@ public class TransactionTrace {
     }
     if (StringUtils.isEmpty(transactionContext.getProgramResult().getRuntimeError())) {
       for (DataWord contract : transactionContext.getProgramResult().getDeleteAccounts()) {
-        deleteContract(convertToTronAddress((contract.getLast20Bytes())));
+        deleteContract(convertToStabilaAddress((contract.getLast20Bytes())));
       }
     }
   }
@@ -310,7 +310,7 @@ public class TransactionTrace {
     contractStore.delete(address);
   }
 
-  public static byte[] convertToTronAddress(byte[] address) {
+  public static byte[] convertToStabilaAddress(byte[] address) {
     if (address.length == 20) {
       byte[] newAddress = new byte[21];
       byte[] temp = new byte[]{DecodeUtil.addressPreFixByte};

@@ -11,7 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.stabila.common.application.Application;
 import org.stabila.common.application.ApplicationFactory;
-import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.parameter.CommonParameter;
 import org.stabila.common.utils.FileUtil;
 import org.stabila.core.ChainBaseManager;
@@ -25,7 +25,7 @@ public class NodeHandlerTest {
 
   private static final Logger logger = LoggerFactory.getLogger("Test");
   private Manager dbManager;
-  private TronApplicationContext context;
+  private StabilaApplicationContext context;
   private Application appTest;
   private CommonParameter argsTest;
   private Node currNode;
@@ -44,7 +44,7 @@ public class NodeHandlerTest {
     argsTest = Args.getInstance();
     Args.setParam(new String[]{"--output-directory", "output-directory", "--debug"},
         Constant.TEST_CONF);
-    context = new TronApplicationContext(DefaultConfig.class);
+    context = new StabilaApplicationContext(DefaultConfig.class);
     appTest = ApplicationFactory.create(context);
     appTest.initServices(argsTest);
     appTest.startServices();

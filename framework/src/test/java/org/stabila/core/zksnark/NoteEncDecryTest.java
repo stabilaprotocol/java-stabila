@@ -18,7 +18,7 @@ import org.stabila.core.exception.ZksnarkException;
 import org.stabila.core.zen.note.Note;
 import org.stabila.core.zen.note.NoteEncryption;
 import org.stabila.core.zen.note.OutgoingPlaintext;
-import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.utils.ByteArray;
 import org.stabila.common.utils.FileUtil;
 import org.stabila.protos.contract.AssetIssueContractOuterClass.AssetIssueContract;
@@ -41,12 +41,12 @@ public class NoteEncDecryTest {
   private static final String DESCRIPTION = "TRX";
   private static final String URL = "https://tron.network";
   private static Manager dbManager;
-  private static TronApplicationContext context;
+  private static StabilaApplicationContext context;
   private static Wallet wallet;
 
   static {
     Args.setParam(new String[]{"--output-directory", dbPath}, "config-localtest.conf");
-    context = new TronApplicationContext(DefaultConfig.class);
+    context = new StabilaApplicationContext(DefaultConfig.class);
     FROM_ADDRESS = Wallet.getAddressPreFixString() + "a7d8a35b260395c14aa456297662092ba3b76fc0";
     ADDRESS_ONE_PRIVATE_KEY = "7f7f701e94d4f1dd60ee5205e7ea8ee31121427210417b608a6b2e96433549a7";
   }

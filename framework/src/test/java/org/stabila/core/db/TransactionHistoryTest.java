@@ -11,7 +11,7 @@ import org.stabila.core.config.DefaultConfig;
 import org.stabila.core.config.args.Args;
 import org.stabila.core.exception.BadItemException;
 import org.stabila.core.store.TransactionHistoryStore;
-import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.utils.ByteArray;
 import org.stabila.common.utils.FileUtil;
 
@@ -21,7 +21,7 @@ public class TransactionHistoryTest {
   private static String dbPath = "output_TransactionHistoryStore_test";
   private static String dbDirectory = "db_TransactionHistoryStore_test";
   private static String indexDirectory = "index_TransactionHistoryStore_test";
-  private static TronApplicationContext context;
+  private static StabilaApplicationContext context;
   private static TransactionHistoryStore transactionHistoryStore;
 
   static {
@@ -33,7 +33,7 @@ public class TransactionHistoryTest {
         },
         Constant.TEST_CONF
     );
-    context = new TronApplicationContext(DefaultConfig.class);
+    context = new StabilaApplicationContext(DefaultConfig.class);
   }
 
   @AfterClass

@@ -201,11 +201,11 @@ public class UnfreezeBalanceProcessor {
     repo.updateAccount(accountCapsule.createDbKey(), accountCapsule);
 
     if (VMConfig.allowTvmVote() && !accountCapsule.getVotesList().isEmpty()) {
-      long usedTronPower = 0;
+      long usedStabilaPower = 0;
       for (Protocol.Vote vote : accountCapsule.getVotesList()) {
-        usedTronPower += vote.getVoteCount();
+        usedStabilaPower += vote.getVoteCount();
       }
-      if (accountCapsule.getTronPower() < usedTronPower * TRX_PRECISION) {
+      if (accountCapsule.getStabilaPower() < usedStabilaPower * TRX_PRECISION) {
         VoteRewardUtil.withdrawReward(ownerAddress, repo);
         VotesCapsule votesCapsule = repo.getVotes(ownerAddress);
         accountCapsule = repo.getAccount(ownerAddress);

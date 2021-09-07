@@ -23,7 +23,7 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.runtime.RuntimeImpl;
 import org.stabila.common.runtime.TvmTestUtils;
 import org.stabila.common.storage.DepositImpl;
@@ -43,7 +43,7 @@ import org.stabila.core.exception.AccountResourceInsufficientException;
 import org.stabila.core.exception.ContractExeException;
 import org.stabila.core.exception.ContractValidateException;
 import org.stabila.core.exception.TooBigTransactionResultException;
-import org.stabila.core.exception.TronException;
+import org.stabila.core.exception.StabilaException;
 import org.stabila.core.exception.VMIllegalException;
 import org.stabila.core.store.StoreFactory;
 import org.stabila.protos.Protocol.AccountType;
@@ -78,7 +78,7 @@ public class BandWidthRuntimeTest {
         },
         "config-test-mainnet.conf"
     );
-    context = new TronApplicationContext(DefaultConfig.class);
+    context = new StabilaApplicationContext(DefaultConfig.class);
   }
 
   /**
@@ -166,7 +166,7 @@ public class BandWidthRuntimeTest {
       Assert.assertEquals(45706, trace.getReceipt().getEnergyUsageTotal());
       Assert.assertEquals(45706, energy);
       Assert.assertEquals(totalBalance, balance);
-    } catch (TronException e) {
+    } catch (StabilaException e) {
       Assert.assertNotNull(e);
     }
   }
@@ -203,7 +203,7 @@ public class BandWidthRuntimeTest {
       Assert.assertEquals(47285000, receipt.getEnergyFee());
       Assert.assertEquals(totalBalance - receipt.getEnergyFee(),
           balance);
-    } catch (TronException e) {
+    } catch (StabilaException e) {
       Assert.assertNotNull(e);
     }
   }

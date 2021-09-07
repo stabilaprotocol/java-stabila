@@ -6,7 +6,7 @@ import org.stabila.core.capsule.TransactionCapsule;
 import org.stabila.protos.Protocol.Block;
 import org.stabila.protos.Protocol.Items;
 
-public class BlocksMessage extends TronMessage {
+public class BlocksMessage extends StabilaMessage {
 
   private List<Block> blocks;
 

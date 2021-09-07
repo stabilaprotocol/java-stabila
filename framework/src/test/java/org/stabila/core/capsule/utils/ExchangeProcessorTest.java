@@ -11,7 +11,7 @@ import org.stabila.core.Wallet;
 import org.stabila.core.capsule.ExchangeProcessor;
 import org.stabila.core.config.DefaultConfig;
 import org.stabila.core.config.args.Args;
-import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.utils.FileUtil;
 
 @Slf4j
@@ -23,11 +23,11 @@ public class ExchangeProcessorTest {
   private static final String OWNER_ACCOUNT_INVALID;
   private static final long initBalance = 10_000_000_000_000_000L;
   private static ExchangeProcessor processor;
-  private static TronApplicationContext context;
+  private static StabilaApplicationContext context;
 
   static {
     Args.setParam(new String[]{"--output-directory", dbPath}, Constant.TEST_CONF);
-    context = new TronApplicationContext(DefaultConfig.class);
+    context = new StabilaApplicationContext(DefaultConfig.class);
     OWNER_ADDRESS = Wallet.getAddressPreFixString() + "548794500882809695a8a687866e76d4271a1abc";
     OWNER_ACCOUNT_INVALID =
         Wallet.getAddressPreFixString() + "548794500882809695a8a687866e76d4271a3456";

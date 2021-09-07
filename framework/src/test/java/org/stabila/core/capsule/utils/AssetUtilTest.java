@@ -31,7 +31,7 @@ import org.stabila.core.config.DefaultConfig;
 import org.stabila.core.config.args.Args;
 import org.stabila.core.db.Manager;
 import org.stabila.core.store.AccountAssetStore;
-import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.utils.ByteArray;
 import org.stabila.common.utils.FileUtil;
 import org.stabila.protos.Protocol;
@@ -44,11 +44,11 @@ public class AssetUtilTest {
 
   private static String dbPath = "output_AssetUtil_test";
   private static Manager dbManager;
-  private static TronApplicationContext context;
+  private static StabilaApplicationContext context;
 
   static {
     Args.setParam(new String[]{"-d", dbPath, "-w"}, Constant.TEST_CONF);
-    context = new TronApplicationContext(DefaultConfig.class);
+    context = new StabilaApplicationContext(DefaultConfig.class);
     dbManager = context.getBean(Manager.class);
   }
 

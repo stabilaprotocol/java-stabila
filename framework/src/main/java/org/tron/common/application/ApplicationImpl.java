@@ -10,7 +10,7 @@ import org.stabila.core.config.args.Args;
 import org.stabila.core.consensus.ConsensusService;
 import org.stabila.core.db.Manager;
 import org.stabila.core.metrics.MetricsUtil;
-import org.stabila.core.net.TronNetService;
+import org.stabila.core.net.StabilaNetService;
 
 @Slf4j(topic = "app")
 @Component
@@ -19,7 +19,7 @@ public class ApplicationImpl implements Application {
   private ServiceContainer services;
 
   @Autowired
-  private TronNetService tronNetService;
+  private StabilaNetService tronNetService;
 
   @Autowired
   private Manager dbManager;

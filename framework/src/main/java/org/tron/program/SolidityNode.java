@@ -10,7 +10,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.util.StringUtils;
 import org.stabila.common.application.Application;
 import org.stabila.common.application.ApplicationFactory;
-import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.overlay.client.DatabaseGrpcClient;
 import org.stabila.common.overlay.discover.DiscoverServer;
 import org.stabila.common.overlay.discover.node.NodeManager;
@@ -21,7 +21,7 @@ import org.stabila.core.capsule.BlockCapsule;
 import org.stabila.core.config.DefaultConfig;
 import org.stabila.core.config.args.Args;
 import org.stabila.core.db.Manager;
-import org.stabila.core.net.TronNetService;
+import org.stabila.core.net.StabilaNetService;
 import org.stabila.core.services.RpcApiService;
 import org.stabila.core.services.http.solidity.SolidityNodeHttpApiService;
 import org.stabila.protos.Protocol.Block;
@@ -72,7 +72,7 @@ public class SolidityNode {
     }
     parameter.setSolidityNode(true);
 
-    ApplicationContext context = new TronApplicationContext(DefaultConfig.class);
+    ApplicationContext context = new StabilaApplicationContext(DefaultConfig.class);
 
     if (parameter.isHelp()) {
       logger.info("Here is the help message.");
@@ -98,7 +98,7 @@ public class SolidityNode {
     discoverServer.close();
     NodeManager nodeManager = context.getBean(NodeManager.class);
     nodeManager.close();
-    TronNetService tronNetService = context.getBean(TronNetService.class);
+    StabilaNetService tronNetService = context.getBean(StabilaNetService.class);
     tronNetService.stop();
 
     SolidityNode node = new SolidityNode(appT.getDbManager());

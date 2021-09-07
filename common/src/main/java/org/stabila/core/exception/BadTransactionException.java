@@ -1,6 +1,6 @@
 package org.stabila.core.exception;
 
-public class BadTransactionException extends TronException {
+public class BadTransactionException extends StabilaException {
 
   public BadTransactionException() {
     super();

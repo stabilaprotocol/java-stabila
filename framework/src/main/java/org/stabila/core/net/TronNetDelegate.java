@@ -54,7 +54,7 @@ import org.stabila.protos.Protocol.Inventory.InventoryType;
 
 @Slf4j(topic = "net")
 @Component
-public class TronNetDelegate {
+public class StabilaNetDelegate {
 
   @Autowired
   private SyncPool syncPool;

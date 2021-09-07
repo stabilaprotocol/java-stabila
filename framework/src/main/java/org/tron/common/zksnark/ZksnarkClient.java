@@ -2,7 +2,7 @@ package org.stabila.common.zksnark;
 
 import com.google.protobuf.ByteString;
 import io.grpc.ManagedChannelBuilder;
-import org.stabila.api.TronZksnarkGrpc;
+import org.stabila.api.StabilaZksnarkGrpc;
 import org.stabila.api.ZksnarkGrpcAPI.ZksnarkRequest;
 import org.stabila.api.ZksnarkGrpcAPI.ZksnarkResponse.Code;
 import org.stabila.core.capsule.TransactionCapsule;
@@ -12,10 +12,10 @@ public class ZksnarkClient {
 
   public static final ZksnarkClient instance = new ZksnarkClient();
 
-  private TronZksnarkGrpc.TronZksnarkBlockingStub blockingStub;
+  private StabilaZksnarkGrpc.StabilaZksnarkBlockingStub blockingStub;
 
   public ZksnarkClient() {
-    blockingStub = TronZksnarkGrpc.newBlockingStub(ManagedChannelBuilder
+    blockingStub = StabilaZksnarkGrpc.newBlockingStub(ManagedChannelBuilder
         .forTarget("127.0.0.1:60051")
         .usePlaintext()
         .build());

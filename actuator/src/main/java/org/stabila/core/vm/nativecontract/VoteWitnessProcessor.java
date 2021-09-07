@@ -87,7 +87,7 @@ public class VoteWitnessProcessor {
         }
       }
 
-      long tronPower = accountCapsule.getTronPower();
+      long tronPower = accountCapsule.getStabilaPower();
       sum =  LongMath.checkedMultiply(sum, TRX_PRECISION);
       if (sum > tronPower) {
         throw new ContractExeException(

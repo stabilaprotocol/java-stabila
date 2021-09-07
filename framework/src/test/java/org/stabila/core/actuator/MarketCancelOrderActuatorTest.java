@@ -22,7 +22,7 @@ import org.stabila.core.db.Manager;
 import org.stabila.core.exception.ContractExeException;
 import org.stabila.core.exception.ContractValidateException;
 import org.stabila.core.exception.ItemNotFoundException;
-import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.utils.ByteArray;
 import org.stabila.common.utils.FileUtil;
 import org.stabila.core.capsule.AccountAssetCapsule;
@@ -59,12 +59,12 @@ public class MarketCancelOrderActuatorTest {
   private static final String TOKEN_ID_ONE = String.valueOf(1L);
   private static final String TOKEN_ID_TWO = String.valueOf(2L);
   private static final String TRX = "_";
-  private static TronApplicationContext context;
+  private static StabilaApplicationContext context;
   private static Manager dbManager;
 
   static {
     Args.setParam(new String[]{"--output-directory", dbPath}, Constant.TEST_CONF);
-    context = new TronApplicationContext(DefaultConfig.class);
+    context = new StabilaApplicationContext(DefaultConfig.class);
     OWNER_ADDRESS_FIRST =
         Wallet.getAddressPreFixString() + "abd4b9367799eaa3197fecb144eb71de1e049abc";
     OWNER_ADDRESS_SECOND =

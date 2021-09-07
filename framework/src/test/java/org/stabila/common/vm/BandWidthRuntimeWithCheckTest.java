@@ -23,7 +23,7 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.runtime.RuntimeImpl;
 import org.stabila.common.runtime.TvmTestUtils;
 import org.stabila.common.storage.DepositImpl;
@@ -44,7 +44,7 @@ import org.stabila.core.exception.ContractExeException;
 import org.stabila.core.exception.ContractValidateException;
 import org.stabila.core.exception.ReceiptCheckErrException;
 import org.stabila.core.exception.TooBigTransactionResultException;
-import org.stabila.core.exception.TronException;
+import org.stabila.core.exception.StabilaException;
 import org.stabila.core.exception.VMIllegalException;
 import org.stabila.core.store.StoreFactory;
 import org.stabila.protos.Protocol.AccountType;
@@ -95,7 +95,7 @@ public class BandWidthRuntimeWithCheckTest {
         },
         "config-test-mainnet.conf"
     );
-    context = new TronApplicationContext(DefaultConfig.class);
+    context = new StabilaApplicationContext(DefaultConfig.class);
   }
 
   /**
@@ -181,7 +181,7 @@ public class BandWidthRuntimeWithCheckTest {
       Assert.assertEquals(57466800, balance);
       Assert.assertEquals(624668 * Constant.SUN_PER_ENERGY,
           balance + energy * Constant.SUN_PER_ENERGY);
-    } catch (TronException e) {
+    } catch (StabilaException e) {
       Assert.assertNotNull(e);
     } catch (ReceiptCheckErrException e) {
       Assert.assertNotNull(e);
@@ -222,7 +222,7 @@ public class BandWidthRuntimeWithCheckTest {
       Assert.assertEquals(0, receipt.getEnergyFee());
       Assert.assertEquals(totalBalance,
           balance);
-    } catch (TronException e) {
+    } catch (StabilaException e) {
       Assert.assertNotNull(e);
     } catch (ReceiptCheckErrException e) {
       Assert.assertNotNull(e);

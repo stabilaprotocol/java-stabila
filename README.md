@@ -7,7 +7,7 @@
 </h1>
 
 <h4 align="center">
-  Java implementation of the <a href="https://stabila.network">Tron Protocol</a>
+  Java implementation of the <a href="https://stabila.network">Stabila Protocol</a>
 </h4>
 
 
@@ -50,19 +50,19 @@
   <a href="#Resources">Resources</a>
 </p>
 
-## What's TRON?
+## What's STABILA?
 
-TRON is a project dedicated to building the infrastructure for a truly decentralized Internet.
+STABILA is a project dedicated to building the infrastructure for a truly decentralized Internet.
 
-* Tron Protocol, one of the largest blockchain-based operating systems in the world, offers scalable, high-availability and high-throughput support that underlies all the decentralized applications in the TRON ecosystem.
+* Stabila Protocol, one of the largest blockchain-based operating systems in the world, offers scalable, high-availability and high-throughput support that underlies all the decentralized applications in the STABILA ecosystem.
 
-* Tron Virtual Machine (TVM) allows anyone to develop decentralized applications (DAPPs) for themselves or their communities with smart contracts thereby making decentralized crowdfunding and token issuance easier than ever.
+* Stabila Virtual Machine (TVM) allows anyone to develop decentralized applications (DAPPs) for themselves or their communities with smart contracts thereby making decentralized crowdfunding and token issuance easier than ever.
 
-TRON enables large-scale development and engagement. With over 2000 transactions per second (TPS), high concurrency, low latency, and massive data transmission. It is ideal for building decentralized entertainment applications. Free features and incentive systems allow developers to create premium app experiences for users.
+STABILA enables large-scale development and engagement. With over 2000 transactions per second (TPS), high concurrency, low latency, and massive data transmission. It is ideal for building decentralized entertainment applications. Free features and incentive systems allow developers to create premium app experiences for users.
 
 # Quick Start
-This guide walks the user through the TRON Quickstart (v2.0.0) image setup.
-[TRON Quick Start](./quickstart.md)
+This guide walks the user through the STABILA Quickstart (v2.0.0) image setup.
+[STABILA Quick Start](./quickstart.md)
 
 # Deploy
 * [Build](./build.md) Please build java-stabila after cloning the project
@@ -73,7 +73,7 @@ This guide walks the user through the TRON Quickstart (v2.0.0) image setup.
  walks the user through how to deploy a FullNode and an SR node.
 
 # Channel
-[Tron Developers & SRs](https://discord.gg/hqKvyAM) is Tron's official Discord channel. Feel free to join this channel if you have any questions.
+[Stabila Developers & SRs](https://discord.gg/hqKvyAM) is Stabila's official Discord channel. Feel free to join this channel if you have any questions.
 
 [Core Devs Community](https://t.me/stabilacoredevscommunity) is the Telegram channel for java-stabila community developers. If you want to contribute to java-stabila, please join this channel.
 
@@ -88,12 +88,12 @@ If you'd like to contribute to java-stabila, please read the following instructi
 # Resources
 * [Medium](https://medium.com/@coredevs) java-stabila's official technical articles are published there.
 * [Documentation](https://stabilaprotocol.github.io/documentation-en/introduction/) java-stabila's official technical documentation website.
-* [Test network](http://nileex.io/) A stable test network of TRON contributed by TRON community.
-* [Tronscan](https://stabilascan.org/#/) TRON network blockchain browser.
-* [Wallet-cli](https://github.com/stabilaprotocol/wallet-cli) TRON network wallet using command line.
-* [TIP](https://github.com/stabilaprotocol/tips) TRON Improvement Proposal (TIP) describes standards for the TRON network.
-* [TP](https://github.com/stabilaprotocol/tips/tree/master/tp) TRON Protocol (TP) describes standards already implemented in TRON network but not published as a TIP.
-* [White Paper](https://stabila.network/resources?lng=&name=1) White paper of TRON network.
+* [Test network](http://nileex.io/) A stable test network of STABILA contributed by STABILA community.
+* [Stabilascan](https://stabilascan.org/#/) STABILA network blockchain browser.
+* [Wallet-cli](https://github.com/stabilaprotocol/wallet-cli) STABILA network wallet using command line.
+* [TIP](https://github.com/stabilaprotocol/tips) STABILA Improvement Proposal (TIP) describes standards for the STABILA network.
+* [TP](https://github.com/stabilaprotocol/tips/tree/master/tp) STABILA Protocol (TP) describes standards already implemented in STABILA network but not published as a TIP.
+* [White Paper](https://stabila.network/resources?lng=&name=1) White paper of STABILA network.
 
 # License
 java-stabila is released under the [LGPLv3 license](https://github.com/stabilaprotocol/java-stabila/blob/master/LICENSE).

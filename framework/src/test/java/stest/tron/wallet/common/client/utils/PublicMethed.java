@@ -2298,7 +2298,7 @@ public class PublicMethed {
    * constructor.
    */
 
-  public static Boolean freezeBalanceGetTronPower(byte[] addRess, long freezeBalance,
+  public static Boolean freezeBalanceGetStabilaPower(byte[] addRess, long freezeBalance,
       long freezeDuration, int resourceCode, ByteString receiverAddress,String priKey,
       WalletGrpc.WalletBlockingStub blockingStubFull) {
     return freezeBalanceForReceiver(addRess,freezeBalance,

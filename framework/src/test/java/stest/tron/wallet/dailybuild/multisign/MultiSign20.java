@@ -37,7 +37,7 @@ public class MultiSign20 {
   private final String witnessKey001 = Configuration.getByPath("testng.conf")
       .getString("witness.key1");
   private final byte[] witnessAddress001 = PublicMethed.getFinalAddress(witnessKey001);
-  private final String contractTronDiceAddr = "TMYcx6eoRXnePKT1jVn25ZNeMNJ6828HWk";
+  private final String contractStabilaDiceAddr = "TMYcx6eoRXnePKT1jVn25ZNeMNJ6828HWk";
   private long multiSignFee = Configuration.getByPath("testng.conf")
       .getLong("defaultParameter.multiSignFee");
   private long updateAccountPermissionFee = Configuration.getByPath("testng.conf")
@@ -317,7 +317,7 @@ public class MultiSign20 {
         response.getMessage().toStringUtf8());
 
     // address = contract address
-    byte[] ownerAddress02 = contractTronDiceAddr.getBytes();
+    byte[] ownerAddress02 = contractStabilaDiceAddr.getBytes();
     accountPermissionJson =
         "{\"owner_permission\":{\"type\":0,\"permission_name\":\"owner\",\"threshold\":2,\"keys\":["
             + "{\"address\":\"" + PublicMethed.getAddressString(witnessKey001) + "\",\"weight\":1},"

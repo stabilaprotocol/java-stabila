@@ -1,6 +1,6 @@
 package org.stabila.core.exception;
 
-public class NonCommonBlockException extends TronException {
+public class NonCommonBlockException extends StabilaException {
 
   public NonCommonBlockException() {
     super();

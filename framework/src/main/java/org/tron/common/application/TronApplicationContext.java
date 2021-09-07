@@ -7,20 +7,20 @@ import org.stabila.common.overlay.discover.node.NodeManager;
 import org.stabila.common.overlay.server.ChannelManager;
 import org.stabila.core.db.Manager;
 
-public class TronApplicationContext extends AnnotationConfigApplicationContext {
+public class StabilaApplicationContext extends AnnotationConfigApplicationContext {
 
-  public TronApplicationContext() {
+  public StabilaApplicationContext() {
   }
 
-  public TronApplicationContext(DefaultListableBeanFactory beanFactory) {
+  public StabilaApplicationContext(DefaultListableBeanFactory beanFactory) {
     super(beanFactory);
   }
 
-  public TronApplicationContext(Class<?>... annotatedClasses) {
+  public StabilaApplicationContext(Class<?>... annotatedClasses) {
     super(annotatedClasses);
   }
 
-  public TronApplicationContext(String... basePackages) {
+  public StabilaApplicationContext(String... basePackages) {
     super(basePackages);
   }
 

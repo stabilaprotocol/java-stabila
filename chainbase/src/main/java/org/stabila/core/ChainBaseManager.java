@@ -26,7 +26,7 @@ import org.stabila.core.db.KhaosDatabase;
 import org.stabila.core.db.PbftSignDataStore;
 import org.stabila.core.db.RecentBlockStore;
 import org.stabila.core.db.TransactionStore;
-import org.stabila.core.db2.core.ITronChainBase;
+import org.stabila.core.db2.core.IStabilaChainBase;
 import org.stabila.core.exception.BadItemException;
 import org.stabila.core.exception.HeaderNotFound;
 import org.stabila.core.exception.ItemNotFoundException;
@@ -216,7 +216,7 @@ public class ChainBaseManager {
   @Setter
   private TreeBlockIndexStore merkleTreeIndexStore;
 
-  public void closeOneStore(ITronChainBase database) {
+  public void closeOneStore(IStabilaChainBase database) {
     logger.info("******** begin to close " + database.getName() + " ********");
     try {
       database.close();

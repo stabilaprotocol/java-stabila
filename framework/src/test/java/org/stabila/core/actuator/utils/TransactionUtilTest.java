@@ -12,7 +12,7 @@ import org.junit.Test;
 import org.stabila.core.utils.TransactionUtil;
 import org.stabila.common.application.Application;
 import org.stabila.common.application.ApplicationFactory;
-import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.utils.FileUtil;
 import org.stabila.core.Constant;
 import org.stabila.core.config.DefaultConfig;
@@ -24,7 +24,7 @@ public class TransactionUtilTest {
 
   private static final String dbPath = "output_transactionUtil_test";
   public static Application AppT;
-  private static TronApplicationContext context;
+  private static StabilaApplicationContext context;
 
   /**
    * Init .
@@ -32,7 +32,7 @@ public class TransactionUtilTest {
   @BeforeClass
   public static void init() {
     Args.setParam(new String[]{"--output-directory", dbPath}, Constant.TEST_CONF);
-    context = new TronApplicationContext(DefaultConfig.class);
+    context = new StabilaApplicationContext(DefaultConfig.class);
     AppT = ApplicationFactory.create(context);
   }
 

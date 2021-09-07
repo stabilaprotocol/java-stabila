@@ -12,7 +12,7 @@ import org.stabila.core.config.args.Args;
 import org.testng.annotations.Test;
 import org.stabila.common.application.Application;
 import org.stabila.common.application.ApplicationFactory;
-import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.utils.ByteArray;
 import org.stabila.common.utils.FileUtil;
 import org.stabila.common.utils.Sha256Hash;
@@ -29,7 +29,7 @@ import org.stabila.protos.contract.AssetIssueContractOuterClass.AssetIssueContra
 public class AssetUpdateHelperTest {
 
   private static ChainBaseManager chainBaseManager;
-  private static TronApplicationContext context;
+  private static StabilaApplicationContext context;
   private static String dbPath = "output_AssetUpdateHelperTest_test";
   private static Application AppT;
 
@@ -38,7 +38,7 @@ public class AssetUpdateHelperTest {
   static {
     Args.setParam(new String[]{"-d", dbPath, "-w"}, "config-test-index.conf");
     Args.getInstance().setSolidityNode(true);
-    context = new TronApplicationContext(DefaultConfig.class);
+    context = new StabilaApplicationContext(DefaultConfig.class);
     AppT = ApplicationFactory.create(context);
   }
 

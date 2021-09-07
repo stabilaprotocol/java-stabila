@@ -52,7 +52,7 @@ import org.stabila.core.ChainBaseManager;
 import org.stabila.core.actuator.ActuatorCreator;
 import org.stabila.core.capsule.utils.TransactionUtil;
 import org.stabila.core.db2.core.Chainbase;
-import org.stabila.core.db2.core.ITronChainBase;
+import org.stabila.core.db2.core.IStabilaChainBase;
 import org.stabila.core.db2.core.SnapshotManager;
 import org.stabila.core.service.MortgageService;
 import org.stabila.core.utils.TransactionRegister;
@@ -1639,7 +1639,7 @@ public class Manager {
     logger.info("******** end to close db ********");
   }
 
-  public void closeOneStore(ITronChainBase database) {
+  public void closeOneStore(IStabilaChainBase database) {
     logger.info("******** begin to close " + database.getName() + " ********");
     try {
       database.close();

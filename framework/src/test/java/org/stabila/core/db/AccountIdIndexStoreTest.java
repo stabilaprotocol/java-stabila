@@ -13,7 +13,7 @@ import org.stabila.core.capsule.AccountCapsule;
 import org.stabila.core.config.DefaultConfig;
 import org.stabila.core.config.args.Args;
 import org.stabila.core.store.AccountIdIndexStore;
-import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.utils.FileUtil;
 import org.stabila.protos.Protocol.AccountType;
 
@@ -29,7 +29,7 @@ public class AccountIdIndexStoreTest {
   private static final byte[] ACCOUNT_NAME_FOUR = randomBytes(6);
   private static final byte[] ACCOUNT_NAME_FIVE = randomBytes(6);
   private static String dbPath = "output_AccountIndexStore_test";
-  private static TronApplicationContext context;
+  private static StabilaApplicationContext context;
   private static AccountIdIndexStore accountIdIndexStore;
   private static AccountCapsule accountCapsule1;
   private static AccountCapsule accountCapsule2;
@@ -39,7 +39,7 @@ public class AccountIdIndexStoreTest {
   static {
     Args.setParam(new String[]{"--output-directory", dbPath},
         Constant.TEST_CONF);
-    context = new TronApplicationContext(DefaultConfig.class);
+    context = new StabilaApplicationContext(DefaultConfig.class);
   }
 
   @AfterClass

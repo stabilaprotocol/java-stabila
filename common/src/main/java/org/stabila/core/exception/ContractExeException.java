@@ -1,6 +1,6 @@
 package org.stabila.core.exception;
 
-public class ContractExeException extends TronException {
+public class ContractExeException extends StabilaException {
 
   public ContractExeException() {
     super();

@@ -17,7 +17,7 @@ import org.stabila.api.WalletGrpc;
 import org.stabila.api.WalletSolidityGrpc;
 import org.stabila.common.application.Application;
 import org.stabila.common.application.ApplicationFactory;
-import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.config.DbBackupConfig;
 import org.stabila.common.crypto.ECKey;
 import org.stabila.common.utils.FileUtil;
@@ -36,7 +36,7 @@ public class LiteFullNodeToolTest {
 
   private static final Logger logger = LoggerFactory.getLogger("Test");
 
-  private TronApplicationContext context;
+  private StabilaApplicationContext context;
   private ManagedChannel channelFull = null;
   private WalletGrpc.WalletBlockingStub blockingStubFull = null;
   private WalletSolidityGrpc.WalletSolidityBlockingStub blockingStubSolidity = null;
@@ -54,7 +54,7 @@ public class LiteFullNodeToolTest {
    * init logic.
    */
   public void startApp() {
-    context = new TronApplicationContext(DefaultConfig.class);
+    context = new StabilaApplicationContext(DefaultConfig.class);
     appTest = ApplicationFactory.create(context);
     rpcApiService = context.getBean(RpcApiService.class);
     rpcApiServiceOnSolidity = context.getBean(RpcApiServiceOnSolidity.class);

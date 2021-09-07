@@ -12,7 +12,7 @@ import org.junit.Test;
 import org.testng.Assert;
 import org.stabila.common.application.Application;
 import org.stabila.common.application.ApplicationFactory;
-import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.utils.FileUtil;
 import org.stabila.core.Constant;
 import org.stabila.core.Wallet;
@@ -41,7 +41,7 @@ import org.stabila.protos.contract.SmartContractOuterClass.TriggerSmartContract;
 public class RuntimeImplTest {
 
   private Manager dbManager;
-  private TronApplicationContext context;
+  private StabilaApplicationContext context;
   private Repository repository;
   private String dbPath = "output_RuntimeImplTest";
   private Application AppT;
@@ -56,7 +56,7 @@ public class RuntimeImplTest {
   @Before
   public void init() {
     Args.setParam(new String[]{"--output-directory", dbPath, "--debug"}, Constant.TEST_CONF);
-    context = new TronApplicationContext(DefaultConfig.class);
+    context = new StabilaApplicationContext(DefaultConfig.class);
     AppT = ApplicationFactory.create(context);
     callerAddress = Hex
         .decode(Wallet.getAddressPreFixString() + "abd4b9367799eaa3197fecb144eb71de1e049abc");

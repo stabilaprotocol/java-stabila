@@ -14,7 +14,7 @@ import org.stabila.core.exception.BadItemException;
 import org.stabila.core.exception.ItemNotFoundException;
 import org.stabila.common.application.Application;
 import org.stabila.common.application.ApplicationFactory;
-import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.utils.FileUtil;
 import org.stabila.core.db2.RevokingDbWithCacheNewValueTest.TestRevokingStabilaStore;
 import org.stabila.core.db2.SnapshotRootTest.ProtoCapsuleTest;
@@ -23,7 +23,7 @@ import org.stabila.core.db2.SnapshotRootTest.ProtoCapsuleTest;
 public class SnapshotManagerTest {
 
   private SnapshotManager revokingDatabase;
-  private TronApplicationContext context;
+  private StabilaApplicationContext context;
   private Application appT;
   private TestRevokingStabilaStore tronDatabase;
 
@@ -31,7 +31,7 @@ public class SnapshotManagerTest {
   public void init() {
     Args.setParam(new String[]{"-d", "output_SnapshotManager_test"},
         Constant.TEST_CONF);
-    context = new TronApplicationContext(DefaultConfig.class);
+    context = new StabilaApplicationContext(DefaultConfig.class);
     appT = ApplicationFactory.create(context);
     revokingDatabase = context.getBean(SnapshotManager.class);
     revokingDatabase.enable();

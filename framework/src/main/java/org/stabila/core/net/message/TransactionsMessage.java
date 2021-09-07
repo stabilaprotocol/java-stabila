@@ -6,7 +6,7 @@ import org.stabila.core.capsule.TransactionCapsule;
 import org.stabila.protos.Protocol;
 import org.stabila.protos.Protocol.Transaction;
 
-public class TransactionsMessage extends TronMessage {
+public class TransactionsMessage extends StabilaMessage {
 
   private Protocol.Transactions transactions;
 

@@ -9,7 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.stabila.core.config.args.Args;
 import org.testng.collections.Lists;
-import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.net.udp.message.Message;
 import org.stabila.common.net.udp.message.discover.FindNodeMessage;
 import org.stabila.common.net.udp.message.discover.NeighborsMessage;
@@ -26,7 +26,7 @@ public class UdpTest {
   //private volatile boolean finishFlag = false;
   //private long timeOut = 30_000;
 
-  public UdpTest(TronApplicationContext context) {
+  public UdpTest(StabilaApplicationContext context) {
     nodeManager = context.getBean(NodeManager.class);
   }
 

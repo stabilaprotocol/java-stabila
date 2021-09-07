@@ -23,7 +23,7 @@ import org.stabila.core.consensus.ConsensusService;
 import org.stabila.core.db.Manager;
 import org.stabila.core.exception.ContractExeException;
 import org.stabila.core.exception.ContractValidateException;
-import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.utils.ByteArray;
 import org.stabila.common.utils.FileUtil;
 import org.stabila.common.utils.StringUtil;
@@ -49,14 +49,14 @@ public class VoteWitnessActuatorTest {
   private static final String WITNESS_ADDRESS_NOACCOUNT;
   private static final String OWNER_ADDRESS_NOACCOUNT;
   private static final String OWNER_ADDRESS_BALANCENOTSUFFICIENT;
-  private static TronApplicationContext context;
+  private static StabilaApplicationContext context;
   private static Manager dbManager;
   private static MaintenanceManager maintenanceManager;
   private static ConsensusService consensusService;
 
   static {
     Args.setParam(new String[]{"--output-directory", dbPath}, Constant.TEST_CONF);
-    context = new TronApplicationContext(DefaultConfig.class);
+    context = new StabilaApplicationContext(DefaultConfig.class);
     OWNER_ADDRESS = Wallet.getAddressPreFixString() + "abd4b9367799eaa3197fecb144eb71de1e049abc";
     WITNESS_ADDRESS = Wallet.getAddressPreFixString() + "548794500882809695a8a687866e76d4271a1abc";
     WITNESS_ADDRESS_NOACCOUNT =
@@ -499,14 +499,14 @@ public class VoteWitnessActuatorTest {
       actuator.validate();
       actuator.execute(ret);
       fail("The total number of votes[" + 1000000 + "] is greater than the tronPower["
-          + balanceNotSufficientCapsule.getTronPower() + "]");
+          + balanceNotSufficientCapsule.getStabilaPower() + "]");
     } catch (ContractValidateException e) {
       Assert.assertEquals(0, dbManager.getAccountStore()
           .get(ByteArray.fromHexString(OWNER_ADDRESS_BALANCENOTSUFFICIENT)).getVotesList().size());
       Assert.assertTrue(e instanceof ContractValidateException);
       Assert
           .assertEquals("The total number of votes[" + 1000000 + "] is greater than the tronPower["
-              + balanceNotSufficientCapsule.getTronPower() + "]", e.getMessage());
+              + balanceNotSufficientCapsule.getStabilaPower() + "]", e.getMessage());
       maintenanceManager.doMaintenance();
       WitnessCapsule witnessCapsule = dbManager.getWitnessStore()
           .get(StringUtil.hexString2ByteString(WITNESS_ADDRESS).toByteArray());
@@ -580,7 +580,7 @@ public class VoteWitnessActuatorTest {
 
 
   @Test
-  public void voteWitnessWithoutEnoughOldTronPowerAfterNewResourceModel() {
+  public void voteWitnessWithoutEnoughOldStabilaPowerAfterNewResourceModel() {
 
     dbManager.getDynamicPropertiesStore().saveAllowNewResourceModel(1L);
 
@@ -603,7 +603,7 @@ public class VoteWitnessActuatorTest {
   }
 
   @Test
-  public void voteWitnessWithOldTronPowerAfterNewResourceModel() {
+  public void voteWitnessWithOldStabilaPowerAfterNewResourceModel() {
 
     dbManager.getDynamicPropertiesStore().saveAllowNewResourceModel(1L);
 
@@ -622,7 +622,7 @@ public class VoteWitnessActuatorTest {
 
       owner =
           dbManager.getAccountStore().get(ByteArray.fromHexString(OWNER_ADDRESS));
-      Assert.assertEquals(2000000L, owner.getInstance().getOldTronPower());
+      Assert.assertEquals(2000000L, owner.getInstance().getOldStabilaPower());
     } catch (ContractValidateException e) {
       e.printStackTrace();
       Assert.assertFalse(e instanceof ContractValidateException);
@@ -634,14 +634,14 @@ public class VoteWitnessActuatorTest {
 
 
   @Test
-  public void voteWitnessWithOldAndNewTronPowerAfterNewResourceModel() {
+  public void voteWitnessWithOldAndNewStabilaPowerAfterNewResourceModel() {
 
     dbManager.getDynamicPropertiesStore().saveAllowNewResourceModel(1L);
 
     AccountCapsule owner =
         dbManager.getAccountStore().get(ByteArray.fromHexString(OWNER_ADDRESS));
     owner.setFrozenForEnergy(2000000L,0L);
-    owner.setFrozenForTronPower(1000000L,0L);
+    owner.setFrozenForStabilaPower(1000000L,0L);
     dbManager.getAccountStore().put(ByteArray.fromHexString(OWNER_ADDRESS),owner);
 
     VoteWitnessActuator actuator = new VoteWitnessActuator();
@@ -654,9 +654,9 @@ public class VoteWitnessActuatorTest {
 
       owner =
           dbManager.getAccountStore().get(ByteArray.fromHexString(OWNER_ADDRESS));
-      Assert.assertEquals(3000000L, owner.getAllTronPower());
-      Assert.assertEquals(2000000L, owner.getInstance().getOldTronPower());
-      Assert.assertEquals(1000000L, owner.getInstance().getTronPower().getFrozenBalance());
+      Assert.assertEquals(3000000L, owner.getAllStabilaPower());
+      Assert.assertEquals(2000000L, owner.getInstance().getOldStabilaPower());
+      Assert.assertEquals(1000000L, owner.getInstance().getStabilaPower().getFrozenBalance());
     } catch (ContractValidateException e) {
       e.printStackTrace();
       Assert.assertFalse(e instanceof ContractValidateException);
@@ -668,14 +668,14 @@ public class VoteWitnessActuatorTest {
 
 
   @Test
-  public void voteWitnessWithoutEnoughOldAndNewTronPowerAfterNewResourceModel() {
+  public void voteWitnessWithoutEnoughOldAndNewStabilaPowerAfterNewResourceModel() {
 
     dbManager.getDynamicPropertiesStore().saveAllowNewResourceModel(1L);
 
     AccountCapsule owner =
         dbManager.getAccountStore().get(ByteArray.fromHexString(OWNER_ADDRESS));
     owner.setFrozenForEnergy(2000000L,0L);
-    owner.setFrozenForTronPower(1000000L,0L);
+    owner.setFrozenForStabilaPower(1000000L,0L);
     dbManager.getAccountStore().put(ByteArray.fromHexString(OWNER_ADDRESS),owner);
 
     VoteWitnessActuator actuator = new VoteWitnessActuator();

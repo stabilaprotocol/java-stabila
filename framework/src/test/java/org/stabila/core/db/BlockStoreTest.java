@@ -8,19 +8,19 @@ import org.junit.Test;
 import org.stabila.core.Constant;
 import org.stabila.core.config.DefaultConfig;
 import org.stabila.core.config.args.Args;
-import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.utils.FileUtil;
 
 @Slf4j
 public class BlockStoreTest {
 
   private static final String dbPath = "output-blockStore-test";
-  private static TronApplicationContext context;
+  private static StabilaApplicationContext context;
 
   static {
     Args.setParam(new String[]{"--output-directory", dbPath},
         Constant.TEST_CONF);
-    context = new TronApplicationContext(DefaultConfig.class);
+    context = new StabilaApplicationContext(DefaultConfig.class);
   }
 
   BlockStore blockStore;

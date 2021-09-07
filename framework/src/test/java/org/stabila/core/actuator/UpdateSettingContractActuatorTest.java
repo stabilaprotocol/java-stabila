@@ -21,7 +21,7 @@ import org.stabila.core.config.args.Args;
 import org.stabila.core.db.Manager;
 import org.stabila.core.exception.ContractExeException;
 import org.stabila.core.exception.ContractValidateException;
-import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.utils.ByteArray;
 import org.stabila.common.utils.FileUtil;
 import org.stabila.common.utils.StringUtil;
@@ -46,12 +46,12 @@ public class UpdateSettingContractActuatorTest {
   private static final long SOURCE_PERCENT = 10L;
   private static final long TARGET_PERCENT = 30L;
   private static final long INVALID_PERCENT = 200L;
-  private static TronApplicationContext context;
+  private static StabilaApplicationContext context;
   private static Manager dbManager;
 
   static {
     Args.setParam(new String[]{"--output-directory", dbPath}, Constant.TEST_CONF);
-    context = new TronApplicationContext(DefaultConfig.class);
+    context = new StabilaApplicationContext(DefaultConfig.class);
     OWNER_ADDRESS = Wallet.getAddressPreFixString() + "abd4b9367799eaa3197fecb144eb71de1e049abc";
     OWNER_ADDRESS_NOTEXIST =
         Wallet.getAddressPreFixString() + "548794500882809695a8a687866e76d4271a1abc";

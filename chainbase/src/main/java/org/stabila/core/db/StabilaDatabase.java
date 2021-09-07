@@ -12,12 +12,12 @@ import org.stabila.common.storage.leveldb.LevelDbDataSourceImpl;
 import org.stabila.common.storage.rocksdb.RocksDbDataSourceImpl;
 import org.stabila.common.utils.StorageUtils;
 import org.stabila.core.db.common.DbSourceInter;
-import org.stabila.core.db2.core.ITronChainBase;
+import org.stabila.core.db2.core.IStabilaChainBase;
 import org.stabila.core.exception.BadItemException;
 import org.stabila.core.exception.ItemNotFoundException;
 
 @Slf4j(topic = "DB")
-public abstract class StabilaDatabase<T> implements ITronChainBase<T> {
+public abstract class StabilaDatabase<T> implements IStabilaChainBase<T> {
 
   protected DbSourceInter<byte[]> dbSource;
   @Getter

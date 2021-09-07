@@ -25,7 +25,7 @@ import org.stabila.core.Wallet;
 import org.stabila.core.config.DefaultConfig;
 import org.stabila.core.config.args.Args;
 import org.stabila.core.consensus.ConsensusService;
-import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.crypto.ECKey;
 import org.stabila.common.utils.ByteArray;
 import org.stabila.common.utils.FileUtil;
@@ -82,7 +82,7 @@ public class ManagerTest extends BlockGenerate {
   private static ChainBaseManager chainManager;
   private static ConsensusService consensusService;
   private static DposSlot dposSlot;
-  private static TronApplicationContext context;
+  private static StabilaApplicationContext context;
   private static BlockCapsule blockCapsule2;
   private static String dbPath = "output_manager_test";
   private static AtomicInteger port = new AtomicInteger(0);
@@ -93,7 +93,7 @@ public class ManagerTest extends BlockGenerate {
   public void init() {
     Args.setParam(new String[]{"-d", dbPath, "-w"}, Constant.TEST_CONF);
     Args.getInstance().setNodeListenPort(10000 + port.incrementAndGet());
-    context = new TronApplicationContext(DefaultConfig.class);
+    context = new StabilaApplicationContext(DefaultConfig.class);
 
     dbManager = context.getBean(Manager.class);
     setManager(dbManager);

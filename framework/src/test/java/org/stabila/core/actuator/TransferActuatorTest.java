@@ -14,7 +14,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.runtime.TvmTestUtils;
 import org.stabila.common.storage.DepositImpl;
 import org.stabila.common.utils.ByteArray;
@@ -51,11 +51,11 @@ public class TransferActuatorTest {
   private static final String OWNER_NO_BALANCE;
   private static final String To_ACCOUNT_INVALID;
   private static Manager dbManager;
-  private static TronApplicationContext context;
+  private static StabilaApplicationContext context;
 
   static {
     Args.setParam(new String[]{"--output-directory", dbPath}, Constant.TEST_CONF);
-    context = new TronApplicationContext(DefaultConfig.class);
+    context = new StabilaApplicationContext(DefaultConfig.class);
     OWNER_ADDRESS = Wallet.getAddressPreFixString() + "548794500882809695a8a687866e76d4271a1abc";
     TO_ADDRESS = Wallet.getAddressPreFixString() + "abd4b9367799eaa3197fecb144eb71de1e049abc";
     OWNER_ACCOUNT_INVALID =

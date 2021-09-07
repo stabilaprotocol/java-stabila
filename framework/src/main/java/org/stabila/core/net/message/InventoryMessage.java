@@ -10,7 +10,7 @@ import org.stabila.protos.Protocol.Inventory;
 import org.stabila.protos.Protocol.Inventory.InventoryType;
 
 
-public class InventoryMessage extends TronMessage {
+public class InventoryMessage extends StabilaMessage {
 
   protected Inventory inv;
 

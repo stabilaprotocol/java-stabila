@@ -10,7 +10,7 @@ import org.junit.Test;
 import org.testng.Assert;
 import org.stabila.common.application.Application;
 import org.stabila.common.application.ApplicationFactory;
-import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.runtime.TVMTestResult;
 import org.stabila.common.runtime.TvmTestUtils;
 import org.stabila.common.storage.DepositImpl;
@@ -35,7 +35,7 @@ import org.stabila.protos.Protocol.AccountType;
 public class EnergyWhenAssertStyleTest {
 
   private Manager dbManager;
-  private TronApplicationContext context;
+  private StabilaApplicationContext context;
   private DepositImpl deposit;
   private String dbPath = "output_EnergyWhenAssertStyleTest";
   private String OWNER_ADDRESS;
@@ -49,7 +49,7 @@ public class EnergyWhenAssertStyleTest {
   @Before
   public void init() {
     Args.setParam(new String[]{"--output-directory", dbPath, "--debug"}, Constant.TEST_CONF);
-    context = new TronApplicationContext(DefaultConfig.class);
+    context = new StabilaApplicationContext(DefaultConfig.class);
     AppT = ApplicationFactory.create(context);
     OWNER_ADDRESS = Wallet.getAddressPreFixString() + "abd4b9367799eaa3197fecb144eb71de1e049abc";
     dbManager = context.getBean(Manager.class);
@@ -457,7 +457,7 @@ public class EnergyWhenAssertStyleTest {
 
   // pragma solidity ^0.4.0;
   //
-  // contract TronNative{
+  // contract StabilaNative{
   //
   //   address public voteContractAddress= 0x10001;
   //

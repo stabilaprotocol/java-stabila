@@ -1,6 +1,6 @@
 package org.stabila.core.exception;
 
-public class UnLinkedBlockException extends TronException {
+public class UnLinkedBlockException extends StabilaException {
 
   public UnLinkedBlockException() {
     super();

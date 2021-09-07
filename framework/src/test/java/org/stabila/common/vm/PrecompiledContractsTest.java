@@ -1,6 +1,6 @@
 package org.stabila.common.runtime.vm;
 
-import static org.stabila.core.db.TransactionTrace.convertToTronAddress;
+import static org.stabila.core.db.TransactionTrace.convertToStabilaAddress;
 
 import com.google.protobuf.Any;
 import com.google.protobuf.ByteString;
@@ -17,7 +17,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.stabila.common.application.Application;
 import org.stabila.common.application.ApplicationFactory;
-import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.runtime.ProgramResult;
 import org.stabila.common.utils.ByteArray;
 import org.stabila.common.utils.ByteUtil;
@@ -59,9 +59,9 @@ public class PrecompiledContractsTest {
       "0000000000000000000000000000000000000000000000000000000000010006");
   private static final DataWord proposalDeleteAddr = new DataWord(
       "0000000000000000000000000000000000000000000000000000000000010007");
-  private static final DataWord convertFromTronBytesAddressAddr = new DataWord(
+  private static final DataWord convertFromStabilaBytesAddressAddr = new DataWord(
       "0000000000000000000000000000000000000000000000000000000000010008");
-  private static final DataWord convertFromTronBase58AddressAddr = new DataWord(
+  private static final DataWord convertFromStabilaBase58AddressAddr = new DataWord(
       "0000000000000000000000000000000000000000000000000000000000010009");
   private static final String dbPath = "output_PrecompiledContracts_test";
   private static final String ACCOUNT_NAME = "account";
@@ -73,13 +73,13 @@ public class PrecompiledContractsTest {
   // withdraw
   private static final long initBalance = 10_000_000_000L;
   private static final long allowance = 32_000_000L;
-  private static TronApplicationContext context;
+  private static StabilaApplicationContext context;
   private static Application appT;
   private static Manager dbManager;
 
   static {
     Args.setParam(new String[]{"--output-directory", dbPath, "--debug"}, Constant.TEST_CONF);
-    context = new TronApplicationContext(DefaultConfig.class);
+    context = new StabilaApplicationContext(DefaultConfig.class);
     appT = ApplicationFactory.create(context);
     OWNER_ADDRESS = Wallet.getAddressPreFixString() + "abd4b9367799eaa3197fecb144eb71de1e049abc";
     WITNESS_ADDRESS = Wallet.getAddressPreFixString() + WITNESS_ADDRESS_BASE;
@@ -157,7 +157,7 @@ public class PrecompiledContractsTest {
 
   private PrecompiledContract createPrecompiledContract(DataWord addr, String ownerAddress) {
     PrecompiledContract contract = PrecompiledContracts.getContractForAddress(addr);
-    contract.setCallerAddress(convertToTronAddress(Hex.decode(ownerAddress)));
+    contract.setCallerAddress(convertToStabilaAddress(Hex.decode(ownerAddress)));
     contract.setRepository(RepositoryImpl.createRoot(StoreFactory.getInstance()));
     ProgramResult programResult = new ProgramResult();
     contract.setResult(programResult);
@@ -285,11 +285,11 @@ public class PrecompiledContractsTest {
   }
 
   @Test
-  public void convertFromTronBytesAddressNativeTest() {
+  public void convertFromStabilaBytesAddressNativeTest() {
   }
 
   //@Test
-  public void convertFromTronBase58AddressNative() {
+  public void convertFromStabilaBase58AddressNative() {
     // 27WnTihwXsqCqpiNedWvtKCZHsLjDt4Hfmf  TestNet address
     DataWord word1 = new DataWord(
         "3237576e54696877587371437170694e65645776744b435a48734c6a44743448");
@@ -300,7 +300,7 @@ public class PrecompiledContractsTest {
     System.arraycopy(word1.getData(), 0, data, 0, word1.getData().length);
     System.arraycopy(Arrays.copyOfRange(word2.getData(), 0, 3), 0,
         data, word1.getData().length, 3);
-    PrecompiledContract contract = createPrecompiledContract(convertFromTronBase58AddressAddr,
+    PrecompiledContract contract = createPrecompiledContract(convertFromStabilaBase58AddressAddr,
         WITNESS_ADDRESS);
 
     byte[] solidityAddress = contract.execute(data).getRight();

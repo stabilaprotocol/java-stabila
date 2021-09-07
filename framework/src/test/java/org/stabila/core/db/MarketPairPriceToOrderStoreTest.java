@@ -17,7 +17,7 @@ import org.stabila.core.config.args.Args;
 import org.stabila.core.exception.ItemNotFoundException;
 import org.stabila.core.store.MarketPairPriceToOrderStore;
 import org.stabila.core.store.MarketPairToPriceStore;
-import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.utils.ByteArray;
 import org.stabila.common.utils.ByteUtil;
 import org.stabila.common.utils.FileUtil;
@@ -28,12 +28,12 @@ import org.stabila.protos.Protocol.MarketPrice;
 public class MarketPairPriceToOrderStoreTest {
 
   private static final String dbPath = "output-MarketPairPriceToOrderStore-test";
-  private static TronApplicationContext context;
+  private static StabilaApplicationContext context;
   private static Manager dbManager;
 
   static {
     Args.setParam(new String[]{"-d", dbPath}, Constant.TEST_CONF);
-    context = new TronApplicationContext(DefaultConfig.class);
+    context = new StabilaApplicationContext(DefaultConfig.class);
   }
 
   /**

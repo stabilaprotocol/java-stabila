@@ -1,6 +1,6 @@
 package org.stabila.core.exception;
 
-public class TraitorPeerException extends TronException {
+public class TraitorPeerException extends StabilaException {
 
   public TraitorPeerException() {
     super();

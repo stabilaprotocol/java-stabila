@@ -7,10 +7,10 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.stabila.core.capsule.BlockCapsule;
-import org.stabila.core.net.TronNetDelegate;
+import org.stabila.core.net.StabilaNetDelegate;
 import org.stabila.core.net.message.ChainInventoryMessage;
 import org.stabila.core.net.message.SyncBlockChainMessage;
-import org.stabila.core.net.message.TronMessage;
+import org.stabila.core.net.message.StabilaMessage;
 import org.stabila.core.net.peer.PeerConnection;
 import org.stabila.core.config.Parameter.NetConstants;
 import org.stabila.core.exception.P2pException;
@@ -19,13 +19,13 @@ import org.stabila.protos.Protocol;
 
 @Slf4j(topic = "net")
 @Component
-public class SyncBlockChainMsgHandler implements TronMsgHandler {
+public class SyncBlockChainMsgHandler implements StabilaMsgHandler {
 
   @Autowired
-  private TronNetDelegate stabilaNetDelegate;
+  private StabilaNetDelegate stabilaNetDelegate;
 
   @Override
-  public void processMessage(PeerConnection peer, TronMessage msg) throws P2pException {
+  public void processMessage(PeerConnection peer, StabilaMessage msg) throws P2pException {
 
     SyncBlockChainMessage syncBlockChainMessage = (SyncBlockChainMessage) msg;
 

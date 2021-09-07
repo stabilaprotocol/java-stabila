@@ -1,6 +1,6 @@
 package org.stabila.core.exception;
 
-public class HighFreqException extends TronException {
+public class HighFreqException extends StabilaException {
 
   public HighFreqException() {
     super();

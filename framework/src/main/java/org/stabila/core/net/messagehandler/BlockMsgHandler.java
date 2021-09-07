@@ -8,9 +8,9 @@ import org.bouncycastle.util.encoders.Hex;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.stabila.core.capsule.BlockCapsule;
-import org.stabila.core.net.TronNetDelegate;
+import org.stabila.core.net.StabilaNetDelegate;
 import org.stabila.core.net.message.BlockMessage;
-import org.stabila.core.net.message.TronMessage;
+import org.stabila.core.net.message.StabilaMessage;
 import org.stabila.core.net.peer.Item;
 import org.stabila.core.net.peer.PeerConnection;
 import org.stabila.core.net.service.AdvService;
@@ -24,10 +24,10 @@ import org.stabila.protos.Protocol.Inventory.InventoryType;
 
 @Slf4j(topic = "net")
 @Component
-public class BlockMsgHandler implements TronMsgHandler {
+public class BlockMsgHandler implements StabilaMsgHandler {
 
   @Autowired
-  private TronNetDelegate tronNetDelegate;
+  private StabilaNetDelegate tronNetDelegate;
 
   @Autowired
   private AdvService advService;
@@ -43,7 +43,7 @@ public class BlockMsgHandler implements TronMsgHandler {
   private boolean fastForward = Args.getInstance().isFastForward();
 
   @Override
-  public void processMessage(PeerConnection peer, TronMessage msg) throws P2pException {
+  public void processMessage(PeerConnection peer, StabilaMessage msg) throws P2pException {
 
     BlockMessage blockMessage = (BlockMessage) msg;
     BlockCapsule.BlockId blockId = blockMessage.getBlockId();

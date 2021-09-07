@@ -10,7 +10,7 @@ import org.stabila.core.capsule.BlockCapsule;
 import org.stabila.protos.Protocol;
 import org.stabila.protos.Protocol.ChainInventory;
 
-public class ChainInventoryMessage extends TronMessage {
+public class ChainInventoryMessage extends StabilaMessage {
 
   protected ChainInventory chainInventory;
 

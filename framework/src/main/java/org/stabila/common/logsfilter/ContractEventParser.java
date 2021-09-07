@@ -30,7 +30,7 @@ public class ContractEventParser {
         return Hex.toHexString(startBytes);
       } else if (type == Type.ADDRESS) {
         byte[] last20Bytes = Arrays.copyOfRange(startBytes, 12, startBytes.length);
-        return StringUtil.encode58Check(TransactionTrace.convertToTronAddress(last20Bytes));
+        return StringUtil.encode58Check(TransactionTrace.convertToStabilaAddress(last20Bytes));
       } else if (type == Type.STRING || type == Type.BYTES) {
         int start = intValueExact(startBytes);
         byte[] lengthBytes = subBytes(data, start, DATAWORD_UNIT_SIZE);
@@ -100,7 +100,7 @@ public class ContractEventParser {
       return String.valueOf(!DataWord.isZero(bytes));
     } else if (type == Type.ADDRESS) {
       byte[] last20Bytes = Arrays.copyOfRange(bytes, 12, bytes.length);
-      return StringUtil.encode58Check(TransactionTrace.convertToTronAddress(last20Bytes));
+      return StringUtil.encode58Check(TransactionTrace.convertToStabilaAddress(last20Bytes));
     }
     return Hex.toHexString(bytes);
   }

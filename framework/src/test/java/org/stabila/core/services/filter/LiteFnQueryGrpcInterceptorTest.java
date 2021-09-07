@@ -18,7 +18,7 @@ import org.stabila.api.WalletGrpc;
 import org.stabila.api.WalletSolidityGrpc;
 import org.stabila.common.application.Application;
 import org.stabila.common.application.ApplicationFactory;
-import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.utils.FileUtil;
 import org.stabila.core.Constant;
 import org.stabila.core.config.DefaultConfig;
@@ -31,7 +31,7 @@ public class LiteFnQueryGrpcInterceptorTest {
 
   private static final Logger logger = LoggerFactory.getLogger("Test");
 
-  private TronApplicationContext context;
+  private StabilaApplicationContext context;
   private ManagedChannel channelFull = null;
   private ManagedChannel channelpBFT = null;
   private WalletGrpc.WalletBlockingStub blockingStubFull = null;
@@ -64,7 +64,7 @@ public class LiteFnQueryGrpcInterceptorTest {
     channelpBFT = ManagedChannelBuilder.forTarget(pBFTNode)
             .usePlaintext(true)
             .build();
-    context = new TronApplicationContext(DefaultConfig.class);
+    context = new StabilaApplicationContext(DefaultConfig.class);
     blockingStubFull = WalletGrpc.newBlockingStub(channelFull);
     blockingStubSolidity = WalletSolidityGrpc.newBlockingStub(channelFull);
     blockingStubpBFT = WalletSolidityGrpc.newBlockingStub(channelpBFT);

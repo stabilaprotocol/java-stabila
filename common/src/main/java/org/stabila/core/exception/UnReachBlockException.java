@@ -1,6 +1,6 @@
 package org.stabila.core.exception;
 
-public class UnReachBlockException extends TronException {
+public class UnReachBlockException extends StabilaException {
 
   public UnReachBlockException() {
     super();

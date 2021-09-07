@@ -1,7 +1,7 @@
 package org.stabila.common.runtime.vm;
 
 import static org.stabila.common.utils.WalletUtil.generateContractAddress2;
-import static org.stabila.core.db.TransactionTrace.convertToTronAddress;
+import static org.stabila.core.db.TransactionTrace.convertToStabilaAddress;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -155,7 +155,7 @@ public class Create2Test extends VMTestBase {
     Assert.assertNull(result.getRuntime().getRuntimeError());
 
     byte[] returnValue = result.getRuntime().getResult().getHReturn();
-    byte[] actualContract = convertToTronAddress(Arrays.copyOfRange(returnValue,
+    byte[] actualContract = convertToStabilaAddress(Arrays.copyOfRange(returnValue,
         12, 32));
     // bug here, but we should keep it so that we can check consistences before istanbul
     // should be factory address rather than address
@@ -270,7 +270,7 @@ contract A {
     Assert.assertNull(result.getRuntime().getRuntimeError());
 
     byte[] returnValue = result.getRuntime().getResult().getHReturn();
-    byte[] actualContract = convertToTronAddress(Arrays.copyOfRange(returnValue,
+    byte[] actualContract = convertToStabilaAddress(Arrays.copyOfRange(returnValue,
         12, 32));
     byte[] expectedContract =
         generateContractAddress2(factoryAddress,

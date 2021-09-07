@@ -16,14 +16,14 @@ import org.stabila.core.exception.P2pException;
 import org.stabila.core.net.message.BlockMessage;
 import org.stabila.core.net.peer.Item;
 import org.stabila.core.net.peer.PeerConnection;
-import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.utils.Sha256Hash;
 import org.stabila.protos.Protocol.Inventory.InventoryType;
 import org.stabila.protos.Protocol.Transaction;
 
 public class BlockMsgHandlerTest {
 
-  protected TronApplicationContext context;
+  protected StabilaApplicationContext context;
   private BlockMsgHandler handler;
   private PeerConnection peer;
 
@@ -34,7 +34,7 @@ public class BlockMsgHandlerTest {
   public void init() {
     Args.setParam(new String[]{"--output-directory", "output-directory", "--debug"},
         Constant.TEST_CONF);
-    context = new TronApplicationContext(DefaultConfig.class);
+    context = new StabilaApplicationContext(DefaultConfig.class);
     handler = context.getBean(BlockMsgHandler.class);
     peer = context.getBean(PeerConnection.class);
   }

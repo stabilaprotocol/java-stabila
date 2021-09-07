@@ -16,7 +16,7 @@ import org.stabila.core.config.args.Args;
 import org.stabila.core.exception.BadItemException;
 import org.stabila.core.exception.ItemNotFoundException;
 import org.stabila.common.application.ApplicationFactory;
-import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.utils.ByteArray;
 import org.stabila.common.utils.ByteUtil;
 import org.stabila.common.utils.FileUtil;
@@ -27,14 +27,14 @@ import org.stabila.common.utils.StorageUtils;
 public class MarketPairPriceToOrderStoreWithCacheOldValueTest {
 
   private AbstractRevokingStore revokingDatabase;
-  private TronApplicationContext context;
+  private StabilaApplicationContext context;
 
   @Before
   public void init() {
     Args.setParam(new String[]{"-d", "output_market_revokingStore_test"}, Constant.TEST_CONF);
-    context = new TronApplicationContext(DefaultConfig.class);
+    context = new StabilaApplicationContext(DefaultConfig.class);
     ApplicationFactory.create(context);
-    revokingDatabase = new TestRevokingTronDatabase();
+    revokingDatabase = new TestRevokingStabilaDatabase();
     revokingDatabase.enable();
   }
 
@@ -182,7 +182,7 @@ public class MarketPairPriceToOrderStoreWithCacheOldValueTest {
     }
   }
 
-  private static class TestRevokingTronDatabase extends AbstractRevokingStore {
+  private static class TestRevokingStabilaDatabase extends AbstractRevokingStore {
 
   }
 }

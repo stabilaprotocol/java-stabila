@@ -15,7 +15,7 @@ import org.stabila.core.net.message.TransactionMessage;
 import org.stabila.core.net.peer.Item;
 import org.stabila.core.net.peer.PeerConnection;
 import org.stabila.core.net.service.AdvService;
-import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.overlay.server.SyncPool;
 import org.stabila.common.parameter.CommonParameter;
 import org.stabila.common.utils.ReflectUtils;
@@ -26,7 +26,7 @@ import org.stabila.protos.Protocol.Inventory.InventoryType;
 //@Ignore
 public class AdvServiceTest {
 
-  protected TronApplicationContext context;
+  protected StabilaApplicationContext context;
   private AdvService service;
   private PeerConnection peer;
   private SyncPool syncPool;
@@ -38,7 +38,7 @@ public class AdvServiceTest {
   public void init() {
     Args.setParam(new String[]{"--output-directory", "output-directory", "--debug"},
         Constant.TEST_CONF);
-    context = new TronApplicationContext(DefaultConfig.class);
+    context = new StabilaApplicationContext(DefaultConfig.class);
     service = context.getBean(AdvService.class);
   }
 

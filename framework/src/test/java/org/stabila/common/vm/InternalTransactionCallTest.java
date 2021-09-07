@@ -9,7 +9,7 @@ import org.junit.Test;
 import org.testng.Assert;
 import org.stabila.common.application.Application;
 import org.stabila.common.application.ApplicationFactory;
-import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.runtime.Runtime;
 import org.stabila.common.runtime.TvmTestUtils;
 import org.stabila.common.storage.DepositImpl;
@@ -30,7 +30,7 @@ public class InternalTransactionCallTest {
 
   private Runtime runtime;
   private Manager dbManager;
-  private TronApplicationContext context;
+  private StabilaApplicationContext context;
   private DepositImpl deposit;
   private String dbPath = "output_InternalTransactionCallTest";
   private String OWNER_ADDRESS;
@@ -45,7 +45,7 @@ public class InternalTransactionCallTest {
     Args.setParam(new String[]{"--output-directory", dbPath, "--support-constant", "--debug"},
         Constant.TEST_CONF);
 
-    context = new TronApplicationContext(DefaultConfig.class);
+    context = new StabilaApplicationContext(DefaultConfig.class);
     AppT = ApplicationFactory.create(context);
     OWNER_ADDRESS = Wallet.getAddressPreFixString() + "abd4b9367799eaa3197fecb144eb71de1e049abc";
     dbManager = context.getBean(Manager.class);

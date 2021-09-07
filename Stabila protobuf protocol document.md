@@ -1,8 +1,8 @@
-# Tron Protocol 
+# Stabila Protocol 
 
 ## Overview 
 
-This is the description of  Google Protobuf implementation of Tron's protocol.
+This is the description of  Google Protobuf implementation of Stabila's protocol.
 
 ## Contents 
 
@@ -24,7 +24,7 @@ This is the description of  Google Protobuf implementation of Tron's protocol.
 
 Account and account-related messages.
 
-- Tron has 3 `types` of account: Normal, AssetIssue, Contract
+- Stabila has 3 `types` of account: Normal, AssetIssue, Contract
 
 ```java
 enum AccountType {
@@ -821,7 +821,7 @@ Transaction and transaction-related messages.
 
 Contract and contract-related messages.
 
-- Tron has 33 types of Contracts declared within [`Transaction`](#trans).
+- Stabila has 33 types of Contracts declared within [`Transaction`](#trans).
 
 - message `Contract`
 

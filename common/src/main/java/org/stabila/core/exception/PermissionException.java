@@ -1,6 +1,6 @@
 package org.stabila.core.exception;
 
-public class PermissionException extends TronException {
+public class PermissionException extends StabilaException {
 
   public PermissionException() {
     super();

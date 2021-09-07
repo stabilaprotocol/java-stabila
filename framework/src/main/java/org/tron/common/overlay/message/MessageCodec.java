@@ -12,7 +12,7 @@ import org.stabila.core.metrics.MetricsKey;
 import org.stabila.core.metrics.MetricsUtil;
 import org.stabila.core.net.message.MessageTypes;
 import org.stabila.core.net.message.PbftMessageFactory;
-import org.stabila.core.net.message.TronMessageFactory;
+import org.stabila.core.net.message.StabilaMessageFactory;
 
 @Component
 @Scope("prototype")
@@ -20,7 +20,7 @@ public class MessageCodec extends ByteToMessageDecoder {
 
   private Channel channel;
   private P2pMessageFactory p2pMessageFactory = new P2pMessageFactory();
-  private TronMessageFactory tronMessageFactory = new TronMessageFactory();
+  private StabilaMessageFactory tronMessageFactory = new StabilaMessageFactory();
   private PbftMessageFactory pbftMessageFactory = new PbftMessageFactory();
 
   @Override
@@ -48,7 +48,7 @@ public class MessageCodec extends ByteToMessageDecoder {
     if (MessageTypes.inP2pRange(type)) {
       return p2pMessageFactory.create(encoded);
     }
-    if (MessageTypes.inTronRange(type)) {
+    if (MessageTypes.inStabilaRange(type)) {
       return tronMessageFactory.create(encoded);
     }
     if (MessageTypes.inPbftRange(type)) {

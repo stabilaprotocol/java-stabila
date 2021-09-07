@@ -129,9 +129,9 @@ public class VoteWitnessActuator extends AbstractActuator {
       long tronPower;
       DynamicPropertiesStore dynamicStore = chainBaseManager.getDynamicPropertiesStore();
       if (dynamicStore.supportAllowNewResourceModel()) {
-        tronPower = accountCapsule.getAllTronPower();
+        tronPower = accountCapsule.getAllStabilaPower();
       } else {
-        tronPower = accountCapsule.getTronPower();
+        tronPower = accountCapsule.getStabilaPower();
       }
 
       sum = LongMath
@@ -164,8 +164,8 @@ public class VoteWitnessActuator extends AbstractActuator {
 
     DynamicPropertiesStore dynamicStore = chainBaseManager.getDynamicPropertiesStore();
     if (dynamicStore.supportAllowNewResourceModel()
-        && accountCapsule.oldTronPowerIsNotInitialized()) {
-      accountCapsule.initializeOldTronPower();
+        && accountCapsule.oldStabilaPowerIsNotInitialized()) {
+      accountCapsule.initializeOldStabilaPower();
     }
 
     if (!votesStore.has(ownerAddress)) {

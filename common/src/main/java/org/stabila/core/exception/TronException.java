@@ -1,16 +1,16 @@
 package org.stabila.core.exception;
 
-public class TronException extends Exception {
+public class StabilaException extends Exception {
 
-  public TronException() {
+  public StabilaException() {
     super();
   }
 
-  public TronException(String message) {
+  public StabilaException(String message) {
     super(message);
   }
 
-  public TronException(String message, Throwable cause) {
+  public StabilaException(String message, Throwable cause) {
     super(message, cause);
   }
 

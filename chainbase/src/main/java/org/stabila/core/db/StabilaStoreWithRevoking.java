@@ -29,7 +29,7 @@ import org.stabila.core.db2.common.IRevokingDB;
 import org.stabila.core.db2.common.LevelDB;
 import org.stabila.core.db2.common.RocksDB;
 import org.stabila.core.db2.core.Chainbase;
-import org.stabila.core.db2.core.ITronChainBase;
+import org.stabila.core.db2.core.IStabilaChainBase;
 import org.stabila.core.db2.core.RevokingDBWithCachingOldValue;
 import org.stabila.core.db2.core.SnapshotRoot;
 import org.stabila.core.exception.BadItemException;
@@ -37,7 +37,7 @@ import org.stabila.core.exception.ItemNotFoundException;
 
 
 @Slf4j(topic = "DB")
-public abstract class StabilaStoreWithRevoking<T extends ProtoCapsule> implements ITronChainBase<T> {
+public abstract class StabilaStoreWithRevoking<T extends ProtoCapsule> implements IStabilaChainBase<T> {
 
   @Getter // only for unit test
   protected IRevokingDB revokingDB;

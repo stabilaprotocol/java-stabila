@@ -16,7 +16,7 @@ import org.stabila.core.db.Manager;
 import org.testng.Assert;
 import org.stabila.common.application.Application;
 import org.stabila.common.application.ApplicationFactory;
-import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.utils.FileUtil;
 import org.stabila.common.utils.StringUtil;
 import org.stabila.protos.Protocol.AccountType;
@@ -28,7 +28,7 @@ import org.stabila.protos.Protocol.Transaction.Result.contractResult;
 public class TransactionCapsuleTest {
 
   private static Manager dbManager;
-  private static TronApplicationContext context;
+  private static StabilaApplicationContext context;
   private static Application AppT;
   private static String dbPath = "output_transactioncapsule_test";
   private static String OWNER_ADDRESS;
@@ -59,7 +59,7 @@ public class TransactionCapsuleTest {
   @BeforeClass
   public static void init() {
     Args.setParam(new String[]{"-d", dbPath}, Constant.TEST_CONF);
-    context = new TronApplicationContext(DefaultConfig.class);
+    context = new StabilaApplicationContext(DefaultConfig.class);
     AppT = ApplicationFactory.create(context);
     dbManager = context.getBean(Manager.class);
     OWNER_ADDRESS = Wallet.getAddressPreFixString() + "03702350064AD5C1A8AA6B4D74B051199CFF8EA7";

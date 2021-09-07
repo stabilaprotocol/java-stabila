@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.bouncycastle.util.encoders.Hex;
 import org.junit.After;
 import org.junit.Before;
-import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.runtime.Runtime;
 import org.stabila.common.utils.FileUtil;
 import org.stabila.consensus.dpos.DposSlot;
@@ -31,7 +31,7 @@ public class VMContractTestBase {
   protected Runtime runtime;
   protected Manager manager;
   protected Repository rootRepository;
-  protected TronApplicationContext context;
+  protected StabilaApplicationContext context;
   protected ConsensusService consensusService;
   protected ChainBaseManager chainBaseManager;
   protected MaintenanceManager maintenanceManager;
@@ -53,7 +53,7 @@ public class VMContractTestBase {
   public void init() {
     dbPath = "output_" + this.getClass().getName();
     Args.setParam(new String[]{"--output-directory", dbPath, "--debug"}, Constant.TEST_CONF);
-    context = new TronApplicationContext(DefaultConfig.class);
+    context = new StabilaApplicationContext(DefaultConfig.class);
 
     // TRdmP9bYvML7dGUX9Rbw2kZrE2TayPZmZX - 41abd4b9367799eaa3197fecb144eb71de1e049abc
     OWNER_ADDRESS = Wallet.getAddressPreFixString() + "abd4b9367799eaa3197fecb144eb71de1e049abc";

@@ -21,10 +21,10 @@ public class GetTransactionInfoByIdServlet extends RateLimiterServlet {
   @Autowired
   private Wallet wallet;
 
-  private static String convertLogAddressToTronAddress(TransactionInfo transactionInfo,
+  private static String convertLogAddressToStabilaAddress(TransactionInfo transactionInfo,
       boolean visible) {
     if (visible) {
-      List<Log> newLogList = Util.convertLogAddressToTronAddress(transactionInfo);
+      List<Log> newLogList = Util.convertLogAddressToStabilaAddress(transactionInfo);
       transactionInfo = transactionInfo.toBuilder().clearLog().addAllLog(newLogList).build();
     }
     return JsonFormat.printToString(transactionInfo, visible);
@@ -37,7 +37,7 @@ public class GetTransactionInfoByIdServlet extends RateLimiterServlet {
       TransactionInfo reply = wallet
           .getTransactionInfoById(ByteString.copyFrom(ByteArray.fromHexString(input)));
       if (reply != null) {
-        response.getWriter().println(convertLogAddressToTronAddress(reply, visible));
+        response.getWriter().println(convertLogAddressToStabilaAddress(reply, visible));
       } else {
         response.getWriter().println("{}");
       }
@@ -53,7 +53,7 @@ public class GetTransactionInfoByIdServlet extends RateLimiterServlet {
       JsonFormat.merge(params.getParams(), build, params.isVisible());
       TransactionInfo reply = wallet.getTransactionInfoById(build.getValue());
       if (reply != null) {
-        response.getWriter().println(convertLogAddressToTronAddress(reply, params.isVisible()));
+        response.getWriter().println(convertLogAddressToStabilaAddress(reply, params.isVisible()));
       } else {
         response.getWriter().println("{}");
       }

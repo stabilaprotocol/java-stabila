@@ -4,7 +4,7 @@ import org.stabila.core.capsule.TransactionCapsule;
 import org.stabila.common.utils.Sha256Hash;
 import org.stabila.protos.Protocol.Transaction;
 
-public class TransactionMessage extends TronMessage {
+public class TransactionMessage extends StabilaMessage {
 
   private TransactionCapsule transactionCapsule;
 

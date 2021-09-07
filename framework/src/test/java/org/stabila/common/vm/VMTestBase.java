@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.bouncycastle.util.encoders.Hex;
 import org.junit.After;
 import org.junit.Before;
-import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.runtime.Runtime;
 import org.stabila.common.storage.Deposit;
 import org.stabila.common.storage.DepositImpl;
@@ -21,7 +21,7 @@ import org.stabila.protos.Protocol.AccountType;
 public class VMTestBase {
 
   protected Manager manager;
-  protected TronApplicationContext context;
+  protected StabilaApplicationContext context;
   protected String dbPath;
   protected Deposit rootDeposit;
   protected String OWNER_ADDRESS;
@@ -31,7 +31,7 @@ public class VMTestBase {
   public void init() {
     dbPath = "output_" + this.getClass().getName();
     Args.setParam(new String[]{"--output-directory", dbPath, "--debug"}, Constant.TEST_CONF);
-    context = new TronApplicationContext(DefaultConfig.class);
+    context = new StabilaApplicationContext(DefaultConfig.class);
     OWNER_ADDRESS = Wallet.getAddressPreFixString() + "abd4b9367799eaa3197fecb144eb71de1e049abc";
     manager = context.getBean(Manager.class);
     rootDeposit = DepositImpl.createRoot(manager);

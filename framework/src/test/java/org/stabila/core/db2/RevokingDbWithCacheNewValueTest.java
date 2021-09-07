@@ -20,7 +20,7 @@ import org.stabila.core.db2.core.SnapshotManager;
 import org.stabila.core.exception.RevokingStoreIllegalStateException;
 import org.stabila.common.application.Application;
 import org.stabila.common.application.ApplicationFactory;
-import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.utils.ByteArray;
 import org.stabila.common.utils.FileUtil;
 import org.stabila.common.utils.SessionOptional;
@@ -30,7 +30,7 @@ import org.stabila.core.db2.SnapshotRootTest.ProtoCapsuleTest;
 public class RevokingDbWithCacheNewValueTest {
 
   private SnapshotManager revokingDatabase;
-  private TronApplicationContext context;
+  private StabilaApplicationContext context;
   private Application appT;
   private TestRevokingStabilaStore tronDatabase;
 
@@ -38,7 +38,7 @@ public class RevokingDbWithCacheNewValueTest {
   public void init() {
     Args.setParam(new String[]{"-d", "output_revokingStore_test"},
         Constant.TEST_CONF);
-    context = new TronApplicationContext(DefaultConfig.class);
+    context = new StabilaApplicationContext(DefaultConfig.class);
     appT = ApplicationFactory.create(context);
   }
 

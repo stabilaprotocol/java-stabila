@@ -2,9 +2,9 @@
 
 ## Introduction
 
-This guide provides two ways for TRON quickstart:
+This guide provides two ways for STABILA quickstart:
 - Set up a FullNode using the official tools: providing a wealth of configurable parameters to startup a FullNode
-- Set up a complete private network for Tron development using a third-party tool: [docker-stabila-quickstart](https://github.com/TRON-US/docker-stabila-quickstart)
+- Set up a complete private network for Stabila development using a third-party tool: [docker-stabila-quickstart](https://github.com/STABILA-US/docker-stabila-quickstart)
 
 ## Dependencies
 
@@ -64,16 +64,16 @@ Note: The directory `/Users/stabila/docker/conf` must contain the file `config-l
 
 ## Quickstart for using docker-stabila-quickstart
 
-The image exposes a Full Node, Solidity Node, and Event Server. Through TRON Quickstart, users can deploy DApps, smart contracts, and interact with the TronWeb library.
-Check more information at [Quickstart:](https://github.com/TRON-US/docker-stabila-quickstart)
+The image exposes a Full Node, Solidity Node, and Event Server. Through STABILA Quickstart, users can deploy DApps, smart contracts, and interact with the StabilaWeb library.
+Check more information at [Quickstart:](https://github.com/STABILA-US/docker-stabila-quickstart)
 
 ### Node.JS Console
-  Node.JS is used to interact with the Full and Solidity Nodes via Tron-Web.  
+  Node.JS is used to interact with the Full and Solidity Nodes via Stabila-Web.  
   [Node.JS](https://nodejs.org/en/) Console Download
   
-### Clone TRON Quickstart  
+### Clone STABILA Quickstart  
 ```shell
-git clone https://github.com/TRON-US/docker-stabila-quickstart.git
+git clone https://github.com/STABILA-US/docker-stabila-quickstart.git
 ```  
 
 ### Pull the image using docker:
@@ -81,9 +81,9 @@ git clone https://github.com/TRON-US/docker-stabila-quickstart.git
 docker pull stabilatools/quickstart
 ```  
 
-## Setup TRON Quickstart   
-### TRON Quickstart Run
-Run the "docker run" command to launch TRON Quickstart. TRON Quickstart exposes port 9090 for Full Node, Solidity Node, and Event Server.
+## Setup STABILA Quickstart   
+### STABILA Quickstart Run
+Run the "docker run" command to launch STABILA Quickstart. STABILA Quickstart exposes port 9090 for Full Node, Solidity Node, and Event Server.
 ```shell
 docker run -it \
   -p 9090:9090 \
@@ -117,7 +117,7 @@ If everything goes well, your terminal console output will look like following :
     [HPM] Proxy created: /  ->  http://127.0.0.1:18190
     [HPM] Proxy created: /  ->  http://127.0.0.1:8060
 
-    Tron Quickstart listening on http://127.0.0.1:9090
+    Stabila Quickstart listening on http://127.0.0.1:9090
 
 
 
@@ -194,11 +194,11 @@ If everything goes well, your terminal console output will look like following :
 3. there will be a response JSON data: 
 
 ```
- {"Welcome to":"TronGrid v2.2.8"}
+ {"Welcome to":"StabilaGrid v2.2.8"}
 ```
 
 ## Docker Commands 
-Here are some useful docker commands, which will help you manage the TRON Quickstart Docker container on your machine. 
+Here are some useful docker commands, which will help you manage the STABILA Quickstart Docker container on your machine. 
 
 **To list all active containers on your machine, run:**
 ```shell

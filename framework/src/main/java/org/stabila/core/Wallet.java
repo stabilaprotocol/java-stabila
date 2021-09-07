@@ -169,8 +169,8 @@ import org.stabila.core.exception.TransactionExpirationException;
 import org.stabila.core.exception.VMIllegalException;
 import org.stabila.core.exception.ValidateSignatureException;
 import org.stabila.core.exception.ZksnarkException;
-import org.stabila.core.net.TronNetDelegate;
-import org.stabila.core.net.TronNetService;
+import org.stabila.core.net.StabilaNetDelegate;
+import org.stabila.core.net.StabilaNetService;
 import org.stabila.core.net.message.TransactionMessage;
 import org.stabila.core.store.AccountIdIndexStore;
 import org.stabila.core.store.AccountStore;
@@ -248,9 +248,9 @@ public class Wallet {
   @Getter
   private final SignInterface cryptoEngine;
   @Autowired
-  private TronNetService tronNetService;
+  private StabilaNetService tronNetService;
   @Autowired
-  private TronNetDelegate tronNetDelegate;
+  private StabilaNetDelegate tronNetDelegate;
   @Autowired
   private Manager dbManager;
   @Autowired
@@ -1148,8 +1148,8 @@ public class Wallet {
     long freeNetLimit = chainBaseManager.getDynamicPropertiesStore().getFreeNetLimit();
     long totalNetLimit = chainBaseManager.getDynamicPropertiesStore().getTotalNetLimit();
     long totalNetWeight = chainBaseManager.getDynamicPropertiesStore().getTotalNetWeight();
-    long totalTronPowerWeight = chainBaseManager.getDynamicPropertiesStore()
-        .getTotalTronPowerWeight();
+    long totalStabilaPowerWeight = chainBaseManager.getDynamicPropertiesStore()
+        .getTotalStabilaPowerWeight();
     long energyLimit = energyProcessor
         .calculateGlobalEnergyLimit(accountCapsule);
     long totalEnergyLimit =
@@ -1159,8 +1159,8 @@ public class Wallet {
 
     long storageLimit = accountCapsule.getAccountResource().getStorageLimit();
     long storageUsage = accountCapsule.getAccountResource().getStorageUsage();
-    long allTronPowerUsage = accountCapsule.getTronPowerUsage();
-    long allTronPower = accountCapsule.getAllTronPower() / TRX_PRECISION;
+    long allStabilaPowerUsage = accountCapsule.getStabilaPowerUsage();
+    long allStabilaPower = accountCapsule.getAllStabilaPower() / TRX_PRECISION;
 
     Map<String, Long> assetNetLimitMap = new HashMap<>();
     Map<String, Long> allFreeAssetNetUsage = setAssetNetLimit(assetNetLimitMap, accountCapsule);
@@ -1171,11 +1171,11 @@ public class Wallet {
         .setNetLimit(netLimit)
         .setTotalNetLimit(totalNetLimit)
         .setTotalNetWeight(totalNetWeight)
-        .setTotalTronPowerWeight(totalTronPowerWeight)
+        .setTotalStabilaPowerWeight(totalStabilaPowerWeight)
         .setEnergyLimit(energyLimit)
         .setEnergyUsed(accountCapsule.getAccountResource().getEnergyUsage())
-        .setTronPowerUsed(allTronPowerUsage)
-        .setTronPowerLimit(allTronPower)
+        .setStabilaPowerUsed(allStabilaPowerUsage)
+        .setStabilaPowerLimit(allStabilaPower)
         .setTotalEnergyLimit(totalEnergyLimit)
         .setTotalEnergyWeight(totalEnergyWeight)
         .setStorageLimit(storageLimit)

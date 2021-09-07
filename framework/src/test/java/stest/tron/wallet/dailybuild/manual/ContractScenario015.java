@@ -64,8 +64,8 @@ public class ContractScenario015 {
     blockingStubFull = WalletGrpc.newBlockingStub(channelFull);
   }
 
-  @Test(enabled = true, description = "TRON TRC20 transfer token")
-  public void trc20Tron() {
+  @Test(enabled = true, description = "STABILA TRC20 transfer token")
+  public void trc20Stabila() {
     ecKey1 = new ECKey(Utils.getRandom());
     contract014Address = ecKey1.getAddress();
     contract014Key = ByteArray.toHexString(ecKey1.getPrivKeyBytes());
@@ -80,11 +80,11 @@ public class ContractScenario015 {
         testKey002, blockingStubFull));
     PublicMethed.waitProduceNextBlock(blockingStubFull);
     //Deploy contract1, contract1 has a function to transaction 5 sun to target account
-    String contractName = "TRON TRC20";
+    String contractName = "STABILA TRC20";
     String code = Configuration.getByPath("testng.conf")
-        .getString("code.code_Scenario015_TRC20_TRON");
+        .getString("code.code_Scenario015_TRC20_STABILA");
     String abi = Configuration.getByPath("testng.conf")
-        .getString("abi.abi_Scenario015_TRC20_TRON");
+        .getString("abi.abi_Scenario015_TRC20_STABILA");
     txid = PublicMethed.deployContractAndGetTransactionInfoById(contractName, abi, code, "",
         maxFeeLimit, 0L, 100, null, contract014Key, contract014Address, blockingStubFull);
     PublicMethed.waitProduceNextBlock(blockingStubFull);

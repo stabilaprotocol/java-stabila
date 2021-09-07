@@ -16,7 +16,7 @@ import org.stabila.core.db2.core.Chainbase;
 import org.stabila.core.db2.core.SnapshotManager;
 import org.stabila.common.application.Application;
 import org.stabila.common.application.ApplicationFactory;
-import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.parameter.CommonParameter;
 import org.stabila.common.utils.FileUtil;
 import org.stabila.common.utils.PropUtil;
@@ -30,7 +30,7 @@ public class BackupDbUtilTest {
     RocksDB.loadLibrary();
   }
 
-  public TronApplicationContext context;
+  public StabilaApplicationContext context;
   public Application AppT = null;
   public BackupDbUtil dbBackupUtil;
   public Manager dbManager;
@@ -55,7 +55,7 @@ public class BackupDbUtilTest {
         "config-test-dbbackup.conf"
     );
 
-    context = new TronApplicationContext(DefaultConfig.class);
+    context = new StabilaApplicationContext(DefaultConfig.class);
     AppT = ApplicationFactory.create(context);
     dbManager = context.getBean(Manager.class);
     dposSlot = context.getBean(DposSlot.class);

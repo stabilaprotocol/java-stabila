@@ -1,24 +1,24 @@
 package org.stabila.core.exception;
 
-public class TronRuntimeException extends RuntimeException {
+public class StabilaRuntimeException extends RuntimeException {
 
-  public TronRuntimeException() {
+  public StabilaRuntimeException() {
     super();
   }
 
-  public TronRuntimeException(String message) {
+  public StabilaRuntimeException(String message) {
     super(message);
   }
 
-  public TronRuntimeException(String message, Throwable cause) {
+  public StabilaRuntimeException(String message, Throwable cause) {
     super(message, cause);
   }
 
-  public TronRuntimeException(Throwable cause) {
+  public StabilaRuntimeException(Throwable cause) {
     super(cause);
   }
 
-  protected TronRuntimeException(String message, Throwable cause,
+  protected StabilaRuntimeException(String message, Throwable cause,
       boolean enableSuppression,
       boolean writableStackTrace) {
     super(message, cause, enableSuppression, writableStackTrace);

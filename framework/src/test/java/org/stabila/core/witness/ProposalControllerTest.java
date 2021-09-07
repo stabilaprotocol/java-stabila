@@ -19,7 +19,7 @@ import org.stabila.core.consensus.ProposalController;
 import org.stabila.core.db.Manager;
 import org.stabila.core.store.DynamicPropertiesStore;
 import org.testng.collections.Lists;
-import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.utils.ByteArray;
 import org.stabila.common.utils.FileUtil;
 import org.stabila.protos.Protocol.Proposal;
@@ -29,13 +29,13 @@ public class ProposalControllerTest {
 
   private static Manager dbManager;
   private static ConsensusService consensusService;
-  private static TronApplicationContext context;
+  private static StabilaApplicationContext context;
   private static String dbPath = "output_proposal_controller_test";
   private static ProposalController proposalController;
 
   static {
     Args.setParam(new String[]{"-d", dbPath}, Constant.TEST_CONF);
-    context = new TronApplicationContext(DefaultConfig.class);
+    context = new StabilaApplicationContext(DefaultConfig.class);
   }
 
   @BeforeClass

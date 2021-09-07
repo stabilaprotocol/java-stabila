@@ -23,7 +23,7 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.runtime.RuntimeImpl;
 import org.stabila.common.runtime.TvmTestUtils;
 import org.stabila.common.storage.DepositImpl;
@@ -42,7 +42,7 @@ import org.stabila.core.exception.ContractExeException;
 import org.stabila.core.exception.ContractValidateException;
 import org.stabila.core.exception.ReceiptCheckErrException;
 import org.stabila.core.exception.TooBigTransactionResultException;
-import org.stabila.core.exception.TronException;
+import org.stabila.core.exception.StabilaException;
 import org.stabila.core.exception.VMIllegalException;
 import org.stabila.core.store.StoreFactory;
 import org.stabila.protos.Protocol.AccountType;
@@ -91,7 +91,7 @@ public class BandWidthRuntimeOutOfTimeWithCheckTest {
         },
         "config-test-mainnet.conf"
     );
-    context = new TronApplicationContext(DefaultConfig.class);
+    context = new StabilaApplicationContext(DefaultConfig.class);
   }
 
   private String trx2ContractAddress = "TPMBUANrTwwQAPwShn7ZZjTJz1f3F8jknj";
@@ -172,7 +172,7 @@ public class BandWidthRuntimeOutOfTimeWithCheckTest {
       Assert.assertEquals(990000000, balance);
       Assert.assertEquals(9950000 * Constant.SUN_PER_ENERGY,
           balance + energy * Constant.SUN_PER_ENERGY);
-    } catch (TronException e) {
+    } catch (StabilaException e) {
       Assert.assertNotNull(e);
     } catch (ReceiptCheckErrException e) {
       Assert.assertNotNull(e);

@@ -19,7 +19,7 @@ import org.stabila.core.config.DefaultConfig;
 import org.stabila.core.config.args.Args;
 import org.stabila.core.db.Manager;
 import org.testng.collections.Lists;
-import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.utils.ByteArray;
 import org.stabila.common.utils.ByteUtil;
 import org.stabila.common.utils.FileUtil;
@@ -50,7 +50,7 @@ public class MerkleTreeTest {
         },
         "config-test-mainnet.conf"
     );
-    context = new TronApplicationContext(DefaultConfig.class);
+    context = new StabilaApplicationContext(DefaultConfig.class);
   }
 
   /**

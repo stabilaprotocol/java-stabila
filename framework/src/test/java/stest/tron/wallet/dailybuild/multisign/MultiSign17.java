@@ -37,7 +37,7 @@ public class MultiSign17 {
   private final String witnessKey001 = Configuration.getByPath("testng.conf")
       .getString("witness.key1");
   private final byte[] witnessAddress001 = PublicMethed.getFinalAddress(witnessKey001);
-  private final String contractTronDiceAddr = "TMYcx6eoRXnePKT1jVn25ZNeMNJ6828HWk";
+  private final String contractStabilaDiceAddr = "TMYcx6eoRXnePKT1jVn25ZNeMNJ6828HWk";
   private long multiSignFee = Configuration.getByPath("testng.conf")
       .getLong("defaultParameter.multiSignFee");
   private long updateAccountPermissionFee = Configuration.getByPath("testng.conf")
@@ -195,7 +195,7 @@ public class MultiSign17 {
             + "\",\"weight\":1}]},"
             + "\"witness_permission\":{\"type\":1,\"permission_name\":\"witness12\","
             + "\"threshold\":1,\"keys\":["
-            + "{\"address\":\"" + contractTronDiceAddr + "\",\"weight\":1}]},"
+            + "{\"address\":\"" + contractStabilaDiceAddr + "\",\"weight\":1}]},"
             + "\"active_permissions\":[{\"type\":2,\"permission_name\":\"active\",\"threshold\":1,"
             + "\"operations\":\"7fff1fc0033e0000000000000000000000000000000000000000000000000000\","
             + "\"keys\":["

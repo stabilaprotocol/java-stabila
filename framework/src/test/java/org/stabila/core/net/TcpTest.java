@@ -25,7 +25,7 @@ import org.stabila.core.db.Manager;
 import org.stabila.core.net.message.BlockMessage;
 import org.stabila.core.net.message.MessageTypes;
 import org.stabila.core.net.peer.PeerConnection;
-import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.overlay.discover.node.Node;
 import org.stabila.common.overlay.message.DisconnectMessage;
 import org.stabila.common.overlay.message.HelloMessage;
@@ -45,17 +45,17 @@ public class TcpTest {
   private Manager manager;
   private ChainBaseManager chainBaseManager;
   private SyncPool pool;
-  private TronNetDelegate tronNetDelegate;
+  private StabilaNetDelegate tronNetDelegate;
   private int tryTimes = 10;
   private int sleepTime = 1000;
   private boolean finish = false;
 
-  public TcpTest(TronApplicationContext context) {
+  public TcpTest(StabilaApplicationContext context) {
     channelManager = context.getBean(ChannelManager.class);
     manager = context.getBean(Manager.class);
     chainBaseManager = context.getBean(ChainBaseManager.class);
     pool = context.getBean(SyncPool.class);
-    tronNetDelegate = context.getBean(TronNetDelegate.class);
+    tronNetDelegate = context.getBean(StabilaNetDelegate.class);
   }
 
   public void normalTest() throws InterruptedException {

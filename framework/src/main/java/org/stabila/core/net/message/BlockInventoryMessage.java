@@ -8,7 +8,7 @@ import org.stabila.core.capsule.BlockCapsule;
 import org.stabila.protos.Protocol;
 import org.stabila.protos.Protocol.BlockInventory;
 
-public class BlockInventoryMessage extends TronMessage {
+public class BlockInventoryMessage extends StabilaMessage {
 
   protected BlockInventory blockInventory;
 

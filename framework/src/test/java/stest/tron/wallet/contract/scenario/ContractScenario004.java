@@ -59,7 +59,7 @@ public class ContractScenario004 {
   }
 
   @Test(enabled = true)
-  public void deployErc20TronTokenWithoutData() {
+  public void deployErc20StabilaTokenWithoutData() {
     Assert.assertTrue(PublicMethed.sendcoin(contract004Address, 200000000L, fromAddress,
         testKey002, blockingStubFull));
     Assert.assertTrue(PublicMethed.freezeBalanceGetEnergy(contract004Address, 100000000L,
@@ -73,7 +73,7 @@ public class ContractScenario004 {
     logger.info("before energy usage is " + Long.toString(energyUsage));
 
     String filePath = "./src/test/resources/soliditycode//contractScenario004.sol";
-    String contractName = "TronToken";
+    String contractName = "StabilaToken";
     HashMap retMap = PublicMethed.getBycodeAbi(filePath, contractName);
 
     String code = retMap.get("byteCode").toString();
@@ -89,7 +89,7 @@ public class ContractScenario004 {
   }
 
   @Test(enabled = true)
-  public void deployErc20TronTokenWithData() {
+  public void deployErc20StabilaTokenWithData() {
     Assert.assertTrue(PublicMethed
         .sendcoin(contract004Address, 200000000L, fromAddress, testKey002, blockingStubFull));
     Assert.assertTrue(PublicMethed.freezeBalanceGetEnergy(contract004Address, 100000000L,
@@ -103,7 +103,7 @@ public class ContractScenario004 {
     logger.info("before energy usage is " + Long.toString(energyUsage));
 
     String filePath = "./src/test/resources/soliditycode//contractScenario004.sol";
-    String contractName = "TronToken";
+    String contractName = "StabilaToken";
     HashMap retMap = PublicMethed.getBycodeAbi(filePath, contractName);
 
     String code = retMap.get("byteCode").toString();

@@ -1,6 +1,6 @@
 package org.stabila.core.exception;
 
-public class ValidateScheduleException extends TronException {
+public class ValidateScheduleException extends StabilaException {
 
   public ValidateScheduleException() {
     super();

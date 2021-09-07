@@ -14,7 +14,7 @@ import org.stabila.core.capsule.VotesCapsule;
 import org.stabila.core.config.DefaultConfig;
 import org.stabila.core.config.args.Args;
 import org.stabila.core.store.VotesStore;
-import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.utils.FileUtil;
 import org.stabila.protos.Protocol.Vote;
 
@@ -22,11 +22,11 @@ import org.stabila.protos.Protocol.Vote;
 public class VotesStoreTest {
 
   private static final String dbPath = "output-votesStore-test";
-  private static TronApplicationContext context;
+  private static StabilaApplicationContext context;
 
   static {
     Args.setParam(new String[]{"-d", dbPath}, Constant.TEST_CONF);
-    context = new TronApplicationContext(DefaultConfig.class);
+    context = new StabilaApplicationContext(DefaultConfig.class);
   }
 
   VotesStore votesStore;

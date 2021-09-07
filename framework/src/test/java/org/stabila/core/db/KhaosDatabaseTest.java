@@ -18,7 +18,7 @@ import org.stabila.core.exception.BadNumberBlockException;
 import org.stabila.core.exception.NonCommonBlockException;
 import org.stabila.core.exception.UnLinkedBlockException;
 import org.testng.collections.Lists;
-import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.parameter.CommonParameter;
 import org.stabila.common.utils.ByteArray;
 import org.stabila.common.utils.FileUtil;
@@ -33,11 +33,11 @@ public class KhaosDatabaseTest {
 
   private static final String dbPath = "output-khaosDatabase-test";
   private static KhaosDatabase khaosDatabase;
-  private static TronApplicationContext context;
+  private static StabilaApplicationContext context;
 
   static {
     Args.setParam(new String[]{"--output-directory", dbPath}, Constant.TEST_CONF);
-    context = new TronApplicationContext(DefaultConfig.class);
+    context = new StabilaApplicationContext(DefaultConfig.class);
   }
 
   @BeforeClass

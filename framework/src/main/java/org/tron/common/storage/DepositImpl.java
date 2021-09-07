@@ -1,6 +1,6 @@
 package org.stabila.common.storage;
 
-import static org.stabila.core.db.TransactionTrace.convertToTronAddress;
+import static org.stabila.core.db.TransactionTrace.convertToStabilaAddress;
 
 import com.google.common.primitives.Longs;
 import com.google.protobuf.ByteString;
@@ -379,7 +379,7 @@ public class DepositImpl implements Deposit {
 
   @Override
   public synchronized void putStorageValue(byte[] address, DataWord key, DataWord value) {
-    address = convertToTronAddress(address);
+    address = convertToStabilaAddress(address);
     if (getAccount(address) == null) {
       return;
     }
@@ -396,7 +396,7 @@ public class DepositImpl implements Deposit {
 
   @Override
   public synchronized DataWord getStorageValue(byte[] address, DataWord key) {
-    address = convertToTronAddress(address);
+    address = convertToStabilaAddress(address);
     if (getAccount(address) == null) {
       return null;
     }

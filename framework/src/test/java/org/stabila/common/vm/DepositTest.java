@@ -9,7 +9,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.testng.Assert;
-import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.parameter.CommonParameter;
 import org.stabila.common.runtime.Runtime;
 import org.stabila.common.runtime.TVMTestResult;
@@ -35,7 +35,7 @@ import org.stabila.protos.Protocol.Transaction;
 public class DepositTest {
 
   private Manager manager;
-  private TronApplicationContext context;
+  private StabilaApplicationContext context;
   private String dbPath = "output_DepostitTest";
   private String OWNER_ADDRESS;
   private Deposit rootDeposit;
@@ -43,7 +43,7 @@ public class DepositTest {
   @Before
   public void init() {
     Args.setParam(new String[]{"--output-directory", dbPath, "--debug"}, Constant.TEST_CONF);
-    context = new TronApplicationContext(DefaultConfig.class);
+    context = new StabilaApplicationContext(DefaultConfig.class);
     OWNER_ADDRESS = Wallet.getAddressPreFixString() + "abd4b9367799eaa3197fecb144eb71de1e049abc";
     manager = context.getBean(Manager.class);
     rootDeposit = DepositImpl.createRoot(manager);

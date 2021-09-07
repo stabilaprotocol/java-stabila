@@ -28,7 +28,7 @@ import org.stabila.core.net.peer.PeerConnection;
 import org.stabila.core.services.RpcApiService;
 import org.stabila.common.application.Application;
 import org.stabila.common.application.ApplicationFactory;
-import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.parameter.CommonParameter;
 import org.stabila.common.utils.FileUtil;
 import org.stabila.common.utils.ReflectUtils;
@@ -41,11 +41,11 @@ public abstract class BaseNet {
   private static String indexDirectory = "net-index";
   private static int port = 10000;
 
-  protected TronApplicationContext context;
+  protected StabilaApplicationContext context;
 
   private RpcApiService rpcApiService;
   private Application appT;
-  private TronNetDelegate tronNetDelegate;
+  private StabilaNetDelegate tronNetDelegate;
 
   private ExecutorService executorService = Executors.newFixedThreadPool(1);
 
@@ -91,14 +91,14 @@ public abstract class BaseNet {
         parameter.setNodeListenPort(port);
         parameter.getSeedNode().getIpList().clear();
         parameter.setNodeExternalIp(Constant.LOCAL_HOST);
-        context = new TronApplicationContext(DefaultConfig.class);
+        context = new StabilaApplicationContext(DefaultConfig.class);
         appT = ApplicationFactory.create(context);
         rpcApiService = context.getBean(RpcApiService.class);
         appT.addService(rpcApiService);
         appT.initServices(parameter);
         appT.startServices();
         appT.startup();
-        tronNetDelegate = context.getBean(TronNetDelegate.class);
+        tronNetDelegate = context.getBean(StabilaNetDelegate.class);
         rpcApiService.blockUntilShutdown();
       }
     });

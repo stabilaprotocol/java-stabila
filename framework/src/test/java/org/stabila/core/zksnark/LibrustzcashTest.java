@@ -36,7 +36,7 @@ import org.stabila.core.services.http.FullNodeHttpApiService;
 import org.stabila.core.zen.ZenTransactionBuilder;
 import org.stabila.core.zen.note.Note;
 import org.stabila.core.zen.note.NoteEncryption;
-import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.utils.ByteArray;
 import org.stabila.common.utils.ByteUtil;
 import org.stabila.common.utils.FileUtil;
@@ -83,7 +83,7 @@ public class LibrustzcashTest {
         "config-test-mainnet.conf"
     );
 
-    context = new TronApplicationContext(DefaultConfig.class);
+    context = new StabilaApplicationContext(DefaultConfig.class);
   }
 
   @BeforeClass

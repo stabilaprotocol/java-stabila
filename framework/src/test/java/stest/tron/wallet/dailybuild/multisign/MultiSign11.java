@@ -39,7 +39,7 @@ public class MultiSign11 {
   private final String witnessKey001 = Configuration.getByPath("testng.conf")
       .getString("witness.key1");
   private final byte[] witnessAddress001 = PublicMethed.getFinalAddress(witnessKey001);
-  private final String contractTronDiceAddr = "TMYcx6eoRXnePKT1jVn25ZNeMNJ6828HWk";
+  private final String contractStabilaDiceAddr = "TMYcx6eoRXnePKT1jVn25ZNeMNJ6828HWk";
   private long multiSignFee = Configuration.getByPath("testng.conf")
       .getLong("defaultParameter.multiSignFee");
   private long updateAccountPermissionFee = Configuration.getByPath("testng.conf")
@@ -171,11 +171,11 @@ public class MultiSign11 {
     String accountPermissionJson =
         "{\"owner_permission\":{\"type\":0,\"permission_name\":\"owner\",\"threshold\":1,\"keys\":["
             + "{\"address\":\"" + PublicMethed.getAddressString(ownerKey) + "\",\"weight\":1},"
-            + "{\"address\":\"" + contractTronDiceAddr + "\",\"weight\":1}," + "{\"address\":\""
+            + "{\"address\":\"" + contractStabilaDiceAddr + "\",\"weight\":1}," + "{\"address\":\""
             + PublicMethed.getAddressString(testKey002) + "\",\"weight\":2147483647}]},"
             + "\"active_permissions\":[{\"type\":2,\"permission_name\":\"active0\",\"threshold\":2,"
             + "\"operations\":\"7fff1fc0033e0000000000000000000000000000000000000000000000000000\","
-            + "\"keys\":[" + "{\"address\":\"" + contractTronDiceAddr + "\",\"weight\":3},"
+            + "\"keys\":[" + "{\"address\":\"" + contractStabilaDiceAddr + "\",\"weight\":3},"
             + "{\"address\":\"" + PublicMethed.getAddressString(tmpKey02) + "\",\"weight\":3}"
             + "]}]}";
     Assert.assertTrue(PublicMethedForMutiSign
@@ -616,7 +616,7 @@ public class MultiSign11 {
             + "\",\"weight\":2147483647}]},"
             + "\"active_permissions\":[{\"type\":2,\"permission_name\":\"active0\",\"threshold\":1,"
             + "\"operations\":\"7fff1fc0033e0000000000000000000000000000000000000000000000000000\","
-            + "\"keys\":[" + "{\"address\":\"" + contractTronDiceAddr + "\",\"weight\":1},"
+            + "\"keys\":[" + "{\"address\":\"" + contractStabilaDiceAddr + "\",\"weight\":1},"
             + "{\"address\":\"" + PublicMethed.getAddressString(ownerKey) + "\",\"weight\":2},"
             + "{\"address\":\"" + PublicMethed.getAddressString(witnessKey001) + "\",\"weight\":2},"
             + "{\"address\":\"" + PublicMethed.getAddressString(testKey002) + "\",\"weight\":2},"

@@ -8,7 +8,7 @@ import org.junit.Assert;
 import org.stabila.api.GrpcAPI.EmptyMessage;
 import org.stabila.api.WalletGrpc;
 import org.stabila.api.WalletGrpc.WalletBlockingStub;
-import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.entity.NodeInfo;
 import org.stabila.common.utils.Sha256Hash;
 import org.stabila.core.capsule.BlockCapsule;
@@ -23,7 +23,7 @@ public class NodeInfoServiceTest {
   private String fullnode = Configuration.getByPath("testng.conf").getStringList("fullnode.ip.list")
       .get(0);
 
-  public NodeInfoServiceTest(TronApplicationContext context) {
+  public NodeInfoServiceTest(StabilaApplicationContext context) {
     nodeInfoService = context.getBean("nodeInfoService", NodeInfoService.class);
     witnessProductBlockService = context.getBean(WitnessProductBlockService.class);
   }

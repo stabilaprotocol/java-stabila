@@ -3,9 +3,9 @@ package org.stabila.core.net.messagehandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.stabila.core.net.TronNetDelegate;
+import org.stabila.core.net.StabilaNetDelegate;
 import org.stabila.core.net.message.InventoryMessage;
-import org.stabila.core.net.message.TronMessage;
+import org.stabila.core.net.message.StabilaMessage;
 import org.stabila.core.net.peer.Item;
 import org.stabila.core.net.peer.PeerConnection;
 import org.stabila.common.utils.Sha256Hash;
@@ -15,10 +15,10 @@ import org.stabila.protos.Protocol.Inventory.InventoryType;
 
 @Slf4j(topic = "net")
 @Component
-public class InventoryMsgHandler implements TronMsgHandler {
+public class InventoryMsgHandler implements StabilaMsgHandler {
 
   @Autowired
-  private TronNetDelegate tronNetDelegate;
+  private StabilaNetDelegate tronNetDelegate;
 
   @Autowired
   private AdvService advService;
@@ -29,7 +29,7 @@ public class InventoryMsgHandler implements TronMsgHandler {
   private int maxCountIn10s = 10_000;
 
   @Override
-  public void processMessage(PeerConnection peer, TronMessage msg) {
+  public void processMessage(PeerConnection peer, StabilaMessage msg) {
     InventoryMessage inventoryMessage = (InventoryMessage) msg;
     InventoryType type = inventoryMessage.getInventoryType();
 

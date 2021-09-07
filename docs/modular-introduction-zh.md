@@ -37,7 +37,7 @@ chainbase 模块是数据库层面的抽象，像 PoW、PoS、DPoS 这类基于�
 
 下面简单的为大家介绍一下 chainbase 模块中重要的几个实现类和接口：
 1. RevokingDatabase: 是数据库容器的接口，用于所有可回退数据库的管理，SnapshotManager 是该接口的一个实现
-2. TronStoreWithRevoking: 支持可回退的数据库的基类，Chainbase 类是它的具体实现
+2. StabilaStoreWithRevoking: 支持可回退的数据库的基类，Chainbase 类是它的具体实现
 
 ### consensus
 

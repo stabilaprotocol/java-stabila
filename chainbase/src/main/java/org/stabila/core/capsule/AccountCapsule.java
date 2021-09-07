@@ -493,7 +493,7 @@ public class AccountCapsule implements ProtoCapsule<Account>, Comparable<Account
     }
   }
 
-  public long getTronPowerUsage() {
+  public long getStabilaPowerUsage() {
     if (this.account.getVotesList() != null) {
       return this.account.getVotesList().stream().mapToLong(Vote::getVoteCount).sum();
     } else {
@@ -501,8 +501,8 @@ public class AccountCapsule implements ProtoCapsule<Account>, Comparable<Account
     }
   }
 
-  //tp:Tron_Power
-  public long getTronPower() {
+  //tp:Stabila_Power
+  public long getStabilaPower() {
     long tp = 0;
     for (int i = 0; i < account.getFrozenCount(); ++i) {
       tp += account.getFrozen(i).getFrozenBalance();
@@ -514,13 +514,13 @@ public class AccountCapsule implements ProtoCapsule<Account>, Comparable<Account
     return tp;
   }
 
-  public long getAllTronPower() {
-    if (account.getOldTronPower() == -1) {
-      return getTronPowerFrozenBalance();
-    } else if (account.getOldTronPower() == 0) {
-      return getTronPower() + getTronPowerFrozenBalance();
+  public long getAllStabilaPower() {
+    if (account.getOldStabilaPower() == -1) {
+      return getStabilaPowerFrozenBalance();
+    } else if (account.getOldStabilaPower() == 0) {
+      return getStabilaPower() + getStabilaPowerFrozenBalance();
     } else {
-      return account.getOldTronPower() + getTronPowerFrozenBalance();
+      return account.getOldStabilaPower() + getStabilaPowerFrozenBalance();
     }
   }
 
@@ -912,50 +912,50 @@ public class AccountCapsule implements ProtoCapsule<Account>, Comparable<Account
     return this.account.getAccountResource().getFrozenBalanceForEnergy().getFrozenBalance();
   }
 
-  public boolean oldTronPowerIsNotInitialized() {
-    return this.account.getOldTronPower() == 0;
+  public boolean oldStabilaPowerIsNotInitialized() {
+    return this.account.getOldStabilaPower() == 0;
   }
 
-  public boolean oldTronPowerIsInvalid() {
-    return this.account.getOldTronPower() == -1;
+  public boolean oldStabilaPowerIsInvalid() {
+    return this.account.getOldStabilaPower() == -1;
   }
 
-  public void initializeOldTronPower() {
-    long value = getTronPower();
+  public void initializeOldStabilaPower() {
+    long value = getStabilaPower();
     if (value == 0) {
       value = -1;
     }
     setInstance(getInstance().toBuilder()
-        .setOldTronPower(value)
+        .setOldStabilaPower(value)
         .build());
   }
 
-  public void invalidateOldTronPower() {
+  public void invalidateOldStabilaPower() {
     setInstance(getInstance().toBuilder()
-        .setOldTronPower(-1)
+        .setOldStabilaPower(-1)
         .build());
   }
 
 
-  public void setOldTronPower(long value) {
+  public void setOldStabilaPower(long value) {
     setInstance(getInstance().toBuilder()
-        .setOldTronPower(value)
+        .setOldStabilaPower(value)
         .build());
   }
 
-  public void setFrozenForTronPower(long frozenBalance, long expireTime) {
+  public void setFrozenForStabilaPower(long frozenBalance, long expireTime) {
     Frozen newFrozen = Frozen.newBuilder()
         .setFrozenBalance(frozenBalance)
         .setExpireTime(expireTime)
         .build();
 
     setInstance(getInstance().toBuilder()
-        .setTronPower(newFrozen)
+        .setStabilaPower(newFrozen)
         .build());
   }
 
-  public long getTronPowerFrozenBalance() {
-    return this.account.getTronPower().getFrozenBalance();
+  public long getStabilaPowerFrozenBalance() {
+    return this.account.getStabilaPower().getFrozenBalance();
   }
 
   public long getEnergyUsage() {

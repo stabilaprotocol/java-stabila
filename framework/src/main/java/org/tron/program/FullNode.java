@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.stabila.common.application.Application;
 import org.stabila.common.application.ApplicationFactory;
-import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.parameter.CommonParameter;
 import org.stabila.core.Constant;
 import org.stabila.core.config.DefaultConfig;
@@ -64,8 +64,8 @@ public class FullNode {
 
     DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
     beanFactory.setAllowCircularReferences(false);
-    TronApplicationContext context =
-        new TronApplicationContext(beanFactory);
+    StabilaApplicationContext context =
+        new StabilaApplicationContext(beanFactory);
     context.register(DefaultConfig.class);
 
     context.refresh();

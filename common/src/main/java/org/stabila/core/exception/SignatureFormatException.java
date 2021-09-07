@@ -1,6 +1,6 @@
 package org.stabila.core.exception;
 
-public class SignatureFormatException extends TronException {
+public class SignatureFormatException extends StabilaException {
 
   public SignatureFormatException() {
     super();

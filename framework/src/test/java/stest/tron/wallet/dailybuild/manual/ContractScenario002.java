@@ -98,7 +98,7 @@ public class ContractScenario002 {
   }
 
   @Test(enabled = true, description = "Deploy contract with java-tron support interface")
-  public void test01DeployTronNative() {
+  public void test01DeployStabilaNative() {
     ECKey ecKey1 = new ECKey(Utils.getRandom());
     byte[] contract002Address = ecKey1.getAddress();
     String contract002Key = ByteArray.toHexString(ecKey1.getPrivKeyBytes());
@@ -119,7 +119,7 @@ public class ContractScenario002 {
     logger.info("before energy usage is " + Long.toString(energyUsage));
     logger.info("before balance is " + Long.toString(balanceBefore));
 
-    String contractName = "TronNative";
+    String contractName = "StabilaNative";
     String filePath = "./src/test/resources/soliditycode/contractScenario002.sol";
     HashMap retMap = PublicMethed.getBycodeAbi(filePath, contractName);
 

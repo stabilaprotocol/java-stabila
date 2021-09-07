@@ -34,7 +34,7 @@ import org.stabila.core.exception.ContractExeException;
 import org.stabila.core.exception.ContractValidateException;
 import org.stabila.core.exception.VMIllegalException;
 import org.stabila.core.store.StoreFactory;
-import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.runtime.RuntimeImpl;
 import org.stabila.common.runtime.TvmTestUtils;
 import org.stabila.common.utils.ByteArray;
@@ -115,7 +115,7 @@ public class TransactionTraceTest {
         },
         "config-test-mainnet.conf"
     );
-    context = new TronApplicationContext(DefaultConfig.class);
+    context = new StabilaApplicationContext(DefaultConfig.class);
   }
 
   /**

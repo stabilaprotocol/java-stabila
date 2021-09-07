@@ -49,7 +49,7 @@ public class BatchValidateSignContractTest {
       }
       if (i == 13) {
         addresses
-            .add(StringUtil.encode58Check(TransactionTrace.convertToTronAddress(new byte[20])));
+            .add(StringUtil.encode58Check(TransactionTrace.convertToStabilaAddress(new byte[20])));
       } else {
         addresses.add(StringUtil.encode58Check(key.getAddress()));
       }
@@ -98,7 +98,7 @@ public class BatchValidateSignContractTest {
       byte[] sign = key.sign(hash).toByteArray();
       if (i % 5 == 0) {
         addresses.add(StringUtil.encode58Check(TransactionTrace
-            .convertToTronAddress(new byte[20])));
+            .convertToStabilaAddress(new byte[20])));
         signatures.add(Hex.toHexString(DataWord.ONE().getData()));
       } else {
         addresses.add(StringUtil.encode58Check(key.getAddress()));

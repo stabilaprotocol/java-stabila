@@ -1,6 +1,6 @@
 package org.stabila.core.exception;
 
-public class NonUniqueObjectException extends TronException {
+public class NonUniqueObjectException extends StabilaException {
 
   public NonUniqueObjectException() {
     super();

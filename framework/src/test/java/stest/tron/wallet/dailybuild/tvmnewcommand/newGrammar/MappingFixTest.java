@@ -70,8 +70,8 @@ public class MappingFixTest {
   }
 
   // after solidity version 0.5.4.
-  // Tron Solidity compiler is no longer compatible with Ethereum
-  // Tron handles 41 Address in contract, and Ethereum do not
+  // Stabila Solidity compiler is no longer compatible with Ethereum
+  // Stabila handles 41 Address in contract, and Ethereum do not
 
   @Test(enabled = true, description = "Deploy contract")
   public void test01DeployContract() {

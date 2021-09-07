@@ -22,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.stabila.core.capsule.BlockCapsule;
-import org.stabila.core.net.TronNetDelegate;
+import org.stabila.core.net.StabilaNetDelegate;
 import org.stabila.core.net.message.BlockMessage;
 import org.stabila.core.net.message.FetchInvDataMessage;
 import org.stabila.core.net.message.InventoryMessage;
@@ -46,7 +46,7 @@ public class AdvService {
   private final int MAX_SPREAD_SIZE = 1_000;
 
   @Autowired
-  private TronNetDelegate tronNetDelegate;
+  private StabilaNetDelegate tronNetDelegate;
 
   private ConcurrentHashMap<Item, Long> invToFetch = new ConcurrentHashMap<>();
 

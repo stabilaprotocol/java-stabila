@@ -8,7 +8,7 @@ import org.stabila.common.overlay.server.ChannelManager;
 import org.stabila.core.exception.P2pException;
 import org.stabila.core.exception.P2pException.TypeEnum;
 import org.stabila.core.net.message.BlockMessage;
-import org.stabila.core.net.message.TronMessage;
+import org.stabila.core.net.message.StabilaMessage;
 import org.stabila.core.net.messagehandler.BlockMsgHandler;
 import org.stabila.core.net.messagehandler.ChainInventoryMsgHandler;
 import org.stabila.core.net.messagehandler.FetchInvDataMsgHandler;
@@ -24,7 +24,7 @@ import org.stabila.protos.Protocol.ReasonCode;
 
 @Slf4j(topic = "net")
 @Component
-public class TronNetService {
+public class StabilaNetService {
 
   @Autowired
   private ChannelManager channelManager;
@@ -66,7 +66,7 @@ public class TronNetService {
     syncService.init();
     peerStatusCheck.init();
     transactionsMsgHandler.init();
-    logger.info("TronNetService start successfully.");
+    logger.info("StabilaNetService start successfully.");
   }
 
   public void stop() {
@@ -75,7 +75,7 @@ public class TronNetService {
     syncService.close();
     peerStatusCheck.close();
     transactionsMsgHandler.close();
-    logger.info("TronNetService closed successfully.");
+    logger.info("StabilaNetService closed successfully.");
   }
 
   public void broadcast(Message msg) {
@@ -86,7 +86,7 @@ public class TronNetService {
     advService.fastForward(msg);
   }
 
-  protected void onMessage(PeerConnection peer, TronMessage msg) {
+  protected void onMessage(PeerConnection peer, StabilaMessage msg) {
     try {
       switch (msg.getType()) {
         case SYNC_BLOCK_CHAIN:
@@ -118,7 +118,7 @@ public class TronNetService {
     }
   }
 
-  private void processException(PeerConnection peer, TronMessage msg, Exception ex) {
+  private void processException(PeerConnection peer, StabilaMessage msg, Exception ex) {
     ReasonCode code;
 
     if (ex instanceof P2pException) {

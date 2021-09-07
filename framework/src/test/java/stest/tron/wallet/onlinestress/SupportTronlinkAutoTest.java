@@ -24,7 +24,7 @@ import stest.tron.wallet.common.client.utils.PublicMethed;
 import stest.tron.wallet.common.client.utils.PublicMethedForMutiSign;
 
 @Slf4j
-public class SupportTronlinkAutoTest {
+public class SupportStabilalinkAutoTest {
 
   private final String testKey002
       = "7400E3D0727F8A61041A8E8BF86599FE5597CE19DE451E59AED07D60967A5E25";

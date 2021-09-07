@@ -22,7 +22,7 @@ import java.util.Enumeration;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class TronTest {
+public class StabilaTest {
 
   /**
    * main of trontest.

@@ -1,6 +1,6 @@
 package org.stabila.core.exception;
 
-public class DupTransactionException extends TronException {
+public class DupTransactionException extends StabilaException {
 
   public DupTransactionException() {
     super();

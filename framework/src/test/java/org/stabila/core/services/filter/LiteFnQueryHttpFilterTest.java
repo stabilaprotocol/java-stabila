@@ -19,7 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.stabila.common.application.Application;
 import org.stabila.common.application.ApplicationFactory;
-import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.utils.FileUtil;
 import org.stabila.core.Constant;
 import org.stabila.core.config.DefaultConfig;
@@ -32,7 +32,7 @@ public class LiteFnQueryHttpFilterTest {
 
   private static final Logger logger = LoggerFactory.getLogger("Test");
 
-  private TronApplicationContext context;
+  private StabilaApplicationContext context;
   private String ip = "127.0.0.1";
   private int fullHttpPort;
   private Application appTest;
@@ -47,7 +47,7 @@ public class LiteFnQueryHttpFilterTest {
   public void init() {
     Args.setParam(new String[]{"-d", dbPath}, Constant.TEST_CONF);
     Args.getInstance().setFullNodeAllowShieldedTransactionArgs(false);
-    context = new TronApplicationContext(DefaultConfig.class);
+    context = new StabilaApplicationContext(DefaultConfig.class);
     appTest = ApplicationFactory.create(context);
     FullNodeHttpApiService httpApiService = context
             .getBean(FullNodeHttpApiService.class);

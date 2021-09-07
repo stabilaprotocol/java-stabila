@@ -19,12 +19,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.stabila.core.capsule.BlockCapsule;
-import org.stabila.core.net.TronNetDelegate;
+import org.stabila.core.net.StabilaNetDelegate;
 import org.stabila.core.net.message.BlockMessage;
 import org.stabila.core.net.message.FetchInvDataMessage;
 import org.stabila.core.net.message.SyncBlockChainMessage;
 import org.stabila.core.net.peer.PeerConnection;
-import org.stabila.common.overlay.server.Channel.TronState;
+import org.stabila.common.overlay.server.Channel.StabilaState;
 import org.stabila.common.utils.Pair;
 import org.stabila.core.config.Parameter.NetConstants;
 import org.stabila.core.exception.P2pException;
@@ -38,7 +38,7 @@ import org.stabila.protos.Protocol.ReasonCode;
 public class SyncService {
 
   @Autowired
-  private TronNetDelegate tronNetDelegate;
+  private StabilaNetDelegate tronNetDelegate;
 
   @Autowired
   private PbftDataSyncHandler pbftDataSyncHandler;
@@ -91,7 +91,7 @@ public class SyncService {
   }
 
   public void startSync(PeerConnection peer) {
-    peer.setTronState(TronState.SYNCING);
+    peer.setStabilaState(StabilaState.SYNCING);
     peer.setNeedSyncFromPeer(true);
     peer.getSyncBlockToFetch().clear();
     peer.setRemainNum(0);

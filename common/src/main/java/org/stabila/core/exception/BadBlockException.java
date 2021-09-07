@@ -1,6 +1,6 @@
 package org.stabila.core.exception;
 
-public class BadBlockException extends TronException {
+public class BadBlockException extends StabilaException {
 
   public BadBlockException() {
     super();

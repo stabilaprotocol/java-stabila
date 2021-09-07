@@ -74,9 +74,9 @@ This will help prioritize the most common problems and requests.
 
 ## Community Developers Incentives Programme
 
-Bonus point applies in TRON incentives programme. Developers can earn points by contributing to TRON.
+Bonus point applies in STABILA incentives programme. Developers can earn points by contributing to STABILA.
 
-You can find your points ranking at  [Tronscan](https://stabilascan.org/#/developersreward).
+You can find your points ranking at  [Stabilascan](https://stabilascan.org/#/developersreward).
 
 The Top 5 scored developers (for every month, quarter and year) can win a cash reward.
 

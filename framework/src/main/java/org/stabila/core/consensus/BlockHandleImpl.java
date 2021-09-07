@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.stabila.core.capsule.BlockCapsule;
 import org.stabila.core.db.Manager;
-import org.stabila.core.net.TronNetService;
+import org.stabila.core.net.StabilaNetService;
 import org.stabila.core.net.message.BlockMessage;
 import org.stabila.common.backup.BackupManager;
 import org.stabila.common.backup.BackupManager.BackupStatusEnum;
@@ -25,7 +25,7 @@ public class BlockHandleImpl implements BlockHandle {
   private BackupManager backupManager;
 
   @Autowired
-  private TronNetService tronNetService;
+  private StabilaNetService tronNetService;
 
   @Autowired
   private Consensus consensus;

@@ -9,7 +9,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.stabila.common.application.Application;
 import org.stabila.common.application.ApplicationFactory;
-import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.crypto.ECKey;
 import org.stabila.common.runtime.ProgramResult;
 import org.stabila.common.runtime.Runtime;
@@ -59,14 +59,14 @@ public class TransferToAccountTest {
   private static Runtime runtime;
   private static Manager dbManager;
   private static ChainBaseManager chainBaseManager;
-  private static TronApplicationContext context;
+  private static StabilaApplicationContext context;
   private static Application appT;
   private static DepositImpl deposit;
   private static AccountCapsule ownerCapsule;
 
   static {
     Args.setParam(new String[]{"--output-directory", dbPath, "--debug"}, Constant.TEST_CONF);
-    context = new TronApplicationContext(DefaultConfig.class);
+    context = new StabilaApplicationContext(DefaultConfig.class);
     appT = ApplicationFactory.create(context);
     OWNER_ADDRESS = Wallet.getAddressPreFixString() + "abd4b9367799eaa3197fecb144eb71de1e049abc";
     TRANSFER_TO = Wallet.getAddressPreFixString() + "548794500882809695a8a687866e76d4271a1abc";

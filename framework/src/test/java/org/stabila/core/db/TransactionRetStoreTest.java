@@ -13,7 +13,7 @@ import org.stabila.core.config.DefaultConfig;
 import org.stabila.core.config.args.Args;
 import org.stabila.core.exception.BadItemException;
 import org.stabila.core.store.TransactionRetStore;
-import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.utils.ByteArray;
 import org.stabila.common.utils.FileUtil;
 import org.stabila.protos.Protocol.Transaction;
@@ -25,7 +25,7 @@ public class TransactionRetStoreTest {
   private static String dbPath = "output_TransactionRetStore_test";
   private static String dbDirectory = "db_TransactionRetStore_test";
   private static String indexDirectory = "index_TransactionRetStore_test";
-  private static TronApplicationContext context;
+  private static StabilaApplicationContext context;
   private static TransactionRetStore transactionRetStore;
   private static Transaction transaction;
   private static TransactionStore transactionStore;
@@ -33,7 +33,7 @@ public class TransactionRetStoreTest {
   static {
     Args.setParam(new String[]{"--output-directory", dbPath, "--storage-db-directory", dbDirectory,
         "--storage-index-directory", indexDirectory}, Constant.TEST_CONF);
-    context = new TronApplicationContext(DefaultConfig.class);
+    context = new StabilaApplicationContext(DefaultConfig.class);
   }
 
   @AfterClass

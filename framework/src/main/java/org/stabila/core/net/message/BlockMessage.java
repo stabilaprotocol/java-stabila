@@ -4,7 +4,7 @@ import org.stabila.core.capsule.BlockCapsule;
 import org.stabila.core.capsule.TransactionCapsule;
 import org.stabila.common.utils.Sha256Hash;
 
-public class BlockMessage extends TronMessage {
+public class BlockMessage extends StabilaMessage {
 
   private BlockCapsule block;
 

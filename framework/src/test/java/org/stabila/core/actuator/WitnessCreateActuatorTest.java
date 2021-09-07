@@ -21,7 +21,7 @@ import org.stabila.core.config.args.Args;
 import org.stabila.core.db.Manager;
 import org.stabila.core.exception.ContractExeException;
 import org.stabila.core.exception.ContractValidateException;
-import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.utils.ByteArray;
 import org.stabila.common.utils.FileUtil;
 import org.stabila.protos.Protocol.AccountType;
@@ -42,12 +42,12 @@ public class WitnessCreateActuatorTest {
   private static final String OWNER_ADDRESS_INVALID = "aaaa";
   private static final String OWNER_ADDRESS_NOACCOUNT;
   private static final String OWNER_ADDRESS_BALANCENOTSUFFIENT;
-  private static TronApplicationContext context;
+  private static StabilaApplicationContext context;
   private static Manager dbManager;
 
   static {
     Args.setParam(new String[]{"--output-directory", dbPath}, Constant.TEST_CONF);
-    context = new TronApplicationContext(DefaultConfig.class);
+    context = new StabilaApplicationContext(DefaultConfig.class);
     OWNER_ADDRESS_FIRST =
         Wallet.getAddressPreFixString() + "abd4b9367799eaa3197fecb144eb71de1e049abc";
     OWNER_ADDRESS_SECOND =

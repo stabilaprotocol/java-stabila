@@ -355,9 +355,9 @@ public class DynamicPropertiesStore extends StabilaStoreWithRevoking<BytesCapsul
     }
 
     try {
-      this.getTotalTronPowerWeight();
+      this.getTotalStabilaPowerWeight();
     } catch (IllegalArgumentException e) {
-      this.saveTotalTronPowerWeight(0L);
+      this.saveTotalStabilaPowerWeight(0L);
     }
 
 
@@ -1080,17 +1080,17 @@ public class DynamicPropertiesStore extends StabilaStoreWithRevoking<BytesCapsul
             () -> new IllegalArgumentException("not found TOTAL_ENERGY_WEIGHT"));
   }
 
-  public void saveTotalTronPowerWeight(long totalEnergyWeight) {
-    this.put(DynamicResourceProperties.TOTAL_TRON_POWER_WEIGHT,
+  public void saveTotalStabilaPowerWeight(long totalEnergyWeight) {
+    this.put(DynamicResourceProperties.TOTAL_STABILA_POWER_WEIGHT,
         new BytesCapsule(ByteArray.fromLong(totalEnergyWeight)));
   }
 
-  public long getTotalTronPowerWeight() {
-    return Optional.ofNullable(getUnchecked(DynamicResourceProperties.TOTAL_TRON_POWER_WEIGHT))
+  public long getTotalStabilaPowerWeight() {
+    return Optional.ofNullable(getUnchecked(DynamicResourceProperties.TOTAL_STABILA_POWER_WEIGHT))
         .map(BytesCapsule::getData)
         .map(ByteArray::toLong)
         .orElseThrow(
-            () -> new IllegalArgumentException("not found TOTAL_TRON_POWER_WEIGHT"));
+            () -> new IllegalArgumentException("not found TOTAL_STABILA_POWER_WEIGHT"));
   }
 
   public void saveTotalNetLimit(long totalNetLimit) {
@@ -2039,10 +2039,10 @@ public class DynamicPropertiesStore extends StabilaStoreWithRevoking<BytesCapsul
   }
 
   //The unit is trx
-  public void addTotalTronPowerWeight(long amount) {
-    long totalWeight = getTotalTronPowerWeight();
+  public void addTotalStabilaPowerWeight(long amount) {
+    long totalWeight = getTotalStabilaPowerWeight();
     totalWeight += amount;
-    saveTotalTronPowerWeight(totalWeight);
+    saveTotalStabilaPowerWeight(totalWeight);
   }
 
   public void addTotalCreateAccountCost(long fee) {
@@ -2305,7 +2305,7 @@ public class DynamicPropertiesStore extends StabilaStoreWithRevoking<BytesCapsul
         .getBytes();
     private static final byte[] TOTAL_ENERGY_AVERAGE_TIME = "TOTAL_ENERGY_AVERAGE_TIME".getBytes();
     private static final byte[] TOTAL_ENERGY_WEIGHT = "TOTAL_ENERGY_WEIGHT".getBytes();
-    private static final byte[] TOTAL_TRON_POWER_WEIGHT = "TOTAL_TRON_POWER_WEIGHT".getBytes();
+    private static final byte[] TOTAL_STABILA_POWER_WEIGHT = "TOTAL_STABILA_POWER_WEIGHT".getBytes();
     private static final byte[] TOTAL_ENERGY_LIMIT = "TOTAL_ENERGY_LIMIT".getBytes();
     private static final byte[] BLOCK_ENERGY_USAGE = "BLOCK_ENERGY_USAGE".getBytes();
     private static final byte[] ADAPTIVE_RESOURCE_LIMIT_MULTIPLIER =

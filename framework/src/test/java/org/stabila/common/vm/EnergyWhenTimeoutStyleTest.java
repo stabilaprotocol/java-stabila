@@ -9,7 +9,7 @@ import org.junit.Test;
 import org.testng.Assert;
 import org.stabila.common.application.Application;
 import org.stabila.common.application.ApplicationFactory;
-import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.runtime.TVMTestResult;
 import org.stabila.common.runtime.TvmTestUtils;
 import org.stabila.common.storage.DepositImpl;
@@ -31,7 +31,7 @@ import org.stabila.protos.Protocol.AccountType;
 public class EnergyWhenTimeoutStyleTest {
 
   private Manager dbManager;
-  private TronApplicationContext context;
+  private StabilaApplicationContext context;
   private DepositImpl deposit;
   private String dbPath = "output_CPUTimeTest";
   private String OWNER_ADDRESS;
@@ -46,7 +46,7 @@ public class EnergyWhenTimeoutStyleTest {
   public void init() {
     Args.setParam(new String[]{"--output-directory", dbPath},
         Constant.TEST_CONF);
-    context = new TronApplicationContext(DefaultConfig.class);
+    context = new StabilaApplicationContext(DefaultConfig.class);
     AppT = ApplicationFactory.create(context);
     OWNER_ADDRESS = Wallet.getAddressPreFixString() + "abd4b9367799eaa3197fecb144eb71de1e049abc";
     dbManager = context.getBean(Manager.class);

@@ -20,7 +20,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.parameter.CommonParameter;
 import org.stabila.common.runtime.Runtime;
 import org.stabila.common.runtime.RuntimeImpl;
@@ -265,7 +265,7 @@ public class VoteTest {
   }
 
   private static String dbPath;
-  private static TronApplicationContext context;
+  private static StabilaApplicationContext context;
   private static Manager manager;
   private static MaintenanceManager maintenanceManager;
   private static ConsensusService consensusService;
@@ -278,7 +278,7 @@ public class VoteTest {
     dbPath = "output_" + VoteTest.class.getName();
     Args.setParam(new String[]{"--output-directory", dbPath, "--debug"}, Constant.TEST_CONF);
     CommonParameter.getInstance().setCheckFrozenTime(0);
-    context = new TronApplicationContext(DefaultConfig.class);
+    context = new StabilaApplicationContext(DefaultConfig.class);
     manager = context.getBean(Manager.class);
     maintenanceManager = context.getBean(MaintenanceManager.class);
     consensusService = context.getBean(ConsensusService.class);
@@ -383,8 +383,8 @@ public class VoteTest {
           freezeMethod, voteContractStr, freezeUnit, 1);
 
       // query tron power, not zero
-      long totalTronPower = 2 * freezeUnit / trx_precision;
-      triggerContract(voteContract, SUCCESS, getEqualConsumer(totalTronPower),
+      long totalStabilaPower = 2 * freezeUnit / trx_precision;
+      triggerContract(voteContract, SUCCESS, getEqualConsumer(totalStabilaPower),
           queryTotalVoteCountMethod, voteContractStr);
 
       // check witness: true

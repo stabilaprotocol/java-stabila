@@ -210,7 +210,7 @@ public class HttpTestAccount003 {
    * constructor.
    */
   @Test(enabled = true, description = "Unfreeze balance for stabila power by http")
-  public void test10UnfreezeTronPower() {
+  public void test10UnfreezeStabilaPower() {
     response = HttpMethed.unFreezeBalance(httpnode, updateAccountAddress,2,updateAccountKey);
     responseContent = HttpMethed.parseResponseContent(response);
     HttpMethed.printJsonContent(responseContent);

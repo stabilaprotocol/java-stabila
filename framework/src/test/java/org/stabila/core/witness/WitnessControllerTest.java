@@ -15,7 +15,7 @@ import org.stabila.core.Constant;
 import org.stabila.core.config.DefaultConfig;
 import org.stabila.core.config.args.Args;
 import org.stabila.core.db.Manager;
-import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.utils.ByteArray;
 import org.stabila.common.utils.FileUtil;
 import org.stabila.consensus.dpos.DposSlot;
@@ -26,12 +26,12 @@ public class WitnessControllerTest {
   private static DposSlot dposSlot;
   private static ChainBaseManager chainBaseManager;
 
-  private static TronApplicationContext context;
+  private static StabilaApplicationContext context;
   private static String dbPath = "output_witness_controller_test";
 
   static {
     Args.setParam(new String[]{"-d", dbPath}, Constant.TEST_CONF);
-    context = new TronApplicationContext(DefaultConfig.class);
+    context = new StabilaApplicationContext(DefaultConfig.class);
   }
 
   ByteString blank = ByteString.copyFrom(new byte[1]);

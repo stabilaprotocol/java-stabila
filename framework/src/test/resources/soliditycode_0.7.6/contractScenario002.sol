@@ -1,5 +1,5 @@
 
-contract TronNative{
+contract StabilaNative{
 
     address public voteContractAddress= address(0x10001);
     address public freezeBalanceAddress = address(0x10002);

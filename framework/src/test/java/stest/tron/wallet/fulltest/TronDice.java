@@ -24,7 +24,7 @@ import stest.tron.wallet.common.client.Parameter.CommonConstant;
 import stest.tron.wallet.common.client.utils.PublicMethed;
 
 @Slf4j
-public class TronDice {
+public class StabilaDice {
 
   private final String testKey002 = Configuration.getByPath("testng.conf")
       .getString("foundationAccount.key1");
@@ -70,11 +70,11 @@ public class TronDice {
     String tronDiceKey = ByteArray.toHexString(ecKey1.getPrivKeyBytes());
     PublicMethed
         .sendcoin(tronDiceAddress, 100000000000L, fromAddress, testKey002, blockingStubFull);
-    String contractName = "TronDice";
+    String contractName = "StabilaDice";
     String code = Configuration.getByPath("testng.conf")
-        .getString("code.code_TronDice_tronDice");
+        .getString("code.code_StabilaDice_tronDice");
     String abi = Configuration.getByPath("testng.conf")
-        .getString("abi.abi_TronDice_tronDice");
+        .getString("abi.abi_StabilaDice_tronDice");
     byte[] contractAddress = PublicMethed.deployContract(contractName, abi, code, "",
         maxFeeLimit, 1000000000L, 100, null, tronDiceKey, tronDiceAddress, blockingStubFull);
     SmartContract smartContract = PublicMethed.getContract(contractAddress, blockingStubFull);
