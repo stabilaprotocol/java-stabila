@@ -28,7 +28,7 @@ import org.stabila.protos.Protocol.Transaction.Contract.ContractType;
 import org.stabila.protos.Protocol.Transaction.Result.contractResult;
 
 @Slf4j(topic = "VM")
-public class RuntimeImpl implements java.lang.Runtime {
+public class RuntimeImpl implements Runtime {
 
   TransactionContext context;
   private List<Actuator> actuatorList = null;
