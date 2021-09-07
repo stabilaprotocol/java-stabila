@@ -6,19 +6,19 @@ import java.io.File;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
-import org.tron.common.application.Application;
-import org.tron.common.application.ApplicationFactory;
-import org.tron.common.application.TronApplicationContext;
-import org.tron.common.parameter.CommonParameter;
-import org.tron.core.Constant;
-import org.tron.core.config.DefaultConfig;
-import org.tron.core.config.args.Args;
-import org.tron.core.services.RpcApiService;
-import org.tron.core.services.http.FullNodeHttpApiService;
-import org.tron.core.services.interfaceOnPBFT.RpcApiServiceOnPBFT;
-import org.tron.core.services.interfaceOnPBFT.http.PBFT.HttpApiOnPBFTService;
-import org.tron.core.services.interfaceOnSolidity.RpcApiServiceOnSolidity;
-import org.tron.core.services.interfaceOnSolidity.http.solidity.HttpApiOnSolidityService;
+import org.stabila.common.application.Application;
+import org.stabila.common.application.ApplicationFactory;
+import org.stabila.common.application.StabilaApplicationContext;
+import org.stabila.common.parameter.CommonParameter;
+import org.stabila.core.Constant;
+import org.stabila.core.config.DefaultConfig;
+import org.stabila.core.config.args.Args;
+import org.stabila.core.services.RpcApiService;
+import org.stabila.core.services.http.FullNodeHttpApiService;
+import org.stabila.core.services.interfaceOnPBFT.RpcApiServiceOnPBFT;
+import org.stabila.core.services.interfaceOnPBFT.http.PBFT.HttpApiOnPBFTService;
+import org.stabila.core.services.interfaceOnSolidity.RpcApiServiceOnSolidity;
+import org.stabila.core.services.interfaceOnSolidity.http.solidity.HttpApiOnSolidityService;
 
 @Slf4j(topic = "app")
 public class FullNode {
@@ -64,8 +64,8 @@ public class FullNode {
 
     DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
     beanFactory.setAllowCircularReferences(false);
-    TronApplicationContext context =
-        new TronApplicationContext(beanFactory);
+    StabilaApplicationContext context =
+        new StabilaApplicationContext(beanFactory);
     context.register(DefaultConfig.class);
 
     context.refresh();

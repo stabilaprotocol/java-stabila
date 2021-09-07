@@ -18,20 +18,20 @@ import org.bouncycastle.crypto.digests.SHA256Digest;
 import org.bouncycastle.crypto.generators.PKCS5S2ParametersGenerator;
 import org.bouncycastle.crypto.generators.SCrypt;
 import org.bouncycastle.crypto.params.KeyParameter;
-import org.tron.common.crypto.Hash;
-import org.tron.common.crypto.SignInterface;
-import org.tron.common.crypto.SignUtils;
-import org.tron.common.utils.ByteArray;
-import org.tron.common.utils.StringUtil;
-import org.tron.core.config.args.Args;
-import org.tron.core.exception.CipherException;
+import org.stabila.common.crypto.Hash;
+import org.stabila.common.crypto.SignInterface;
+import org.stabila.common.crypto.SignUtils;
+import org.stabila.common.utils.ByteArray;
+import org.stabila.common.utils.StringUtil;
+import org.stabila.core.config.args.Args;
+import org.stabila.core.exception.CipherException;
 
 /**
  * <p>Ethereum wallet file management. For reference, refer to <a href="https://github.com/ethereum/wiki/wiki/Web3-Secret-Storage-Definition">
  * Web3 Secret Storage Definition</a> or the <a href="https://github.com/ethereum/go-ethereum/blob/master/accounts/key_store_passphrase.go">
  * Go Ethereum client implementation</a>.</p>
  *
- * <p><strong>Note:</strong> the Bouncy Castle Scrypt implementation {@link SCrypt}, fails to
+ * <p><sstabilag>Note:</sstabilag> the Bouncy Castle Scrypt implementation {@link SCrypt}, fails to
  * comply
  * with the following Ethereum reference <a href="https://github.com/ethereum/wiki/wiki/Web3-Secret-Storage-Definition#scrypt">
  * Scrypt test vector</a>:</p>

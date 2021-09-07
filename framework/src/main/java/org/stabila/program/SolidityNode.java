@@ -1,6 +1,6 @@
 package org.stabila.program;
 
-import static org.tron.core.config.Parameter.ChainConstant.BLOCK_PRODUCED_INTERVAL;
+import static org.stabila.core.config.Parameter.ChainConstant.BLOCK_PRODUCED_INTERVAL;
 
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.atomic.AtomicLong;
@@ -8,23 +8,23 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.util.StringUtils;
-import org.tron.common.application.Application;
-import org.tron.common.application.ApplicationFactory;
-import org.tron.common.application.TronApplicationContext;
-import org.tron.common.overlay.client.DatabaseGrpcClient;
-import org.tron.common.overlay.discover.DiscoverServer;
-import org.tron.common.overlay.discover.node.NodeManager;
-import org.tron.common.parameter.CommonParameter;
-import org.tron.core.ChainBaseManager;
-import org.tron.core.Constant;
-import org.tron.core.capsule.BlockCapsule;
-import org.tron.core.config.DefaultConfig;
-import org.tron.core.config.args.Args;
-import org.tron.core.db.Manager;
-import org.tron.core.net.TronNetService;
-import org.tron.core.services.RpcApiService;
-import org.tron.core.services.http.solidity.SolidityNodeHttpApiService;
-import org.tron.protos.Protocol.Block;
+import org.stabila.common.application.Application;
+import org.stabila.common.application.ApplicationFactory;
+import org.stabila.common.application.StabilaApplicationContext;
+import org.stabila.common.overlay.client.DatabaseGrpcClient;
+import org.stabila.common.overlay.discover.DiscoverServer;
+import org.stabila.common.overlay.discover.node.NodeManager;
+import org.stabila.common.parameter.CommonParameter;
+import org.stabila.core.ChainBaseManager;
+import org.stabila.core.Constant;
+import org.stabila.core.capsule.BlockCapsule;
+import org.stabila.core.config.DefaultConfig;
+import org.stabila.core.config.args.Args;
+import org.stabila.core.db.Manager;
+import org.stabila.core.net.StabilaNetService;
+import org.stabila.core.services.RpcApiService;
+import org.stabila.core.services.http.solidity.SolidityNodeHttpApiService;
+import org.stabila.protos.Protocol.Block;
 
 @Slf4j(topic = "app")
 public class SolidityNode {
@@ -72,7 +72,7 @@ public class SolidityNode {
     }
     parameter.setSolidityNode(true);
 
-    ApplicationContext context = new TronApplicationContext(DefaultConfig.class);
+    ApplicationContext context = new StabilaApplicationContext(DefaultConfig.class);
 
     if (parameter.isHelp()) {
       logger.info("Here is the help message.");
@@ -98,8 +98,8 @@ public class SolidityNode {
     discoverServer.close();
     NodeManager nodeManager = context.getBean(NodeManager.class);
     nodeManager.close();
-    TronNetService tronNetService = context.getBean(TronNetService.class);
-    tronNetService.stop();
+    StabilaNetService stabilaNetService = context.getBean(StabilaNetService.class);
+    stabilaNetService.stop();
 
     SolidityNode node = new SolidityNode(appT.getDbManager());
     node.start();
