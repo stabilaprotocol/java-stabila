@@ -36,7 +36,7 @@ import org.stabila.core.exception.VMIllegalException;
 import org.stabila.core.store.StoreFactory;
 import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.runtime.RuntimeImpl;
-import org.stabila.common.runtime.TvmTestUtils;
+import org.stabila.common.TvmTestUtils;
 import org.stabila.common.utils.ByteArray;
 import org.stabila.common.utils.Commons;
 import org.stabila.common.utils.FileUtil;

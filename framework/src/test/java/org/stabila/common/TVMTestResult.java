@@ -1,6 +1,7 @@
-package org.stabila.common.runtime;
+package org.stabila.common;
 
 import lombok.extern.slf4j.Slf4j;
+import org.stabila.common.runtime.Runtime;
 import org.stabila.core.capsule.ReceiptCapsule;
 
 @Slf4j

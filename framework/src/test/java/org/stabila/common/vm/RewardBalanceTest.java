@@ -6,7 +6,7 @@ import org.bouncycastle.util.encoders.Hex;
 import org.junit.Test;
 import org.testng.Assert;
 import org.stabila.common.runtime.InternalTransaction;
-import org.stabila.common.runtime.TvmTestUtils;
+import org.stabila.common.TvmTestUtils;
 import org.stabila.common.utils.Base58;
 import org.stabila.common.utils.StringUtil;
 import org.stabila.common.utils.WalletUtil;

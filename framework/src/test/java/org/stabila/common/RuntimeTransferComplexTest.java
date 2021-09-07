@@ -1,4 +1,4 @@
-package org.stabila.common.runtime;
+package org.stabila.common;
 
 import static org.stabila.core.db.TransactionTrace.convertToStabilaAddress;
 
@@ -8,6 +8,7 @@ import org.bouncycastle.util.encoders.Hex;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.stabila.common.runtime.Runtime;
 import org.testng.Assert;
 import org.stabila.common.application.Application;
 import org.stabila.common.application.ApplicationFactory;

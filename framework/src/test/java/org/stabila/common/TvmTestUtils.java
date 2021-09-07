@@ -1,4 +1,4 @@
-package org.stabila.common.runtime;
+package org.stabila.common;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -10,6 +10,8 @@ import java.util.regex.Pattern;
 import lombok.extern.slf4j.Slf4j;
 import org.bouncycastle.util.encoders.Hex;
 import org.stabila.common.crypto.Hash;
+import org.stabila.common.runtime.Runtime;
+import org.stabila.common.runtime.RuntimeImpl;
 import org.stabila.common.storage.Deposit;
 import org.stabila.common.storage.DepositImpl;
 import org.stabila.common.utils.WalletUtil;
@@ -68,8 +70,8 @@ public class TvmTestUtils {
   }
 
   public static Runtime triggerContractWholeProcessReturnContractAddress(byte[] callerAddress,
-      byte[] contractAddress, byte[] data, long callValue, long feeLimit, DepositImpl deposit,
-      BlockCapsule block)
+                                                                         byte[] contractAddress, byte[] data, long callValue, long feeLimit, DepositImpl deposit,
+                                                                         BlockCapsule block)
       throws ContractExeException, ReceiptCheckErrException,
       ContractValidateException, VMIllegalException {
     Transaction trx = generateTriggerSmartContractAndGetTransaction(callerAddress, contractAddress,

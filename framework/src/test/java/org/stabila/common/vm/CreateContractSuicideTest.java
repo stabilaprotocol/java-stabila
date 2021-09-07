@@ -6,7 +6,7 @@ import org.bouncycastle.util.encoders.Hex;
 import org.junit.Test;
 import org.testng.Assert;
 import org.stabila.common.runtime.Runtime;
-import org.stabila.common.runtime.TvmTestUtils;
+import org.stabila.common.TvmTestUtils;
 import org.stabila.common.storage.DepositImpl;
 import org.stabila.core.config.Parameter.ForkBlockVersionEnum;
 import org.stabila.core.exception.ContractExeException;

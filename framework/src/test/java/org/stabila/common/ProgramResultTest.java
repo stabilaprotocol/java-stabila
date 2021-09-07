@@ -1,4 +1,4 @@
-package org.stabila.common.runtime;
+package org.stabila.common;
 
 import static org.stabila.core.capsule.utils.TransactionUtil.buildTransactionInfoInstance;
 import static org.stabila.core.utils.TransactionUtil.generateContractAddress;
@@ -12,6 +12,8 @@ import org.bouncycastle.util.encoders.Hex;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.stabila.common.runtime.InternalTransaction;
+import org.stabila.common.runtime.Runtime;
 import org.testng.Assert;
 import org.stabila.common.application.Application;
 import org.stabila.common.application.ApplicationFactory;

@@ -1,7 +1,7 @@
-package org.stabila.common.runtime;
+package org.stabila.common;
 
-import static org.stabila.common.runtime.TvmTestUtils.generateDeploySmartContractAndGetTransaction;
-import static org.stabila.common.runtime.TvmTestUtils.generateTriggerSmartContractAndGetTransaction;
+import static org.stabila.common.TvmTestUtils.generateDeploySmartContractAndGetTransaction;
+import static org.stabila.common.TvmTestUtils.generateTriggerSmartContractAndGetTransaction;
 
 import java.io.File;
 import lombok.extern.slf4j.Slf4j;
@@ -9,6 +9,7 @@ import org.bouncycastle.util.encoders.Hex;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.stabila.common.runtime.RuntimeImpl;
 import org.testng.Assert;
 import org.stabila.common.application.Application;
 import org.stabila.common.application.ApplicationFactory;
