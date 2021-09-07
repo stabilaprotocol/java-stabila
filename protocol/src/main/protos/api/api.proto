@@ -1,7 +1,7 @@
 syntax = "proto3";
 package protocol;
 
-import "core/Tron.proto";
+import "core/Stabila.proto";
 import "google/api/annotations.proto";
 
 import "core/contract/asset_issue_contract.proto";

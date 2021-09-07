@@ -8,7 +8,7 @@ package protocol;
 
 option java_package = "org.stabila.protos"; //Specify the name of the package that generated the Java file
 option java_outer_classname = "Protocol"; //Specify the class name of the generated Java file
-option go_package = "github.com/tronprotocol/grpc-gateway/core";
+option go_package = "github.com/stabilaprotocol/grpc-gateway/core";
 
 enum AccountType {
   Normal = 0;
@@ -158,8 +158,8 @@ message Account {
   //Freeze and provide balances to other accounts
   int64 delegated_frozen_balance_for_bandwidth = 42;
 
-  int64 old_tron_power = 46;
-  Frozen tron_power = 47;
+  int64 old_stabila_power = 46;
+  Frozen stabila_power = 47;
 
   // this account create time
   int64 create_time = 0x09;

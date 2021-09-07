@@ -6,7 +6,7 @@ option java_package = "org.stabila.protos.contract"; //Specify the name of the p
 //option java_outer_classname = "CreateSmartContract"; //Specify the class name of the generated Java file
 option go_package = "github.com/tronprotocol/grpc-gateway/core";
 
-import "core/Tron.proto";
+import "core/Stabila.proto";
 
 message SmartContract {
   message ABI {
