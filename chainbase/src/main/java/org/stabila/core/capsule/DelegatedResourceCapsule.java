@@ -4,7 +4,7 @@ import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
 import lombok.extern.slf4j.Slf4j;
 import org.stabila.core.store.DynamicPropertiesStore;
-import org.tron.protos.Protocol.DelegatedResource;
+import org.stabila.protos.Protocol.DelegatedResource;
 
 @Slf4j(topic = "capsule")
 public class DelegatedResourceCapsule implements ProtoCapsule<DelegatedResource> {

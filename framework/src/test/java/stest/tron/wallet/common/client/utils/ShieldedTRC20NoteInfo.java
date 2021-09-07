@@ -4,8 +4,8 @@ import io.netty.util.internal.StringUtil;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import org.tron.common.utils.Base58;
-import org.tron.common.utils.ByteArray;
+import org.stabila.common.utils.Base58;
+import org.stabila.common.utils.ByteArray;
 
 @AllArgsConstructor
 public class ShieldedTRC20NoteInfo {

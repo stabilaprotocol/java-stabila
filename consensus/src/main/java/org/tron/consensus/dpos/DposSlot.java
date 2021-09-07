@@ -1,4 +1,4 @@
-package org.tron.consensus.dpos;
+package org.stabila.consensus.dpos;
 
 
 import static org.stabila.core.config.Parameter.ChainConstant.BLOCK_PRODUCED_INTERVAL;
@@ -9,7 +9,7 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.tron.consensus.ConsensusDelegate;
+import org.stabila.consensus.ConsensusDelegate;
 
 @Slf4j(topic = "consensus")
 @Component

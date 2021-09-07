@@ -24,8 +24,8 @@ import java.math.BigInteger;
 import java.nio.ByteBuffer;
 import org.bouncycastle.util.Arrays;
 import org.bouncycastle.util.encoders.Hex;
-import org.tron.common.utils.ByteUtil;
-import org.tron.common.utils.FastByteComparisons;
+import org.stabila.common.utils.ByteUtil;
+import org.stabila.common.utils.FastByteComparisons;
 
 public class DataWord implements Comparable<DataWord> {
 

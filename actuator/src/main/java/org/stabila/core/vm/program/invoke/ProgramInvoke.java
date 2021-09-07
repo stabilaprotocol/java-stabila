@@ -19,7 +19,7 @@ package org.stabila.core.vm.program.invoke;
 
 
 import org.stabila.core.vm.repository.Repository;
-import org.tron.common.runtime.vm.DataWord;
+import org.stabila.common.runtime.vm.DataWord;
 
 /**
  * @author Roman Mandeleil

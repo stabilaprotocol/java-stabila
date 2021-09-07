@@ -1,4 +1,4 @@
-package org.tron.consensus.dpos;
+package org.stabila.consensus.dpos;
 
 import static org.stabila.core.config.Parameter.ChainConstant.BLOCK_PRODUCED_INTERVAL;
 
@@ -9,14 +9,14 @@ import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
-import org.tron.common.parameter.CommonParameter;
-import org.tron.common.utils.ByteArray;
-import org.tron.common.utils.Sha256Hash;
-import org.tron.consensus.ConsensusDelegate;
-import org.tron.consensus.base.Param.Miner;
-import org.tron.consensus.base.State;
+import org.stabila.common.parameter.CommonParameter;
+import org.stabila.common.utils.ByteArray;
+import org.stabila.common.utils.Sha256Hash;
+import org.stabila.consensus.ConsensusDelegate;
+import org.stabila.consensus.base.Param.Miner;
+import org.stabila.consensus.base.State;
 import org.stabila.core.capsule.BlockCapsule;
-import org.tron.protos.Protocol.BlockHeader;
+import org.stabila.protos.Protocol.BlockHeader;
 
 @Slf4j(topic = "consensus")
 @Component

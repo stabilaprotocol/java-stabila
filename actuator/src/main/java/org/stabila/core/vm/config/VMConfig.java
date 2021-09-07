@@ -18,7 +18,7 @@
 package org.stabila.core.vm.config;
 
 
-import static org.tron.common.parameter.CommonParameter.ENERGY_LIMIT_HARD_FORK;
+import static org.stabila.common.parameter.CommonParameter.ENERGY_LIMIT_HARD_FORK;
 
 import lombok.Setter;
 

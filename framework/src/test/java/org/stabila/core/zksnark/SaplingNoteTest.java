@@ -12,7 +12,7 @@ import org.stabila.core.zen.address.PaymentAddress;
 import org.stabila.core.zen.address.SpendingKey;
 import org.stabila.core.zen.note.Note;
 import org.testng.Assert;
-import org.tron.common.utils.ByteArray;
+import org.stabila.common.utils.ByteArray;
 
 
 public class SaplingNoteTest {

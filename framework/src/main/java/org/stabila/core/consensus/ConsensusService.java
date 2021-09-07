@@ -1,6 +1,6 @@
 package org.stabila.core.consensus;
 
-import static org.tron.common.utils.ByteArray.fromHexString;
+import static org.stabila.common.utils.ByteArray.fromHexString;
 
 import com.google.protobuf.ByteString;
 import java.util.ArrayList;
@@ -12,11 +12,11 @@ import org.springframework.stereotype.Component;
 import org.stabila.core.capsule.WitnessCapsule;
 import org.stabila.core.config.args.Args;
 import org.stabila.core.store.WitnessStore;
-import org.tron.common.crypto.SignUtils;
-import org.tron.common.parameter.CommonParameter;
-import org.tron.consensus.Consensus;
-import org.tron.consensus.base.Param;
-import org.tron.consensus.base.Param.Miner;
+import org.stabila.common.crypto.SignUtils;
+import org.stabila.common.parameter.CommonParameter;
+import org.stabila.consensus.Consensus;
+import org.stabila.consensus.base.Param;
+import org.stabila.consensus.base.Param.Miner;
 
 @Slf4j(topic = "consensus")
 @Component

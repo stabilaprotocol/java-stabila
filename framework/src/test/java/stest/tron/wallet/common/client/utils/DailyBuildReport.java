@@ -16,9 +16,9 @@ import java.util.concurrent.TimeUnit;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.TestListenerAdapter;
-import org.tron.api.GrpcAPI;
-import org.tron.api.WalletGrpc;
-import org.tron.protos.Protocol;
+import org.stabila.api.GrpcAPI;
+import org.stabila.api.WalletGrpc;
+import org.stabila.protos.Protocol;
 import stest.tron.wallet.common.client.Configuration;
 
 public class DailyBuildReport extends TestListenerAdapter {

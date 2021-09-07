@@ -17,9 +17,9 @@
  */
 package org.stabila.core.vm.program.invoke;
 
-import static org.tron.common.runtime.InternalTransaction.TrxType.TRX_CONTRACT_CALL_TYPE;
-import static org.tron.common.runtime.InternalTransaction.TrxType.TRX_CONTRACT_CREATION_TYPE;
-import static org.tron.common.utils.WalletUtil.generateContractAddress;
+import static org.stabila.common.runtime.InternalTransaction.TrxType.TRX_CONTRACT_CALL_TYPE;
+import static org.stabila.common.runtime.InternalTransaction.TrxType.TRX_CONTRACT_CREATION_TYPE;
+import static org.stabila.common.utils.WalletUtil.generateContractAddress;
 
 import lombok.extern.slf4j.Slf4j;
 import org.bouncycastle.util.Arrays;
@@ -28,13 +28,13 @@ import org.stabila.core.capsule.ContractCapsule;
 import org.stabila.core.exception.ContractValidateException;
 import org.stabila.core.vm.program.Program;
 import org.stabila.core.vm.repository.Repository;
-import org.tron.common.runtime.InternalTransaction;
-import org.tron.common.runtime.vm.DataWord;
-import org.tron.common.utils.ByteUtil;
-import org.tron.protos.Protocol.Block;
-import org.tron.protos.Protocol.Transaction;
-import org.tron.protos.contract.SmartContractOuterClass.CreateSmartContract;
-import org.tron.protos.contract.SmartContractOuterClass.TriggerSmartContract;
+import org.stabila.common.runtime.InternalTransaction;
+import org.stabila.common.runtime.vm.DataWord;
+import org.stabila.common.utils.ByteUtil;
+import org.stabila.protos.Protocol.Block;
+import org.stabila.protos.Protocol.Transaction;
+import org.stabila.protos.contract.SmartContractOuterClass.CreateSmartContract;
+import org.stabila.protos.contract.SmartContractOuterClass.TriggerSmartContract;
 
 
 /**

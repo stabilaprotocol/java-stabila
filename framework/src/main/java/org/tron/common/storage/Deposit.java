@@ -1,6 +1,6 @@
-package org.tron.common.storage;
+package org.stabila.common.storage;
 
-import org.tron.common.runtime.vm.DataWord;
+import org.stabila.common.runtime.vm.DataWord;
 import org.stabila.core.capsule.AccountCapsule;
 import org.stabila.core.capsule.AssetIssueCapsule;
 import org.stabila.core.capsule.BlockCapsule;
@@ -14,7 +14,7 @@ import org.stabila.core.db.Manager;
 import org.stabila.core.vm.program.Storage;
 import org.stabila.core.vm.repository.Key;
 import org.stabila.core.vm.repository.Value;
-import org.tron.protos.Protocol;
+import org.stabila.protos.Protocol;
 
 public interface Deposit {
 

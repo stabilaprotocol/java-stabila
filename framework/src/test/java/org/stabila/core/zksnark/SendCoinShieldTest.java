@@ -28,26 +28,26 @@ import org.stabila.core.zen.note.Note;
 import org.stabila.core.zen.note.NoteEncryption;
 import org.stabila.core.zen.note.OutgoingPlaintext;
 import org.testng.collections.Lists;
-import org.tron.api.GrpcAPI;
-import org.tron.common.application.TronApplicationContext;
-import org.tron.common.parameter.CommonParameter;
-import org.tron.common.utils.ByteArray;
-import org.tron.common.utils.ByteUtil;
-import org.tron.common.utils.FileUtil;
-import org.tron.common.utils.Sha256Hash;
-import org.tron.common.zksnark.IncrementalMerkleTreeContainer;
-import org.tron.common.zksnark.IncrementalMerkleTreeContainer.EmptyMerkleRoots;
-import org.tron.common.zksnark.IncrementalMerkleVoucherContainer;
-import org.tron.common.zksnark.JLibrustzcash;
-import org.tron.common.zksnark.LibrustzcashParam.BindingSigParams;
-import org.tron.common.zksnark.LibrustzcashParam.CheckOutputParams;
-import org.tron.common.zksnark.LibrustzcashParam.CheckSpendParams;
-import org.tron.common.zksnark.LibrustzcashParam.ComputeCmParams;
-import org.tron.common.zksnark.LibrustzcashParam.FinalCheckParams;
-import org.tron.common.zksnark.LibrustzcashParam.IvkToPkdParams;
-import org.tron.common.zksnark.LibrustzcashParam.SpendSigParams;
-import org.tron.common.zksnark.MerklePath;
-import org.tron.common.zksnark.ZksnarkClient;
+import org.stabila.api.GrpcAPI;
+import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.parameter.CommonParameter;
+import org.stabila.common.utils.ByteArray;
+import org.stabila.common.utils.ByteUtil;
+import org.stabila.common.utils.FileUtil;
+import org.stabila.common.utils.Sha256Hash;
+import org.stabila.common.zksnark.IncrementalMerkleTreeContainer;
+import org.stabila.common.zksnark.IncrementalMerkleTreeContainer.EmptyMerkleRoots;
+import org.stabila.common.zksnark.IncrementalMerkleVoucherContainer;
+import org.stabila.common.zksnark.JLibrustzcash;
+import org.stabila.common.zksnark.LibrustzcashParam.BindingSigParams;
+import org.stabila.common.zksnark.LibrustzcashParam.CheckOutputParams;
+import org.stabila.common.zksnark.LibrustzcashParam.CheckSpendParams;
+import org.stabila.common.zksnark.LibrustzcashParam.ComputeCmParams;
+import org.stabila.common.zksnark.LibrustzcashParam.FinalCheckParams;
+import org.stabila.common.zksnark.LibrustzcashParam.IvkToPkdParams;
+import org.stabila.common.zksnark.LibrustzcashParam.SpendSigParams;
+import org.stabila.common.zksnark.MerklePath;
+import org.stabila.common.zksnark.ZksnarkClient;
 import org.stabila.core.capsule.AccountCapsule;
 import org.stabila.core.capsule.AssetIssueCapsule;
 import org.stabila.core.capsule.IncrementalMerkleTreeCapsule;
@@ -76,14 +76,14 @@ import org.stabila.core.zen.address.IncomingViewingKey;
 import org.stabila.core.zen.address.KeyIo;
 import org.stabila.core.zen.address.PaymentAddress;
 import org.stabila.core.zen.address.SpendingKey;
-import org.tron.protos.Protocol;
-import org.tron.protos.Protocol.AccountType;
-import org.tron.protos.Protocol.Transaction.Contract.ContractType;
-import org.tron.protos.contract.AssetIssueContractOuterClass.AssetIssueContract;
-import org.tron.protos.contract.ShieldContract.PedersenHash;
-import org.tron.protos.contract.ShieldContract.ReceiveDescription;
-import org.tron.protos.contract.ShieldContract.ShieldedTransferContract;
-import org.tron.protos.contract.ShieldContract.SpendDescription;
+import org.stabila.protos.Protocol;
+import org.stabila.protos.Protocol.AccountType;
+import org.stabila.protos.Protocol.Transaction.Contract.ContractType;
+import org.stabila.protos.contract.AssetIssueContractOuterClass.AssetIssueContract;
+import org.stabila.protos.contract.ShieldContract.PedersenHash;
+import org.stabila.protos.contract.ShieldContract.ReceiveDescription;
+import org.stabila.protos.contract.ShieldContract.ShieldedTransferContract;
+import org.stabila.protos.contract.ShieldContract.SpendDescription;
 
 public class SendCoinShieldTest {
 
@@ -246,7 +246,7 @@ public class SendCoinShieldTest {
     DiversifierT diversifierT = new DiversifierT();
     byte[] d;
     while (true) {
-      d = org.tron.keystore.Wallet.generateRandomBytes(Constant.ZC_DIVERSIFIER_SIZE);
+      d = org.stabila.keystore.Wallet.generateRandomBytes(Constant.ZC_DIVERSIFIER_SIZE);
       if (JLibrustzcash.librustzcashCheckDiversifier(d)) {
         break;
       }
@@ -327,7 +327,7 @@ public class SendCoinShieldTest {
     PaymentAddress paymentAddress = incomingViewingKey.address(new DiversifierT()).get();
 
     long ctx = JLibrustzcash.librustzcashSaplingProvingCtxInit();
-    byte[] memo = org.tron.keystore.Wallet.generateRandomBytes(512);
+    byte[] memo = org.stabila.keystore.Wallet.generateRandomBytes(512);
     builder.addOutput(fullViewingKey.getOvk(), paymentAddress, 4000, memo);
 
     ZenTransactionBuilder.ReceiveDescriptionInfo output = builder.getReceives().get(0);
@@ -397,7 +397,7 @@ public class SendCoinShieldTest {
     Note note = new Note(paymentAddress2, 4000);//construct function:this.pkD = address.getPkD();
     note.setRcm(ByteArray
         .fromHexString("83d36fd4c8eebec516c3a8ce2fe4832e01eb57bd7f9f9c9e0bd68cc69a5b0f06"));
-    byte[] memo = org.tron.keystore.Wallet.generateRandomBytes(512);
+    byte[] memo = org.stabila.keystore.Wallet.generateRandomBytes(512);
     note.setMemo(memo);
 
     byte[] cmuOpt = note.cm();
@@ -479,7 +479,7 @@ public class SendCoinShieldTest {
     FullViewingKey fullViewingKey = spendingKey.fullViewingKey();
     IncomingViewingKey incomingViewingKey = fullViewingKey.inViewingKey();
     PaymentAddress paymentAddress = incomingViewingKey.address(new DiversifierT()).get();
-    byte[] memo = org.tron.keystore.Wallet.generateRandomBytes(512);
+    byte[] memo = org.stabila.keystore.Wallet.generateRandomBytes(512);
     builder
         .addOutput(senderOvk, paymentAddress, 1000 * 1000000L - wallet.getShieldedTransactionFee(),
             memo);
@@ -493,7 +493,7 @@ public class SendCoinShieldTest {
     byte[] ivk = incomingViewingKey.getValue();
     Protocol.Transaction t = transactionCap.getInstance();
 
-    for (org.tron.protos.Protocol.Transaction.Contract c : t.getRawData().getContractList()) {
+    for (org.stabila.protos.Protocol.Transaction.Contract c : t.getRawData().getContractList()) {
       if (c.getType() != ContractType.ShieldedTransferContract) {
         continue;
       }
@@ -566,7 +566,7 @@ public class SendCoinShieldTest {
     FullViewingKey fullViewingKey = spendingKey.fullViewingKey();
     IncomingViewingKey incomingViewingKey = fullViewingKey.inViewingKey();
     PaymentAddress paymentAddress = incomingViewingKey.address(new DiversifierT()).get();
-    byte[] memo = org.tron.keystore.Wallet.generateRandomBytes(512);
+    byte[] memo = org.stabila.keystore.Wallet.generateRandomBytes(512);
     builder
         .addOutput(senderOvk, paymentAddress, 1000 * 1000000L - wallet.getShieldedTransactionFee(),
             memo);
@@ -577,7 +577,7 @@ public class SendCoinShieldTest {
 
     // add here
     Protocol.Transaction t = transactionCap.getInstance();
-    for (org.tron.protos.Protocol.Transaction.Contract c : t.getRawData().getContractList()) {
+    for (org.stabila.protos.Protocol.Transaction.Contract c : t.getRawData().getContractList()) {
       if (c.getType() != Protocol.Transaction.Contract.ContractType.ShieldedTransferContract) {
         continue;
       }
@@ -893,7 +893,7 @@ public class SendCoinShieldTest {
       DiversifierT diversifierT = new DiversifierT();
       byte[] d;
       while (true) {
-        d = org.tron.keystore.Wallet.generateRandomBytes(Constant.ZC_DIVERSIFIER_SIZE);
+        d = org.stabila.keystore.Wallet.generateRandomBytes(Constant.ZC_DIVERSIFIER_SIZE);
         if (JLibrustzcash.librustzcashCheckDiversifier(d)) {
           break;
         }

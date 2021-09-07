@@ -18,7 +18,7 @@ import org.stabila.core.db.Manager;
 import org.stabila.core.metrics.MetricsKey;
 import org.stabila.core.metrics.MetricsUtil;
 import org.stabila.core.metrics.net.RateInfo;
-import org.tron.protos.Protocol;
+import org.stabila.protos.Protocol;
 
 @Component
 public class BlockChainMetricManager {

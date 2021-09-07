@@ -1,7 +1,7 @@
 package org.stabila.core.vm;
 
-import static org.tron.common.crypto.Hash.sha3;
-import static org.tron.common.utils.ByteUtil.EMPTY_BYTE_ARRAY;
+import static org.stabila.common.crypto.Hash.sha3;
+import static org.stabila.common.utils.ByteUtil.EMPTY_BYTE_ARRAY;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -10,8 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.bouncycastle.util.encoders.Hex;
 import org.springframework.util.StringUtils;
 import org.stabila.core.db.TransactionTrace;
-import org.tron.common.runtime.vm.DataWord;
-import org.tron.common.runtime.vm.LogInfo;
+import org.stabila.common.runtime.vm.DataWord;
+import org.stabila.common.runtime.vm.LogInfo;
 import org.stabila.core.vm.config.VMConfig;
 import org.stabila.core.vm.program.Program;
 import org.stabila.core.vm.program.Program.JVMStackOverFlowException;

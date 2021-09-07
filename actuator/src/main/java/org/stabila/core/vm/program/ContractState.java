@@ -26,13 +26,13 @@ import org.stabila.core.store.DynamicPropertiesStore;
 import org.stabila.core.vm.repository.Key;
 import org.stabila.core.vm.repository.Repository;
 import org.stabila.core.vm.repository.Value;
-import org.tron.common.runtime.vm.DataWord;
+import org.stabila.common.runtime.vm.DataWord;
 import org.stabila.core.capsule.*;
 import org.stabila.core.store.*;
 import org.stabila.core.vm.program.invoke.ProgramInvoke;
 import org.stabila.core.vm.program.listener.ProgramListener;
 import org.stabila.core.vm.program.listener.ProgramListenerAware;
-import org.tron.protos.Protocol.AccountType;
+import org.stabila.protos.Protocol.AccountType;
 
 public class ContractState implements Repository, ProgramListenerAware {
 

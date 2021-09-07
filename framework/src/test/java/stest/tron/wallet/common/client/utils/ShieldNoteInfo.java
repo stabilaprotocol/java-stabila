@@ -3,7 +3,7 @@ package stest.tron.wallet.common.client.utils;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import org.tron.common.utils.ByteArray;
+import org.stabila.common.utils.ByteArray;
 
 @AllArgsConstructor
 public class ShieldNoteInfo {

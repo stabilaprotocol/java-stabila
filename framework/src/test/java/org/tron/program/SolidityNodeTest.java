@@ -1,4 +1,4 @@
-package org.tron.program;
+package org.stabila.program;
 
 import java.io.File;
 import lombok.extern.slf4j.Slf4j;
@@ -6,16 +6,16 @@ import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.tron.common.application.Application;
-import org.tron.common.application.ApplicationFactory;
-import org.tron.common.application.TronApplicationContext;
-import org.tron.common.overlay.client.DatabaseGrpcClient;
+import org.stabila.common.application.Application;
+import org.stabila.common.application.ApplicationFactory;
+import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.overlay.client.DatabaseGrpcClient;
 import org.stabila.core.Constant;
 import org.stabila.core.config.DefaultConfig;
 import org.stabila.core.config.args.Args;
 import org.stabila.core.services.RpcApiService;
-import org.tron.protos.Protocol.Block;
-import org.tron.protos.Protocol.DynamicProperties;
+import org.stabila.protos.Protocol.Block;
+import org.stabila.protos.Protocol.DynamicProperties;
 
 @Slf4j
 public class SolidityNodeTest {

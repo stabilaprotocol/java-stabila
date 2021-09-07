@@ -17,7 +17,7 @@
  */
 package org.stabila.core.vm.program.listener;
 
-import org.tron.common.runtime.vm.DataWord;
+import org.stabila.common.runtime.vm.DataWord;
 
 // Empty ListenerAdapter
 public class ProgramListenerAdaptor implements ProgramListener {

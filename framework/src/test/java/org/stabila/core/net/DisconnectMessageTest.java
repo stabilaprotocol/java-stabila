@@ -1,7 +1,7 @@
 package org.stabila.core.net;
 
 import com.google.protobuf.Message;
-import org.tron.protos.Protocol.DisconnectMessageOrBuilder;
+import org.stabila.protos.Protocol.DisconnectMessageOrBuilder;
 
 public class DisconnectMessageTest extends com.google.protobuf.GeneratedMessageV3 implements
     // @@protoc_insertion_point(message_implements:protocol.DisconnectMessage)
@@ -115,15 +115,15 @@ public class DisconnectMessageTest extends com.google.protobuf.GeneratedMessageV
   /**
    * <code>.protocol.ReasonCode reason = 1;</code>
    */
-  public org.tron.protos.Protocol.ReasonCode getReason() {
-    org.tron.protos.Protocol.ReasonCode result = org.tron.protos.Protocol.ReasonCode
+  public org.stabila.protos.Protocol.ReasonCode getReason() {
+    org.stabila.protos.Protocol.ReasonCode result = org.stabila.protos.Protocol.ReasonCode
         .valueOf(reason_);
-    return result == null ? org.tron.protos.Protocol.ReasonCode.UNRECOGNIZED : result;
+    return result == null ? org.stabila.protos.Protocol.ReasonCode.UNRECOGNIZED : result;
   }
 
-  public org.tron.protos.Protocol.ReasonCode getName() {
-    org.tron.protos.Protocol.ReasonCode result = org.tron.protos.Protocol.ReasonCode.valueOf(name_);
-    return result == null ? org.tron.protos.Protocol.ReasonCode.UNRECOGNIZED : result;
+  public org.stabila.protos.Protocol.ReasonCode getName() {
+    org.stabila.protos.Protocol.ReasonCode result = org.stabila.protos.Protocol.ReasonCode.valueOf(name_);
+    return result == null ? org.stabila.protos.Protocol.ReasonCode.UNRECOGNIZED : result;
   }
 
   public final boolean isInitialized() {
@@ -140,10 +140,10 @@ public class DisconnectMessageTest extends com.google.protobuf.GeneratedMessageV
   }
 
   public void writeTo(com.google.protobuf.CodedOutputStream output) throws java.io.IOException {
-    if (reason_ != org.tron.protos.Protocol.ReasonCode.REQUESTED.getNumber()) {
+    if (reason_ != org.stabila.protos.Protocol.ReasonCode.REQUESTED.getNumber()) {
       output.writeEnum(1, reason_);
     }
-    if (name_ != org.tron.protos.Protocol.ReasonCode.REQUESTED.getNumber()) {
+    if (name_ != org.stabila.protos.Protocol.ReasonCode.REQUESTED.getNumber()) {
       output.writeEnum(2, name_);
     }
     unknownFields.writeTo(output);
@@ -156,10 +156,10 @@ public class DisconnectMessageTest extends com.google.protobuf.GeneratedMessageV
     }
 
     size = 0;
-    if (reason_ != org.tron.protos.Protocol.ReasonCode.REQUESTED.getNumber()) {
+    if (reason_ != org.stabila.protos.Protocol.ReasonCode.REQUESTED.getNumber()) {
       size += com.google.protobuf.CodedOutputStream.computeEnumSize(1, reason_);
     }
-    if (name_ != org.tron.protos.Protocol.ReasonCode.REQUESTED.getNumber()) {
+    if (name_ != org.stabila.protos.Protocol.ReasonCode.REQUESTED.getNumber()) {
       size += com.google.protobuf.CodedOutputStream.computeEnumSize(1, name_);
     }
     size += unknownFields.getSerializedSize();

@@ -8,7 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.stabila.core.ChainBaseManager;
 import org.stabila.core.capsule.BlockCapsule;
-import org.tron.common.crypto.Hash;
+import org.stabila.common.crypto.Hash;
 import org.stabila.core.db.accountstate.storetrie.AccountStateStoreTrie;
 
 @Slf4j(topic = "AccountState")

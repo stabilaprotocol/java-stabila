@@ -18,10 +18,10 @@ import org.stabila.core.db.AbstractRevokingStore;
 import org.stabila.core.db.RevokingDatabase;
 import org.stabila.core.db.StabilaStoreWithRevoking;
 import org.stabila.core.exception.RevokingStoreIllegalStateException;
-import org.tron.common.application.Application;
-import org.tron.common.application.ApplicationFactory;
-import org.tron.common.application.TronApplicationContext;
-import org.tron.common.utils.FileUtil;
+import org.stabila.common.application.Application;
+import org.stabila.common.application.ApplicationFactory;
+import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.utils.FileUtil;
 import org.stabila.core.db2.SnapshotRootTest.ProtoCapsuleTest;
 
 @Slf4j

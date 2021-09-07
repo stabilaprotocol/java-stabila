@@ -3,9 +3,9 @@ package org.stabila.core.capsule;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
 import lombok.extern.slf4j.Slf4j;
-import org.tron.protos.Protocol;
-import org.tron.protos.Protocol.AccountAsset;
-import org.tron.protos.Protocol.AccountAsset.Frozen;
+import org.stabila.protos.Protocol;
+import org.stabila.protos.Protocol.AccountAsset;
+import org.stabila.protos.Protocol.AccountAsset.Frozen;
 
 import java.util.List;
 import java.util.Map;

@@ -12,13 +12,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
 import org.stabila.core.Wallet;
 import org.stabila.core.capsule.TransactionCapsule;
-import org.tron.common.utils.ByteArray;
-import org.tron.common.zksnark.IncrementalMerkleVoucherContainer;
-import org.tron.common.zksnark.JLibrustzcash;
-import org.tron.common.zksnark.LibrustzcashParam.BindingSigParams;
-import org.tron.common.zksnark.LibrustzcashParam.OutputProofParams;
-import org.tron.common.zksnark.LibrustzcashParam.SpendProofParams;
-import org.tron.common.zksnark.LibrustzcashParam.SpendSigParams;
+import org.stabila.common.utils.ByteArray;
+import org.stabila.common.zksnark.IncrementalMerkleVoucherContainer;
+import org.stabila.common.zksnark.JLibrustzcash;
+import org.stabila.common.zksnark.LibrustzcashParam.BindingSigParams;
+import org.stabila.common.zksnark.LibrustzcashParam.OutputProofParams;
+import org.stabila.common.zksnark.LibrustzcashParam.SpendProofParams;
+import org.stabila.common.zksnark.LibrustzcashParam.SpendSigParams;
 import org.stabila.core.capsule.ReceiveDescriptionCapsule;
 import org.stabila.core.capsule.SpendDescriptionCapsule;
 import org.stabila.core.exception.ZksnarkException;
@@ -29,9 +29,9 @@ import org.stabila.core.zen.note.Note;
 import org.stabila.core.zen.note.Note.NotePlaintextEncryptionResult;
 import org.stabila.core.zen.note.NoteEncryption;
 import org.stabila.core.zen.note.OutgoingPlaintext;
-import org.tron.protos.Protocol.Transaction;
-import org.tron.protos.Protocol.Transaction.Contract.ContractType;
-import org.tron.protos.contract.ShieldContract.ShieldedTransferContract;
+import org.stabila.protos.Protocol.Transaction;
+import org.stabila.protos.Protocol.Transaction.Contract.ContractType;
+import org.stabila.protos.contract.ShieldContract.ShieldedTransferContract;
 
 @Slf4j
 public class ZenTransactionBuilder {

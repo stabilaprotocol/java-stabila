@@ -1,8 +1,8 @@
-package org.tron.tool.litefullnode.db;
+package org.stabila.tool.litefullnode.db;
 
 import java.io.Closeable;
 import java.io.IOException;
-import org.tron.tool.litefullnode.iterator.DBIterator;
+import org.stabila.tool.litefullnode.iterator.DBIterator;
 
 public interface DBInterface extends Closeable {
 

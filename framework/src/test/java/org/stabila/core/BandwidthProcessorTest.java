@@ -10,10 +10,10 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.tron.common.application.TronApplicationContext;
-import org.tron.common.runtime.RuntimeImpl;
-import org.tron.common.utils.ByteArray;
-import org.tron.common.utils.FileUtil;
+import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.runtime.RuntimeImpl;
+import org.stabila.common.utils.ByteArray;
+import org.stabila.common.utils.FileUtil;
 import org.stabila.core.capsule.AccountAssetCapsule;
 import org.stabila.core.capsule.AccountCapsule;
 import org.stabila.core.capsule.AssetIssueCapsule;
@@ -28,11 +28,11 @@ import org.stabila.core.exception.AccountResourceInsufficientException;
 import org.stabila.core.exception.ContractValidateException;
 import org.stabila.core.exception.TooBigTransactionResultException;
 import org.stabila.core.store.StoreFactory;
-import org.tron.protos.Protocol;
-import org.tron.protos.Protocol.AccountType;
-import org.tron.protos.contract.AssetIssueContractOuterClass.AssetIssueContract;
-import org.tron.protos.contract.AssetIssueContractOuterClass.TransferAssetContract;
-import org.tron.protos.contract.BalanceContract.TransferContract;
+import org.stabila.protos.Protocol;
+import org.stabila.protos.Protocol.AccountType;
+import org.stabila.protos.contract.AssetIssueContractOuterClass.AssetIssueContract;
+import org.stabila.protos.contract.AssetIssueContractOuterClass.TransferAssetContract;
+import org.stabila.protos.contract.BalanceContract.TransferContract;
 
 @Slf4j
 public class BandwidthProcessorTest {
@@ -242,8 +242,8 @@ public class BandwidthProcessorTest {
     transferAssetContract = transferAssetContract.toBuilder()
         .setToAddress(ByteString.copyFrom(ByteArray.fromHexString(NOT_EXISTS_ADDRESS))).build();
 
-    org.tron.protos.Protocol.Transaction.Contract contract =
-        org.tron.protos.Protocol.Transaction.Contract
+    org.stabila.protos.Protocol.Transaction.Contract contract =
+        org.stabila.protos.Protocol.Transaction.Contract
             .newBuilder()
             .setType(Protocol.Transaction.Contract.ContractType.TransferAssetContract).setParameter(
             Any.pack(transferAssetContract)).build();

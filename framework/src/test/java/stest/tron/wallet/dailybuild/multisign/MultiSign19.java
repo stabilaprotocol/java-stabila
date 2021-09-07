@@ -1,6 +1,6 @@
 package stest.tron.wallet.dailybuild.multisign;
 
-import static org.tron.api.GrpcAPI.Return.response_code.CONTRACT_VALIDATE_ERROR;
+import static org.stabila.api.GrpcAPI.Return.response_code.CONTRACT_VALIDATE_ERROR;
 
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
@@ -14,13 +14,13 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
-import org.tron.api.GrpcAPI;
-import org.tron.api.WalletGrpc;
-import org.tron.common.crypto.ECKey;
-import org.tron.common.utils.ByteArray;
-import org.tron.common.utils.Utils;
+import org.stabila.api.GrpcAPI;
+import org.stabila.api.WalletGrpc;
+import org.stabila.common.crypto.ECKey;
+import org.stabila.common.utils.ByteArray;
+import org.stabila.common.utils.Utils;
 import org.stabila.core.Wallet;
-import org.tron.protos.Protocol.Transaction.Contract.ContractType;
+import org.stabila.protos.Protocol.Transaction.Contract.ContractType;
 import stest.tron.wallet.common.client.Configuration;
 import stest.tron.wallet.common.client.Parameter.CommonConstant;
 import stest.tron.wallet.common.client.WalletClient;

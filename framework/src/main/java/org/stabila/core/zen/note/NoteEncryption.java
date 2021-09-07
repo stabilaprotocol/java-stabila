@@ -1,6 +1,6 @@
 package org.stabila.core.zen.note;
 
-import static org.tron.common.zksnark.JLibsodium.CRYPTO_AEAD_CHACHA20POLY1305_IETF_NPUBBYTES;
+import static org.stabila.common.zksnark.JLibsodium.CRYPTO_AEAD_CHACHA20POLY1305_IETF_NPUBBYTES;
 import static org.stabila.core.zen.note.NoteEncryption.Encryption.NOTEENCRYPTION_CIPHER_KEYSIZE;
 
 import java.math.BigInteger;
@@ -9,14 +9,14 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.stabila.core.utils.ZenChainParams;
-import org.tron.common.utils.ByteUtil;
-import org.tron.common.zksnark.JLibrustzcash;
-import org.tron.common.zksnark.JLibsodium;
-import org.tron.common.zksnark.JLibsodiumParam.Black2bSaltPersonalParams;
-import org.tron.common.zksnark.JLibsodiumParam.Chacha20Poly1305IetfEncryptParams;
-import org.tron.common.zksnark.JLibsodiumParam.Chacha20poly1305IetfDecryptParams;
-import org.tron.common.zksnark.LibrustzcashParam.KaAgreeParams;
-import org.tron.common.zksnark.LibrustzcashParam.KaDerivepublicParams;
+import org.stabila.common.utils.ByteUtil;
+import org.stabila.common.zksnark.JLibrustzcash;
+import org.stabila.common.zksnark.JLibsodium;
+import org.stabila.common.zksnark.JLibsodiumParam.Black2bSaltPersonalParams;
+import org.stabila.common.zksnark.JLibsodiumParam.Chacha20Poly1305IetfEncryptParams;
+import org.stabila.common.zksnark.JLibsodiumParam.Chacha20poly1305IetfDecryptParams;
+import org.stabila.common.zksnark.LibrustzcashParam.KaAgreeParams;
+import org.stabila.common.zksnark.LibrustzcashParam.KaDerivepublicParams;
 import org.stabila.core.exception.ZksnarkException;
 import org.stabila.core.zen.address.DiversifierT;
 import org.stabila.core.zen.note.NoteEncryption.Encryption.EncCiphertext;

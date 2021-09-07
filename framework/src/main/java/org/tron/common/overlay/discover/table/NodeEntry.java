@@ -16,9 +16,9 @@
  * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.tron.common.overlay.discover.table;
+package org.stabila.common.overlay.discover.table;
 
-import org.tron.common.overlay.discover.node.Node;
+import org.stabila.common.overlay.discover.node.Node;
 
 /**
  * Created by kest on 5/25/15.

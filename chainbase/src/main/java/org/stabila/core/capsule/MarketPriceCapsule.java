@@ -3,7 +3,7 @@ package org.stabila.core.capsule;
 import com.google.protobuf.InvalidProtocolBufferException;
 import lombok.extern.slf4j.Slf4j;
 import org.stabila.core.capsule.utils.MarketUtils;
-import org.tron.protos.Protocol.MarketPrice;
+import org.stabila.protos.Protocol.MarketPrice;
 
 @Slf4j(topic = "capsule")
 public class MarketPriceCapsule implements ProtoCapsule<MarketPrice> {

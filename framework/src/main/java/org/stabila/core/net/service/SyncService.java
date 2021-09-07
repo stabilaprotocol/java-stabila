@@ -24,14 +24,14 @@ import org.stabila.core.net.message.BlockMessage;
 import org.stabila.core.net.message.FetchInvDataMessage;
 import org.stabila.core.net.message.SyncBlockChainMessage;
 import org.stabila.core.net.peer.PeerConnection;
-import org.tron.common.overlay.server.Channel.TronState;
-import org.tron.common.utils.Pair;
+import org.stabila.common.overlay.server.Channel.TronState;
+import org.stabila.common.utils.Pair;
 import org.stabila.core.config.Parameter.NetConstants;
 import org.stabila.core.exception.P2pException;
 import org.stabila.core.exception.P2pException.TypeEnum;
 import org.stabila.core.net.messagehandler.PbftDataSyncHandler;
-import org.tron.protos.Protocol.Inventory.InventoryType;
-import org.tron.protos.Protocol.ReasonCode;
+import org.stabila.protos.Protocol.Inventory.InventoryType;
+import org.stabila.protos.Protocol.ReasonCode;
 
 @Slf4j(topic = "net")
 @Component

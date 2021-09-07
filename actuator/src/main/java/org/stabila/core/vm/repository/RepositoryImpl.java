@@ -10,15 +10,15 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.bouncycastle.util.Strings;
 import org.bouncycastle.util.encoders.Hex;
-import org.tron.common.crypto.Hash;
-import org.tron.common.parameter.CommonParameter;
-import org.tron.common.runtime.vm.DataWord;
-import org.tron.common.utils.ByteArray;
-import org.tron.common.utils.ByteUtil;
-import org.tron.common.utils.Commons;
-import org.tron.common.utils.Sha256Hash;
-import org.tron.common.utils.StorageUtils;
-import org.tron.common.utils.StringUtil;
+import org.stabila.common.crypto.Hash;
+import org.stabila.common.parameter.CommonParameter;
+import org.stabila.common.runtime.vm.DataWord;
+import org.stabila.common.utils.ByteArray;
+import org.stabila.common.utils.ByteUtil;
+import org.stabila.common.utils.Commons;
+import org.stabila.common.utils.Sha256Hash;
+import org.stabila.common.utils.StorageUtils;
+import org.stabila.common.utils.StringUtil;
 import org.stabila.core.ChainBaseManager;
 import org.stabila.core.capsule.AbiCapsule;
 import org.stabila.core.capsule.AccountCapsule;
@@ -54,8 +54,8 @@ import org.stabila.core.store.WitnessStore;
 import org.stabila.core.vm.config.VMConfig;
 import org.stabila.core.vm.program.Program.IllegalOperationException;
 import org.stabila.core.vm.program.Storage;
-import org.tron.protos.Protocol;
-import org.tron.protos.Protocol.AccountType;
+import org.stabila.protos.Protocol;
+import org.stabila.protos.Protocol.AccountType;
 
 @Slf4j(topic = "Repository")
 public class RepositoryImpl implements Repository {

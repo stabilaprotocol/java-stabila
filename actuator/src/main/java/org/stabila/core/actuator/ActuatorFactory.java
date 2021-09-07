@@ -6,8 +6,8 @@ import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.stabila.core.ChainBaseManager;
 import org.stabila.core.capsule.TransactionCapsule;
-import org.tron.protos.Protocol;
-import org.tron.protos.Protocol.Transaction.Contract;
+import org.stabila.protos.Protocol;
+import org.stabila.protos.Protocol.Transaction.Contract;
 
 @Slf4j(topic = "actuator")
 public class ActuatorFactory {

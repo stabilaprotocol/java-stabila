@@ -12,9 +12,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.tron.common.application.TronApplicationContext;
-import org.tron.common.utils.ByteArray;
-import org.tron.common.utils.FileUtil;
+import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.utils.ByteArray;
+import org.stabila.common.utils.FileUtil;
 import org.stabila.core.Constant;
 import org.stabila.core.Wallet;
 import org.stabila.core.capsule.AccountCapsule;
@@ -26,10 +26,10 @@ import org.stabila.core.db.Manager;
 import org.stabila.core.exception.ContractExeException;
 import org.stabila.core.exception.ContractValidateException;
 import org.stabila.core.store.DelegationStore;
-import org.tron.protos.Protocol;
-import org.tron.protos.Protocol.AccountType;
-import org.tron.protos.contract.AssetIssueContractOuterClass;
-import org.tron.protos.contract.StorageContract.UpdateBrokerageContract;
+import org.stabila.protos.Protocol;
+import org.stabila.protos.Protocol.AccountType;
+import org.stabila.protos.contract.AssetIssueContractOuterClass;
+import org.stabila.protos.contract.StorageContract.UpdateBrokerageContract;
 
 @Slf4j(topic = "actuator")
 public class UpdateBrokerageActuatorTest {

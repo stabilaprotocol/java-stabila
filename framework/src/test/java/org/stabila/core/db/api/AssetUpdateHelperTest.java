@@ -10,21 +10,21 @@ import org.stabila.core.config.DefaultConfig;
 import org.stabila.core.config.Parameter;
 import org.stabila.core.config.args.Args;
 import org.testng.annotations.Test;
-import org.tron.common.application.Application;
-import org.tron.common.application.ApplicationFactory;
-import org.tron.common.application.TronApplicationContext;
-import org.tron.common.utils.ByteArray;
-import org.tron.common.utils.FileUtil;
-import org.tron.common.utils.Sha256Hash;
+import org.stabila.common.application.Application;
+import org.stabila.common.application.ApplicationFactory;
+import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.utils.ByteArray;
+import org.stabila.common.utils.FileUtil;
+import org.stabila.common.utils.Sha256Hash;
 import org.stabila.core.capsule.AccountCapsule;
 import org.stabila.core.capsule.AssetIssueCapsule;
 import org.stabila.core.capsule.BlockCapsule;
 import org.stabila.core.capsule.ExchangeCapsule;
 import org.stabila.core.capsule.TransactionCapsule;
-import org.tron.protos.Protocol.Account;
-import org.tron.protos.Protocol.Exchange;
-import org.tron.protos.Protocol.Transaction.Contract.ContractType;
-import org.tron.protos.contract.AssetIssueContractOuterClass.AssetIssueContract;
+import org.stabila.protos.Protocol.Account;
+import org.stabila.protos.Protocol.Exchange;
+import org.stabila.protos.Protocol.Transaction.Contract.ContractType;
+import org.stabila.protos.contract.AssetIssueContractOuterClass.AssetIssueContract;
 
 public class AssetUpdateHelperTest {
 

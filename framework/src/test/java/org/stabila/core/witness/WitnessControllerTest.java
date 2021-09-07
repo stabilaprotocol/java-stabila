@@ -15,10 +15,10 @@ import org.stabila.core.Constant;
 import org.stabila.core.config.DefaultConfig;
 import org.stabila.core.config.args.Args;
 import org.stabila.core.db.Manager;
-import org.tron.common.application.TronApplicationContext;
-import org.tron.common.utils.ByteArray;
-import org.tron.common.utils.FileUtil;
-import org.tron.consensus.dpos.DposSlot;
+import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.utils.ByteArray;
+import org.stabila.common.utils.FileUtil;
+import org.stabila.consensus.dpos.DposSlot;
 
 public class WitnessControllerTest {
 

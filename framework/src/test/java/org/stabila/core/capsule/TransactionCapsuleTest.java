@@ -14,15 +14,15 @@ import org.stabila.core.config.DefaultConfig;
 import org.stabila.core.config.args.Args;
 import org.stabila.core.db.Manager;
 import org.testng.Assert;
-import org.tron.common.application.Application;
-import org.tron.common.application.ApplicationFactory;
-import org.tron.common.application.TronApplicationContext;
-import org.tron.common.utils.FileUtil;
-import org.tron.common.utils.StringUtil;
-import org.tron.protos.Protocol.AccountType;
-import org.tron.protos.Protocol.Transaction;
-import org.tron.protos.Protocol.Transaction.Result;
-import org.tron.protos.Protocol.Transaction.Result.contractResult;
+import org.stabila.common.application.Application;
+import org.stabila.common.application.ApplicationFactory;
+import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.utils.FileUtil;
+import org.stabila.common.utils.StringUtil;
+import org.stabila.protos.Protocol.AccountType;
+import org.stabila.protos.Protocol.Transaction;
+import org.stabila.protos.Protocol.Transaction.Result;
+import org.stabila.protos.Protocol.Transaction.Result.contractResult;
 
 @Slf4j
 public class TransactionCapsuleTest {

@@ -11,7 +11,7 @@ import org.stabila.core.db.StabilaStoreWithRevoking;
 import org.stabila.core.db.accountstate.AccountStateEntity;
 import org.stabila.core.db.accountstate.TrieService;
 import org.stabila.core.db2.common.DB;
-import org.tron.common.crypto.Hash;
+import org.stabila.common.crypto.Hash;
 import org.stabila.core.trie.TrieImpl;
 
 @Slf4j(topic = "AccountState")

@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.stabila.core.capsule.ReceiptCapsule;
 import org.stabila.core.store.DynamicPropertiesStore;
 import org.stabila.core.store.StoreFactory;
-import org.tron.common.parameter.CommonParameter;
+import org.stabila.common.parameter.CommonParameter;
 
 @Slf4j(topic = "VMConfigLoader")
 public class ConfigLoader {

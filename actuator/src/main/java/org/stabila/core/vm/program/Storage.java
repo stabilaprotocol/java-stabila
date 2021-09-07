@@ -7,9 +7,9 @@ import java.util.Map;
 import lombok.Getter;
 import org.stabila.core.capsule.StorageRowCapsule;
 import org.stabila.core.store.StorageRowStore;
-import org.tron.common.crypto.Hash;
-import org.tron.common.runtime.vm.DataWord;
-import org.tron.common.utils.ByteUtil;
+import org.stabila.common.crypto.Hash;
+import org.stabila.common.runtime.vm.DataWord;
+import org.stabila.common.utils.ByteUtil;
 
 public class Storage {
 

@@ -1,10 +1,10 @@
-package org.tron.common.net.udp.message.discover;
+package org.stabila.common.net.udp.message.discover;
 
 import java.util.regex.Pattern;
 import org.springframework.util.StringUtils;
-import org.tron.common.net.udp.message.Message;
-import org.tron.common.overlay.discover.node.Node;
-import org.tron.common.overlay.discover.table.KademliaOptions;
+import org.stabila.common.net.udp.message.Message;
+import org.stabila.common.overlay.discover.node.Node;
+import org.stabila.common.overlay.discover.table.KademliaOptions;
 
 public class DiscoverMessageInspector {
 

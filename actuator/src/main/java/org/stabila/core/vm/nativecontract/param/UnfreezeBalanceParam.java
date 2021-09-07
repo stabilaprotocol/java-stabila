@@ -1,6 +1,6 @@
 package org.stabila.core.vm.nativecontract.param;
 
-import org.tron.protos.contract.Common;
+import org.stabila.protos.contract.Common;
 
 public class UnfreezeBalanceParam {
 

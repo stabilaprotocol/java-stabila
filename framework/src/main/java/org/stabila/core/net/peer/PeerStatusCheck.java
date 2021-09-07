@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.stabila.core.net.TronNetDelegate;
 import org.stabila.core.config.Parameter.NetConstants;
-import org.tron.protos.Protocol.ReasonCode;
+import org.stabila.protos.Protocol.ReasonCode;
 
 @Slf4j(topic = "net")
 @Component

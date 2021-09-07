@@ -16,12 +16,12 @@
  * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.tron.common.overlay.discover;
+package org.stabila.common.overlay.discover;
 
 import java.util.ArrayList;
 import lombok.extern.slf4j.Slf4j;
-import org.tron.common.overlay.discover.node.Node;
-import org.tron.common.overlay.discover.node.NodeManager;
+import org.stabila.common.overlay.discover.node.Node;
+import org.stabila.common.overlay.discover.node.NodeManager;
 
 @Slf4j(topic = "discover")
 public class RefreshTask extends DiscoverTask {

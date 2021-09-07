@@ -17,7 +17,7 @@
  */
 package org.stabila.core.vm.trace;
 
-import org.tron.common.runtime.vm.DataWord;
+import org.stabila.common.runtime.vm.DataWord;
 import org.stabila.core.vm.program.listener.ProgramListenerAdaptor;
 
 public class ProgramTraceListener extends ProgramListenerAdaptor {

@@ -9,12 +9,12 @@ import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import org.tron.api.GrpcAPI.BytesMessage;
-import org.tron.api.GrpcAPI.TransactionExtention;
-import org.tron.api.WalletGrpc;
-import org.tron.api.WalletSolidityGrpc;
-import org.tron.protos.Protocol;
-import org.tron.protos.contract.StorageContract.UpdateBrokerageContract;
+import org.stabila.api.GrpcAPI.BytesMessage;
+import org.stabila.api.GrpcAPI.TransactionExtention;
+import org.stabila.api.WalletGrpc;
+import org.stabila.api.WalletSolidityGrpc;
+import org.stabila.protos.Protocol;
+import org.stabila.protos.contract.StorageContract.UpdateBrokerageContract;
 import stest.tron.wallet.common.client.Configuration;
 import stest.tron.wallet.common.client.utils.PublicMethed;
 

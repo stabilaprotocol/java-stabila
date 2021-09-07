@@ -17,7 +17,7 @@
  */
 package org.stabila.core.vm;
 
-import org.tron.common.runtime.vm.DataWord;
+import org.stabila.common.runtime.vm.DataWord;
 
 /**
  * A wrapper for a message call from a contract to another account. This can either be a normal

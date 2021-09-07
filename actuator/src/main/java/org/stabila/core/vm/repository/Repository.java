@@ -5,11 +5,11 @@ import org.stabila.core.store.AssetIssueStore;
 import org.stabila.core.store.AssetIssueV2Store;
 import org.stabila.core.store.DelegationStore;
 import org.stabila.core.store.DynamicPropertiesStore;
-import org.tron.common.runtime.vm.DataWord;
+import org.stabila.common.runtime.vm.DataWord;
 import org.stabila.core.capsule.*;
 import org.stabila.core.store.*;
 import org.stabila.core.vm.program.Storage;
-import org.tron.protos.Protocol;
+import org.stabila.protos.Protocol;
 
 public interface Repository {
 

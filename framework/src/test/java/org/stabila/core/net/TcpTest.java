@@ -1,9 +1,9 @@
 package org.stabila.core.net;
 
-import static org.tron.protos.Protocol.ReasonCode.DUPLICATE_PEER;
-import static org.tron.protos.Protocol.ReasonCode.FORKED;
-import static org.tron.protos.Protocol.ReasonCode.INCOMPATIBLE_CHAIN;
-import static org.tron.protos.Protocol.ReasonCode.INCOMPATIBLE_VERSION;
+import static org.stabila.protos.Protocol.ReasonCode.DUPLICATE_PEER;
+import static org.stabila.protos.Protocol.ReasonCode.FORKED;
+import static org.stabila.protos.Protocol.ReasonCode.INCOMPATIBLE_CHAIN;
+import static org.stabila.protos.Protocol.ReasonCode.INCOMPATIBLE_VERSION;
 
 import com.google.common.cache.CacheBuilder;
 import io.netty.buffer.ByteBuf;
@@ -25,17 +25,17 @@ import org.stabila.core.db.Manager;
 import org.stabila.core.net.message.BlockMessage;
 import org.stabila.core.net.message.MessageTypes;
 import org.stabila.core.net.peer.PeerConnection;
-import org.tron.common.application.TronApplicationContext;
-import org.tron.common.overlay.discover.node.Node;
-import org.tron.common.overlay.message.DisconnectMessage;
-import org.tron.common.overlay.message.HelloMessage;
-import org.tron.common.overlay.message.Message;
-import org.tron.common.overlay.message.P2pMessage;
-import org.tron.common.overlay.message.P2pMessageFactory;
-import org.tron.common.overlay.server.ChannelManager;
-import org.tron.common.overlay.server.SyncPool;
-import org.tron.common.utils.ReflectUtils;
-import org.tron.protos.Protocol.Block;
+import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.overlay.discover.node.Node;
+import org.stabila.common.overlay.message.DisconnectMessage;
+import org.stabila.common.overlay.message.HelloMessage;
+import org.stabila.common.overlay.message.Message;
+import org.stabila.common.overlay.message.P2pMessage;
+import org.stabila.common.overlay.message.P2pMessageFactory;
+import org.stabila.common.overlay.server.ChannelManager;
+import org.stabila.common.overlay.server.SyncPool;
+import org.stabila.common.utils.ReflectUtils;
+import org.stabila.protos.Protocol.Block;
 
 @Slf4j
 public class TcpTest {

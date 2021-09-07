@@ -5,7 +5,7 @@ plugins {
 apply plugin: 'application'
 apply plugin: 'checkstyle'
 
-mainClassName = 'org.tron.program.FullNode'
+mainClassName = 'org.stabila.program.FullNode'
 
 def versions = [
         checkstyle: '8.7',
@@ -253,20 +253,20 @@ startScripts.enabled = false
 run.enabled = false
 tasks.distTar.enabled = false
 
-createScript(project, 'org.tron.program.SolidityNode', 'SolidityNode')
-createScript(project, 'org.tron.program.FullNode', 'FullNode')
-createScript(project, 'org.tron.program.KeystoreFactory', 'KeystoreFactory')
-createScript(project, 'org.tron.program.DBConvert', 'DBConvert')
-createScript(project, 'org.tron.tool.litefullnode.LiteFullNodeTool', 'LiteFullNodeTool')
+createScript(project, 'org.stabila.program.SolidityNode', 'SolidityNode')
+createScript(project, 'org.stabila.program.FullNode', 'FullNode')
+createScript(project, 'org.stabila.program.KeystoreFactory', 'KeystoreFactory')
+createScript(project, 'org.stabila.program.DBConvert', 'DBConvert')
+createScript(project, 'org.stabila.tool.litefullnode.LiteFullNodeTool', 'LiteFullNodeTool')
 
 def releaseBinary = hasProperty('binaryRelease') ? getProperty('binaryRelease') : 'true'
 if (releaseBinary == 'true') {
     artifacts {
-        archives(binaryRelease('buildSolidityNodeJar', 'SolidityNode', 'org.tron.program.SolidityNode'),
-                binaryRelease('buildFullNodeJar', 'FullNode', 'org.tron.program.FullNode'),
-                binaryRelease('buildKeystoreFactoryJar', 'KeystoreFactory', 'org.tron.program.KeystoreFactory'),
-                binaryRelease('buildDBConvertJar', 'DBConvert', 'org.tron.program.DBConvert'),
-                binaryRelease('buildLiteFullNodeToolJar', 'LiteFullNodeTool', 'org.tron.tool.litefullnode.LiteFullNodeTool'))
+        archives(binaryRelease('buildSolidityNodeJar', 'SolidityNode', 'org.stabila.program.SolidityNode'),
+                binaryRelease('buildFullNodeJar', 'FullNode', 'org.stabila.program.FullNode'),
+                binaryRelease('buildKeystoreFactoryJar', 'KeystoreFactory', 'org.stabila.program.KeystoreFactory'),
+                binaryRelease('buildDBConvertJar', 'DBConvert', 'org.stabila.program.DBConvert'),
+                binaryRelease('buildLiteFullNodeToolJar', 'LiteFullNodeTool', 'org.stabila.tool.litefullnode.LiteFullNodeTool'))
     }
 }
 

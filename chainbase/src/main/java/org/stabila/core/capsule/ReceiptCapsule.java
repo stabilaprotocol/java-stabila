@@ -6,16 +6,16 @@ import lombok.Setter;
 import org.stabila.core.db.EnergyProcessor;
 import org.stabila.core.store.AccountStore;
 import org.stabila.core.store.DynamicPropertiesStore;
-import org.tron.common.parameter.CommonParameter;
-import org.tron.common.utils.Commons;
-import org.tron.common.utils.ForkController;
-import org.tron.common.utils.Sha256Hash;
-import org.tron.common.utils.StringUtil;
+import org.stabila.common.parameter.CommonParameter;
+import org.stabila.common.utils.Commons;
+import org.stabila.common.utils.ForkController;
+import org.stabila.common.utils.Sha256Hash;
+import org.stabila.common.utils.StringUtil;
 import org.stabila.core.Constant;
 import org.stabila.core.config.Parameter.ForkBlockVersionEnum;
 import org.stabila.core.exception.BalanceInsufficientException;
-import org.tron.protos.Protocol.ResourceReceipt;
-import org.tron.protos.Protocol.Transaction.Result.contractResult;
+import org.stabila.protos.Protocol.ResourceReceipt;
+import org.stabila.protos.Protocol.Transaction.Result.contractResult;
 
 public class ReceiptCapsule {
 

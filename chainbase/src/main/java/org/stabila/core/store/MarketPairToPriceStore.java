@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.stabila.core.db.StabilaStoreWithRevoking;
-import org.tron.common.utils.ByteArray;
+import org.stabila.common.utils.ByteArray;
 import org.stabila.core.capsule.BytesCapsule;
 import org.stabila.core.capsule.MarketOrderIdListCapsule;
 import org.stabila.core.capsule.utils.MarketUtils;

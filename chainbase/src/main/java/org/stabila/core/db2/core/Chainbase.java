@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
-import org.tron.common.utils.ByteUtil;
+import org.stabila.common.utils.ByteUtil;
 import org.stabila.core.capsule.utils.MarketUtils;
 import org.stabila.core.db2.common.IRevokingDB;
 import org.stabila.core.db2.common.LevelDB;

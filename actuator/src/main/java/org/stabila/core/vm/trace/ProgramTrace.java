@@ -18,14 +18,14 @@
 package org.stabila.core.vm.trace;
 
 import static java.lang.String.format;
-import static org.tron.common.utils.ByteArray.toHexString;
+import static org.stabila.common.utils.ByteArray.toHexString;
 
 import java.util.ArrayList;
 import java.util.List;
 import org.bouncycastle.util.encoders.Hex;
 import org.stabila.core.db.TransactionTrace;
 import org.stabila.core.vm.OpCode;
-import org.tron.common.runtime.vm.DataWord;
+import org.stabila.common.runtime.vm.DataWord;
 import org.stabila.core.vm.config.VMConfig;
 import org.stabila.core.vm.program.invoke.ProgramInvoke;
 

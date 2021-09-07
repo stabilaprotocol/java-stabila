@@ -4,8 +4,8 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.stabila.core.exception.P2pException;
 import org.stabila.core.net.message.MessageTypes;
-import org.tron.common.overlay.message.DisconnectMessage;
-import org.tron.protos.Protocol.ReasonCode;
+import org.stabila.common.overlay.message.DisconnectMessage;
+import org.stabila.protos.Protocol.ReasonCode;
 
 public class MessageTest {
 

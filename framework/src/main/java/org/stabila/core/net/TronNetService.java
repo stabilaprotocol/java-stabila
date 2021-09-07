@@ -3,8 +3,8 @@ package org.stabila.core.net;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.tron.common.overlay.message.Message;
-import org.tron.common.overlay.server.ChannelManager;
+import org.stabila.common.overlay.message.Message;
+import org.stabila.common.overlay.server.ChannelManager;
 import org.stabila.core.exception.P2pException;
 import org.stabila.core.exception.P2pException.TypeEnum;
 import org.stabila.core.net.message.BlockMessage;
@@ -20,7 +20,7 @@ import org.stabila.core.net.peer.PeerConnection;
 import org.stabila.core.net.peer.PeerStatusCheck;
 import org.stabila.core.net.service.AdvService;
 import org.stabila.core.net.service.SyncService;
-import org.tron.protos.Protocol.ReasonCode;
+import org.stabila.protos.Protocol.ReasonCode;
 
 @Slf4j(topic = "net")
 @Component

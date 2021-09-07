@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.stabila.core.capsule.TransactionCapsule;
 import org.stabila.core.utils.TransactionUtil;
-import org.tron.protos.Protocol.Transaction;
-import org.tron.protos.Protocol.TransactionSign;
+import org.stabila.protos.Protocol.Transaction;
+import org.stabila.protos.Protocol.TransactionSign;
 
 
 @Component

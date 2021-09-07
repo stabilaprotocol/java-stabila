@@ -9,7 +9,7 @@ import org.stabila.core.actuator.AbstractActuator;
 public class TransactionRegister {
 
   public static void registerActuator() {
-    Reflections reflections = new Reflections("org.tron");
+    Reflections reflections = new Reflections("org.stabila");
     Set<Class<? extends AbstractActuator>> subTypes = reflections
         .getSubTypesOf(AbstractActuator.class);
     for (Class _class : subTypes) {

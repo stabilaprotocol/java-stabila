@@ -18,11 +18,11 @@
 
 package org.stabila.core.vm;
 
-import static org.tron.common.runtime.vm.DataWord.WORD_SIZE;
-import static org.tron.common.utils.BIUtil.addSafely;
-import static org.tron.common.utils.BIUtil.isLessThan;
-import static org.tron.common.utils.BIUtil.isZero;
-import static org.tron.common.utils.ByteUtil.*;
+import static org.stabila.common.runtime.vm.DataWord.WORD_SIZE;
+import static org.stabila.common.utils.BIUtil.addSafely;
+import static org.stabila.common.utils.BIUtil.isLessThan;
+import static org.stabila.common.utils.BIUtil.isZero;
+import static org.stabila.common.utils.ByteUtil.*;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -51,28 +51,28 @@ import org.stabila.core.config.Parameter;
 import org.stabila.core.db.TransactionTrace;
 import org.stabila.core.exception.ZksnarkException;
 import org.stabila.core.vm.repository.Repository;
-import org.tron.common.crypto.SignUtils;
-import org.tron.common.crypto.SignatureInterface;
-import org.tron.common.crypto.zksnark.BN128;
-import org.tron.common.crypto.zksnark.BN128Fp;
-import org.tron.common.crypto.zksnark.BN128G1;
-import org.tron.common.crypto.zksnark.BN128G2;
-import org.tron.common.crypto.zksnark.Fp;
-import org.tron.common.crypto.zksnark.PairingCheck;
-import org.tron.common.parameter.CommonParameter;
-import org.tron.common.runtime.ProgramResult;
-import org.tron.common.runtime.vm.DataWord;
-import org.tron.common.utils.BIUtil;
-import org.tron.common.utils.ByteArray;
-import org.tron.common.utils.ByteUtil;
-import org.tron.common.utils.Sha256Hash;
-import org.tron.common.zksnark.JLibrustzcash;
-import org.tron.common.zksnark.LibrustzcashParam;
+import org.stabila.common.crypto.SignUtils;
+import org.stabila.common.crypto.SignatureInterface;
+import org.stabila.common.crypto.zksnark.BN128;
+import org.stabila.common.crypto.zksnark.BN128Fp;
+import org.stabila.common.crypto.zksnark.BN128G1;
+import org.stabila.common.crypto.zksnark.BN128G2;
+import org.stabila.common.crypto.zksnark.Fp;
+import org.stabila.common.crypto.zksnark.PairingCheck;
+import org.stabila.common.parameter.CommonParameter;
+import org.stabila.common.runtime.ProgramResult;
+import org.stabila.common.runtime.vm.DataWord;
+import org.stabila.common.utils.BIUtil;
+import org.stabila.common.utils.ByteArray;
+import org.stabila.common.utils.ByteUtil;
+import org.stabila.common.utils.Sha256Hash;
+import org.stabila.common.zksnark.JLibrustzcash;
+import org.stabila.common.zksnark.LibrustzcashParam;
 import org.stabila.core.vm.config.VMConfig;
 import org.stabila.core.vm.utils.VoteRewardUtil;
 import org.stabila.core.vm.program.Program;
-import org.tron.protos.Protocol;
-import org.tron.protos.Protocol.Permission;
+import org.stabila.protos.Protocol;
+import org.stabila.protos.Protocol.Permission;
 
 /**
  * @author Roman Mandeleil

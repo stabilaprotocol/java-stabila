@@ -12,8 +12,8 @@ import org.stabila.core.capsule.WitnessCapsule;
 import org.stabila.core.config.DefaultConfig;
 import org.stabila.core.config.args.Args;
 import org.stabila.core.store.WitnessStore;
-import org.tron.common.application.TronApplicationContext;
-import org.tron.common.utils.FileUtil;
+import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.utils.FileUtil;
 
 @Slf4j
 public class WitnessStoreTest {

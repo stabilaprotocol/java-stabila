@@ -4,7 +4,7 @@ import org.stabila.core.capsule.AccountCapsule;
 import org.stabila.core.exception.ContractValidateException;
 import org.stabila.core.vm.VMUtils;
 import org.stabila.core.vm.repository.Repository;
-import org.tron.protos.Protocol;
+import org.stabila.protos.Protocol;
 
 public class MUtil {
 

@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
 import org.stabila.core.capsule.TxInputCapsule;
-import org.tron.common.utils.ByteArray;
+import org.stabila.common.utils.ByteArray;
 
 @Slf4j
 public class TxInputCapsuleTest {

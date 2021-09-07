@@ -7,8 +7,8 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.junit.Assert;
 import org.junit.Test;
-import org.tron.common.utils.ByteArray;
-import org.tron.common.utils.Sha256Hash;
+import org.stabila.common.utils.ByteArray;
+import org.stabila.common.utils.Sha256Hash;
 import org.stabila.core.capsule.BlockCapsule;
 
 public class WitnessProductBlockServiceTest {

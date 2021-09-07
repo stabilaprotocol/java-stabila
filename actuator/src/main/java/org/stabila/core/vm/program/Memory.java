@@ -20,12 +20,12 @@ package org.stabila.core.vm.program;
 import static java.lang.Math.ceil;
 import static java.lang.Math.min;
 import static java.lang.String.format;
-import static org.tron.common.utils.ByteUtil.EMPTY_BYTE_ARRAY;
-import static org.tron.common.utils.ByteUtil.oneByteToHexString;
+import static org.stabila.common.utils.ByteUtil.EMPTY_BYTE_ARRAY;
+import static org.stabila.common.utils.ByteUtil.oneByteToHexString;
 
 import java.util.LinkedList;
 import java.util.List;
-import org.tron.common.runtime.vm.DataWord;
+import org.stabila.common.runtime.vm.DataWord;
 import org.stabila.core.vm.program.listener.ProgramListener;
 import org.stabila.core.vm.program.listener.ProgramListenerAware;
 

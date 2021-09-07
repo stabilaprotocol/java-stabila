@@ -8,11 +8,11 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.tron.common.application.TronApplicationContext;
-import org.tron.common.utils.ByteArray;
-import org.tron.common.utils.FileUtil;
-import org.tron.common.zksnark.IncrementalMerkleTreeContainer;
-import org.tron.common.zksnark.IncrementalMerkleVoucherContainer;
+import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.utils.ByteArray;
+import org.stabila.common.utils.FileUtil;
+import org.stabila.common.zksnark.IncrementalMerkleTreeContainer;
+import org.stabila.common.zksnark.IncrementalMerkleVoucherContainer;
 import org.stabila.core.Constant;
 import org.stabila.core.Wallet;
 import org.stabila.core.capsule.AccountCapsule;
@@ -39,12 +39,12 @@ import org.stabila.core.zen.address.IncomingViewingKey;
 import org.stabila.core.zen.address.PaymentAddress;
 import org.stabila.core.zen.address.SpendingKey;
 import org.stabila.core.zen.note.Note;
-import org.tron.protos.Protocol.AccountType;
-import org.tron.protos.Protocol.Transaction.Contract;
-import org.tron.protos.Protocol.TransactionSign;
-import org.tron.protos.contract.AssetIssueContractOuterClass.AssetIssueContract;
-import org.tron.protos.contract.ShieldContract.PedersenHash;
-import org.tron.protos.contract.ShieldContract.ShieldedTransferContract;
+import org.stabila.protos.Protocol.AccountType;
+import org.stabila.protos.Protocol.Transaction.Contract;
+import org.stabila.protos.Protocol.TransactionSign;
+import org.stabila.protos.contract.AssetIssueContractOuterClass.AssetIssueContract;
+import org.stabila.protos.contract.ShieldContract.PedersenHash;
+import org.stabila.protos.contract.ShieldContract.ShieldedTransferContract;
 
 @Slf4j
 public class ShieldedTransferActuatorTest {

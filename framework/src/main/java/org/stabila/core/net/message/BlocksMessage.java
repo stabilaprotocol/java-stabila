@@ -3,8 +3,8 @@ package org.stabila.core.net.message;
 import java.util.List;
 import org.apache.commons.collections4.CollectionUtils;
 import org.stabila.core.capsule.TransactionCapsule;
-import org.tron.protos.Protocol.Block;
-import org.tron.protos.Protocol.Items;
+import org.stabila.protos.Protocol.Block;
+import org.stabila.protos.Protocol.Items;
 
 public class BlocksMessage extends TronMessage {
 

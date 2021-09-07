@@ -12,7 +12,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import org.tron.common.parameter.CommonParameter;
+import org.stabila.common.parameter.CommonParameter;
 
 @Component
 @Slf4j(topic = "API")

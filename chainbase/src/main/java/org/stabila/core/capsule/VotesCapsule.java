@@ -4,9 +4,9 @@ import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
-import org.tron.common.utils.ByteArray;
-import org.tron.protos.Protocol.Vote;
-import org.tron.protos.Protocol.Votes;
+import org.stabila.common.utils.ByteArray;
+import org.stabila.protos.Protocol.Vote;
+import org.stabila.protos.Protocol.Votes;
 
 @Slf4j(topic = "capsule")
 public class VotesCapsule implements ProtoCapsule<Votes> {

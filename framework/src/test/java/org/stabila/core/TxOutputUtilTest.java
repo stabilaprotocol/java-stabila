@@ -18,9 +18,9 @@ package org.stabila.core;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
-import org.tron.common.utils.ByteArray;
+import org.stabila.common.utils.ByteArray;
 import org.stabila.core.capsule.utils.TxOutputUtil;
-import org.tron.protos.Protocol.TXOutput;
+import org.stabila.protos.Protocol.TXOutput;
 
 @Slf4j
 public class TxOutputUtilTest {

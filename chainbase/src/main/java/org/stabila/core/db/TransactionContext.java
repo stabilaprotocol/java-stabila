@@ -1,7 +1,7 @@
 package org.stabila.core.db;
 
 import lombok.Data;
-import org.tron.common.runtime.ProgramResult;
+import org.stabila.common.runtime.ProgramResult;
 import org.stabila.core.capsule.BlockCapsule;
 import org.stabila.core.capsule.TransactionCapsule;
 import org.stabila.core.store.StoreFactory;

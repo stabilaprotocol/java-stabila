@@ -5,7 +5,7 @@ import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import org.tron.common.utils.Base58;
+import org.stabila.common.utils.Base58;
 import org.stabila.core.exception.ZksnarkException;
 import org.stabila.core.zen.address.DiversifierT;
 import org.stabila.core.zen.address.FullViewingKey;

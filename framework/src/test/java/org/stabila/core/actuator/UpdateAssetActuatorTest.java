@@ -12,12 +12,12 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.tron.common.application.Application;
-import org.tron.common.application.ApplicationFactory;
-import org.tron.common.application.TronApplicationContext;
-import org.tron.common.utils.ByteArray;
-import org.tron.common.utils.FileUtil;
-import org.tron.common.utils.StringUtil;
+import org.stabila.common.application.Application;
+import org.stabila.common.application.ApplicationFactory;
+import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.utils.ByteArray;
+import org.stabila.common.utils.FileUtil;
+import org.stabila.common.utils.StringUtil;
 import org.stabila.core.Constant;
 import org.stabila.core.Wallet;
 import org.stabila.core.capsule.AccountCapsule;
@@ -28,10 +28,10 @@ import org.stabila.core.config.args.Args;
 import org.stabila.core.db.Manager;
 import org.stabila.core.exception.ContractExeException;
 import org.stabila.core.exception.ContractValidateException;
-import org.tron.protos.Protocol;
-import org.tron.protos.contract.AssetIssueContractOuterClass;
-import org.tron.protos.contract.AssetIssueContractOuterClass.AssetIssueContract;
-import org.tron.protos.contract.AssetIssueContractOuterClass.UpdateAssetContract;
+import org.stabila.protos.Protocol;
+import org.stabila.protos.contract.AssetIssueContractOuterClass;
+import org.stabila.protos.contract.AssetIssueContractOuterClass.AssetIssueContract;
+import org.stabila.protos.contract.AssetIssueContractOuterClass.UpdateAssetContract;
 
 @Slf4j
 public class UpdateAssetActuatorTest {

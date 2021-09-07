@@ -1,9 +1,9 @@
-package org.tron.consensus.dpos;
+package org.stabila.consensus.dpos;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.tron.consensus.ConsensusDelegate;
+import org.stabila.consensus.ConsensusDelegate;
 import org.stabila.core.capsule.BlockCapsule;
 import org.stabila.core.capsule.WitnessCapsule;
 

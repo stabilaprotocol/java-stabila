@@ -1,8 +1,8 @@
-package org.tron.common.overlay.discover.table;
+package org.stabila.common.overlay.discover.table;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.tron.common.overlay.discover.node.Node;
+import org.stabila.common.overlay.discover.node.Node;
 
 public class NodeEntryTest {
 

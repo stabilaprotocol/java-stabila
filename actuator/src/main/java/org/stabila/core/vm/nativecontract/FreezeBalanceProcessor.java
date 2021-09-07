@@ -6,14 +6,14 @@ import static org.stabila.core.config.Parameter.ChainConstant.TRX_PRECISION;
 
 import com.google.protobuf.ByteString;
 import lombok.extern.slf4j.Slf4j;
-import org.tron.common.utils.FastByteComparisons;
+import org.stabila.common.utils.FastByteComparisons;
 import org.stabila.core.capsule.AccountCapsule;
 import org.stabila.core.capsule.DelegatedResourceCapsule;
 import org.stabila.core.exception.ContractValidateException;
 import org.stabila.core.store.DynamicPropertiesStore;
 import org.stabila.core.vm.nativecontract.param.FreezeBalanceParam;
 import org.stabila.core.vm.repository.Repository;
-import org.tron.protos.Protocol;
+import org.stabila.protos.Protocol;
 
 @Slf4j(topic = "Processor")
 public class FreezeBalanceProcessor {

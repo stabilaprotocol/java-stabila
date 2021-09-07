@@ -2,9 +2,9 @@ package org.stabila.core.db;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import org.tron.common.utils.ByteUtil;
+import org.stabila.common.utils.ByteUtil;
 import org.stabila.core.capsule.PbftSignCapsule;
-import org.tron.protos.Protocol.PBFTMessage.DataType;
+import org.stabila.protos.Protocol.PBFTMessage.DataType;
 
 @Slf4j
 @Component

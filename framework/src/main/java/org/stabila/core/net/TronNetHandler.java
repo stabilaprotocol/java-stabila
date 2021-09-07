@@ -5,8 +5,8 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-import org.tron.common.overlay.server.Channel;
-import org.tron.common.overlay.server.MessageQueue;
+import org.stabila.common.overlay.server.Channel;
+import org.stabila.common.overlay.server.MessageQueue;
 import org.stabila.core.net.message.TronMessage;
 import org.stabila.core.net.peer.PeerConnection;
 

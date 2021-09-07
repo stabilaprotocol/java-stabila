@@ -1,10 +1,10 @@
-package org.tron.consensus.base;
+package org.stabila.consensus.base;
 
 import com.google.protobuf.ByteString;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
-import org.tron.common.args.GenesisBlock;
+import org.stabila.common.args.GenesisBlock;
 
 public class Param {
 

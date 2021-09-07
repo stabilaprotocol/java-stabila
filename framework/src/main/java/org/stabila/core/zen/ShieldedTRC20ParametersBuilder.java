@@ -15,23 +15,23 @@ import org.stabila.core.Wallet;
 import org.stabila.core.zen.note.Note;
 import org.stabila.core.zen.note.NoteEncryption;
 import org.stabila.core.zen.note.OutgoingPlaintext;
-import org.tron.api.GrpcAPI;
-import org.tron.api.GrpcAPI.BytesMessage;
-import org.tron.api.GrpcAPI.ShieldedTRC20Parameters;
-import org.tron.common.utils.ByteArray;
-import org.tron.common.utils.ByteUtil;
-import org.tron.common.utils.Sha256Hash;
-import org.tron.common.zksnark.JLibrustzcash;
-import org.tron.common.zksnark.LibrustzcashParam;
-import org.tron.common.zksnark.ZksnarkUtils;
+import org.stabila.api.GrpcAPI;
+import org.stabila.api.GrpcAPI.BytesMessage;
+import org.stabila.api.GrpcAPI.ShieldedTRC20Parameters;
+import org.stabila.common.utils.ByteArray;
+import org.stabila.common.utils.ByteUtil;
+import org.stabila.common.utils.Sha256Hash;
+import org.stabila.common.zksnark.JLibrustzcash;
+import org.stabila.common.zksnark.LibrustzcashParam;
+import org.stabila.common.zksnark.ZksnarkUtils;
 import org.stabila.core.capsule.ReceiveDescriptionCapsule;
 import org.stabila.core.capsule.SpendDescriptionCapsule;
 import org.stabila.core.exception.ZksnarkException;
 import org.stabila.core.zen.address.DiversifierT;
 import org.stabila.core.zen.address.ExpandedSpendingKey;
 import org.stabila.core.zen.address.PaymentAddress;
-import org.tron.protos.contract.ShieldContract;
-import org.tron.protos.contract.ShieldContract.ReceiveDescription;
+import org.stabila.protos.contract.ShieldContract;
+import org.stabila.protos.contract.ShieldContract.ReceiveDescription;
 
 
 @Slf4j

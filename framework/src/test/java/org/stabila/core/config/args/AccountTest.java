@@ -21,9 +21,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.stabila.core.Wallet;
-import org.tron.common.args.Account;
-import org.tron.common.utils.ByteArray;
-import org.tron.protos.Protocol.AccountType;
+import org.stabila.common.args.Account;
+import org.stabila.common.utils.ByteArray;
+import org.stabila.protos.Protocol.AccountType;
 
 public class AccountTest {
 

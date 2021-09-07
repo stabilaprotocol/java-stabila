@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.stabila.core.config.args.Args;
-import org.tron.common.parameter.RateLimiterInitialization;
+import org.stabila.common.parameter.RateLimiterInitialization;
 import org.stabila.core.services.ratelimiter.RateLimiterContainer;
 import org.stabila.core.services.ratelimiter.RuntimeData;
 import org.stabila.core.services.ratelimiter.adapter.DefaultBaseQqsAdapter;

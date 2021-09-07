@@ -20,7 +20,7 @@ import org.stabila.core.config.args.Args;
 import org.stabila.core.exception.P2pException;
 import org.stabila.core.exception.P2pException.TypeEnum;
 import org.stabila.core.services.WitnessProductBlockService;
-import org.tron.protos.Protocol.Inventory.InventoryType;
+import org.stabila.protos.Protocol.Inventory.InventoryType;
 
 @Slf4j(topic = "net")
 @Component

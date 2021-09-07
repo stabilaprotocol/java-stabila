@@ -13,7 +13,7 @@ import org.stabila.core.metrics.MetricsKey;
 import org.stabila.core.metrics.MetricsUtil;
 import org.stabila.core.net.TronNetDelegate;
 import org.stabila.core.net.peer.PeerConnection;
-import org.tron.protos.Protocol;
+import org.stabila.protos.Protocol;
 
 
 @Component

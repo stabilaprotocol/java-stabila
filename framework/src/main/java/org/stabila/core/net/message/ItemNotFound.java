@@ -1,10 +1,10 @@
 package org.stabila.core.net.message;
 
-import org.tron.protos.Protocol;
+import org.stabila.protos.Protocol;
 
 public class ItemNotFound extends TronMessage {
 
-  private org.tron.protos.Protocol.Items notFound;
+  private org.stabila.protos.Protocol.Items notFound;
 
   /**
    * means can not find this block or trx.

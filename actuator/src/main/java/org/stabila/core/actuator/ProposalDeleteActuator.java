@@ -8,9 +8,9 @@ import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
 import java.util.Objects;
 import lombok.extern.slf4j.Slf4j;
-import org.tron.common.utils.ByteArray;
-import org.tron.common.utils.DecodeUtil;
-import org.tron.common.utils.StringUtil;
+import org.stabila.common.utils.ByteArray;
+import org.stabila.common.utils.DecodeUtil;
+import org.stabila.common.utils.StringUtil;
 import org.stabila.core.capsule.ProposalCapsule;
 import org.stabila.core.capsule.TransactionResultCapsule;
 import org.stabila.core.exception.ContractExeException;
@@ -19,10 +19,10 @@ import org.stabila.core.exception.ItemNotFoundException;
 import org.stabila.core.store.AccountStore;
 import org.stabila.core.store.DynamicPropertiesStore;
 import org.stabila.core.store.ProposalStore;
-import org.tron.protos.Protocol.Proposal.State;
-import org.tron.protos.Protocol.Transaction.Contract.ContractType;
-import org.tron.protos.Protocol.Transaction.Result.code;
-import org.tron.protos.contract.ProposalContract.ProposalDeleteContract;
+import org.stabila.protos.Protocol.Proposal.State;
+import org.stabila.protos.Protocol.Transaction.Contract.ContractType;
+import org.stabila.protos.Protocol.Transaction.Result.code;
+import org.stabila.protos.contract.ProposalContract.ProposalDeleteContract;
 
 @Slf4j(topic = "actuator")
 public class ProposalDeleteActuator extends AbstractActuator {

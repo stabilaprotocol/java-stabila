@@ -26,7 +26,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.testng.annotations.Test;
-import org.tron.common.utils.FileUtil;
+import org.stabila.common.utils.FileUtil;
 import org.stabila.core.services.http.solidity.mockito.HttpUrlStreamHandler;
 
 @Slf4j

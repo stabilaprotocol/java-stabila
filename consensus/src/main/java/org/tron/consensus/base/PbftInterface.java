@@ -1,6 +1,6 @@
-package org.tron.consensus.base;
+package org.stabila.consensus.base;
 
-import org.tron.consensus.pbft.message.PbftBaseMessage;
+import org.stabila.consensus.pbft.message.PbftBaseMessage;
 import org.stabila.core.capsule.BlockCapsule;
 
 public interface PbftInterface {

@@ -21,10 +21,10 @@ import org.stabila.core.store.AccountStore;
 import org.stabila.core.store.DelegationStore;
 import org.stabila.core.store.DynamicPropertiesStore;
 import org.stabila.core.store.WitnessStore;
-import org.tron.common.utils.StringUtil;
+import org.stabila.common.utils.StringUtil;
 import org.stabila.core.config.Parameter.ChainConstant;
 import org.stabila.core.exception.BalanceInsufficientException;
-import org.tron.protos.Protocol.Vote;
+import org.stabila.protos.Protocol.Vote;
 
 @Slf4j(topic = "mortgage")
 @Component

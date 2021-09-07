@@ -8,8 +8,8 @@ import java.util.Arrays;
 import lombok.extern.slf4j.Slf4j;
 import org.stabila.core.store.AssetIssueStore;
 import org.stabila.core.store.DynamicPropertiesStore;
-import org.tron.common.utils.ByteArray;
-import org.tron.protos.Protocol.Exchange;
+import org.stabila.common.utils.ByteArray;
+import org.stabila.protos.Protocol.Exchange;
 
 @Slf4j(topic = "capsule")
 public class ExchangeCapsule implements ProtoCapsule<Exchange> {

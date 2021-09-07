@@ -11,12 +11,12 @@ import org.stabila.core.ChainBaseManager;
 import org.stabila.core.capsule.AccountCapsule;
 import org.stabila.core.capsule.BlockCapsule;
 import org.stabila.core.capsule.WitnessCapsule;
-import org.tron.common.crypto.ECKey;
-import org.tron.common.utils.ByteArray;
-import org.tron.common.utils.Sha256Hash;
-import org.tron.common.utils.Utils;
-import org.tron.consensus.dpos.DposSlot;
-import org.tron.protos.Protocol.Account;
+import org.stabila.common.crypto.ECKey;
+import org.stabila.common.utils.ByteArray;
+import org.stabila.common.utils.Sha256Hash;
+import org.stabila.common.utils.Utils;
+import org.stabila.consensus.dpos.DposSlot;
+import org.stabila.protos.Protocol.Account;
 
 public class ManagerForTest {
 

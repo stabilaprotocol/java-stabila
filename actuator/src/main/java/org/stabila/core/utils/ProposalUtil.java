@@ -1,6 +1,6 @@
 package org.stabila.core.utils;
 
-import org.tron.common.utils.ForkController;
+import org.stabila.common.utils.ForkController;
 import org.stabila.core.config.Parameter.ForkBlockVersionConsts;
 import org.stabila.core.config.Parameter.ForkBlockVersionEnum;
 import org.stabila.core.exception.ContractValidateException;

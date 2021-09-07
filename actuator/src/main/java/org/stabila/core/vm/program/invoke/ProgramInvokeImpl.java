@@ -22,7 +22,7 @@ import java.util.Arrays;
 import java.util.Objects;
 import lombok.extern.slf4j.Slf4j;
 import org.stabila.core.vm.repository.Repository;
-import org.tron.common.runtime.vm.DataWord;
+import org.stabila.common.runtime.vm.DataWord;
 
 @Slf4j
 public class ProgramInvokeImpl implements ProgramInvoke {

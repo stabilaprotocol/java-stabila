@@ -16,8 +16,8 @@
 package org.stabila.core.capsule.utils;
 
 import com.google.protobuf.ByteString;
-import org.tron.common.utils.ByteArray;
-import org.tron.protos.Protocol.TXOutput;
+import org.stabila.common.utils.ByteArray;
+import org.stabila.protos.Protocol.TXOutput;
 
 public class TxOutputUtil {
 

@@ -7,8 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.stabila.core.Wallet;
-import org.tron.api.GrpcAPI.AssetIssueList;
-import org.tron.api.GrpcAPI.PaginatedMessage;
+import org.stabila.api.GrpcAPI.AssetIssueList;
+import org.stabila.api.GrpcAPI.PaginatedMessage;
 
 @Component
 @Slf4j(topic = "API")

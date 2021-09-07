@@ -1,4 +1,4 @@
-package org.tron.consensus.dpos;
+package org.stabila.consensus.dpos;
 
 import static org.stabila.core.config.Parameter.ChainConstant.BLOCK_PRODUCED_INTERVAL;
 import static org.stabila.core.config.Parameter.ChainConstant.MAX_ACTIVE_WITNESS_NUM;
@@ -11,8 +11,8 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.tron.consensus.ConsensusDelegate;
-import org.tron.consensus.base.State;
+import org.stabila.consensus.ConsensusDelegate;
+import org.stabila.consensus.base.State;
 import org.stabila.core.capsule.BlockCapsule;
 import org.stabila.core.capsule.BlockCapsule.BlockId;
 

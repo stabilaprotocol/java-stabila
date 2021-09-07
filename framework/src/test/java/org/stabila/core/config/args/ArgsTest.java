@@ -23,9 +23,9 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 import org.stabila.core.Constant;
-import org.tron.common.args.GenesisBlock;
-import org.tron.common.parameter.CommonParameter;
-import org.tron.common.utils.ByteArray;
+import org.stabila.common.args.GenesisBlock;
+import org.stabila.common.parameter.CommonParameter;
+import org.stabila.common.utils.ByteArray;
 
 @Slf4j
 public class ArgsTest {

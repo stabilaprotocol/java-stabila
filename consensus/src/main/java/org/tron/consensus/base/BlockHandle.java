@@ -1,6 +1,6 @@
-package org.tron.consensus.base;
+package org.stabila.consensus.base;
 
-import org.tron.consensus.base.Param.Miner;
+import org.stabila.consensus.base.Param.Miner;
 import org.stabila.core.capsule.BlockCapsule;
 
 public interface BlockHandle {

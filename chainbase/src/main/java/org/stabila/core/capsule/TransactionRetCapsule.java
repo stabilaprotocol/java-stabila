@@ -4,8 +4,8 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import java.util.Objects;
 import lombok.extern.slf4j.Slf4j;
 import org.stabila.core.exception.BadItemException;
-import org.tron.protos.Protocol.TransactionInfo;
-import org.tron.protos.Protocol.TransactionRet;
+import org.stabila.protos.Protocol.TransactionInfo;
+import org.stabila.protos.Protocol.TransactionRet;
 
 @Slf4j(topic = "capsule")
 public class TransactionRetCapsule implements ProtoCapsule<TransactionRet> {

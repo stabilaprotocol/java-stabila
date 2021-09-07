@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
 import org.stabila.core.config.args.Args;
 import org.stabila.core.metrics.MetricsKey;
 import org.stabila.core.metrics.MetricsUtil;
-import org.tron.common.parameter.RateLimiterInitialization.RpcRateLimiterItem;
+import org.stabila.common.parameter.RateLimiterInitialization.RpcRateLimiterItem;
 import org.stabila.core.services.ratelimiter.adapter.DefaultBaseQqsAdapter;
 import org.stabila.core.services.ratelimiter.adapter.GlobalPreemptibleAdapter;
 import org.stabila.core.services.ratelimiter.adapter.IPQPSRateLimiterAdapter;

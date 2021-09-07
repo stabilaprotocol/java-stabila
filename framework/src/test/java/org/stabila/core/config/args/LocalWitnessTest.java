@@ -19,7 +19,7 @@ import com.google.common.collect.Lists;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.tron.common.utils.LocalWitnesses;
+import org.stabila.common.utils.LocalWitnesses;
 
 public class LocalWitnessTest {
 

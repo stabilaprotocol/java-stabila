@@ -12,9 +12,9 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import java.util.Iterator;
 import java.util.Objects;
 import lombok.extern.slf4j.Slf4j;
-import org.tron.common.utils.ByteArray;
-import org.tron.common.utils.DecodeUtil;
-import org.tron.common.utils.StringUtil;
+import org.stabila.common.utils.ByteArray;
+import org.stabila.common.utils.DecodeUtil;
+import org.stabila.common.utils.StringUtil;
 import org.stabila.core.capsule.AccountCapsule;
 import org.stabila.core.capsule.TransactionResultCapsule;
 import org.stabila.core.capsule.VotesCapsule;
@@ -25,10 +25,10 @@ import org.stabila.core.store.AccountStore;
 import org.stabila.core.store.DynamicPropertiesStore;
 import org.stabila.core.store.VotesStore;
 import org.stabila.core.store.WitnessStore;
-import org.tron.protos.Protocol.Transaction.Contract.ContractType;
-import org.tron.protos.Protocol.Transaction.Result.code;
-import org.tron.protos.contract.WitnessContract.VoteWitnessContract;
-import org.tron.protos.contract.WitnessContract.VoteWitnessContract.Vote;
+import org.stabila.protos.Protocol.Transaction.Contract.ContractType;
+import org.stabila.protos.Protocol.Transaction.Result.code;
+import org.stabila.protos.contract.WitnessContract.VoteWitnessContract;
+import org.stabila.protos.contract.WitnessContract.VoteWitnessContract.Vote;
 
 @Slf4j(topic = "actuator")
 public class VoteWitnessActuator extends AbstractActuator {

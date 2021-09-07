@@ -11,9 +11,9 @@ import java.util.List;
 import java.util.Objects;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
-import org.tron.common.parameter.CommonParameter;
-import org.tron.common.utils.DecodeUtil;
-import org.tron.common.utils.StringUtil;
+import org.stabila.common.parameter.CommonParameter;
+import org.stabila.common.utils.DecodeUtil;
+import org.stabila.common.utils.StringUtil;
 import org.stabila.core.capsule.AccountCapsule;
 import org.stabila.core.capsule.DelegatedResourceAccountIndexCapsule;
 import org.stabila.core.capsule.DelegatedResourceCapsule;
@@ -24,10 +24,10 @@ import org.stabila.core.store.AccountStore;
 import org.stabila.core.store.DelegatedResourceAccountIndexStore;
 import org.stabila.core.store.DelegatedResourceStore;
 import org.stabila.core.store.DynamicPropertiesStore;
-import org.tron.protos.Protocol.AccountType;
-import org.tron.protos.Protocol.Transaction.Contract.ContractType;
-import org.tron.protos.Protocol.Transaction.Result.code;
-import org.tron.protos.contract.BalanceContract.FreezeBalanceContract;
+import org.stabila.protos.Protocol.AccountType;
+import org.stabila.protos.Protocol.Transaction.Contract.ContractType;
+import org.stabila.protos.Protocol.Transaction.Result.code;
+import org.stabila.protos.contract.BalanceContract.FreezeBalanceContract;
 
 @Slf4j(topic = "actuator")
 public class FreezeBalanceActuator extends AbstractActuator {

@@ -16,7 +16,7 @@
 package org.stabila.core.capsule;
 
 import com.google.protobuf.ByteString;
-import org.tron.protos.Protocol.TXInput;
+import org.stabila.protos.Protocol.TXInput;
 
 public class TxInputCapsule implements ProtoCapsule<TXInput> {
 

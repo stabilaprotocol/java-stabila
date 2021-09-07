@@ -21,10 +21,10 @@ import org.stabila.core.net.service.AdvService;
 import org.stabila.core.config.args.Args;
 import org.stabila.core.exception.P2pException;
 import org.stabila.core.exception.P2pException.TypeEnum;
-import org.tron.protos.Protocol.Inventory.InventoryType;
-import org.tron.protos.Protocol.ReasonCode;
-import org.tron.protos.Protocol.Transaction;
-import org.tron.protos.Protocol.Transaction.Contract.ContractType;
+import org.stabila.protos.Protocol.Inventory.InventoryType;
+import org.stabila.protos.Protocol.ReasonCode;
+import org.stabila.protos.Protocol.Transaction;
+import org.stabila.protos.Protocol.Transaction.Contract.ContractType;
 
 @Slf4j(topic = "net")
 @Component

@@ -15,14 +15,14 @@ import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.stabila.core.vm.nativecontract.param.VoteWitnessParam;
 import org.stabila.core.vm.repository.Repository;
-import org.tron.common.utils.StringUtil;
+import org.stabila.common.utils.StringUtil;
 import static org.stabila.core.actuator.ActuatorConstant.*;
 import org.stabila.core.capsule.AccountCapsule;
 import org.stabila.core.capsule.VotesCapsule;
 import org.stabila.core.exception.ContractExeException;
 import org.stabila.core.exception.ContractValidateException;
 import org.stabila.core.vm.utils.VoteRewardUtil;
-import org.tron.protos.Protocol;
+import org.stabila.protos.Protocol;
 
 @Slf4j(topic = "Processor")
 public class VoteWitnessProcessor {

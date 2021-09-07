@@ -6,7 +6,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Semaphore;
 import org.junit.Assert;
 import org.testng.annotations.Test;
-import org.tron.common.utils.ReflectUtils;
+import org.stabila.common.utils.ReflectUtils;
 import org.stabila.core.services.ratelimiter.adapter.GlobalPreemptibleAdapter;
 import org.stabila.core.services.ratelimiter.adapter.IPQPSRateLimiterAdapter;
 import org.stabila.core.services.ratelimiter.adapter.QpsRateLimiterAdapter;

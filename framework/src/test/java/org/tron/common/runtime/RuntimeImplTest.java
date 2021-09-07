@@ -1,7 +1,7 @@
-package org.tron.common.runtime;
+package org.stabila.common.runtime;
 
-import static org.tron.common.runtime.TvmTestUtils.generateDeploySmartContractAndGetTransaction;
-import static org.tron.common.runtime.TvmTestUtils.generateTriggerSmartContractAndGetTransaction;
+import static org.stabila.common.runtime.TvmTestUtils.generateDeploySmartContractAndGetTransaction;
+import static org.stabila.common.runtime.TvmTestUtils.generateTriggerSmartContractAndGetTransaction;
 
 import java.io.File;
 import lombok.extern.slf4j.Slf4j;
@@ -10,10 +10,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.testng.Assert;
-import org.tron.common.application.Application;
-import org.tron.common.application.ApplicationFactory;
-import org.tron.common.application.TronApplicationContext;
-import org.tron.common.utils.FileUtil;
+import org.stabila.common.application.Application;
+import org.stabila.common.application.ApplicationFactory;
+import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.utils.FileUtil;
 import org.stabila.core.Constant;
 import org.stabila.core.Wallet;
 import org.stabila.core.actuator.VMActuator;
@@ -31,9 +31,9 @@ import org.stabila.core.exception.VMIllegalException;
 import org.stabila.core.store.StoreFactory;
 import org.stabila.core.vm.repository.Repository;
 import org.stabila.core.vm.repository.RepositoryImpl;
-import org.tron.protos.Protocol.AccountType;
-import org.tron.protos.Protocol.Transaction;
-import org.tron.protos.contract.SmartContractOuterClass.TriggerSmartContract;
+import org.stabila.protos.Protocol.AccountType;
+import org.stabila.protos.Protocol.Transaction;
+import org.stabila.protos.contract.SmartContractOuterClass.TriggerSmartContract;
 
 
 @Slf4j

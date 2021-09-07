@@ -29,7 +29,7 @@ import java.io.IOException;
 import lombok.extern.slf4j.Slf4j;
 import org.bouncycastle.util.encoders.Hex;
 import org.stabila.core.vm.OpCode;
-import org.tron.common.runtime.vm.DataWord;
+import org.stabila.common.runtime.vm.DataWord;
 
 @Slf4j(topic = "VM")
 public final class Serializers {

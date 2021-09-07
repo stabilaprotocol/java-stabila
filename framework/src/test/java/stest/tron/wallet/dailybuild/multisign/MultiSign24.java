@@ -1,7 +1,5 @@
 package stest.tron.wallet.dailybuild.multisign;
 
-import static org.tron.api.GrpcAPI.TransactionSignWeight.Result.response_code.ENOUGH_PERMISSION;
-
 import com.google.protobuf.ByteString;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
@@ -15,16 +13,14 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
-import org.tron.api.GrpcAPI.TransactionExtention;
-import org.tron.api.GrpcAPI.TransactionSignWeight;
-import org.tron.api.WalletGrpc;
-import org.tron.common.crypto.ECKey;
-import org.tron.common.utils.ByteArray;
-import org.tron.common.utils.Utils;
+import org.stabila.api.GrpcAPI.TransactionSignWeight;
+import org.stabila.api.WalletGrpc;
+import org.stabila.common.crypto.ECKey;
+import org.stabila.common.utils.ByteArray;
+import org.stabila.common.utils.Utils;
 import org.stabila.core.Wallet;
-import org.tron.protos.Protocol.Transaction;
-import org.tron.protos.Protocol.Transaction.Contract.ContractType;
-import org.tron.protos.contract.AccountContract.AccountPermissionUpdateContract;
+import org.stabila.protos.Protocol.Transaction;
+import org.stabila.protos.Protocol.Transaction.Contract.ContractType;
 import stest.tron.wallet.common.client.Configuration;
 import stest.tron.wallet.common.client.Parameter.CommonConstant;
 import stest.tron.wallet.common.client.utils.PublicMethed;

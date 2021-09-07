@@ -9,7 +9,7 @@ import io.grpc.ServerInterceptor;
 import io.grpc.Status;
 import java.util.Set;
 import org.springframework.stereotype.Component;
-import org.tron.common.parameter.CommonParameter;
+import org.stabila.common.parameter.CommonParameter;
 
 @Component
 public class LiteFnQueryGrpcInterceptor implements ServerInterceptor {

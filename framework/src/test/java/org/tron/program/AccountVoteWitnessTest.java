@@ -1,4 +1,4 @@
-package org.tron.program;
+package org.stabila.program;
 
 import com.google.common.collect.Lists;
 import com.google.protobuf.ByteString;
@@ -8,15 +8,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.tron.common.application.TronApplicationContext;
-import org.tron.consensus.dpos.MaintenanceManager;
+import org.stabila.common.application.TronApplicationContext;
+import org.stabila.consensus.dpos.MaintenanceManager;
 import org.stabila.core.Constant;
 import org.stabila.core.capsule.AccountCapsule;
 import org.stabila.core.capsule.WitnessCapsule;
 import org.stabila.core.config.DefaultConfig;
 import org.stabila.core.config.args.Args;
 import org.stabila.core.db.Manager;
-import org.tron.protos.Protocol.AccountType;
+import org.stabila.protos.Protocol.AccountType;
 
 @Slf4j
 public class AccountVoteWitnessTest {

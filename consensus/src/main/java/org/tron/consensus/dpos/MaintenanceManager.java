@@ -1,6 +1,6 @@
-package org.tron.consensus.dpos;
+package org.stabila.consensus.dpos;
 
-import static org.tron.common.utils.WalletUtil.getAddressStringList;
+import static org.stabila.common.utils.WalletUtil.getAddressStringList;
 
 import com.google.common.collect.Maps;
 import com.google.protobuf.ByteString;
@@ -16,8 +16,8 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.bouncycastle.util.encoders.Hex;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.tron.consensus.ConsensusDelegate;
-import org.tron.consensus.pbft.PbftManager;
+import org.stabila.consensus.ConsensusDelegate;
+import org.stabila.consensus.pbft.PbftManager;
 import org.stabila.core.capsule.AccountCapsule;
 import org.stabila.core.capsule.BlockCapsule;
 import org.stabila.core.capsule.VotesCapsule;

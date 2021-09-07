@@ -14,9 +14,9 @@ import org.stabila.core.capsule.VotesCapsule;
 import org.stabila.core.config.DefaultConfig;
 import org.stabila.core.config.args.Args;
 import org.stabila.core.store.VotesStore;
-import org.tron.common.application.TronApplicationContext;
-import org.tron.common.utils.FileUtil;
-import org.tron.protos.Protocol.Vote;
+import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.utils.FileUtil;
+import org.stabila.protos.Protocol.Vote;
 
 @Slf4j
 public class VotesStoreTest {

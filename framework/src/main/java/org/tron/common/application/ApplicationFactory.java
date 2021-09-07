@@ -13,7 +13,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.tron.common.application;
+package org.stabila.common.application;
 
 import org.springframework.context.ApplicationContext;
 

@@ -17,14 +17,14 @@
  */
 package org.stabila.core.vm.trace;
 
-import static org.tron.common.utils.ByteArray.toHexString;
+import static org.stabila.common.utils.ByteArray.toHexString;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.tron.common.runtime.vm.DataWord;
+import org.stabila.common.runtime.vm.DataWord;
 
 public class OpActions {
 

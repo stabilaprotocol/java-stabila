@@ -5,14 +5,14 @@ import com.google.protobuf.ByteString;
 import io.grpc.ManagedChannelBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
-import org.tron.api.GrpcAPI.EmptyMessage;
-import org.tron.api.WalletGrpc;
-import org.tron.api.WalletGrpc.WalletBlockingStub;
-import org.tron.common.application.TronApplicationContext;
-import org.tron.common.entity.NodeInfo;
-import org.tron.common.utils.Sha256Hash;
+import org.stabila.api.GrpcAPI.EmptyMessage;
+import org.stabila.api.WalletGrpc;
+import org.stabila.api.WalletGrpc.WalletBlockingStub;
+import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.entity.NodeInfo;
+import org.stabila.common.utils.Sha256Hash;
 import org.stabila.core.capsule.BlockCapsule;
-import org.tron.program.Version;
+import org.stabila.program.Version;
 import stest.tron.wallet.common.client.Configuration;
 
 @Slf4j

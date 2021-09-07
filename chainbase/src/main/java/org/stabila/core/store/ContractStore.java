@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.stabila.core.db.StabilaStoreWithRevoking;
 import org.stabila.core.capsule.ContractCapsule;
-import org.tron.protos.contract.SmartContractOuterClass.SmartContract;
+import org.stabila.protos.contract.SmartContractOuterClass.SmartContract;
 
 import java.util.Objects;
 

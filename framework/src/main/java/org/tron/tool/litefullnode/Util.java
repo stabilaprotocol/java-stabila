@@ -1,4 +1,4 @@
-package org.tron.tool.litefullnode;
+package org.stabila.tool.litefullnode;
 
 import java.io.IOException;
 import java.nio.file.FileSystemException;
@@ -8,7 +8,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
-import org.tron.common.utils.FileUtil;
+import org.stabila.common.utils.FileUtil;
 
 @Slf4j(topic = "tool")
 public class Util {

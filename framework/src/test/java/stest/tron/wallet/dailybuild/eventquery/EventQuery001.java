@@ -10,7 +10,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
-import org.tron.api.WalletGrpc;
+import org.stabila.api.WalletGrpc;
 import org.stabila.core.Wallet;
 import org.zeromq.ZMQ;
 import stest.tron.wallet.common.client.Configuration;

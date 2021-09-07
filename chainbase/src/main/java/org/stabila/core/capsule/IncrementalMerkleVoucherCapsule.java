@@ -4,11 +4,11 @@ import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
-import org.tron.common.zksnark.IncrementalMerkleVoucherContainer;
+import org.stabila.common.zksnark.IncrementalMerkleVoucherContainer;
 import org.stabila.core.exception.ZksnarkException;
-import org.tron.protos.contract.ShieldContract.IncrementalMerkleVoucher;
-import org.tron.protos.contract.ShieldContract.OutputPoint;
-import org.tron.protos.contract.ShieldContract.PedersenHash;
+import org.stabila.protos.contract.ShieldContract.IncrementalMerkleVoucher;
+import org.stabila.protos.contract.ShieldContract.OutputPoint;
+import org.stabila.protos.contract.ShieldContract.PedersenHash;
 
 @Slf4j
 public class IncrementalMerkleVoucherCapsule implements ProtoCapsule<IncrementalMerkleVoucher> {

@@ -3,11 +3,11 @@ package org.stabila.core.capsule;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
 import lombok.extern.slf4j.Slf4j;
-import org.tron.common.utils.ByteArray;
-import org.tron.common.zksnark.JLibrustzcash;
-import org.tron.common.zksnark.LibrustzcashParam.MerkleHashParams;
+import org.stabila.common.utils.ByteArray;
+import org.stabila.common.zksnark.JLibrustzcash;
+import org.stabila.common.zksnark.LibrustzcashParam.MerkleHashParams;
 import org.stabila.core.exception.ZksnarkException;
-import org.tron.protos.contract.ShieldContract.PedersenHash;
+import org.stabila.protos.contract.ShieldContract.PedersenHash;
 
 
 @Slf4j

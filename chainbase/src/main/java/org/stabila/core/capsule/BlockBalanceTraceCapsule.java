@@ -4,9 +4,9 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import java.util.List;
 
 import org.stabila.core.exception.BadItemException;
-import org.tron.protos.contract.BalanceContract;
-import org.tron.protos.contract.BalanceContract.BlockBalanceTrace;
-import org.tron.protos.contract.BalanceContract.TransactionBalanceTrace;
+import org.stabila.protos.contract.BalanceContract;
+import org.stabila.protos.contract.BalanceContract.BlockBalanceTrace;
+import org.stabila.protos.contract.BalanceContract.TransactionBalanceTrace;
 
 import java.util.Objects;
 

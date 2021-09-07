@@ -5,16 +5,16 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import java.util.Objects;
 import lombok.extern.slf4j.Slf4j;
 import org.stabila.core.utils.TransactionUtil;
-import org.tron.common.utils.DecodeUtil;
+import org.stabila.common.utils.DecodeUtil;
 import org.stabila.core.capsule.TransactionResultCapsule;
 import org.stabila.core.capsule.WitnessCapsule;
 import org.stabila.core.exception.ContractExeException;
 import org.stabila.core.exception.ContractValidateException;
 import org.stabila.core.store.AccountStore;
 import org.stabila.core.store.WitnessStore;
-import org.tron.protos.Protocol.Transaction.Contract.ContractType;
-import org.tron.protos.Protocol.Transaction.Result.code;
-import org.tron.protos.contract.WitnessContract.WitnessUpdateContract;
+import org.stabila.protos.Protocol.Transaction.Contract.ContractType;
+import org.stabila.protos.Protocol.Transaction.Result.code;
+import org.stabila.protos.contract.WitnessContract.WitnessUpdateContract;
 
 @Slf4j(topic = "actuator")
 public class WitnessUpdateActuator extends AbstractActuator {

@@ -3,10 +3,10 @@ package org.stabila.core.capsule.utils;
 import static java.util.Arrays.copyOfRange;
 import static org.bouncycastle.util.Arrays.concatenate;
 import static org.bouncycastle.util.BigIntegers.asUnsignedByteArray;
-import static org.tron.common.utils.ByteUtil.byteArrayToInt;
-import static org.tron.common.utils.ByteUtil.intToBytesNoLeadZeroes;
-import static org.tron.common.utils.ByteUtil.isNullOrZeroArray;
-import static org.tron.common.utils.ByteUtil.isSingleZero;
+import static org.stabila.common.utils.ByteUtil.byteArrayToInt;
+import static org.stabila.common.utils.ByteUtil.intToBytesNoLeadZeroes;
+import static org.stabila.common.utils.ByteUtil.isNullOrZeroArray;
+import static org.stabila.common.utils.ByteUtil.isSingleZero;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -16,9 +16,9 @@ import java.util.Set;
 import org.bouncycastle.util.encoders.Hex;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.tron.common.crypto.Hash;
-import org.tron.common.utils.ByteUtil;
-import org.tron.common.utils.Value;
+import org.stabila.common.crypto.Hash;
+import org.stabila.common.utils.ByteUtil;
+import org.stabila.common.utils.Value;
 import org.stabila.core.db.ByteArrayWrapper;
 
 /**

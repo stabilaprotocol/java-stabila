@@ -11,7 +11,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.stabila.core.capsule.BlockCapsule;
-import org.tron.common.utils.ByteArray;
+import org.stabila.common.utils.ByteArray;
 
 @Slf4j(topic = "witness")
 @Service

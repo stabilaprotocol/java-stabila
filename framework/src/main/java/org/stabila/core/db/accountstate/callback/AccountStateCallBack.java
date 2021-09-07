@@ -12,8 +12,8 @@ import org.stabila.core.ChainBaseManager;
 import org.stabila.core.capsule.BlockCapsule;
 import org.stabila.core.db.accountstate.AccountStateCallBackUtils;
 import org.stabila.core.db.accountstate.storetrie.AccountStateStoreTrie;
-import org.tron.common.crypto.Hash;
-import org.tron.common.utils.ByteArray;
+import org.stabila.common.crypto.Hash;
+import org.stabila.common.utils.ByteArray;
 import org.stabila.core.exception.BadBlockException;
 import org.stabila.core.trie.TrieImpl;
 

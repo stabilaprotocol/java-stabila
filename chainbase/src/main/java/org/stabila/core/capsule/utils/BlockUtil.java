@@ -20,10 +20,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.stabila.core.capsule.BlockCapsule;
-import org.tron.common.args.GenesisBlock;
-import org.tron.common.parameter.CommonParameter;
-import org.tron.common.utils.ByteArray;
-import org.tron.protos.Protocol.Transaction;
+import org.stabila.common.args.GenesisBlock;
+import org.stabila.common.parameter.CommonParameter;
+import org.stabila.common.utils.ByteArray;
+import org.stabila.protos.Protocol.Transaction;
 
 public class BlockUtil {
 

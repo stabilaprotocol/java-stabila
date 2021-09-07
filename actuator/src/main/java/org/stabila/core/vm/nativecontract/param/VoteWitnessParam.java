@@ -1,8 +1,8 @@
 package org.stabila.core.vm.nativecontract.param;
 
 import com.google.protobuf.ByteString;
-import org.tron.common.utils.StringUtil;
-import org.tron.protos.Protocol;
+import org.stabila.common.utils.StringUtil;
+import org.stabila.protos.Protocol;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -29,8 +29,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.stabila.core.Constant;
 import org.stabila.core.Wallet;
-import org.tron.common.crypto.ECKey;
-import org.tron.common.utils.ByteArray;
+import org.stabila.common.crypto.ECKey;
+import org.stabila.common.utils.ByteArray;
 
 @Slf4j
 public class ConfigurationTest {

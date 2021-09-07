@@ -13,11 +13,11 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.tron.common.application.Application;
-import org.tron.common.application.ApplicationFactory;
-import org.tron.common.application.TronApplicationContext;
-import org.tron.common.utils.ByteArray;
-import org.tron.common.utils.FileUtil;
+import org.stabila.common.application.Application;
+import org.stabila.common.application.ApplicationFactory;
+import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.utils.ByteArray;
+import org.stabila.common.utils.FileUtil;
 import org.stabila.core.Constant;
 import org.stabila.core.Wallet;
 import org.stabila.core.capsule.AccountCapsule;
@@ -27,14 +27,14 @@ import org.stabila.core.config.args.Args;
 import org.stabila.core.db.Manager;
 import org.stabila.core.exception.ContractExeException;
 import org.stabila.core.exception.ContractValidateException;
-import org.tron.protos.Protocol.AccountType;
-import org.tron.protos.Protocol.Key;
-import org.tron.protos.Protocol.Permission;
-import org.tron.protos.Protocol.Permission.PermissionType;
-import org.tron.protos.Protocol.Transaction.Contract.ContractType;
-import org.tron.protos.Protocol.Transaction.Result.code;
-import org.tron.protos.contract.AccountContract.AccountCreateContract;
-import org.tron.protos.contract.AccountContract.AccountPermissionUpdateContract;
+import org.stabila.protos.Protocol.AccountType;
+import org.stabila.protos.Protocol.Key;
+import org.stabila.protos.Protocol.Permission;
+import org.stabila.protos.Protocol.Permission.PermissionType;
+import org.stabila.protos.Protocol.Transaction.Contract.ContractType;
+import org.stabila.protos.Protocol.Transaction.Result.code;
+import org.stabila.protos.contract.AccountContract.AccountCreateContract;
+import org.stabila.protos.contract.AccountContract.AccountPermissionUpdateContract;
 
 @Slf4j
 public class AccountPermissionUpdateActuatorTest {
@@ -973,7 +973,7 @@ public class AccountPermissionUpdateActuatorTest {
 
     byte[] availableContractType = new byte[32];
     for (ContractType contractType : ContractType.values()) {
-      if (contractType == org.tron.protos.Protocol.Transaction.Contract.ContractType.UNRECOGNIZED
+      if (contractType == org.stabila.protos.Protocol.Transaction.Contract.ContractType.UNRECOGNIZED
           || contractType == ContractType.ClearABIContract
           || contractType == ContractType.UpdateBrokerageContract) {
         continue;
@@ -1000,7 +1000,7 @@ public class AccountPermissionUpdateActuatorTest {
 
     byte[] availableContractType = new byte[32];
     for (ContractType contractType : ContractType.values()) {
-      if (contractType == org.tron.protos.Protocol.Transaction.Contract.ContractType.UNRECOGNIZED
+      if (contractType == org.stabila.protos.Protocol.Transaction.Contract.ContractType.UNRECOGNIZED
           || contractType == ContractType.AccountPermissionUpdateContract
           || contractType == ContractType.ClearABIContract
           || contractType == ContractType.UpdateBrokerageContract) {
@@ -1023,7 +1023,7 @@ public class AccountPermissionUpdateActuatorTest {
 
     byte[] availableContractType = new byte[32];
     for (ContractType contractType : ContractType.values()) {
-      if (contractType == org.tron.protos.Protocol.Transaction.Contract.ContractType.UNRECOGNIZED
+      if (contractType == org.stabila.protos.Protocol.Transaction.Contract.ContractType.UNRECOGNIZED
           || contractType == ContractType.UpdateBrokerageContract) {
         continue;
       }
@@ -1044,7 +1044,7 @@ public class AccountPermissionUpdateActuatorTest {
 
     byte[] availableContractType = new byte[32];
     for (ContractType contractType : ContractType.values()) {
-      if (contractType == org.tron.protos.Protocol.Transaction.Contract.ContractType.UNRECOGNIZED
+      if (contractType == org.stabila.protos.Protocol.Transaction.Contract.ContractType.UNRECOGNIZED
           || contractType == ContractType.AccountPermissionUpdateContract
           || contractType == ContractType.UpdateBrokerageContract) {
         continue;

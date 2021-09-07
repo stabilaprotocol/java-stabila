@@ -3,7 +3,7 @@ package org.stabila.core.db;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import org.tron.common.utils.ByteArray;
+import org.stabila.common.utils.ByteArray;
 
 @Slf4j
 @Component

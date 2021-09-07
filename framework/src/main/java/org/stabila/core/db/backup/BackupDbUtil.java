@@ -12,8 +12,8 @@ import org.stabila.core.db2.common.RocksDB;
 import org.stabila.core.db2.core.Chainbase;
 import org.stabila.core.db2.core.SnapshotManager;
 import org.stabila.core.db2.core.SnapshotRoot;
-import org.tron.common.parameter.CommonParameter;
-import org.tron.common.utils.PropUtil;
+import org.stabila.common.parameter.CommonParameter;
+import org.stabila.common.utils.PropUtil;
 import org.stabila.core.config.args.Args;
 
 @Slf4j

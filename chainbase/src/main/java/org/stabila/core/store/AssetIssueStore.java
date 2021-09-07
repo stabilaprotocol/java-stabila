@@ -1,6 +1,6 @@
 package org.stabila.core.store;
 
-import static org.tron.common.utils.Commons.ASSET_ISSUE_COUNT_LIMIT_MAX;
+import static org.stabila.common.utils.Commons.ASSET_ISSUE_COUNT_LIMIT_MAX;
 
 import com.google.common.collect.Streams;
 import java.util.List;

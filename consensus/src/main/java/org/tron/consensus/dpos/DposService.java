@@ -1,4 +1,4 @@
-package org.tron.consensus.dpos;
+package org.stabila.consensus.dpos;
 
 import static org.stabila.core.config.Parameter.ChainConstant.MAX_ACTIVE_WITNESS_NUM;
 import static org.stabila.core.config.Parameter.ChainConstant.SOLIDIFIED_THRESHOLD;
@@ -16,14 +16,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.tron.common.args.GenesisBlock;
-import org.tron.common.parameter.CommonParameter;
-import org.tron.common.utils.ByteArray;
-import org.tron.consensus.ConsensusDelegate;
-import org.tron.consensus.base.BlockHandle;
-import org.tron.consensus.base.ConsensusInterface;
-import org.tron.consensus.base.Param;
-import org.tron.consensus.base.Param.Miner;
+import org.stabila.common.args.GenesisBlock;
+import org.stabila.common.parameter.CommonParameter;
+import org.stabila.common.utils.ByteArray;
+import org.stabila.consensus.ConsensusDelegate;
+import org.stabila.consensus.base.BlockHandle;
+import org.stabila.consensus.base.ConsensusInterface;
+import org.stabila.consensus.base.Param;
+import org.stabila.consensus.base.Param.Miner;
 import org.stabila.core.capsule.BlockCapsule;
 import org.stabila.core.capsule.WitnessCapsule;
 

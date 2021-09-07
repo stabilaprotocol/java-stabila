@@ -6,7 +6,7 @@ import org.stabila.core.capsule.AccountCapsule;
 import org.stabila.core.store.DelegationStore;
 import org.stabila.core.vm.repository.Repository;
 import org.stabila.core.vm.config.VMConfig;
-import org.tron.protos.Protocol;
+import org.stabila.protos.Protocol;
 
 public class VoteRewardUtil {
 

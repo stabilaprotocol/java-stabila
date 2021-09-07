@@ -16,10 +16,10 @@ import org.stabila.core.exception.P2pException;
 import org.stabila.core.net.message.BlockMessage;
 import org.stabila.core.net.peer.Item;
 import org.stabila.core.net.peer.PeerConnection;
-import org.tron.common.application.TronApplicationContext;
-import org.tron.common.utils.Sha256Hash;
-import org.tron.protos.Protocol.Inventory.InventoryType;
-import org.tron.protos.Protocol.Transaction;
+import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.utils.Sha256Hash;
+import org.stabila.protos.Protocol.Inventory.InventoryType;
+import org.stabila.protos.Protocol.Transaction;
 
 public class BlockMsgHandlerTest {
 

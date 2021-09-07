@@ -19,11 +19,11 @@ import org.stabila.core.consensus.ProposalController;
 import org.stabila.core.db.Manager;
 import org.stabila.core.store.DynamicPropertiesStore;
 import org.testng.collections.Lists;
-import org.tron.common.application.TronApplicationContext;
-import org.tron.common.utils.ByteArray;
-import org.tron.common.utils.FileUtil;
-import org.tron.protos.Protocol.Proposal;
-import org.tron.protos.Protocol.Proposal.State;
+import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.utils.ByteArray;
+import org.stabila.common.utils.FileUtil;
+import org.stabila.protos.Protocol.Proposal;
+import org.stabila.protos.Protocol.Proposal.State;
 
 public class ProposalControllerTest {
 

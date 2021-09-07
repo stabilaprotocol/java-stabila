@@ -2,7 +2,7 @@ package org.stabila.core.net.message;
 
 import org.stabila.core.capsule.BlockCapsule;
 import org.stabila.core.capsule.TransactionCapsule;
-import org.tron.common.utils.Sha256Hash;
+import org.stabila.common.utils.Sha256Hash;
 
 public class BlockMessage extends TronMessage {
 

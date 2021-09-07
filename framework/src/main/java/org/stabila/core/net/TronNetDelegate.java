@@ -18,11 +18,11 @@ import org.stabila.core.capsule.TransactionCapsule;
 import org.stabila.core.db.Manager;
 import org.stabila.core.net.message.MessageTypes;
 import org.stabila.core.store.WitnessScheduleStore;
-import org.tron.common.backup.BackupServer;
-import org.tron.common.overlay.message.Message;
-import org.tron.common.overlay.server.ChannelManager;
-import org.tron.common.overlay.server.SyncPool;
-import org.tron.common.utils.Sha256Hash;
+import org.stabila.common.backup.BackupServer;
+import org.stabila.common.overlay.message.Message;
+import org.stabila.common.overlay.server.ChannelManager;
+import org.stabila.common.overlay.server.SyncPool;
+import org.stabila.common.utils.Sha256Hash;
 import org.stabila.core.exception.AccountResourceInsufficientException;
 import org.stabila.core.exception.BadBlockException;
 import org.stabila.core.exception.BadItemException;
@@ -50,7 +50,7 @@ import org.stabila.core.metrics.MetricsService;
 import org.stabila.core.net.message.BlockMessage;
 import org.stabila.core.net.message.TransactionMessage;
 import org.stabila.core.net.peer.PeerConnection;
-import org.tron.protos.Protocol.Inventory.InventoryType;
+import org.stabila.protos.Protocol.Inventory.InventoryType;
 
 @Slf4j(topic = "net")
 @Component

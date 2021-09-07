@@ -1,14 +1,14 @@
-package org.tron.common.net.udp.message.discover;
+package org.stabila.common.net.udp.message.discover;
 
-import static org.tron.common.net.udp.message.UdpMessageTypeEnum.DISCOVER_PONG;
+import static org.stabila.common.net.udp.message.UdpMessageTypeEnum.DISCOVER_PONG;
 
 import com.google.protobuf.ByteString;
-import org.tron.common.net.udp.message.Message;
-import org.tron.common.overlay.discover.node.Node;
-import org.tron.common.utils.ByteArray;
+import org.stabila.common.net.udp.message.Message;
+import org.stabila.common.overlay.discover.node.Node;
+import org.stabila.common.utils.ByteArray;
 import org.stabila.core.config.args.Args;
-import org.tron.protos.Discover;
-import org.tron.protos.Discover.Endpoint;
+import org.stabila.protos.Discover;
+import org.stabila.protos.Discover.Endpoint;
 
 public class PongMessage extends Message {
 

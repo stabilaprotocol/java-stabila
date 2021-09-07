@@ -1,10 +1,10 @@
-package org.tron.common.application;
+package org.stabila.common.application;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.tron.common.logsfilter.EventPluginLoader;
-import org.tron.common.parameter.CommonParameter;
+import org.stabila.common.logsfilter.EventPluginLoader;
+import org.stabila.common.parameter.CommonParameter;
 import org.stabila.core.ChainBaseManager;
 import org.stabila.core.config.args.Args;
 import org.stabila.core.consensus.ConsensusService;

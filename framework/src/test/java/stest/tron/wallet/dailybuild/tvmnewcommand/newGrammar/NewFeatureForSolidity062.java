@@ -1,7 +1,7 @@
 package stest.tron.wallet.dailybuild.tvmnewcommand.newGrammar;
 
-import static org.tron.protos.Protocol.TransactionInfo.code.FAILED;
-import static org.tron.protos.Protocol.TransactionInfo.code.SUCESS;
+import static org.stabila.protos.Protocol.TransactionInfo.code.FAILED;
+import static org.stabila.protos.Protocol.TransactionInfo.code.SUCESS;
 
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
@@ -14,13 +14,13 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
-import org.tron.api.GrpcAPI;
-import org.tron.api.WalletGrpc;
-import org.tron.common.crypto.ECKey;
-import org.tron.common.utils.ByteArray;
-import org.tron.common.utils.Utils;
+import org.stabila.api.GrpcAPI;
+import org.stabila.api.WalletGrpc;
+import org.stabila.common.crypto.ECKey;
+import org.stabila.common.utils.ByteArray;
+import org.stabila.common.utils.Utils;
 import org.stabila.core.Wallet;
-import org.tron.protos.Protocol;
+import org.stabila.protos.Protocol;
 import stest.tron.wallet.common.client.Configuration;
 import stest.tron.wallet.common.client.Parameter;
 import stest.tron.wallet.common.client.utils.Base58;

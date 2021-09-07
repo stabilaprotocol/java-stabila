@@ -1,6 +1,6 @@
 package org.stabila.core.capsule;
 
-import static org.tron.common.utils.WalletUtil.getAddressStringList;
+import static org.stabila.common.utils.WalletUtil.getAddressStringList;
 import static org.stabila.core.config.Parameter.ChainConstant.MAX_ACTIVE_WITNESS_NUM;
 
 import com.google.common.collect.Lists;
@@ -10,9 +10,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
-import org.tron.common.utils.ByteArray;
-import org.tron.protos.Protocol.Proposal;
-import org.tron.protos.Protocol.Proposal.State;
+import org.stabila.common.utils.ByteArray;
+import org.stabila.protos.Protocol.Proposal;
+import org.stabila.protos.Protocol.Proposal.State;
 
 @Slf4j(topic = "capsule")
 public class ProposalCapsule implements ProtoCapsule<Proposal> {

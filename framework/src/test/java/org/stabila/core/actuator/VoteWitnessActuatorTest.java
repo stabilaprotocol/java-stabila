@@ -23,18 +23,18 @@ import org.stabila.core.consensus.ConsensusService;
 import org.stabila.core.db.Manager;
 import org.stabila.core.exception.ContractExeException;
 import org.stabila.core.exception.ContractValidateException;
-import org.tron.common.application.TronApplicationContext;
-import org.tron.common.utils.ByteArray;
-import org.tron.common.utils.FileUtil;
-import org.tron.common.utils.StringUtil;
-import org.tron.consensus.dpos.MaintenanceManager;
-import org.tron.protos.Protocol.AccountType;
-import org.tron.protos.Protocol.Block;
-import org.tron.protos.Protocol.Transaction.Result.code;
-import org.tron.protos.contract.AssetIssueContractOuterClass;
-import org.tron.protos.contract.BalanceContract.FreezeBalanceContract;
-import org.tron.protos.contract.WitnessContract.VoteWitnessContract;
-import org.tron.protos.contract.WitnessContract.VoteWitnessContract.Vote;
+import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.utils.ByteArray;
+import org.stabila.common.utils.FileUtil;
+import org.stabila.common.utils.StringUtil;
+import org.stabila.consensus.dpos.MaintenanceManager;
+import org.stabila.protos.Protocol.AccountType;
+import org.stabila.protos.Protocol.Block;
+import org.stabila.protos.Protocol.Transaction.Result.code;
+import org.stabila.protos.contract.AssetIssueContractOuterClass;
+import org.stabila.protos.contract.BalanceContract.FreezeBalanceContract;
+import org.stabila.protos.contract.WitnessContract.VoteWitnessContract;
+import org.stabila.protos.contract.WitnessContract.VoteWitnessContract.Vote;
 
 @Slf4j
 public class VoteWitnessActuatorTest {

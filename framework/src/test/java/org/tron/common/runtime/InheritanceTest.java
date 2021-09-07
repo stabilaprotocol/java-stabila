@@ -1,4 +1,4 @@
-package org.tron.common.runtime;
+package org.stabila.common.runtime;
 
 import java.io.File;
 import lombok.extern.slf4j.Slf4j;
@@ -7,11 +7,11 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.testng.Assert;
-import org.tron.common.application.Application;
-import org.tron.common.application.ApplicationFactory;
-import org.tron.common.application.TronApplicationContext;
-import org.tron.common.storage.DepositImpl;
-import org.tron.common.utils.FileUtil;
+import org.stabila.common.application.Application;
+import org.stabila.common.application.ApplicationFactory;
+import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.storage.DepositImpl;
+import org.stabila.common.utils.FileUtil;
 import org.stabila.core.Constant;
 import org.stabila.core.Wallet;
 import org.stabila.core.config.DefaultConfig;
@@ -21,7 +21,7 @@ import org.stabila.core.exception.ContractExeException;
 import org.stabila.core.exception.ContractValidateException;
 import org.stabila.core.exception.ReceiptCheckErrException;
 import org.stabila.core.exception.VMIllegalException;
-import org.tron.protos.Protocol.AccountType;
+import org.stabila.protos.Protocol.AccountType;
 
 @Slf4j
 public class InheritanceTest {

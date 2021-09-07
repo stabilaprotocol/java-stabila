@@ -1,7 +1,7 @@
 package org.stabila.core.net.message;
 
 import org.apache.commons.lang3.ArrayUtils;
-import org.tron.common.overlay.message.MessageFactory;
+import org.stabila.common.overlay.message.MessageFactory;
 import org.stabila.core.exception.P2pException;
 import org.stabila.core.metrics.MetricsKey;
 import org.stabila.core.metrics.MetricsUtil;

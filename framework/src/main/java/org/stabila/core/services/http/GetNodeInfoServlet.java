@@ -8,7 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.stabila.core.services.NodeInfoService;
-import org.tron.common.entity.NodeInfo;
+import org.stabila.common.entity.NodeInfo;
 
 
 @Component

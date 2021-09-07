@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.stabila.core.Wallet;
-import org.tron.api.GrpcAPI.NumberMessage;
+import org.stabila.api.GrpcAPI.NumberMessage;
 
 
 @Component

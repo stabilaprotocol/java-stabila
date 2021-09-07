@@ -13,8 +13,8 @@ import org.springframework.stereotype.Component;
 import org.stabila.core.Wallet;
 import org.stabila.core.actuator.TransactionFactory;
 import org.stabila.core.exception.ContractValidateException;
-import org.tron.protos.Protocol.Transaction;
-import org.tron.protos.Protocol.Transaction.Contract.ContractType;
+import org.stabila.protos.Protocol.Transaction;
+import org.stabila.protos.Protocol.Transaction.Contract.ContractType;
 
 
 @Component

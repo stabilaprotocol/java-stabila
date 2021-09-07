@@ -32,7 +32,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import org.bouncycastle.crypto.digests.SM3Digest;
-import org.tron.common.utils.ByteArray;
+import org.stabila.common.utils.ByteArray;
 
 
 /**

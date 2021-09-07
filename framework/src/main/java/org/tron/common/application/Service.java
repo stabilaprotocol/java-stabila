@@ -13,9 +13,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.tron.common.application;
+package org.stabila.common.application;
 
-import org.tron.common.parameter.CommonParameter;
+import org.stabila.common.parameter.CommonParameter;
 
 public interface Service {
 

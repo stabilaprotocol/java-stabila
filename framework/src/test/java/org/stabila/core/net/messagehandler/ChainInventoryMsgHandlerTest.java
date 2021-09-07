@@ -10,7 +10,7 @@ import org.stabila.core.config.Parameter;
 import org.stabila.core.exception.P2pException;
 import org.stabila.core.net.message.ChainInventoryMessage;
 import org.stabila.core.net.peer.PeerConnection;
-import org.tron.common.utils.Pair;
+import org.stabila.common.utils.Pair;
 
 public class ChainInventoryMsgHandlerTest {
 

@@ -7,8 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.stabila.core.Wallet;
-import org.tron.api.GrpcAPI.PrivateShieldedTRC20Parameters;
-import org.tron.api.GrpcAPI.ShieldedTRC20Parameters;
+import org.stabila.api.GrpcAPI.PrivateShieldedTRC20Parameters;
+import org.stabila.api.GrpcAPI.ShieldedTRC20Parameters;
 
 @Component
 @Slf4j(topic = "API")

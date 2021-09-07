@@ -1,9 +1,9 @@
 package org.stabila.core.trie;
 
 import static org.apache.commons.lang3.concurrent.ConcurrentUtils.constantFuture;
-import static org.tron.common.crypto.Hash.EMPTY_TRIE_HASH;
-import static org.tron.common.utils.ByteArray.toHexString;
-import static org.tron.common.utils.ByteUtil.EMPTY_BYTE_ARRAY;
+import static org.stabila.common.crypto.Hash.EMPTY_TRIE_HASH;
+import static org.stabila.common.utils.ByteArray.toHexString;
+import static org.stabila.common.utils.ByteUtil.EMPTY_BYTE_ARRAY;
 import static org.stabila.core.capsule.utils.RLP.EMPTY_ELEMENT_RLP;
 import static org.stabila.core.capsule.utils.RLP.encodeList;
 
@@ -24,7 +24,7 @@ import org.slf4j.LoggerFactory;
 import org.stabila.core.capsule.BytesCapsule;
 import org.stabila.core.db2.common.ConcurrentHashDB;
 import org.stabila.core.db2.common.DB;
-import org.tron.common.crypto.Hash;
+import org.stabila.common.crypto.Hash;
 import org.stabila.core.capsule.utils.FastByteComparisons;
 import org.stabila.core.capsule.utils.RLP;
 

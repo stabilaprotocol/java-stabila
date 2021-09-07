@@ -2,11 +2,11 @@ package org.stabila.core.actuator;
 
 import com.google.protobuf.Any;
 import com.google.protobuf.GeneratedMessageV3;
-import org.tron.common.utils.ForkController;
+import org.stabila.common.utils.ForkController;
 import org.stabila.core.ChainBaseManager;
 import org.stabila.core.capsule.TransactionCapsule;
-import org.tron.protos.Protocol.Transaction.Contract;
-import org.tron.protos.Protocol.Transaction.Contract.ContractType;
+import org.stabila.protos.Protocol.Transaction.Contract;
+import org.stabila.protos.Protocol.Transaction.Contract.ContractType;
 
 
 public abstract class AbstractActuator implements Actuator {

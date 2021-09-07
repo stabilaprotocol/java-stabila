@@ -4,10 +4,10 @@ import com.google.protobuf.GeneratedMessageV3;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-import org.tron.common.parameter.CommonParameter;
-import org.tron.protos.Protocol.Transaction.Contract.ContractType;
-import org.tron.protos.contract.SmartContractOuterClass.CreateSmartContract;
-import org.tron.protos.contract.SmartContractOuterClass.TriggerSmartContract;
+import org.stabila.common.parameter.CommonParameter;
+import org.stabila.protos.Protocol.Transaction.Contract.ContractType;
+import org.stabila.protos.contract.SmartContractOuterClass.CreateSmartContract;
+import org.stabila.protos.contract.SmartContractOuterClass.TriggerSmartContract;
 
 public class TransactionFactory {
 

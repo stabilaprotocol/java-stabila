@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.stabila.core.capsule.BlockCapsule;
-import org.tron.protos.Protocol;
-import org.tron.protos.Protocol.ChainInventory;
+import org.stabila.protos.Protocol;
+import org.stabila.protos.Protocol.ChainInventory;
 
 public class ChainInventoryMessage extends TronMessage {
 

@@ -8,15 +8,15 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.stabila.core.utils.ProposalUtil;
-import org.tron.common.application.TronApplicationContext;
-import org.tron.common.utils.FileUtil;
+import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.utils.FileUtil;
 import org.stabila.core.Constant;
 import org.stabila.core.capsule.ProposalCapsule;
 import org.stabila.core.config.DefaultConfig;
 import org.stabila.core.config.args.Args;
 import org.stabila.core.consensus.ProposalService;
 import org.stabila.core.db.Manager;
-import org.tron.protos.Protocol.Proposal;
+import org.stabila.protos.Protocol.Proposal;
 
 public class ProposalServiceTest {
 

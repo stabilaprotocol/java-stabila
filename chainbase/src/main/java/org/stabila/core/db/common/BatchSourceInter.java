@@ -19,7 +19,7 @@
 package org.stabila.core.db.common;
 
 import java.util.Map;
-import org.tron.common.storage.WriteOptionsWrapper;
+import org.stabila.common.storage.WriteOptionsWrapper;
 
 
 public interface BatchSourceInter<K, V> extends SourceInter<K, V> {

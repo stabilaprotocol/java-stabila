@@ -1,7 +1,7 @@
 package stest.tron.wallet.common.client;
 
 import java.util.Comparator;
-import org.tron.protos.Protocol.Witness;
+import org.stabila.protos.Protocol.Witness;
 
 class WitnessComparator implements Comparator {
 

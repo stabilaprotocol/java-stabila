@@ -24,12 +24,12 @@ import org.bouncycastle.util.encoders.Hex;
 import org.stabila.core.capsule.ContractCapsule;
 import org.stabila.core.vm.repository.Repository;
 import org.stabila.core.vm.repository.RepositoryImpl;
-import org.tron.common.crypto.Hash;
-import org.tron.common.crypto.SignUtils;
-import org.tron.common.parameter.CommonParameter;
-import org.tron.common.runtime.vm.DataWord;
-import org.tron.protos.Protocol;
-import org.tron.protos.contract.SmartContractOuterClass.SmartContract;
+import org.stabila.common.crypto.Hash;
+import org.stabila.common.crypto.SignUtils;
+import org.stabila.common.parameter.CommonParameter;
+import org.stabila.common.runtime.vm.DataWord;
+import org.stabila.protos.Protocol;
+import org.stabila.protos.contract.SmartContractOuterClass.SmartContract;
 
 
 /**

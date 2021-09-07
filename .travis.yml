@@ -22,14 +22,14 @@ matrix:
   include:
     - name: build
       script:
-        - sh tron.sh
+        - sh stabila.sh
         - "./gradlew build"
         - "./gradlew jacocoTestReport"
 
 
     - name: stest
       script:
-        - sh tron.sh
+        - sh stabila.sh
         - bash deploy.sh
 
 

@@ -20,9 +20,9 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import java.util.Arrays;
 import java.util.Objects;
 import lombok.extern.slf4j.Slf4j;
-import org.tron.common.utils.ByteArray;
-import org.tron.common.utils.Commons;
-import org.tron.common.utils.DecodeUtil;
+import org.stabila.common.utils.ByteArray;
+import org.stabila.common.utils.Commons;
+import org.stabila.common.utils.DecodeUtil;
 import org.stabila.core.capsule.AccountCapsule;
 import org.stabila.core.capsule.AssetIssueCapsule;
 import org.stabila.core.capsule.TransactionResultCapsule;
@@ -32,10 +32,10 @@ import org.stabila.core.store.AccountStore;
 import org.stabila.core.store.AssetIssueStore;
 import org.stabila.core.store.AssetIssueV2Store;
 import org.stabila.core.store.DynamicPropertiesStore;
-import org.tron.protos.Protocol;
-import org.tron.protos.Protocol.Transaction.Contract.ContractType;
-import org.tron.protos.Protocol.Transaction.Result.code;
-import org.tron.protos.contract.AssetIssueContractOuterClass.ParticipateAssetIssueContract;
+import org.stabila.protos.Protocol;
+import org.stabila.protos.Protocol.Transaction.Contract.ContractType;
+import org.stabila.protos.Protocol.Transaction.Result.code;
+import org.stabila.protos.contract.AssetIssueContractOuterClass.ParticipateAssetIssueContract;
 
 @Slf4j(topic = "actuator")
 public class ParticipateAssetIssueActuator extends AbstractActuator {

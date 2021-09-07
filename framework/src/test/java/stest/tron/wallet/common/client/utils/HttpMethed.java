@@ -26,9 +26,9 @@ import org.apache.http.util.EntityUtils;
 import org.junit.Assert;
 import org.stabila.core.zen.note.Note;
 import org.testng.collections.Lists;
-import org.tron.api.GrpcAPI;
-import org.tron.common.utils.ByteArray;
-import org.tron.common.utils.ByteUtil;
+import org.stabila.api.GrpcAPI;
+import org.stabila.common.utils.ByteArray;
+import org.stabila.common.utils.ByteUtil;
 import org.stabila.core.zen.address.DiversifierT;
 import stest.tron.wallet.common.client.Configuration;
 

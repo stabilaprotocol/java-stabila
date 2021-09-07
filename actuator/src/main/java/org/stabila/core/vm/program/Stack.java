@@ -18,7 +18,7 @@
 package org.stabila.core.vm.program;
 
 import java.util.Objects;
-import org.tron.common.runtime.vm.DataWord;
+import org.stabila.common.runtime.vm.DataWord;
 import org.stabila.core.vm.program.listener.ProgramListener;
 import org.stabila.core.vm.program.listener.ProgramListenerAware;
 

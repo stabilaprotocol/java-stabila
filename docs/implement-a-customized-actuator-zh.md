@@ -20,7 +20,7 @@ Actuator 模块抽象出4个方法并定义在 `Actuator` 接口中：
 ```protobuf
 syntax = "proto3";
 package protocol;
-option java_package = "org.tron.protos.contract"; //Specify the name of the package that generated the Java file
+option java_package = "org.stabila.protos.contract"; //Specify the name of the package that generated the Java file
 option go_package = "github.com/tronprotocol/grpc-gateway/core";
 message SumContract {
     int64 param1 = 1;

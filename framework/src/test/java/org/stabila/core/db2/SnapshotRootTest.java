@@ -18,11 +18,11 @@ import org.stabila.core.config.args.Args;
 import org.stabila.core.db2.core.Snapshot;
 import org.stabila.core.db2.core.SnapshotManager;
 import org.stabila.core.db2.core.SnapshotRoot;
-import org.tron.common.application.Application;
-import org.tron.common.application.ApplicationFactory;
-import org.tron.common.application.TronApplicationContext;
-import org.tron.common.utils.FileUtil;
-import org.tron.common.utils.SessionOptional;
+import org.stabila.common.application.Application;
+import org.stabila.common.application.ApplicationFactory;
+import org.stabila.common.application.TronApplicationContext;
+import org.stabila.common.utils.FileUtil;
+import org.stabila.common.utils.SessionOptional;
 
 public class SnapshotRootTest {
 

@@ -2,7 +2,7 @@ package org.stabila.core.capsule;
 
 import com.google.protobuf.InvalidProtocolBufferException;
 import lombok.extern.slf4j.Slf4j;
-import org.tron.protos.contract.SmartContractOuterClass.SmartContract.ABI;
+import org.stabila.protos.contract.SmartContractOuterClass.SmartContract.ABI;
 
 
 @Slf4j(topic = "capsule")

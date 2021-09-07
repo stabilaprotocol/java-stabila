@@ -5,7 +5,7 @@ import static org.stabila.core.config.Parameter.ChainConstant.BLOCK_PRODUCED_INT
 import static org.stabila.core.config.Parameter.ChainConstant.TRX_PRECISION;
 
 import lombok.extern.slf4j.Slf4j;
-import org.tron.common.parameter.CommonParameter;
+import org.stabila.common.parameter.CommonParameter;
 import org.stabila.core.capsule.AccountCapsule;
 import org.stabila.core.capsule.TransactionCapsule;
 import org.stabila.core.config.Parameter.AdaptiveResourceLimitConstants;
@@ -13,7 +13,7 @@ import org.stabila.core.exception.AccountResourceInsufficientException;
 import org.stabila.core.exception.ContractValidateException;
 import org.stabila.core.store.AccountStore;
 import org.stabila.core.store.DynamicPropertiesStore;
-import org.tron.protos.Protocol.Account.AccountResource;
+import org.stabila.protos.Protocol.Account.AccountResource;
 
 @Slf4j(topic = "DB")
 public class EnergyProcessor extends ResourceProcessor {

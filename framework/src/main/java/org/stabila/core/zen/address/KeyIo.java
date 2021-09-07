@@ -19,8 +19,8 @@ package org.stabila.core.zen.address;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
-import org.tron.common.utils.Bech32;
-import org.tron.common.utils.Bech32.Bech32Data;
+import org.stabila.common.utils.Bech32;
+import org.stabila.common.utils.Bech32.Bech32Data;
 
 
 public class KeyIo {

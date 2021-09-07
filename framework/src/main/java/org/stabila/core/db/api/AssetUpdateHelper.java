@@ -11,14 +11,14 @@ import java.util.Map;
 import java.util.Map.Entry;
 import lombok.extern.slf4j.Slf4j;
 import org.stabila.core.ChainBaseManager;
-import org.tron.common.utils.ByteArray;
+import org.stabila.common.utils.ByteArray;
 import org.stabila.core.capsule.AccountCapsule;
 import org.stabila.core.capsule.AssetIssueCapsule;
 import org.stabila.core.capsule.BlockCapsule;
 import org.stabila.core.capsule.ExchangeCapsule;
 import org.stabila.core.capsule.TransactionCapsule;
-import org.tron.protos.Protocol.Transaction.Contract.ContractType;
-import org.tron.protos.contract.AssetIssueContractOuterClass.AssetIssueContract;
+import org.stabila.protos.Protocol.Transaction.Contract.ContractType;
+import org.stabila.protos.contract.AssetIssueContractOuterClass.AssetIssueContract;
 
 @Slf4j(topic = "DB")
 public class AssetUpdateHelper {

@@ -18,7 +18,7 @@
 
 package org.stabila.core.net.message;
 
-import org.tron.common.overlay.message.Message;
+import org.stabila.common.overlay.message.Message;
 
 public abstract class TronMessage extends Message {
 

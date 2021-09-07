@@ -10,7 +10,7 @@ import org.stabila.core.metrics.net.NetInfo;
 import org.stabila.core.metrics.net.NetMetricManager;
 import org.stabila.core.metrics.node.NodeInfo;
 import org.stabila.core.metrics.node.NodeMetricManager;
-import org.tron.protos.Protocol;
+import org.stabila.protos.Protocol;
 
 @Slf4j(topic = "metrics")
 @Component

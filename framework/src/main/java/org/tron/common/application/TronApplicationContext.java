@@ -1,10 +1,10 @@
-package org.tron.common.application;
+package org.stabila.common.application;
 
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.tron.common.overlay.discover.DiscoverServer;
-import org.tron.common.overlay.discover.node.NodeManager;
-import org.tron.common.overlay.server.ChannelManager;
+import org.stabila.common.overlay.discover.DiscoverServer;
+import org.stabila.common.overlay.discover.node.NodeManager;
+import org.stabila.common.overlay.server.ChannelManager;
 import org.stabila.core.db.Manager;
 
 public class TronApplicationContext extends AnnotationConfigApplicationContext {

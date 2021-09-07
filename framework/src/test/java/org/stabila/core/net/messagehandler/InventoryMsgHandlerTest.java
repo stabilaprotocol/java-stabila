@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import org.junit.Test;
 import org.stabila.core.net.message.InventoryMessage;
 import org.stabila.core.net.peer.PeerConnection;
-import org.tron.protos.Protocol.Inventory.InventoryType;
+import org.stabila.protos.Protocol.Inventory.InventoryType;
 
 public class InventoryMsgHandlerTest {
 

@@ -15,7 +15,7 @@ import org.stabila.core.net.peer.PeerConnection;
 import org.stabila.core.config.Parameter.NetConstants;
 import org.stabila.core.exception.P2pException;
 import org.stabila.core.exception.P2pException.TypeEnum;
-import org.tron.protos.Protocol;
+import org.stabila.protos.Protocol;
 
 @Slf4j(topic = "net")
 @Component

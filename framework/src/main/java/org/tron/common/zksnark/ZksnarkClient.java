@@ -1,12 +1,12 @@
-package org.tron.common.zksnark;
+package org.stabila.common.zksnark;
 
 import com.google.protobuf.ByteString;
 import io.grpc.ManagedChannelBuilder;
-import org.tron.api.TronZksnarkGrpc;
-import org.tron.api.ZksnarkGrpcAPI.ZksnarkRequest;
-import org.tron.api.ZksnarkGrpcAPI.ZksnarkResponse.Code;
+import org.stabila.api.TronZksnarkGrpc;
+import org.stabila.api.ZksnarkGrpcAPI.ZksnarkRequest;
+import org.stabila.api.ZksnarkGrpcAPI.ZksnarkResponse.Code;
 import org.stabila.core.capsule.TransactionCapsule;
-import org.tron.protos.Protocol.Transaction;
+import org.stabila.protos.Protocol.Transaction;
 
 public class ZksnarkClient {
 

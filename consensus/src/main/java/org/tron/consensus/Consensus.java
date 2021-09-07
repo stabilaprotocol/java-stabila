@@ -1,11 +1,11 @@
-package org.tron.consensus;
+package org.stabila.consensus;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.tron.consensus.base.ConsensusInterface;
-import org.tron.consensus.base.Param;
-import org.tron.consensus.dpos.DposService;
+import org.stabila.consensus.base.ConsensusInterface;
+import org.stabila.consensus.base.Param;
+import org.stabila.consensus.dpos.DposService;
 import org.stabila.core.capsule.BlockCapsule;
 
 @Slf4j(topic = "consensus")

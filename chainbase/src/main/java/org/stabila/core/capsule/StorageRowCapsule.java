@@ -19,8 +19,8 @@ import java.util.Arrays;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.tron.common.parameter.CommonParameter;
-import org.tron.common.utils.Sha256Hash;
+import org.stabila.common.parameter.CommonParameter;
+import org.stabila.common.utils.Sha256Hash;
 
 
 @Slf4j(topic = "capsule")

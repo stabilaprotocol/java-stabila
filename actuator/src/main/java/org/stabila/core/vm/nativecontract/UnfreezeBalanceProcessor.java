@@ -9,7 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.stabila.core.vm.repository.Repository;
-import org.tron.common.utils.FastByteComparisons;
+import org.stabila.common.utils.FastByteComparisons;
 import org.stabila.core.capsule.AccountCapsule;
 import org.stabila.core.capsule.DelegatedResourceCapsule;
 import org.stabila.core.capsule.VotesCapsule;
@@ -17,7 +17,7 @@ import org.stabila.core.exception.ContractValidateException;
 import org.stabila.core.vm.config.VMConfig;
 import org.stabila.core.vm.nativecontract.param.UnfreezeBalanceParam;
 import org.stabila.core.vm.utils.VoteRewardUtil;
-import org.tron.protos.Protocol;
+import org.stabila.protos.Protocol;
 
 @Slf4j(topic = "Processor")
 public class UnfreezeBalanceProcessor {

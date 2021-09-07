@@ -21,10 +21,10 @@ package org.stabila.core.vm.program.invoke;
 import org.stabila.core.exception.ContractValidateException;
 import org.stabila.core.vm.program.Program;
 import org.stabila.core.vm.repository.Repository;
-import org.tron.common.runtime.InternalTransaction;
-import org.tron.common.runtime.vm.DataWord;
-import org.tron.protos.Protocol.Block;
-import org.tron.protos.Protocol.Transaction;
+import org.stabila.common.runtime.InternalTransaction;
+import org.stabila.common.runtime.vm.DataWord;
+import org.stabila.protos.Protocol.Block;
+import org.stabila.protos.Protocol.Transaction;
 
 /**
  * @author Roman Mandeleil

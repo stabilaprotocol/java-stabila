@@ -15,7 +15,7 @@
 
 package org.stabila.core.utils;
 
-import static org.tron.common.crypto.Hash.sha3omit12;
+import static org.stabila.common.crypto.Hash.sha3omit12;
 
 import com.google.common.base.CaseFormat;
 import com.google.common.primitives.Longs;
@@ -29,26 +29,26 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.tron.api.GrpcAPI.Return;
-import org.tron.api.GrpcAPI.Return.response_code;
-import org.tron.api.GrpcAPI.TransactionExtention;
-import org.tron.api.GrpcAPI.TransactionSignWeight;
-import org.tron.api.GrpcAPI.TransactionSignWeight.Result;
-import org.tron.common.parameter.CommonParameter;
-import org.tron.common.utils.Sha256Hash;
+import org.stabila.api.GrpcAPI.Return;
+import org.stabila.api.GrpcAPI.Return.response_code;
+import org.stabila.api.GrpcAPI.TransactionExtention;
+import org.stabila.api.GrpcAPI.TransactionSignWeight;
+import org.stabila.api.GrpcAPI.TransactionSignWeight.Result;
+import org.stabila.common.parameter.CommonParameter;
+import org.stabila.common.utils.Sha256Hash;
 import org.stabila.core.ChainBaseManager;
 import org.stabila.core.capsule.AccountCapsule;
 import org.stabila.core.capsule.TransactionCapsule;
 import org.stabila.core.exception.PermissionException;
 import org.stabila.core.exception.SignatureFormatException;
-import org.tron.protos.Protocol.Permission;
-import org.tron.protos.Protocol.Permission.PermissionType;
-import org.tron.protos.Protocol.Transaction;
-import org.tron.protos.Protocol.Transaction.Contract;
-import org.tron.protos.Protocol.Transaction.Result.contractResult;
-import org.tron.protos.Protocol.TransactionSign;
-import org.tron.protos.contract.SmartContractOuterClass.CreateSmartContract;
-import org.tron.protos.contract.SmartContractOuterClass.TriggerSmartContract;
+import org.stabila.protos.Protocol.Permission;
+import org.stabila.protos.Protocol.Permission.PermissionType;
+import org.stabila.protos.Protocol.Transaction;
+import org.stabila.protos.Protocol.Transaction.Contract;
+import org.stabila.protos.Protocol.Transaction.Result.contractResult;
+import org.stabila.protos.Protocol.TransactionSign;
+import org.stabila.protos.contract.SmartContractOuterClass.CreateSmartContract;
+import org.stabila.protos.contract.SmartContractOuterClass.TriggerSmartContract;
 
 @Slf4j(topic = "capsule")
 @Component

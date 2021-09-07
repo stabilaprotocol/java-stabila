@@ -2,7 +2,7 @@ package org.stabila.core.db2.core;
 
 import com.google.protobuf.InvalidProtocolBufferException;
 import java.util.Map.Entry;
-import org.tron.common.utils.Quitable;
+import org.stabila.common.utils.Quitable;
 import org.stabila.core.exception.BadItemException;
 import org.stabila.core.exception.ItemNotFoundException;
 

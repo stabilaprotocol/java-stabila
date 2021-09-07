@@ -21,10 +21,10 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.stabila.core.Wallet;
-import org.tron.common.args.Account;
-import org.tron.common.args.GenesisBlock;
-import org.tron.common.args.Witness;
-import org.tron.common.utils.ByteArray;
+import org.stabila.common.args.Account;
+import org.stabila.common.args.GenesisBlock;
+import org.stabila.common.args.Witness;
+import org.stabila.common.utils.ByteArray;
 
 public class GenesisBlockTest {
 

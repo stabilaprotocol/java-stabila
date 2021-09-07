@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 import org.stabila.core.Wallet;
 import org.stabila.core.zen.address.DiversifierT;
 import org.stabila.core.zen.address.IncomingViewingKey;
-import org.tron.api.GrpcAPI;
-import org.tron.common.utils.ByteArray;
+import org.stabila.api.GrpcAPI;
+import org.stabila.common.utils.ByteArray;
 
 
 @Component
