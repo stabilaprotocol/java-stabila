@@ -1,6 +1,6 @@
 package stest.stabila.wallet.common.client.utils;
 
-import static org.stabila.common.crypto.Hash.sha3;
+import static org.stabila.common.crypto.Hash.sha3sha3;
 import static org.stabila.common.crypto.Hash.sha3omit12;
 
 import com.alibaba.fastjson.JSONArray;
