@@ -1,6 +1,6 @@
 package stest.stabila.wallet.common.client.utils;
 
-import static org.stabila.common.crypto.Hash.sha3sha3;
+import static org.stabila.common.crypto.Hash.sha3;
 import static org.stabila.common.crypto.Hash.sha3omit12;
 
 import com.alibaba.fastjson.JSONArray;
@@ -33,7 +33,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.bouncycastle.util.encoders.Hex;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.stabila.core.zen.note.Note;
 import org.testng.Assert;
 import org.stabila.api.GrpcAPI;
 import org.stabila.api.GrpcAPI.AccountNetMessage;
@@ -51,6 +50,7 @@ import org.stabila.api.GrpcAPI.ExchangeList;
 import org.stabila.api.GrpcAPI.IvkDecryptAndMarkParameters;
 import org.stabila.api.GrpcAPI.IvkDecryptParameters;
 import org.stabila.api.GrpcAPI.NfParameters;
+import org.stabila.api.GrpcAPI.Note;
 import org.stabila.api.GrpcAPI.NoteParameters;
 import org.stabila.api.GrpcAPI.NumberMessage;
 import org.stabila.api.GrpcAPI.OvkDecryptParameters;
