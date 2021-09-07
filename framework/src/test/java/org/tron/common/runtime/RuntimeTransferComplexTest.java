@@ -26,7 +26,7 @@ import org.stabila.core.exception.ReceiptCheckErrException;
 import org.stabila.core.exception.VMIllegalException;
 import org.stabila.protos.Protocol.AccountType;
 import org.stabila.protos.Protocol.Transaction;
-import stest.tron.wallet.common.client.utils.DataWord;
+import stest.stabila.wallet.common.client.utils.DataWord;
 
 @Slf4j
 public class RuntimeTransferComplexTest {

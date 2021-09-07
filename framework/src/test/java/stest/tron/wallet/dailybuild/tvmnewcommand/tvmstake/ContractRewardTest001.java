@@ -1,4 +1,4 @@
-package stest.tron.wallet.dailybuild.tvmnewcommand.tvmstake;
+package stest.stabila.wallet.dailybuild.tvmnewcommand.tvmstake;
 
 import com.google.protobuf.ByteString;
 import io.grpc.ManagedChannel;
@@ -18,10 +18,10 @@ import org.stabila.common.utils.Utils;
 import org.stabila.core.Wallet;
 import org.stabila.protos.Protocol.TransactionInfo;
 import org.stabila.protos.Protocol.TransactionInfo.code;
-import stest.tron.wallet.common.client.Configuration;
-import stest.tron.wallet.common.client.Parameter;
-import stest.tron.wallet.common.client.utils.Base58;
-import stest.tron.wallet.common.client.utils.PublicMethed;
+import stest.stabila.wallet.common.client.Configuration;
+import stest.stabila.wallet.common.client.Parameter;
+import stest.stabila.wallet.common.client.utils.Base58;
+import stest.stabila.wallet.common.client.utils.PublicMethed;
 
 @Slf4j
 public class ContractRewardTest001 {

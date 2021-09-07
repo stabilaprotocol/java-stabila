@@ -84,7 +84,7 @@ public class CommonParameter {
       description = "Storage db is synchronous or not.(true or false)")
   public String storageDbSynchronous = "";
   @Parameter(names = {"--contract-parse-enable"},
-      description = "enable contract parses in java-tron or not.(true or false)")
+      description = "enable contract parses in java-stabila or not.(true or false)")
   public String contractParseEnable = "";
   @Parameter(names = {"--storage-index-directory"},
       description = "Storage index directory")
@@ -152,7 +152,7 @@ public class CommonParameter {
   @Getter
   @Setter
   public String p2pNodeId;
-  //If you are running a solidity node for java tron, this flag is set to true
+  //If you are running a solidity node for java stabila, this flag is set to true
   @Getter
   @Setter
   public boolean solidityNode = false;

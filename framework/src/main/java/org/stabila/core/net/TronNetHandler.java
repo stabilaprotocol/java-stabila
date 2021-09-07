@@ -19,12 +19,12 @@ public class StabilaNetHandler extends SimpleChannelInboundHandler<StabilaMessag
   private MessageQueue msgQueue;
 
   @Autowired
-  private StabilaNetService tronNetService;
+  private StabilaNetService stabilaNetService;
 
   @Override
   public void channelRead0(final ChannelHandlerContext ctx, StabilaMessage msg) throws Exception {
     msgQueue.receivedMessage(msg);
-    tronNetService.onMessage(peer, msg);
+    stabilaNetService.onMessage(peer, msg);
   }
 
   @Override

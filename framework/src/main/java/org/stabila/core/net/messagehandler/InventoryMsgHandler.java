@@ -18,7 +18,7 @@ import org.stabila.protos.Protocol.Inventory.InventoryType;
 public class InventoryMsgHandler implements StabilaMsgHandler {
 
   @Autowired
-  private StabilaNetDelegate tronNetDelegate;
+  private StabilaNetDelegate stabilaNetDelegate;
 
   @Autowired
   private AdvService advService;
@@ -55,7 +55,7 @@ public class InventoryMsgHandler implements StabilaMsgHandler {
     }
 
     if (type.equals(InventoryType.TRX)) {
-      int count = peer.getNodeStatistics().messageStatistics.tronInTrxInventoryElement.getCount(10);
+      int count = peer.getNodeStatistics().messageStatistics.stabilaInTrxInventoryElement.getCount(10);
       if (count > maxCountIn10s) {
         logger.warn("Drop inv: {} size: {} from Peer {}, Inv count: {} is overload.",
             type, size, peer.getInetAddress(), count);

@@ -38,7 +38,7 @@ import org.stabila.protos.Protocol.ReasonCode;
 public class SyncService {
 
   @Autowired
-  private StabilaNetDelegate tronNetDelegate;
+  private StabilaNetDelegate stabilaNetDelegate;
 
   @Autowired
   private PbftDataSyncHandler pbftDataSyncHandler;
@@ -95,7 +95,7 @@ public class SyncService {
     peer.setNeedSyncFromPeer(true);
     peer.getSyncBlockToFetch().clear();
     peer.setRemainNum(0);
-    peer.setBlockBothHave(tronNetDelegate.getGenesisBlockId());
+    peer.setBlockBothHave(stabilaNetDelegate.getGenesisBlockId());
     syncNext(peer);
   }
 
@@ -146,18 +146,18 @@ public class SyncService {
     List<BlockCapsule.BlockId> blockIds = new ArrayList<>(peer.getSyncBlockToFetch());
     List<BlockCapsule.BlockId> forkList = new LinkedList<>();
     LinkedList<BlockCapsule.BlockId> summary = new LinkedList<>();
-    long syncBeginNumber = tronNetDelegate.getSyncBeginNumber();
+    long syncBeginNumber = stabilaNetDelegate.getSyncBeginNumber();
     long low = syncBeginNumber < 0 ? 0 : syncBeginNumber;
     long highNoFork;
     long high;
 
     if (beginBlockId.getNum() == 0) {
-      highNoFork = high = tronNetDelegate.getHeadBlockId().getNum();
+      highNoFork = high = stabilaNetDelegate.getHeadBlockId().getNum();
     } else {
-      if (tronNetDelegate.containBlockInMainChain(beginBlockId)) {
+      if (stabilaNetDelegate.containBlockInMainChain(beginBlockId)) {
         highNoFork = high = beginBlockId.getNum();
       } else {
-        forkList = tronNetDelegate.getBlockChainHashesOnFork(beginBlockId);
+        forkList = stabilaNetDelegate.getBlockChainHashesOnFork(beginBlockId);
         if (forkList.isEmpty()) {
           throw new P2pException(TypeEnum.SYNC_FAILED,
               "can't find blockId: " + beginBlockId.getString());
@@ -180,7 +180,7 @@ public class SyncService {
 
     while (low <= realHigh) {
       if (low <= highNoFork) {
-        summary.offer(tronNetDelegate.getBlockIdByNum(low));
+        summary.offer(stabilaNetDelegate.getBlockIdByNum(low));
       } else if (low <= high) {
         summary.offer(forkList.get((int) (low - highNoFork - 1)));
       } else {
@@ -195,7 +195,7 @@ public class SyncService {
   private void startFetchSyncBlock() {
     HashMap<PeerConnection, List<BlockCapsule.BlockId>> send = new HashMap<>();
 
-    tronNetDelegate.getActivePeer().stream()
+    stabilaNetDelegate.getActivePeer().stream()
         .filter(peer -> peer.isNeedSyncFromPeer() && peer.isIdle())
         .forEach(peer -> {
           if (!send.containsKey(peer)) {
@@ -233,7 +233,7 @@ public class SyncService {
 
       isProcessed[0] = false;
 
-      synchronized (tronNetDelegate.getBlockLock()) {
+      synchronized (stabilaNetDelegate.getBlockLock()) {
         blockWaitToProcess.forEach((msg, peerConnection) -> {
           if (peerConnection.isDisconnect()) {
             blockWaitToProcess.remove(msg);
@@ -241,7 +241,7 @@ public class SyncService {
             return;
           }
           final boolean[] isFound = {false};
-          tronNetDelegate.getActivePeer().stream()
+          stabilaNetDelegate.getActivePeer().stream()
               .filter(peer -> msg.getBlockId().equals(peer.getSyncBlockToFetch().peek()))
               .forEach(peer -> {
                 peer.getSyncBlockToFetch().pop();
@@ -262,13 +262,13 @@ public class SyncService {
     boolean flag = true;
     BlockCapsule.BlockId blockId = block.getBlockId();
     try {
-      tronNetDelegate.processBlock(block, true);
+      stabilaNetDelegate.processBlock(block, true);
       pbftDataSyncHandler.processPBFTCommitData(block);
     } catch (Exception e) {
       logger.error("Process sync block {} failed.", blockId.getString(), e);
       flag = false;
     }
-    for (PeerConnection peer : tronNetDelegate.getActivePeer()) {
+    for (PeerConnection peer : stabilaNetDelegate.getActivePeer()) {
       if (peer.getSyncBlockInProcess().remove(blockId)) {
         if (flag) {
           peer.setBlockBothHave(blockId);

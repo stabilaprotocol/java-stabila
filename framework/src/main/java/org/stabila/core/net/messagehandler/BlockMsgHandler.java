@@ -27,7 +27,7 @@ import org.stabila.protos.Protocol.Inventory.InventoryType;
 public class BlockMsgHandler implements StabilaMsgHandler {
 
   @Autowired
-  private StabilaNetDelegate tronNetDelegate;
+  private StabilaNetDelegate stabilaNetDelegate;
 
   @Autowired
   private AdvService advService;
@@ -58,7 +58,7 @@ public class BlockMsgHandler implements StabilaMsgHandler {
     } else {
       Long time = peer.getAdvInvRequest().remove(new Item(blockId, InventoryType.BLOCK));
       long now = System.currentTimeMillis();
-      long interval = blockId.getNum() - tronNetDelegate.getHeadBlockId().getNum();
+      long interval = blockId.getNum() - stabilaNetDelegate.getHeadBlockId().getNum();
       processBlock(peer, blockMessage.getBlockCapsule());
       logger.info(
           "Receive block/interval {}/{} from {} fetch/delay {}/{}ms, "
@@ -92,9 +92,9 @@ public class BlockMsgHandler implements StabilaMsgHandler {
 
   private void processBlock(PeerConnection peer, BlockCapsule block) throws P2pException {
     BlockCapsule.BlockId blockId = block.getBlockId();
-    if (!tronNetDelegate.containBlock(block.getParentBlockId())) {
+    if (!stabilaNetDelegate.containBlock(block.getParentBlockId())) {
       logger.warn("Get unlink block {} from {}, head is {}.", blockId.getString(),
-          peer.getInetAddress(), tronNetDelegate.getHeadBlockId().getString());
+          peer.getInetAddress(), stabilaNetDelegate.getHeadBlockId().getString());
       syncService.startSync(peer);
       return;
     }
@@ -106,20 +106,20 @@ public class BlockMsgHandler implements StabilaMsgHandler {
     }
 
     if (fastForward) {
-      if (block.getNum() < tronNetDelegate.getHeadBlockId().getNum()) {
+      if (block.getNum() < stabilaNetDelegate.getHeadBlockId().getNum()) {
         logger.warn("Receive a low block {}, head {}",
-            blockId.getString(), tronNetDelegate.getHeadBlockId().getString());
+            blockId.getString(), stabilaNetDelegate.getHeadBlockId().getString());
         return;
       }
-      if (tronNetDelegate.validBlock(block)) {
+      if (stabilaNetDelegate.validBlock(block)) {
         advService.fastForward(new BlockMessage(block));
-        tronNetDelegate.trustNode(peer);
+        stabilaNetDelegate.trustNode(peer);
       }
     }
 
-    tronNetDelegate.processBlock(block, false);
+    stabilaNetDelegate.processBlock(block, false);
     witnessProductBlockService.validWitnessProductTwoBlock(block);
-    tronNetDelegate.getActivePeer().forEach(p -> {
+    stabilaNetDelegate.getActivePeer().forEach(p -> {
       if (p.getAdvInvReceive().getIfPresent(blockId) != null) {
         p.setBlockBothHave(blockId);
       }

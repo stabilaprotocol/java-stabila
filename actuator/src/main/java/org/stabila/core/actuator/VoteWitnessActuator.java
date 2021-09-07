@@ -126,19 +126,19 @@ public class VoteWitnessActuator extends AbstractActuator {
             ACCOUNT_EXCEPTION_STR + readableOwnerAddress + NOT_EXIST_STR);
       }
 
-      long tronPower;
+      long stabilaPower;
       DynamicPropertiesStore dynamicStore = chainBaseManager.getDynamicPropertiesStore();
       if (dynamicStore.supportAllowNewResourceModel()) {
-        tronPower = accountCapsule.getAllStabilaPower();
+        stabilaPower = accountCapsule.getAllStabilaPower();
       } else {
-        tronPower = accountCapsule.getStabilaPower();
+        stabilaPower = accountCapsule.getStabilaPower();
       }
 
       sum = LongMath
           .checkedMultiply(sum, TRX_PRECISION); //trx -> drop. The vote count is based on TRX
-      if (sum > tronPower) {
+      if (sum > stabilaPower) {
         throw new ContractValidateException(
-            "The total number of votes[" + sum + "] is greater than the tronPower[" + tronPower
+            "The total number of votes[" + sum + "] is greater than the stabilaPower[" + stabilaPower
                 + "]");
       }
     } catch (ArithmeticException e) {

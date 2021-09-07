@@ -42,7 +42,7 @@ import org.stabila.core.zen.address.SpendingKey;
 import org.stabila.core.zen.note.Note;
 import org.stabila.keystore.Wallet;
 import org.stabila.protos.contract.ShieldContract;
-import stest.tron.wallet.common.client.WalletClient;
+import stest.stabila.wallet.common.client.WalletClient;
 
 @Slf4j
 public class PrecompiledContractsVerifyProofTest {

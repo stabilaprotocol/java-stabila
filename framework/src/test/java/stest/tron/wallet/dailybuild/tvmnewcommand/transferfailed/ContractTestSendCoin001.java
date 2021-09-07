@@ -1,4 +1,4 @@
-package stest.tron.wallet.dailybuild.tvmnewcommand.transferfailed;
+package stest.stabila.wallet.dailybuild.tvmnewcommand.transferfailed;
 
 import static org.hamcrest.core.StringContains.containsString;
 import static org.stabila.api.GrpcAPI.Return.response_code.CONTRACT_VALIDATE_ERROR;
@@ -29,11 +29,11 @@ import org.stabila.protos.Protocol.Transaction;
 import org.stabila.protos.Protocol.Transaction.Result.contractResult;
 import org.stabila.protos.Protocol.TransactionInfo;
 import org.stabila.protos.contract.SmartContractOuterClass.SmartContract;
-import stest.tron.wallet.common.client.Configuration;
-import stest.tron.wallet.common.client.Parameter.CommonConstant;
-import stest.tron.wallet.common.client.WalletClient;
-import stest.tron.wallet.common.client.utils.Base58;
-import stest.tron.wallet.common.client.utils.PublicMethed;
+import stest.stabila.wallet.common.client.Configuration;
+import stest.stabila.wallet.common.client.Parameter.CommonConstant;
+import stest.stabila.wallet.common.client.WalletClient;
+import stest.stabila.wallet.common.client.utils.Base58;
+import stest.stabila.wallet.common.client.utils.PublicMethed;
 
 @Slf4j
 public class ContractTestSendCoin001 {

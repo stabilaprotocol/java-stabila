@@ -1,4 +1,4 @@
-package stest.tron.wallet.fulltest;
+package stest.stabila.wallet.fulltest;
 
 import com.google.protobuf.ByteString;
 import io.grpc.ManagedChannel;
@@ -22,10 +22,10 @@ import org.stabila.core.Wallet;
 import org.stabila.core.db.Manager;
 import org.stabila.protos.Protocol;
 import org.stabila.protos.contract.AssetIssueContractOuterClass;
-import stest.tron.wallet.common.client.Configuration;
-import stest.tron.wallet.common.client.Parameter.CommonConstant;
-import stest.tron.wallet.common.client.utils.PublicMethed;
-import stest.tron.wallet.common.client.utils.TransactionUtils;
+import stest.stabila.wallet.common.client.Configuration;
+import stest.stabila.wallet.common.client.Parameter.CommonConstant;
+import stest.stabila.wallet.common.client.utils.PublicMethed;
+import stest.stabila.wallet.common.client.utils.TransactionUtils;
 
 @Slf4j
 public class Fuzzytest {

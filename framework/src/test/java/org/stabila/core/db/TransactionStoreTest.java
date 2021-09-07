@@ -36,7 +36,7 @@ public class TransactionStoreTest {
 
   private static final byte[] key1 = TransactionStoreTest.randomBytes(21);
   private static final byte[] key2 = TransactionStoreTest.randomBytes(21);
-  private static final String URL = "https://tron.network";
+  private static final String URL = "https://stabila.network";
   private static final String ACCOUNT_NAME = "ownerF";
   private static final String OWNER_ADDRESS =
       Wallet.getAddressPreFixString() + "abd4b9367799eaa3197fecb144eb71de1e049abc";

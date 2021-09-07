@@ -1,4 +1,4 @@
-package stest.tron.wallet.newaddinterface2;
+package stest.stabila.wallet.newaddinterface2;
 
 import com.google.protobuf.ByteString;
 import io.grpc.ManagedChannel;
@@ -28,10 +28,10 @@ import org.stabila.protos.Protocol.Transaction;
 import org.stabila.protos.contract.AssetIssueContractOuterClass.AssetIssueContract;
 import org.stabila.protos.contract.AssetIssueContractOuterClass.ParticipateAssetIssueContract;
 import org.stabila.protos.contract.AssetIssueContractOuterClass.TransferAssetContract;
-import stest.tron.wallet.common.client.Configuration;
-import stest.tron.wallet.common.client.Parameter.CommonConstant;
-import stest.tron.wallet.common.client.utils.PublicMethed;
-import stest.tron.wallet.common.client.utils.TransactionUtils;
+import stest.stabila.wallet.common.client.Configuration;
+import stest.stabila.wallet.common.client.Parameter.CommonConstant;
+import stest.stabila.wallet.common.client.utils.PublicMethed;
+import stest.stabila.wallet.common.client.utils.TransactionUtils;
 
 @Slf4j
 public class ParticipateAssetIssue2Test {
@@ -47,7 +47,7 @@ public class ParticipateAssetIssue2Test {
   private final byte[] fromAddress = PublicMethed.getFinalAddress(testKey002);
   private final byte[] toAddress = PublicMethed.getFinalAddress(testKey003);
   String description = "just-test";
-  String url = "https://github.com/tronprotocol/wallet-cli/";
+  String url = "https://github.com/stabilaprotocol/wallet-cli/";
   //get account
   ECKey ecKey1 = new ECKey(Utils.getRandom());
   byte[] participateAccountAddress = ecKey1.getAddress();

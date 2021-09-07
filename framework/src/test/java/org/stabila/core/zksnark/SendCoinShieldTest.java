@@ -99,7 +99,7 @@ public class SendCoinShieldTest {
   private static final long END_TIME = 2;
   private static final int VOTE_SCORE = 2;
   private static final String DESCRIPTION = "TRX";
-  private static final String URL = "https://tron.network";
+  private static final String URL = "https://stabila.network";
   private static String dbPath = "output_ShieldedTransaction_test";
   private static String dbDirectory = "db_ShieldedTransaction_test";
   private static String indexDirectory = "index_ShieldedTransaction_test";

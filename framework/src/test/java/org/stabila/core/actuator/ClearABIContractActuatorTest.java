@@ -1,7 +1,7 @@
 package org.stabila.core.actuator;
 
 import static junit.framework.TestCase.fail;
-import static stest.tron.wallet.common.client.utils.PublicMethed.jsonStr2Abi;
+import static stest.stabila.wallet.common.client.utils.PublicMethed.jsonStr2Abi;
 
 import com.google.protobuf.Any;
 import com.google.protobuf.ByteString;

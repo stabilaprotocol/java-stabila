@@ -30,7 +30,7 @@ import org.stabila.core.services.interfaceOnSolidity.RpcApiServiceOnSolidity;
 import org.stabila.protos.Protocol;
 import org.stabila.protos.contract.BalanceContract;
 import org.stabila.tool.litefullnode.LiteFullNodeTool;
-import stest.tron.wallet.common.client.utils.TransactionUtils;
+import stest.stabila.wallet.common.client.utils.TransactionUtils;
 
 public class LiteFullNodeToolTest {
 

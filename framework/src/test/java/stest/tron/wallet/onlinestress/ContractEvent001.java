@@ -1,4 +1,4 @@
-package stest.tron.wallet.onlinestress;
+package stest.stabila.wallet.onlinestress;
 
 import com.google.protobuf.ByteString;
 import io.grpc.ManagedChannel;
@@ -27,9 +27,9 @@ import org.stabila.common.utils.Utils;
 import org.stabila.core.Wallet;
 import org.stabila.protos.contract.SmartContractOuterClass.SmartContract;
 import org.zeromq.ZMQ;
-import stest.tron.wallet.common.client.Configuration;
-import stest.tron.wallet.common.client.Parameter.CommonConstant;
-import stest.tron.wallet.common.client.utils.PublicMethed;
+import stest.stabila.wallet.common.client.Configuration;
+import stest.stabila.wallet.common.client.Parameter.CommonConstant;
+import stest.stabila.wallet.common.client.utils.PublicMethed;
 import zmq.ZMQ.Event;
 
 @Slf4j
@@ -207,7 +207,7 @@ public class ContractEvent001 {
           "triggerBoolEvent(bool,bool)", param, false,
           0L, 100000000L, event001Address, event001Key, blockingStubFull);
       logger.info(txid);
-      String filename = "/Users/wangzihe/Documents/modify_fullnode/java-tron/tooLongString.txt";
+      String filename = "/Users/wangzihe/Documents/modify_fullnode/java-stabila/tooLongString.txt";
       try {
         FileReader fr = new FileReader(
             filename);

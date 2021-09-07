@@ -1,4 +1,4 @@
-package stest.tron.wallet.common.client.utils;
+package stest.stabila.wallet.common.client.utils;
 
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
@@ -19,7 +19,7 @@ import org.testng.TestListenerAdapter;
 import org.stabila.api.GrpcAPI;
 import org.stabila.api.WalletGrpc;
 import org.stabila.protos.Protocol;
-import stest.tron.wallet.common.client.Configuration;
+import stest.stabila.wallet.common.client.Configuration;
 
 public class DailyBuildReport extends TestListenerAdapter {
 

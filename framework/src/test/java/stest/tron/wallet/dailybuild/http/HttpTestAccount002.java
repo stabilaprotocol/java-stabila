@@ -1,4 +1,4 @@
-package stest.tron.wallet.dailybuild.http;
+package stest.stabila.wallet.dailybuild.http;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -10,9 +10,9 @@ import org.testng.annotations.Test;
 import org.stabila.common.crypto.ECKey;
 import org.stabila.common.utils.ByteArray;
 import org.stabila.common.utils.Utils;
-import stest.tron.wallet.common.client.Configuration;
-import stest.tron.wallet.common.client.utils.HttpMethed;
-import stest.tron.wallet.common.client.utils.PublicMethed;
+import stest.stabila.wallet.common.client.Configuration;
+import stest.stabila.wallet.common.client.utils.HttpMethed;
+import stest.stabila.wallet.common.client.utils.PublicMethed;
 
 @Slf4j
 public class HttpTestAccount002 {
@@ -290,7 +290,7 @@ public class HttpTestAccount002 {
   /**
    * constructor.
    */
-  @Test(enabled = true, description = "FreezeBlance for tron power by http")
+  @Test(enabled = true, description = "FreezeBlance for stabila power by http")
   public void test015FreezeStabilaPower() {
     HttpMethed.waitToProduceOneBlock(httpnode);
     berforeBalance = HttpMethed.getBalance(httpnode, freezeBalanceAddress);
@@ -307,7 +307,7 @@ public class HttpTestAccount002 {
   /**
    * constructor.
    */
-  @Test(enabled = true, description = "UnFreezeBalance for tron power by http")
+  @Test(enabled = true, description = "UnFreezeBalance for stabila power by http")
   public void test016UnFreezeBalanceForStabilaPower() {
     berforeBalance = HttpMethed.getBalance(httpnode, freezeBalanceAddress);
 

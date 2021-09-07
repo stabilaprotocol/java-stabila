@@ -1,4 +1,4 @@
-package stest.tron.wallet.newaddinterface2;
+package stest.stabila.wallet.newaddinterface2;
 
 import com.google.protobuf.ByteString;
 import io.grpc.ManagedChannel;
@@ -21,8 +21,8 @@ import org.stabila.common.crypto.ECKey;
 import org.stabila.core.Wallet;
 import org.stabila.protos.Protocol.Account;
 import org.stabila.protos.Protocol.Block;
-import stest.tron.wallet.common.client.Configuration;
-import stest.tron.wallet.common.client.Parameter.CommonConstant;
+import stest.stabila.wallet.common.client.Configuration;
+import stest.stabila.wallet.common.client.Parameter.CommonConstant;
 
 @Slf4j
 public class GetBlockByLimitNext2 {

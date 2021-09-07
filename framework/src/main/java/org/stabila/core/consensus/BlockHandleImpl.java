@@ -25,7 +25,7 @@ public class BlockHandleImpl implements BlockHandle {
   private BackupManager backupManager;
 
   @Autowired
-  private StabilaNetService tronNetService;
+  private StabilaNetService stabilaNetService;
 
   @Autowired
   private Consensus consensus;
@@ -50,9 +50,9 @@ public class BlockHandleImpl implements BlockHandle {
     try {
       consensus.receiveBlock(blockCapsule);
       BlockMessage blockMessage = new BlockMessage(blockCapsule);
-      tronNetService.fastForward(blockMessage);
+      stabilaNetService.fastForward(blockMessage);
       manager.pushBlock(blockCapsule);
-      tronNetService.broadcast(blockMessage);
+      stabilaNetService.broadcast(blockMessage);
     } catch (Exception e) {
       logger.error("Handle block {} failed.", blockCapsule.getBlockId().getString(), e);
       return null;

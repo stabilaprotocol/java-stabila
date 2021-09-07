@@ -15,7 +15,7 @@ import org.stabila.protos.Protocol.ReasonCode;
 public class PeerStatusCheck {
 
   @Autowired
-  private StabilaNetDelegate tronNetDelegate;
+  private StabilaNetDelegate stabilaNetDelegate;
 
   private ScheduledExecutorService peerStatusCheckExecutor = Executors
       .newSingleThreadScheduledExecutor();
@@ -40,7 +40,7 @@ public class PeerStatusCheck {
 
     long now = System.currentTimeMillis();
 
-    tronNetDelegate.getActivePeer().forEach(peer -> {
+    stabilaNetDelegate.getActivePeer().forEach(peer -> {
 
       boolean isDisconnected = false;
 

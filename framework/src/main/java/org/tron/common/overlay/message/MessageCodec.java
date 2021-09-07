@@ -20,7 +20,7 @@ public class MessageCodec extends ByteToMessageDecoder {
 
   private Channel channel;
   private P2pMessageFactory p2pMessageFactory = new P2pMessageFactory();
-  private StabilaMessageFactory tronMessageFactory = new StabilaMessageFactory();
+  private StabilaMessageFactory stabilaMessageFactory = new StabilaMessageFactory();
   private PbftMessageFactory pbftMessageFactory = new PbftMessageFactory();
 
   @Override
@@ -49,7 +49,7 @@ public class MessageCodec extends ByteToMessageDecoder {
       return p2pMessageFactory.create(encoded);
     }
     if (MessageTypes.inStabilaRange(type)) {
-      return tronMessageFactory.create(encoded);
+      return stabilaMessageFactory.create(encoded);
     }
     if (MessageTypes.inPbftRange(type)) {
       return pbftMessageFactory.create(encoded);

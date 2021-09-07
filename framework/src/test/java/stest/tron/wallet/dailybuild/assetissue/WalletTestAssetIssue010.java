@@ -1,4 +1,4 @@
-package stest.tron.wallet.dailybuild.assetissue;
+package stest.stabila.wallet.dailybuild.assetissue;
 
 import com.google.protobuf.ByteString;
 import io.grpc.ManagedChannel;
@@ -29,10 +29,10 @@ import org.stabila.protos.contract.AssetIssueContractOuterClass.AssetIssueContra
 import org.stabila.protos.contract.AssetIssueContractOuterClass.ParticipateAssetIssueContract;
 import org.stabila.protos.contract.AssetIssueContractOuterClass.TransferAssetContract;
 import org.stabila.protos.contract.AssetIssueContractOuterClass.UnfreezeAssetContract;
-import stest.tron.wallet.common.client.Configuration;
-import stest.tron.wallet.common.client.Parameter.CommonConstant;
-import stest.tron.wallet.common.client.utils.PublicMethed;
-import stest.tron.wallet.common.client.utils.TransactionUtils;
+import stest.stabila.wallet.common.client.Configuration;
+import stest.stabila.wallet.common.client.Parameter.CommonConstant;
+import stest.stabila.wallet.common.client.utils.PublicMethed;
+import stest.stabila.wallet.common.client.utils.TransactionUtils;
 
 @Slf4j
 public class WalletTestAssetIssue010 {
@@ -56,7 +56,7 @@ public class WalletTestAssetIssue010 {
   private final byte[] fromAddress = PublicMethed.getFinalAddress(testKey002);
   private final byte[] toAddress = PublicMethed.getFinalAddress(testKey003);
   String description = "just-test";
-  String url = "https://github.com/tronprotocol/wallet-cli/";
+  String url = "https://github.com/stabilaprotocol/wallet-cli/";
   String updateDescription = "This is test for update asset issue, case AssetIssue_010";
   String updateUrl = "www.updateassetissue.010.cn";
   Long freeAssetNetLimit = 1000L;

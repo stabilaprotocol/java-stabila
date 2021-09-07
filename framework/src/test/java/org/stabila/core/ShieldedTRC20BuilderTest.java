@@ -56,7 +56,7 @@ import org.stabila.core.zen.address.PaymentAddress;
 import org.stabila.core.zen.address.SpendingKey;
 import org.stabila.protos.contract.ShieldContract;
 import org.stabila.protos.contract.ShieldContract.SpendDescription;
-import stest.tron.wallet.common.client.WalletClient;
+import stest.stabila.wallet.common.client.WalletClient;
 
 @Slf4j
 public class ShieldedTRC20BuilderTest extends BlockGenerate {

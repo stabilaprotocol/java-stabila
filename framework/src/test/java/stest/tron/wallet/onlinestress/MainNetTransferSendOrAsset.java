@@ -1,4 +1,4 @@
-package stest.tron.wallet.onlinestress;
+package stest.stabila.wallet.onlinestress;
 
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
@@ -12,9 +12,9 @@ import org.testng.annotations.Test;
 import org.stabila.api.WalletGrpc;
 import org.stabila.core.Wallet;
 import org.stabila.protos.Protocol.Account;
-import stest.tron.wallet.common.client.Configuration;
-import stest.tron.wallet.common.client.Parameter.CommonConstant;
-import stest.tron.wallet.common.client.utils.PublicMethed;
+import stest.stabila.wallet.common.client.Configuration;
+import stest.stabila.wallet.common.client.Parameter.CommonConstant;
+import stest.stabila.wallet.common.client.utils.PublicMethed;
 
 @Slf4j
 public class MainNetTransferSendOrAsset {

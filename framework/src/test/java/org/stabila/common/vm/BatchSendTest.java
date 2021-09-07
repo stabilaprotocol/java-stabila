@@ -32,7 +32,7 @@ import org.stabila.core.exception.ReceiptCheckErrException;
 import org.stabila.core.exception.VMIllegalException;
 import org.stabila.protos.Protocol.AccountType;
 import org.stabila.protos.Protocol.Transaction;
-import stest.tron.wallet.common.client.utils.AbiUtil;
+import stest.stabila.wallet.common.client.utils.AbiUtil;
 
 @Slf4j
 public class BatchSendTest {
@@ -47,7 +47,7 @@ public class BatchSendTest {
   private static final long END_TIME = 2;
   private static final int VOTE_SCORE = 2;
   private static final String DESCRIPTION = "TRX";
-  private static final String URL = "https://tron.network";
+  private static final String URL = "https://stabila.network";
   private static Runtime runtime;
   private static Manager dbManager;
   private static StabilaApplicationContext context;

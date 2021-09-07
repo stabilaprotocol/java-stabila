@@ -14,7 +14,7 @@ import org.stabila.common.utils.StringUtil;
 import org.stabila.core.db.TransactionTrace;
 import org.stabila.core.vm.PrecompiledContracts;
 import org.stabila.core.vm.PrecompiledContracts.BatchValidateSign;
-import stest.tron.wallet.common.client.utils.AbiUtil;
+import stest.stabila.wallet.common.client.utils.AbiUtil;
 
 @Slf4j
 public class BatchValidateSignContractTest {

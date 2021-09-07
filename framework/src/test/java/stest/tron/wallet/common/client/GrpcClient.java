@@ -1,4 +1,4 @@
-package stest.tron.wallet.common.client;
+package stest.stabila.wallet.common.client;
 
 import com.google.protobuf.ByteString;
 import io.grpc.ManagedChannel;

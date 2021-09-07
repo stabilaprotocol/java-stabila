@@ -248,9 +248,9 @@ public class Wallet {
   @Getter
   private final SignInterface cryptoEngine;
   @Autowired
-  private StabilaNetService tronNetService;
+  private StabilaNetService stabilaNetService;
   @Autowired
-  private StabilaNetDelegate tronNetDelegate;
+  private StabilaNetDelegate stabilaNetDelegate;
   @Autowired
   private Manager dbManager;
   @Autowired
@@ -480,7 +480,7 @@ public class Wallet {
     try {
       Message message = new TransactionMessage(signedTransaction.toByteArray());
       if (minEffectiveConnection != 0) {
-        if (tronNetDelegate.getActivePeer().isEmpty()) {
+        if (stabilaNetDelegate.getActivePeer().isEmpty()) {
           logger
               .warn("Broadcast transaction {} has failed, no connection.", trx.getTransactionId());
           return builder.setResult(false).setCode(response_code.NO_CONNECTION)
@@ -488,7 +488,7 @@ public class Wallet {
               .build();
         }
 
-        int count = (int) tronNetDelegate.getActivePeer().stream()
+        int count = (int) stabilaNetDelegate.getActivePeer().stream()
             .filter(p -> !p.isNeedSyncFromUs() && !p.isNeedSyncFromPeer())
             .count();
 
@@ -519,7 +519,7 @@ public class Wallet {
         trx.resetResult();
       }
       dbManager.pushTransaction(trx);
-      tronNetService.broadcast(message);
+      stabilaNetService.broadcast(message);
       logger.info("Broadcast transaction {} successfully.", trx.getTransactionId());
       return builder.setResult(true).setCode(response_code.SUCCESS).build();
     } catch (ValidateSignatureException e) {

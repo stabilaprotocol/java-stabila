@@ -1,4 +1,4 @@
-package stest.tron.wallet.dailybuild.manual;
+package stest.stabila.wallet.dailybuild.manual;
 
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
@@ -14,8 +14,8 @@ import org.stabila.api.GrpcAPI.NumberMessage;
 import org.stabila.api.WalletGrpc;
 import org.stabila.api.WalletSolidityGrpc;
 import org.stabila.core.Wallet;
-import stest.tron.wallet.common.client.Configuration;
-import stest.tron.wallet.common.client.Parameter.CommonConstant;
+import stest.stabila.wallet.common.client.Configuration;
+import stest.stabila.wallet.common.client.Parameter.CommonConstant;
 
 @Slf4j
 public class RateLimite001 {

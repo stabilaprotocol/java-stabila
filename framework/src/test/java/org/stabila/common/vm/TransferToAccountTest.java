@@ -40,7 +40,7 @@ import org.stabila.core.vm.EnergyCost;
 import org.stabila.protos.Protocol.AccountType;
 import org.stabila.protos.Protocol.Transaction;
 import org.stabila.protos.contract.AssetIssueContractOuterClass.AssetIssueContract;
-import stest.tron.wallet.common.client.utils.AbiUtil;
+import stest.stabila.wallet.common.client.utils.AbiUtil;
 
 @Slf4j
 public class TransferToAccountTest {
@@ -55,7 +55,7 @@ public class TransferToAccountTest {
   private static final long END_TIME = 2;
   private static final int VOTE_SCORE = 2;
   private static final String DESCRIPTION = "TRX";
-  private static final String URL = "https://tron.network";
+  private static final String URL = "https://stabila.network";
   private static Runtime runtime;
   private static Manager dbManager;
   private static ChainBaseManager chainBaseManager;

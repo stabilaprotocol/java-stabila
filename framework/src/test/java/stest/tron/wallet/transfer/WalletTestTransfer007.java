@@ -1,4 +1,4 @@
-package stest.tron.wallet.transfer;
+package stest.stabila.wallet.transfer;
 
 import com.google.protobuf.ByteString;
 import io.grpc.ManagedChannel;
@@ -18,8 +18,8 @@ import org.stabila.common.utils.ByteArray;
 import org.stabila.common.utils.Utils;
 import org.stabila.protos.Protocol.Transaction;
 import org.stabila.protos.Protocol.TransactionInfo;
-import stest.tron.wallet.common.client.Configuration;
-import stest.tron.wallet.common.client.utils.PublicMethed;
+import stest.stabila.wallet.common.client.Configuration;
+import stest.stabila.wallet.common.client.utils.PublicMethed;
 
 @Slf4j
 public class WalletTestTransfer007 {

@@ -215,7 +215,7 @@
      `start_time`: the starting date of this contract – e.g._20170312_.  
      `end_time`: the expiring date of this contract – e.g. _20170512_.  
      `vote_score`: the vote score of this contract received – e.g. _12343_.  
-     `description`: the description of this contract – e.g.”_trondada_”.  
+     `description`: the description of this contract – e.g.”_stabiladada_”.  
      `url`: the url of this contract – e.g. “_https://www.noonetrust.com_”.
 
          message AssetIssueContract {   

@@ -1,4 +1,4 @@
-package stest.tron.wallet.dailybuild.account;
+package stest.stabila.wallet.dailybuild.account;
 
 import com.google.protobuf.ByteString;
 import io.grpc.ManagedChannel;
@@ -16,8 +16,8 @@ import org.stabila.common.crypto.ECKey;
 import org.stabila.common.utils.ByteArray;
 import org.stabila.common.utils.Utils;
 import org.stabila.protos.Protocol.Account;
-import stest.tron.wallet.common.client.Configuration;
-import stest.tron.wallet.common.client.utils.PublicMethed;
+import stest.stabila.wallet.common.client.Configuration;
+import stest.stabila.wallet.common.client.utils.PublicMethed;
 
 @Slf4j
 public class WalletTestAccount012 {
@@ -54,7 +54,7 @@ public class WalletTestAccount012 {
 
   }
 
-  @Test(enabled = true, description = "Freeze balance to get tron power")
+  @Test(enabled = true, description = "Freeze balance to get stabila power")
   public void test01FreezeBalanceGetStabilaPower() {
 
 
@@ -110,7 +110,7 @@ public class WalletTestAccount012 {
   }
 
 
-  @Test(enabled = true,description = "Vote witness by tron power")
+  @Test(enabled = true,description = "Vote witness by stabila power")
   public void test02VotePowerOnlyComeFromStabilaPower() {
     AccountResourceMessage accountResource = PublicMethed
         .getAccountResource(frozenAddress, blockingStubFull);
@@ -154,7 +154,7 @@ public class WalletTestAccount012 {
   }
 
 
-  @Test(enabled = true,description = "Unfreeze balance for tron power")
+  @Test(enabled = true,description = "Unfreeze balance for stabila power")
   public void test04UnfreezeBalanceForStabilaPower() {
     AccountResourceMessage accountResource = PublicMethed
         .getAccountResource(foundationAddress, blockingStubFull);

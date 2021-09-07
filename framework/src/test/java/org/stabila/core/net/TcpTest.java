@@ -45,7 +45,7 @@ public class TcpTest {
   private Manager manager;
   private ChainBaseManager chainBaseManager;
   private SyncPool pool;
-  private StabilaNetDelegate tronNetDelegate;
+  private StabilaNetDelegate stabilaNetDelegate;
   private int tryTimes = 10;
   private int sleepTime = 1000;
   private boolean finish = false;
@@ -55,7 +55,7 @@ public class TcpTest {
     manager = context.getBean(Manager.class);
     chainBaseManager = context.getBean(ChainBaseManager.class);
     pool = context.getBean(SyncPool.class);
-    tronNetDelegate = context.getBean(StabilaNetDelegate.class);
+    stabilaNetDelegate = context.getBean(StabilaNetDelegate.class);
   }
 
   public void normalTest() throws InterruptedException {
@@ -172,7 +172,7 @@ public class TcpTest {
     channel.close();
     Thread.sleep(sleepTime);
     Collection<PeerConnection> peerConnections = ReflectUtils
-        .invokeMethod(tronNetDelegate, "getActivePeer");
+        .invokeMethod(stabilaNetDelegate, "getActivePeer");
     for (PeerConnection peer : peerConnections) {
       peer.close();
     }
@@ -194,7 +194,7 @@ public class TcpTest {
     channel.close();
     Thread.sleep(sleepTime);
     Collection<PeerConnection> peerConnections = ReflectUtils
-        .invokeMethod(tronNetDelegate, "getActivePeer");
+        .invokeMethod(stabilaNetDelegate, "getActivePeer");
     for (PeerConnection peer : peerConnections) {
       peer.close();
     }

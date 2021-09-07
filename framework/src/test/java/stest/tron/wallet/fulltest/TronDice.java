@@ -1,4 +1,4 @@
-package stest.tron.wallet.fulltest;
+package stest.stabila.wallet.fulltest;
 
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
@@ -19,9 +19,9 @@ import org.stabila.common.utils.Utils;
 import org.stabila.core.Wallet;
 import org.stabila.protos.Protocol.TransactionInfo;
 import org.stabila.protos.contract.SmartContractOuterClass.SmartContract;
-import stest.tron.wallet.common.client.Configuration;
-import stest.tron.wallet.common.client.Parameter.CommonConstant;
-import stest.tron.wallet.common.client.utils.PublicMethed;
+import stest.stabila.wallet.common.client.Configuration;
+import stest.stabila.wallet.common.client.Parameter.CommonConstant;
+import stest.stabila.wallet.common.client.utils.PublicMethed;
 
 @Slf4j
 public class StabilaDice {
@@ -64,19 +64,19 @@ public class StabilaDice {
   }
 
   @Test(enabled = true, threadPoolSize = 30, invocationCount = 30)
-  public void tronDice() {
+  public void stabilaDice() {
     ECKey ecKey1 = new ECKey(Utils.getRandom());
-    byte[] tronDiceAddress = ecKey1.getAddress();
-    String tronDiceKey = ByteArray.toHexString(ecKey1.getPrivKeyBytes());
+    byte[] stabilaDiceAddress = ecKey1.getAddress();
+    String stabilaDiceKey = ByteArray.toHexString(ecKey1.getPrivKeyBytes());
     PublicMethed
-        .sendcoin(tronDiceAddress, 100000000000L, fromAddress, testKey002, blockingStubFull);
+        .sendcoin(stabilaDiceAddress, 100000000000L, fromAddress, testKey002, blockingStubFull);
     String contractName = "StabilaDice";
     String code = Configuration.getByPath("testng.conf")
-        .getString("code.code_StabilaDice_tronDice");
+        .getString("code.code_StabilaDice_stabilaDice");
     String abi = Configuration.getByPath("testng.conf")
-        .getString("abi.abi_StabilaDice_tronDice");
+        .getString("abi.abi_StabilaDice_stabilaDice");
     byte[] contractAddress = PublicMethed.deployContract(contractName, abi, code, "",
-        maxFeeLimit, 1000000000L, 100, null, tronDiceKey, tronDiceAddress, blockingStubFull);
+        maxFeeLimit, 1000000000L, 100, null, stabilaDiceKey, stabilaDiceAddress, blockingStubFull);
     SmartContract smartContract = PublicMethed.getContract(contractAddress, blockingStubFull);
     try {
       Thread.sleep(10000);
@@ -92,7 +92,7 @@ public class StabilaDice {
       String initParmes = "\"" + "10" + "\"";
       txid = PublicMethed.triggerContract(contractAddress,
           "rollDice(uint256)", initParmes, false,
-          1000000, maxFeeLimit, tronDiceAddress, tronDiceKey, blockingStubFull);
+          1000000, maxFeeLimit, stabilaDiceAddress, stabilaDiceKey, blockingStubFull);
       logger.info(txid);
       txidList.add(txid);
 

@@ -1,4 +1,4 @@
-package stest.tron.wallet.onlinestress;
+package stest.stabila.wallet.onlinestress;
 
 import com.google.protobuf.ByteString;
 import io.grpc.ManagedChannel;
@@ -30,12 +30,12 @@ import org.stabila.protos.Protocol.Block;
 import org.stabila.protos.Protocol.Transaction;
 import org.stabila.protos.contract.BalanceContract;
 import org.stabila.protos.contract.WitnessContract;
-import stest.tron.wallet.common.client.Configuration;
-import stest.tron.wallet.common.client.Parameter.CommonConstant;
-import stest.tron.wallet.common.client.WalletClient;
-import stest.tron.wallet.common.client.utils.Base58;
-import stest.tron.wallet.common.client.utils.PublicMethed;
-import stest.tron.wallet.common.client.utils.TransactionUtils;
+import stest.stabila.wallet.common.client.Configuration;
+import stest.stabila.wallet.common.client.Parameter.CommonConstant;
+import stest.stabila.wallet.common.client.WalletClient;
+import stest.stabila.wallet.common.client.utils.Base58;
+import stest.stabila.wallet.common.client.utils.PublicMethed;
+import stest.stabila.wallet.common.client.utils.TransactionUtils;
 
 @Slf4j
 public class MainNetVoteOrFreezeOrCreate {

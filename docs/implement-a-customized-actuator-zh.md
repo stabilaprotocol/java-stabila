@@ -1,6 +1,6 @@
 # 自定义 SumActuator
 
-基于java-tron搭建一条自定义公链时，实现一个定制的actuator是不可缺少的一环，本文演示如何基于 java-tron 开发一个 `SumActuator`。
+基于java-stabila搭建一条自定义公链时，实现一个定制的actuator是不可缺少的一环，本文演示如何基于 java-stabila 开发一个 `SumActuator`。
 
 Actuator 模块抽象出4个方法并定义在 `Actuator` 接口中：
 
@@ -13,7 +13,7 @@ Actuator 模块抽象出4个方法并定义在 `Actuator` 接口中：
 
 ## 定义并注册合约
 
-目前 java-tron 支持的合约定义在 Protocol 模块的 src/main/protos/core/contract 目录中，在这个目录下新建一个 math_contract.proto 文件并声明 `SumContract`。基于篇幅有限本文只提供 sum 的实现，用户也可以自行实现 minus 等功能。
+目前 java-stabila 支持的合约定义在 Protocol 模块的 src/main/protos/core/contract 目录中，在这个目录下新建一个 math_contract.proto 文件并声明 `SumContract`。基于篇幅有限本文只提供 sum 的实现，用户也可以自行实现 minus 等功能。
 
 `SumContract` 的逻辑是将两个数值相加求和：
 
@@ -21,7 +21,7 @@ Actuator 模块抽象出4个方法并定义在 `Actuator` 接口中：
 syntax = "proto3";
 package protocol;
 option java_package = "org.stabila.protos.contract"; //Specify the name of the package that generated the Java file
-option go_package = "github.com/tronprotocol/grpc-gateway/core";
+option go_package = "github.com/stabilaprotocol/grpc-gateway/core";
 message SumContract {
     int64 param1 = 1;
     int64 param2 = 2;
@@ -60,9 +60,9 @@ service Wallet {
   ...
 };
 ```
-最后重新编译修改过 proto 文件，可自行编译也可直接通过编译 java-tron 项目来编译 proto 文件：
+最后重新编译修改过 proto 文件，可自行编译也可直接通过编译 java-stabila 项目来编译 proto 文件：
 
-*目前 java-tron 采用的是 protoc v3.4.0，自行编译时确保 protoc 版本一致。*
+*目前 java-stabila 采用的是 protoc v3.4.0，自行编译时确保 protoc 版本一致。*
 
 ```shell
 # recommended
@@ -78,7 +78,7 @@ protoc -I=src/main/protos/api -I=src/main/protos/core -I=src/main/protos  --java
 
 ## 实现 SumActuator
 
-目前 java-tron 默认支持的 Actuator 存放在该模块的 org.stabila.core.actuator 目录下，同样在该目录下创建 `SumActuator` ：
+目前 java-stabila 默认支持的 Actuator 存放在该模块的 org.stabila.core.actuator 目录下，同样在该目录下创建 `SumActuator` ：
 
 ```java
 public class SumActuator extends AbstractActuator {

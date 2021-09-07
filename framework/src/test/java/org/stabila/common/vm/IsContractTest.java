@@ -16,7 +16,7 @@ import org.stabila.core.exception.VMIllegalException;
 import org.stabila.core.vm.config.ConfigLoader;
 import org.stabila.core.vm.config.VMConfig;
 import org.stabila.protos.Protocol.Transaction;
-import stest.tron.wallet.common.client.utils.AbiUtil;
+import stest.stabila.wallet.common.client.utils.AbiUtil;
 
 @Slf4j
 public class IsContractTest extends VMTestBase {

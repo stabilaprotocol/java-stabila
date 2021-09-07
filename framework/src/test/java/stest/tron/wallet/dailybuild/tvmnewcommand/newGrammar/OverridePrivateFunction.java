@@ -1,4 +1,4 @@
-package stest.tron.wallet.dailybuild.tvmnewcommand.newGrammar;
+package stest.stabila.wallet.dailybuild.tvmnewcommand.newGrammar;
 
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
@@ -17,9 +17,9 @@ import org.stabila.common.utils.ByteArray;
 import org.stabila.common.utils.Utils;
 import org.stabila.core.Wallet;
 import org.stabila.protos.Protocol;
-import stest.tron.wallet.common.client.Configuration;
-import stest.tron.wallet.common.client.Parameter;
-import stest.tron.wallet.common.client.utils.PublicMethed;
+import stest.stabila.wallet.common.client.Configuration;
+import stest.stabila.wallet.common.client.Parameter;
+import stest.stabila.wallet.common.client.utils.PublicMethed;
 
 
 @Slf4j

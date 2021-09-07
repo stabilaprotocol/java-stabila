@@ -116,7 +116,7 @@ public class ShieldedReceiveTest extends BlockGenerate {
   private static final long END_TIME = 2;
   private static final int VOTE_SCORE = 2;
   private static final String DESCRIPTION = "TRX";
-  private static final String URL = "https://tron.network";
+  private static final String URL = "https://stabila.network";
   private static Manager dbManager;
   private static ChainBaseManager chainBaseManager;
   private static ConsensusService consensusService;
@@ -2523,7 +2523,7 @@ public class ShieldedReceiveTest extends BlockGenerate {
   @Test
   public void decodePaymentAddressIgnoreCase() {
     String addressLower =
-        "ztron1975m0wyg8f30cgf2l5fgndhzqzkzgkgnxge8cwx2wr7m3q7chsuwewh2e6u24yykum0hq8ue99u";
+        "zstabila1975m0wyg8f30cgf2l5fgndhzqzkzgkgnxge8cwx2wr7m3q7chsuwewh2e6u24yykum0hq8ue99u";
     String addressUpper = addressLower.toUpperCase();
 
     PaymentAddress paymentAddress1 = KeyIo.decodePaymentAddress(addressLower);

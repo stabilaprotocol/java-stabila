@@ -169,7 +169,7 @@ contract KittyBase is KittyAccessControl {
     /// @dev The Birth event is fired whenever a new kitten comes into existence. This obviously
     ///  includes any time a cat is created through the giveBirth method, but it is also called
     ///  when a new gen0 cat is created.
-    event Birth(address owner, uint256 kittyId, uint256 matronId, uint256 sireId, uint256 genes);
+    event Birth(address owner, uint256 kittyId, uint256 mastabilaId, uint256 sireId, uint256 genes);
 
     /// @dev Transfer event as defined in current draft of ERC721. Emitted every time a kitten
     ///  ownership is assigned, including births.
@@ -192,7 +192,7 @@ contract KittyBase is KittyAccessControl {
 
         // The minimum timestamp after which this cat can engage in breeding
         // activities again. This same timestamp is used for the pregnancy
-        // timer (for matrons) as well as the siring cooldown.
+        // timer (for mastabilas) as well as the siring cooldown.
         uint64 cooldownEndBlock;
 
         // The ID of the parents of this kitty, set to 0 for gen0 cats.
@@ -201,10 +201,10 @@ contract KittyBase is KittyAccessControl {
         // that Ethereum currently has a limit of about 500 million
         // transactions per year! So, this definitely won't be a problem
         // for several years (even as Ethereum learns to scale).
-        uint32 matronId;
+        uint32 mastabilaId;
         uint32 sireId;
 
-        // Set to the ID of the sire cat for matrons that are pregnant,
+        // Set to the ID of the sire cat for mastabilas that are pregnant,
         // zero otherwise. A non-zero value here is how we know a cat
         // is pregnant. Used to retrieve the genetic material for the new
         // kitten when the birth transpires.
@@ -214,21 +214,21 @@ contract KittyBase is KittyAccessControl {
         // the current cooldown duration for this Kitty. This starts at zero
         // for gen0 cats, and is initialized to floor(generation/2) for others.
         // Incremented by one for each successful breeding action, regardless
-        // of whether this cat is acting as matron or sire.
+        // of whether this cat is acting as mastabila or sire.
         uint16 cooldownIndex;
 
         // The "generation number" of this cat. Cats minted by the CK contract
         // for sale are called "gen0" and have a generation number of 0. The
         // generation number of all other cats is the larger of the two generation
         // numbers of their parents, plus one.
-        // (i.e. max(matron.generation, sire.generation) + 1)
+        // (i.e. max(mastabila.generation, sire.generation) + 1)
         uint16 generation;
     }
 
     /*** CONSTANTS ***/
 
     /// @dev A lookup table indicating the cooldown duration after any successful
-    ///  breeding action, called "pregnancy time" for matrons and "siring cooldown"
+    ///  breeding action, called "pregnancy time" for mastabilas and "siring cooldown"
     ///  for sires. Designed such that the cooldown roughly doubles each time a cat
     ///  is bred, encouraging owners not to just keep breeding the same cat over
     ///  and over again. Caps out at one week (a cat can breed an unbounded number
@@ -258,7 +258,7 @@ contract KittyBase is KittyAccessControl {
     /// @dev An array containing the Kitty struct for all Kitties in existence. The ID
     ///  of each cat is actually an index into this array. Note that ID 0 is a negacat,
     ///  the unKitty, the mythical beast that is the parent of all gen0 cats. A bizarre
-    ///  creature that is both matron and sire... to itself! Has an invalid genetic code.
+    ///  creature that is both mastabila and sire... to itself! Has an invalid genetic code.
     ///  In other words, cat ID 0 is invalid... ;-)
     Kitty[] kitties;
 
@@ -312,13 +312,13 @@ contract KittyBase is KittyAccessControl {
     ///  method doesn't do any checking and should only be called when the
     ///  input data is known to be valid. Will generate both a Birth event
     ///  and a Transfer event.
-    /// @param _matronId The kitty ID of the matron of this cat (zero for gen0)
+    /// @param _mastabilaId The kitty ID of the mastabila of this cat (zero for gen0)
     /// @param _sireId The kitty ID of the sire of this cat (zero for gen0)
     /// @param _generation The generation number of this cat, must be computed by caller.
     /// @param _genes The kitty's genetic code.
     /// @param _owner The inital owner of this cat, must be non-zero (except for the unKitty, ID 0)
     function _createKitty(
-        uint256 _matronId,
+        uint256 _mastabilaId,
         uint256 _sireId,
         uint256 _generation,
         uint256 _genes,
@@ -331,7 +331,7 @@ contract KittyBase is KittyAccessControl {
         // sure that these conditions are never broken. However! _createKitty() is already
         // an expensive call (for storage), and it doesn't hurt to be especially careful
         // to ensure our data structures are always valid.
-        require(_matronId == uint256(uint32(_matronId)));
+        require(_mastabilaId == uint256(uint32(_mastabilaId)));
         require(_sireId == uint256(uint32(_sireId)));
         require(_generation == uint256(uint16(_generation)));
 
@@ -345,7 +345,7 @@ contract KittyBase is KittyAccessControl {
             genes: _genes,
             birthTime: uint64(block.timestamp),
             cooldownEndBlock: 0,
-            matronId: uint32(_matronId),
+            mastabilaId: uint32(_mastabilaId),
             sireId: uint32(_sireId),
             siringWithId: 0,
             cooldownIndex: cooldownIndex,
@@ -362,7 +362,7 @@ contract KittyBase is KittyAccessControl {
         emit Birth(
             _owner,
             newKittenId,
-            uint256(_kitty.matronId),
+            uint256(_kitty.mastabilaId),
             uint256(_kitty.sireId),
             _kitty.genes
         );
@@ -687,8 +687,8 @@ contract KittyOwnership is ERC721, KittyBase {
 contract KittyBreeding is KittyOwnership {
 
     /// @dev The Pregnant event is fired when two cats successfully breed and the pregnancy
-    ///  timer begins for the matron.
-    event Pregnant(address owner, uint256 matronId, uint256 sireId, uint256 cooldownEndBlock);
+    ///  timer begins for the mastabila.
+    event Pregnant(address owner, uint256 mastabilaId, uint256 sireId, uint256 cooldownEndBlock);
 
     /// @notice The minimum payment required to use breedWithAuto(). This fee goes towards
     ///  the gas cost paid by whatever calls giveBirth(), and can be dynamically updated by
@@ -724,16 +724,16 @@ contract KittyBreeding is KittyOwnership {
         return (_kit.siringWithId == 0) && (_kit.cooldownEndBlock <= uint64(block.number));
     }
 
-    /// @dev Check if a sire has authorized breeding with this matron. True if both sire
-    ///  and matron have the same owner, or if the sire has given siring permission to
-    ///  the matron's owner (via approveSiring()).
-    function _isSiringPermitted(uint256 _sireId, uint256 _matronId) internal view returns (bool) {
-        address matronOwner = kittyIndexToOwner[_matronId];
+    /// @dev Check if a sire has authorized breeding with this mastabila. True if both sire
+    ///  and mastabila have the same owner, or if the sire has given siring permission to
+    ///  the mastabila's owner (via approveSiring()).
+    function _isSiringPermitted(uint256 _sireId, uint256 _mastabilaId) internal view returns (bool) {
+        address mastabilaOwner = kittyIndexToOwner[_mastabilaId];
         address sireOwner = kittyIndexToOwner[_sireId];
 
-        // Siring is okay if they have same owner, or if the matron's owner was given
+        // Siring is okay if they have same owner, or if the mastabila's owner was given
         // permission to breed with this sire.
-        return (matronOwner == sireOwner || sireAllowedToAddress[_sireId] == matronOwner);
+        return (mastabilaOwner == sireOwner || sireAllowedToAddress[_sireId] == mastabilaOwner);
     }
 
     /// @dev Set the cooldownEndTime for the given Kitty, based on its current cooldownIndex.
@@ -772,8 +772,8 @@ contract KittyBreeding is KittyOwnership {
 
     /// @dev Checks to see if a given Kitty is pregnant and (if so) if the gestation
     ///  period has passed.
-    function _isReadyToGiveBirth(Kitty memory _matron) private view returns (bool) {
-        return (_matron.siringWithId != 0) && (_matron.cooldownEndBlock <= uint64(block.number));
+    function _isReadyToGiveBirth(Kitty memory _mastabila) private view returns (bool) {
+        return (_mastabila.siringWithId != 0) && (_mastabila.cooldownEndBlock <= uint64(block.number));
     }
 
     /// @notice Checks that a given kitten is able to breed (i.e. it is not pregnant or
@@ -801,15 +801,15 @@ contract KittyBreeding is KittyOwnership {
         return kitties[_kittyId].siringWithId != 0;
     }
 
-    /// @dev Internal check to see if a given sire and matron are a valid mating pair. DOES NOT
+    /// @dev Internal check to see if a given sire and mastabila are a valid mating pair. DOES NOT
     ///  check ownership permissions (that is up to the caller).
-    /// @param _matron A reference to the Kitty struct of the potential matron.
-    /// @param _matronId The matron's ID.
+    /// @param _mastabila A reference to the Kitty struct of the potential mastabila.
+    /// @param _mastabilaId The mastabila's ID.
     /// @param _sire A reference to the Kitty struct of the potential sire.
     /// @param _sireId The sire's ID
     function _isValidMatingPair(
-        Kitty storage _matron,
-        uint256 _matronId,
+        Kitty storage _mastabila,
+        uint256 _mastabilaId,
         Kitty storage _sire,
         uint256 _sireId
     )
@@ -818,29 +818,29 @@ contract KittyBreeding is KittyOwnership {
     returns(bool)
     {
         // A Kitty can't breed with itself!
-        if (_matronId == _sireId) {
+        if (_mastabilaId == _sireId) {
             return false;
         }
 
         // Kitties can't breed with their parents.
-        if (_matron.matronId == _sireId || _matron.sireId == _sireId) {
+        if (_mastabila.mastabilaId == _sireId || _mastabila.sireId == _sireId) {
             return false;
         }
-        if (_sire.matronId == _matronId || _sire.sireId == _matronId) {
+        if (_sire.mastabilaId == _mastabilaId || _sire.sireId == _mastabilaId) {
             return false;
         }
 
         // We can short circuit the sibling check (below) if either cat is
-        // gen zero (has a matron ID of zero).
-        if (_sire.matronId == 0 || _matron.matronId == 0) {
+        // gen zero (has a mastabila ID of zero).
+        if (_sire.mastabilaId == 0 || _mastabila.mastabilaId == 0) {
             return true;
         }
 
         // Kitties can't breed with full or half siblings.
-        if (_sire.matronId == _matron.matronId || _sire.matronId == _matron.sireId) {
+        if (_sire.mastabilaId == _mastabila.mastabilaId || _sire.mastabilaId == _mastabila.sireId) {
             return false;
         }
-        if (_sire.sireId == _matron.matronId || _sire.sireId == _matron.sireId) {
+        if (_sire.sireId == _mastabila.mastabilaId || _sire.sireId == _mastabila.sireId) {
             return false;
         }
 
@@ -848,69 +848,69 @@ contract KittyBreeding is KittyOwnership {
         return true;
     }
 
-    /// @dev Internal check to see if a given sire and matron are a valid mating pair for
+    /// @dev Internal check to see if a given sire and mastabila are a valid mating pair for
     ///  breeding via auction (i.e. skips ownership and siring approval checks).
-    function _canBreedWithViaAuction(uint256 _matronId, uint256 _sireId)
+    function _canBreedWithViaAuction(uint256 _mastabilaId, uint256 _sireId)
     internal
     view
     returns (bool)
     {
-        Kitty storage matron = kitties[_matronId];
+        Kitty storage mastabila = kitties[_mastabilaId];
         Kitty storage sire = kitties[_sireId];
-        return _isValidMatingPair(matron, _matronId, sire, _sireId);
+        return _isValidMatingPair(mastabila, _mastabilaId, sire, _sireId);
     }
 
     /// @notice Checks to see if two cats can breed together, including checks for
     ///  ownership and siring approvals. Does NOT check that both cats are ready for
     ///  breeding (i.e. breedWith could still fail until the cooldowns are finished).
     ///  TODO: Shouldn't this check pregnancy and cooldowns?!?
-    /// @param _matronId The ID of the proposed matron.
+    /// @param _mastabilaId The ID of the proposed mastabila.
     /// @param _sireId The ID of the proposed sire.
-    function canBreedWith(uint256 _matronId, uint256 _sireId)
+    function canBreedWith(uint256 _mastabilaId, uint256 _sireId)
     external
     view
     returns(bool)
     {
-        require(_matronId > 0);
+        require(_mastabilaId > 0);
         require(_sireId > 0);
-        Kitty storage matron = kitties[_matronId];
+        Kitty storage mastabila = kitties[_mastabilaId];
         Kitty storage sire = kitties[_sireId];
-        return _isValidMatingPair(matron, _matronId, sire, _sireId) &&
-        _isSiringPermitted(_sireId, _matronId);
+        return _isValidMatingPair(mastabila, _mastabilaId, sire, _sireId) &&
+        _isSiringPermitted(_sireId, _mastabilaId);
     }
 
     /// @dev Internal utility function to initiate breeding, assumes that all breeding
     ///  requirements have been checked.
-    function _breedWith(uint256 _matronId, uint256 _sireId) internal {
+    function _breedWith(uint256 _mastabilaId, uint256 _sireId) internal {
         // Grab a reference to the Kitties from storage.
         Kitty storage sire = kitties[_sireId];
-        Kitty storage matron = kitties[_matronId];
+        Kitty storage mastabila = kitties[_mastabilaId];
 
-        // Mark the matron as pregnant, keeping track of who the sire is.
-        matron.siringWithId = uint32(_sireId);
+        // Mark the mastabila as pregnant, keeping track of who the sire is.
+        mastabila.siringWithId = uint32(_sireId);
 
         // Trigger the cooldown for both parents.
         _triggerCooldown(sire);
-        _triggerCooldown(matron);
+        _triggerCooldown(mastabila);
 
         // Clear siring permission for both parents. This may not be strictly necessary
         // but it's likely to avoid confusion!
-        delete sireAllowedToAddress[_matronId];
+        delete sireAllowedToAddress[_mastabilaId];
         delete sireAllowedToAddress[_sireId];
 
         // Every time a kitty gets pregnant, counter is incremented.
         pregnantKitties++;
 
         // Emit the pregnancy event.
-        emit Pregnant(kittyIndexToOwner[_matronId], _matronId, _sireId, matron.cooldownEndBlock);
+        emit Pregnant(kittyIndexToOwner[_mastabilaId], _mastabilaId, _sireId, mastabila.cooldownEndBlock);
     }
 
-    /// @notice Breed a Kitty you own (as matron) with a sire that you own, or for which you
+    /// @notice Breed a Kitty you own (as mastabila) with a sire that you own, or for which you
     ///  have previously been given Siring approval. Will either make your cat pregnant, or will
     ///  fail entirely. Requires a pre-payment of the fee given out to the first caller of giveBirth()
-    /// @param _matronId The ID of the Kitty acting as matron (will end up pregnant if successful)
+    /// @param _mastabilaId The ID of the Kitty acting as mastabila (will end up pregnant if successful)
     /// @param _sireId The ID of the Kitty acting as sire (will begin its siring cooldown if successful)
-    function breedWithAuto(uint256 _matronId, uint256 _sireId)
+    function breedWithAuto(uint256 _mastabilaId, uint256 _sireId)
     external
     payable
     whenNotPaused
@@ -918,12 +918,12 @@ contract KittyBreeding is KittyOwnership {
         // Checks for payment.
         require(msg.value >= autoBirthFee);
 
-        // Caller must own the matron.
-        require(_owns(msg.sender, _matronId));
+        // Caller must own the mastabila.
+        require(_owns(msg.sender, _mastabilaId));
 
-        // Neither sire nor matron are allowed to be on auction during a normal
+        // Neither sire nor mastabila are allowed to be on auction during a normal
         // breeding operation, but we don't need to check that explicitly.
-        // For matron: The caller of this function can't be the owner of the matron
+        // For mastabila: The caller of this function can't be the owner of the mastabila
         //   because the owner of a Kitty on auction is the auction house, and the
         //   auction house will never call breedWith().
         // For sire: Similarly, a sire on auction will be owned by the auction house
@@ -932,16 +932,16 @@ contract KittyBreeding is KittyOwnership {
         // Thus we don't need to spend gas explicitly checking to see if either cat
         // is on auction.
 
-        // Check that matron and sire are both owned by caller, or that the sire
-        // has given siring permission to caller (i.e. matron's owner).
+        // Check that mastabila and sire are both owned by caller, or that the sire
+        // has given siring permission to caller (i.e. mastabila's owner).
         // Will fail for _sireId = 0
-        require(_isSiringPermitted(_sireId, _matronId));
+        require(_isSiringPermitted(_sireId, _mastabilaId));
 
-        // Grab a reference to the potential matron
-        Kitty storage matron = kitties[_matronId];
+        // Grab a reference to the potential mastabila
+        Kitty storage mastabila = kitties[_mastabilaId];
 
-        // Make sure matron isn't pregnant, or in the middle of a siring cooldown
-        require(_isReadyToBreed(matron));
+        // Make sure mastabila isn't pregnant, or in the middle of a siring cooldown
+        require(_isReadyToBreed(mastabila));
 
         // Grab a reference to the potential sire
         Kitty storage sire = kitties[_sireId];
@@ -951,58 +951,58 @@ contract KittyBreeding is KittyOwnership {
 
         // Test that these cats are a valid mating pair.
         require(_isValidMatingPair(
-                matron,
-                _matronId,
+                mastabila,
+                _mastabilaId,
                 sire,
                 _sireId
             ));
 
         // All checks passed, kitty gets pregnant!
-        _breedWith(_matronId, _sireId);
+        _breedWith(_mastabilaId, _sireId);
     }
 
     /// @notice Have a pregnant Kitty give birth!
-    /// @param _matronId A Kitty ready to give birth.
+    /// @param _mastabilaId A Kitty ready to give birth.
     /// @return The Kitty ID of the new kitten.
     /// @dev Looks at a given Kitty and, if pregnant and if the gestation period has passed,
     ///  combines the genes of the two parents to create a new kitten. The new Kitty is assigned
-    ///  to the current owner of the matron. Upon successful completion, both the matron and the
+    ///  to the current owner of the mastabila. Upon successful completion, both the mastabila and the
     ///  new kitten will be ready to breed again. Note that anyone can call this function (if they
     ///  are willing to pay the gas!), but the new kitten always goes to the mother's owner.
-    function giveBirth(uint256 _matronId)
+    function giveBirth(uint256 _mastabilaId)
     external
     whenNotPaused
     returns(uint256)
     {
-        // Grab a reference to the matron in storage.
-        Kitty storage matron = kitties[_matronId];
+        // Grab a reference to the mastabila in storage.
+        Kitty storage mastabila = kitties[_mastabilaId];
 
-        // Check that the matron is a valid cat.
-        require(matron.birthTime != 0);
+        // Check that the mastabila is a valid cat.
+        require(mastabila.birthTime != 0);
 
-        // Check that the matron is pregnant, and that its time has come!
-        require(_isReadyToGiveBirth(matron));
+        // Check that the mastabila is pregnant, and that its time has come!
+        require(_isReadyToGiveBirth(mastabila));
 
         // Grab a reference to the sire in storage.
-        uint256 sireId = matron.siringWithId;
+        uint256 sireId = mastabila.siringWithId;
         Kitty storage sire = kitties[sireId];
 
         // Determine the higher generation number of the two parents
-        uint16 parentGen = matron.generation;
-        if (sire.generation > matron.generation) {
+        uint16 parentGen = mastabila.generation;
+        if (sire.generation > mastabila.generation) {
             parentGen = sire.generation;
         }
 
         // Call the sooper-sekret gene mixing operation.
-        uint256 childGenes = geneScience.mixGenes(matron.genes, sire.genes, matron.cooldownEndBlock - 1);
+        uint256 childGenes = geneScience.mixGenes(mastabila.genes, sire.genes, mastabila.cooldownEndBlock - 1);
 
         // Make the new kitten!
-        address owner = kittyIndexToOwner[_matronId];
-        uint256 kittenId = _createKitty(_matronId, matron.siringWithId, parentGen + 1, childGenes, owner);
+        address owner = kittyIndexToOwner[_mastabilaId];
+        uint256 kittenId = _createKitty(_mastabilaId, mastabila.siringWithId, parentGen + 1, childGenes, owner);
 
-        // Clear the reference to sire from the matron (REQUIRED! Having siringWithId
-        // set is what marks a matron as being pregnant.)
-        delete matron.siringWithId;
+        // Clear the reference to sire from the mastabila (REQUIRED! Having siringWithId
+        // set is what marks a mastabila as being pregnant.)
+        delete mastabila.siringWithId;
 
         // Every time a kitty gives birth counter is decremented.
         pregnantKitties--;
@@ -1112,21 +1112,21 @@ contract KittyAuction is KittyBreeding {
     }
 
     /// @dev Completes a siring auction by bidding.
-    ///  Immediately breeds the winning matron with the sire on auction.
+    ///  Immediately breeds the winning mastabila with the sire on auction.
     /// @param _sireId - ID of the sire on auction.
-    /// @param _matronId - ID of the matron owned by the bidder.
+    /// @param _mastabilaId - ID of the mastabila owned by the bidder.
     function bidOnSiringAuction(
         uint256 _sireId,
-        uint256 _matronId
+        uint256 _mastabilaId
     )
     external
     payable
     whenNotPaused
     {
         // Auction contract checks input sizes
-        require(_owns(msg.sender, _matronId));
-        require(isReadyToBreed(_matronId));
-        require(_canBreedWithViaAuction(_matronId, _sireId));
+        require(_owns(msg.sender, _mastabilaId));
+        require(isReadyToBreed(_mastabilaId));
+        require(_canBreedWithViaAuction(_mastabilaId, _sireId));
 
         // Define the current price of the auction.
         uint256 currentPrice = siringAuction.getCurrentPrice(_sireId);
@@ -1134,7 +1134,7 @@ contract KittyAuction is KittyBreeding {
 
         // Siring auction will throw if the bid fails.
         siringAuction.bid{value:(msg.value - autoBirthFee)}(_sireId);
-        _breedWith(uint32(_matronId), uint32(_sireId));
+        _breedWith(uint32(_mastabilaId), uint32(_sireId));
     }
 
     /// @dev Transfers the balance of the sale auction contract
@@ -1311,7 +1311,7 @@ uint256 cooldownIndex,
 uint256 nextActionAt,
 uint256 siringWithId,
 uint256 birthTime,
-uint256 matronId,
+uint256 mastabilaId,
 uint256 sireId,
 uint256 generation,
 uint256 genes
@@ -1325,7 +1325,7 @@ cooldownIndex = uint256(kit.cooldownIndex);
 nextActionAt = uint256(kit.cooldownEndBlock);
 siringWithId = uint256(kit.siringWithId);
 birthTime = uint256(kit.birthTime);
-matronId = uint256(kit.matronId);
+mastabilaId = uint256(kit.mastabilaId);
 sireId = uint256(kit.sireId);
 generation = uint256(kit.generation);
 genes = kit.genes;

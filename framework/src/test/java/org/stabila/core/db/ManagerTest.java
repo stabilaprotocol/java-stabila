@@ -514,16 +514,16 @@ public class ManagerTest extends BlockGenerate {
     logger.info("------------");
     WitnessCapsule witnessCapsulef =
         new WitnessCapsule(
-            ByteString.copyFrom(ByteArray.fromHexString("0x0011")), "www.tron.net/first");
+            ByteString.copyFrom(ByteArray.fromHexString("0x0011")), "www.stabila.net/first");
     witnessCapsulef.setIsJobs(true);
     WitnessCapsule witnessCapsules =
         new WitnessCapsule(
             ByteString.copyFrom(ByteArray.fromHexString("0x0012")),
-            "www.tron.net/second");
+            "www.stabila.net/second");
     witnessCapsules.setIsJobs(true);
     WitnessCapsule witnessCapsulet =
         new WitnessCapsule(
-            ByteString.copyFrom(ByteArray.fromHexString("0x0013")), "www.tron.net/three");
+            ByteString.copyFrom(ByteArray.fromHexString("0x0013")), "www.stabila.net/three");
     witnessCapsulet.setIsJobs(false);
 
     chainManager

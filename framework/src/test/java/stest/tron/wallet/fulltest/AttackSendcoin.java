@@ -1,4 +1,4 @@
-package stest.tron.wallet.fulltest;
+package stest.stabila.wallet.fulltest;
 
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
@@ -24,10 +24,10 @@ import org.stabila.protos.Protocol.Transaction;
 import org.stabila.protos.contract.BalanceContract;
 import org.stabila.protos.contract.BalanceContract.TransferContract;
 import org.stabila.protos.contract.BalanceContract.UnfreezeBalanceContract;
-import stest.tron.wallet.common.client.Configuration;
-import stest.tron.wallet.common.client.Parameter.CommonConstant;
-import stest.tron.wallet.common.client.utils.PublicMethed;
-import stest.tron.wallet.common.client.utils.TransactionUtils;
+import stest.stabila.wallet.common.client.Configuration;
+import stest.stabila.wallet.common.client.Parameter.CommonConstant;
+import stest.stabila.wallet.common.client.utils.PublicMethed;
+import stest.stabila.wallet.common.client.utils.TransactionUtils;
 
 @Slf4j
 public class AttackSendcoin {

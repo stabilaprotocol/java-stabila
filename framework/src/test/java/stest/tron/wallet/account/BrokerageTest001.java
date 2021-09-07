@@ -1,4 +1,4 @@
-package stest.tron.wallet.account;
+package stest.stabila.wallet.account;
 
 import com.google.protobuf.ByteString;
 import io.grpc.ManagedChannel;
@@ -15,8 +15,8 @@ import org.stabila.api.WalletGrpc;
 import org.stabila.api.WalletSolidityGrpc;
 import org.stabila.protos.Protocol;
 import org.stabila.protos.contract.StorageContract.UpdateBrokerageContract;
-import stest.tron.wallet.common.client.Configuration;
-import stest.tron.wallet.common.client.utils.PublicMethed;
+import stest.stabila.wallet.common.client.Configuration;
+import stest.stabila.wallet.common.client.utils.PublicMethed;
 
 @Slf4j
 public class BrokerageTest001 {

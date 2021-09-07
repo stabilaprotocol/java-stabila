@@ -1,4 +1,4 @@
-package stest.tron.wallet.dailybuild.manual;
+package stest.stabila.wallet.dailybuild.manual;
 
 import com.google.protobuf.ByteString;
 import io.grpc.ManagedChannel;
@@ -28,13 +28,13 @@ import org.stabila.protos.Protocol.Block;
 import org.stabila.protos.contract.BalanceContract.TransferContract;
 import org.stabila.protos.contract.WitnessContract.WitnessCreateContract;
 import org.stabila.protos.contract.WitnessContract.WitnessUpdateContract;
-import stest.tron.wallet.common.client.Configuration;
-import stest.tron.wallet.common.client.Parameter.CommonConstant;
-import stest.tron.wallet.common.client.utils.Base58;
-import stest.tron.wallet.common.client.utils.PublicMethed;
-import stest.tron.wallet.common.client.utils.TransactionUtils;
+import stest.stabila.wallet.common.client.Configuration;
+import stest.stabila.wallet.common.client.Parameter.CommonConstant;
+import stest.stabila.wallet.common.client.utils.Base58;
+import stest.stabila.wallet.common.client.utils.PublicMethed;
+import stest.stabila.wallet.common.client.utils.TransactionUtils;
 
-//import stest.tron.wallet.common.client.AccountComparator;
+//import stest.stabila.wallet.common.client.AccountComparator;
 
 @Slf4j
 public class WalletTestWitness003 {

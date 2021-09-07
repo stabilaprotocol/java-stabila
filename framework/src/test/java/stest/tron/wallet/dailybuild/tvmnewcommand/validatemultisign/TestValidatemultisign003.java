@@ -1,4 +1,4 @@
-package stest.tron.wallet.dailybuild.tvmnewcommand.validatemultisign;
+package stest.stabila.wallet.dailybuild.tvmnewcommand.validatemultisign;
 
 import com.google.protobuf.ByteString;
 import io.grpc.ManagedChannel;
@@ -26,10 +26,10 @@ import org.stabila.protos.Protocol;
 import org.stabila.protos.Protocol.Transaction;
 import org.stabila.protos.Protocol.TransactionInfo;
 import org.stabila.protos.contract.SmartContractOuterClass.SmartContract;
-import stest.tron.wallet.common.client.Configuration;
-import stest.tron.wallet.common.client.utils.AbiUtil;
-import stest.tron.wallet.common.client.utils.PublicMethed;
-import stest.tron.wallet.common.client.utils.PublicMethedForMutiSign;
+import stest.stabila.wallet.common.client.Configuration;
+import stest.stabila.wallet.common.client.utils.AbiUtil;
+import stest.stabila.wallet.common.client.utils.PublicMethed;
+import stest.stabila.wallet.common.client.utils.PublicMethedForMutiSign;
 
 @Slf4j
 public class TestValidatemultisign003 {

@@ -1,4 +1,4 @@
-package stest.tron.wallet.newaddinterface2;
+package stest.stabila.wallet.newaddinterface2;
 
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
@@ -17,9 +17,9 @@ import org.stabila.common.utils.ByteArray;
 import org.stabila.common.utils.Utils;
 import org.stabila.core.Wallet;
 import org.stabila.protos.Protocol.Account;
-import stest.tron.wallet.common.client.Configuration;
-import stest.tron.wallet.common.client.Parameter.CommonConstant;
-import stest.tron.wallet.common.client.utils.PublicMethed;
+import stest.stabila.wallet.common.client.Configuration;
+import stest.stabila.wallet.common.client.Parameter.CommonConstant;
+import stest.stabila.wallet.common.client.utils.PublicMethed;
 
 @Slf4j
 public class CreateAccount2Test {

@@ -1,4 +1,4 @@
-package stest.tron.wallet.dailybuild.assetissue;
+package stest.stabila.wallet.dailybuild.assetissue;
 
 import com.google.protobuf.ByteString;
 import io.grpc.ManagedChannel;
@@ -25,11 +25,11 @@ import org.stabila.protos.Protocol.Block;
 import org.stabila.protos.Protocol.Transaction;
 import org.stabila.protos.contract.AssetIssueContractOuterClass.AssetIssueContract;
 import org.stabila.protos.contract.AssetIssueContractOuterClass.TransferAssetContract;
-import stest.tron.wallet.common.client.Configuration;
-import stest.tron.wallet.common.client.Parameter.CommonConstant;
-import stest.tron.wallet.common.client.utils.Base58;
-import stest.tron.wallet.common.client.utils.PublicMethed;
-import stest.tron.wallet.common.client.utils.TransactionUtils;
+import stest.stabila.wallet.common.client.Configuration;
+import stest.stabila.wallet.common.client.Parameter.CommonConstant;
+import stest.stabila.wallet.common.client.utils.Base58;
+import stest.stabila.wallet.common.client.utils.PublicMethed;
+import stest.stabila.wallet.common.client.utils.TransactionUtils;
 
 @Slf4j
 public class WalletTestAssetIssue004 {
@@ -51,7 +51,7 @@ public class WalletTestAssetIssue004 {
   private final byte[] fromAddress = PublicMethed.getFinalAddress(testKey002);
   private final byte[] toAddress = PublicMethed.getFinalAddress(testKey003);
   String description = "just-test";
-  String url = "https://github.com/tronprotocol/wallet-cli/";
+  String url = "https://github.com/stabilaprotocol/wallet-cli/";
 
   private ManagedChannel channelFull = null;
   private WalletGrpc.WalletBlockingStub blockingStubFull = null;

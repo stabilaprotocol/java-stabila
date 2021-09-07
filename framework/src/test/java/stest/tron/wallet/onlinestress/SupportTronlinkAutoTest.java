@@ -1,4 +1,4 @@
-package stest.tron.wallet.onlinestress;
+package stest.stabila.wallet.onlinestress;
 
 import com.google.protobuf.ByteString;
 import io.grpc.ManagedChannel;
@@ -19,9 +19,9 @@ import org.stabila.common.utils.Utils;
 import org.stabila.core.Wallet;
 import org.stabila.protos.Protocol;
 import org.stabila.protos.contract.WitnessContract;
-import stest.tron.wallet.common.client.Parameter.CommonConstant;
-import stest.tron.wallet.common.client.utils.PublicMethed;
-import stest.tron.wallet.common.client.utils.PublicMethedForMutiSign;
+import stest.stabila.wallet.common.client.Parameter.CommonConstant;
+import stest.stabila.wallet.common.client.utils.PublicMethed;
+import stest.stabila.wallet.common.client.utils.PublicMethedForMutiSign;
 
 @Slf4j
 public class SupportStabilalinkAutoTest {

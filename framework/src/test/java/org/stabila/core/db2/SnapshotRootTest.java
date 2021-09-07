@@ -26,7 +26,7 @@ import org.stabila.common.utils.SessionOptional;
 
 public class SnapshotRootTest {
 
-  private RevokingDbWithCacheNewValueTest.TestRevokingStabilaStore tronDatabase;
+  private RevokingDbWithCacheNewValueTest.TestRevokingStabilaStore stabilaDatabase;
   private StabilaApplicationContext context;
   private Application appT;
   private SnapshotManager revokingDatabase;
@@ -48,46 +48,46 @@ public class SnapshotRootTest {
   @Test
   public synchronized void testRemove() {
     ProtoCapsuleTest testProtoCapsule = new ProtoCapsuleTest("test".getBytes());
-    tronDatabase = new RevokingDbWithCacheNewValueTest.TestRevokingStabilaStore("testSnapshotRoot-testRemove");
-    tronDatabase.put("test".getBytes(), testProtoCapsule);
-    Assert.assertEquals(testProtoCapsule, tronDatabase.get("test".getBytes()));
+    stabilaDatabase = new RevokingDbWithCacheNewValueTest.TestRevokingStabilaStore("testSnapshotRoot-testRemove");
+    stabilaDatabase.put("test".getBytes(), testProtoCapsule);
+    Assert.assertEquals(testProtoCapsule, stabilaDatabase.get("test".getBytes()));
 
-    tronDatabase.delete("test".getBytes());
-    Assert.assertEquals(null, tronDatabase.get("test".getBytes()));
-    tronDatabase.close();
+    stabilaDatabase.delete("test".getBytes());
+    Assert.assertEquals(null, stabilaDatabase.get("test".getBytes()));
+    stabilaDatabase.close();
   }
 
   @Test
   public synchronized void testMerge() {
-    tronDatabase = new RevokingDbWithCacheNewValueTest.TestRevokingStabilaStore("testSnapshotRoot-testMerge");
+    stabilaDatabase = new RevokingDbWithCacheNewValueTest.TestRevokingStabilaStore("testSnapshotRoot-testMerge");
     revokingDatabase = context.getBean(SnapshotManager.class);
     revokingDatabase.enable();
-    revokingDatabase.add(tronDatabase.getRevokingDB());
+    revokingDatabase.add(stabilaDatabase.getRevokingDB());
 
     SessionOptional dialog = SessionOptional.instance().setValue(revokingDatabase.buildSession());
     ProtoCapsuleTest testProtoCapsule = new ProtoCapsuleTest("merge".getBytes());
-    tronDatabase.put(testProtoCapsule.getData(), testProtoCapsule);
+    stabilaDatabase.put(testProtoCapsule.getData(), testProtoCapsule);
     revokingDatabase.getDbs().forEach(db -> db.getHead().getRoot().merge(db.getHead()));
     dialog.reset();
-    Assert.assertEquals(tronDatabase.get(testProtoCapsule.getData()), testProtoCapsule);
+    Assert.assertEquals(stabilaDatabase.get(testProtoCapsule.getData()), testProtoCapsule);
 
-    tronDatabase.close();
+    stabilaDatabase.close();
   }
 
   @Test
   public synchronized void testMergeList() {
-    tronDatabase = new RevokingDbWithCacheNewValueTest.TestRevokingStabilaStore("testSnapshotRoot-testMergeList");
+    stabilaDatabase = new RevokingDbWithCacheNewValueTest.TestRevokingStabilaStore("testSnapshotRoot-testMergeList");
     revokingDatabase = context.getBean(SnapshotManager.class);
     revokingDatabase.enable();
-    revokingDatabase.add(tronDatabase.getRevokingDB());
+    revokingDatabase.add(stabilaDatabase.getRevokingDB());
 
     SessionOptional.instance().setValue(revokingDatabase.buildSession());
     ProtoCapsuleTest testProtoCapsule = new ProtoCapsuleTest("test".getBytes());
-    tronDatabase.put("merge".getBytes(), testProtoCapsule);
+    stabilaDatabase.put("merge".getBytes(), testProtoCapsule);
     for (int i = 1; i < 11; i++) {
       ProtoCapsuleTest tmpProtoCapsule = new ProtoCapsuleTest(("mergeList" + i).getBytes());
       try (ISession tmpSession = revokingDatabase.buildSession()) {
-        tronDatabase.put(tmpProtoCapsule.getData(), tmpProtoCapsule);
+        stabilaDatabase.put(tmpProtoCapsule.getData(), tmpProtoCapsule);
         tmpSession.commit();
       }
     }
@@ -104,12 +104,12 @@ public class SnapshotRootTest {
 
       for (int i = 1; i < 11; i++) {
         ProtoCapsuleTest tmpProtoCapsule = new ProtoCapsuleTest(("mergeList" + i).getBytes());
-        Assert.assertEquals(tmpProtoCapsule, tronDatabase.get(tmpProtoCapsule.getData()));
+        Assert.assertEquals(tmpProtoCapsule, stabilaDatabase.get(tmpProtoCapsule.getData()));
       }
 
     });
     revokingDatabase.updateSolidity(10);
-    tronDatabase.close();
+    stabilaDatabase.close();
   }
 
   @NoArgsConstructor

@@ -69,7 +69,7 @@ public class PrecompiledContractsTest {
   private static final String WITNESS_NAME = "witness";
   private static final String WITNESS_ADDRESS;
   private static final String WITNESS_ADDRESS_BASE = "548794500882809695a8a687866e76d4271a1abc";
-  private static final String URL = "https://tron.network";
+  private static final String URL = "https://stabila.network";
   // withdraw
   private static final long initBalance = 10_000_000_000L;
   private static final long allowance = 32_000_000L;

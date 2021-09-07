@@ -1,4 +1,4 @@
-package stest.tron.wallet.dailybuild.tvmnewcommand.clearabi;
+package stest.stabila.wallet.dailybuild.tvmnewcommand.clearabi;
 
 import static org.hamcrest.core.StringContains.containsString;
 
@@ -24,9 +24,9 @@ import org.stabila.core.Wallet;
 import org.stabila.protos.Protocol.Account;
 import org.stabila.protos.Protocol.TransactionInfo;
 import org.stabila.protos.contract.SmartContractOuterClass.SmartContract;
-import stest.tron.wallet.common.client.Configuration;
-import stest.tron.wallet.common.client.Parameter.CommonConstant;
-import stest.tron.wallet.common.client.utils.PublicMethed;
+import stest.stabila.wallet.common.client.Configuration;
+import stest.stabila.wallet.common.client.Parameter.CommonConstant;
+import stest.stabila.wallet.common.client.utils.PublicMethed;
 
 @Slf4j
 public class ClearAbi001 {

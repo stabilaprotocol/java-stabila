@@ -87,11 +87,11 @@ public class VoteWitnessProcessor {
         }
       }
 
-      long tronPower = accountCapsule.getStabilaPower();
+      long stabilaPower = accountCapsule.getStabilaPower();
       sum =  LongMath.checkedMultiply(sum, TRX_PRECISION);
-      if (sum > tronPower) {
+      if (sum > stabilaPower) {
         throw new ContractExeException(
-            "The total number of votes[" + sum + "] is greater than the tronPower[" + tronPower
+            "The total number of votes[" + sum + "] is greater than the stabilaPower[" + stabilaPower
                 + "]");
       }
     } catch (ArithmeticException e) {

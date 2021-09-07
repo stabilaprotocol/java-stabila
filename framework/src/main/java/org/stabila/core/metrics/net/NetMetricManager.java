@@ -20,7 +20,7 @@ import org.stabila.protos.Protocol;
 public class NetMetricManager {
 
   @Autowired
-  private StabilaNetDelegate tronNetDelegate;
+  private StabilaNetDelegate stabilaNetDelegate;
 
   /**
    * get net info.
@@ -35,9 +35,9 @@ public class NetMetricManager {
 
   private void setNetInfo(NetInfo netInfo) {
     //set connection info
-    netInfo.setConnectionCount(tronNetDelegate.getActivePeer().size());
+    netInfo.setConnectionCount(stabilaNetDelegate.getActivePeer().size());
     int validConnectionCount = 0;
-    for (PeerConnection peerConnection : tronNetDelegate.getActivePeer()) {
+    for (PeerConnection peerConnection : stabilaNetDelegate.getActivePeer()) {
       if (!(peerConnection.isNeedSyncFromUs() || peerConnection.isNeedSyncFromPeer())) {
         validConnectionCount++;
       }

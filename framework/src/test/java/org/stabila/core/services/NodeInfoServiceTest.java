@@ -13,7 +13,7 @@ import org.stabila.common.entity.NodeInfo;
 import org.stabila.common.utils.Sha256Hash;
 import org.stabila.core.capsule.BlockCapsule;
 import org.stabila.program.Version;
-import stest.tron.wallet.common.client.Configuration;
+import stest.stabila.wallet.common.client.Configuration;
 
 @Slf4j
 public class NodeInfoServiceTest {

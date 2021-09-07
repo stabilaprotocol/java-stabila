@@ -1,4 +1,4 @@
-package stest.tron.wallet.dailybuild.tvmnewcommand.tvmstake;
+package stest.stabila.wallet.dailybuild.tvmnewcommand.tvmstake;
 
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
@@ -13,10 +13,10 @@ import org.stabila.common.crypto.ECKey;
 import org.stabila.common.utils.ByteArray;
 import org.stabila.common.utils.Utils;
 import org.stabila.core.Wallet;
-import stest.tron.wallet.common.client.Configuration;
-import stest.tron.wallet.common.client.Parameter;
-import stest.tron.wallet.common.client.utils.Base58;
-import stest.tron.wallet.common.client.utils.PublicMethed;
+import stest.stabila.wallet.common.client.Configuration;
+import stest.stabila.wallet.common.client.Parameter;
+import stest.stabila.wallet.common.client.utils.Base58;
+import stest.stabila.wallet.common.client.utils.PublicMethed;
 
 public class IsSrCandidateTest001 {
   private String testFoundationKey = Configuration.getByPath("testng.conf")

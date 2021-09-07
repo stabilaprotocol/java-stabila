@@ -98,8 +98,8 @@ public class SolidityNode {
     discoverServer.close();
     NodeManager nodeManager = context.getBean(NodeManager.class);
     nodeManager.close();
-    StabilaNetService tronNetService = context.getBean(StabilaNetService.class);
-    tronNetService.stop();
+    StabilaNetService stabilaNetService = context.getBean(StabilaNetService.class);
+    stabilaNetService.stop();
 
     SolidityNode node = new SolidityNode(appT.getDbManager());
     node.start();

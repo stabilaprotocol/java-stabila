@@ -1138,10 +1138,10 @@ public class Program {
   }
 
   public byte[] getCodeHashAt(DataWord address) {
-    byte[] tronAddr = TransactionTrace.convertToStabilaAddress(address.getLast20Bytes());
-    AccountCapsule account = getContractState().getAccount(tronAddr);
+    byte[] stabilaAddr = TransactionTrace.convertToStabilaAddress(address.getLast20Bytes());
+    AccountCapsule account = getContractState().getAccount(stabilaAddr);
     if (account != null) {
-      ContractCapsule contract = getContractState().getContract(tronAddr);
+      ContractCapsule contract = getContractState().getContract(stabilaAddr);
       byte[] codeHash;
       if (contract != null) {
         codeHash = contract.getCodeHash();
@@ -1149,7 +1149,7 @@ public class Program {
           byte[] code = getCodeAt(address);
           codeHash = Hash.sha3(code);
           contract.setCodeHash(codeHash);
-          getContractState().updateContract(tronAddr, contract);
+          getContractState().updateContract(stabilaAddr, contract);
         }
       } else {
         codeHash = Hash.sha3(new byte[0]);

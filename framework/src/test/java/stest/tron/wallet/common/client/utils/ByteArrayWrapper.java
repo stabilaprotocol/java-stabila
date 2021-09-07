@@ -1,4 +1,4 @@
-package stest.tron.wallet.common.client.utils;
+package stest.stabila.wallet.common.client.utils;
 /*
  * Copyright (c) [2016] [ <ether.camp> ]
  * This file is part of the ethereumJ library.

@@ -45,7 +45,7 @@ import org.stabila.core.vm.config.ConfigLoader;
 import org.stabila.core.vm.config.VMConfig;
 import org.stabila.protos.Protocol;
 import org.stabila.protos.Protocol.Transaction.Result.contractResult;
-import stest.tron.wallet.common.client.utils.AbiUtil;
+import stest.stabila.wallet.common.client.utils.AbiUtil;
 
 @Slf4j
 public class FreezeTest {

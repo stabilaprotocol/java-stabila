@@ -1,4 +1,4 @@
-package stest.tron.wallet.newaddinterface2;
+package stest.stabila.wallet.newaddinterface2;
 
 import com.google.protobuf.ByteString;
 import io.grpc.ManagedChannel;
@@ -29,10 +29,10 @@ import org.stabila.protos.contract.AssetIssueContractOuterClass.AssetIssueContra
 import org.stabila.protos.contract.AssetIssueContractOuterClass.ParticipateAssetIssueContract;
 import org.stabila.protos.contract.AssetIssueContractOuterClass.TransferAssetContract;
 import org.stabila.protos.contract.AssetIssueContractOuterClass.UnfreezeAssetContract;
-import stest.tron.wallet.common.client.Configuration;
-import stest.tron.wallet.common.client.Parameter.CommonConstant;
-import stest.tron.wallet.common.client.utils.PublicMethed;
-import stest.tron.wallet.common.client.utils.TransactionUtils;
+import stest.stabila.wallet.common.client.Configuration;
+import stest.stabila.wallet.common.client.Parameter.CommonConstant;
+import stest.stabila.wallet.common.client.utils.PublicMethed;
+import stest.stabila.wallet.common.client.utils.TransactionUtils;
 
 @Slf4j
 public class UnfreezeAsset2Test {
@@ -74,7 +74,7 @@ public class UnfreezeAsset2Test {
   byte[] lowBalAddress2 = ecKey2.getAddress();
   String lowBalTest2 = ByteArray.toHexString(ecKey2.getPrivKeyBytes());
   String description = "just-test";
-  String url = "https://github.com/tronprotocol/wallet-cli/";
+  String url = "https://github.com/stabilaprotocol/wallet-cli/";
 
   private ManagedChannel channelFull = null;
   private WalletGrpc.WalletBlockingStub blockingStubFull = null;

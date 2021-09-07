@@ -20,7 +20,7 @@ import org.stabila.core.exception.VMIllegalException;
 import org.stabila.core.vm.config.ConfigLoader;
 import org.stabila.protos.Protocol.Transaction;
 import org.stabila.protos.Protocol.Transaction.Result.contractResult;
-import stest.tron.wallet.common.client.utils.AbiUtil;
+import stest.stabila.wallet.common.client.utils.AbiUtil;
 
 public class TransferFailedEnergyTest extends VMTestBase {
   /*

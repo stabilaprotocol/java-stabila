@@ -69,9 +69,9 @@ public class PeerClient {
 
     logger.info("connect peer {} {} {}", host, port, remoteId);
 
-    StabilaChannelInitializer tronChannelInitializer = ctx
+    StabilaChannelInitializer stabilaChannelInitializer = ctx
         .getBean(StabilaChannelInitializer.class, remoteId);
-    tronChannelInitializer.setPeerDiscoveryMode(discoveryMode);
+    stabilaChannelInitializer.setPeerDiscoveryMode(discoveryMode);
 
     Bootstrap b = new Bootstrap();
     b.group(workerGroup);
@@ -82,7 +82,7 @@ public class PeerClient {
     b.option(ChannelOption.CONNECT_TIMEOUT_MILLIS, Args.getInstance().getNodeConnectionTimeout());
     b.remoteAddress(host, port);
 
-    b.handler(tronChannelInitializer);
+    b.handler(stabilaChannelInitializer);
 
     // Start the client.
     return b.connect();

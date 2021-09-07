@@ -1,4 +1,4 @@
-package stest.tron.wallet.common.client.utils;
+package stest.stabila.wallet.common.client.utils;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

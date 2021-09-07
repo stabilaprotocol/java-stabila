@@ -1,4 +1,4 @@
-package stest.tron.wallet.dailybuild.zentoken;
+package stest.stabila.wallet.dailybuild.zentoken;
 
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
@@ -20,10 +20,10 @@ import org.stabila.common.utils.ByteArray;
 import org.stabila.common.utils.Utils;
 import org.stabila.core.Wallet;
 import org.stabila.core.config.args.Args;
-import stest.tron.wallet.common.client.Configuration;
-import stest.tron.wallet.common.client.Parameter.CommonConstant;
-import stest.tron.wallet.common.client.utils.PublicMethed;
-import stest.tron.wallet.common.client.utils.ShieldAddressInfo;
+import stest.stabila.wallet.common.client.Configuration;
+import stest.stabila.wallet.common.client.Parameter.CommonConstant;
+import stest.stabila.wallet.common.client.utils.PublicMethed;
+import stest.stabila.wallet.common.client.utils.ShieldAddressInfo;
 
 @Slf4j
 public class WalletTestZenToken006 {
@@ -225,7 +225,7 @@ public class WalletTestZenToken006 {
     memo = "{\n"
         + "  note {\n"
         + "    value: 49957\n"
-        + "    payment_address: \"ztron1f42n7h0l3p8mlaq0d0rxdkhq"
+        + "    payment_address: \"zstabila1f42n7h0l3p8mlaq0d0rxdkhq"
         + "n6xuq49xhvj593wfduy24kn3xrmxfpqt8lnmh9ysnu5nzt3zgzx\"\n"
         + "    rcm: \"\\210x\\256\\211\\256v\\0344\\267\\240\\375\\377xs\\3"
         + "50\\3558^Y\\200i0$S\\312KK\\326l\\234J\\b\"\n"

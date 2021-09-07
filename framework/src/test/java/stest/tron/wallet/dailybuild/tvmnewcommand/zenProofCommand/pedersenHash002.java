@@ -1,4 +1,4 @@
-package stest.tron.wallet.dailybuild.tvmnewcommand.zenProofCommand;
+package stest.stabila.wallet.dailybuild.tvmnewcommand.zenProofCommand;
 
 import com.google.protobuf.ByteString;
 import io.grpc.ManagedChannel;
@@ -35,12 +35,12 @@ import org.stabila.core.Wallet;
 import org.stabila.core.exception.ZksnarkException;
 import org.stabila.core.zen.address.DiversifierT;
 import org.stabila.protos.Protocol.TransactionInfo;
-import stest.tron.wallet.common.client.Configuration;
-import stest.tron.wallet.common.client.Parameter.CommonConstant;
-import stest.tron.wallet.common.client.utils.Base58;
-import stest.tron.wallet.common.client.utils.HttpMethed;
-import stest.tron.wallet.common.client.utils.PublicMethed;
-import stest.tron.wallet.common.client.utils.ShieldedAddressInfo;
+import stest.stabila.wallet.common.client.Configuration;
+import stest.stabila.wallet.common.client.Parameter.CommonConstant;
+import stest.stabila.wallet.common.client.utils.Base58;
+import stest.stabila.wallet.common.client.utils.HttpMethed;
+import stest.stabila.wallet.common.client.utils.PublicMethed;
+import stest.stabila.wallet.common.client.utils.ShieldedAddressInfo;
 
 @Slf4j
 public class pedersenHash002 {

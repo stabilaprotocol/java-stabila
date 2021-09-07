@@ -1,4 +1,4 @@
-package stest.tron.wallet.newaddinterface2;
+package stest.stabila.wallet.newaddinterface2;
 
 import com.google.protobuf.ByteString;
 import io.grpc.ManagedChannel;
@@ -31,14 +31,14 @@ import org.stabila.protos.contract.AccountContract.AccountUpdateContract;
 import org.stabila.protos.contract.AssetIssueContractOuterClass;
 import org.stabila.protos.contract.BalanceContract;
 import org.stabila.protos.contract.WitnessContract;
-import stest.tron.wallet.common.client.Configuration;
-import stest.tron.wallet.common.client.Parameter.CommonConstant;
-import stest.tron.wallet.common.client.WalletClient;
-import stest.tron.wallet.common.client.utils.Base58;
-import stest.tron.wallet.common.client.utils.PublicMethed;
-import stest.tron.wallet.common.client.utils.TransactionUtils;
+import stest.stabila.wallet.common.client.Configuration;
+import stest.stabila.wallet.common.client.Parameter.CommonConstant;
+import stest.stabila.wallet.common.client.WalletClient;
+import stest.stabila.wallet.common.client.utils.Base58;
+import stest.stabila.wallet.common.client.utils.PublicMethed;
+import stest.stabila.wallet.common.client.utils.TransactionUtils;
 
-//import stest.tron.wallet.common.client.AccountComparator;
+//import stest.stabila.wallet.common.client.AccountComparator;
 
 @Slf4j
 public class UpdateAccount2Test {
@@ -60,7 +60,7 @@ public class UpdateAccount2Test {
       + "efabcdefg1abcdefg10o0og1abcdefg10o0oabcdefabcdefg1abcdefg10o0og1abcdefg10o0oab"
       + "cdefabcdefg1abcdefg10o0og1abcdefg10o0ofabcdefg1abcdefg10o0og1abcdefg10o0o";
   String description = "just-test";
-  String url = "https://github.com/tronprotocol/wallet-cli/";
+  String url = "https://github.com/stabilaprotocol/wallet-cli/";
 
   //get account
   ECKey ecKey = new ECKey(Utils.getRandom());

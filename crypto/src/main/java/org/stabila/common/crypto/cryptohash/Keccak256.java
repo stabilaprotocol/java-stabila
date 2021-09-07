@@ -24,7 +24,7 @@ public class Keccak256 extends KeccakCore {
    * Create the engine.
    */
   public Keccak256() {
-    super("tron-keccak-256");
+    super("stabila-keccak-256");
   }
 
   public Digest copy() {

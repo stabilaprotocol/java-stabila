@@ -1,4 +1,4 @@
-package stest.tron.wallet.dailybuild.multisign;
+package stest.stabila.wallet.dailybuild.multisign;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.stabila.api.GrpcAPI.TransactionSignWeight.Result.response_code.ENOUGH_PERMISSION;
@@ -28,11 +28,11 @@ import org.stabila.core.Wallet;
 import org.stabila.protos.Protocol.Transaction;
 import org.stabila.protos.Protocol.Transaction.Contract.ContractType;
 import org.stabila.protos.contract.AccountContract.AccountPermissionUpdateContract;
-import stest.tron.wallet.common.client.Configuration;
-import stest.tron.wallet.common.client.Parameter.CommonConstant;
-import stest.tron.wallet.common.client.utils.Base58;
-import stest.tron.wallet.common.client.utils.PublicMethed;
-import stest.tron.wallet.common.client.utils.PublicMethedForMutiSign;
+import stest.stabila.wallet.common.client.Configuration;
+import stest.stabila.wallet.common.client.Parameter.CommonConstant;
+import stest.stabila.wallet.common.client.utils.Base58;
+import stest.stabila.wallet.common.client.utils.PublicMethed;
+import stest.stabila.wallet.common.client.utils.PublicMethedForMutiSign;
 
 @Slf4j
 public class MultiSign23 {

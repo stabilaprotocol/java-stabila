@@ -1,4 +1,4 @@
-package stest.tron.wallet.onlinestress;
+package stest.stabila.wallet.onlinestress;
 
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
@@ -16,9 +16,9 @@ import org.stabila.common.utils.ByteArray;
 import org.stabila.common.utils.Utils;
 import org.stabila.protos.Protocol.Account;
 import org.stabila.protos.Protocol.Permission;
-import stest.tron.wallet.common.client.Configuration;
-import stest.tron.wallet.common.client.utils.PublicMethed;
-import stest.tron.wallet.common.client.utils.PublicMethedForMutiSign;
+import stest.stabila.wallet.common.client.Configuration;
+import stest.stabila.wallet.common.client.utils.PublicMethed;
+import stest.stabila.wallet.common.client.utils.PublicMethedForMutiSign;
 
 @Slf4j
 public class CycleMultiSign {

@@ -49,7 +49,7 @@ public class AssetIssueActuatorTest {
   private static final int TRX_NUM = 10000;
   private static final int NUM = 100000;
   private static final String DESCRIPTION = "myCoin";
-  private static final String URL = "tron-my.com";
+  private static final String URL = "stabila-my.com";
   private static final String ASSET_NAME_SECOND = "asset_name2";
   private static StabilaApplicationContext context;
   private static Manager dbManager;

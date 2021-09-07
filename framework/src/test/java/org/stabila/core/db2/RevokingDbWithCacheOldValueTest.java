@@ -155,40 +155,40 @@ public class RevokingDbWithCacheOldValueTest {
   public synchronized void testGetlatestValues() {
     revokingDatabase.getStack().clear();
     TestRevokingStabilaStore stabilaDatabase = new TestRevokingStabilaStore(
-        "testrevokingtronstore-testGetlatestValues", revokingDatabase);
+        "testrevokingstabilastore-testGetlatestValues", revokingDatabase);
 
     for (int i = 0; i < 10; i++) {
       ProtoCapsuleTest testProtoCapsule = new ProtoCapsuleTest(("getLastestValues" + i).getBytes());
       try (ISession tmpSession = revokingDatabase.buildSession()) {
-        tronDatabase.put(testProtoCapsule.getData(), testProtoCapsule);
+        stabilaDatabase.put(testProtoCapsule.getData(), testProtoCapsule);
         tmpSession.commit();
       }
     }
-    Set<ProtoCapsuleTest> result = tronDatabase.getRevokingDB().getlatestValues(5).stream()
+    Set<ProtoCapsuleTest> result = stabilaDatabase.getRevokingDB().getlatestValues(5).stream()
         .map(ProtoCapsuleTest::new)
         .collect(Collectors.toSet());
 
     for (int i = 9; i >= 5; i--) {
       Assert.assertTrue(result.contains(new ProtoCapsuleTest(("getLastestValues" + i).getBytes())));
     }
-    tronDatabase.close();
+    stabilaDatabase.close();
   }
 
   @Test
   public synchronized void testGetValuesNext() {
     revokingDatabase.getStack().clear();
-    TestRevokingStabilaStore tronDatabase = new TestRevokingStabilaStore(
-        "testrevokingtronstore-testGetValuesNext", revokingDatabase);
+    TestRevokingStabilaStore stabilaDatabase = new TestRevokingStabilaStore(
+        "testrevokingstabilastore-testGetValuesNext", revokingDatabase);
 
     for (int i = 0; i < 10; i++) {
       ProtoCapsuleTest testProtoCapsule = new ProtoCapsuleTest(("getValuesNext" + i).getBytes());
       try (ISession tmpSession = revokingDatabase.buildSession()) {
-        tronDatabase.put(testProtoCapsule.getData(), testProtoCapsule);
+        stabilaDatabase.put(testProtoCapsule.getData(), testProtoCapsule);
         tmpSession.commit();
       }
     }
     Set<ProtoCapsuleTest> result =
-        tronDatabase.getRevokingDB().getValuesNext(
+        stabilaDatabase.getRevokingDB().getValuesNext(
             new ProtoCapsuleTest("getValuesNext2".getBytes()).getData(), 3)
             .stream()
             .map(ProtoCapsuleTest::new)
@@ -197,66 +197,66 @@ public class RevokingDbWithCacheOldValueTest {
     for (int i = 2; i < 5; i++) {
       Assert.assertTrue(result.contains(new ProtoCapsuleTest(("getValuesNext" + i).getBytes())));
     }
-    tronDatabase.close();
+    stabilaDatabase.close();
   }
 
   @Test
   public synchronized void testGetKeysNext() {
     revokingDatabase.getStack().clear();
-    TestRevokingStabilaStore tronDatabase = new TestRevokingStabilaStore(
-        "testrevokingtronstore-testGetKeysNext", revokingDatabase);
+    TestRevokingStabilaStore stabilaDatabase = new TestRevokingStabilaStore(
+        "testrevokingstabilastore-testGetKeysNext", revokingDatabase);
 
     String protoCapsuleStr = "getKeysNext";
     for (int i = 0; i < 10; i++) {
       ProtoCapsuleTest testProtoCapsule = new ProtoCapsuleTest((protoCapsuleStr + i).getBytes());
       try (ISession tmpSession = revokingDatabase.buildSession()) {
-        tronDatabase.put(testProtoCapsule.getData(), testProtoCapsule);
+        stabilaDatabase.put(testProtoCapsule.getData(), testProtoCapsule);
         tmpSession.commit();
       }
     }
 
     int start = 2;
     List<byte[]> result =
-        tronDatabase.getRevokingDB().getKeysNext(
+        stabilaDatabase.getRevokingDB().getKeysNext(
             new ProtoCapsuleTest((protoCapsuleStr + start).getBytes()).getData(), 3);
 
     for (int i = start; i < 5; i++) {
       Assert.assertArrayEquals(new ProtoCapsuleTest((protoCapsuleStr + i).getBytes()).getData(),
           result.get(i - 2));
     }
-    tronDatabase.close();
+    stabilaDatabase.close();
   }
 
   @Test
   public void shutdown() throws RevokingStoreIllegalStateException {
     revokingDatabase.getStack().clear();
-    TestRevokingStabilaStore tronDatabase = new TestRevokingStabilaStore(
-        "testrevokingtronstore-shutdown", revokingDatabase);
+    TestRevokingStabilaStore stabilaDatabase = new TestRevokingStabilaStore(
+        "testrevokingstabilastore-shutdown", revokingDatabase);
 
     List<ProtoCapsuleTest> capsules = new ArrayList<>();
     for (int i = 1; i < 11; i++) {
       revokingDatabase.buildSession();
       ProtoCapsuleTest testProtoCapsule = new ProtoCapsuleTest(("test" + i).getBytes());
       capsules.add(testProtoCapsule);
-      tronDatabase.put(testProtoCapsule.getData(), testProtoCapsule);
+      stabilaDatabase.put(testProtoCapsule.getData(), testProtoCapsule);
       Assert.assertEquals(revokingDatabase.getActiveDialog(), i);
       Assert.assertEquals(revokingDatabase.getStack().size(), i);
     }
 
     for (ProtoCapsuleTest capsule : capsules) {
       logger.info(new String(capsule.getData()));
-      Assert.assertEquals(capsule, tronDatabase.getUnchecked(capsule.getData()));
+      Assert.assertEquals(capsule, stabilaDatabase.getUnchecked(capsule.getData()));
     }
 
     revokingDatabase.shutdown();
 
     for (ProtoCapsuleTest capsule : capsules) {
-      logger.info(tronDatabase.getUnchecked(capsule.getData()).toString());
-      Assert.assertEquals(null, tronDatabase.getUnchecked(capsule.getData()).getData());
+      logger.info(stabilaDatabase.getUnchecked(capsule.getData()).toString());
+      Assert.assertEquals(null, stabilaDatabase.getUnchecked(capsule.getData()).getData());
     }
 
     Assert.assertEquals(0, revokingDatabase.getStack().size());
-    tronDatabase.close();
+    stabilaDatabase.close();
 
   }
 

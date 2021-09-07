@@ -1,10 +1,10 @@
 /*
- * java-tron is free software: you can redistribute it and/or modify
+ * java-stabila is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * java-tron is distributed in the hope that it will be useful,
+ * java-stabila is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
@@ -34,7 +34,7 @@ public class AccountTest {
    */
   @Before
   public void setAccount() {
-    account.setAccountName("tron");
+    account.setAccountName("stabila");
     account.setAccountType("Normal");
     account
         .setAddress(ByteArray.fromHexString(
@@ -54,9 +54,9 @@ public class AccountTest {
 
   @Test
   public void setAccountNameRight() {
-    account.setAccountName("tron-name");
+    account.setAccountName("stabila-name");
 
-    byte[] bytes = ByteArray.fromString("tron-name");
+    byte[] bytes = ByteArray.fromString("stabila-name");
 
     if (ArrayUtils.isNotEmpty(bytes)) {
       ByteString accountName = ByteString.copyFrom(bytes);
@@ -66,7 +66,7 @@ public class AccountTest {
 
   @Test
   public void getAccountName() {
-    byte[] bytes = ByteArray.fromString("tron");
+    byte[] bytes = ByteArray.fromString("stabila");
 
     if (ArrayUtils.isNotEmpty(bytes)) {
       ByteString accountName = ByteString.copyFrom(bytes);

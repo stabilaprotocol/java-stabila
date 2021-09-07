@@ -30,10 +30,10 @@ public class VoteWitnessParam {
     return votes;
   }
 
-  public void addVote(byte[] witnessAddress, long tronPower) {
+  public void addVote(byte[] witnessAddress, long stabilaPower) {
     this.votes.add(Protocol.Vote.newBuilder()
         .setVoteAddress(ByteString.copyFrom(witnessAddress))
-        .setVoteCount(tronPower)
+        .setVoteCount(stabilaPower)
         .build());
   }
 

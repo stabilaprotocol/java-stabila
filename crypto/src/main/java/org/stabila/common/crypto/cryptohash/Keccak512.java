@@ -24,7 +24,7 @@ public class Keccak512 extends KeccakCore {
    * Create the engine.
    */
   public Keccak512() {
-    super("tron-keccak-512");
+    super("stabila-keccak-512");
   }
 
   public Digest copy() {

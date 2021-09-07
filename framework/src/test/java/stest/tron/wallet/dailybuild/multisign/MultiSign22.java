@@ -1,4 +1,4 @@
-package stest.tron.wallet.dailybuild.multisign;
+package stest.stabila.wallet.dailybuild.multisign;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.stabila.api.GrpcAPI.Return.response_code.SIGERROR;
@@ -22,10 +22,10 @@ import org.stabila.common.utils.ByteArray;
 import org.stabila.common.utils.Utils;
 import org.stabila.core.Wallet;
 import org.stabila.protos.Protocol.Transaction.Contract.ContractType;
-import stest.tron.wallet.common.client.Configuration;
-import stest.tron.wallet.common.client.Parameter.CommonConstant;
-import stest.tron.wallet.common.client.utils.PublicMethed;
-import stest.tron.wallet.common.client.utils.PublicMethedForMutiSign;
+import stest.stabila.wallet.common.client.Configuration;
+import stest.stabila.wallet.common.client.Parameter.CommonConstant;
+import stest.stabila.wallet.common.client.utils.PublicMethed;
+import stest.stabila.wallet.common.client.utils.PublicMethedForMutiSign;
 
 @Slf4j
 public class MultiSign22 {

@@ -1,4 +1,4 @@
-package stest.tron.wallet.dailybuild.tvmnewcommand.create2;
+package stest.stabila.wallet.dailybuild.tvmnewcommand.create2;
 
 import com.google.protobuf.ByteString;
 import io.grpc.ManagedChannel;
@@ -21,11 +21,11 @@ import org.stabila.common.utils.Utils;
 import org.stabila.core.Wallet;
 import org.stabila.protos.Protocol.TransactionInfo;
 import org.stabila.protos.contract.SmartContractOuterClass.SmartContract;
-import stest.tron.wallet.common.client.Configuration;
-import stest.tron.wallet.common.client.Parameter.CommonConstant;
-import stest.tron.wallet.common.client.WalletClient;
-import stest.tron.wallet.common.client.utils.Base58;
-import stest.tron.wallet.common.client.utils.PublicMethed;
+import stest.stabila.wallet.common.client.Configuration;
+import stest.stabila.wallet.common.client.Parameter.CommonConstant;
+import stest.stabila.wallet.common.client.WalletClient;
+import stest.stabila.wallet.common.client.utils.Base58;
+import stest.stabila.wallet.common.client.utils.PublicMethed;
 
 @Slf4j
 public class Create2Test016 {

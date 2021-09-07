@@ -1,4 +1,4 @@
-package stest.tron.wallet.dailybuild.zentoken;
+package stest.stabila.wallet.dailybuild.zentoken;
 
 import com.google.protobuf.ByteString;
 import io.grpc.ManagedChannel;
@@ -25,10 +25,10 @@ import org.stabila.core.Wallet;
 import org.stabila.core.config.args.Args;
 import org.stabila.protos.Protocol.Transaction;
 import org.stabila.protos.Protocol.TransactionInfo;
-import stest.tron.wallet.common.client.Configuration;
-import stest.tron.wallet.common.client.Parameter.CommonConstant;
-import stest.tron.wallet.common.client.utils.PublicMethed;
-import stest.tron.wallet.common.client.utils.ShieldAddressInfo;
+import stest.stabila.wallet.common.client.Configuration;
+import stest.stabila.wallet.common.client.Parameter.CommonConstant;
+import stest.stabila.wallet.common.client.utils.PublicMethed;
+import stest.stabila.wallet.common.client.utils.ShieldAddressInfo;
 
 
 @Slf4j

@@ -68,7 +68,7 @@ public class ShieldedTransferActuatorTest {
   private static final long END_TIME = 2;
   private static final int VOTE_SCORE = 2;
   private static final String DESCRIPTION = "TRX";
-  private static final String URL = "https://tron.network";
+  private static final String URL = "https://stabila.network";
   private static Wallet wallet;
   private static Manager dbManager;
   private static StabilaApplicationContext context;

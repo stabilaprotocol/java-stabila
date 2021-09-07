@@ -1,4 +1,4 @@
-package stest.tron.wallet.dailybuild.manual;
+package stest.stabila.wallet.dailybuild.manual;
 
 import com.google.protobuf.ByteString;
 import io.grpc.ManagedChannel;
@@ -21,10 +21,10 @@ import org.stabila.common.utils.Utils;
 import org.stabila.core.Wallet;
 import org.stabila.protos.Protocol.Account;
 import org.stabila.protos.Protocol.Exchange;
-import stest.tron.wallet.common.client.Configuration;
-import stest.tron.wallet.common.client.Parameter.CommonConstant;
-import stest.tron.wallet.common.client.utils.PublicMethed;
-import stest.tron.wallet.common.client.utils.PublicMethedForMutiSign;
+import stest.stabila.wallet.common.client.Configuration;
+import stest.stabila.wallet.common.client.Parameter.CommonConstant;
+import stest.stabila.wallet.common.client.utils.PublicMethed;
+import stest.stabila.wallet.common.client.utils.PublicMethedForMutiSign;
 
 @Slf4j
 public class WalletTestMutiSign002 {
@@ -37,7 +37,7 @@ public class WalletTestMutiSign002 {
       .getString("foundationAccount.key2");
   private final byte[] fromAddress = PublicMethed.getFinalAddress(testKey002);
   String description = "just-test";
-  String url = "https://github.com/tronprotocol/wallet-cli/";
+  String url = "https://github.com/stabilaprotocol/wallet-cli/";
   ECKey ecKey1 = new ECKey(Utils.getRandom());
   byte[] exchange001Address = ecKey1.getAddress();
   String exchange001Key = ByteArray.toHexString(ecKey1.getPrivKeyBytes());

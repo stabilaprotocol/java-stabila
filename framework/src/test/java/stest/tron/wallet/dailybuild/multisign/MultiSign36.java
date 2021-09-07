@@ -1,4 +1,4 @@
-package stest.tron.wallet.dailybuild.multisign;
+package stest.stabila.wallet.dailybuild.multisign;
 
 import com.google.protobuf.Any;
 import com.google.protobuf.ByteString;
@@ -24,10 +24,10 @@ import org.stabila.protos.Protocol.Permission;
 import org.stabila.protos.Protocol.Transaction;
 import org.stabila.protos.Protocol.Transaction.Contract.ContractType;
 import org.stabila.protos.contract.BalanceContract;
-import stest.tron.wallet.common.client.Configuration;
-import stest.tron.wallet.common.client.utils.Base58;
-import stest.tron.wallet.common.client.utils.PublicMethed;
-import stest.tron.wallet.common.client.utils.PublicMethedForMutiSign;
+import stest.stabila.wallet.common.client.Configuration;
+import stest.stabila.wallet.common.client.utils.Base58;
+import stest.stabila.wallet.common.client.utils.PublicMethed;
+import stest.stabila.wallet.common.client.utils.PublicMethedForMutiSign;
 
 @Slf4j
 public class MultiSign36 {

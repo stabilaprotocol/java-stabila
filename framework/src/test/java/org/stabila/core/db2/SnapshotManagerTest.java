@@ -25,7 +25,7 @@ public class SnapshotManagerTest {
   private SnapshotManager revokingDatabase;
   private StabilaApplicationContext context;
   private Application appT;
-  private TestRevokingStabilaStore tronDatabase;
+  private TestRevokingStabilaStore stabilaDatabase;
 
   @Before
   public void init() {
@@ -35,18 +35,18 @@ public class SnapshotManagerTest {
     appT = ApplicationFactory.create(context);
     revokingDatabase = context.getBean(SnapshotManager.class);
     revokingDatabase.enable();
-    tronDatabase = new TestRevokingStabilaStore("testSnapshotManager-test");
-    revokingDatabase.add(tronDatabase.getRevokingDB());
+    stabilaDatabase = new TestRevokingStabilaStore("testSnapshotManager-test");
+    revokingDatabase.add(stabilaDatabase.getRevokingDB());
   }
 
   @After
   public void removeDb() {
     Args.clearParam();
     context.destroy();
-    tronDatabase.close();
+    stabilaDatabase.close();
     FileUtil.deleteDir(new File("output_SnapshotManager_test"));
     revokingDatabase.getCheckTmpStore().close();
-    tronDatabase.close();
+    stabilaDatabase.close();
   }
 
   @Test
@@ -63,14 +63,14 @@ public class SnapshotManagerTest {
     for (int i = 1; i < 11; i++) {
       ProtoCapsuleTest testProtoCapsule = new ProtoCapsuleTest(("refresh" + i).getBytes());
       try (ISession tmpSession = revokingDatabase.buildSession()) {
-        tronDatabase.put(protoCapsule.getData(), testProtoCapsule);
+        stabilaDatabase.put(protoCapsule.getData(), testProtoCapsule);
         tmpSession.commit();
       }
     }
 
     revokingDatabase.flush();
     Assert.assertEquals(new ProtoCapsuleTest("refresh10".getBytes()),
-        tronDatabase.get(protoCapsule.getData()));
+        stabilaDatabase.get(protoCapsule.getData()));
   }
 
   @Test
@@ -86,11 +86,11 @@ public class SnapshotManagerTest {
     for (int i = 1; i < 11; i++) {
       ProtoCapsuleTest testProtoCapsule = new ProtoCapsuleTest(("close" + i).getBytes());
       try (ISession tmpSession = revokingDatabase.buildSession()) {
-        tronDatabase.put(protoCapsule.getData(), testProtoCapsule);
+        stabilaDatabase.put(protoCapsule.getData(), testProtoCapsule);
       }
     }
     Assert.assertEquals(null,
-        tronDatabase.get(protoCapsule.getData()));
+        stabilaDatabase.get(protoCapsule.getData()));
 
   }
 }

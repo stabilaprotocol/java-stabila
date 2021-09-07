@@ -1,4 +1,4 @@
-package stest.tron.wallet.common.client.utils;
+package stest.stabila.wallet.common.client.utils;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -36,8 +36,8 @@ import org.stabila.core.exception.ZksnarkException;
 import org.stabila.core.zen.address.DiversifierT;
 import org.stabila.protos.Protocol.TransactionInfo;
 import org.stabila.protos.contract.ShieldContract;
-import stest.tron.wallet.common.client.Configuration;
-import stest.tron.wallet.common.client.Parameter.CommonConstant;
+import stest.stabila.wallet.common.client.Configuration;
+import stest.stabila.wallet.common.client.Parameter.CommonConstant;
 
 @Slf4j
 public class ZenTrc20Base {

@@ -1,4 +1,4 @@
-package stest.tron.wallet.onlinestress;
+package stest.stabila.wallet.onlinestress;
 
 import com.alibaba.fastjson.JSONObject;
 import io.grpc.ManagedChannel;
@@ -19,11 +19,11 @@ import org.stabila.api.GrpcAPI;
 import org.stabila.api.GrpcAPI.Note;
 import org.stabila.api.WalletGrpc;
 import org.stabila.api.WalletSolidityGrpc;
-import stest.tron.wallet.common.client.Configuration;
-import stest.tron.wallet.common.client.utils.HttpMethed;
-import stest.tron.wallet.common.client.utils.PublicMethed;
-import stest.tron.wallet.common.client.utils.ShieldedAddressInfo;
-import stest.tron.wallet.common.client.utils.ZenTrc20Base;
+import stest.stabila.wallet.common.client.Configuration;
+import stest.stabila.wallet.common.client.utils.HttpMethed;
+import stest.stabila.wallet.common.client.utils.PublicMethed;
+import stest.stabila.wallet.common.client.utils.ShieldedAddressInfo;
+import stest.stabila.wallet.common.client.utils.ZenTrc20Base;
 
 @Slf4j
 public class ShieldTrc20Stress extends ZenTrc20Base {

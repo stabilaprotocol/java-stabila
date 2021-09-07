@@ -47,8 +47,8 @@ import org.stabila.core.store.StoreFactory;
 import org.stabila.core.vm.config.ConfigLoader;
 import org.stabila.core.vm.config.VMConfig;
 import org.stabila.protos.Protocol;
-import stest.tron.wallet.common.client.utils.AbiUtil;
-import stest.tron.wallet.common.client.utils.DataWord;
+import stest.stabila.wallet.common.client.utils.AbiUtil;
+import stest.stabila.wallet.common.client.utils.DataWord;
 
 @Slf4j
 public class VoteTest {
@@ -371,18 +371,18 @@ public class VoteTest {
     long newVoteReceivedCount = 0;
     // cycle-1
     {
-      // query tron power, is zero
+      // query stabila power, is zero
       triggerContract(voteContract, SUCCESS, getEqualConsumer(0),
           queryTotalVoteCountMethod, voteContractStr);
 
-      // get tron power: bandwidth
+      // get stabila power: bandwidth
       triggerContract(voteContract, SUCCESS, null,
           freezeMethod, voteContractStr, freezeUnit, 0);
-      // get tron power: energy
+      // get stabila power: energy
       triggerContract(voteContract, SUCCESS, null,
           freezeMethod, voteContractStr, freezeUnit, 1);
 
-      // query tron power, not zero
+      // query stabila power, not zero
       long totalStabilaPower = 2 * freezeUnit / trx_precision;
       triggerContract(voteContract, SUCCESS, getEqualConsumer(totalStabilaPower),
           queryTotalVoteCountMethod, voteContractStr);
@@ -478,7 +478,7 @@ public class VoteTest {
   public void testVoteWithException() throws Exception {
     byte[] voteContractAddr = deployContract("Vote", ABI, CODE);
 
-    // Not enough tron power
+    // Not enough stabila power
     triggerContract(voteContractAddr, REVERT, null, voteMethod,
         Arrays.asList(witnessAStr, witnessBStr), Arrays.asList(1000, 1000));
 
@@ -510,7 +510,7 @@ public class VoteTest {
 
     // cycle-1
     {
-      // freeze balance to get tron power
+      // freeze balance to get stabila power
       freezeBalance(voteContractA);
       freezeBalance(voteContractB);
 
@@ -577,7 +577,7 @@ public class VoteTest {
 
     // cycle-1
     {
-      // freeze balance to get tron power
+      // freeze balance to get stabila power
       freezeBalance(voteContractA);
       freezeBalance(voteContractB);
 
@@ -690,7 +690,7 @@ public class VoteTest {
 
     // cycle-1
     {
-      // freeze balance to get tron power
+      // freeze balance to get stabila power
       freezeBalance(voteContractA);
       freezeBalance(voteContractB);
 
@@ -794,7 +794,7 @@ public class VoteTest {
 
     // cycle-1
     {
-      // freeze balance to get tron power
+      // freeze balance to get stabila power
       freezeBalance(voteContractA);
       freezeBalance(voteContractB);
 
@@ -845,9 +845,9 @@ public class VoteTest {
 
   private void voteWitness(byte[] contract,
                            List<String> witnessList,
-                           List<Long> tronPowerList) throws Exception {
+                           List<Long> stabilaPowerList) throws Exception {
     triggerContract(contract, SUCCESS, getEqualConsumer(1),
-        voteMethod, witnessList, tronPowerList);
+        voteMethod, witnessList, stabilaPowerList);
   }
 
   private void clearVote(byte[] contract) throws Exception {
@@ -856,7 +856,7 @@ public class VoteTest {
 
   private void checkVote(byte[] contract,
                          List<String> witnessList,
-                         List<Long> tronPowerList) {
+                         List<Long> stabilaPowerList) {
 
   }
 

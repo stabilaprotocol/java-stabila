@@ -23,7 +23,7 @@ import org.stabila.core.vm.program.invoke.ProgramInvokeFactoryImpl;
 import org.stabila.core.vm.repository.Repository;
 import org.stabila.core.vm.repository.RepositoryImpl;
 import org.stabila.protos.Protocol.Transaction;
-import stest.tron.wallet.common.client.utils.AbiUtil;
+import stest.stabila.wallet.common.client.utils.AbiUtil;
 
 @Slf4j
 public class IsSRCandidateTest extends VMTestBase {

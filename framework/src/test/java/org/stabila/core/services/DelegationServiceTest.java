@@ -1,7 +1,7 @@
 package org.stabila.core.services;
 
 import static org.stabila.common.utils.Commons.decodeFromBase58Check;
-import static stest.tron.wallet.common.client.Parameter.CommonConstant.ADD_PRE_FIX_BYTE_MAINNET;
+import static stest.stabila.wallet.common.client.Parameter.CommonConstant.ADD_PRE_FIX_BYTE_MAINNET;
 
 import com.google.protobuf.ByteString;
 import io.grpc.ManagedChannelBuilder;

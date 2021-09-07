@@ -1,4 +1,4 @@
-package stest.tron.wallet.dailybuild.zentrc20token;
+package stest.stabila.wallet.dailybuild.zentrc20token;
 
 import com.alibaba.fastjson.JSONObject;
 import java.util.ArrayList;
@@ -14,11 +14,11 @@ import org.stabila.common.crypto.ECKey;
 import org.stabila.common.utils.ByteArray;
 import org.stabila.common.utils.Utils;
 import org.stabila.core.zen.address.DiversifierT;
-import stest.tron.wallet.common.client.Configuration;
-import stest.tron.wallet.common.client.utils.HttpMethed;
-import stest.tron.wallet.common.client.utils.ShieldAddressInfo;
-import stest.tron.wallet.common.client.utils.ShieldNoteInfo;
-import stest.tron.wallet.common.client.utils.ZenTrc20Base;
+import stest.stabila.wallet.common.client.Configuration;
+import stest.stabila.wallet.common.client.utils.HttpMethed;
+import stest.stabila.wallet.common.client.utils.ShieldAddressInfo;
+import stest.stabila.wallet.common.client.utils.ShieldNoteInfo;
+import stest.stabila.wallet.common.client.utils.ZenTrc20Base;
 
 @Slf4j
 public class HttpShieldTrc20Token001 extends ZenTrc20Base {

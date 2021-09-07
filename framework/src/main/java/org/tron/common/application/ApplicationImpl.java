@@ -19,7 +19,7 @@ public class ApplicationImpl implements Application {
   private ServiceContainer services;
 
   @Autowired
-  private StabilaNetService tronNetService;
+  private StabilaNetService stabilaNetService;
 
   @Autowired
   private Manager dbManager;
@@ -55,7 +55,7 @@ public class ApplicationImpl implements Application {
    * start up the app.
    */
   public void startup() {
-    tronNetService.start();
+    stabilaNetService.start();
     consensusService.start();
     MetricsUtil.init();
   }
@@ -63,7 +63,7 @@ public class ApplicationImpl implements Application {
   @Override
   public void shutdown() {
     logger.info("******** start to shutdown ********");
-    tronNetService.stop();
+    stabilaNetService.stop();
     consensusService.stop();
     synchronized (dbManager.getRevokingStore()) {
       closeRevokingStore();

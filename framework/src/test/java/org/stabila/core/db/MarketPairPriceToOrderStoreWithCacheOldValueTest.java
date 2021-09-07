@@ -52,10 +52,10 @@ public class MarketPairPriceToOrderStoreWithCacheOldValueTest {
   @Test
   public synchronized void testGetKeysNext() {
     revokingDatabase.getStack().clear();
-    String dbName = "testrevokingtronstore-testGetKeysNext";
+    String dbName = "testrevokingstabilastore-testGetKeysNext";
     Options options = StorageUtils.getOptionsByDbName(dbName);
     options.comparator(new MarketOrderPriceComparatorForLevelDB());
-    TestRevokingStabilaStore tronDatabase = new TestRevokingStabilaStore(dbName, options,
+    TestRevokingStabilaStore stabilaDatabase = new TestRevokingStabilaStore(dbName, options,
         revokingDatabase);
 
     // put order: 2 1 3 0
@@ -103,13 +103,13 @@ public class MarketPairPriceToOrderStoreWithCacheOldValueTest {
         ByteArray.fromLong(3));
 
     // put: 2 1 0 3
-    Assert.assertFalse(tronDatabase.has(pairPriceKey2));
-    tronDatabase.put(pairPriceKey2, capsule2);
+    Assert.assertFalse(stabilaDatabase.has(pairPriceKey2));
+    stabilaDatabase.put(pairPriceKey2, capsule2);
 
     try {
       Assert
           .assertArrayEquals(capsule2.getData(),
-              tronDatabase.get(pairPriceKey2).getData());
+              stabilaDatabase.get(pairPriceKey2).getData());
     } catch (ItemNotFoundException | BadItemException e) {
       Assert.fail();
     }
@@ -117,60 +117,60 @@ public class MarketPairPriceToOrderStoreWithCacheOldValueTest {
     // pairPriceKey1 and pairPriceKey2 has the same value,
     // After put pairPriceKey2, pairPriceKey2 will be replaced by pairPriceKey1, both key and value.
     // But you can still get(pairPriceKey2) return pairPriceKey1's value
-    Assert.assertTrue(tronDatabase.has(pairPriceKey1));
-    tronDatabase.put(pairPriceKey1, capsule1);
-    Assert.assertEquals(1, tronDatabase.size());
+    Assert.assertTrue(stabilaDatabase.has(pairPriceKey1));
+    stabilaDatabase.put(pairPriceKey1, capsule1);
+    Assert.assertEquals(1, stabilaDatabase.size());
 
     try {
       Assert
           .assertArrayEquals(capsule1.getData(),
-              tronDatabase.get(pairPriceKey1).getData());
+              stabilaDatabase.get(pairPriceKey1).getData());
       Assert
           .assertArrayEquals(capsule1.getData(),
-              tronDatabase.get(pairPriceKey2).getData());
+              stabilaDatabase.get(pairPriceKey2).getData());
     } catch (ItemNotFoundException | BadItemException e) {
       Assert.fail();
     }
 
-    Assert.assertFalse(tronDatabase.has(pairPriceKey0));
-    if (!tronDatabase.has(pairPriceKey0)) {
-      tronDatabase.put(pairPriceKey0, capsule0);
+    Assert.assertFalse(stabilaDatabase.has(pairPriceKey0));
+    if (!stabilaDatabase.has(pairPriceKey0)) {
+      stabilaDatabase.put(pairPriceKey0, capsule0);
     }
 
-    Assert.assertEquals(2, tronDatabase.size());
+    Assert.assertEquals(2, stabilaDatabase.size());
 
-    Assert.assertFalse(tronDatabase.has(pairPriceKey3));
-    if (!tronDatabase.has(pairPriceKey3)) {
-      tronDatabase.put(pairPriceKey3, capsule3);
+    Assert.assertFalse(stabilaDatabase.has(pairPriceKey3));
+    if (!stabilaDatabase.has(pairPriceKey3)) {
+      stabilaDatabase.put(pairPriceKey3, capsule3);
     }
 
-    Assert.assertEquals(3, tronDatabase.size());
+    Assert.assertEquals(3, stabilaDatabase.size());
 
     // get pairPriceKey1, will get pairPriceKey2's value capsule2
     try {
       Assert
           .assertArrayEquals(capsule0.getData(),
-              tronDatabase.get(pairPriceKey0).getData());
+              stabilaDatabase.get(pairPriceKey0).getData());
       Assert
           .assertArrayEquals(capsule1.getData(),
-              tronDatabase.get(pairPriceKey1).getData());
+              stabilaDatabase.get(pairPriceKey1).getData());
       Assert
           .assertArrayEquals(capsule1.getData(),
-              tronDatabase.get(pairPriceKey2).getData());
+              stabilaDatabase.get(pairPriceKey2).getData());
       Assert
           .assertArrayEquals(capsule3.getData(),
-              tronDatabase.get(pairPriceKey3).getData());
+              stabilaDatabase.get(pairPriceKey3).getData());
     } catch (ItemNotFoundException | BadItemException e) {
       Assert.fail();
     }
 
-    List<byte[]> keyList = tronDatabase.getRevokingDB().getKeysNext(pairPriceKey0, 2 + 1);
+    List<byte[]> keyList = stabilaDatabase.getRevokingDB().getKeysNext(pairPriceKey0, 2 + 1);
     Assert.assertArrayEquals(pairPriceKey0, keyList.get(0));
     Assert.assertArrayEquals(pairPriceKey1, keyList.get(1));
     Assert.assertArrayEquals(pairPriceKey3, keyList.get(2));
 
 
-    tronDatabase.close();
+    stabilaDatabase.close();
   }
 
   private static class TestRevokingStabilaStore extends

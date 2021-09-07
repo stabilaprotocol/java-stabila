@@ -3,42 +3,42 @@
 <suite name="Stest" parallel="tests" thread-count="4">
 
   <listeners>
-    <listener class-name="stest.tron.wallet.common.client.utils.RetryListener"/>
+    <listener class-name="stest.stabila.wallet.common.client.utils.RetryListener"/>
   </listeners>
   <test name="account,transfer">
     <packages>
-      <package name="stest.tron.wallet.transfer">
+      <package name="stest.stabila.wallet.transfer">
       </package>
-      <package name="stest.tron.wallet.account">
+      <package name="stest.stabila.wallet.account">
       </package>
     </packages>
   </test>
 
   <test name="exchangeandtoken,mutisign">
     <packages>
-      <package name="stest.tron.wallet.exchangeandtoken">
+      <package name="stest.stabila.wallet.exchangeandtoken">
       </package>
-      <package name="stest.tron.wallet.mutisign">
+      <package name="stest.stabila.wallet.mutisign">
       </package>
     </packages>
   </test>
 
   <test name="Contract linkage,block,node">
     <packages>
-      <package name="stest.tron.wallet.contract.linkage">
+      <package name="stest.stabila.wallet.contract.linkage">
       </package>
-      <package name="stest.tron.wallet.block">
+      <package name="stest.stabila.wallet.block">
       </package>
     </packages>
   </test>
 
   <test name="contract scenario,committee,witness">
     <packages>
-      <package name="stest.tron.wallet.contract.scenario">
+      <package name="stest.stabila.wallet.contract.scenario">
       </package>
-      <package name="stest.tron.wallet.committee">
+      <package name="stest.stabila.wallet.committee">
       </package>
-      <package name="stest.tron.wallet.witness">
+      <package name="stest.stabila.wallet.witness">
       </package>
     </packages>
   </test>

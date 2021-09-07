@@ -1,4 +1,4 @@
-package stest.tron.wallet.dailybuild.assetissue;
+package stest.stabila.wallet.dailybuild.assetissue;
 
 import com.google.protobuf.ByteString;
 import io.grpc.ManagedChannel;
@@ -21,9 +21,9 @@ import org.stabila.common.utils.Utils;
 import org.stabila.core.Wallet;
 import org.stabila.protos.Protocol.Account;
 import org.stabila.protos.Protocol.Exchange;
-import stest.tron.wallet.common.client.Configuration;
-import stest.tron.wallet.common.client.Parameter.CommonConstant;
-import stest.tron.wallet.common.client.utils.PublicMethed;
+import stest.stabila.wallet.common.client.Configuration;
+import stest.stabila.wallet.common.client.Parameter.CommonConstant;
+import stest.stabila.wallet.common.client.utils.PublicMethed;
 
 @Slf4j
 public class WalletExchange001 {
@@ -39,7 +39,7 @@ public class WalletExchange001 {
       .getString("foundationAccount.key2");
   private final byte[] toAddress = PublicMethed.getFinalAddress(testKey003);
   String description = "just-test";
-  String url = "https://github.com/tronprotocol/wallet-cli/";
+  String url = "https://github.com/stabilaprotocol/wallet-cli/";
   ECKey ecKey1 = new ECKey(Utils.getRandom());
   byte[] exchange001Address = ecKey1.getAddress();
   String exchange001Key = ByteArray.toHexString(ecKey1.getPrivKeyBytes());

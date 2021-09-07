@@ -49,7 +49,7 @@ public class Channel {
   @Autowired
   private P2pHandler p2pHandler;
   @Autowired
-  private StabilaNetHandler tronNetHandler;
+  private StabilaNetHandler stabilaNetHandler;
   @Autowired
   private PbftHandler pbftHandler;
   private ChannelManager channelManager;
@@ -57,7 +57,7 @@ public class Channel {
   private InetSocketAddress inetSocketAddress;
   private Node node;
   private long startTime;
-  private StabilaState tronState = StabilaState.INIT;
+  private StabilaState stabilaState = StabilaState.INIT;
   private boolean isActive;
 
   private volatile boolean isDisconnect;
@@ -88,11 +88,11 @@ public class Channel {
     msgQueue.setChannel(this);
     handshakeHandler.setChannel(this, remoteId);
     p2pHandler.setChannel(this);
-    tronNetHandler.setChannel(this);
+    stabilaNetHandler.setChannel(this);
     pbftHandler.setChannel(this);
 
     p2pHandler.setMsgQueue(msgQueue);
-    tronNetHandler.setMsgQueue(msgQueue);
+    stabilaNetHandler.setMsgQueue(msgQueue);
     pbftHandler.setMsgQueue(msgQueue);
   }
 
@@ -103,7 +103,7 @@ public class Channel {
     msgQueue.activate(ctx);
     ctx.pipeline().addLast("messageCodec", messageCodec);
     ctx.pipeline().addLast("p2p", p2pHandler);
-    ctx.pipeline().addLast("data", tronNetHandler);
+    ctx.pipeline().addLast("data", stabilaNetHandler);
     ctx.pipeline().addLast("pbft", pbftHandler);
     setStartTime(msg.getTimestamp());
     setStabilaState(StabilaState.HANDSHAKE_FINISHED);
@@ -196,9 +196,9 @@ public class Channel {
     this.startTime = startTime;
   }
 
-  public void setStabilaState(StabilaState tronState) {
-    this.tronState = tronState;
-    logger.info("Peer {} status change to {}.", inetSocketAddress, tronState);
+  public void setStabilaState(StabilaState stabilaState) {
+    this.stabilaState = stabilaState;
+    logger.info("Peer {} status change to {}.", inetSocketAddress, stabilaState);
   }
 
   public boolean isActive() {

@@ -1,6 +1,6 @@
 # Customized SumActuator
 
-Having a tailored actuator is key to building a java-tron-based customized public chain. This article illustrates how to develop a java-tron-based `SumActuator`.
+Having a tailored actuator is key to building a java-stabila-based customized public chain. This article illustrates how to develop a java-stabila-based `SumActuator`.
 
 Actuator module is divided into 4 different methods that are defined in the `Actuator` interface:
 
@@ -11,7 +11,7 @@ Actuator module is divided into 4 different methods that are defined in the `Act
 
 ## Define and register the contract
 
-Currently, contracts supported by java-tron are defined under `src/main/protos/core/contract` directory in protocol module. First creating a `math_contract.proto` file under this directory and declaring `SumContract`. You can also implement any mathematical calculation you want, such as `Subtraction`.
+Currently, contracts supported by java-stabila are defined under `src/main/protos/core/contract` directory in protocol module. First creating a `math_contract.proto` file under this directory and declaring `SumContract`. You can also implement any mathematical calculation you want, such as `Subtraction`.
 
 The logic for `SumContract` is the summation of two numerical values:
 
@@ -19,7 +19,7 @@ The logic for `SumContract` is the summation of two numerical values:
 syntax = "proto3";
 package protocol;
 option java_package = "org.stabila.protos.contract"; //Specify the name of the package that generated the Java file
-option go_package = "github.com/tronprotocol/grpc-gateway/core";
+option go_package = "github.com/stabilaprotocol/grpc-gateway/core";
 message SumContract {
     int64 param1 = 1;
     int64 param2 = 2;
@@ -58,9 +58,9 @@ service Wallet {
   ...
 };
 ```
-At last, recompile the modified proto files. Compiling the java-tron project directly will compile the proto files as well, `protoc` command is also supported.
+At last, recompile the modified proto files. Compiling the java-stabila project directly will compile the proto files as well, `protoc` command is also supported.
 
-*Currently, java-tron uses protoc v3.4.0. Please keep the same version when compiling by `protoc` command.*
+*Currently, java-stabila uses protoc v3.4.0. Please keep the same version when compiling by `protoc` command.*
 
 ```shell
 # recommended
@@ -76,7 +76,7 @@ After compilation, the corresponding .class under the java_out directory will be
 
 ## Implement SumActuator
 
-For now, the default Actuator supported by java-tron is located in `org.stabila.core.actuator`. Creating `SumActuator` under this directory:
+For now, the default Actuator supported by java-stabila is located in `org.stabila.core.actuator`. Creating `SumActuator` under this directory:
 
 ```java
 public class SumActuator extends AbstractActuator {

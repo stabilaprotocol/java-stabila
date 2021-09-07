@@ -1,4 +1,4 @@
-package stest.tron.wallet.dailybuild.assetissue;
+package stest.stabila.wallet.dailybuild.assetissue;
 
 import com.google.protobuf.ByteString;
 import io.grpc.ManagedChannel;
@@ -16,9 +16,9 @@ import org.stabila.common.utils.ByteArray;
 import org.stabila.common.utils.Utils;
 import org.stabila.core.Wallet;
 import org.stabila.protos.Protocol.Account;
-import stest.tron.wallet.common.client.Configuration;
-import stest.tron.wallet.common.client.Parameter.CommonConstant;
-import stest.tron.wallet.common.client.utils.PublicMethed;
+import stest.stabila.wallet.common.client.Configuration;
+import stest.stabila.wallet.common.client.Parameter.CommonConstant;
+import stest.stabila.wallet.common.client.utils.PublicMethed;
 
 @Slf4j
 public class WalletTestAssetIssue011 {
@@ -37,7 +37,7 @@ public class WalletTestAssetIssue011 {
   Long freeAssetNetLimit = 10000L;
   Long publicFreeAssetNetLimit = 10000L;
   String description = "just-test";
-  String url = "https://github.com/tronprotocol/wallet-cli/";
+  String url = "https://github.com/stabilaprotocol/wallet-cli/";
   //get account
   ECKey ecKey1 = new ECKey(Utils.getRandom());
   byte[] asset011Address = ecKey1.getAddress();

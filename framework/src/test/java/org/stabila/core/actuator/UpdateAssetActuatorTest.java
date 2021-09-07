@@ -45,7 +45,7 @@ public class UpdateAssetActuatorTest {
   private static final String NAME = "trx-my";
   private static final long TOTAL_SUPPLY = 10000L;
   private static final String DESCRIPTION = "myCoin";
-  private static final String URL = "tron-my.com";
+  private static final String URL = "stabila-my.com";
   private static StabilaApplicationContext context;
   private static Application AppT;
   private static Manager dbManager;
@@ -128,7 +128,7 @@ public class UpdateAssetActuatorTest {
         .setEndTime(nowTime + 24 * 3600 * 1000)
         .setOrder(0)
         .setDescription(ByteString.copyFromUtf8("assetTest"))
-        .setUrl(ByteString.copyFromUtf8("tron.test.com"))
+        .setUrl(ByteString.copyFromUtf8("stabila.test.com"))
         .build();
   }
 

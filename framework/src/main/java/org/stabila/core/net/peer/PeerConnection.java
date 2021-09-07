@@ -33,7 +33,7 @@ import org.stabila.core.net.service.SyncService;
 public class PeerConnection extends Channel {
 
   @Autowired
-  private StabilaNetDelegate tronNetDelegate;
+  private StabilaNetDelegate stabilaNetDelegate;
 
   @Autowired
   private SyncService syncService;
@@ -114,7 +114,7 @@ public class PeerConnection extends Channel {
   }
 
   public void onConnect() {
-    long headBlockNum = tronNetDelegate.getHeadBlockId().getNum();
+    long headBlockNum = stabilaNetDelegate.getHeadBlockId().getNum();
     long peerHeadBlockNum = getHelloMessage().getHeadBlockId().getNum();
 
     if (peerHeadBlockNum > headBlockNum) {

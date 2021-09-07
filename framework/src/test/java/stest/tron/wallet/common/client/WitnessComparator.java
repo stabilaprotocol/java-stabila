@@ -1,4 +1,4 @@
-package stest.tron.wallet.common.client;
+package stest.stabila.wallet.common.client;
 
 import java.util.Comparator;
 import org.stabila.protos.Protocol.Witness;

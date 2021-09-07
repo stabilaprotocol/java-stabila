@@ -12,7 +12,7 @@ import org.stabila.common.utils.ByteArray;
 import org.stabila.common.utils.Utils;
 import stest.stabila.wallet.common.client.Configuration;
 import stest.stabila.wallet.common.client.utils.HttpMethed;
-import stest.tron.wallet.common.client.utils.PublicMethed;
+import stest.stabila.wallet.common.client.utils.PublicMethed;
 
 @Slf4j
 public class HttpTestGetAccountBalance001 {

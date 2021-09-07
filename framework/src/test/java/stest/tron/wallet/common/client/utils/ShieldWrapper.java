@@ -1,4 +1,4 @@
-package stest.tron.wallet.common.client.utils;
+package stest.stabila.wallet.common.client.utils;
 
 import com.google.protobuf.ByteString;
 import io.grpc.ManagedChannel;
@@ -26,10 +26,10 @@ import org.stabila.protos.Protocol.Block;
 import org.stabila.protos.contract.ShieldContract.IncrementalMerkleVoucherInfo;
 import org.stabila.protos.contract.ShieldContract.OutputPoint;
 import org.stabila.protos.contract.ShieldContract.OutputPointInfo;
-import stest.tron.wallet.common.client.Configuration;
+import stest.stabila.wallet.common.client.Configuration;
 
 //import org.stabila.walletserver.WalletApi;
-//import stest.tron.wallet.common.client.Parameter.CommonConstant;
+//import stest.stabila.wallet.common.client.Parameter.CommonConstant;
 
 public class ShieldWrapper {
 

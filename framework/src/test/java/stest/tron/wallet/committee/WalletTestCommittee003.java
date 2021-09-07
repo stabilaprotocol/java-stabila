@@ -1,4 +1,4 @@
-package stest.tron.wallet.committee;
+package stest.stabila.wallet.committee;
 
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
@@ -16,10 +16,10 @@ import org.stabila.api.GrpcAPI.ProposalList;
 import org.stabila.api.WalletGrpc;
 import org.stabila.api.WalletSolidityGrpc;
 import org.stabila.core.Wallet;
-import stest.tron.wallet.common.client.Configuration;
-import stest.tron.wallet.common.client.Parameter.CommonConstant;
-import stest.tron.wallet.common.client.utils.Base58;
-import stest.tron.wallet.common.client.utils.PublicMethed;
+import stest.stabila.wallet.common.client.Configuration;
+import stest.stabila.wallet.common.client.Parameter.CommonConstant;
+import stest.stabila.wallet.common.client.utils.Base58;
+import stest.stabila.wallet.common.client.utils.PublicMethed;
 
 
 @Slf4j
