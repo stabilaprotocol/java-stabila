@@ -10,7 +10,7 @@ import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.stabila.core.db.TronStoreWithRevoking;
+import org.stabila.core.db.StabilaStoreWithRevoking;
 import org.tron.common.parameter.CommonParameter;
 import org.tron.common.utils.ByteArray;
 import org.tron.common.utils.Sha256Hash;
@@ -20,7 +20,7 @@ import org.stabila.core.config.Parameter.ChainConstant;
 
 @Slf4j(topic = "DB")
 @Component
-public class DynamicPropertiesStore extends TronStoreWithRevoking<BytesCapsule> {
+public class DynamicPropertiesStore extends StabilaStoreWithRevoking<BytesCapsule> {
 
   private static final byte[] LATEST_BLOCK_HEADER_TIMESTAMP = "latest_block_header_timestamp"
       .getBytes();

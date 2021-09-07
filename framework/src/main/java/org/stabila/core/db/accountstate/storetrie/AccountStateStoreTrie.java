@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.stabila.core.capsule.BytesCapsule;
-import org.stabila.core.db.TronStoreWithRevoking;
+import org.stabila.core.db.StabilaStoreWithRevoking;
 import org.stabila.core.db.accountstate.AccountStateEntity;
 import org.stabila.core.db.accountstate.TrieService;
 import org.stabila.core.db2.common.DB;
@@ -16,7 +16,7 @@ import org.stabila.core.trie.TrieImpl;
 
 @Slf4j(topic = "AccountState")
 @Component
-public class AccountStateStoreTrie extends TronStoreWithRevoking<BytesCapsule> implements
+public class AccountStateStoreTrie extends StabilaStoreWithRevoking<BytesCapsule> implements
         DB<byte[], BytesCapsule> {
 
   @Autowired

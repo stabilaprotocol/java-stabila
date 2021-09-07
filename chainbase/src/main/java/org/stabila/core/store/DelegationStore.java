@@ -6,7 +6,7 @@ import org.bouncycastle.util.encoders.Hex;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.stabila.core.db.TronStoreWithRevoking;
+import org.stabila.core.db.StabilaStoreWithRevoking;
 import org.tron.common.utils.ByteArray;
 import org.stabila.core.capsule.AccountCapsule;
 import org.stabila.core.capsule.BytesCapsule;
@@ -15,7 +15,7 @@ import java.math.BigInteger;
 
 @Slf4j
 @Component
-public class DelegationStore extends TronStoreWithRevoking<BytesCapsule> {
+public class DelegationStore extends StabilaStoreWithRevoking<BytesCapsule> {
 
   public static final long REMARK = -1L;
   public static final int DEFAULT_BROKERAGE = 20;

@@ -15,7 +15,7 @@ import org.stabila.core.Constant;
 import org.stabila.core.capsule.utils.MarketUtils;
 import org.stabila.core.config.DefaultConfig;
 import org.stabila.core.config.args.Args;
-import org.stabila.core.db.TronStoreWithRevoking;
+import org.stabila.core.db.StabilaStoreWithRevoking;
 import org.stabila.core.db2.core.SnapshotManager;
 import org.stabila.core.exception.RevokingStoreIllegalStateException;
 import org.tron.common.application.Application;
@@ -32,7 +32,7 @@ public class RevokingDbWithCacheNewValueTest {
   private SnapshotManager revokingDatabase;
   private TronApplicationContext context;
   private Application appT;
-  private TestRevokingTronStore tronDatabase;
+  private TestRevokingStabilaStore tronDatabase;
 
   @Before
   public void init() {
@@ -54,7 +54,7 @@ public class RevokingDbWithCacheNewValueTest {
   public synchronized void testPop() throws RevokingStoreIllegalStateException {
     revokingDatabase = context.getBean(SnapshotManager.class);
     revokingDatabase.enable();
-    tronDatabase = new TestRevokingTronStore("testRevokingDBWithCacheNewValue-testPop");
+    tronDatabase = new TestRevokingStabilaStore("testRevokingDBWithCacheNewValue-testPop");
     revokingDatabase.add(tronDatabase.getRevokingDB());
 
     while (revokingDatabase.size() != 0) {
@@ -84,7 +84,7 @@ public class RevokingDbWithCacheNewValueTest {
   public synchronized void testMerge() {
     revokingDatabase = context.getBean(SnapshotManager.class);
     revokingDatabase.enable();
-    tronDatabase = new TestRevokingTronStore("testRevokingDBWithCacheNewValue-testMerge");
+    tronDatabase = new TestRevokingStabilaStore("testRevokingDBWithCacheNewValue-testMerge");
     revokingDatabase.add(tronDatabase.getRevokingDB());
 
     while (revokingDatabase.size() != 0) {
@@ -116,7 +116,7 @@ public class RevokingDbWithCacheNewValueTest {
   public synchronized void testRevoke() {
     revokingDatabase = context.getBean(SnapshotManager.class);
     revokingDatabase.enable();
-    tronDatabase = new TestRevokingTronStore("testRevokingDBWithCacheNewValue-testRevoke");
+    tronDatabase = new TestRevokingStabilaStore("testRevokingDBWithCacheNewValue-testRevoke");
     revokingDatabase.add(tronDatabase.getRevokingDB());
 
     while (revokingDatabase.size() != 0) {
@@ -176,7 +176,7 @@ public class RevokingDbWithCacheNewValueTest {
   public synchronized void testGetlatestValues() {
     revokingDatabase = context.getBean(SnapshotManager.class);
     revokingDatabase.enable();
-    tronDatabase = new TestRevokingTronStore("testSnapshotManager-testGetlatestValues");
+    tronDatabase = new TestRevokingStabilaStore("testSnapshotManager-testGetlatestValues");
     revokingDatabase.add(tronDatabase.getRevokingDB());
     while (revokingDatabase.size() != 0) {
       revokingDatabase.pop();
@@ -203,7 +203,7 @@ public class RevokingDbWithCacheNewValueTest {
   public synchronized void testGetValuesNext() {
     revokingDatabase = context.getBean(SnapshotManager.class);
     revokingDatabase.enable();
-    tronDatabase = new TestRevokingTronStore("testSnapshotManager-testGetValuesNext");
+    tronDatabase = new TestRevokingStabilaStore("testSnapshotManager-testGetValuesNext");
     revokingDatabase.add(tronDatabase.getRevokingDB());
     while (revokingDatabase.size() != 0) {
       revokingDatabase.pop();
@@ -231,7 +231,7 @@ public class RevokingDbWithCacheNewValueTest {
   public synchronized void testGetKeysNext() {
     revokingDatabase = context.getBean(SnapshotManager.class);
     revokingDatabase.enable();
-    tronDatabase = new TestRevokingTronStore("testSnapshotManager-testGetKeysNext");
+    tronDatabase = new TestRevokingStabilaStore("testSnapshotManager-testGetKeysNext");
     revokingDatabase.add(tronDatabase.getRevokingDB());
     while (revokingDatabase.size() != 0) {
       revokingDatabase.pop();
@@ -302,7 +302,7 @@ public class RevokingDbWithCacheNewValueTest {
   public synchronized void testGetKeysNextWithSameKey() {
     revokingDatabase = context.getBean(SnapshotManager.class);
     revokingDatabase.enable();
-    tronDatabase = new TestRevokingTronStore("testSnapshotManager-testGetKeysNextWithSameKey");
+    tronDatabase = new TestRevokingStabilaStore("testSnapshotManager-testGetKeysNextWithSameKey");
     revokingDatabase.add(tronDatabase.getRevokingDB());
     while (revokingDatabase.size() != 0) {
       revokingDatabase.pop();
@@ -384,7 +384,7 @@ public class RevokingDbWithCacheNewValueTest {
   public synchronized void testGetKeysNextWithSameKeyOrderCheck() {
     revokingDatabase = context.getBean(SnapshotManager.class);
     revokingDatabase.enable();
-    tronDatabase = new TestRevokingTronStore("testSnapshotManager-testGetKeysNextWithSameKey");
+    tronDatabase = new TestRevokingStabilaStore("testSnapshotManager-testGetKeysNextWithSameKey");
     revokingDatabase.add(tronDatabase.getRevokingDB());
     while (revokingDatabase.size() != 0) {
       revokingDatabase.pop();
@@ -463,9 +463,9 @@ public class RevokingDbWithCacheNewValueTest {
     }
   }
 
-  public static class TestRevokingTronStore extends TronStoreWithRevoking<ProtoCapsuleTest> {
+  public static class TestRevokingStabilaStore extends StabilaStoreWithRevoking<ProtoCapsuleTest> {
 
-    protected TestRevokingTronStore(String dbName) {
+    protected TestRevokingStabilaStore(String dbName) {
       super(dbName);
     }
 

@@ -3,12 +3,12 @@ package org.stabila.core.store;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.stabila.core.db.TronStoreWithRevoking;
+import org.stabila.core.db.StabilaStoreWithRevoking;
 import org.stabila.core.capsule.MarketOrderCapsule;
 import org.stabila.core.exception.ItemNotFoundException;
 
 @Component
-public class MarketOrderStore extends TronStoreWithRevoking<MarketOrderCapsule> {
+public class MarketOrderStore extends StabilaStoreWithRevoking<MarketOrderCapsule> {
 
   @Autowired
   protected MarketOrderStore(@Value("market_order") String dbName) {

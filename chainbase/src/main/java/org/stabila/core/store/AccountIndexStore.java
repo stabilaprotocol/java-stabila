@@ -6,12 +6,12 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.stabila.core.db.TronStoreWithRevoking;
+import org.stabila.core.db.StabilaStoreWithRevoking;
 import org.stabila.core.capsule.AccountCapsule;
 import org.stabila.core.capsule.BytesCapsule;
 
 @Component
-public class AccountIndexStore extends TronStoreWithRevoking<BytesCapsule> {
+public class AccountIndexStore extends StabilaStoreWithRevoking<BytesCapsule> {
 
   @Autowired
   public AccountIndexStore(@Value("account-index") String dbName) {

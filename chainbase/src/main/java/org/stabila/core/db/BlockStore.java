@@ -30,7 +30,7 @@ import org.stabila.core.exception.BadItemException;
 
 @Slf4j(topic = "DB")
 @Component
-public class BlockStore extends TronStoreWithRevoking<BlockCapsule> {
+public class BlockStore extends StabilaStoreWithRevoking<BlockCapsule> {
 
   @Autowired
   private BlockStore(@Value("block") String dbName) {

@@ -10,12 +10,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.stabila.core.db.TronStoreWithRevoking;
+import org.stabila.core.db.StabilaStoreWithRevoking;
 import org.stabila.core.capsule.AssetIssueCapsule;
 
 @Slf4j(topic = "DB")
 @Component
-public class AssetIssueStore extends TronStoreWithRevoking<AssetIssueCapsule> {
+public class AssetIssueStore extends StabilaStoreWithRevoking<AssetIssueCapsule> {
 
   @Autowired
   protected AssetIssueStore(@Value("asset-issue") String dbName) {

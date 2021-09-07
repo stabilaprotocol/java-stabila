@@ -3,10 +3,10 @@ package org.stabila.core.store;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
-import org.stabila.core.db.TronDatabase;
+import org.stabila.core.db.StabilaDatabase;
 
 @Component
-public class ZKProofStore extends TronDatabase<Boolean> {
+public class ZKProofStore extends StabilaDatabase<Boolean> {
 
   @Autowired
   public ZKProofStore(ApplicationContext ctx) {

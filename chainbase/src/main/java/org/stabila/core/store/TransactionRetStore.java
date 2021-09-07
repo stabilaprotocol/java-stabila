@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.stabila.core.db.TransactionStore;
-import org.stabila.core.db.TronStoreWithRevoking;
+import org.stabila.core.db.StabilaStoreWithRevoking;
 import org.tron.common.parameter.CommonParameter;
 import org.tron.common.utils.ByteArray;
 import org.stabila.core.capsule.TransactionInfoCapsule;
@@ -18,7 +18,7 @@ import org.tron.protos.Protocol.TransactionInfo;
 
 @Slf4j(topic = "DB")
 @Component
-public class TransactionRetStore extends TronStoreWithRevoking<TransactionRetCapsule> {
+public class TransactionRetStore extends StabilaStoreWithRevoking<TransactionRetCapsule> {
 
   @Autowired
   private TransactionStore transactionStore;

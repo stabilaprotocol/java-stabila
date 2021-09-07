@@ -7,12 +7,12 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.stabila.core.db.TronStoreWithRevoking;
+import org.stabila.core.db.StabilaStoreWithRevoking;
 import org.stabila.core.capsule.ExchangeCapsule;
 import org.stabila.core.exception.ItemNotFoundException;
 
 @Component
-public class ExchangeStore extends TronStoreWithRevoking<ExchangeCapsule> {
+public class ExchangeStore extends StabilaStoreWithRevoking<ExchangeCapsule> {
 
   @Autowired
   protected ExchangeStore(@Value("exchange") String dbName) {

@@ -37,7 +37,7 @@ import org.stabila.core.exception.ItemNotFoundException;
 
 
 @Slf4j(topic = "DB")
-public abstract class TronStoreWithRevoking<T extends ProtoCapsule> implements ITronChainBase<T> {
+public abstract class StabilaStoreWithRevoking<T extends ProtoCapsule> implements ITronChainBase<T> {
 
   @Getter // only for unit test
   protected IRevokingDB revokingDB;
@@ -47,7 +47,7 @@ public abstract class TronStoreWithRevoking<T extends ProtoCapsule> implements I
   @Autowired
   private RevokingDatabase revokingDatabase;
 
-  protected TronStoreWithRevoking(String dbName) {
+  protected StabilaStoreWithRevoking(String dbName) {
     int dbVersion = CommonParameter.getInstance().getStorage().getDbVersion();
     String dbEngine = CommonParameter.getInstance().getStorage().getDbEngine();
     if (dbVersion == 1) {
@@ -86,7 +86,7 @@ public abstract class TronStoreWithRevoking<T extends ProtoCapsule> implements I
     return null;
   }
 
-  protected TronStoreWithRevoking(DB<byte[], byte[]> db) {
+  protected StabilaStoreWithRevoking(DB<byte[], byte[]> db) {
     int dbVersion = CommonParameter.getInstance().getStorage().getDbVersion();
     if (dbVersion == 2) {
       this.revokingDB = new Chainbase(new SnapshotRoot(db));
@@ -96,14 +96,14 @@ public abstract class TronStoreWithRevoking<T extends ProtoCapsule> implements I
   }
 
   // only for test
-  protected TronStoreWithRevoking(String dbName, RevokingDatabase revokingDatabase) {
+  protected StabilaStoreWithRevoking(String dbName, RevokingDatabase revokingDatabase) {
     this.revokingDB = new RevokingDBWithCachingOldValue(dbName,
         (AbstractRevokingStore) revokingDatabase);
   }
 
   // only for test
-  protected TronStoreWithRevoking(String dbName, Options options,
-      RevokingDatabase revokingDatabase) {
+  protected StabilaStoreWithRevoking(String dbName, Options options,
+                                     RevokingDatabase revokingDatabase) {
     this.revokingDB = new RevokingDBWithCachingOldValue(dbName, options,
         (AbstractRevokingStore) revokingDatabase);
   }

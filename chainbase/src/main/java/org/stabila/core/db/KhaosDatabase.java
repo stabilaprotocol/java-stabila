@@ -28,7 +28,7 @@ import org.stabila.core.exception.UnLinkedBlockException;
 
 @Component
 @Slf4j(topic = "DB")
-public class KhaosDatabase extends TronDatabase {
+public class KhaosDatabase extends StabilaDatabase {
 
   private KhaosBlock head;
   @Getter

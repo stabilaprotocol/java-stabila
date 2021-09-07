@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.stabila.core.db.TronStoreWithRevoking;
+import org.stabila.core.db.StabilaStoreWithRevoking;
 import org.stabila.core.capsule.ContractCapsule;
 import org.tron.protos.contract.SmartContractOuterClass.SmartContract;
 
@@ -13,7 +13,7 @@ import java.util.Objects;
 
 @Slf4j(topic = "DB")
 @Component
-public class ContractStore extends TronStoreWithRevoking<ContractCapsule> {
+public class ContractStore extends StabilaStoreWithRevoking<ContractCapsule> {
 
   @Autowired
   private AbiStore abiStore;

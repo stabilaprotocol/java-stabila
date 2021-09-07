@@ -7,7 +7,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.stabila.core.db.TronStoreWithRevoking;
+import org.stabila.core.db.StabilaStoreWithRevoking;
 import org.stabila.core.db.accountstate.AccountStateCallBackUtils;
 import org.tron.common.parameter.CommonParameter;
 import org.tron.common.utils.Commons;
@@ -27,7 +27,7 @@ import java.util.OptionalLong;
 
 @Slf4j(topic = "DB")
 @Component
-public class AccountStore extends TronStoreWithRevoking<AccountCapsule> {
+public class AccountStore extends StabilaStoreWithRevoking<AccountCapsule> {
 
   private static Map<String, byte[]> assertsAddress = new HashMap<>(); // key = name , value = address
 

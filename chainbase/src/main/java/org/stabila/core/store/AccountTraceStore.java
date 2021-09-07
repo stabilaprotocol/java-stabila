@@ -11,14 +11,14 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.stabila.core.db.TronStoreWithRevoking;
+import org.stabila.core.db.StabilaStoreWithRevoking;
 import org.stabila.core.capsule.AccountTraceCapsule;
 import org.stabila.core.exception.BadItemException;
 
 
 @Component
 @Slf4j(topic = "DB")
-public class AccountTraceStore extends TronStoreWithRevoking<AccountTraceCapsule> {
+public class AccountTraceStore extends StabilaStoreWithRevoking<AccountTraceCapsule> {
 
   @Autowired
   protected AccountTraceStore(@Value("account-trace") String dbName) {

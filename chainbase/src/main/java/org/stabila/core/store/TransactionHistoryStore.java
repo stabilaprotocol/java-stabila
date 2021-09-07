@@ -5,13 +5,13 @@ import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.stabila.core.db.TronStoreWithRevoking;
+import org.stabila.core.db.StabilaStoreWithRevoking;
 import org.tron.common.parameter.CommonParameter;
 import org.stabila.core.capsule.TransactionInfoCapsule;
 import org.stabila.core.exception.BadItemException;
 
 @Component
-public class TransactionHistoryStore extends TronStoreWithRevoking<TransactionInfoCapsule> {
+public class TransactionHistoryStore extends StabilaStoreWithRevoking<TransactionInfoCapsule> {
 
   @Autowired
   public TransactionHistoryStore(@Value("transactionHistoryStore") String dbName) {

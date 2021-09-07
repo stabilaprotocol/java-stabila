@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import org.stabila.core.capsule.BytesCapsule;
 
 @Component
-public class CommonStore extends TronDatabase<BytesCapsule> {
+public class CommonStore extends StabilaDatabase<BytesCapsule> {
 
   @Autowired
   public CommonStore(ApplicationContext ctx) {

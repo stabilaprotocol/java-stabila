@@ -7,12 +7,12 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.stabila.core.db.TronStoreWithRevoking;
+import org.stabila.core.db.StabilaStoreWithRevoking;
 import org.stabila.core.capsule.ProposalCapsule;
 import org.stabila.core.exception.ItemNotFoundException;
 
 @Component
-public class ProposalStore extends TronStoreWithRevoking<ProposalCapsule> {
+public class ProposalStore extends StabilaStoreWithRevoking<ProposalCapsule> {
 
   @Autowired
   public ProposalStore(@Value("proposal") String dbName) {

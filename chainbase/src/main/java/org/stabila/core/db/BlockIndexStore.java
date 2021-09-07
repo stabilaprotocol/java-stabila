@@ -12,7 +12,7 @@ import org.stabila.core.capsule.BytesCapsule;
 import org.stabila.core.exception.ItemNotFoundException;
 
 @Component
-public class BlockIndexStore extends TronStoreWithRevoking<BytesCapsule> {
+public class BlockIndexStore extends StabilaStoreWithRevoking<BytesCapsule> {
 
 
   @Autowired

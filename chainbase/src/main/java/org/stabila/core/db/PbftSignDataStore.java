@@ -8,7 +8,7 @@ import org.tron.protos.Protocol.PBFTMessage.DataType;
 
 @Slf4j
 @Component
-public class PbftSignDataStore extends TronDatabase<PbftSignCapsule> {
+public class PbftSignDataStore extends StabilaDatabase<PbftSignCapsule> {
 
   public PbftSignDataStore() {
     super("pbft-sign-data");

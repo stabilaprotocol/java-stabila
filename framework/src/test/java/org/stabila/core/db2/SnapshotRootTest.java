@@ -26,7 +26,7 @@ import org.tron.common.utils.SessionOptional;
 
 public class SnapshotRootTest {
 
-  private RevokingDbWithCacheNewValueTest.TestRevokingTronStore tronDatabase;
+  private RevokingDbWithCacheNewValueTest.TestRevokingStabilaStore tronDatabase;
   private TronApplicationContext context;
   private Application appT;
   private SnapshotManager revokingDatabase;
@@ -48,7 +48,7 @@ public class SnapshotRootTest {
   @Test
   public synchronized void testRemove() {
     ProtoCapsuleTest testProtoCapsule = new ProtoCapsuleTest("test".getBytes());
-    tronDatabase = new RevokingDbWithCacheNewValueTest.TestRevokingTronStore("testSnapshotRoot-testRemove");
+    tronDatabase = new RevokingDbWithCacheNewValueTest.TestRevokingStabilaStore("testSnapshotRoot-testRemove");
     tronDatabase.put("test".getBytes(), testProtoCapsule);
     Assert.assertEquals(testProtoCapsule, tronDatabase.get("test".getBytes()));
 
@@ -59,7 +59,7 @@ public class SnapshotRootTest {
 
   @Test
   public synchronized void testMerge() {
-    tronDatabase = new RevokingDbWithCacheNewValueTest.TestRevokingTronStore("testSnapshotRoot-testMerge");
+    tronDatabase = new RevokingDbWithCacheNewValueTest.TestRevokingStabilaStore("testSnapshotRoot-testMerge");
     revokingDatabase = context.getBean(SnapshotManager.class);
     revokingDatabase.enable();
     revokingDatabase.add(tronDatabase.getRevokingDB());
@@ -76,7 +76,7 @@ public class SnapshotRootTest {
 
   @Test
   public synchronized void testMergeList() {
-    tronDatabase = new RevokingDbWithCacheNewValueTest.TestRevokingTronStore("testSnapshotRoot-testMergeList");
+    tronDatabase = new RevokingDbWithCacheNewValueTest.TestRevokingStabilaStore("testSnapshotRoot-testMergeList");
     revokingDatabase = context.getBean(SnapshotManager.class);
     revokingDatabase.enable();
     revokingDatabase.add(tronDatabase.getRevokingDB());

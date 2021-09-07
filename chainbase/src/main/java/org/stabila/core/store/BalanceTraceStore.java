@@ -8,7 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.stabila.core.db.TronStoreWithRevoking;
+import org.stabila.core.db.StabilaStoreWithRevoking;
 import org.tron.common.parameter.CommonParameter;
 import org.tron.common.utils.ByteArray;
 import org.tron.common.utils.Sha256Hash;
@@ -24,7 +24,7 @@ import java.util.Objects;
 
 @Component
 @Slf4j(topic = "DB")
-public class BalanceTraceStore extends TronStoreWithRevoking<BlockBalanceTraceCapsule> {
+public class BalanceTraceStore extends StabilaStoreWithRevoking<BlockBalanceTraceCapsule> {
 
   @Getter
   private BlockCapsule.BlockId currentBlockId;

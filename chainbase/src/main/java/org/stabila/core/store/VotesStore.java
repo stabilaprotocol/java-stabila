@@ -4,11 +4,11 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.stabila.core.db.TronStoreWithRevoking;
+import org.stabila.core.db.StabilaStoreWithRevoking;
 import org.stabila.core.capsule.VotesCapsule;
 
 @Component
-public class VotesStore extends TronStoreWithRevoking<VotesCapsule> {
+public class VotesStore extends StabilaStoreWithRevoking<VotesCapsule> {
 
   @Autowired
   public VotesStore(@Value("votes") String dbName) {

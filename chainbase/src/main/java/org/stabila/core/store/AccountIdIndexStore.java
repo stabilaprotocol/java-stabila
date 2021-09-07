@@ -6,13 +6,13 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.stabila.core.db.TronStoreWithRevoking;
+import org.stabila.core.db.StabilaStoreWithRevoking;
 import org.stabila.core.capsule.AccountCapsule;
 import org.stabila.core.capsule.BytesCapsule;
 
 //todo : need Compatibility test
 @Component
-public class AccountIdIndexStore extends TronStoreWithRevoking<BytesCapsule> {
+public class AccountIdIndexStore extends StabilaStoreWithRevoking<BytesCapsule> {
 
   @Autowired
   public AccountIdIndexStore(@Value("accountid-index") String dbName) {

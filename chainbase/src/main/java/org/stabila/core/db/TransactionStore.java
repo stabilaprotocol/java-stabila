@@ -16,7 +16,7 @@ import org.stabila.core.exception.BadItemException;
 
 @Slf4j(topic = "DB")
 @Component
-public class TransactionStore extends TronStoreWithRevoking<TransactionCapsule> {
+public class TransactionStore extends StabilaStoreWithRevoking<TransactionCapsule> {
 
   @Autowired
   private BlockStore blockStore;

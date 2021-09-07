@@ -16,7 +16,7 @@ import org.tron.common.application.Application;
 import org.tron.common.application.ApplicationFactory;
 import org.tron.common.application.TronApplicationContext;
 import org.tron.common.utils.FileUtil;
-import org.stabila.core.db2.RevokingDbWithCacheNewValueTest.TestRevokingTronStore;
+import org.stabila.core.db2.RevokingDbWithCacheNewValueTest.TestRevokingStabilaStore;
 import org.stabila.core.db2.SnapshotRootTest.ProtoCapsuleTest;
 
 @Slf4j
@@ -25,7 +25,7 @@ public class SnapshotManagerTest {
   private SnapshotManager revokingDatabase;
   private TronApplicationContext context;
   private Application appT;
-  private TestRevokingTronStore tronDatabase;
+  private TestRevokingStabilaStore tronDatabase;
 
   @Before
   public void init() {
@@ -35,7 +35,7 @@ public class SnapshotManagerTest {
     appT = ApplicationFactory.create(context);
     revokingDatabase = context.getBean(SnapshotManager.class);
     revokingDatabase.enable();
-    tronDatabase = new TestRevokingTronStore("testSnapshotManager-test");
+    tronDatabase = new TestRevokingStabilaStore("testSnapshotManager-test");
     revokingDatabase.add(tronDatabase.getRevokingDB());
   }
 

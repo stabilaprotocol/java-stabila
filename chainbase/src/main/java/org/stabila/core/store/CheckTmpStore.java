@@ -6,12 +6,12 @@ import java.util.function.Consumer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
-import org.stabila.core.db.TronDatabase;
+import org.stabila.core.db.StabilaDatabase;
 import org.stabila.core.exception.BadItemException;
 import org.stabila.core.exception.ItemNotFoundException;
 
 @Component
-public class CheckTmpStore extends TronDatabase<byte[]> {
+public class CheckTmpStore extends StabilaDatabase<byte[]> {
 
   @Autowired
   public CheckTmpStore(ApplicationContext ctx) {

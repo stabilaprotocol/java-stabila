@@ -16,7 +16,7 @@ import org.stabila.core.config.DefaultConfig;
 import org.stabila.core.config.args.Args;
 import org.stabila.core.db.AbstractRevokingStore;
 import org.stabila.core.db.RevokingDatabase;
-import org.stabila.core.db.TronStoreWithRevoking;
+import org.stabila.core.db.StabilaStoreWithRevoking;
 import org.stabila.core.exception.RevokingStoreIllegalStateException;
 import org.tron.common.application.Application;
 import org.tron.common.application.ApplicationFactory;
@@ -50,7 +50,7 @@ public class RevokingDbWithCacheOldValueTest {
   @Test
   public synchronized void testReset() {
     revokingDatabase.getStack().clear();
-    TestRevokingTronStore tronDatabase = new TestRevokingTronStore(
+    TestRevokingStabilaStore tronDatabase = new TestRevokingStabilaStore(
         "testrevokingtronstore-testReset", revokingDatabase);
     ProtoCapsuleTest testProtoCapsule = new ProtoCapsuleTest(("reset").getBytes());
     try (ISession tmpSession = revokingDatabase.buildSession()) {
@@ -66,7 +66,7 @@ public class RevokingDbWithCacheOldValueTest {
   @Test
   public synchronized void testPop() throws RevokingStoreIllegalStateException {
     revokingDatabase.getStack().clear();
-    TestRevokingTronStore tronDatabase = new TestRevokingTronStore(
+    TestRevokingStabilaStore tronDatabase = new TestRevokingStabilaStore(
         "testrevokingtronstore-testPop", revokingDatabase);
 
     for (int i = 1; i < 11; i++) {
@@ -93,7 +93,7 @@ public class RevokingDbWithCacheOldValueTest {
   @Test
   public synchronized void testUndo() throws RevokingStoreIllegalStateException {
     revokingDatabase.getStack().clear();
-    TestRevokingTronStore tronDatabase = new TestRevokingTronStore(
+    TestRevokingStabilaStore tronDatabase = new TestRevokingStabilaStore(
         "testrevokingtronstore-testUndo", revokingDatabase);
 
     ISession dialog = revokingDatabase.buildSession();
@@ -154,7 +154,7 @@ public class RevokingDbWithCacheOldValueTest {
   @Test
   public synchronized void testGetlatestValues() {
     revokingDatabase.getStack().clear();
-    TestRevokingTronStore tronDatabase = new TestRevokingTronStore(
+    TestRevokingStabilaStore tronDatabase = new TestRevokingStabilaStore(
         "testrevokingtronstore-testGetlatestValues", revokingDatabase);
 
     for (int i = 0; i < 10; i++) {
@@ -177,7 +177,7 @@ public class RevokingDbWithCacheOldValueTest {
   @Test
   public synchronized void testGetValuesNext() {
     revokingDatabase.getStack().clear();
-    TestRevokingTronStore tronDatabase = new TestRevokingTronStore(
+    TestRevokingStabilaStore tronDatabase = new TestRevokingStabilaStore(
         "testrevokingtronstore-testGetValuesNext", revokingDatabase);
 
     for (int i = 0; i < 10; i++) {
@@ -203,7 +203,7 @@ public class RevokingDbWithCacheOldValueTest {
   @Test
   public synchronized void testGetKeysNext() {
     revokingDatabase.getStack().clear();
-    TestRevokingTronStore tronDatabase = new TestRevokingTronStore(
+    TestRevokingStabilaStore tronDatabase = new TestRevokingStabilaStore(
         "testrevokingtronstore-testGetKeysNext", revokingDatabase);
 
     String protoCapsuleStr = "getKeysNext";
@@ -230,7 +230,7 @@ public class RevokingDbWithCacheOldValueTest {
   @Test
   public void shutdown() throws RevokingStoreIllegalStateException {
     revokingDatabase.getStack().clear();
-    TestRevokingTronStore tronDatabase = new TestRevokingTronStore(
+    TestRevokingStabilaStore tronDatabase = new TestRevokingStabilaStore(
         "testrevokingtronstore-shutdown", revokingDatabase);
 
     List<ProtoCapsuleTest> capsules = new ArrayList<>();
@@ -260,9 +260,9 @@ public class RevokingDbWithCacheOldValueTest {
 
   }
 
-  private static class TestRevokingTronStore extends TronStoreWithRevoking<ProtoCapsuleTest> {
+  private static class TestRevokingStabilaStore extends StabilaStoreWithRevoking<ProtoCapsuleTest> {
 
-    protected TestRevokingTronStore(String dbName, RevokingDatabase revokingDatabase) {
+    protected TestRevokingStabilaStore(String dbName, RevokingDatabase revokingDatabase) {
       super(dbName, revokingDatabase);
     }
 

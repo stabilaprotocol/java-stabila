@@ -8,13 +8,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.stabila.core.db.TronStoreWithRevoking;
+import org.stabila.core.db.StabilaStoreWithRevoking;
 import org.tron.common.utils.ByteArray;
 import org.stabila.core.capsule.BytesCapsule;
 
 @Slf4j(topic = "DB")
 @Component
-public class WitnessScheduleStore extends TronStoreWithRevoking<BytesCapsule> {
+public class WitnessScheduleStore extends StabilaStoreWithRevoking<BytesCapsule> {
 
   private static final byte[] ACTIVE_WITNESSES = "active_witnesses".getBytes();
   private static final byte[] CURRENT_SHUFFLED_WITNESSES = "current_shuffled_witnesses".getBytes();

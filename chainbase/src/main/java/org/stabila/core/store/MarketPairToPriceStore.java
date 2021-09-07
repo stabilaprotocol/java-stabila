@@ -4,7 +4,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.stabila.core.db.TronStoreWithRevoking;
+import org.stabila.core.db.StabilaStoreWithRevoking;
 import org.tron.common.utils.ByteArray;
 import org.stabila.core.capsule.BytesCapsule;
 import org.stabila.core.capsule.MarketOrderIdListCapsule;
@@ -16,7 +16,7 @@ import org.stabila.core.capsule.utils.MarketUtils;
  * Value: sell_id + buy_id + sell_quantity + buy_quantity, use createPairPriceKey
  * */
 @Component
-public class MarketPairToPriceStore extends TronStoreWithRevoking<BytesCapsule> {
+public class MarketPairToPriceStore extends StabilaStoreWithRevoking<BytesCapsule> {
 
   @Autowired
   protected MarketPairToPriceStore(@Value("market_pair_to_price") String dbName) {

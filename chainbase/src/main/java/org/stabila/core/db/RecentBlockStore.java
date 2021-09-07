@@ -7,7 +7,7 @@ import org.stabila.core.capsule.BytesCapsule;
 import org.stabila.core.exception.ItemNotFoundException;
 
 @Component
-public class RecentBlockStore extends TronStoreWithRevoking<BytesCapsule> {
+public class RecentBlockStore extends StabilaStoreWithRevoking<BytesCapsule> {
 
   @Autowired
   private RecentBlockStore(@Value("recent-block") String dbName) {

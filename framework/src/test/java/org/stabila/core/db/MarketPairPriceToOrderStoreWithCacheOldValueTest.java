@@ -55,7 +55,7 @@ public class MarketPairPriceToOrderStoreWithCacheOldValueTest {
     String dbName = "testrevokingtronstore-testGetKeysNext";
     Options options = StorageUtils.getOptionsByDbName(dbName);
     options.comparator(new MarketOrderPriceComparatorForLevelDB());
-    TestRevokingTronStore tronDatabase = new TestRevokingTronStore(dbName, options,
+    TestRevokingStabilaStore tronDatabase = new TestRevokingStabilaStore(dbName, options,
         revokingDatabase);
 
     // put order: 2 1 3 0
@@ -173,11 +173,11 @@ public class MarketPairPriceToOrderStoreWithCacheOldValueTest {
     tronDatabase.close();
   }
 
-  private static class TestRevokingTronStore extends
-      TronStoreWithRevoking<MarketOrderIdListCapsule> {
+  private static class TestRevokingStabilaStore extends
+          StabilaStoreWithRevoking<MarketOrderIdListCapsule> {
 
-    private TestRevokingTronStore(String dbName, Options options,
-        RevokingDatabase revokingDatabase) {
+    private TestRevokingStabilaStore(String dbName, Options options,
+                                     RevokingDatabase revokingDatabase) {
       super(dbName, options, revokingDatabase);
     }
   }

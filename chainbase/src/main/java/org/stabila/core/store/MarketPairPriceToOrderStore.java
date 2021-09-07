@@ -9,7 +9,7 @@ import org.rocksdb.DirectComparator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.stabila.core.db.TronStoreWithRevoking;
+import org.stabila.core.db.StabilaStoreWithRevoking;
 import org.tron.common.utils.ByteUtil;
 import org.tron.common.utils.MarketOrderPriceComparatorForLevelDB;
 import org.tron.common.utils.MarketOrderPriceComparatorForRockDB;
@@ -19,7 +19,7 @@ import org.stabila.core.capsule.utils.MarketUtils;
 import org.stabila.core.exception.ItemNotFoundException;
 
 @Component
-public class MarketPairPriceToOrderStore extends TronStoreWithRevoking<MarketOrderIdListCapsule> {
+public class MarketPairPriceToOrderStore extends StabilaStoreWithRevoking<MarketOrderIdListCapsule> {
 
   @Autowired
   protected MarketPairPriceToOrderStore(@Value("market_pair_price_to_order") String dbName) {

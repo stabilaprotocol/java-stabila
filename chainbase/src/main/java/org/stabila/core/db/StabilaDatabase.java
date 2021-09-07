@@ -17,13 +17,13 @@ import org.stabila.core.exception.BadItemException;
 import org.stabila.core.exception.ItemNotFoundException;
 
 @Slf4j(topic = "DB")
-public abstract class TronDatabase<T> implements ITronChainBase<T> {
+public abstract class StabilaDatabase<T> implements ITronChainBase<T> {
 
   protected DbSourceInter<byte[]> dbSource;
   @Getter
   private String dbName;
 
-  protected TronDatabase(String dbName) {
+  protected StabilaDatabase(String dbName) {
     this.dbName = dbName;
 
     if ("LEVELDB".equals(CommonParameter.getInstance().getStorage()
@@ -46,7 +46,7 @@ public abstract class TronDatabase<T> implements ITronChainBase<T> {
     dbSource.initDB();
   }
 
-  protected TronDatabase() {
+  protected StabilaDatabase() {
   }
 
   public DbSourceInter<byte[]> getDbSource() {
