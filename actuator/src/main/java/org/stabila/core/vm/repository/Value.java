@@ -3,7 +3,7 @@ package org.stabila.core.vm.repository;
 import java.util.Arrays;
 import org.apache.commons.lang3.ArrayUtils;
 import org.stabila.core.capsule.*;
-import org.tron.core.capsule.*;
+import org.stabila.core.capsule.*;
 import org.stabila.core.exception.BadItemException;
 import org.stabila.core.vm.config.VMConfig;
 

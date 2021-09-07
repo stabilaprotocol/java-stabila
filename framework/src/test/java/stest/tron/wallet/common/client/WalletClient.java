@@ -132,7 +132,7 @@ public class WalletClient {
    */
 
   public static GrpcClient init() {
-    //Config config = org.tron.core.config.Configuration.getByPath("config.conf");
+    //Config config = org.stabila.core.config.Configuration.getByPath("config.conf");
     Config config = Configuration.getByPath("testng.conf");
     dbPath = config.getString("CityDb.DbPath");
     txtPath = System.getProperty("user.dir") + "/" + config.getString("CityDb.TxtPath");

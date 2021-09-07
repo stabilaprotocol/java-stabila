@@ -76,7 +76,7 @@ After compilation, the corresponding .class under the java_out directory will be
 
 ## Implement SumActuator
 
-For now, the default Actuator supported by java-tron is located in `org.tron.core.actuator`. Creating `SumActuator` under this directory:
+For now, the default Actuator supported by java-tron is located in `org.stabila.core.actuator`. Creating `SumActuator` under this directory:
 
 ```java
 public class SumActuator extends AbstractActuator {

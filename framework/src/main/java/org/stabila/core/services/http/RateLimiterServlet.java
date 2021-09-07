@@ -24,7 +24,7 @@ import org.stabila.core.services.ratelimiter.adapter.QpsRateLimiterAdapter;
 public abstract class RateLimiterServlet extends HttpServlet {
 
   private static final String KEY_PREFIX_HTTP = "http_";
-  private static final String ADAPTER_PREFIX = "org.tron.core.services.ratelimiter.adapter.";
+  private static final String ADAPTER_PREFIX = "org.stabila.core.services.ratelimiter.adapter.";
 
   @Autowired
   private RateLimiterContainer container;

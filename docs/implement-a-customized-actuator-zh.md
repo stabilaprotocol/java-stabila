@@ -78,7 +78,7 @@ protoc -I=src/main/protos/api -I=src/main/protos/core -I=src/main/protos  --java
 
 ## 实现 SumActuator
 
-目前 java-tron 默认支持的 Actuator 存放在该模块的 org.tron.core.actuator 目录下，同样在该目录下创建 `SumActuator` ：
+目前 java-tron 默认支持的 Actuator 存放在该模块的 org.stabila.core.actuator 目录下，同样在该目录下创建 `SumActuator` ：
 
 ```java
 public class SumActuator extends AbstractActuator {
