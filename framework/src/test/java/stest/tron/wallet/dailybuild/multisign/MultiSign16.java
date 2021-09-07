@@ -1,4 +1,4 @@
-package stest.tron.wallet.dailybuild.multisign;
+package stest.stabila.wallet.dailybuild.multisign;
 
 import static org.stabila.api.GrpcAPI.Return.response_code.CONTRACT_VALIDATE_ERROR;
 

@@ -123,7 +123,7 @@ def createScript(project, mainClass, name) {
         }
     }
 }
-applicationDistribution.from("../gradle/java-tron.vmoptions") {
+applicationDistribution.from("../gradle/java-stabila.vmoptions") {
     into "bin"
 }
 createScript(project, 'org.stabila.plugins.ArchiveManifest', 'ArchiveManifest')

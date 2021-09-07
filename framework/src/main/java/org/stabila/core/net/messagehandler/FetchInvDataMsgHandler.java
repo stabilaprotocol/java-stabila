@@ -45,7 +45,7 @@ public class FetchInvDataMsgHandler implements TronMsgHandler {
 
   private static final int MAX_SIZE = 1_000_000;
   @Autowired
-  private TronNetDelegate tronNetDelegate;
+  private TronNetDelegate stabilaNetDelegate;
   @Autowired
   private SyncService syncService;
   @Autowired
@@ -70,7 +70,7 @@ public class FetchInvDataMsgHandler implements TronMsgHandler {
       Message message = advService.getMessage(item);
       if (message == null) {
         try {
-          message = tronNetDelegate.getData(hash, type);
+          message = stabilaNetDelegate.getData(hash, type);
         } catch (Exception e) {
           logger.error("Fetch item {} failed. reason: {}", item, hash, e.getMessage());
           peer.disconnect(ReasonCode.FETCH_FAIL);
@@ -103,11 +103,11 @@ public class FetchInvDataMsgHandler implements TronMsgHandler {
 
   private void sendPbftCommitMessage(PeerConnection peer, BlockCapsule blockCapsule) {
     try {
-      if (!tronNetDelegate.allowPBFT() || peer.isSyncFinish()) {
+      if (!stabilaNetDelegate.allowPBFT() || peer.isSyncFinish()) {
         return;
       }
       long epoch = 0;
-      PbftSignCapsule pbftSignCapsule = tronNetDelegate
+      PbftSignCapsule pbftSignCapsule = stabilaNetDelegate
           .getBlockPbftCommitData(blockCapsule.getNum());
       long maintenanceTimeInterval = consensusDelegate.getDynamicPropertiesStore()
           .getMaintenanceTimeInterval();
@@ -120,7 +120,7 @@ public class FetchInvDataMsgHandler implements TronMsgHandler {
             (blockCapsule.getTimeStamp() / maintenanceTimeInterval + 1) * maintenanceTimeInterval;
       }
       if (epochCache.getIfPresent(epoch) == null) {
-        PbftSignCapsule srl = tronNetDelegate.getSRLPbftCommitData(epoch);
+        PbftSignCapsule srl = stabilaNetDelegate.getSRLPbftCommitData(epoch);
         if (srl != null) {
           epochCache.put(epoch, true);
           peer.sendMessage(new PbftCommitMessage(srl));
@@ -140,7 +140,7 @@ public class FetchInvDataMsgHandler implements TronMsgHandler {
           throw new P2pException(TypeEnum.BAD_MESSAGE, "not spread inv: {}" + hash);
         }
       }
-      int fetchCount = peer.getNodeStatistics().messageStatistics.tronInTrxFetchInvDataElement
+      int fetchCount = peer.getNodeStatistics().messageStatistics.stabilaInTrxFetchInvDataElement
           .getCount(10);
       int maxCount = advService.getTrxCount().getCount(60);
       if (fetchCount > maxCount) {
@@ -155,9 +155,9 @@ public class FetchInvDataMsgHandler implements TronMsgHandler {
         }
       }
       if (isAdv) {
-        MessageCount tronOutAdvBlock = peer.getNodeStatistics().messageStatistics.tronOutAdvBlock;
-        tronOutAdvBlock.add(fetchInvDataMsg.getHashList().size());
-        int outBlockCountIn1min = tronOutAdvBlock.getCount(60);
+        MessageCount stabilaOutAdvBlock = peer.getNodeStatistics().messageStatistics.stabilaOutAdvBlock;
+        stabilaOutAdvBlock.add(fetchInvDataMsg.getHashList().size());
+        int outBlockCountIn1min = stabilaOutAdvBlock.getCount(60);
         int producedBlockIn2min = 120_000 / BLOCK_PRODUCED_INTERVAL;
         if (outBlockCountIn1min > producedBlockIn2min) {
           logger.error("producedBlockIn2min: " + producedBlockIn2min + ", outBlockCountIn1min: "

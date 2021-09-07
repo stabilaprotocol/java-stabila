@@ -25,7 +25,7 @@ import org.stabila.core.exception.P2pException.TypeEnum;
 public class ChainInventoryMsgHandler implements TronMsgHandler {
 
   @Autowired
-  private TronNetDelegate tronNetDelegate;
+  private TronNetDelegate stabilaNetDelegate;
 
   @Autowired
   private SyncService syncService;
@@ -43,7 +43,7 @@ public class ChainInventoryMsgHandler implements TronMsgHandler {
 
     Deque<BlockCapsule.BlockId> blockIdWeGet = new LinkedList<>(chainInventoryMessage.getBlockIds());
 
-    if (blockIdWeGet.size() == 1 && tronNetDelegate.containBlock(blockIdWeGet.peek())) {
+    if (blockIdWeGet.size() == 1 && stabilaNetDelegate.containBlock(blockIdWeGet.peek())) {
       peer.setNeedSyncFromPeer(false);
       return;
     }
@@ -60,8 +60,8 @@ public class ChainInventoryMsgHandler implements TronMsgHandler {
     peer.setRemainNum(chainInventoryMessage.getRemainNum());
     peer.getSyncBlockToFetch().addAll(blockIdWeGet);
 
-    synchronized (tronNetDelegate.getBlockLock()) {
-      while (!peer.getSyncBlockToFetch().isEmpty() && tronNetDelegate
+    synchronized (stabilaNetDelegate.getBlockLock()) {
+      while (!peer.getSyncBlockToFetch().isEmpty() && stabilaNetDelegate
           .containBlock(peer.getSyncBlockToFetch().peek())) {
         BlockCapsule.BlockId blockId = peer.getSyncBlockToFetch().pop();
         peer.setBlockBothHave(blockId);
@@ -110,12 +110,12 @@ public class ChainInventoryMsgHandler implements TronMsgHandler {
           + ", peer: " + blockIds.get(0).getString());
     }
 
-    if (tronNetDelegate.getHeadBlockId().getNum() > 0) {
+    if (stabilaNetDelegate.getHeadBlockId().getNum() > 0) {
       long maxRemainTime =
-          ChainConstant.CLOCK_MAX_DELAY + System.currentTimeMillis() - tronNetDelegate
-              .getBlockTime(tronNetDelegate.getSolidBlockId());
+          ChainConstant.CLOCK_MAX_DELAY + System.currentTimeMillis() - stabilaNetDelegate
+              .getBlockTime(stabilaNetDelegate.getSolidBlockId());
       long maxFutureNum =
-          maxRemainTime / BLOCK_PRODUCED_INTERVAL + tronNetDelegate.getSolidBlockId().getNum();
+          maxRemainTime / BLOCK_PRODUCED_INTERVAL + stabilaNetDelegate.getSolidBlockId().getNum();
       long lastNum = blockIds.get(blockIds.size() - 1).getNum();
       if (lastNum + msg.getRemainNum() > maxFutureNum) {
         throw new P2pException(TypeEnum.BAD_MESSAGE, "lastNum: " + lastNum + " + remainNum: "

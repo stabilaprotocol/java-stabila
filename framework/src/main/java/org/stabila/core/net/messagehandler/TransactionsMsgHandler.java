@@ -33,7 +33,7 @@ public class TransactionsMsgHandler implements TronMsgHandler {
   private static int MAX_TRX_SIZE = 50_000;
   private static int MAX_SMART_CONTRACT_SUBMIT_SIZE = 100;
   @Autowired
-  private TronNetDelegate tronNetDelegate;
+  private TronNetDelegate stabilaNetDelegate;
   @Autowired
   private AdvService advService;
 
@@ -114,7 +114,7 @@ public class TransactionsMsgHandler implements TronMsgHandler {
     }
 
     try {
-      tronNetDelegate.pushTransaction(trx.getTransactionCapsule());
+      stabilaNetDelegate.pushTransaction(trx.getTransactionCapsule());
       advService.broadcast(trx);
     } catch (P2pException e) {
       logger.warn("Trx {} from peer {} process failed. type: {}, reason: {}",

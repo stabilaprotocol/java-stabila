@@ -50,29 +50,29 @@ public class RevokingDbWithCacheOldValueTest {
   @Test
   public synchronized void testReset() {
     revokingDatabase.getStack().clear();
-    TestRevokingStabilaStore tronDatabase = new TestRevokingStabilaStore(
-        "testrevokingtronstore-testReset", revokingDatabase);
+    TestRevokingStabilaStore stabilaDatabase = new TestRevokingStabilaStore(
+        "testrevokingstabilastore-testReset", revokingDatabase);
     ProtoCapsuleTest testProtoCapsule = new ProtoCapsuleTest(("reset").getBytes());
     try (ISession tmpSession = revokingDatabase.buildSession()) {
-      tronDatabase.put(testProtoCapsule.getData(), testProtoCapsule);
+      stabilaDatabase.put(testProtoCapsule.getData(), testProtoCapsule);
       tmpSession.commit();
     }
-    Assert.assertTrue(tronDatabase.has(testProtoCapsule.getData()));
-    tronDatabase.reset();
-    Assert.assertFalse(tronDatabase.has(testProtoCapsule.getData()));
-    tronDatabase.reset();
+    Assert.assertTrue(stabilaDatabase.has(testProtoCapsule.getData()));
+    stabilaDatabase.reset();
+    Assert.assertFalse(stabilaDatabase.has(testProtoCapsule.getData()));
+    stabilaDatabase.reset();
   }
 
   @Test
   public synchronized void testPop() throws RevokingStoreIllegalStateException {
     revokingDatabase.getStack().clear();
-    TestRevokingStabilaStore tronDatabase = new TestRevokingStabilaStore(
-        "testrevokingtronstore-testPop", revokingDatabase);
+    TestRevokingStabilaStore stabilaDatabase = new TestRevokingStabilaStore(
+        "testrevokingstabilastore-testPop", revokingDatabase);
 
     for (int i = 1; i < 11; i++) {
       ProtoCapsuleTest testProtoCapsule = new ProtoCapsuleTest(("pop" + i).getBytes());
       try (ISession tmpSession = revokingDatabase.buildSession()) {
-        tronDatabase.put(testProtoCapsule.getData(), testProtoCapsule);
+        stabilaDatabase.put(testProtoCapsule.getData(), testProtoCapsule);
         Assert.assertEquals(1, revokingDatabase.getActiveDialog());
         tmpSession.commit();
         Assert.assertEquals(i, revokingDatabase.getStack().size());
@@ -85,7 +85,7 @@ public class RevokingDbWithCacheOldValueTest {
       Assert.assertEquals(10 - i, revokingDatabase.getStack().size());
     }
 
-    tronDatabase.close();
+    stabilaDatabase.close();
 
     Assert.assertEquals(0, revokingDatabase.getStack().size());
   }
@@ -93,14 +93,14 @@ public class RevokingDbWithCacheOldValueTest {
   @Test
   public synchronized void testUndo() throws RevokingStoreIllegalStateException {
     revokingDatabase.getStack().clear();
-    TestRevokingStabilaStore tronDatabase = new TestRevokingStabilaStore(
-        "testrevokingtronstore-testUndo", revokingDatabase);
+    TestRevokingStabilaStore stabilaDatabase = new TestRevokingStabilaStore(
+        "testrevokingstabilastore-testUndo", revokingDatabase);
 
     ISession dialog = revokingDatabase.buildSession();
     for (int i = 0; i < 10; i++) {
       ProtoCapsuleTest testProtoCapsule = new ProtoCapsuleTest(("undo" + i).getBytes());
       try (ISession tmpSession = revokingDatabase.buildSession()) {
-        tronDatabase.put(testProtoCapsule.getData(), testProtoCapsule);
+        stabilaDatabase.put(testProtoCapsule.getData(), testProtoCapsule);
         Assert.assertEquals(2, revokingDatabase.getStack().size());
         tmpSession.merge();
         Assert.assertEquals(1, revokingDatabase.getStack().size());
@@ -116,45 +116,45 @@ public class RevokingDbWithCacheOldValueTest {
     dialog = revokingDatabase.buildSession();
     revokingDatabase.disable();
     ProtoCapsuleTest testProtoCapsule = new ProtoCapsuleTest("del".getBytes());
-    tronDatabase.put(testProtoCapsule.getData(), testProtoCapsule);
+    stabilaDatabase.put(testProtoCapsule.getData(), testProtoCapsule);
     revokingDatabase.enable();
 
     try (ISession tmpSession = revokingDatabase.buildSession()) {
-      tronDatabase.put(testProtoCapsule.getData(), new ProtoCapsuleTest("del2".getBytes()));
+      stabilaDatabase.put(testProtoCapsule.getData(), new ProtoCapsuleTest("del2".getBytes()));
       tmpSession.merge();
     }
 
     try (ISession tmpSession = revokingDatabase.buildSession()) {
-      tronDatabase.put(testProtoCapsule.getData(), new ProtoCapsuleTest("del22".getBytes()));
+      stabilaDatabase.put(testProtoCapsule.getData(), new ProtoCapsuleTest("del22".getBytes()));
       tmpSession.merge();
     }
 
     try (ISession tmpSession = revokingDatabase.buildSession()) {
-      tronDatabase.put(testProtoCapsule.getData(), new ProtoCapsuleTest("del222".getBytes()));
+      stabilaDatabase.put(testProtoCapsule.getData(), new ProtoCapsuleTest("del222".getBytes()));
       tmpSession.merge();
     }
 
     try (ISession tmpSession = revokingDatabase.buildSession()) {
-      tronDatabase.delete(testProtoCapsule.getData());
+      stabilaDatabase.delete(testProtoCapsule.getData());
       tmpSession.merge();
     }
 
     dialog.destroy();
 
     logger.info(
-        "**********testProtoCapsule:" + tronDatabase.getUnchecked(testProtoCapsule.getData())
+        "**********testProtoCapsule:" + stabilaDatabase.getUnchecked(testProtoCapsule.getData())
             .toString());
     Assert.assertArrayEquals("del".getBytes(),
-        tronDatabase.getUnchecked(testProtoCapsule.getData()).getData());
-    Assert.assertEquals(testProtoCapsule, tronDatabase.getUnchecked(testProtoCapsule.getData()));
+        stabilaDatabase.getUnchecked(testProtoCapsule.getData()).getData());
+    Assert.assertEquals(testProtoCapsule, stabilaDatabase.getUnchecked(testProtoCapsule.getData()));
 
-    tronDatabase.close();
+    stabilaDatabase.close();
   }
 
   @Test
   public synchronized void testGetlatestValues() {
     revokingDatabase.getStack().clear();
-    TestRevokingStabilaStore tronDatabase = new TestRevokingStabilaStore(
+    TestRevokingStabilaStore stabilaDatabase = new TestRevokingStabilaStore(
         "testrevokingtronstore-testGetlatestValues", revokingDatabase);
 
     for (int i = 0; i < 10; i++) {
