@@ -169,7 +169,7 @@ contract KittyBase is KittyAccessControl {
     /// @dev The Birth event is fired whenever a new kitten comes into existence. This obviously
     ///  includes any time a cat is created through the giveBirth method, but it is also called
     ///  when a new gen0 cat is created.
-    event Birth(address owner, uint256 kittyId, uint256 matronId, uint256 sireId, uint256 genes);
+    event Birth(address owner, uint256 kittyId, uint256 mastabilaId, uint256 sireId, uint256 genes);
 
     /// @dev Transfer event as defined in current draft of ERC721. Emitted every time a kitten
     ///  ownership is assigned, including births.
@@ -192,7 +192,7 @@ contract KittyBase is KittyAccessControl {
 
         // The minimum timestamp after which this cat can engage in breeding
         // activities again. This same timestamp is used for the pregnancy
-        // timer (for matrons) as well as the siring cooldown.
+        // timer (for mastabilas) as well as the siring cooldown.
         uint64 cooldownEndBlock;
 
         // The ID of the parents of this kitty, set to 0 for gen0 cats.
@@ -201,10 +201,10 @@ contract KittyBase is KittyAccessControl {
         // that Ethereum currently has a limit of about 500 million
         // transactions per year! So, this definitely won't be a problem
         // for several years (even as Ethereum learns to scale).
-        uint32 matronId;
+        uint32 mastabilaId;
         uint32 sireId;
 
-        // Set to the ID of the sire cat for matrons that are pregnant,
+        // Set to the ID of the sire cat for mastabilas that are pregnant,
         // zero otherwise. A non-zero value here is how we know a cat
         // is pregnant. Used to retrieve the genetic material for the new
         // kitten when the birth transpires.

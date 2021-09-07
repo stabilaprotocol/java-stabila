@@ -11,7 +11,7 @@ public class Sha256HashTest {
 
   @Test
   public void testHash() {
-    //Example from https://github.com/tronprotocol/tips/blob/master/TWP-001.md
+    //Example from https://github.com/stabilaprotocol/tips/blob/master/TWP-001.md
     byte[] input = ByteArray.fromHexString("A0E11973395042BA3C0B52B4CDF4E15EA77818F275");
     byte[] hash0 = Sha256Hash.hash(CommonParameter
         .getInstance().isECKeyCryptoEngine(), input);

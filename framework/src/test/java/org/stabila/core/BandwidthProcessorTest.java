@@ -49,7 +49,7 @@ public class BandwidthProcessorTest {
   private static final int NUM = 2147483647;
   private static final int VOTE_SCORE = 2;
   private static final String DESCRIPTION = "TRX";
-  private static final String URL = "https://tron.network";
+  private static final String URL = "https://stabila.network";
   private static Manager dbManager;
   private static ChainBaseManager chainBaseManager;
   private static StabilaApplicationContext context;

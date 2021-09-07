@@ -1,4 +1,4 @@
-package stest.tron.wallet.contract.linkage;
+package stest.stabila.wallet.contract.linkage;
 
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;

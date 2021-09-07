@@ -1,6 +1,6 @@
 package org.stabila.core;
 
-import static stest.tron.wallet.common.client.WalletClient.decodeFromBase58Check;
+import static stest.stabila.wallet.common.client.WalletClient.decodeFromBase58Check;
 
 import com.google.protobuf.Any;
 import com.google.protobuf.ByteString;
