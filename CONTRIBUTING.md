@@ -1,6 +1,6 @@
-# Contributing to java-tron
+# Contributing to java-stabila
 
-java-tron is an open source project.
+java-stabila is an open source project.
 
 It is the work of contributors. We appreciate your help!
 
@@ -8,7 +8,7 @@ Here are instructions to get you started. They are not perfect, so
 please let us know if anything feels wrong or incomplete.
 
 ## Contribution guidelines
-First of all, java-tron follows GitFlow, the branches description in the java-tron project are listed as follow:
+First of all, java-stabila follows GitFlow, the branches description in the java-stabila project are listed as follow:
 
 - ``master`` branch:
 This branch contains the latest code released to the production environment. It can only be merged, and can not be modified directly in this branch.
@@ -27,17 +27,17 @@ This branch is used to fix a bug when an online bug is found. It is created base
 
 ### Pull requests
 
-If you'd like to contribute to java-tron, you should follow the steps below:
-- **Fork** a repository from **tronprotocol/java-tron** allows you to freely experiment with changes without affecting the original project
+If you'd like to contribute to java-stabila, you should follow the steps below:
+- **Fork** a repository from **stabilaprotocol/java-stabila** allows you to freely experiment with changes without affecting the original project
 - **Fix** some code and **Commit** your modified code.
 - **Send** a Pull Request（PR）for the maintainers to review and merge into the main code base.
-  *notice*：When you create a new PR，please choose the **tronprotocol/java-tron** as the base repository and choose **your fork/java-tron** as the head repository.
+  *notice*：When you create a new PR，please choose the **stabilaprotocol/java-stabila** as the base repository and choose **your fork/java-stabila** as the head repository.
   And you must choose **develop** as the base repository branch, which means we will merge the PR into our **develop** branch when reviewed and approved.
   Additionally, if you are writing a new feature, please ensure you add appropriate test cases under ``/src/test``.
 
 After the PR is checked by our Sonar check procedure and Travis CI continuous-integration check procedure automaticly,
 we maintainers will review the code changed and give some advices for modifying if necessary.Once approved,
-we will close the PR and merge into the protocol/java-tron's develop branch.
+we will close the PR and merge into the protocol/java-stabila's develop branch.
 
 We are always happy to receive pull requests, and do our best to
 review them as fast as possible. Not sure if that typo is worth a pull
@@ -57,7 +57,7 @@ must be limited in 50 words.
 ### Create issues
 
 Any significant improvement should be documented as [a GitHub
-issue](https://github.com/tronprotocol/java-tron/issues) before anyone
+issue](https://github.com/stabilaprotocol/java-stabila/issues) before anyone
 starts working on it.
 
 When filing an issue, make sure to answer these three questions:
@@ -76,8 +76,8 @@ This will help prioritize the most common problems and requests.
 
 Bonus point applies in TRON incentives programme. Developers can earn points by contributing to TRON.
 
-You can find your points ranking at  [Tronscan](https://tronscan.org/#/developersreward).
+You can find your points ranking at  [Tronscan](https://stabilascan.org/#/developersreward).
 
 The Top 5 scored developers (for every month, quarter and year) can win a cash reward.
 
-For more details, please visit [Incentives Policy](https://tronprotocol.github.io/documentation-en/developers/incentives/).
+For more details, please visit [Incentives Policy](https://stabilaprotocol.github.io/documentation-en/developers/incentives/).

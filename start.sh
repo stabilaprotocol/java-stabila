@@ -18,7 +18,7 @@ stopService() {
        kill -15 $pid
        sleep 1
     else
-       echo "java-tron stop"
+       echo "java-stabila stop"
        return
     fi
     count=$[$count+1]
@@ -39,7 +39,7 @@ startService() {
  -XX:+CMSScavengeBeforeRemark -jar $JAR_NAME $START_OPT -c config.conf  >> start.log 2>&1 &
 
  pid=`ps -ef |grep $JAR_NAME |grep -v grep |awk '{print $2}'`
- echo "start java-tron with pid $pid on $HOSTNAME"
+ echo "start java-stabila with pid $pid on $HOSTNAME"
 }
 
 stopService

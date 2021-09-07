@@ -4,7 +4,7 @@
 
 This guide provides two ways for TRON quickstart:
 - Set up a FullNode using the official tools: providing a wealth of configurable parameters to startup a FullNode
-- Set up a complete private network for Tron development using a third-party tool: [docker-tron-quickstart](https://github.com/TRON-US/docker-tron-quickstart)
+- Set up a complete private network for Tron development using a third-party tool: [docker-stabila-quickstart](https://github.com/TRON-US/docker-stabila-quickstart)
 
 ## Dependencies
 
@@ -18,33 +18,33 @@ Please download and install the latest Docker from Docker official website:
 
 ### Build the docker image from source
 
-#### Clone the java-tron repo
+#### Clone the java-stabila repo
 
-Clone the java-tron repo from github and enter the directory `java-tron`:
+Clone the java-stabila repo from github and enter the directory `java-stabila`:
 ```
-git clone https://github.com/tronprotocol/java-tron.git
-cd java-tron
+git clone https://github.com/stabilaprotocol/java-stabila.git
+cd java-stabila
 ```
 
 #### Build the docker image
 
 Use below command to start the build:
 ```
-docker build -t tronprotocol/java-tron .
+docker build -t stabilaprotocol/java-stabila .
 ```
 
 #### Using the official Docker images
 
 Download the official docker image from the Dockerhub with below command if you'd like to use the official images:
 ```
-docker pull tronprotocol/java-tron
+docker pull stabilaprotocol/java-stabila
 ```
 
 ### Run the container
 
-You can run the command below to start the java-tron:
+You can run the command below to start the java-stabila:
 ```
-docker run -it -d -p 8090:8090 -p 8091:8091 -p 18888:18888 -p 50051:50051 --restart always tronprotocol/java-tron 
+docker run -it -d -p 8090:8090 -p 8091:8091 -p 18888:18888 -p 50051:50051 --restart always stabilaprotocol/java-stabila 
 ```
 
 The `-p` flag defines the ports that the container needs to be mapped on the host machine. By default the container will start and join in the mainnet
@@ -52,20 +52,20 @@ using the built-in configuration file, you can specify other configuration file 
 This image also supports customizing some startup parameters，here is an example for running a FullNode as an SR in production env:
 ```
 docker run -it -d -p 8080:8080 -p 8090:8090 -p 18888:18888 -p 50051:50051 \
-           -v /Users/quan/tron/docker/conf:/java-tron/conf \
-           -v /Users/quan/tron/docker/datadir:/java-tron/data \
-           tronprotocol/java-tron \
+           -v /Users/quan/stabila/docker/conf:/java-stabila/conf \
+           -v /Users/quan/stabila/docker/datadir:/java-stabila/data \
+           stabilaprotocol/java-stabila \
            -jvm "{-Xmx10g -Xms10g}" \
-           -c /java-tron/conf/config-localtest.conf \
-           -d /java-tron/data \
+           -c /java-stabila/conf/config-localtest.conf \
+           -d /java-stabila/data \
            -w 
 ```
-Note: The directory `/Users/tron/docker/conf` must contain the file `config-localtest.conf`. The jvm parameters must be enclosed in double quotes and braces.
+Note: The directory `/Users/stabila/docker/conf` must contain the file `config-localtest.conf`. The jvm parameters must be enclosed in double quotes and braces.
 
-## Quickstart for using docker-tron-quickstart
+## Quickstart for using docker-stabila-quickstart
 
 The image exposes a Full Node, Solidity Node, and Event Server. Through TRON Quickstart, users can deploy DApps, smart contracts, and interact with the TronWeb library.
-Check more information at [Quickstart:](https://github.com/TRON-US/docker-tron-quickstart)
+Check more information at [Quickstart:](https://github.com/TRON-US/docker-stabila-quickstart)
 
 ### Node.JS Console
   Node.JS is used to interact with the Full and Solidity Nodes via Tron-Web.  
@@ -73,12 +73,12 @@ Check more information at [Quickstart:](https://github.com/TRON-US/docker-tron-q
   
 ### Clone TRON Quickstart  
 ```shell
-git clone https://github.com/TRON-US/docker-tron-quickstart.git
+git clone https://github.com/TRON-US/docker-stabila-quickstart.git
 ```  
 
 ### Pull the image using docker:
 ```shell
-docker pull trontools/quickstart
+docker pull stabilatools/quickstart
 ```  
 
 ## Setup TRON Quickstart   
@@ -88,8 +88,8 @@ Run the "docker run" command to launch TRON Quickstart. TRON Quickstart exposes 
 docker run -it \
   -p 9090:9090 \
   --rm \
-  --name tron \
-  trontools/quickstart
+  --name stabila \
+  stabilatools/quickstart
 ```  
 Notice: the option --rm automatically removes the container after it exits. This is very important because the container cannot be restarted, it MUST be run from scratch to correctly configure the environment.
 
@@ -104,12 +104,12 @@ If everything goes well, your terminal console output will look like following :
 
     [PM2] Spawning PM2 daemon with pm2_home=/root/.pm2
     [PM2] PM2 Successfully daemonized
-    [PM2][WARN] Applications eventron not running, starting...
-    [PM2] App [eventron] launched (1 instances)
+    [PM2][WARN] Applications evenstabila not running, starting...
+    [PM2] App [evenstabila] launched (1 instances)
     ┌──────────┬────┬─────────┬──────┬─────┬────────┬─────────┬────────┬─────┬───────────┬──────┬──────────┐
     │ App name │ id │ version │ mode │ pid │ status │ restart │ uptime │ cpu │ mem       │ user │ watching │
     ├──────────┼────┼─────────┼──────┼─────┼────────┼─────────┼────────┼─────┼───────────┼──────┼──────────┤
-    │ eventron │ 0  │ N/A     │ fork │ 60  │ online │ 0       │ 0s     │ 0%  │ 25.4 MB   │ root │ disabled │
+    │ evenstabila │ 0  │ N/A     │ fork │ 60  │ online │ 0       │ 0s     │ 0%  │ 25.4 MB   │ root │ disabled │
     └──────────┴────┴─────────┴──────┴─────┴────────┴─────────┴────────┴─────┴───────────┴──────┴──────────┘
     Use `pm2 show <id|name>` to get more details about an app
     Start the http proxy for dApps...
@@ -209,7 +209,7 @@ docker container ps
 docker container ps
 
 CONTAINER ID        IMAGE               COMMAND                 CREATED             STATUS              PORTS                                              NAMES
-513078dc7816        tron                "./quickstart v2.0.0"   About an hour ago   Up About an hour    0.0.0.0:9090->9090/tcp, 0.0.0.0:18190->18190/tcp   tron
+513078dc7816        stabila                "./quickstart v2.0.0"   About an hour ago   Up About an hour    0.0.0.0:9090->9090/tcp, 0.0.0.0:18190->18190/tcp   stabila
 ```  
 **To kill an active container, run:**
 ```shell
@@ -218,7 +218,7 @@ docker container kill 513078dc7816   // use your container ID
 
 ### How to check the logs of the FullNode ###
 ```
-  docker exec -it tron tail -f /tron/FullNode/logs/tron.log 
+  docker exec -it stabila tail -f /stabila/FullNode/logs/stabila.log 
 ```
 
  <details>
