@@ -9,7 +9,7 @@
 
 ## Build and Deploy automatically using scripts
 
-- Please take a look at the [Stabila Deployment Scripts](https://github.com/stabilaprotocol/StabilaDeployment) repository.
+- Please take a look at the [Stabila Deployment Scripts](https://github.com/stabilaprotocol/stabila-deployment) repository.
 
 ## Getting the code with git
 

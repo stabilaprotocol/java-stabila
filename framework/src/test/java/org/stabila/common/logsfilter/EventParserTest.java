@@ -8,7 +8,7 @@ import java.util.Map;
 import org.junit.Test;
 import org.testng.Assert;
 import org.stabila.common.crypto.Hash;
-import org.stabila.common.TvmTestUtils;
+import org.stabila.common.runtime.TvmTestUtils;
 import org.stabila.common.utils.ByteArray;
 import org.stabila.core.Wallet;
 import org.stabila.core.vm.LogInfoTriggerParser;
