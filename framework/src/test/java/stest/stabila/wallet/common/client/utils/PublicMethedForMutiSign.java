@@ -23,12 +23,12 @@ import org.bouncycastle.util.encoders.Hex;
 import org.junit.Assert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.stabila.core.zen.note.Note;
 import org.stabila.api.GrpcAPI;
 import org.stabila.api.GrpcAPI.BytesMessage;
 import org.stabila.api.GrpcAPI.DecryptNotes.NoteTx;
 import org.stabila.api.GrpcAPI.EmptyMessage;
 import org.stabila.api.GrpcAPI.ExchangeList;
+import org.stabila.api.GrpcAPI.Note;
 import org.stabila.api.GrpcAPI.PrivateParameters;
 import org.stabila.api.GrpcAPI.ReceiveNote;
 import org.stabila.api.GrpcAPI.Return;
@@ -3135,7 +3135,7 @@ public class PublicMethedForMutiSign {
    * constructor.
    */
   public static TransactionSignWeight getTransactionSignWeight(Transaction transaction,
-      WalletGrpc.WalletBlockingStub blockingStubFull) {
+                                                                       WalletGrpc.WalletBlockingStub blockingStubFull) {
     return blockingStubFull.getTransactionSignWeight(transaction);
   }
 
