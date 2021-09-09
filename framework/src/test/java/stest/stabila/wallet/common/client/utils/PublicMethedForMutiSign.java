@@ -4864,7 +4864,7 @@ public class PublicMethedForMutiSign {
       SpendNote.Builder spendNoteBuilder = SpendNote.newBuilder();
       spendNoteBuilder.setNote(noteBuild.build());
       try {
-        spendNoteBuilder.setAlpha(ByteString.copyFrom(Note.generateR()));
+        spendNoteBuilder.setAlpha(ByteString.copyFrom(org.stabila.core.zen.note.Note.generateR()));
       } catch (Exception e) {
         System.out.println(e);
       }

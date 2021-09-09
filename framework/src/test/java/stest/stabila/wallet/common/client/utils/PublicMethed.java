@@ -5789,7 +5789,7 @@ public class PublicMethed {
       SpendNote.Builder spendNoteBuilder = SpendNote.newBuilder();
       spendNoteBuilder.setNote(noteBuild.build());
       try {
-        spendNoteBuilder.setAlpha(ByteString.copyFrom(Note.generateR()));
+        spendNoteBuilder.setAlpha(ByteString.copyFrom(org.stabila.core.zen.note.Note.generateR()));
       } catch (Exception e) {
         System.out.println(e);
       }
@@ -5930,7 +5930,7 @@ public class PublicMethed {
       SpendNote.Builder spendNoteBuilder = SpendNote.newBuilder();
       spendNoteBuilder.setNote(noteBuild.build());
       try {
-        spendNoteBuilder.setAlpha(ByteString.copyFrom(Note.generateR()));
+        spendNoteBuilder.setAlpha(ByteString.copyFrom(org.stabila.core.zen.note.Note.generateR()));
       } catch (Exception e) {
         System.out.println(e);
       }
@@ -6062,7 +6062,7 @@ public class PublicMethed {
     noteBuild.setPaymentAddress(shieldAddress);
     noteBuild.setValue(shieldAmount);
     try {
-      noteBuild.setRcm(ByteString.copyFrom(Note.generateR()));
+      noteBuild.setRcm(ByteString.copyFrom(org.stabila.core.zen.note.Note.generateR()));
     } catch (Exception e) {
       System.out.println(e);
     }
@@ -6508,7 +6508,7 @@ public class PublicMethed {
       SpendNote.Builder spendNoteBuilder = SpendNote.newBuilder();
       spendNoteBuilder.setNote(noteBuild.build());
       try {
-        spendNoteBuilder.setAlpha(ByteString.copyFrom(Note.generateR()));
+        spendNoteBuilder.setAlpha(ByteString.copyFrom(org.stabila.core.zen.note.Note.generateR()));
       } catch (Exception e) {
         System.out.println(e);
       }
