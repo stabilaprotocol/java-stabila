@@ -36,9 +36,8 @@ public class Constant {
   public static final int ONE_HUNDRED = 100;
   public static final int ONE_THOUSAND = 1000;
 
-  public static final byte[] ZSTABILA_EXPANDSEED_PERSONALIZATION = {'Z', 't', 'r', 'o', 'n', '_', 'E',
-      'x',
-      'p', 'a', 'n', 'd', 'S', 'e', 'e', 'd'};
+  public static final byte[] ZSTABILA_EXPANDSEED_PERSONALIZATION = {'Z', 's', 't', 'a', 'b', 'i', 'l', 'a', '_', 'E',
+      'x', 'p', 'a', 'n', 'd', 'S', 'e', 'e', 'd'};
   public static final int ZC_DIVERSIFIER_SIZE = 11;
   public static final int ZC_OUTPUT_DESC_MAX_SIZE = 10;
 
