@@ -34,7 +34,7 @@ If you don't want to checkout the code and build the project, you can include it
 
 ```
 repositories {
-   maven { url 'https://jitpack.io' }
+   maven { url 'https://www.jitpack.io' }
 }
 dependencies {
    implementation 'com.github.stabilaprotocol:java-stabila:develop-SNAPSHOT'
