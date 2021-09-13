@@ -1,4 +1,4 @@
-# protocol [![Build Status](https://travis-ci.org/stabilaprotocol/protocol.svg?branch=master)](https://travis-ci.org/stabilaprotocol/protocol)
+# protocol [![Build Status](https://travis-ci.com/stabilaprotocol/protocol.svg?branch=master)](https://travis-ci.com/stabilaprotocol/protocol)
 
 
 # The protocol of Stabila including api and message.

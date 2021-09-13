@@ -16,8 +16,8 @@
     <img src="https://camo.githubusercontent.com/da2edb525cde1455a622c58c0effc3a90b9a181c/68747470733a2f2f6261646765732e6769747465722e696d2f4a6f696e253230436861742e737667">
   </a>
 
-  <a href="https://travis-ci.org/stabilaprotocol/java-stabila">
-    <img src="https://travis-ci.org/stabilaprotocol/java-stabila.svg?branch=develop">
+  <a href="https://travis-ci.com/stabilaprotocol/java-stabila">
+    <img src="https://travis-ci.com/stabilaprotocol/java-stabila.svg?branch=develop">
   </a>
 
   <a href="https://codecov.io/gh/stabilaprotocol/java-stabila">
