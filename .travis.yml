@@ -4,7 +4,7 @@ language: java
 jdk: oraclejdk8
 addons:
   ssh_known_hosts:
-    - 47.93.42.145:22008
+
   sonarcloud:
     organization: stabila2021
     token:
