@@ -3,37 +3,31 @@ dist: trusty
 language: java
 jdk: oraclejdk8
 addons:
-  ssh_known_hosts:
-
+  ssh_known_hosts: 
   sonarcloud:
     organization: stabila2021
     token:
-      secure: "YMQvGOERZRPP6X5f+3ZFeC4NDA2fCpIQ8cd+KGhRedqYUxcz1yEISXFnMwoeKlf0Fz265UjDa7IA78shBel3ZgE0vFZx3GZKVRHGckHp4iGOVjRubmp+XLVyIe0J58/D/rUnogFTrVY4vE8hl3zTiJBl7PJ4ZXYqPiYVhpupwrQhhG+ZZIP1dGqDaxvNn94wd2TYwFN9brAprs6kxzNcLza+u500RqQANq8hJmesixgLlW1Nd4Q1LPq2SmOdXJlYP8PZrySDVQifIPLHSk7h3TbU8KIdIYwNdN4XiCMikyqZKcgKIyGQT2CuZzIbudRq3gqrAmgyeJekh0W48iWkyhToKkchoe2K64DHVin5cR4GmFjy0d+e7zZOeDMT6oSckjY7KXl8u02sJ/n2WVEWTfJAi2ed9FMlB4pfKDl1uk/+KqTjqSDDUBeiNSQaYlXbe89sZ9/uaAZbjDNcqzgkY+cgTOu84gvA7I2fq8BNIQ5gVLpZNfV9I4qWrfS6M8hLTPvB8mWTFYmfHmAUumRc8WwYqkA3wPrfNM1o5UzepQ/tTIC1IRiKsbXz/tgYX2wvrJ3+FvBa+5z3436Kz8oX0ejw76luDKdY8VV3dQynEPEiPcjEtkUMF7smZ5gMiyP1BS3aTgX0bQU4ucw3DE1CerTf9NpPdyIjVZ/t/SNTKZo="
+      secure: YMQvGOERZRPP6X5f+3ZFeC4NDA2fCpIQ8cd+KGhRedqYUxcz1yEISXFnMwoeKlf0Fz265UjDa7IA78shBel3ZgE0vFZx3GZKVRHGckHp4iGOVjRubmp+XLVyIe0J58/D/rUnogFTrVY4vE8hl3zTiJBl7PJ4ZXYqPiYVhpupwrQhhG+ZZIP1dGqDaxvNn94wd2TYwFN9brAprs6kxzNcLza+u500RqQANq8hJmesixgLlW1Nd4Q1LPq2SmOdXJlYP8PZrySDVQifIPLHSk7h3TbU8KIdIYwNdN4XiCMikyqZKcgKIyGQT2CuZzIbudRq3gqrAmgyeJekh0W48iWkyhToKkchoe2K64DHVin5cR4GmFjy0d+e7zZOeDMT6oSckjY7KXl8u02sJ/n2WVEWTfJAi2ed9FMlB4pfKDl1uk/+KqTjqSDDUBeiNSQaYlXbe89sZ9/uaAZbjDNcqzgkY+cgTOu84gvA7I2fq8BNIQ5gVLpZNfV9I4qWrfS6M8hLTPvB8mWTFYmfHmAUumRc8WwYqkA3wPrfNM1o5UzepQ/tTIC1IRiKsbXz/tgYX2wvrJ3+FvBa+5z3436Kz8oX0ejw76luDKdY8VV3dQynEPEiPcjEtkUMF7smZ5gMiyP1BS3aTgX0bQU4ucw3DE1CerTf9NpPdyIjVZ/t/SNTKZo=
 cache:
   directories:
-  - '$HOME/.sonar/cache'
+  - "$HOME/.sonar/cache"
 matrix:
   include:
-    - name: build
-      script:
-        - sh stabila.sh
-        - "./gradlew build"
-        - "./gradlew jacocoTestReport"
-
-
-    - name: stest
-      script:
-        - sh stabila.sh
-        - bash deploy.sh
-
-
+  - name: build
+    script:
+    - sh stabila.sh
+    - "./gradlew build"
+    - "./gradlew jacocoTestReport"
+  - name: stest
+    script:
+    - sh stabila.sh
+    - bash deploy.sh
 after_success:
-  - "bash <(curl -s https://codecov.io/bash)"
-
+- bash <(curl -s https://codecov.io/bash)
 skip_build:
-  - README.md：
-  - LICENSE
-
-
-
-
+- README.md：
+- LICENSE
+env:
+  global:
+  - secure: rRYfEXUvOnvQVe1Bic8Fqg5C/W8YGGhqRvAx9nWS7liMz4QYB3ILAMykQuUKKNQg1fU1kBhkD7KD5WOQ0eh8ajo6+D1/Kkq5Tu3t/eUqbYajG1ti0ZMegZ2ay78hD8IpJxVc4EALPuO6xfQyYXDjXNGVynDJK7wbna18zXtZ8Sv6cTBteL4deALGdvkmBlbTbFhP3TEBL3Sz6F8gmwK703BgtnE2izAKZZ/I237+6aMbw+eOzVoL7ega9E5cHGC8cLD1K1ggeCkpMLSywhgKIIauNVbXSOurvNIR3tw6Xjw5SH1iKTBw7xl34Mj16DFk9lKgRl9Cc4z5RH68OBdc/lndYAp67ty+Q+Mv4R3CibPR8+g8m4cV7JWBhUzOu0Oc5BOiUd97VkVBtr7GsTDmkw+mlDB13mUYl9h7mOzaASQO213U46MTt9shxUxULH1Y2Q6F+CLbqss4nwFmR8XMK4x7KR8EWrofbl+bmuQ2SgceZMibT40woDRAdy4bE9f+CWNNk+YWEWrTMZLT5xG8DWLRLvA+TgclhAsStTTDzoz1SHCL5l25QkMrtFF4rFtXJviiiwYzMgD79yOYbYfwqHh2Scim5ywcfJbyxgJGzz2QGzSvT4JN7RbvZBKvx/kMceBn7Naq8Svo25aIfascCaMjYvSpT0ZUT9UhayKAKLI=
+  - secure: JfVqzsrGyIVptBjFmoAKeHb5A2baMcUWgrJ4ZlXyju/FkZHAQ7WCBt0u/Z7QyLP2YQ8KORBBxiB9EKjjeBFldnvmHmVn1/MmnHZ1vqHlaNMo/yylZzALq226QGqrdhuLz/vpffjKX5tQ8yZLabSAO7LBtEVmOqLWcdMmAssF5t1d1NYmTHwGvXm7pk7muF+KVr4GbPyWMNE8GQY1V0I65nrQ9sMTExDVeAYU8FtJlUIwvZjK7Rdndb2jaEmg9E4Z72gynmkRToVplR02x2uD40BeoxP5zF/+RMFYNflpjg8MA9d+irBpX7HAxPxrpJnpd/UndxcsHZiT2GKX9B5Znr6v9ZVuSbGEWNSVza+eLgNyarrFAIESqV82bFyeZwYSmNXeVzRILiBwp13DZvFsXxsSGKt28oLWFeHX/6dT784ZMAX9YR77CWUtGJztncwGBE6yMSN74goOd4pxyNu26SRZPvHyDdIN4/aLN9TrwABMQkkbDmvW4EvMTNKn7tQKnkg6xDHn1hdVDs3IUXJgcQrCD2vq4PCJ9ofpa63kSjigOMup0z6x6iM02pAUdaJCGYZ6L5qt85z+/djKgH10Zkmt/G163GvSvCQrvpFAAHtZvmm71V/ZYK1pP4ffphgteWT5dRy1rBOoqduS5utmb3HtSunILcSWKe7gyiXEGiA=
