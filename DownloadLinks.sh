@@ -1,4 +1,4 @@
-PassFlag=`curl -s http://47.95.206.44:50080/Daily_Build_Task_Report | grep "Failed: 0" | wc -c`
+PassFlag=`curl -s http://212.28.87.244:50080/Daily_Build_Task_Report | grep "Failed: 0" | wc -c`
 
 if [ $PassFlag -eq 0 ]; then
     echo "Daily Build Stest Fail"

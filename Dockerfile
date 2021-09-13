@@ -1,4 +1,4 @@
-FROM stabilaprotocol/centos7
+FROM moneta1978/java-stabila
 
 ENV TMP_DIR="/stabila-build"
 ENV JDK_TAR="jdk-8u202-linux-x64.tar.gz"

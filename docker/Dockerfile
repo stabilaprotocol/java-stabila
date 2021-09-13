@@ -1,4 +1,4 @@
-FROM stabilaprotocol/stabila-gradle
+FROM moneta1978/java-stabila
 
 RUN set -o errexit -o nounset \
 #  Download and build java-stabila
