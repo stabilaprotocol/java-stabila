@@ -8,7 +8,7 @@ addons:
   sonarcloud:
     organization: stabila2021
     token:
-      secure: "a556ae0cae90d05aeb8d93c86ae91ff461e88489"
+      secure: "YMQvGOERZRPP6X5f+3ZFeC4NDA2fCpIQ8cd+KGhRedqYUxcz1yEISXFnMwoeKlf0Fz265UjDa7IA78shBel3ZgE0vFZx3GZKVRHGckHp4iGOVjRubmp+XLVyIe0J58/D/rUnogFTrVY4vE8hl3zTiJBl7PJ4ZXYqPiYVhpupwrQhhG+ZZIP1dGqDaxvNn94wd2TYwFN9brAprs6kxzNcLza+u500RqQANq8hJmesixgLlW1Nd4Q1LPq2SmOdXJlYP8PZrySDVQifIPLHSk7h3TbU8KIdIYwNdN4XiCMikyqZKcgKIyGQT2CuZzIbudRq3gqrAmgyeJekh0W48iWkyhToKkchoe2K64DHVin5cR4GmFjy0d+e7zZOeDMT6oSckjY7KXl8u02sJ/n2WVEWTfJAi2ed9FMlB4pfKDl1uk/+KqTjqSDDUBeiNSQaYlXbe89sZ9/uaAZbjDNcqzgkY+cgTOu84gvA7I2fq8BNIQ5gVLpZNfV9I4qWrfS6M8hLTPvB8mWTFYmfHmAUumRc8WwYqkA3wPrfNM1o5UzepQ/tTIC1IRiKsbXz/tgYX2wvrJ3+FvBa+5z3436Kz8oX0ejw76luDKdY8VV3dQynEPEiPcjEtkUMF7smZ5gMiyP1BS3aTgX0bQU4ucw3DE1CerTf9NpPdyIjVZ/t/SNTKZo="
 cache:
   directories:
   - '$HOME/.sonar/cache'
