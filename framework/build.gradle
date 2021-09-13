@@ -1,12 +1,12 @@
 plugins {
-    id "org.travis-ci.com" version "3.3"
+    id "org.travis-ci.com" version "2.6"
 }
 
-sonarqube {
-    properties {
-        property "sonar.projectKey", "stabilaprotocol_java-stabila"
-    }
-}
+//sonarqube {
+//    properties {
+//        property "sonar.projectKey", "stabilaprotocol_java-stabila"
+//    }
+//}
 
 apply plugin: 'application'
 apply plugin: 'checkstyle'
