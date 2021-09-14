@@ -28,3 +28,5 @@ after_success:
 skip_build:
 - README.md：
 - LICENSE
+script:
+  - ./gradlew sonarqube
