@@ -115,10 +115,10 @@ public class VMActuator implements Actuator2 {
 
     //Load Config
     ConfigLoader.load(context.getStoreFactory());
-    trx = context.getTrxCap().getInstance();
+    trx = context.getStbCap().getInstance();
     blockCap = context.getBlockCap();
-    if (VMConfig.allowTvmFreeze() && context.getTrxCap().getTrxTrace() != null) {
-      receipt = context.getTrxCap().getTrxTrace().getReceipt();
+    if (VMConfig.allowTvmFreeze() && context.getStbCap().getStbTrace() != null) {
+      receipt = context.getStbCap().getStbTrace().getReceipt();
     }
     //Route Type
     ContractType contractType = this.trx.getRawData().getContract(0).getType();

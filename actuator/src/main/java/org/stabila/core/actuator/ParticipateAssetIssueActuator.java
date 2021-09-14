@@ -75,7 +75,7 @@ public class ParticipateAssetIssueActuator extends AbstractActuator {
           .getAssetIssueStoreFinal(dynamicStore, assetIssueStore, assetIssueV2Store).get(key);
 
       long exchangeAmount = Math.multiplyExact(cost, assetIssueCapsule.getNum());
-      exchangeAmount = Math.floorDiv(exchangeAmount, assetIssueCapsule.getTrxNum());
+      exchangeAmount = Math.floorDiv(exchangeAmount, assetIssueCapsule.getStbNum());
       ownerAccount.addAssetAmountV2(key, exchangeAmount, dynamicStore, assetIssueStore);
 
       //add to to_address
@@ -179,7 +179,7 @@ public class ParticipateAssetIssueActuator extends AbstractActuator {
         throw new ContractValidateException("No longer valid period!");
       }
 
-      int trxNum = assetIssueCapsule.getTrxNum();
+      int trxNum = assetIssueCapsule.getStbNum();
       int num = assetIssueCapsule.getNum();
       long exchangeAmount = Math.multiplyExact(amount, num);
       exchangeAmount = Math.floorDiv(exchangeAmount, trxNum);

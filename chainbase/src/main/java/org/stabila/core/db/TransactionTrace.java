@@ -108,7 +108,7 @@ public class TransactionTrace {
     forkController.init(storeFactory.getChainBaseManager());
   }
 
-  public TransactionCapsule getTrx() {
+  public TransactionCapsule getStb() {
     return trx;
   }
 
@@ -133,7 +133,7 @@ public class TransactionTrace {
       return;
     }
     TriggerSmartContract triggerContractFromTransaction = ContractCapsule
-        .getTriggerContractFromTransaction(this.getTrx().getInstance());
+        .getTriggerContractFromTransaction(this.getStb().getInstance());
     if (STB_CONTRACT_CALL_TYPE == this.trxType) {
       ContractCapsule contract = contractStore
           .get(triggerContractFromTransaction.getContractAddress().toByteArray());

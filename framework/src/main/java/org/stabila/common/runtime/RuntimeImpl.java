@@ -41,7 +41,7 @@ public class RuntimeImpl implements Runtime {
       throws ContractValidateException, ContractExeException {
     this.context = context;
 
-    ContractType contractType = context.getTrxCap().getInstance().getRawData().getContract(0)
+    ContractType contractType = context.getStbCap().getInstance().getRawData().getContract(0)
         .getType();
     switch (contractType.getNumber()) {
       case ContractType.TriggerSmartContract_VALUE:
@@ -53,7 +53,7 @@ public class RuntimeImpl implements Runtime {
         actuator2 = new VMActuator(context.isStatic());
         break;
       default:
-        actuatorList = ActuatorCreator.getINSTANCE().createActuator(context.getTrxCap());
+        actuatorList = ActuatorCreator.getINSTANCE().createActuator(context.getStbCap());
     }
     if (actuator2 != null) {
       actuator2.validate(context);
