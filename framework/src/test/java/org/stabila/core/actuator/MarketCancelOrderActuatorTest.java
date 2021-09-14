@@ -58,7 +58,7 @@ public class MarketCancelOrderActuatorTest {
   private static final String OWNER_ADDRESS_INVALID = "aaaa";
   private static final String TOKEN_ID_ONE = String.valueOf(1L);
   private static final String TOKEN_ID_TWO = String.valueOf(2L);
-  private static final String TRX = "_";
+  private static final String STB = "_";
   private static StabilaApplicationContext context;
   private static Manager dbManager;
 
@@ -566,7 +566,7 @@ public class MarketCancelOrderActuatorTest {
   }
 
   /**
-   * There are multiple orders at this price,return TRX
+   * There are multiple orders at this price,return STB
    */
   @Test
   public void multipleOrdersAtThisPrice2() throws Exception {
@@ -580,15 +580,15 @@ public class MarketCancelOrderActuatorTest {
     MarketPairPriceToOrderStore pairPriceToOrderStore = chainBaseManager
         .getMarketPairPriceToOrderStore();
 
-    addOrder(TRX, 100L, TOKEN_ID_TWO,
+    addOrder(STB, 100L, TOKEN_ID_TWO,
         200L, OWNER_ADDRESS_FIRST);
-    addOrder(TRX, 100L, TOKEN_ID_TWO,
+    addOrder(STB, 100L, TOKEN_ID_TWO,
         300L, OWNER_ADDRESS_FIRST);
-    addOrder(TRX, 100L, TOKEN_ID_TWO,
+    addOrder(STB, 100L, TOKEN_ID_TWO,
         300L, OWNER_ADDRESS_FIRST);//cancel this one
-    addOrder(TRX, 100L, TOKEN_ID_TWO,
+    addOrder(STB, 100L, TOKEN_ID_TWO,
         300L, OWNER_ADDRESS_FIRST);
-    addOrder(TRX, 100L, TOKEN_ID_TWO,
+    addOrder(STB, 100L, TOKEN_ID_TWO,
         400L, OWNER_ADDRESS_FIRST);
 
     //record account state
@@ -626,10 +626,10 @@ public class MarketCancelOrderActuatorTest {
 
     //check pairToPrice
     Assert.assertEquals(3,
-        pairToPriceStore.getPriceNum(TRX.getBytes(), TOKEN_ID_TWO.getBytes()));
+        pairToPriceStore.getPriceNum(STB.getBytes(), TOKEN_ID_TWO.getBytes()));
 
     List<byte[]> priceKeysList = pairPriceToOrderStore
-        .getPriceKeysList(TRX.getBytes(), TOKEN_ID_TWO.getBytes(), 3);
+        .getPriceKeysList(STB.getBytes(), TOKEN_ID_TWO.getBytes(), 3);
     MarketPrice marketPrice = MarketUtils.decodeKeyToMarketPrice(priceKeysList.get(1));
     // 100:300 => 1:3
     Assert.assertEquals(1L, marketPrice.getSellTokenQuantity());
@@ -637,7 +637,7 @@ public class MarketCancelOrderActuatorTest {
 
     //check pairPriceToOrder
     byte[] pairPriceKey = MarketUtils.createPairPriceKey(
-        TRX.getBytes(),
+        STB.getBytes(),
         TOKEN_ID_TWO.getBytes(),
         marketPrice.getSellTokenQuantity(),
         marketPrice.getBuyTokenQuantity());

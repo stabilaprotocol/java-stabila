@@ -324,8 +324,8 @@ public class Program {
   }
 
   /**
-   * @param transferAddress the address send TRX to.
-   * @param value the TRX value transferred in the internal transaction
+   * @param transferAddress the address send STB to.
+   * @param value the STB value transferred in the internal transaction
    */
   private InternalTransaction addInternalTx(DataWord energyLimit, byte[] senderAddress,
       byte[] transferAddress,
@@ -609,11 +609,11 @@ public class Program {
     if (ownerCapsule.getFrozenCount() != 0) {
       frozenBalanceForBandwidthOfOwner = ownerCapsule.getFrozenList().get(0).getFrozenBalance();
     }
-    repo.addTotalNetWeight(-frozenBalanceForBandwidthOfOwner / Parameter.ChainConstant.TRX_PRECISION);
+    repo.addTotalNetWeight(-frozenBalanceForBandwidthOfOwner / Parameter.ChainConstant.STB_PRECISION);
 
     long frozenBalanceForEnergyOfOwner =
         ownerCapsule.getAccountResource().getFrozenBalanceForEnergy().getFrozenBalance();
-    repo.addTotalEnergyWeight(-frozenBalanceForEnergyOfOwner / Parameter.ChainConstant.TRX_PRECISION);
+    repo.addTotalEnergyWeight(-frozenBalanceForEnergyOfOwner / Parameter.ChainConstant.STB_PRECISION);
 
     // transfer all kinds of frozen balance to BlackHole
     repo.addBalance(inheritorAddr, frozenBalanceForBandwidthOfOwner + frozenBalanceForEnergyOfOwner);
@@ -896,7 +896,7 @@ public class Program {
         throw e;
       }
     }
-    // transfer TRX validation
+    // transfer STB validation
     byte[] tokenId = null;
 
     checkTokenId(msg);
@@ -927,7 +927,7 @@ public class Program {
     byte[] programCode =
         accountCapsule != null ? getContractState().getCode(codeAddress) : EMPTY_BYTE_ARRAY;
 
-    // only for TRX, not for token
+    // only for STB, not for token
     long contextBalance = 0L;
     if (byTestingSuite()) {
       // This keeps track of the calls created for a test
@@ -1499,7 +1499,7 @@ public class Program {
 
     checkTokenId(msg);
     boolean isTokenTransfer = isTokenTransfer(msg);
-    // transfer TRX validation
+    // transfer STB validation
     if (!isTokenTransfer) {
       senderBalance = deposit.getBalance(senderAddress);
     } else {
@@ -1584,7 +1584,7 @@ public class Program {
    * [Long.Min, 0)        Not possible                               error
    * --------------------------------------------------------------------------------------------- 0
    * allowed and only allowed                    error (guaranteed in CALLTOKEN) transfertoken id=0
-   * should not transfer TRX） ---------------------------------------------------------------------
+   * should not transfer STB） ---------------------------------------------------------------------
    * (0-100_0000]          Not possible                              error
    * ---------------------------------------------------------------------------------------------
    * (100_0000, Long.Max]  Not possible                             allowed
@@ -1681,7 +1681,7 @@ public class Program {
 
   private void createAccountIfNotExist(Repository deposit, byte[] contextAddress) {
     if (VMConfig.allowTvmSolidity059()) {
-      //after solidity059 proposal , allow contract transfer trc10 or TRX to non-exist address(would create one)
+      //after solidity059 proposal , allow contract transfer trc10 or STB to non-exist address(would create one)
       AccountCapsule sender = deposit.getAccount(contextAddress);
       if (sender == null) {
         deposit.createNormalAccount(contextAddress);

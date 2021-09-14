@@ -1,7 +1,7 @@
 package org.stabila.core.net.service;
 
 import static org.stabila.core.config.Parameter.ChainConstant.BLOCK_PRODUCED_INTERVAL;
-import static org.stabila.core.config.Parameter.NetConstants.MAX_TRX_FETCH_PER_PEER;
+import static org.stabila.core.config.Parameter.NetConstants.MAX_STB_FETCH_PER_PEER;
 import static org.stabila.core.config.Parameter.NetConstants.MSG_CACHE_DURATION_IN_BLOCKS;
 
 import com.google.common.cache.Cache;
@@ -41,7 +41,7 @@ import org.stabila.protos.Protocol.Inventory.InventoryType;
 public class AdvService {
   
   private final int MAX_INV_TO_FETCH_CACHE_SIZE = 100_000;
-  private final int MAX_TRX_CACHE_SIZE = 50_000;
+  private final int MAX_STB_CACHE_SIZE = 50_000;
   private final int MAX_BLOCK_CACHE_SIZE = 10;
   private final int MAX_SPREAD_SIZE = 1_000;
 
@@ -57,7 +57,7 @@ public class AdvService {
       .recordStats().build();
 
   private Cache<Item, Message> trxCache = CacheBuilder.newBuilder()
-      .maximumSize(MAX_TRX_CACHE_SIZE).expireAfterWrite(1, TimeUnit.HOURS)
+      .maximumSize(MAX_STB_CACHE_SIZE).expireAfterWrite(1, TimeUnit.HOURS)
       .recordStats().build();
 
   private Cache<Item, Message> blockCache = CacheBuilder.newBuilder()
@@ -107,11 +107,11 @@ public class AdvService {
   }
 
   public boolean addInv(Item item) {
-    if (fastForward && item.getType().equals(InventoryType.TRX)) {
+    if (fastForward && item.getType().equals(InventoryType.STB)) {
       return false;
     }
 
-    if (item.getType().equals(InventoryType.TRX) && trxCache.getIfPresent(item) != null) {
+    if (item.getType().equals(InventoryType.STB) && trxCache.getIfPresent(item) != null) {
       return false;
     }
     if (item.getType().equals(InventoryType.BLOCK) && blockCache.getIfPresent(item) != null) {
@@ -134,7 +134,7 @@ public class AdvService {
   }
 
   public Message getMessage(Item item) {
-    if (item.getType() == InventoryType.TRX) {
+    if (item.getType() == InventoryType.STB) {
       return trxCache.getIfPresent(item);
     } else {
       return blockCache.getIfPresent(item);
@@ -160,13 +160,13 @@ public class AdvService {
       blockMsg.getBlockCapsule().getTransactions().forEach(transactionCapsule -> {
         Sha256Hash tid = transactionCapsule.getTransactionId();
         invToSpread.remove(tid);
-        trxCache.put(new Item(tid, InventoryType.TRX),
+        trxCache.put(new Item(tid, InventoryType.STB),
             new TransactionMessage(transactionCapsule.getInstance()));
       });
       blockCache.put(item, msg);
     } else if (msg instanceof TransactionMessage) {
       TransactionMessage trxMsg = (TransactionMessage) msg;
-      item = new Item(trxMsg.getMessageId(), InventoryType.TRX);
+      item = new Item(trxMsg.getMessageId(), InventoryType.STB);
       trxCount.add();
       trxCache.put(item, new TransactionMessage(trxMsg.getTransactionCapsule().getInstance()));
     } else {
@@ -238,7 +238,7 @@ public class AdvService {
           return;
         }
         peers.stream().filter(peer -> peer.getAdvInvReceive().getIfPresent(item) != null
-                && invSender.getSize(peer) < MAX_TRX_FETCH_PER_PEER)
+                && invSender.getSize(peer) < MAX_STB_FETCH_PER_PEER)
                 .sorted(Comparator.comparingInt(peer -> invSender.getSize(peer)))
                 .findFirst().ifPresent(peer -> {
                   invSender.add(item, peer);
@@ -315,7 +315,7 @@ public class AdvService {
 
     public void sendInv() {
       send.forEach((peer, ids) -> ids.forEach((key, value) -> {
-        if (peer.isFastForwardPeer() && key.equals(InventoryType.TRX)) {
+        if (peer.isFastForwardPeer() && key.equals(InventoryType.STB)) {
           return;
         }
         if (key.equals(InventoryType.BLOCK)) {

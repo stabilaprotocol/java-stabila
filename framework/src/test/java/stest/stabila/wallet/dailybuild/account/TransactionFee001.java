@@ -87,8 +87,8 @@ public class TransactionFee001 {
   Long blackHoleBalance2 = 0L;
   Long witness01Increase = 0L;
   Long witness02Increase = 0L;
-  Long beforeBurnTrxAmount = 0L;
-  Long afterBurnTrxAmount = 0L;
+  Long beforeBurnStbAmount = 0L;
+  Long afterBurnStbAmount = 0L;
   String txid = null;
 
 
@@ -141,8 +141,8 @@ public class TransactionFee001 {
        .getAllowance();
     blackHoleBalance1 = PublicMethed.queryAccount(Commons.decode58Check(blackHoleAdd),
             blockingStubFull).getBalance();
-    beforeBurnTrxAmount = blockingStubFull
-        .getBurnTrx(EmptyMessage.newBuilder().build()).getNum();
+    beforeBurnStbAmount = blockingStubFull
+        .getBurnStb(EmptyMessage.newBuilder().build()).getNum();
 
     txid = PublicMethed.deployContractAndGetTransactionInfoById(contractName, abi, code,
         "", maxFeeLimit, 0L, 0, null,
@@ -177,9 +177,9 @@ public class TransactionFee001 {
     Optional<Protocol.TransactionInfo> infoById =
         PublicMethed.getTransactionInfoById(txid, blockingStubFull);
     Assert.assertEquals(infoById.get().getFee(),infoById.get().getPackingFee());
-    afterBurnTrxAmount = blockingStubFull
-        .getBurnTrx(EmptyMessage.newBuilder().build()).getNum();
-    Assert.assertEquals(beforeBurnTrxAmount,afterBurnTrxAmount);
+    afterBurnStbAmount = blockingStubFull
+        .getBurnStb(EmptyMessage.newBuilder().build()).getNum();
+    Assert.assertEquals(beforeBurnStbAmount,afterBurnStbAmount);
   }
 
   @Test(enabled = true, retryAnalyzer = Retry.class,
@@ -219,8 +219,8 @@ public class TransactionFee001 {
             PublicMethed.queryAccount(witnessAddress02, blockingStubFull).getAllowance();
     blackHoleBalance1 = PublicMethed.queryAccount(Commons.decode58Check(blackHoleAdd),
             blockingStubFull).getBalance();
-    beforeBurnTrxAmount = blockingStubFull
-        .getBurnTrx(EmptyMessage.newBuilder().build()).getNum();
+    beforeBurnStbAmount = blockingStubFull
+        .getBurnStb(EmptyMessage.newBuilder().build()).getNum();
     String accountPermissionJson =
             "{\"owner_permission\":{\"type\":0,\"permission_name\":\"owner1\","
                     + "\"threshold\":1,\"keys\":["
@@ -298,13 +298,13 @@ public class TransactionFee001 {
     blackHoleBalance1 = PublicMethed.queryAccount(Commons.decode58Check(blackHoleAdd),
             blockingStubFull).getBalance();
 
-    afterBurnTrxAmount = blockingStubFull
-        .getBurnTrx(EmptyMessage.newBuilder().build()).getNum();
-    Assert.assertTrue(afterBurnTrxAmount - beforeBurnTrxAmount == 100000000L);
+    afterBurnStbAmount = blockingStubFull
+        .getBurnStb(EmptyMessage.newBuilder().build()).getNum();
+    Assert.assertTrue(afterBurnStbAmount - beforeBurnStbAmount == 100000000L);
 
 
-    beforeBurnTrxAmount = blockingStubFull
-        .getBurnTrx(EmptyMessage.newBuilder().build()).getNum();
+    beforeBurnStbAmount = blockingStubFull
+        .getBurnStb(EmptyMessage.newBuilder().build()).getNum();
 
     Protocol.Transaction transaction = PublicMethedForMutiSign
             .sendcoin2(fromAddress, 1000_000, ownerAddress, ownerKey, blockingStubFull);
@@ -358,9 +358,9 @@ public class TransactionFee001 {
     infoById = PublicMethed.getTransactionInfoById(txid, blockingStubFull);
     Assert.assertEquals(infoById.get().getPackingFee(),0);
     Assert.assertEquals(infoById.get().getFee(),1000000L);
-    afterBurnTrxAmount = blockingStubFull
-        .getBurnTrx(EmptyMessage.newBuilder().build()).getNum();
-    Assert.assertTrue(afterBurnTrxAmount - beforeBurnTrxAmount == 1000000L);
+    afterBurnStbAmount = blockingStubFull
+        .getBurnStb(EmptyMessage.newBuilder().build()).getNum();
+    Assert.assertTrue(afterBurnStbAmount - beforeBurnStbAmount == 1000000L);
   }
 
   @Test(enabled = true, description = "Test trigger result is \"OUT_OF_TIME\""
@@ -392,8 +392,8 @@ public class TransactionFee001 {
             PublicMethed.queryAccount(witnessAddress02, blockingStubFull).getAllowance();
     blackHoleBalance1 = PublicMethed.queryAccount(Commons.decode58Check(blackHoleAdd),
        blockingStubFull).getBalance();
-    beforeBurnTrxAmount = blockingStubFull
-        .getBurnTrx(EmptyMessage.newBuilder().build()).getNum();
+    beforeBurnStbAmount = blockingStubFull
+        .getBurnStb(EmptyMessage.newBuilder().build()).getNum();
     txid = PublicMethed.triggerContract(contractAddress,
             "testUseCpu(uint256)", "90100", false,
             0, maxFeeLimit, deployAddress, deployKey, blockingStubFull);
@@ -430,9 +430,9 @@ public class TransactionFee001 {
     logger.info("receipt:" + infoById.get().getReceipt());
     Assert.assertTrue(packingFee ==  0L);
     Assert.assertTrue(infoById.get().getFee() >= maxFeeLimit);
-    afterBurnTrxAmount = blockingStubFull
-        .getBurnTrx(EmptyMessage.newBuilder().build()).getNum();
-    Assert.assertTrue(afterBurnTrxAmount - beforeBurnTrxAmount == maxFeeLimit);
+    afterBurnStbAmount = blockingStubFull
+        .getBurnStb(EmptyMessage.newBuilder().build()).getNum();
+    Assert.assertTrue(afterBurnStbAmount - beforeBurnStbAmount == maxFeeLimit);
   }
 
   @Test(enabled = true, description = "Test create account with netFee to sr")
@@ -445,8 +445,8 @@ public class TransactionFee001 {
             PublicMethed.queryAccount(witnessAddress02, blockingStubFull).getAllowance();
     blackHoleBalance1 = PublicMethed.queryAccount(Commons.decode58Check(blackHoleAdd),
             blockingStubFull).getBalance();
-    beforeBurnTrxAmount = blockingStubFull
-        .getBurnTrx(EmptyMessage.newBuilder().build()).getNum();
+    beforeBurnStbAmount = blockingStubFull
+        .getBurnStb(EmptyMessage.newBuilder().build()).getNum();
     ECKey ecKey = new ECKey(Utils.getRandom());
     byte[] lowBalAddress = ecKey.getAddress();
     txid = PublicMethed.createAccountGetTxid(fromAddress, lowBalAddress,
@@ -482,9 +482,9 @@ public class TransactionFee001 {
         PublicMethed.getTransactionInfoById(txid, blockingStubFull);
     Assert.assertTrue(infoById.get().getPackingFee() == 0L);
     Assert.assertTrue(infoById.get().getFee() == 100000L);
-    afterBurnTrxAmount = blockingStubFull
-        .getBurnTrx(EmptyMessage.newBuilder().build()).getNum();
-    Assert.assertTrue(afterBurnTrxAmount - beforeBurnTrxAmount == 100000L);
+    afterBurnStbAmount = blockingStubFull
+        .getBurnStb(EmptyMessage.newBuilder().build()).getNum();
+    Assert.assertTrue(afterBurnStbAmount - beforeBurnStbAmount == 100000L);
   }
 
   @Test(enabled = true, description = "Test trigger contract with netFee and energyFee to sr")
@@ -522,8 +522,8 @@ public class TransactionFee001 {
             PublicMethed.queryAccount(witnessAddress02, blockingStubFull).getAllowance();
     blackHoleBalance1 = PublicMethed.queryAccount(Commons.decode58Check(blackHoleAdd),
             blockingStubFull).getBalance();
-    beforeBurnTrxAmount = blockingStubFull
-        .getBurnTrx(EmptyMessage.newBuilder().build()).getNum();
+    beforeBurnStbAmount = blockingStubFull
+        .getBurnStb(EmptyMessage.newBuilder().build()).getNum();
     txid = PublicMethed.triggerContract(contractAddress,
             "testUseCpu(uint256)", "700", false,
             0, maxFeeLimit, deployAddress, deployKey, blockingStubFull);
@@ -555,9 +555,9 @@ public class TransactionFee001 {
     Assert.assertTrue((Math.abs(witnessAllowance.get(ByteArray.toHexString(witnessAddress02))
             - witness02Increase)) <= 2);
     Assert.assertEquals(blackHoleBalance1,blackHoleBalance2);
-    afterBurnTrxAmount = blockingStubFull
-        .getBurnTrx(EmptyMessage.newBuilder().build()).getNum();
-    Assert.assertEquals(beforeBurnTrxAmount,afterBurnTrxAmount);
+    afterBurnStbAmount = blockingStubFull
+        .getBurnStb(EmptyMessage.newBuilder().build()).getNum();
+    Assert.assertEquals(beforeBurnStbAmount,afterBurnStbAmount);
   }
 
   /**
@@ -585,8 +585,8 @@ public class TransactionFee001 {
         PublicMethed.queryAccount(witnessAddress02, blockingStubFull).getAllowance();
     blackHoleBalance1 = PublicMethed.queryAccount(Commons.decode58Check(blackHoleAdd),
         blockingStubFull).getBalance();
-    beforeBurnTrxAmount = blockingStubFull
-        .getBurnTrx(EmptyMessage.newBuilder().build()).getNum();
+    beforeBurnStbAmount = blockingStubFull
+        .getBurnStb(EmptyMessage.newBuilder().build()).getNum();
     Long start = System.currentTimeMillis() + 2000;
     Long end = System.currentTimeMillis() + 1000000000;
     long now = System.currentTimeMillis();
@@ -628,9 +628,9 @@ public class TransactionFee001 {
         PublicMethed.getTransactionInfoById(txid, blockingStubFull);
     Assert.assertTrue(infoById.get().getPackingFee() == 0L);
     Assert.assertTrue(infoById.get().getFee() == 1024000000L);
-    afterBurnTrxAmount = blockingStubFull
-        .getBurnTrx(EmptyMessage.newBuilder().build()).getNum();
-    Assert.assertTrue(afterBurnTrxAmount - beforeBurnTrxAmount == 1024000000L);
+    afterBurnStbAmount = blockingStubFull
+        .getBurnStb(EmptyMessage.newBuilder().build()).getNum();
+    Assert.assertTrue(afterBurnStbAmount - beforeBurnStbAmount == 1024000000L);
 
 
   }
@@ -640,13 +640,13 @@ public class TransactionFee001 {
    */
 
   @Test(enabled = true, description = "Test getburntrx api from solidity or pbft")
-  public void test07GetBurnTrxFromSolidityOrPbft() {
+  public void test07GetBurnStbFromSolidityOrPbft() {
     PublicMethed.waitSolidityNodeSynFullNodeData(blockingStubFull,blockingStubSolidity);
     Assert.assertEquals(blockingStubFull
-        .getBurnTrx(EmptyMessage.newBuilder().build()),blockingStubSolidity.getBurnTrx(
+        .getBurnStb(EmptyMessage.newBuilder().build()),blockingStubSolidity.getBurnStb(
         EmptyMessage.newBuilder().build()));
-    Assert.assertEquals(blockingStubFull.getBurnTrx(EmptyMessage.newBuilder().build()),
-        blockingStubPbft.getBurnTrx(
+    Assert.assertEquals(blockingStubFull.getBurnStb(EmptyMessage.newBuilder().build()),
+        blockingStubPbft.getBurnStb(
             EmptyMessage.newBuilder().build()));
   }
   /**

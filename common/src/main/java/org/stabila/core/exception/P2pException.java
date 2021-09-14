@@ -34,8 +34,8 @@ public class P2pException extends Exception {
     CHECK_FAILED(8, "check failed"),
     UNLINK_BLOCK(9, "unlink block"),
     BAD_BLOCK(10, "bad block"),
-    BAD_TRX(11, "bad stb"),
-    TRX_EXE_FAILED(12, "stb exe failed"),
+    BAD_STB(11, "bad stb"),
+    STB_EXE_FAILED(12, "stb exe failed"),
     DB_ITEM_NOT_FOUND(13, "DB item not found"),
     PROTOBUF_ERROR(14, "protobuf inconsistent"),
 

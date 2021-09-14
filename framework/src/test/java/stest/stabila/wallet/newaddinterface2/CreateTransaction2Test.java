@@ -130,7 +130,7 @@ public class CreateTransaction2Test {
     Assert.assertEquals(ret1.getCode(), Return.response_code.CONTRACT_VALIDATE_ERROR);
     Assert.assertEquals(ret1.getMessage().toStringUtf8(),
         "contract validate error : Amount must greater than 0.");
-    //Send coin failed due to the amount is -1Trx.
+    //Send coin failed due to the amount is -1Stb.
     ret1 = PublicMethed
         .sendcoin2(receiptAccountAddress, -1000000L, sendAccountAddress, sendAccountKey,
             blockingStubFull);

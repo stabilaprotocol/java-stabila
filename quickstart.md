@@ -128,16 +128,16 @@ If everything goes well, your terminal console output will look like following :
     ...
     Loading the accounts and waiting for the node to mine the transactions...
     (1) Waiting for receipts...
-    Sending 10000 TRX to TSjfWSWcKCrJ1DbgMZSCbSqNK8DsEfqM9p
-    Sending 10000 TRX to THpWnj3dBQ5FrqW1KMVXXYSbHPtcBKeUJY
-    Sending 10000 TRX to TWFTHaKdeHWi3oPoaBokyZFfA7q1iiiAAb
-    Sending 10000 TRX to TFDGQo6f6dm9ikoV4Rc9NyTxMD5NNiSFJD
-    Sending 10000 TRX to TDZZNigWitFp5aE6j2j8YcycF7DVjtogBu
-    Sending 10000 TRX to TT8NRMcwdS9P3X9pvPC8JWi3x2zjwxZuhs
-    Sending 10000 TRX to TBBJw6Bk7w2NSZeqmzfUPnsn6CwDJAXTv8
-    Sending 10000 TRX to TVcgSLpT97mvoiyv5ChyhQ6hWbjYLWdCVB
-    Sending 10000 TRX to TYjQd4xrLZQGYMdLJqsTCuXVGapPqUp9ZX
-    Sending 10000 TRX to THCw6hPZpFcLCWDcsZg3W77rXZ9rJQPncD
+    Sending 10000 STB to TSjfWSWcKCrJ1DbgMZSCbSqNK8DsEfqM9p
+    Sending 10000 STB to THpWnj3dBQ5FrqW1KMVXXYSbHPtcBKeUJY
+    Sending 10000 STB to TWFTHaKdeHWi3oPoaBokyZFfA7q1iiiAAb
+    Sending 10000 STB to TFDGQo6f6dm9ikoV4Rc9NyTxMD5NNiSFJD
+    Sending 10000 STB to TDZZNigWitFp5aE6j2j8YcycF7DVjtogBu
+    Sending 10000 STB to TT8NRMcwdS9P3X9pvPC8JWi3x2zjwxZuhs
+    Sending 10000 STB to TBBJw6Bk7w2NSZeqmzfUPnsn6CwDJAXTv8
+    Sending 10000 STB to TVcgSLpT97mvoiyv5ChyhQ6hWbjYLWdCVB
+    Sending 10000 STB to TYjQd4xrLZQGYMdLJqsTCuXVGapPqUp9ZX
+    Sending 10000 STB to THCw6hPZpFcLCWDcsZg3W77rXZ9rJQPncD
     Sleeping for 3 seconds... Slept.
     (2) Waiting for receipts...
     Sleeping for 3 seconds... Slept.
@@ -155,16 +155,16 @@ If everything goes well, your terminal console output will look like following :
     Available Accounts
     ==================
 
-    (0) TSjfWSWcKCrJ1DbgMZSCbSqNK8DsEfqM9p (10000 TRX)
-    (1) THpWnj3dBQ5FrqW1KMVXXYSbHPtcBKeUJY (10000 TRX)
-    (2) TWFTHaKdeHWi3oPoaBokyZFfA7q1iiiAAb (10000 TRX)
-    (3) TFDGQo6f6dm9ikoV4Rc9NyTxMD5NNiSFJD (10000 TRX)
-    (4) TDZZNigWitFp5aE6j2j8YcycF7DVjtogBu (10000 TRX)
-    (5) TT8NRMcwdS9P3X9pvPC8JWi3x2zjwxZuhs (10000 TRX)
-    (6) TBBJw6Bk7w2NSZeqmzfUPnsn6CwDJAXTv8 (10000 TRX)
-    (7) TVcgSLpT97mvoiyv5ChyhQ6hWbjYLWdCVB (10000 TRX)
-    (8) TYjQd4xrLZQGYMdLJqsTCuXVGapPqUp9ZX (10000 TRX)
-    (9) THCw6hPZpFcLCWDcsZg3W77rXZ9rJQPncD (10000 TRX)
+    (0) TSjfWSWcKCrJ1DbgMZSCbSqNK8DsEfqM9p (10000 STB)
+    (1) THpWnj3dBQ5FrqW1KMVXXYSbHPtcBKeUJY (10000 STB)
+    (2) TWFTHaKdeHWi3oPoaBokyZFfA7q1iiiAAb (10000 STB)
+    (3) TFDGQo6f6dm9ikoV4Rc9NyTxMD5NNiSFJD (10000 STB)
+    (4) TDZZNigWitFp5aE6j2j8YcycF7DVjtogBu (10000 STB)
+    (5) TT8NRMcwdS9P3X9pvPC8JWi3x2zjwxZuhs (10000 STB)
+    (6) TBBJw6Bk7w2NSZeqmzfUPnsn6CwDJAXTv8 (10000 STB)
+    (7) TVcgSLpT97mvoiyv5ChyhQ6hWbjYLWdCVB (10000 STB)
+    (8) TYjQd4xrLZQGYMdLJqsTCuXVGapPqUp9ZX (10000 STB)
+    (9) THCw6hPZpFcLCWDcsZg3W77rXZ9rJQPncD (10000 STB)
 
     Private Keys
     ==================

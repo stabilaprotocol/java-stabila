@@ -166,7 +166,7 @@ public class StabilaNetDelegate {
   public boolean contain(Sha256Hash hash, MessageTypes type) {
     if (type.equals(MessageTypes.BLOCK)) {
       return chainBaseManager.containBlock(hash);
-    } else if (type.equals(MessageTypes.TRX)) {
+    } else if (type.equals(MessageTypes.STB)) {
       return dbManager.getTransactionStore().has(hash.getBytes());
     }
     return false;
@@ -177,7 +177,7 @@ public class StabilaNetDelegate {
       switch (type) {
         case BLOCK:
           return new BlockMessage(chainBaseManager.getBlockById(hash));
-        case TRX:
+        case STB:
           TransactionCapsule tx = chainBaseManager.getTransactionStore().get(hash.getBytes());
           if (tx != null) {
             return new TransactionMessage(tx.getInstance());
@@ -246,7 +246,7 @@ public class StabilaNetDelegate {
       dbManager.pushTransaction(trx);
     } catch (ContractSizeNotEqualToOneException
         | VMIllegalException e) {
-      throw new P2pException(TypeEnum.BAD_TRX, e);
+      throw new P2pException(TypeEnum.BAD_STB, e);
     } catch (ContractValidateException
         | ValidateSignatureException
         | ContractExeException
@@ -257,7 +257,7 @@ public class StabilaNetDelegate {
         | ReceiptCheckErrException
         | TooBigTransactionResultException
         | AccountResourceInsufficientException e) {
-      throw new P2pException(TypeEnum.TRX_EXE_FAILED, e);
+      throw new P2pException(TypeEnum.STB_EXE_FAILED, e);
     }
   }
 

@@ -1,7 +1,7 @@
 package org.stabila.core.actuator;
 
 import static org.stabila.core.capsule.utils.TransactionUtil.isNumber;
-import static org.stabila.core.config.Parameter.ChainSymbol.TRX_SYMBOL_BYTES;
+import static org.stabila.core.config.Parameter.ChainSymbol.STB_SYMBOL_BYTES;
 
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
@@ -93,13 +93,13 @@ public class ExchangeWithdrawActuator extends AbstractActuator {
 
       long newBalance = accountCapsule.getBalance() - calcFee();
 
-      if (Arrays.equals(tokenID, TRX_SYMBOL_BYTES)) {
+      if (Arrays.equals(tokenID, STB_SYMBOL_BYTES)) {
         accountCapsule.setBalance(newBalance + tokenQuant);
       } else {
         accountCapsule.addAssetAmountV2(tokenID, tokenQuant, dynamicStore, assetIssueStore);
       }
 
-      if (Arrays.equals(anotherTokenID, TRX_SYMBOL_BYTES)) {
+      if (Arrays.equals(anotherTokenID, STB_SYMBOL_BYTES)) {
         accountCapsule.setBalance(newBalance + anotherTokenQuant);
       } else {
         accountCapsule
@@ -187,7 +187,7 @@ public class ExchangeWithdrawActuator extends AbstractActuator {
     long anotherTokenQuant;
 
     if (dynamicStore.getAllowSameTokenName() == 1 &&
-        !Arrays.equals(tokenID, TRX_SYMBOL_BYTES) &&
+        !Arrays.equals(tokenID, STB_SYMBOL_BYTES) &&
         !isNumber(tokenID)) {
       throw new ContractValidateException("token id is not a valid number");
     }

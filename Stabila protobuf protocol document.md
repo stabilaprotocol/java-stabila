@@ -68,15 +68,15 @@ enum AccountType {
   
   `account_id`: the id of this account 
 
-  `balance`: the TRX balance of this account.
+  `balance`: the STB balance of this account.
 
   `votes`: received votes of this account. – e.g. *{(“0x1b7w…9xj3”,323), (“0x8djq…j12m”,88),…,(“0x82nd…mx6i”,10001)}*.
 
-  `asset`: other assets except TRX in this account – e.g. *{<“WishToken”,66666>,<”Dogie”,233>}*.
+  `asset`: other assets except STB in this account – e.g. *{<“WishToken”,66666>,<”Dogie”,233>}*.
 
-  `assetV2`: other assets except TRX in this account – e.g. *{<“WishToken”,66666>,<”Dogie”,233>}*. (used after allowing same name of token87)
+  `assetV2`: other assets except STB in this account – e.g. *{<“WishToken”,66666>,<”Dogie”,233>}*. (used after allowing same name of token87)
 
-  `frozen`: the freezed TRX of this account for receiving bandwidth
+  `frozen`: the freezed STB of this account for receiving bandwidth
 
   `net_usage`: the used bandwidth of this account
 
@@ -928,7 +928,7 @@ Contract and contract-related messages.
 
     `to_address`: receiver address.
 
-    `amount`：amount of TRX.
+    `amount`：amount of STB.
 
     ```java
     message TransferContract {
@@ -1147,11 +1147,11 @@ Contract and contract-related messages.
 
       `owner_address`: address of owner.
 
-      `frozen_balance`: frozen amount of TRX.
+      `frozen_balance`: frozen amount of STB.
 
-      `frozen_duration`: frozen duration of TRX.
+      `frozen_duration`: frozen duration of STB.
 
-      `resource`: type of resource gained from freezing TRX.
+      `resource`: type of resource gained from freezing STB.
 
       `receiver_address`: account address to receive resource.
 
@@ -1306,7 +1306,7 @@ Contract and contract-related messages.
     
        `contract_address`: smart contract address to interact with.
     
-       `call_value`: TRX amount sent to smart contract.
+       `call_value`: STB amount sent to smart contract.
     
        `data`: functions and parameters called in smart contract.
     
@@ -1596,7 +1596,7 @@ message `SmartContract` has mutiple attributes and nested message `ABI`
   
   `bytecode`: bytecode of the smart contract.
   
-  `call_value`: amount of TRX that send to the smart contract.
+  `call_value`: amount of STB that send to the smart contract.
   
   `consume_user_resource_percent`: user energy payment percentage of the whole energy payment which includes both contract deployer’s payment and user energy payment.
   
@@ -1939,7 +1939,7 @@ message `SmartContract` has mutiple attributes and nested message `ABI`
 
     ```java
     enum InventoryType {
-      TRX = 0;
+      STB = 0;
       BLOCK = 1;
     }
     ```
@@ -1951,7 +1951,7 @@ message `SmartContract` has mutiple attributes and nested message `ABI`
     ```java
     message Inventory {
       enum InventoryType {
-        TRX = 0;
+        STB = 0;
         BLOCK = 1;
       }
       InventoryType type = 1;
@@ -1966,7 +1966,7 @@ message `SmartContract` has mutiple attributes and nested message `ABI`
     ```java
     enum ItemType {
       ERR = 0;
-      TRX = 1;
+      STB = 1;
       BLOCK = 2;
       BLOCKHEADER = 3;
     }
@@ -1984,7 +1984,7 @@ message `SmartContract` has mutiple attributes and nested message `ABI`
     message Items {
       enum ItemType {
         ERR = 0;
-        TRX = 1;
+        STB = 1;
         BLOCK = 2;
         BLOCKHEADER = 3;
       }

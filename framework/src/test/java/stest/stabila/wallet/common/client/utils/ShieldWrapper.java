@@ -118,7 +118,7 @@ public class ShieldWrapper {
                 noteInfo.setPaymentAddress(noteTx.getNote().getPaymentAddress());
                 noteInfo.setR(noteTx.getNote().getRcm().toByteArray());
                 noteInfo.setValue(noteTx.getNote().getValue());
-                noteInfo.setTrxId(ByteArray.toHexString(noteTx.getTxid().toByteArray()));
+                noteInfo.setStbId(ByteArray.toHexString(noteTx.getTxid().toByteArray()));
                 noteInfo.setIndex(noteTx.getIndex());
                 noteInfo.setNoteIndex(nodeIndex.getAndIncrement());
                 noteInfo.setMemo(noteTx.getNote().getMemo().toByteArray());

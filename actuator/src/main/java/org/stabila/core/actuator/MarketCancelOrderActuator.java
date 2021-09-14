@@ -98,7 +98,7 @@ public class MarketCancelOrderActuator extends AbstractActuator {
       // fee
       accountCapsule.setBalance(accountCapsule.getBalance() - fee);
       if (dynamicStore.supportBlackHoleOptimization()) {
-        dynamicStore.burnTrx(fee);
+        dynamicStore.burnStb(fee);
       } else {
         Commons.adjustBalance(accountStore, accountStore.getBlackhole(), fee);
       }

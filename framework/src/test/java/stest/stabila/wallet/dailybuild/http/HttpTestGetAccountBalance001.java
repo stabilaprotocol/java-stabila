@@ -167,14 +167,14 @@ public class HttpTestGetAccountBalance001 {
    * constructor.
    */
   @Test(enabled = true, description = "Get burn trx by http")
-  public void test03GetBurnTrx() {
+  public void test03GetBurnStb() {
 
     ECKey ecKey2 = new ECKey(Utils.getRandom());
     byte[] assetOwnerAddress = ecKey2.getAddress();
     String assetOwnerKey = ByteArray.toHexString(ecKey2.getPrivKeyBytes());
     HttpMethed.sendCoin(httpnode, fromAddress, assetOwnerAddress, amount, "", testKey002);
     HttpMethed.waitToProduceOneBlock(httpnode);
-    final Long beforeBurnTrxAmount = HttpMethed.getBurnTrx(httpnode);
+    final Long beforeBurnStbAmount = HttpMethed.getBurnStb(httpnode);
     ECKey ecKey3 = new ECKey(Utils.getRandom());
     byte[] receiverAddress = ecKey3.getAddress();
 
@@ -182,12 +182,12 @@ public class HttpTestGetAccountBalance001 {
             "", assetOwnerKey);
     HttpMethed.waitToProduceOneBlockFromSolidity(httpnode, httpSolidityNode);
     HttpMethed.waitToProduceOneBlockFromSolidity(httpnode, httpSolidityNode);
-    Long afterBurnTrxAmount = HttpMethed.getBurnTrx(httpnode);
-    logger.info(afterBurnTrxAmount + "  :   " + beforeBurnTrxAmount);
-    Assert.assertTrue(afterBurnTrxAmount - beforeBurnTrxAmount == 100000L);
+    Long afterBurnStbAmount = HttpMethed.getBurnStb(httpnode);
+    logger.info(afterBurnStbAmount + "  :   " + beforeBurnStbAmount);
+    Assert.assertTrue(afterBurnStbAmount - beforeBurnStbAmount == 100000L);
 
-    Assert.assertEquals(afterBurnTrxAmount, HttpMethed.getBurnTrxFromSolidity(httpSolidityNode));
-    Assert.assertEquals(afterBurnTrxAmount, HttpMethed.getBurnTrxFromPbft(httpPbftNode));
+    Assert.assertEquals(afterBurnStbAmount, HttpMethed.getBurnStbFromSolidity(httpSolidityNode));
+    Assert.assertEquals(afterBurnStbAmount, HttpMethed.getBurnStbFromPbft(httpPbftNode));
   }
 
   /**

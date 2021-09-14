@@ -175,23 +175,23 @@ public class DepositTest {
     long consumeUserResourcePercent = 0;
     long engeryLiimt = 100000000;
 
-    Transaction aTrx = TvmTestUtils.generateDeploySmartContractAndGetTransaction(
+    Transaction aStb = TvmTestUtils.generateDeploySmartContractAndGetTransaction(
         contractA, address, aABI, aCode, value, fee, consumeUserResourcePercent,
         null, engeryLiimt);
     Runtime runtime = TvmTestUtils
-        .processTransactionAndReturnRuntime(aTrx, DepositImpl.createRoot(manager),
+        .processTransactionAndReturnRuntime(aStb, DepositImpl.createRoot(manager),
             null);
     Assert.assertNull(runtime.getRuntimeError());
 
-    Transaction bTrx = TvmTestUtils.generateDeploySmartContractAndGetTransaction(
+    Transaction bStb = TvmTestUtils.generateDeploySmartContractAndGetTransaction(
         contractB, address, bABI, bCode, value, fee, consumeUserResourcePercent,
         null, engeryLiimt);
     runtime = TvmTestUtils
-        .processTransactionAndReturnRuntime(bTrx, DepositImpl.createRoot(manager), null);
+        .processTransactionAndReturnRuntime(bStb, DepositImpl.createRoot(manager), null);
     Assert.assertNull(runtime.getRuntimeError());
 
-    byte[] aAddress = WalletUtil.generateContractAddress(aTrx);
-    byte[] bAddress = WalletUtil.generateContractAddress(bTrx);
+    byte[] aAddress = WalletUtil.generateContractAddress(aStb);
+    byte[] bAddress = WalletUtil.generateContractAddress(bStb);
 
     // trigger contractA
     // callBcallA(address,uint256,uint256)
@@ -331,23 +331,23 @@ public class DepositTest {
     long fee = 100000000;
     long consumeUserResourcePercent = 0;
 
-    Transaction aTrx = TvmTestUtils.generateDeploySmartContractAndGetTransaction(
+    Transaction aStb = TvmTestUtils.generateDeploySmartContractAndGetTransaction(
         contractA, address, aABI, aCode, value, fee, consumeUserResourcePercent,
         null);
     Deposit rootDeposit = DepositImpl.createRoot(manager);
-    Runtime runtime = TvmTestUtils.processTransactionAndReturnRuntime(aTrx, rootDeposit,
+    Runtime runtime = TvmTestUtils.processTransactionAndReturnRuntime(aStb, rootDeposit,
         null);
     Assert.assertNull(runtime.getRuntimeError());
 
-    Transaction bTrx = TvmTestUtils.generateDeploySmartContractAndGetTransaction(
+    Transaction bStb = TvmTestUtils.generateDeploySmartContractAndGetTransaction(
         contractB, address, bABI, bCode, value, fee, consumeUserResourcePercent,
         null);
     rootDeposit = DepositImpl.createRoot(manager);
-    runtime = TvmTestUtils.processTransactionAndReturnRuntime(bTrx, rootDeposit, null);
+    runtime = TvmTestUtils.processTransactionAndReturnRuntime(bStb, rootDeposit, null);
     Assert.assertNull(runtime.getRuntimeError());
 
-    byte[] aAddress = WalletUtil.generateContractAddress(aTrx);
-    byte[] bAddress = WalletUtil.generateContractAddress(bTrx);
+    byte[] aAddress = WalletUtil.generateContractAddress(aStb);
+    byte[] bAddress = WalletUtil.generateContractAddress(bStb);
 
     // trigger contractA
     // callBcallA(address,uint256,uint256)

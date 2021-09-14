@@ -7,11 +7,11 @@ public enum MessageTypes {
 
   FIRST(0x00),
 
-  TRX(0x01),
+  STB(0x01),
 
   BLOCK(0x02),
 
-  TRXS(0x03),
+  STBS(0x03),
 
   BLOCKS(0x04),
 
@@ -31,7 +31,7 @@ public enum MessageTypes {
 
   BLOCK_INVENTORY(0x12),
 
-  TRX_INVENTORY(0x13),
+  STB_INVENTORY(0x13),
 
   PBFT_COMMIT_MSG(0x14),
 
@@ -97,7 +97,7 @@ public enum MessageTypes {
   public String toString() {
     switch (type) {
       case 1:
-        return "TRX";
+        return "STB";
       case 2:
         return "BLOCK";
       case 6:

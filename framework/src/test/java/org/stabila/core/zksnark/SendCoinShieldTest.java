@@ -98,7 +98,7 @@ public class SendCoinShieldTest {
   private static final long START_TIME = 1;
   private static final long END_TIME = 2;
   private static final int VOTE_SCORE = 2;
-  private static final String DESCRIPTION = "TRX";
+  private static final String DESCRIPTION = "STB";
   private static final String URL = "https://stabila.network";
   private static String dbPath = "output_ShieldedTransaction_test";
   private static String dbDirectory = "db_ShieldedTransaction_test";
@@ -148,7 +148,7 @@ public class SendCoinShieldTest {
     AssetIssueContract assetIssueContract = AssetIssueContract.newBuilder()
         .setOwnerAddress(ByteString.copyFrom(ByteArray.fromHexString(PUBLIC_ADDRESS_ONE)))
         .setName(ByteString.copyFrom(ByteArray.fromString(ASSET_NAME)))
-        .setId(Long.toString(tokenId)).setTotalSupply(OWNER_BALANCE).setTrxNum(TRX_NUM).setNum(NUM)
+        .setId(Long.toString(tokenId)).setTotalSupply(OWNER_BALANCE).setStbNum(STB_NUM).setNum(NUM)
         .setStartTime(START_TIME).setEndTime(END_TIME).setVoteScore(VOTE_SCORE)
         .setDescription(ByteString.copyFrom(ByteArray.fromString(DESCRIPTION)))
         .setUrl(ByteString.copyFrom(ByteArray.fromString(URL))).build();

@@ -1,6 +1,6 @@
 package org.stabila.core.db.api;
 
-import static org.stabila.core.config.Parameter.ChainSymbol.TRX_SYMBOL_BYTES;
+import static org.stabila.core.config.Parameter.ChainSymbol.STB_SYMBOL_BYTES;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -129,12 +129,12 @@ public class AssetUpdateHelper {
 
     for (ExchangeCapsule exchangeCapsule : chainBaseManager.getExchangeStore().getAllExchanges()) {
       count++;
-      if (!Arrays.equals(exchangeCapsule.getFirstTokenId(), TRX_SYMBOL_BYTES)) {
+      if (!Arrays.equals(exchangeCapsule.getFirstTokenId(), STB_SYMBOL_BYTES)) {
         exchangeCapsule.setFirstTokenId(
             assetNameToIdMap.get(ByteArray.toStr(exchangeCapsule.getFirstTokenId())));
       }
 
-      if (!Arrays.equals(exchangeCapsule.getSecondTokenId(), TRX_SYMBOL_BYTES)) {
+      if (!Arrays.equals(exchangeCapsule.getSecondTokenId(), STB_SYMBOL_BYTES)) {
         exchangeCapsule.setSecondTokenId(
             assetNameToIdMap.get(ByteArray.toStr(exchangeCapsule.getSecondTokenId())));
       }

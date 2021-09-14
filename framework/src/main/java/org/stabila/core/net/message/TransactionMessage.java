@@ -12,7 +12,7 @@ public class TransactionMessage extends StabilaMessage {
   public TransactionMessage(byte[] data) throws Exception {
     super(data);
     this.transactionCapsule = new TransactionCapsule(getCodedInputStream(data));
-    this.type = MessageTypes.TRX.asByte();
+    this.type = MessageTypes.STB.asByte();
     if (Message.isFilter()) {
       compareBytes(data, transactionCapsule.getInstance().toByteArray());
       transactionCapsule
@@ -22,7 +22,7 @@ public class TransactionMessage extends StabilaMessage {
 
   public TransactionMessage(Transaction trx) {
     this.transactionCapsule = new TransactionCapsule(trx);
-    this.type = MessageTypes.TRX.asByte();
+    this.type = MessageTypes.STB.asByte();
     this.data = trx.toByteArray();
   }
 

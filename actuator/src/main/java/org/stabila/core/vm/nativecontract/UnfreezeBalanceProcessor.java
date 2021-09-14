@@ -1,7 +1,7 @@
 package org.stabila.core.vm.nativecontract;
 
 import static org.stabila.core.actuator.ActuatorConstant.STORE_NOT_EXIST;
-import static org.stabila.core.config.Parameter.ChainConstant.TRX_PRECISION;
+import static org.stabila.core.config.Parameter.ChainConstant.STB_PRECISION;
 
 import com.google.common.collect.Lists;
 import com.google.protobuf.ByteString;
@@ -188,10 +188,10 @@ public class UnfreezeBalanceProcessor {
     // adjust total resource, used to be a bug here
     switch (param.getResourceType()) {
       case BANDWIDTH:
-        repo.addTotalNetWeight(-unfreezeBalance / TRX_PRECISION);
+        repo.addTotalNetWeight(-unfreezeBalance / STB_PRECISION);
         break;
       case ENERGY:
-        repo.addTotalEnergyWeight(-unfreezeBalance / TRX_PRECISION);
+        repo.addTotalEnergyWeight(-unfreezeBalance / STB_PRECISION);
         break;
       default:
         //this should never happen
@@ -205,7 +205,7 @@ public class UnfreezeBalanceProcessor {
       for (Protocol.Vote vote : accountCapsule.getVotesList()) {
         usedStabilaPower += vote.getVoteCount();
       }
-      if (accountCapsule.getStabilaPower() < usedStabilaPower * TRX_PRECISION) {
+      if (accountCapsule.getStabilaPower() < usedStabilaPower * STB_PRECISION) {
         VoteRewardUtil.withdrawReward(ownerAddress, repo);
         VotesCapsule votesCapsule = repo.getVotes(ownerAddress);
         accountCapsule = repo.getAccount(ownerAddress);

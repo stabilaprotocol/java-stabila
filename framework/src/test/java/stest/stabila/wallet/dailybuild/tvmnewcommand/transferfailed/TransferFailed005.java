@@ -166,7 +166,7 @@ public class TransferFailed005 {
     // transfer trx to self`s account
     String param = "\"" + paramValue + "\",\"" + Base58.encode58Check(contractAddress) + "\"";
     String triggerTxid = PublicMethed
-        .triggerContract(contractAddress, "testCallTrxInsufficientBalance(uint256,address)", param,
+        .triggerContract(contractAddress, "testCallStbInsufficientBalance(uint256,address)", param,
             false, 0L, maxFeeLimit, accountExcAddress, accountExcKey, blockingStubFull);
     PublicMethed.waitProduceNextBlock(blockingStubFull);
     Optional<TransactionInfo> infoById = PublicMethed
@@ -175,7 +175,7 @@ public class TransferFailed005 {
     Assert.assertEquals(infoById.get().getResultValue(), 1);
     Assert.assertEquals("FAILED", infoById.get().getResult().toString());
     Assert.assertEquals("TRANSFER_FAILED", infoById.get().getReceipt().getResult().toString());
-    Assert.assertEquals("transfer trx failed: Cannot transfer TRX to yourself.",
+    Assert.assertEquals("transfer trx failed: Cannot transfer STB to yourself.",
         infoById.get().getResMessage().toStringUtf8());
     Assert.assertEquals(100L,
         PublicMethed.queryAccount(contractAddress, blockingStubFull).getBalance());
@@ -188,7 +188,7 @@ public class TransferFailed005 {
     byte[] accountExcAddress2 = ecKey2.getAddress();
     param = "\"" + paramValue + "\",\"" + Base58.encode58Check(accountExcAddress2) + "\"";
     triggerTxid = PublicMethed
-        .triggerContract(contractAddress, "testCallTrxInsufficientBalance(uint256,address)", param,
+        .triggerContract(contractAddress, "testCallStbInsufficientBalance(uint256,address)", param,
             false, 0L, maxFeeLimit, accountExcAddress, accountExcKey, blockingStubFull);
     PublicMethed.waitProduceNextBlock(blockingStubFull);
     infoById = PublicMethed.getTransactionInfoById(triggerTxid, blockingStubFull);
@@ -205,7 +205,7 @@ public class TransferFailed005 {
     // transfer trx to caller, value enough , function success contractResult(call_value) successed
     param = "\"" + paramValue + "\",\"" + Base58.encode58Check(contractAddress1) + "\"";
     triggerTxid = PublicMethed
-        .triggerContract(contractAddress, "testCallTrxInsufficientBalance(uint256,address)", param,
+        .triggerContract(contractAddress, "testCallStbInsufficientBalance(uint256,address)", param,
             false, 0L, maxFeeLimit, accountExcAddress, accountExcKey, blockingStubFull);
     PublicMethed.waitProduceNextBlock(blockingStubFull);
 
@@ -238,7 +238,7 @@ public class TransferFailed005 {
     // but contractResult(call_value) failed
     param = "\"" + 100 + "\",\"" + Base58.encode58Check(contractAddress1) + "\"";
     triggerTxid = PublicMethed
-        .triggerContract(contractAddress, "testCallTrxInsufficientBalance(uint256,address)", param,
+        .triggerContract(contractAddress, "testCallStbInsufficientBalance(uint256,address)", param,
             false, 0L, maxFeeLimit, accountExcAddress, accountExcKey, blockingStubFull);
     PublicMethed.waitProduceNextBlock(blockingStubFull);
 
@@ -300,7 +300,7 @@ public class TransferFailed005 {
     String param = "\"" + paramValue + "\"";
 
     String triggerTxid = PublicMethed
-        .triggerContract(contractAddress, "testCreateTrxInsufficientBalance(uint256)", param, false,
+        .triggerContract(contractAddress, "testCreateStbInsufficientBalance(uint256)", param, false,
             0L, maxFeeLimit, accountExcAddress, accountExcKey, blockingStubFull);
     PublicMethed.waitProduceNextBlock(blockingStubFull);
 
@@ -331,7 +331,7 @@ public class TransferFailed005 {
 
     param = "\"" + (contractBalance + 1) + "\"";
     triggerTxid = PublicMethed
-        .triggerContract(contractAddress, "testCreateTrxInsufficientBalance(uint256)", param, false,
+        .triggerContract(contractAddress, "testCreateStbInsufficientBalance(uint256)", param, false,
             0L, maxFeeLimit, accountExcAddress, accountExcKey, blockingStubFull);
     PublicMethed.waitProduceNextBlock(blockingStubFull);
 
@@ -459,7 +459,7 @@ public class TransferFailed005 {
     final Long contractAccountBalance = contractAccount.getBalance();
 
     TransactionExtention return1 = PublicMethed.triggerConstantContractForExtention(contractAddress,
-        "testTransferTrxInsufficientBalance(uint256)", "1", false, 0L, 1000000000, "0", 0L,
+        "testTransferStbInsufficientBalance(uint256)", "1", false, 0L, 1000000000, "0", 0L,
         accountExcAddress, accountExcKey, blockingStubFull);
     Assert.assertEquals(response_code.SUCCESS, return1.getResult().getCode());
     /*Assert.assertEquals(

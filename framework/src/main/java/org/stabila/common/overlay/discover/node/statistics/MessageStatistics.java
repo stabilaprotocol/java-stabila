@@ -40,20 +40,20 @@ public class MessageStatistics {
   public final MessageCount stabilaInBlockChainInventory = new MessageCount();
   public final MessageCount stabilaOutBlockChainInventory = new MessageCount();
 
-  public final MessageCount stabilaInTrxInventory = new MessageCount();
-  public final MessageCount stabilaOutTrxInventory = new MessageCount();
-  public final MessageCount stabilaInTrxInventoryElement = new MessageCount();
-  public final MessageCount stabilaOutTrxInventoryElement = new MessageCount();
+  public final MessageCount stabilaInStbInventory = new MessageCount();
+  public final MessageCount stabilaOutStbInventory = new MessageCount();
+  public final MessageCount stabilaInStbInventoryElement = new MessageCount();
+  public final MessageCount stabilaOutStbInventoryElement = new MessageCount();
 
   public final MessageCount stabilaInBlockInventory = new MessageCount();
   public final MessageCount stabilaOutBlockInventory = new MessageCount();
   public final MessageCount stabilaInBlockInventoryElement = new MessageCount();
   public final MessageCount stabilaOutBlockInventoryElement = new MessageCount();
 
-  public final MessageCount stabilaInTrxFetchInvData = new MessageCount();
-  public final MessageCount stabilaOutTrxFetchInvData = new MessageCount();
-  public final MessageCount stabilaInTrxFetchInvDataElement = new MessageCount();
-  public final MessageCount stabilaOutTrxFetchInvDataElement = new MessageCount();
+  public final MessageCount stabilaInStbFetchInvData = new MessageCount();
+  public final MessageCount stabilaOutStbFetchInvData = new MessageCount();
+  public final MessageCount stabilaInStbFetchInvDataElement = new MessageCount();
+  public final MessageCount stabilaOutStbFetchInvDataElement = new MessageCount();
 
   public final MessageCount stabilaInBlockFetchInvData = new MessageCount();
   public final MessageCount stabilaOutBlockFetchInvData = new MessageCount();
@@ -61,10 +61,10 @@ public class MessageStatistics {
   public final MessageCount stabilaOutBlockFetchInvDataElement = new MessageCount();
 
 
-  public final MessageCount stabilaInTrx = new MessageCount();
-  public final MessageCount stabilaOutTrx = new MessageCount();
-  public final MessageCount stabilaInTrxs = new MessageCount();
-  public final MessageCount stabilaOutTrxs = new MessageCount();
+  public final MessageCount stabilaInStb = new MessageCount();
+  public final MessageCount stabilaOutStb = new MessageCount();
+  public final MessageCount stabilaInStbs = new MessageCount();
+  public final MessageCount stabilaOutStbs = new MessageCount();
   public final MessageCount stabilaInBlock = new MessageCount();
   public final MessageCount stabilaOutBlock = new MessageCount();
   public final MessageCount stabilaOutAdvBlock = new MessageCount();
@@ -175,8 +175,8 @@ public class MessageStatistics {
         InventoryMessage inventoryMessage = (InventoryMessage) msg;
         int inventorySize = inventoryMessage.getInventory().getIdsCount();
         messageProcess(inventoryMessage.getInvMessageType(),
-                stabilaInTrxInventory,stabilaInTrxInventoryElement,stabilaInBlockInventory,
-                stabilaInBlockInventoryElement,stabilaOutTrxInventory,stabilaOutTrxInventoryElement,
+                stabilaInStbInventory,stabilaInStbInventoryElement,stabilaInBlockInventory,
+                stabilaInBlockInventoryElement,stabilaOutStbInventory,stabilaOutStbInventoryElement,
                 stabilaOutBlockInventory,stabilaOutBlockInventoryElement,
                 flag, inventorySize);
         break;
@@ -184,22 +184,22 @@ public class MessageStatistics {
         FetchInvDataMessage fetchInvDataMessage = (FetchInvDataMessage) msg;
         int fetchSize = fetchInvDataMessage.getInventory().getIdsCount();
         messageProcess(fetchInvDataMessage.getInvMessageType(),
-                stabilaInTrxFetchInvData,stabilaInTrxFetchInvDataElement,stabilaInBlockFetchInvData,
-                stabilaInBlockFetchInvDataElement,stabilaOutTrxFetchInvData,stabilaOutTrxFetchInvDataElement,
+                stabilaInStbFetchInvData,stabilaInStbFetchInvDataElement,stabilaInBlockFetchInvData,
+                stabilaInBlockFetchInvDataElement,stabilaOutStbFetchInvData,stabilaOutStbFetchInvDataElement,
                 stabilaOutBlockFetchInvData,stabilaOutBlockFetchInvDataElement,
                 flag, fetchSize);
         break;
-      case TRXS:
+      case STBS:
         TransactionsMessage transactionsMessage = (TransactionsMessage) msg;
         if (flag) {
-          stabilaInTrxs.add();
-          stabilaInTrx.add(transactionsMessage.getTransactions().getTransactionsCount());
+          stabilaInStbs.add();
+          stabilaInStb.add(transactionsMessage.getTransactions().getTransactionsCount());
         } else {
-          stabilaOutTrxs.add();
-          stabilaOutTrx.add(transactionsMessage.getTransactions().getTransactionsCount());
+          stabilaOutStbs.add();
+          stabilaOutStb.add(transactionsMessage.getTransactions().getTransactionsCount());
         }
         break;
-      case TRX:
+      case STB:
         if (flag) {
           stabilaInMessage.add();
         } else {
@@ -219,27 +219,27 @@ public class MessageStatistics {
   
   
   private void messageProcess(MessageTypes messageType,
-                              MessageCount inTrx,
-                              MessageCount inTrxEle,
+                              MessageCount inStb,
+                              MessageCount inStbEle,
                               MessageCount inBlock,
                               MessageCount inBlockEle,
-                              MessageCount outTrx,
-                              MessageCount outTrxEle,
+                              MessageCount outStb,
+                              MessageCount outStbEle,
                               MessageCount outBlock,
                               MessageCount outBlockEle,
                               boolean flag, int size) {
     if (flag) {
-      if (messageType == MessageTypes.TRX) {
-        inTrx.add();
-        inTrxEle.add(size);
+      if (messageType == MessageTypes.STB) {
+        inStb.add();
+        inStbEle.add(size);
       } else {
         inBlock.add();
         inBlockEle.add(size);
       }
     } else {
-      if (messageType == MessageTypes.TRX) {
-        outTrx.add();
-        outTrxEle.add(size);
+      if (messageType == MessageTypes.STB) {
+        outStb.add();
+        outStbEle.add(size);
       } else {
         outBlock.add();
         outBlockEle.add(size);

@@ -17,8 +17,8 @@
  */
 package org.stabila.core.vm.program.invoke;
 
-import static org.stabila.common.runtime.InternalTransaction.TrxType.TRX_CONTRACT_CALL_TYPE;
-import static org.stabila.common.runtime.InternalTransaction.TrxType.TRX_CONTRACT_CREATION_TYPE;
+import static org.stabila.common.runtime.InternalTransaction.StbType.STB_CONTRACT_CALL_TYPE;
+import static org.stabila.common.runtime.InternalTransaction.StbType.STB_CONTRACT_CREATION_TYPE;
 import static org.stabila.common.utils.WalletUtil.generateContractAddress;
 
 import lombok.extern.slf4j.Slf4j;
@@ -47,7 +47,7 @@ public class ProgramInvokeFactoryImpl implements ProgramInvokeFactory {
 
   // Invocation by the wire tx
   @Override
-  public ProgramInvoke createProgramInvoke(InternalTransaction.TrxType stbType,
+  public ProgramInvoke createProgramInvoke(InternalTransaction.StbType stbType,
                                            InternalTransaction.ExecutorType executorType, Transaction tx, long tokenValue, long tokenId,
                                            Block block,
                                            Repository deposit, long vmStartInUs,
@@ -61,7 +61,7 @@ public class ProgramInvokeFactoryImpl implements ProgramInvokeFactory {
     long timestamp = 0L;
     long number = -1L;
 
-    if (stbType == TRX_CONTRACT_CREATION_TYPE) {
+    if (stbType == STB_CONTRACT_CREATION_TYPE) {
       CreateSmartContract contract = ContractCapsule.getSmartContractFromTransaction(tx);
       contractAddress = generateContractAddress(tx);
       ownerAddress = contract.getOwnerAddress().toByteArray();
@@ -88,7 +88,7 @@ public class ProgramInvokeFactoryImpl implements ProgramInvokeFactory {
           tokenValue, tokenId, data, lastHash, coinbase, timestamp, number, deposit, vmStartInUs,
           vmShouldEndInUs, energyLimit);
 
-    } else if (stbType == TRX_CONTRACT_CALL_TYPE) {
+    } else if (stbType == STB_CONTRACT_CALL_TYPE) {
       TriggerSmartContract contract = ContractCapsule
           .getTriggerContractFromTransaction(tx);
       /***         ADDRESS op       ***/

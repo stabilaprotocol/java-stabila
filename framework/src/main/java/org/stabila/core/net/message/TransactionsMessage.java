@@ -13,13 +13,13 @@ public class TransactionsMessage extends StabilaMessage {
     Protocol.Transactions.Builder builder = Protocol.Transactions.newBuilder();
     trxs.forEach(trx -> builder.addTransactions(trx));
     this.transactions = builder.build();
-    this.type = MessageTypes.TRXS.asByte();
+    this.type = MessageTypes.STBS.asByte();
     this.data = this.transactions.toByteArray();
   }
 
   public TransactionsMessage(byte[] data) throws Exception {
     super(data);
-    this.type = MessageTypes.TRXS.asByte();
+    this.type = MessageTypes.STBS.asByte();
     this.transactions = Protocol.Transactions.parseFrom(getCodedInputStream(data));
     if (isFilter()) {
       compareBytes(data, transactions.toByteArray());

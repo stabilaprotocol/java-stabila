@@ -327,7 +327,7 @@ public class VoteTest {
     TransactionCapsule trxCap = new TransactionCapsule(trx);
     TransactionTrace trace = new TransactionTrace(trxCap, StoreFactory.getInstance(),
         new RuntimeImpl());
-    trxCap.setTrxTrace(trace);
+    trxCap.setStbTrace(trace);
     trace.init(null);
     trace.exec();
     trace.finalization();
@@ -349,7 +349,7 @@ public class VoteTest {
             owner, contractAddr, Hex.decode(hexInput), 0, fee));
     TransactionTrace trace = new TransactionTrace(trxCap, StoreFactory.getInstance(),
         new RuntimeImpl());
-    trxCap.setTrxTrace(trace);
+    trxCap.setStbTrace(trace);
     trace.init(null);
     trace.exec();
     trace.finalization();

@@ -722,7 +722,7 @@ public class Manager {
 
         try (ISession tmpSession = revokingStore.buildSession()) {
           processTransaction(trx, null);
-          trx.setTrxTrace(null);
+          trx.setStbTrace(null);
           pendingTransactions.add(trx);
           tmpSession.merge();
         }
@@ -750,7 +750,7 @@ public class Manager {
             adjustBalance(getAccountStore(), accountCapsule, -fee);
 
             if (getDynamicPropertiesStore().supportBlackHoleOptimization()) {
-              getDynamicPropertiesStore().burnTrx(fee);
+              getDynamicPropertiesStore().burnStb(fee);
             } else {
               adjustBalance(getAccountStore(), this.getAccountStore().getBlackhole(), +fee);
             }
@@ -1209,7 +1209,7 @@ public class Manager {
 
     TransactionTrace trace = new TransactionTrace(trxCap, StoreFactory.getInstance(),
         new RuntimeImpl());
-    trxCap.setTrxTrace(trace);
+    trxCap.setStbTrace(trace);
 
     consumeBandwidth(trxCap, trace);
     consumeMultiSignFee(trxCap, trace);
@@ -1264,7 +1264,7 @@ public class Manager {
     //set the sort order
     trxCap.setOrder(transactionInfo.getFee());
     if (!eventPluginLoaded) {
-      trxCap.setTrxTrace(null);
+      trxCap.setStbTrace(null);
     }
     return transactionInfo.getInstance();
   }
@@ -1274,7 +1274,7 @@ public class Manager {
    */
   public synchronized BlockCapsule generateBlock(Miner miner, long blockTime, long timeout) {
 
-    long postponedTrxCount = 0;
+    long postponedStbCount = 0;
 
     BlockCapsule blockCapsule = new BlockCapsule(chainBaseManager.getHeadBlockNum() + 1,
         chainBaseManager.getHeadBlockId(),
@@ -1326,7 +1326,7 @@ public class Manager {
       // check the block size
       if ((blockCapsule.getInstance().getSerializedSize() + trx.getSerializedSize() + 3)
           > ChainConstant.BLOCK_SIZE) {
-        postponedTrxCount++;
+        postponedStbCount++;
         continue;
       }
       //shielded transaction
@@ -1372,7 +1372,7 @@ public class Manager {
     session.reset();
 
     logger.info("Generate block success, pendingCount: {}, rePushCount: {}, postponedCount: {}",
-        pendingTransactions.size(), rePushTransactions.size(), postponedTrxCount);
+        pendingTransactions.size(), rePushTransactions.size(), postponedStbCount);
 
     blockCapsule.setMerkleRoot();
     blockCapsule.sign(miner.getPrivateKey());

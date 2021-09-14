@@ -63,7 +63,7 @@ public class WalletTestAssetIssue019 {
   }
 
   @Test(enabled = true)
-  public void testCanNotCreateTokenNameByTrx() {
+  public void testCanNotCreateTokenNameByStb() {
     //get account
     ecKey1 = new ECKey(Utils.getRandom());
     asset019Address = ecKey1.getAddress();
@@ -88,11 +88,11 @@ public class WalletTestAssetIssue019 {
         2000L, 2000L, 1L, 1L, asset019Key, blockingStubFull));
 
     Assert.assertFalse(PublicMethed.createAssetIssue(asset019Address,
-        "TRX", totalSupply, 1, 1, start, end, 1, description, url,
+        "STB", totalSupply, 1, 1, start, end, 1, description, url,
         2000L, 2000L, 1L, 1L, asset019Key, blockingStubFull));
 
     Assert.assertFalse(PublicMethed.createAssetIssue(asset019Address,
-        "Trx", totalSupply, 1, 1, start, end, 1, description, url,
+        "Stb", totalSupply, 1, 1, start, end, 1, description, url,
         2000L, 2000L, 1L, 1L, asset019Key, blockingStubFull));
 
     Assert.assertFalse(PublicMethed.createAssetIssue(asset019Address,

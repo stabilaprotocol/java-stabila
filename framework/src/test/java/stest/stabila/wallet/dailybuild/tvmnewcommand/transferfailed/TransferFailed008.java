@@ -355,9 +355,9 @@ public class TransferFailed008 {
         testNetAccountCountAfter.longValue());
     Assert.assertEquals(999L, contractAccountCountAfter.longValue());
 
-    Account nonexistentAddressAccountTrxBalance = PublicMethed
+    Account nonexistentAddressAccountStbBalance = PublicMethed
         .queryAccount(nonexistentAddress, blockingStubFull1);
-    Assert.assertEquals(0L, nonexistentAddressAccountTrxBalance.getBalance());
+    Assert.assertEquals(0L, nonexistentAddressAccountStbBalance.getBalance());
     Long nonexistentAddressAccountTokenBalance = PublicMethed
         .getAssetIssueValue(nonexistentAddress, assetAccountId, blockingStubFull1);
     Assert.assertEquals(1L, nonexistentAddressAccountTokenBalance.longValue());
@@ -425,9 +425,9 @@ public class TransferFailed008 {
         testNetAccountCountAfter.longValue());
     Assert.assertEquals(999L, contractAccountCountAfter.longValue());
 
-    Account nonexistentAddressAccountTrxBalance = PublicMethed
+    Account nonexistentAddressAccountStbBalance = PublicMethed
         .queryAccount(nonexistentAddress, blockingStubFull1);
-    Assert.assertEquals(0L, nonexistentAddressAccountTrxBalance.getBalance());
+    Assert.assertEquals(0L, nonexistentAddressAccountStbBalance.getBalance());
     Long nonexistentAddressAccountTokenBalance = PublicMethed
         .getAssetIssueValue(nonexistentAddress, assetAccountId, blockingStubFull1);
     Assert.assertEquals(1L, nonexistentAddressAccountTokenBalance.longValue());

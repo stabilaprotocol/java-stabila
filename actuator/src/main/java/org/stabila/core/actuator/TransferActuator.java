@@ -58,7 +58,7 @@ public class TransferActuator extends AbstractActuator {
 
       Commons.adjustBalance(accountStore, ownerAddress, -(Math.addExact(fee, amount)));
       if (dynamicStore.supportBlackHoleOptimization()) {
-        dynamicStore.burnTrx(fee);
+        dynamicStore.burnStb(fee);
       } else {
         Commons.adjustBalance(accountStore, accountStore.getBlackhole(), fee);
       }
@@ -108,7 +108,7 @@ public class TransferActuator extends AbstractActuator {
     }
 
     if (Arrays.equals(toAddress, ownerAddress)) {
-      throw new ContractValidateException("Cannot transfer TRX to yourself.");
+      throw new ContractValidateException("Cannot transfer STB to yourself.");
     }
 
     AccountCapsule ownerAccount = accountStore.get(ownerAddress);
@@ -133,7 +133,7 @@ public class TransferActuator extends AbstractActuator {
           && toAccount != null
           && toAccount.getType() == AccountType.Contract) {
 
-        throw new ContractValidateException("Cannot transfer TRX to a smartContract.");
+        throw new ContractValidateException("Cannot transfer STB to a smartContract.");
 
       }
 

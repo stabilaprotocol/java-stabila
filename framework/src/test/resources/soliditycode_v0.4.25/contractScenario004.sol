@@ -3,7 +3,7 @@
 contract StabilaToken {
 
     string public name = "Stabilaix";      //  token name
-    string public symbol = "TRX";           //  token symbol
+    string public symbol = "STB";           //  token symbol
     uint256 public decimals = 6;            //  token digit
 
     mapping (address => uint256) public balanceOf;

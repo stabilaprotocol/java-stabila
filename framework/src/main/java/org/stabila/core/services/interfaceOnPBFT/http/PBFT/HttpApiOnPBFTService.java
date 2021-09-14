@@ -24,7 +24,7 @@ import org.stabila.core.services.interfaceOnPBFT.http.GetBlockByLatestNumOnPBFTS
 import org.stabila.core.services.interfaceOnPBFT.http.GetBlockByLimitNextOnPBFTServlet;
 import org.stabila.core.services.interfaceOnPBFT.http.GetBlockByNumOnPBFTServlet;
 import org.stabila.core.services.interfaceOnPBFT.http.GetBrokerageOnPBFTServlet;
-import org.stabila.core.services.interfaceOnPBFT.http.GetBurnTrxOnPBFTServlet;
+import org.stabila.core.services.interfaceOnPBFT.http.GetBurnStbOnPBFTServlet;
 import org.stabila.core.services.interfaceOnPBFT.http.GetDelegatedResourceAccountIndexOnPBFTServlet;
 import org.stabila.core.services.interfaceOnPBFT.http.GetDelegatedResourceOnPBFTServlet;
 import org.stabila.core.services.interfaceOnPBFT.http.GetExchangeByIdOnPBFTServlet;
@@ -143,7 +143,7 @@ public class HttpApiOnPBFTService implements Service {
   private IsShieldedTRC20ContractNoteSpentOnPBFTServlet
       isShieldedTRC20ContractNoteSpentOnPBFTServlet;
   @Autowired
-  private GetBurnTrxOnPBFTServlet getBurnTrxOnPBFTServlet;
+  private GetBurnStbOnPBFTServlet getBurnStbOnPBFTServlet;
 
   @Override
   public void init() {
@@ -227,7 +227,7 @@ public class HttpApiOnPBFTService implements Service {
           "/scanshieldedtrc20notesbyovk");
       context.addServlet(new ServletHolder(isShieldedTRC20ContractNoteSpentOnPBFTServlet),
           "/isshieldedtrc20contractnotespent");
-      context.addServlet(new ServletHolder(getBurnTrxOnPBFTServlet),
+      context.addServlet(new ServletHolder(getBurnStbOnPBFTServlet),
           "/getburntrx");
 
       int maxHttpConnectNumber = Args.getInstance().getMaxHttpConnectNumber();

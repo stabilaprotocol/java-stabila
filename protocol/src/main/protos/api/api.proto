@@ -778,7 +778,7 @@ service Wallet {
   rpc GetTransactionInfoByBlockNum (NumberMessage) returns (TransactionInfoList) {
   }
 
-  rpc GetBurnTrx (EmptyMessage) returns (NumberMessage) {
+  rpc GetBurnStb (EmptyMessage) returns (NumberMessage) {
   }
 
   rpc GetTransactionFromPending (BytesMessage) returns (Transaction) {
@@ -972,7 +972,7 @@ service WalletSolidity {
   rpc GetMarketPairList (EmptyMessage) returns (MarketOrderPairList) {
   }
 
-  rpc GetBurnTrx (EmptyMessage) returns (NumberMessage) {
+  rpc GetBurnStb (EmptyMessage) returns (NumberMessage) {
   }
 };
 

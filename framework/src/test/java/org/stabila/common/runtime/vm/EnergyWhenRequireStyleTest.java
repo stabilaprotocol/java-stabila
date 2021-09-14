@@ -391,7 +391,7 @@ public class EnergyWhenRequireStyleTest {
   //   function () {}
   // }
   //
-  // contract testReceiveTrxWithoutPayableContract {
+  // contract testReceiveStbWithoutPayableContract {
   //
   //   constructor() {}
   //
@@ -406,7 +406,7 @@ public class EnergyWhenRequireStyleTest {
   // }
 
   @Test
-  public void receiveTrxWithoutPayableTest()
+  public void receiveStbWithoutPayableTest()
       throws ContractExeException, ReceiptCheckErrException, ContractValidateException,
       VMIllegalException {
 

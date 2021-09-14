@@ -24,7 +24,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.stabila.common.parameter.CommonParameter;
 import org.stabila.common.runtime.InternalTransaction;
-import org.stabila.common.runtime.InternalTransaction.TrxType;
+import org.stabila.common.runtime.InternalTransaction.StbType;
 import org.stabila.core.config.args.Args;
 import org.stabila.core.exception.ContractValidateException;
 import org.stabila.core.vm.VM;
@@ -57,8 +57,8 @@ public class InterpreterTest {
     // 0x60 0x00 - PUSH 0x00
     // 0x56      - JUMP to 0
     Transaction trx = Transaction.getDefaultInstance();
-    InternalTransaction interTrx = new InternalTransaction(trx, TrxType.TRX_UNKNOWN_TYPE);
-    program = new Program(op, invoke, interTrx);
+    InternalTransaction interStb = new InternalTransaction(trx, StbType.STB_UNKNOWN_TYPE);
+    program = new Program(op, invoke, interStb);
 
     boolean result = false;
 
@@ -80,8 +80,8 @@ public class InterpreterTest {
     byte[] op = {0x56};
     // 0x56      - JUMP
     Transaction trx = Transaction.getDefaultInstance();
-    InternalTransaction interTrx = new InternalTransaction(trx, TrxType.TRX_UNKNOWN_TYPE);
-    program = new Program(op, invoke, interTrx);
+    InternalTransaction interStb = new InternalTransaction(trx, StbType.STB_UNKNOWN_TYPE);
+    program = new Program(op, invoke, interStb);
 
     boolean result = false;
 
@@ -106,8 +106,8 @@ public class InterpreterTest {
     // 0x20      - 20
     // 0x56      - JUMP
     Transaction trx = Transaction.getDefaultInstance();
-    InternalTransaction interTrx = new InternalTransaction(trx, TrxType.TRX_UNKNOWN_TYPE);
-    program = new Program(op, invoke, interTrx);
+    InternalTransaction interStb = new InternalTransaction(trx, StbType.STB_UNKNOWN_TYPE);
+    program = new Program(op, invoke, interStb);
 
     boolean result = false;
 
@@ -133,8 +133,8 @@ public class InterpreterTest {
     // 0x7F7F7F7F7F      - 547599908735
     // 0x56              - JUMP
     Transaction trx = Transaction.getDefaultInstance();
-    InternalTransaction interTrx = new InternalTransaction(trx, TrxType.TRX_UNKNOWN_TYPE);
-    program = new Program(op, invoke, interTrx);
+    InternalTransaction interStb = new InternalTransaction(trx, StbType.STB_UNKNOWN_TYPE);
+    program = new Program(op, invoke, interStb);
 
     boolean result = false;
 

@@ -1,7 +1,7 @@
 package org.stabila.core.actuator;
 
 import static org.testng.Assert.fail;
-import static org.stabila.core.config.Parameter.ChainSymbol.TRX_SYMBOL_BYTES;
+import static org.stabila.core.config.Parameter.ChainSymbol.STB_SYMBOL_BYTES;
 
 import com.google.protobuf.Any;
 import com.google.protobuf.ByteString;
@@ -162,7 +162,7 @@ public class ExchangeWithdrawActuatorTest {
             ByteString.copyFrom(ByteArray.fromHexString(OWNER_ADDRESS_FIRST)),
             2,
             1000000,
-            TRX_SYMBOL_BYTES,
+            STB_SYMBOL_BYTES,
             "def".getBytes());
     exchangeCapsule2.setBalance(1_000_000_000000L, 10_000_000L);
     ExchangeCapsule exchangeCapsule3 =
@@ -194,7 +194,7 @@ public class ExchangeWithdrawActuatorTest {
             ByteString.copyFrom(ByteArray.fromHexString(OWNER_ADDRESS_FIRST)),
             2,
             1000000,
-            TRX_SYMBOL_BYTES,
+            STB_SYMBOL_BYTES,
             "2".getBytes());
     exchangeCapsule5.setBalance(1_000_000_000000L, 10_000_000L);
     ExchangeCapsule exchangeCapsule6 =
@@ -243,7 +243,7 @@ public class ExchangeWithdrawActuatorTest {
             ByteString.copyFrom(ByteArray.fromHexString(OWNER_ADDRESS_FIRST)),
             2,
             1000000,
-            TRX_SYMBOL_BYTES,
+            STB_SYMBOL_BYTES,
             "456".getBytes());
     exchangeCapsule2.setBalance(1_000_000_000000L, 10_000_000L);
     ExchangeCapsule exchangeCapsule3 =

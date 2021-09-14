@@ -156,7 +156,7 @@ public class MessageQueue {
     }
 
     if (msg instanceof InventoryMessage
-        && ((InventoryMessage) msg).getInventoryType().equals(InventoryType.TRX)) {
+        && ((InventoryMessage) msg).getInventoryType().equals(InventoryType.STB)) {
       return false;
     }
 

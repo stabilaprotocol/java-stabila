@@ -37,12 +37,12 @@ public class TransferTokenTest {
   private static final String OWNER_ADDRESS;
   private static final String TRANSFER_TO;
   private static final long TOTAL_SUPPLY = 1000_000_000L;
-  private static final int TRX_NUM = 10;
+  private static final int STB_NUM = 10;
   private static final int NUM = 1;
   private static final long START_TIME = 1;
   private static final long END_TIME = 2;
   private static final int VOTE_SCORE = 2;
-  private static final String DESCRIPTION = "TRX";
+  private static final String DESCRIPTION = "STB";
   private static final String URL = "https://stabila.network";
   private static Runtime runtime;
   private static Manager dbManager;
@@ -97,7 +97,7 @@ public class TransferTokenTest {
             .setName(ByteString.copyFrom(ByteArray.fromString(tokenName)))
             .setId(Long.toString(id))
             .setTotalSupply(TOTAL_SUPPLY)
-            .setTrxNum(TRX_NUM)
+            .setStbNum(STB_NUM)
             .setNum(NUM)
             .setStartTime(START_TIME)
             .setEndTime(END_TIME)

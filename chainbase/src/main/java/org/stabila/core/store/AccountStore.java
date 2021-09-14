@@ -125,14 +125,14 @@ public class AccountStore extends StabilaStoreWithRevoking<AccountCapsule> {
   }
 
   /**
-   * Max TRX account.
+   * Max STB account.
    */
   public AccountCapsule getSun() {
     return getUnchecked(assertsAddress.get("Sun"));
   }
 
   /**
-   * Min TRX account.
+   * Min STB account.
    */
   public AccountCapsule getBlackhole() {
     return getUnchecked(assertsAddress.get("Blackhole"));

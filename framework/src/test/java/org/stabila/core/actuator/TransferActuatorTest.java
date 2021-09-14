@@ -274,7 +274,7 @@ public class TransferActuatorTest {
   }
 
   @Test
-  public void iniviateTrx() {
+  public void iniviateStb() {
     TransferActuator actuator = new TransferActuator();
     actuator.setChainBaseManager(dbManager.getChainBaseManager())
         .setAny(getContract(100L, OWNER_ADDRESS, OWNER_ADDRESS));
@@ -287,7 +287,7 @@ public class TransferActuatorTest {
 
     } catch (ContractValidateException e) {
       Assert.assertTrue(e instanceof ContractValidateException);
-      Assert.assertEquals("Cannot transfer TRX to yourself.", e.getMessage());
+      Assert.assertEquals("Cannot transfer STB to yourself.", e.getMessage());
       AccountCapsule owner = dbManager.getAccountStore()
           .get(ByteArray.fromHexString(OWNER_ADDRESS));
       AccountCapsule toAccount = dbManager.getAccountStore()

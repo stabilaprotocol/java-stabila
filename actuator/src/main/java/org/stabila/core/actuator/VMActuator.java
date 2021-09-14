@@ -24,7 +24,7 @@ import org.stabila.common.logsfilter.trigger.ContractTrigger;
 import org.stabila.common.parameter.CommonParameter;
 import org.stabila.common.runtime.InternalTransaction;
 import org.stabila.common.runtime.InternalTransaction.ExecutorType;
-import org.stabila.common.runtime.InternalTransaction.TrxType;
+import org.stabila.common.runtime.InternalTransaction.StbType;
 import org.stabila.common.runtime.ProgramResult;
 import org.stabila.common.utils.StorageUtils;
 import org.stabila.common.utils.StringUtil;
@@ -78,7 +78,7 @@ public class VMActuator implements Actuator2 {
 
   @Getter
   @Setter
-  private InternalTransaction.TrxType trxType;
+  private InternalTransaction.StbType trxType;
   private ExecutorType executorType;
 
   @Getter
@@ -140,11 +140,11 @@ public class VMActuator implements Actuator2 {
 
     switch (contractType.getNumber()) {
       case ContractType.TriggerSmartContract_VALUE:
-        trxType = TrxType.TRX_CONTRACT_CALL_TYPE;
+        trxType = StbType.STB_CONTRACT_CALL_TYPE;
         call();
         break;
       case ContractType.CreateSmartContract_VALUE:
-        trxType = TrxType.TRX_CONTRACT_CREATION_TYPE;
+        trxType = StbType.STB_CONTRACT_CREATION_TYPE;
         create();
         break;
       default:
@@ -193,7 +193,7 @@ public class VMActuator implements Actuator2 {
           return;
         }
 
-        if (TrxType.TRX_CONTRACT_CREATION_TYPE == trxType && !result.isRevert()) {
+        if (StbType.STB_CONTRACT_CREATION_TYPE == trxType && !result.isRevert()) {
           byte[] code = program.getResult().getHReturn();
           long saveCodeEnergy = (long) getLength(code) * EnergyCost.getInstance().getCREATE_DATA();
           long afterSpend = program.getEnergyLimitLeft().longValue() - saveCodeEnergy;
@@ -372,7 +372,7 @@ public class VMActuator implements Actuator2 {
       long vmStartInUs = System.nanoTime() / VMConstant.ONE_THOUSAND;
       long vmShouldEndInUs = vmStartInUs + thisTxCPULimitInUs;
       ProgramInvoke programInvoke = programInvokeFactory
-          .createProgramInvoke(TrxType.TRX_CONTRACT_CREATION_TYPE, executorType, trx,
+          .createProgramInvoke(StbType.STB_CONTRACT_CREATION_TYPE, executorType, trx,
               tokenValue, tokenId, blockCap.getInstance(), repository, vmStartInUs,
               vmShouldEndInUs, energyLimit);
       this.vm = new VM();
@@ -483,7 +483,7 @@ public class VMActuator implements Actuator2 {
       long vmStartInUs = System.nanoTime() / VMConstant.ONE_THOUSAND;
       long vmShouldEndInUs = vmStartInUs + thisTxCPULimitInUs;
       ProgramInvoke programInvoke = programInvokeFactory
-          .createProgramInvoke(TrxType.TRX_CONTRACT_CALL_TYPE, executorType, trx,
+          .createProgramInvoke(StbType.STB_CONTRACT_CALL_TYPE, executorType, trx,
               tokenValue, tokenId, blockCap.getInstance(), repository, vmStartInUs,
               vmShouldEndInUs, energyLimit);
       if (isConstantCall) {
@@ -639,7 +639,7 @@ public class VMActuator implements Actuator2 {
     if (Arrays.equals(creator.getAddress().toByteArray(), caller.getAddress().toByteArray())) {
       // when the creator calls his own contract, this logic will be used.
       // so, the creator must use a BIG feeLimit to call his own contract,
-      // which will cost the feeLimit TRX when the creator's frozen energy is 0.
+      // which will cost the feeLimit STB when the creator's frozen energy is 0.
       return callerEnergyLimit;
     }
 

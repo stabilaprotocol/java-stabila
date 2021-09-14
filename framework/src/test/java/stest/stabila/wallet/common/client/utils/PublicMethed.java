@@ -174,7 +174,7 @@ public class PublicMethed {
       builder.setName(ByteString.copyFrom(name.getBytes()));
       builder.setAbbr(ByteString.copyFrom(abbreviation.getBytes()));
       builder.setTotalSupply(totalSupply);
-      builder.setTrxNum(trxNum);
+      builder.setStbNum(trxNum);
       builder.setNum(icoNum);
       builder.setStartTime(startTime);
       builder.setEndTime(endTime);
@@ -230,7 +230,7 @@ public class PublicMethed {
       builder.setOwnerAddress(ByteString.copyFrom(address));
       builder.setName(ByteString.copyFrom(name.getBytes()));
       builder.setTotalSupply(totalSupply);
-      builder.setTrxNum(trxNum);
+      builder.setStbNum(trxNum);
       builder.setNum(icoNum);
       builder.setStartTime(startTime);
       builder.setEndTime(endTime);
@@ -285,7 +285,7 @@ public class PublicMethed {
       builder.setName(ByteString.copyFrom(name.getBytes()));
       builder.setAbbr(ByteString.copyFrom(abbreviation.getBytes()));
       builder.setTotalSupply(totalSupply);
-      builder.setTrxNum(trxNum);
+      builder.setStbNum(trxNum);
       builder.setNum(icoNum);
       builder.setStartTime(startTime);
       builder.setEndTime(endTime);
@@ -339,7 +339,7 @@ public class PublicMethed {
       builder.setOwnerAddress(ByteString.copyFrom(address));
       builder.setName(ByteString.copyFrom(name.getBytes()));
       builder.setTotalSupply(totalSupply);
-      builder.setTrxNum(trxNum);
+      builder.setStbNum(trxNum);
       builder.setNum(icoNum);
       builder.setStartTime(startTime);
       builder.setEndTime(endTime);
@@ -395,7 +395,7 @@ public class PublicMethed {
       builder.setOwnerAddress(ByteString.copyFrom(address));
       builder.setName(ByteString.copyFrom(name.getBytes()));
       builder.setTotalSupply(totalSupply);
-      builder.setTrxNum(trxNum);
+      builder.setStbNum(trxNum);
       builder.setNum(icoNum);
       builder.setStartTime(startTime);
       builder.setEndTime(endTime);
@@ -4693,7 +4693,7 @@ public class PublicMethed {
 
     if (needBalance < 1000000L) {
       needBalance = 1000000L;
-      logger.info("getFreezeBalanceCount, needBalance less than 1 TRX, modify to: " + needBalance);
+      logger.info("getFreezeBalanceCount, needBalance less than 1 STB, modify to: " + needBalance);
     }
     return needBalance;
   }
@@ -5126,7 +5126,7 @@ public class PublicMethed {
     if (needBalance < 1000000L) {
       needBalance = 1000000L;
       logger
-          .info("getFreezeBalanceNetCount, needBalance less than 1 TRX, modify to: " + needBalance);
+          .info("getFreezeBalanceNetCount, needBalance less than 1 STB, modify to: " + needBalance);
     }
     return needBalance;
   }

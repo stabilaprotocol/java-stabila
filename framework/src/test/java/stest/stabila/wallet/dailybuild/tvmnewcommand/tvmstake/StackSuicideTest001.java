@@ -67,7 +67,7 @@ public class StackSuicideTest001 {
 
   }
 
-  @Test(enabled = false, description = "targetAddress no TRX, and no frozen")
+  @Test(enabled = false, description = "targetAddress no STB, and no frozen")
   public void stackSuicideTest001() {
 
     String filePath = "src/test/resources/soliditycode/stackSuicide001.sol";
@@ -113,7 +113,7 @@ public class StackSuicideTest001 {
 
   }
 
-  @Test(enabled = false, description = "targetAddress has TRX, but no frozen")
+  @Test(enabled = false, description = "targetAddress has STB, but no frozen")
   public void stackSuicideTest002() {
     String filePath = "src/test/resources/soliditycode/stackSuicide001.sol";
     String contractName = "testStakeSuicide";
@@ -168,7 +168,7 @@ public class StackSuicideTest001 {
     Assert.assertEquals(0,PublicMethed.queryAccount(targetAddress,blockingStubFull).getBalance());
   }
 
-  @Test(enabled = false, description = "targetAddress has TRX, and has frozen")
+  @Test(enabled = false, description = "targetAddress has STB, and has frozen")
   public void stackSuicideTest003() {
     Long targetBalance = 10_000_000L;
 

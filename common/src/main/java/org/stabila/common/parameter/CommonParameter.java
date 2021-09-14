@@ -190,7 +190,7 @@ public class CommonParameter {
   public int blockProducedTimeOut;
   @Getter
   @Setter
-  public long netMaxTrxPerSecond;
+  public long netMaxStbPerSecond;
   @Getter
   @Setter
   public long maxConnectionAgeInMillis;

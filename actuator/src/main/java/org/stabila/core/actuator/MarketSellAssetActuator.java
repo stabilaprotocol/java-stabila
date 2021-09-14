@@ -124,7 +124,7 @@ public class MarketSellAssetActuator extends AbstractActuator {
       accountCapsule.setBalance(accountCapsule.getBalance() - fee);
       // add to blackhole address
       if (dynamicStore.supportBlackHoleOptimization()) {
-        dynamicStore.burnTrx(fee);
+        dynamicStore.burnStb(fee);
       } else {
         Commons.adjustBalance(accountStore, accountStore.getBlackhole(), fee);
       }
@@ -481,8 +481,8 @@ public class MarketSellAssetActuator extends AbstractActuator {
     orderStore.put(makerOrderCapsule.getID().toByteArray(), makerOrderCapsule);
 
     // add token into account
-    addTrxOrToken(takerOrderCapsule, takerBuyTokenQuantityReceive, takerAccountCapsule);
-    addTrxOrToken(makerOrderCapsule, makerBuyTokenQuantityReceive);
+    addStbOrToken(takerOrderCapsule, takerBuyTokenQuantityReceive, takerAccountCapsule);
+    addStbOrToken(makerOrderCapsule, makerBuyTokenQuantityReceive);
 
     MarketOrderDetail orderDetail = MarketOrderDetail.newBuilder()
         .setMakerOrderId(makerOrderCapsule.getID())
@@ -529,7 +529,7 @@ public class MarketSellAssetActuator extends AbstractActuator {
   }
 
   // for taker
-  private void addTrxOrToken(MarketOrderCapsule orderCapsule, long num,
+  private void addStbOrToken(MarketOrderCapsule orderCapsule, long num,
       AccountCapsule accountCapsule) {
 
     byte[] buyTokenId = orderCapsule.getBuyTokenId();
@@ -541,7 +541,7 @@ public class MarketSellAssetActuator extends AbstractActuator {
     }
   }
 
-  private void addTrxOrToken(MarketOrderCapsule orderCapsule, long num) {
+  private void addStbOrToken(MarketOrderCapsule orderCapsule, long num) {
     AccountCapsule accountCapsule = accountStore
         .get(orderCapsule.getOwnerAddress().toByteArray());
 

@@ -85,7 +85,7 @@ public class TransferFailed001 {
   }
 
   @Test(enabled = true, description = "Transfer trx insufficient balance")
-  public void test001TransferTrxInsufficientBalance() {
+  public void test001TransferStbInsufficientBalance() {
     Assert.assertTrue(PublicMethed
         .sendcoin(contractExcAddress, 10000000000L, testNetAccountAddress, testNetAccountKey,
             blockingStubFull));
@@ -117,7 +117,7 @@ public class TransferFailed001 {
     String txid = "";
     String num = "2000001";
     txid = PublicMethed.triggerContract(contractAddress,
-        "testTransferTrxInsufficientBalance(uint256)", num, false,
+        "testTransferStbInsufficientBalance(uint256)", num, false,
         0, maxFeeLimit, contractExcAddress, contractExcKey, blockingStubFull);
     Optional<TransactionInfo> infoById = null;
     PublicMethed.waitProduceNextBlock(blockingStubFull);
@@ -183,7 +183,7 @@ public class TransferFailed001 {
     String txid = "";
     String num = "1";
     txid = PublicMethed.triggerContract(contractAddress,
-        "testTransferTrxInsufficientBalance(uint256)", num, false,
+        "testTransferStbInsufficientBalance(uint256)", num, false,
         0, maxFeeLimit, contractExcAddress, contractExcKey, blockingStubFull);
     Optional<TransactionInfo> infoById = null;
     PublicMethed.waitProduceNextBlock(blockingStubFull);
@@ -223,7 +223,7 @@ public class TransferFailed001 {
 
 
   @Test(enabled = true, description = "Transfer trx nonexistent target")
-  public void test003TransferTrxNonexistentTarget() {
+  public void test003TransferStbNonexistentTarget() {
 
     //Assert.assertTrue(PublicMethed
     //    .sendcoin(contractAddress, 1000000L, testNetAccountAddress, testNetAccountKey,
@@ -248,7 +248,7 @@ public class TransferFailed001 {
     String num = "1" + ",\"" + Base58.encode58Check(nonexistentAddress) + "\"";
 
     txid = PublicMethed.triggerContract(contractAddress,
-        "testTransferTrxNonexistentTarget(uint256,address)", num, false,
+        "testTransferStbNonexistentTarget(uint256,address)", num, false,
         0, maxFeeLimit, contractExcAddress, contractExcKey, blockingStubFull);
     Optional<TransactionInfo> infoById = null;
     PublicMethed.waitProduceNextBlock(blockingStubFull);
@@ -290,7 +290,7 @@ public class TransferFailed001 {
     Assert.assertNotEquals(10000000, energyUsageTotal);
 
     txid = PublicMethed.triggerContract(contractAddress,
-        "testTransferTrxNonexistentTarget(uint256,address)", num, false,
+        "testTransferStbNonexistentTarget(uint256,address)", num, false,
         0, maxFeeLimit, contractExcAddress, contractExcKey, blockingStubFull);
     infoById = null;
     PublicMethed.waitProduceNextBlock(blockingStubFull);
@@ -332,7 +332,7 @@ public class TransferFailed001 {
 
 
   @Test(enabled = true, description = "Transfer trx to myself")
-  public void test004TransferTrxSelf() {
+  public void test004TransferStbSelf() {
 
     Account info;
 
@@ -351,7 +351,7 @@ public class TransferFailed001 {
     String num = "1";
 
     txid = PublicMethed.triggerContract(contractAddress,
-        "testTransferTrxSelf(uint256)", num, false,
+        "testTransferStbSelf(uint256)", num, false,
         0, maxFeeLimit, contractExcAddress, contractExcKey, blockingStubFull);
     Optional<TransactionInfo> infoById = null;
     PublicMethed.waitProduceNextBlock(blockingStubFull);
@@ -383,7 +383,7 @@ public class TransferFailed001 {
 
     Assert.assertTrue(infoById.get().getResultValue() == 1);
     Assert.assertEquals(contractResult.TRANSFER_FAILED, infoById.get().getReceipt().getResult());
-    Assert.assertEquals("transfer trx failed: Cannot transfer TRX to yourself.",
+    Assert.assertEquals("transfer trx failed: Cannot transfer STB to yourself.",
         ByteArray.toStr(infoById.get().getResMessage().toByteArray()));
 
     Assert.assertTrue(afterBalance + fee == beforeBalance);
@@ -397,7 +397,7 @@ public class TransferFailed001 {
 
 
   @Test(enabled = true, description = "Transfer trx nonexistent target and insufficient balance")
-  public void test005TransferTrxNonexistentTarget() {
+  public void test005TransferStbNonexistentTarget() {
 
     Account info;
 
@@ -418,7 +418,7 @@ public class TransferFailed001 {
     String num = "10000000" + ",\"" + Base58.encode58Check(nonexistentAddress) + "\"";
 
     txid = PublicMethed.triggerContract(contractAddress,
-        "testTransferTrxNonexistentTarget(uint256,address)", num, false,
+        "testTransferStbNonexistentTarget(uint256,address)", num, false,
         0, maxFeeLimit, contractExcAddress, contractExcKey, blockingStubFull);
     Optional<TransactionInfo> infoById = null;
     PublicMethed.waitProduceNextBlock(blockingStubFull1);
@@ -465,7 +465,7 @@ public class TransferFailed001 {
 
 
   @Test(enabled = true, description = "Transfer trx to myself and insufficient balance")
-  public void test006TransferTrxSelf() {
+  public void test006TransferStbSelf() {
 
     Account info;
 
@@ -485,7 +485,7 @@ public class TransferFailed001 {
     String num = "1000000000";
 
     txid = PublicMethed.triggerContract(contractAddress,
-        "testTransferTrxSelf(uint256)", num, false,
+        "testTransferStbSelf(uint256)", num, false,
         0, maxFeeLimit, contractExcAddress, contractExcKey, blockingStubFull);
     Optional<TransactionInfo> infoById = null;
     PublicMethed.waitProduceNextBlock(blockingStubFull);
@@ -838,7 +838,7 @@ public class TransferFailed001 {
     Assert.assertEquals(100, ByteArray.toInt(infoById.get().getContractResult(0).toByteArray()));
   }
 
-  @Test(enabled = true, description = "transferTrx to nonexistent target ,but revert")
+  @Test(enabled = true, description = "transferStb to nonexistent target ,but revert")
   public void test010TransferRevert() {
 
     Account info;
@@ -860,7 +860,7 @@ public class TransferFailed001 {
     String num = "1" + ",\"" + Base58.encode58Check(nonexistentAddress) + "\"";
 
     txid = PublicMethed.triggerContract(contractAddress,
-        "testTransferTrxrevert(uint256,address)", num, false,
+        "testTransferStbrevert(uint256,address)", num, false,
         0, maxFeeLimit, contractExcAddress, contractExcKey, blockingStubFull);
     Optional<TransactionInfo> infoById = null;
     PublicMethed.waitProduceNextBlock(blockingStubFull);

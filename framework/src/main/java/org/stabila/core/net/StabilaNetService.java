@@ -104,7 +104,7 @@ public class StabilaNetService {
         case BLOCK:
           blockMsgHandler.processMessage(peer, msg);
           break;
-        case TRXS:
+        case STBS:
           transactionsMsgHandler.processMessage(peer, msg);
           break;
         case PBFT_COMMIT_MSG:
@@ -124,7 +124,7 @@ public class StabilaNetService {
     if (ex instanceof P2pException) {
       TypeEnum type = ((P2pException) ex).getType();
       switch (type) {
-        case BAD_TRX:
+        case BAD_STB:
           code = ReasonCode.BAD_TX;
           break;
         case BAD_BLOCK:

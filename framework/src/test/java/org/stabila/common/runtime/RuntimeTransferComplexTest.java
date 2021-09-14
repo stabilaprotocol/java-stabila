@@ -81,7 +81,7 @@ public class RuntimeTransferComplexTest {
    * payable{} }
    */
   @Test
-  public void TransferTrxToContractAccountWhenDeployAContract()
+  public void TransferStbToContractAccountWhenDeployAContract()
       throws ContractExeException, ReceiptCheckErrException,
       ContractValidateException, VMIllegalException {
 
@@ -111,7 +111,7 @@ public class RuntimeTransferComplexTest {
    */
 
   @Test
-  public void TransferTrxToContractAccountFailIfNotPayable()
+  public void TransferStbToContractAccountFailIfNotPayable()
       throws ContractExeException, ReceiptCheckErrException,
       ContractValidateException, VMIllegalException {
 
@@ -141,7 +141,7 @@ public class RuntimeTransferComplexTest {
    * transferTo(address toAddress) public payable{ toAddress.transfer(5); } }
    */
   @Test
-  public void TransferTrxToContractAccountWhenTriggerAContract()
+  public void TransferStbToContractAccountWhenTriggerAContract()
       throws ContractExeException, ReceiptCheckErrException,
       ContractValidateException, VMIllegalException {
 

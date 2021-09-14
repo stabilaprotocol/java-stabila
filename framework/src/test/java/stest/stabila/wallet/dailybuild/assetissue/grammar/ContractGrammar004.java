@@ -437,7 +437,7 @@ public class ContractGrammar004 {
     String num = "1" + ",\"" + Base58.encode58Check(nonexistentAddress) + "\"";
 
     txid = PublicMethed
-        .triggerContract(contractAddress, "testTransferTrxNonexistentTarget(uint256,address)", num,
+        .triggerContract(contractAddress, "testTransferStbNonexistentTarget(uint256,address)", num,
             false, 0, maxFeeLimit, grammarAddress, testKeyForGrammarAddress, blockingStubFull);
     Optional<TransactionInfo> infoById = null;
     PublicMethed.waitProduceNextBlock(blockingStubFull);

@@ -58,7 +58,7 @@ public class MarketSellAssetActuatorTest {
   private static final String OWNER_ADDRESS_INVALID = "aaaa";
   private static final String TOKEN_ID_ONE = String.valueOf(1L);
   private static final String TOKEN_ID_TWO = String.valueOf(2L);
-  private static final String TRX = "_";
+  private static final String STB = "_";
   private static StabilaApplicationContext context;
   private static Manager dbManager;
 
@@ -384,10 +384,10 @@ public class MarketSellAssetActuatorTest {
   }
 
   /**
-   * no Enough Balance For Selling TRX, result is failed, exception is "No enough balance !".
+   * no Enough Balance For Selling STB, result is failed, exception is "No enough balance !".
    */
   @Test
-  public void noEnoughBalanceForSellingTRX() {
+  public void noEnoughBalanceForSellingSTB() {
 
     InitAsset();
 
@@ -395,7 +395,7 @@ public class MarketSellAssetActuatorTest {
     AccountCapsule accountCapsule = dbManager.getAccountStore().get(ownerAddress);
     Assert.assertEquals(10000_000000L, accountCapsule.getBalance());
 
-    String sellTokenId = TRX;
+    String sellTokenId = STB;
     //sellTokenQuant = balance - fee + 1
     long sellTokenQuant = accountCapsule.getBalance()
         - dbManager.getDynamicPropertiesStore().getMarketSellFee() + 1;
@@ -587,7 +587,7 @@ public class MarketSellAssetActuatorTest {
 
     String sellTokenId = TOKEN_ID_ONE;
     long sellTokenQuant = 100L;
-    String buyTokenId = TRX;
+    String buyTokenId = STB;
     long buyTokenQuant = 300L;
 
     for (int i = 0; i < 10; i++) {
@@ -664,14 +664,14 @@ public class MarketSellAssetActuatorTest {
   //        left not enough and return left（Accuracy problem）（not exist)
 
   /**
-   * no buy orders before,add first sell order,selling TRX and buying token
+   * no buy orders before,add first sell order,selling STB and buying token
    */
   @Test
   public void noBuyAddFirstSellOrder1() throws Exception {
 
     InitAsset();
 
-    String sellTokenId = TRX;
+    String sellTokenId = STB;
     long sellTokenQuant = 100_000000L;
     String buyTokenId = TOKEN_ID_ONE;
     long buyTokenQuant = 200_000000L;
@@ -742,7 +742,7 @@ public class MarketSellAssetActuatorTest {
   }
 
   /**
-   * no buy orders before,add first sell order,selling Token and buying TRX
+   * no buy orders before,add first sell order,selling Token and buying STB
    */
   @Test
   public void noBuyAddFirstSellOrder2() throws Exception {
@@ -751,7 +751,7 @@ public class MarketSellAssetActuatorTest {
 
     String sellTokenId = TOKEN_ID_ONE;
     long sellTokenQuant = 100_000000L;
-    String buyTokenId = TRX;
+    String buyTokenId = STB;
     long buyTokenQuant = 200_000000L;
 
     byte[] ownerAddress = ByteArray.fromHexString(OWNER_ADDRESS_FIRST);

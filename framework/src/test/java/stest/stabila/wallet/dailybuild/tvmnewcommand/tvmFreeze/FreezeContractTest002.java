@@ -122,7 +122,7 @@ public class FreezeContractTest002 {
 
   }
 
-  @Test(enabled = true, description = "contract freeze amount < 1 TRX")
+  @Test(enabled = true, description = "contract freeze amount < 1 STB")
   void FreezeContract002() {
 
     Account account002_before = PublicMethed

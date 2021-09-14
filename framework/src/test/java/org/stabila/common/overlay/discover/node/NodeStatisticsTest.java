@@ -109,12 +109,12 @@ public class NodeStatisticsTest {
     statistics.addTcpOutMessage(chainInventoryMessage);
     Assert.assertEquals(1, statistics.stabilaOutBlockChainInventory.getTotalCount());
 
-    InventoryMessage invMsgTrx =
-        new InventoryMessage(new ArrayList<>(), Protocol.Inventory.InventoryType.TRX);
-    String inventoryMessageStr = invMsgTrx.toString();
+    InventoryMessage invMsgStb =
+        new InventoryMessage(new ArrayList<>(), Protocol.Inventory.InventoryType.STB);
+    String inventoryMessageStr = invMsgStb.toString();
     Assert.assertNotNull(inventoryMessageStr);
-    statistics.addTcpInMessage(invMsgTrx);
-    statistics.addTcpOutMessage(invMsgTrx);
+    statistics.addTcpInMessage(invMsgStb);
+    statistics.addTcpOutMessage(invMsgStb);
     InventoryMessage invMsgBlock =
         new InventoryMessage(new ArrayList<>(), Protocol.Inventory.InventoryType.BLOCK);
     MessageTypes invType = invMsgBlock.getInvMessageType();
@@ -123,21 +123,21 @@ public class NodeStatisticsTest {
     statistics.addTcpOutMessage(invMsgBlock);
     Assert.assertEquals(1, statistics.stabilaInBlockInventory.getTotalCount());
 
-    FetchInvDataMessage fetchInvDataTrx =
-        new FetchInvDataMessage(new ArrayList<>(), Protocol.Inventory.InventoryType.TRX);
-    statistics.addTcpInMessage(fetchInvDataTrx);
-    statistics.addTcpOutMessage(fetchInvDataTrx);
+    FetchInvDataMessage fetchInvDataStb =
+        new FetchInvDataMessage(new ArrayList<>(), Protocol.Inventory.InventoryType.STB);
+    statistics.addTcpInMessage(fetchInvDataStb);
+    statistics.addTcpOutMessage(fetchInvDataStb);
     FetchInvDataMessage fetchInvDataBlock =
         new FetchInvDataMessage(new ArrayList<>(), Protocol.Inventory.InventoryType.BLOCK);
     statistics.addTcpInMessage(fetchInvDataBlock);
     statistics.addTcpOutMessage(fetchInvDataBlock);
-    Assert.assertEquals(1, statistics.stabilaInTrxFetchInvData.getTotalCount());
+    Assert.assertEquals(1, statistics.stabilaInStbFetchInvData.getTotalCount());
 
     TransactionsMessage transactionsMessage =
         new TransactionsMessage(new LinkedList<>());
     statistics.addTcpInMessage(transactionsMessage);
     statistics.addTcpOutMessage(transactionsMessage);
-    Assert.assertEquals(1, statistics.stabilaInTrxs.getTotalCount());
+    Assert.assertEquals(1, statistics.stabilaInStbs.getTotalCount());
 
     BlockCapsule blockCapsule = new BlockCapsule(1, Sha256Hash.ZERO_HASH,
         System.currentTimeMillis(), Sha256Hash.ZERO_HASH.getByteString());

@@ -11,15 +11,15 @@ import org.stabila.core.db.Manager;
 
 @Component
 @Slf4j(topic = "API")
-public class GetBurnTrxServlet extends RateLimiterServlet {
+public class GetBurnStbServlet extends RateLimiterServlet {
 
   @Autowired
   private Manager manager;
 
   protected void doGet(HttpServletRequest request, HttpServletResponse response) {
     try {
-      long value = manager.getDynamicPropertiesStore().getBurnTrxAmount();
-      response.getWriter().println("{\"burnTrxAmount\": " + value + "}");
+      long value = manager.getDynamicPropertiesStore().getBurnStbAmount();
+      response.getWriter().println("{\"burnStbAmount\": " + value + "}");
     } catch (Exception e) {
       logger.error("", e);
       try {

@@ -63,7 +63,7 @@ public class DelayTransaction010 {
     blockingStubFull = WalletGrpc.newBlockingStub(channelFull);
   }
 
-  @Test(enabled = false, description = "Delayed transaction cost 0.1TRX every day.")
+  @Test(enabled = false, description = "Delayed transaction cost 0.1STB every day.")
   public void test1TestDelayedTransactionFee() {
     //get account
     ecKey = new ECKey(Utils.getRandom());

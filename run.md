@@ -2,7 +2,7 @@
 
 ### Running multi-nodes
 
-https://github.com/stabilaprotocol/Documentation/blob/master/TRX/Solidity_and_Full_Node_Deployment_EN.md
+https://github.com/stabilaprotocol/Documentation/blob/master/STB/Solidity_and_Full_Node_Deployment_EN.md
 
 ## Running a local node and connecting to the public testnet 
 

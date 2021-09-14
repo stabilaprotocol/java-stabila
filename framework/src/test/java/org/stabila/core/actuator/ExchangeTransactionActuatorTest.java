@@ -1,7 +1,7 @@
 package org.stabila.core.actuator;
 
 import static org.testng.Assert.fail;
-import static org.stabila.core.config.Parameter.ChainSymbol.TRX_SYMBOL_BYTES;
+import static org.stabila.core.config.Parameter.ChainSymbol.STB_SYMBOL_BYTES;
 
 import com.google.protobuf.Any;
 import com.google.protobuf.ByteString;
@@ -163,9 +163,9 @@ public class ExchangeTransactionActuatorTest {
             ByteString.copyFrom(ByteArray.fromHexString(OWNER_ADDRESS_FIRST)),
             1,
             1000000,
-            TRX_SYMBOL_BYTES,
+            STB_SYMBOL_BYTES,
             "abc".getBytes());
-    exchangeCapsule.setBalance(1_000_000_000_000L, 10_000_000L); // 1M TRX == 10M abc
+    exchangeCapsule.setBalance(1_000_000_000_000L, 10_000_000L); // 1M STB == 10M abc
     ExchangeCapsule exchangeCapsule2 =
         new ExchangeCapsule(
             ByteString.copyFrom(ByteArray.fromHexString(OWNER_ADDRESS_FIRST)),
@@ -182,9 +182,9 @@ public class ExchangeTransactionActuatorTest {
             ByteString.copyFrom(ByteArray.fromHexString(OWNER_ADDRESS_FIRST)),
             1,
             1000000,
-            TRX_SYMBOL_BYTES,
+            STB_SYMBOL_BYTES,
             "1".getBytes());
-    exchangeCapsule3.setBalance(1_000_000_000_000L, 10_000_000L); // 1M TRX == 10M abc
+    exchangeCapsule3.setBalance(1_000_000_000_000L, 10_000_000L); // 1M STB == 10M abc
     ExchangeCapsule exchangeCapsule4 =
         new ExchangeCapsule(
             ByteString.copyFrom(ByteArray.fromHexString(OWNER_ADDRESS_FIRST)),
@@ -219,9 +219,9 @@ public class ExchangeTransactionActuatorTest {
             ByteString.copyFrom(ByteArray.fromHexString(OWNER_ADDRESS_FIRST)),
             1,
             1000000,
-            TRX_SYMBOL_BYTES,
+            STB_SYMBOL_BYTES,
             "123".getBytes());
-    exchangeCapsule.setBalance(1_000_000_000_000L, 10_000_000L); // 1M TRX == 10M abc
+    exchangeCapsule.setBalance(1_000_000_000_000L, 10_000_000L); // 1M STB == 10M abc
     ExchangeCapsule exchangeCapsule2 =
         new ExchangeCapsule(
             ByteString.copyFrom(ByteArray.fromHexString(OWNER_ADDRESS_FIRST)),
@@ -243,7 +243,7 @@ public class ExchangeTransactionActuatorTest {
     InitExchangeBeforeSameTokenNameActive();
     long exchangeId = 1;
     String tokenId = "_";
-    long quant = 100_000_000L; // use 100 TRX to buy abc
+    long quant = 100_000_000L; // use 100 STB to buy abc
 
     byte[] ownerAddress = ByteArray.fromHexString(OWNER_ADDRESS_SECOND);
     AccountCapsule accountCapsule = dbManager.getAccountStore().get(ownerAddress);
@@ -321,7 +321,7 @@ public class ExchangeTransactionActuatorTest {
     InitExchangeBeforeSameTokenNameActive();
     long exchangeId = 1;
     String tokenId = "_";
-    long quant = 100_000_000L; // use 100 TRX to buy abc
+    long quant = 100_000_000L; // use 100 STB to buy abc
 
     byte[] ownerAddress = ByteArray.fromHexString(OWNER_ADDRESS_SECOND);
     AccountCapsule accountCapsule = dbManager.getAccountStore().get(ownerAddress);
@@ -400,7 +400,7 @@ public class ExchangeTransactionActuatorTest {
     InitExchangeSameTokenNameActive();
     long exchangeId = 1;
     String tokenId = "_";
-    long quant = 100_000_000L; // use 100 TRX to buy abc
+    long quant = 100_000_000L; // use 100 STB to buy abc
 
     byte[] ownerAddress = ByteArray.fromHexString(OWNER_ADDRESS_SECOND);
     AccountCapsule accountCapsule = dbManager.getAccountStore().get(ownerAddress);
@@ -1663,7 +1663,7 @@ public class ExchangeTransactionActuatorTest {
     dbManager.getDynamicPropertiesStore().saveAllowSameTokenName(1);
     InitExchangeSameTokenNameActive();
     long exchangeId = 1;
-    long quant = 100_000_000L; // use 100 TRX to buy abc
+    long quant = 100_000_000L; // use 100 STB to buy abc
     TransactionResultCapsule ret = new TransactionResultCapsule();
 
     //token id is not a valid number
@@ -1738,7 +1738,7 @@ public class ExchangeTransactionActuatorTest {
     InitExchangeBeforeSameTokenNameActive();
     long exchangeId = 1;
     String tokenId = "_";
-    long quant = 100_000_000L; // use 100 TRX to buy abc
+    long quant = 100_000_000L; // use 100 STB to buy abc
 
     ExchangeTransactionActuator actuator = new ExchangeTransactionActuator();
     actuator.setChainBaseManager(dbManager.getChainBaseManager())

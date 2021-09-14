@@ -49,7 +49,7 @@ public class InventoryMessage extends StabilaMessage {
   }
 
   public MessageTypes getInvMessageType() {
-    return getInventoryType().equals(InventoryType.BLOCK) ? MessageTypes.BLOCK : MessageTypes.TRX;
+    return getInventoryType().equals(InventoryType.BLOCK) ? MessageTypes.BLOCK : MessageTypes.STB;
 
   }
 

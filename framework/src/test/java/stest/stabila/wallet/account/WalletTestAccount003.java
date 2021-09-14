@@ -159,7 +159,7 @@ public class WalletTestAccount003 {
   }
 
   @Test(enabled = true)
-  public void test4NoBalanceTransferTrx() {
+  public void test4NoBalanceTransferStb() {
     //Send Coin failed when there is no enough balance.
     Assert.assertFalse(sendCoin(toAddress, 100000000000000000L, lowBalAddress, lowBalTest));
   }
@@ -281,7 +281,7 @@ public class WalletTestAccount003 {
       builder.setOwnerAddress(ByteString.copyFrom(address));
       builder.setName(ByteString.copyFrom(name.getBytes()));
       builder.setTotalSupply(TotalSupply);
-      builder.setTrxNum(trxNum);
+      builder.setStbNum(trxNum);
       builder.setNum(icoNum);
       builder.setStartTime(startTime);
       builder.setEndTime(endTime);

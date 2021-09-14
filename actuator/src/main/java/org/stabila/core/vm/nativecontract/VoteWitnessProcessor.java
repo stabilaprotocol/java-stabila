@@ -3,7 +3,7 @@ package org.stabila.core.vm.nativecontract;
 import static org.stabila.core.actuator.ActuatorConstant.NOT_EXIST_STR;
 import static org.stabila.core.actuator.ActuatorConstant.WITNESS_EXCEPTION_STR;
 import static org.stabila.core.config.Parameter.ChainConstant.MAX_VOTE_NUMBER;
-import static org.stabila.core.config.Parameter.ChainConstant.TRX_PRECISION;
+import static org.stabila.core.config.Parameter.ChainConstant.STB_PRECISION;
 
 import com.google.common.math.LongMath;
 import com.google.protobuf.ByteString;
@@ -88,7 +88,7 @@ public class VoteWitnessProcessor {
       }
 
       long stabilaPower = accountCapsule.getStabilaPower();
-      sum =  LongMath.checkedMultiply(sum, TRX_PRECISION);
+      sum =  LongMath.checkedMultiply(sum, STB_PRECISION);
       if (sum > stabilaPower) {
         throw new ContractExeException(
             "The total number of votes[" + sum + "] is greater than the stabilaPower[" + stabilaPower

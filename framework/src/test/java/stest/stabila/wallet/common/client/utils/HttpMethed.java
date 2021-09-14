@@ -2108,7 +2108,7 @@ public class HttpMethed {
   /**
    * constructor.
    */
-  public static Long getBurnTrx(String httpNode) {
+  public static Long getBurnStb(String httpNode) {
     try {
       final String requestUrl = "http://" + httpNode + "/wallet/getburntrx";
       JsonObject blockObj = new JsonObject();
@@ -2119,13 +2119,13 @@ public class HttpMethed {
       return null;
     }
     responseContent = HttpMethed.parseResponseContent(response);
-    return responseContent.getLong("burnTrxAmount");
+    return responseContent.getLong("burnStbAmount");
   }
 
   /**
    * constructor.
    */
-  public static Long getBurnTrxFromSolidity(String httpNode) {
+  public static Long getBurnStbFromSolidity(String httpNode) {
     try {
       final String requestUrl = "http://" + httpNode + "/walletsolidity/getburntrx";
       JsonObject blockObj = new JsonObject();
@@ -2136,13 +2136,13 @@ public class HttpMethed {
       return null;
     }
     responseContent = HttpMethed.parseResponseContent(response);
-    return responseContent.getLong("burnTrxAmount");
+    return responseContent.getLong("burnStbAmount");
   }
 
   /**
    * constructor.
    */
-  public static Long getBurnTrxFromPbft(String httpNode) {
+  public static Long getBurnStbFromPbft(String httpNode) {
     try {
       final String requestUrl = "http://" + httpNode + "/walletpbft/getburntrx";
       JsonObject blockObj = new JsonObject();
@@ -2153,7 +2153,7 @@ public class HttpMethed {
       return null;
     }
     responseContent = HttpMethed.parseResponseContent(response);
-    return responseContent.getLong("burnTrxAmount");
+    return responseContent.getLong("burnStbAmount");
   }
 
 
@@ -3890,7 +3890,7 @@ public class HttpMethed {
             ByteArray.fromHexString(HttpMethed.parseStringContent(noteString).getString("rcm")));
         noteTx.setMemo(
             ByteArray.fromHexString(HttpMethed.parseStringContent(noteString).getString("memo")));
-        noteTx.setTrxId(HttpMethed.parseStringContent(noteTxs).getString("txid"));
+        noteTx.setStbId(HttpMethed.parseStringContent(noteTxs).getString("txid"));
         noteTx.setIndex(HttpMethed.parseStringContent(noteTxs).getIntValue("index"));
         shieldNoteInfoList.add(noteTx);
       }
@@ -3945,7 +3945,7 @@ public class HttpMethed {
               ByteArray.fromHexString(HttpMethed.parseStringContent(noteString).getString("rcm")));
           noteTx.setMemo(
               ByteArray.fromHexString(HttpMethed.parseStringContent(noteString).getString("memo")));
-          noteTx.setTrxId(HttpMethed.parseStringContent(noteTxs).getString("txid"));
+          noteTx.setStbId(HttpMethed.parseStringContent(noteTxs).getString("txid"));
           noteTx.setIndex(HttpMethed.parseStringContent(noteTxs).getIntValue("index"));
           shieldNoteInfoList.add(noteTx);
         }
@@ -3999,7 +3999,7 @@ public class HttpMethed {
             ByteArray.fromHexString(HttpMethed.parseStringContent(noteString).getString("rcm")));
         noteTx.setMemo(
             ByteArray.fromHexString(HttpMethed.parseStringContent(noteString).getString("memo")));
-        noteTx.setTrxId(HttpMethed.parseStringContent(noteTxs).getString("txid"));
+        noteTx.setStbId(HttpMethed.parseStringContent(noteTxs).getString("txid"));
         noteTx.setIndex(HttpMethed.parseStringContent(noteTxs).getIntValue("index"));
         shieldNoteInfoList.add(noteTx);
       }
@@ -4051,7 +4051,7 @@ public class HttpMethed {
             ByteArray.fromHexString(HttpMethed.parseStringContent(noteString).getString("rcm")));
         noteTx.setMemo(
             ByteArray.fromHexString(HttpMethed.parseStringContent(noteString).getString("memo")));
-        noteTx.setTrxId(HttpMethed.parseStringContent(noteTxs).getString("txid"));
+        noteTx.setStbId(HttpMethed.parseStringContent(noteTxs).getString("txid"));
         noteTx.setIndex(HttpMethed.parseStringContent(noteTxs).getIntValue("index"));
         shieldNoteInfoList.add(noteTx);
       }
@@ -4121,7 +4121,7 @@ public class HttpMethed {
             ByteArray.fromHexString(HttpMethed.parseStringContent(noteString).getString("rcm")));
         noteTx.setMemo(
             ByteArray.fromHexString(HttpMethed.parseStringContent(noteString).getString("memo")));
-        noteTx.setTrxId(HttpMethed.parseStringContent(noteTxs).getString("txid"));
+        noteTx.setStbId(HttpMethed.parseStringContent(noteTxs).getString("txid"));
         noteTx.setIsSpend(HttpMethed.parseStringContent(noteTxs).getBoolean("is_spend"));
         noteTx.setIndex(HttpMethed.parseStringContent(noteTxs).getIntValue("index"));
         shieldNoteInfoList.add(noteTx);
@@ -4192,7 +4192,7 @@ public class HttpMethed {
             ByteArray.fromHexString(HttpMethed.parseStringContent(noteString).getString("rcm")));
         noteTx.setMemo(
             ByteArray.fromHexString(HttpMethed.parseStringContent(noteString).getString("memo")));
-        noteTx.setTrxId(HttpMethed.parseStringContent(noteTxs).getString("txid"));
+        noteTx.setStbId(HttpMethed.parseStringContent(noteTxs).getString("txid"));
         noteTx.setIsSpend(HttpMethed.parseStringContent(noteTxs).getBoolean("is_spend"));
         noteTx.setIndex(HttpMethed.parseStringContent(noteTxs).getIntValue("index"));
         shieldNoteInfoList.add(noteTx);
@@ -4260,7 +4260,7 @@ public class HttpMethed {
             ByteArray.fromHexString(HttpMethed.parseStringContent(noteString).getString("rcm")));
         noteTx.setMemo(
             ByteArray.fromHexString(HttpMethed.parseStringContent(noteString).getString("memo")));
-        noteTx.setTrxId(HttpMethed.parseStringContent(noteTxs).getString("txid"));
+        noteTx.setStbId(HttpMethed.parseStringContent(noteTxs).getString("txid"));
         noteTx.setIsSpend(HttpMethed.parseStringContent(noteTxs).getBoolean("is_spend"));
         noteTx.setIndex(HttpMethed.parseStringContent(noteTxs).getIntValue("index"));
         shieldNoteInfoList.add(noteTx);
@@ -4315,7 +4315,7 @@ public class HttpMethed {
             ByteArray.fromHexString(HttpMethed.parseStringContent(noteString).getString("rcm")));
         noteTx.setMemo(
             ByteArray.fromHexString(HttpMethed.parseStringContent(noteString).getString("memo")));
-        noteTx.setTrxId(HttpMethed.parseStringContent(noteTxs).getString("txid"));
+        noteTx.setStbId(HttpMethed.parseStringContent(noteTxs).getString("txid"));
         noteTx.setIndex(HttpMethed.parseStringContent(noteTxs).getIntValue("index"));
         shieldNoteInfoList.add(noteTx);
       }
@@ -4368,7 +4368,7 @@ public class HttpMethed {
             ByteArray.fromHexString(HttpMethed.parseStringContent(noteString).getString("rcm")));
         noteTx.setMemo(
             ByteArray.fromHexString(HttpMethed.parseStringContent(noteString).getString("memo")));
-        noteTx.setTrxId(HttpMethed.parseStringContent(noteTxs).getString("txid"));
+        noteTx.setStbId(HttpMethed.parseStringContent(noteTxs).getString("txid"));
         noteTx.setIndex(HttpMethed.parseStringContent(noteTxs).getIntValue("index"));
         shieldNoteInfoList.add(noteTx);
       }

@@ -1,6 +1,6 @@
 package org.stabila.core.db;
 
-import static org.stabila.core.config.Parameter.ChainConstant.TRX_PRECISION;
+import static org.stabila.core.config.Parameter.ChainConstant.STB_PRECISION;
 import static org.stabila.protos.Protocol.Transaction.Contract.ContractType.ShieldedTransferContract;
 import static org.stabila.protos.Protocol.Transaction.Contract.ContractType.TransferAssetContract;
 
@@ -349,10 +349,10 @@ public class BandwidthProcessor extends ResourceProcessor {
 
   public long calculateGlobalNetLimit(AccountCapsule accountCapsule) {
     long frozeBalance = accountCapsule.getAllFrozenBalanceForBandwidth();
-    if (frozeBalance < TRX_PRECISION) {
+    if (frozeBalance < STB_PRECISION) {
       return 0;
     }
-    long netWeight = frozeBalance / TRX_PRECISION;
+    long netWeight = frozeBalance / STB_PRECISION;
     long totalNetLimit = chainBaseManager.getDynamicPropertiesStore().getTotalNetLimit();
     long totalNetWeight = chainBaseManager.getDynamicPropertiesStore().getTotalNetWeight();
     if (totalNetWeight == 0) {

@@ -22,7 +22,7 @@ import static org.stabila.common.utils.Commons.getAssetIssueStoreFinal;
 import static org.stabila.common.utils.Commons.getExchangeStoreFinal;
 import static org.stabila.common.utils.WalletUtil.isConstant;
 import static org.stabila.core.config.Parameter.ChainConstant.BLOCK_PRODUCED_INTERVAL;
-import static org.stabila.core.config.Parameter.ChainConstant.TRX_PRECISION;
+import static org.stabila.core.config.Parameter.ChainConstant.STB_PRECISION;
 import static org.stabila.core.config.Parameter.DatabaseConstants.EXCHANGE_COUNT_LIMIT_MAX;
 import static org.stabila.core.config.Parameter.DatabaseConstants.MARKET_COUNT_LIMIT_MAX;
 import static org.stabila.core.config.Parameter.DatabaseConstants.PROPOSAL_COUNT_LIMIT_MAX;
@@ -1161,7 +1161,7 @@ public class Wallet {
     long storageLimit = accountCapsule.getAccountResource().getStorageLimit();
     long storageUsage = accountCapsule.getAccountResource().getStorageUsage();
     long allStabilaPowerUsage = accountCapsule.getStabilaPowerUsage();
-    long allStabilaPower = accountCapsule.getAllStabilaPower() / TRX_PRECISION;
+    long allStabilaPower = accountCapsule.getAllStabilaPower() / STB_PRECISION;
 
     Map<String, Long> assetNetLimitMap = new HashMap<>();
     Map<String, Long> allFreeAssetNetUsage = setAssetNetLimit(assetNetLimitMap, accountCapsule);

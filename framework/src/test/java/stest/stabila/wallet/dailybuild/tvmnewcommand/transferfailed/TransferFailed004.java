@@ -205,9 +205,9 @@ public class TransferFailed004 {
     logger.info("assetIssueId: " + assetIssueId);
     Assert.assertEquals(0, assetIssueId.length());
 
-    Account nonexistentAddressAccountTrxBalance = PublicMethed
+    Account nonexistentAddressAccountStbBalance = PublicMethed
         .queryAccount(nonexistentAddress, blockingStubFull1);
-    Assert.assertEquals(1000000L, nonexistentAddressAccountTrxBalance.getBalance());
+    Assert.assertEquals(1000000L, nonexistentAddressAccountStbBalance.getBalance());
     Long nonexistentAddressAccountTokenBalance = PublicMethed
         .getAssetIssueValue(nonexistentAddress, assetAccountId, blockingStubFull1);
     Assert.assertEquals(1000L, nonexistentAddressAccountTokenBalance.longValue());
@@ -301,9 +301,9 @@ public class TransferFailed004 {
     Assert.assertEquals(0L, contractAccountCountAfter.longValue());
     Assert.assertEquals(energyUsageTotal, energyUsageTotal2);
 
-    Account nonexistentAddressAccountTrxBalance = PublicMethed
+    Account nonexistentAddressAccountStbBalance = PublicMethed
         .queryAccount(nonexistentAddress, blockingStubFull1);
-    Assert.assertEquals(3000000L, nonexistentAddressAccountTrxBalance.getBalance());
+    Assert.assertEquals(3000000L, nonexistentAddressAccountStbBalance.getBalance());
     Long nonexistentAddressAccountTokenBalance = PublicMethed
         .getAssetIssueValue(nonexistentAddress, assetAccountId, blockingStubFull1);
     Assert.assertEquals(2000L, nonexistentAddressAccountTokenBalance.longValue());
@@ -426,7 +426,7 @@ public class TransferFailed004 {
     String num = "1" + ",\"" + Base58.encode58Check(contractAddress) + "\"";
 
     txid = PublicMethed.triggerContract(contractAddress4,
-        "testTransferTrxNonexistentTarget(uint256,address)", num, false,
+        "testTransferStbNonexistentTarget(uint256,address)", num, false,
         0, maxFeeLimit, contractExcAddress, contractExcKey, blockingStubFull);
     Optional<TransactionInfo> infoById = null;
     PublicMethed.waitProduceNextBlock(blockingStubFull);

@@ -151,7 +151,7 @@ public class DynamicPropertiesStore extends StabilaStoreWithRevoking<BytesCapsul
   private static final byte[] TRANSACTION_FEE_POOL = "TRANSACTION_FEE_POOL".getBytes();
 
   private static final byte[] MAX_FEE_LIMIT = "MAX_FEE_LIMIT".getBytes();
-  private static final byte[] BURN_TRX_AMOUNT = "BURN_TRX_AMOUNT".getBytes();
+  private static final byte[] BURN_STB_AMOUNT = "BURN_STB_AMOUNT".getBytes();
   private static final byte[] ALLOW_BLACKHOLE_OPTIMIZATION = "ALLOW_BLACKHOLE_OPTIMIZATION".getBytes();
   private static final byte[] ALLOW_NEW_RESOURCE_MODEL = "ALLOW_NEW_RESOURCE_MODEL".getBytes();
   private static final byte[] ALLOW_TVM_FREEZE = "ALLOW_TVM_FREEZE".getBytes();
@@ -395,7 +395,7 @@ public class DynamicPropertiesStore extends StabilaStoreWithRevoking<BytesCapsul
     try {
       this.getCreateAccountFee();
     } catch (IllegalArgumentException e) {
-      this.saveCreateAccountFee(100_000L); // 0.1TRX
+      this.saveCreateAccountFee(100_000L); // 0.1STB
     }
 
     try {
@@ -2173,10 +2173,10 @@ public class DynamicPropertiesStore extends StabilaStoreWithRevoking<BytesCapsul
   }
 
   public long getBurnStbAmount() {
-    return Optional.ofNullable(getUnchecked(BURN_TRX_AMOUNT))
+    return Optional.ofNullable(getUnchecked(BURN_STB_AMOUNT))
         .map(BytesCapsule::getData)
         .map(ByteArray::toLong)
-        .orElseThrow(() -> new IllegalArgumentException("not found BURN_TRX_AMOUNT"));
+        .orElseThrow(() -> new IllegalArgumentException("not found BURN_STB_AMOUNT"));
   }
 
   public void burnStb(long amount) {
@@ -2188,7 +2188,7 @@ public class DynamicPropertiesStore extends StabilaStoreWithRevoking<BytesCapsul
   }
 
   private void saveBurnStb(long amount) {
-    this.put(BURN_TRX_AMOUNT, new BytesCapsule(ByteArray.fromLong(amount)));
+    this.put(BURN_STB_AMOUNT, new BytesCapsule(ByteArray.fromLong(amount)));
   }
 
   public boolean supportBlackHoleOptimization() {

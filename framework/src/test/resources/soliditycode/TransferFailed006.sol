@@ -3,11 +3,11 @@ contract EnergyOfTransferFailedTest {
 
     }
     // InsufficientBalance
-    function testTransferTrxInsufficientBalance(uint256 i) payable public{
+    function testTransferStbInsufficientBalance(uint256 i) payable public{
         payable(msg.sender).transfer(i);
     }
 
-    function testSendTrxInsufficientBalance(uint256 i) payable public{
+    function testSendStbInsufficientBalance(uint256 i) payable public{
         payable(msg.sender).send(i);
     }
 
@@ -15,22 +15,22 @@ contract EnergyOfTransferFailedTest {
         payable(msg.sender).transferToken(i, tokenId);
     }
 
-    function testCallTrxInsufficientBalance(uint256 i,address payable caller) public returns (bool,bytes memory){
+    function testCallStbInsufficientBalance(uint256 i,address payable caller) public returns (bool,bytes memory){
         return caller.call{value:i}(abi.encodeWithSignature("test()"));
     }
 
-    function testCreateTrxInsufficientBalance(uint256 i) payable public {
+    function testCreateStbInsufficientBalance(uint256 i) payable public {
         (new Caller){value:i}();
     }
 
     // NonexistentTarget
 
-    function testSendTrxNonexistentTarget(uint256 i,address payable nonexistentTarget) payable public {
+    function testSendStbNonexistentTarget(uint256 i,address payable nonexistentTarget) payable public {
         require(address(this).balance >= i);
         nonexistentTarget.send(i);
     }
 
-    function testTransferTrxNonexistentTarget(uint256 i,address payable nonexistentTarget) payable public {
+    function testTransferStbNonexistentTarget(uint256 i,address payable nonexistentTarget) payable public {
         require(address(this).balance >= i);
         nonexistentTarget.transfer(i);
     }
@@ -40,7 +40,7 @@ contract EnergyOfTransferFailedTest {
         nonexistentTarget.transferToken(i, tokenId);
     }
 
-    function testCallTrxNonexistentTarget(uint256 i,address payable nonexistentTarget) payable public {
+    function testCallStbNonexistentTarget(uint256 i,address payable nonexistentTarget) payable public {
         require(address(this).balance >= i);
         nonexistentTarget.call{value:i}(abi.encodeWithSignature("test()"));
     }
@@ -50,13 +50,13 @@ contract EnergyOfTransferFailedTest {
     }
 
     // target is self
-    function testTransferTrxSelf(uint256 i) payable public{
+    function testTransferStbSelf(uint256 i) payable public{
         require(address(this).balance >= i);
         address payable self = payable(address(uint160(address(this))));
         self.transfer(i);
     }
 
-    function testSendTrxSelf(uint256 i) payable public{
+    function testSendStbSelf(uint256 i) payable public{
         require(address(this).balance >= i);
         address payable self = payable(address(uint160(address(this))));
         self.send(i);

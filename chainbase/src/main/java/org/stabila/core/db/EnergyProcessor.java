@@ -2,7 +2,7 @@ package org.stabila.core.db;
 
 import static java.lang.Long.max;
 import static org.stabila.core.config.Parameter.ChainConstant.BLOCK_PRODUCED_INTERVAL;
-import static org.stabila.core.config.Parameter.ChainConstant.TRX_PRECISION;
+import static org.stabila.core.config.Parameter.ChainConstant.STB_PRECISION;
 
 import lombok.extern.slf4j.Slf4j;
 import org.stabila.common.parameter.CommonParameter;
@@ -127,11 +127,11 @@ public class EnergyProcessor extends ResourceProcessor {
 
   public long calculateGlobalEnergyLimit(AccountCapsule accountCapsule) {
     long frozeBalance = accountCapsule.getAllFrozenBalanceForEnergy();
-    if (frozeBalance < TRX_PRECISION) {
+    if (frozeBalance < STB_PRECISION) {
       return 0;
     }
 
-    long energyWeight = frozeBalance / TRX_PRECISION;
+    long energyWeight = frozeBalance / STB_PRECISION;
     long totalEnergyLimit = dynamicPropertiesStore.getTotalEnergyCurrentLimit();
     long totalEnergyWeight = dynamicPropertiesStore.getTotalEnergyWeight();
 

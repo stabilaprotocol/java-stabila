@@ -41,11 +41,11 @@ public class StabilaMessageFactory extends MessageFactory {
           "type=" + type + DATA_LEN + packed.length);
     }
     switch (receivedTypes) {
-      case TRX:
+      case STB:
         return new TransactionMessage(packed);
       case BLOCK:
         return new BlockMessage(packed);
-      case TRXS:
+      case STBS:
         return new TransactionsMessage(packed);
       case BLOCKS:
         return new BlocksMessage(packed);
@@ -61,7 +61,7 @@ public class StabilaMessageFactory extends MessageFactory {
         return new ItemNotFound();
       case FETCH_BLOCK_HEADERS:
         return new FetchBlockHeadersMessage(packed);
-      case TRX_INVENTORY:
+      case STB_INVENTORY:
         return new TransactionInventoryMessage(packed);
       case PBFT_COMMIT_MSG:
         return new PbftCommitMessage(packed);

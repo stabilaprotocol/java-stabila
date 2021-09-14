@@ -2,7 +2,7 @@ package org.stabila.core.vm.nativecontract;
 
 import static org.stabila.core.actuator.ActuatorConstant.STORE_NOT_EXIST;
 import static org.stabila.core.config.Parameter.ChainConstant.FROZEN_PERIOD;
-import static org.stabila.core.config.Parameter.ChainConstant.TRX_PRECISION;
+import static org.stabila.core.config.Parameter.ChainConstant.STB_PRECISION;
 
 import com.google.protobuf.ByteString;
 import lombok.extern.slf4j.Slf4j;
@@ -29,8 +29,8 @@ public class FreezeBalanceProcessor {
     long frozenBalance = param.getFrozenBalance();
     if (frozenBalance <= 0) {
       throw new ContractValidateException("FrozenBalance must be positive");
-    } else if (frozenBalance < TRX_PRECISION) {
-      throw new ContractValidateException("FrozenBalance must be more than 1TRX");
+    } else if (frozenBalance < STB_PRECISION) {
+      throw new ContractValidateException("FrozenBalance must be more than 1STB");
     } else if (frozenBalance > ownerCapsule.getBalance()) {
       throw new ContractValidateException("FrozenBalance must be less than accountBalance");
     }
@@ -118,10 +118,10 @@ public class FreezeBalanceProcessor {
     // adjust total resource
     switch (param.getResourceType()) {
       case BANDWIDTH:
-        repo.addTotalNetWeight(frozenBalance / TRX_PRECISION);
+        repo.addTotalNetWeight(frozenBalance / STB_PRECISION);
         break;
       case ENERGY:
-        repo.addTotalEnergyWeight(frozenBalance / TRX_PRECISION);
+        repo.addTotalEnergyWeight(frozenBalance / STB_PRECISION);
         break;
       default:
         //this should never happen

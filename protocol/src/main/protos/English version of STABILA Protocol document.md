@@ -19,7 +19,7 @@
      `type`: what type of this account is – e.g. _0_ stands for type `Normal`.  
      `balance`: balance of this account – e.g. _4213312_.  
      `votes`: received votes on this account – e.g. _{(“0x1b7w…9xj3”,323), (“0x8djq…j12m”,88),…,(“0x82nd…mx6i”,10001)}_.  
-     `asset`: other assets expect TRX in this account – e.g. _{<“WishToken”,66666>,<”Dogie”,233>}_.
+     `asset`: other assets expect STB in this account – e.g. _{<“WishToken”,66666>,<”Dogie”,233>}_.
      `latest_operation_time`: the latest operation time of this account.
      
       // Account 
@@ -137,7 +137,7 @@
           }
      
      A `TransferContract` contains 3 parameters:  
-     `amount`: the amount of TRX – e.g. _12534_.  
+     `amount`: the amount of STB – e.g. _12534_.  
      `to_address`: the receiver address – e.g. “_0xu82h…7237_”.  
      `owner_address`: the address of contract owner – e.g. “_0xu82h…7237_”.
 
@@ -365,17 +365,17 @@ Input, transaction and head block all require signature.
 +	Inventory is mainly used to inform peer nodes the list of items.  
 
     `Inventory` contains `type` and `ids`.  
-    `type`: what type this `Inventory` is. – e.g. _0_ stands for `TRX`.  
+    `type`: what type this `Inventory` is. – e.g. _0_ stands for `STB`.  
     `ids`: ID of things in this `Inventory`.
 
-    Two `Inventory` types: `TRX` and `BLOCK`.  
-    `TRX`: transaction.  
+    Two `Inventory` types: `STB` and `BLOCK`.  
+    `STB`: transaction.  
     `BLOCK`: block.
 
         // Inventory 
         message Inventory {   
           enum InventoryType {     
-            TRX = 0;     
+            STB = 0;     
             BLOCK = 1;   
            }   
            InventoryType type = 1;   
@@ -383,21 +383,21 @@ Input, transaction and head block all require signature.
          }
 
     message `Items` contains 4 parameters:  
-    `type`: type of items – e.g. _1_ stands for `TRX`.  
+    `type`: type of items – e.g. _1_ stands for `STB`.  
     `blocks`: blocks in `Items` if there is any.  
     `block_headers`: block headers if there is any.  
     `transactions`: transactions if there is any.
 
-    `Items` have four types: `ERR`, `TRX`, `BLOCK` and `BLOCKHEADER`.  
+    `Items` have four types: `ERR`, `STB`, `BLOCK` and `BLOCKHEADER`.  
     `ERR`: error.  
-    `TRX`: transaction.  
+    `STB`: transaction.  
     `BLOCK`: block.  
     `BLOCKHEADER`: block header.
 
         message Items {   
           enum ItemType {     
             ERR = 0;     
-            TRX = 1;    
+            STB = 1;    
             BLOCK = 2;     
             BLOCKHEADER = 3;  
            }   

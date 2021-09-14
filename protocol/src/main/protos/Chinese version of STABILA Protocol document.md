@@ -16,9 +16,9 @@
    一个`Account`包含7种参数：  
    `account_name`：该账户的名称——比如： ”_SicCongsAccount_”。  
    `type`:该账户的类型——比如：  _0_ 代表的账户类型是`Normal`。  
-   `balance`:该账户的TRX余额——比如：_4213312_。  
+   `balance`:该账户的STB余额——比如：_4213312_。  
    `votes`:账户所得投票数——比如：_{(“0x1b7w…9xj3”,323),(“0x8djq…j12m”,88),…,(“0x82nd…mx6i”,10001)}_。  
-   `asset`：除TRX以外账户上的其他资产——比如：_{<”WishToken”,66666>,<”Dogie”,233>}_。
+   `asset`：除STB以外账户上的其他资产——比如：_{<”WishToken”,66666>,<”Dogie”,233>}_。
    `latest_operation_time`: 该账户的最新活跃时间。
    
     // Account 
@@ -136,7 +136,7 @@
      }
      
    `TransferContract`包含3种参数：  
-   `amount`：TRX数量——比如：_12534_。  
+   `amount`：STB数量——比如：_12534_。  
    `to_address`： 接收方地址——比如：_“0xu82h…7237”_。  
    `owner_address`：合约持有人地址——比如：_“0xu82h…7237”_。
 
@@ -209,7 +209,7 @@
    `name`：合约名称——比如：_“SiCongcontract”_。  
    `total_supply`：合约的赞成总票数——比如：_100000000_。  
    `owner_address`：合约持有人地址——比如：_“0xu82h…7237”_。  
-   `trx_num`：对应TRX数量——比如：_232241_。  
+   `trx_num`：对应STB数量——比如：_232241_。  
    `num`： 对应的自定义资产数目。  
    `start_time`：开始时间——比如：_20170312_。  
    `end_time`：结束时间——比如：_20170512_。  
@@ -354,17 +354,17 @@
 +	传输涉及的协议Inventory主要用于传输中告知接收方传输数据的清单。
 
    `Inventory`包括`type`和`ids`。  
-   `type`：清单类型——比如：_0_ 代表`TRX`。  
+   `type`：清单类型——比如：_0_ 代表`STB`。  
    `ids`：清单中的物品ID。
 
-   `InventoryType`包含`TRX`和 `BLOCK`。  
-   `TRX`：交易。  
+   `InventoryType`包含`STB`和 `BLOCK`。  
+   `STB`：交易。  
    `BLOCK`：区块。
 
     // Inventory 
     message Inventory {   
       enum InventoryType {     
-        TRX = 0;     
+        STB = 0;     
         BLOCK = 1;   
        }   
        InventoryType type = 1;   
@@ -372,21 +372,21 @@
       }
 
    消息体 `Items`包含4种参数：  
-   `type`：物品类型——比如：_1_ 代表 `TRX`。  
+   `type`：物品类型——比如：_1_ 代表 `STB`。  
    `blocks`：物品中区块。  
    `blockheaders`：区块头。  
    `transactions`：交易。
 
-   `Items`有四种类型，分别是 `ERR`， `TRX`，`BLOCK` 和`BLOCKHEADER`。  
+   `Items`有四种类型，分别是 `ERR`， `STB`，`BLOCK` 和`BLOCKHEADER`。  
    `ERR`：错误。  
-   `TRX`：交易。  
+   `STB`：交易。  
    `BLOCK`：区块。  
    `BLOCKHEADER`：区块头。
 
     message Items {   
       enum ItemType {     
         ERR = 0;     
-        TRX = 1;     
+        STB = 1;     
         BLOCK = 2;     
         BLOCKHEADER = 3;   
        }   

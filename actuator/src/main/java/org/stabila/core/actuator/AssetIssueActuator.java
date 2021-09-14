@@ -86,7 +86,7 @@ public class AssetIssueActuator extends AbstractActuator {
 
       Commons.adjustBalance(accountStore, ownerAddress, -fee);
       if (dynamicStore.supportBlackHoleOptimization()) {
-        dynamicStore.burnTrx(fee);
+        dynamicStore.burnStb(fee);
       } else {
         Commons.adjustBalance(accountStore, accountStore.getBlackhole(), fee);//send to blackhole
       }
@@ -216,7 +216,7 @@ public class AssetIssueActuator extends AbstractActuator {
     }
 
     if (assetIssueContract.getStbNum() <= 0) {
-      throw new ContractValidateException("TrxNum must greater than 0!");
+      throw new ContractValidateException("StbNum must greater than 0!");
     }
 
     if (assetIssueContract.getNum() <= 0) {

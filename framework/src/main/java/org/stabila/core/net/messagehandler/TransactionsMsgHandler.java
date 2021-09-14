@@ -30,14 +30,14 @@ import org.stabila.protos.Protocol.Transaction.Contract.ContractType;
 @Component
 public class TransactionsMsgHandler implements StabilaMsgHandler {
 
-  private static int MAX_TRX_SIZE = 50_000;
+  private static int MAX_STB_SIZE = 50_000;
   private static int MAX_SMART_CONTRACT_SUBMIT_SIZE = 100;
   @Autowired
   private StabilaNetDelegate stabilaNetDelegate;
   @Autowired
   private AdvService advService;
 
-  private BlockingQueue<StbEvent> smartContractQueue = new LinkedBlockingQueue(MAX_TRX_SIZE);
+  private BlockingQueue<StbEvent> smartContractQueue = new LinkedBlockingQueue(MAX_STB_SIZE);
 
   private BlockingQueue<Runnable> queue = new LinkedBlockingQueue();
 
@@ -57,7 +57,7 @@ public class TransactionsMsgHandler implements StabilaMsgHandler {
   }
 
   public boolean isBusy() {
-    return queue.size() + smartContractQueue.size() > MAX_TRX_SIZE;
+    return queue.size() + smartContractQueue.size() > MAX_STB_SIZE;
   }
 
   @Override
@@ -80,7 +80,7 @@ public class TransactionsMsgHandler implements StabilaMsgHandler {
 
   private void check(PeerConnection peer, TransactionsMessage msg) throws P2pException {
     for (Transaction trx : msg.getTransactions().getTransactionsList()) {
-      Item item = new Item(new TransactionMessage(trx).getMessageId(), InventoryType.TRX);
+      Item item = new Item(new TransactionMessage(trx).getMessageId(), InventoryType.STB);
       if (!peer.getAdvInvRequest().containsKey(item)) {
         throw new P2pException(TypeEnum.BAD_MESSAGE,
             "trx: " + msg.getMessageId() + " without request.");
@@ -109,7 +109,7 @@ public class TransactionsMsgHandler implements StabilaMsgHandler {
       return;
     }
 
-    if (advService.getMessage(new Item(trx.getMessageId(), InventoryType.TRX)) != null) {
+    if (advService.getMessage(new Item(trx.getMessageId(), InventoryType.STB)) != null) {
       return;
     }
 
@@ -119,7 +119,7 @@ public class TransactionsMsgHandler implements StabilaMsgHandler {
     } catch (P2pException e) {
       logger.warn("Stb {} from peer {} process failed. type: {}, reason: {}",
           trx.getMessageId(), peer.getInetAddress(), e.getType(), e.getMessage());
-      if (e.getType().equals(TypeEnum.BAD_TRX)) {
+      if (e.getType().equals(TypeEnum.BAD_STB)) {
         peer.disconnect(ReasonCode.BAD_TX);
       }
     } catch (Exception e) {

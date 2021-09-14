@@ -1,7 +1,7 @@
 package org.stabila.core.actuator;
 
 import static org.stabila.core.actuator.ActuatorConstant.ACCOUNT_EXCEPTION_STR;
-import static org.stabila.core.config.Parameter.ChainConstant.TRX_PRECISION;
+import static org.stabila.core.config.Parameter.ChainConstant.STB_PRECISION;
 
 import com.google.common.collect.Lists;
 import com.google.protobuf.ByteString;
@@ -217,15 +217,15 @@ public class UnfreezeBalanceActuator extends AbstractActuator {
     switch (unfreezeBalanceContract.getResource()) {
       case BANDWIDTH:
         dynamicStore
-            .addTotalNetWeight(-unfreezeBalance / TRX_PRECISION);
+            .addTotalNetWeight(-unfreezeBalance / STB_PRECISION);
         break;
       case ENERGY:
         dynamicStore
-            .addTotalEnergyWeight(-unfreezeBalance / TRX_PRECISION);
+            .addTotalEnergyWeight(-unfreezeBalance / STB_PRECISION);
         break;
       case STABILA_POWER:
         dynamicStore
-            .addTotalStabilaPowerWeight(-unfreezeBalance / TRX_PRECISION);
+            .addTotalStabilaPowerWeight(-unfreezeBalance / STB_PRECISION);
         break;
       default:
         //this should never happen

@@ -107,7 +107,7 @@ public class TransferFailed002 {
     String txid = "";
     String num = "3000001";
     txid = PublicMethed
-        .triggerContract(contractAddress, "testSendTrxInsufficientBalance(uint256)", num, false, 0,
+        .triggerContract(contractAddress, "testSendStbInsufficientBalance(uint256)", num, false, 0,
             maxFeeLimit, contractExcAddress, contractExcKey, blockingStubFull);
     Optional<TransactionInfo> infoById = null;
     PublicMethed.waitProduceNextBlock(blockingStubFull);
@@ -168,7 +168,7 @@ public class TransferFailed002 {
     String txid = "";
     String num = "1";
     txid = PublicMethed
-        .triggerContract(contractAddress, "testSendTrxInsufficientBalance(uint256)", num, false, 0,
+        .triggerContract(contractAddress, "testSendStbInsufficientBalance(uint256)", num, false, 0,
             maxFeeLimit, contractExcAddress, contractExcKey, blockingStubFull);
     Optional<TransactionInfo> infoById = null;
     PublicMethed.waitProduceNextBlock(blockingStubFull);
@@ -207,7 +207,7 @@ public class TransferFailed002 {
 
 
   @Test(enabled = true, description = "Send trx nonexistent target")
-  public void test3SendTrxNonexistentTarget() {
+  public void test3SendStbNonexistentTarget() {
 
     Account info;
 
@@ -228,7 +228,7 @@ public class TransferFailed002 {
     String num = "1" + ",\"" + Base58.encode58Check(nonexistentAddress) + "\"";
 
     txid = PublicMethed
-        .triggerContract(contractAddress, "testSendTrxNonexistentTarget(uint256,address)", num,
+        .triggerContract(contractAddress, "testSendStbNonexistentTarget(uint256,address)", num,
             false, 0, maxFeeLimit, contractExcAddress, contractExcKey, blockingStubFull);
     Optional<TransactionInfo> infoById = null;
     PublicMethed.waitProduceNextBlock(blockingStubFull);
@@ -271,7 +271,7 @@ public class TransferFailed002 {
     Assert.assertEquals(1, nonexistentAddressAccount.getBalance());
 
     txid = PublicMethed
-        .triggerContract(contractAddress, "testSendTrxNonexistentTarget(uint256,address)", num,
+        .triggerContract(contractAddress, "testSendStbNonexistentTarget(uint256,address)", num,
             false, 0, maxFeeLimit, contractExcAddress, contractExcKey, blockingStubFull);
     infoById = null;
     PublicMethed.waitProduceNextBlock(blockingStubFull);
@@ -312,7 +312,7 @@ public class TransferFailed002 {
 
 
   @Test(enabled = true, description = "Send trx self")
-  public void test4SendTrxSelf() {
+  public void test4SendStbSelf() {
     Account info;
 
     AccountResourceMessage resourceInfo = PublicMethed
@@ -329,7 +329,7 @@ public class TransferFailed002 {
     String txid = "";
     String num = "1";
     txid = PublicMethed
-        .triggerContract(contractAddress, "testSendTrxSelf(uint256)", num, false, 0, maxFeeLimit,
+        .triggerContract(contractAddress, "testSendStbSelf(uint256)", num, false, 0, maxFeeLimit,
             contractExcAddress, contractExcKey, blockingStubFull);
     Optional<TransactionInfo> infoById = null;
     PublicMethed.waitProduceNextBlock(blockingStubFull);
@@ -361,7 +361,7 @@ public class TransferFailed002 {
 
     Assert.assertTrue(infoById.get().getResultValue() == 1);
     Assert.assertEquals(contractResult.TRANSFER_FAILED, infoById.get().getReceipt().getResult());
-    Assert.assertEquals("transfer trx failed: Cannot transfer TRX to yourself.",
+    Assert.assertEquals("transfer trx failed: Cannot transfer STB to yourself.",
         ByteArray.toStr(infoById.get().getResMessage().toByteArray()));
 
     Assert.assertTrue(afterBalance + fee == beforeBalance);
@@ -376,7 +376,7 @@ public class TransferFailed002 {
 
 
   @Test(enabled = true, description = "Send trx nonexistent target and balance not enough")
-  public void test5SendTrxNonexistentTarget() {
+  public void test5SendStbNonexistentTarget() {
     Account info;
 
     AccountResourceMessage resourceInfo = PublicMethed
@@ -397,7 +397,7 @@ public class TransferFailed002 {
     String num = "100000000" + ",\"" + Base58.encode58Check(contractExcAddress) + "\"";
 
     txid = PublicMethed
-        .triggerContract(contractAddress, "testSendTrxNonexistentTarget(uint256,address)", num,
+        .triggerContract(contractAddress, "testSendStbNonexistentTarget(uint256,address)", num,
             false, 0, maxFeeLimit, contractExcAddress, contractExcKey, blockingStubFull);
     Optional<TransactionInfo> infoById = null;
     PublicMethed.waitProduceNextBlock(blockingStubFull);
@@ -438,7 +438,7 @@ public class TransferFailed002 {
 
 
   @Test(enabled = true, description = "Send trx self and balance not enough")
-  public void test6SendTrxSelf() {
+  public void test6SendStbSelf() {
     Account info;
 
     AccountResourceMessage resourceInfo = PublicMethed
@@ -458,7 +458,7 @@ public class TransferFailed002 {
     String num = "1000000000";
 
     txid = PublicMethed
-        .triggerContract(contractAddress, "testSendTrxSelf(uint256)", num, false, 0, maxFeeLimit,
+        .triggerContract(contractAddress, "testSendStbSelf(uint256)", num, false, 0, maxFeeLimit,
             contractExcAddress, contractExcKey, blockingStubFull);
     Optional<TransactionInfo> infoById = null;
     PublicMethed.waitProduceNextBlock(blockingStubFull);
@@ -499,7 +499,7 @@ public class TransferFailed002 {
   }
 
   @Test(enabled = true, description = "Send trx nonexistent target, but revert")
-  public void test7SendTrxNonexistentTargetRevert() {
+  public void test7SendStbNonexistentTargetRevert() {
 
     Account info;
 
@@ -520,7 +520,7 @@ public class TransferFailed002 {
     String num = "1" + ",\"" + Base58.encode58Check(nonexistentAddress) + "\"";
 
     txid = PublicMethed
-        .triggerContract(contractAddress, "testSendTrxRevert(uint256,address)", num, false, 0,
+        .triggerContract(contractAddress, "testSendStbRevert(uint256,address)", num, false, 0,
             maxFeeLimit, contractExcAddress, contractExcKey, blockingStubFull);
     Optional<TransactionInfo> infoById = null;
     PublicMethed.waitProduceNextBlock(blockingStubFull);

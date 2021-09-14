@@ -135,9 +135,9 @@ public class FetchInvDataMsgHandler implements StabilaMsgHandler {
   private void check(PeerConnection peer, FetchInvDataMessage fetchInvDataMsg) throws P2pException {
     MessageTypes type = fetchInvDataMsg.getInvMessageType();
 
-    if (type == MessageTypes.TRX) {
+    if (type == MessageTypes.STB) {
       for (Sha256Hash hash : fetchInvDataMsg.getHashList()) {
-        if (peer.getAdvInvSpread().getIfPresent(new Item(hash, InventoryType.TRX)) == null) {
+        if (peer.getAdvInvSpread().getIfPresent(new Item(hash, InventoryType.STB)) == null) {
           throw new P2pException(TypeEnum.BAD_MESSAGE, "not spread inv: {}" + hash);
         }
       }

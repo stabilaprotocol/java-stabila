@@ -127,12 +127,12 @@ public class AdvServiceTest {
     }
   }
 
-  private void testTrxBroadcast() {
+  private void testStbBroadcast() {
     Protocol.Transaction trx = Protocol.Transaction.newBuilder().build();
     CommonParameter.getInstance().setValidContractProtoThreadNum(1);
     TransactionMessage msg = new TransactionMessage(trx);
     service.broadcast(msg);
-    Item item = new Item(msg.getMessageId(), InventoryType.TRX);
+    Item item = new Item(msg.getMessageId(), InventoryType.STB);
     Assert.assertNotNull(service.getMessage(item));
   }
 

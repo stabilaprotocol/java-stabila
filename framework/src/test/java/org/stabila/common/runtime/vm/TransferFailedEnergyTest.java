@@ -30,11 +30,11 @@ public class TransferFailedEnergyTest extends VMTestBase {
 
       }
       // InsufficientBalance
-      function testTransferTrxInsufficientBalance() payable public{
+      function testTransferStbInsufficientBalance() payable public{
           msg.sender.transfer(10);
       }
 
-      function testSendTrxInsufficientBalance() payable public{
+      function testSendStbInsufficientBalance() payable public{
           msg.sender.send(10);
       }
 
@@ -42,16 +42,16 @@ public class TransferFailedEnergyTest extends VMTestBase {
           msg.sender.transferToken(10, tokenId);
       }
 
-      function testCallTrxInsufficientBalance(address payable caller) public {
+      function testCallStbInsufficientBalance(address payable caller) public {
           caller.call.value(10)(abi.encodeWithSignature("test()"));
       }
 
-      function testCreateTrxInsufficientBalance() payable public {
+      function testCreateStbInsufficientBalance() payable public {
           (new Caller).value(10)();
       }
 
       // NonexistentTarget
-      function testTransferTrxNonexistentTarget(address payable nonexistentTarget) payable public {
+      function testTransferStbNonexistentTarget(address payable nonexistentTarget) payable public {
           require(address(this).balance >= 10);
           nonexistentTarget.transfer(10);
       }
@@ -62,7 +62,7 @@ public class TransferFailedEnergyTest extends VMTestBase {
           nonexistentTarget.transferToken(10, tokenId);
       }
 
-      function testCallTrxNonexistentTarget(address payable nonexistentTarget) payable public {
+      function testCallStbNonexistentTarget(address payable nonexistentTarget) payable public {
           require(address(this).balance >= 10);
           nonexistentTarget.call.value(10)(abi.encodeWithSignature("test()"));
       }
@@ -72,13 +72,13 @@ public class TransferFailedEnergyTest extends VMTestBase {
       }
 
       // target is self
-      function testTransferTrxSelf() payable public{
+      function testTransferStbSelf() payable public{
           require(address(this).balance >= 10);
           address payable self = address(uint160(address(this)));
           self.transfer(10);
       }
 
-      function testSendTrxSelf() payable public{
+      function testSendStbSelf() payable public{
           require(address(this).balance >= 10);
           address payable self = address(uint160(address(this)));
           self.send(10);
@@ -108,11 +108,11 @@ public class TransferFailedEnergyTest extends VMTestBase {
       }
 
       // InsufficientBalance
-      function testTransferTrxInsufficientBalance() payable public{
+      function testTransferStbInsufficientBalance() payable public{
           msg.sender.transfer(10);
       }
 
-      function testSendTrxInsufficientBalance() payable public{
+      function testSendStbInsufficientBalance() payable public{
           msg.sender.send(10);
       }
 
@@ -120,16 +120,16 @@ public class TransferFailedEnergyTest extends VMTestBase {
           msg.sender.transferToken(10, tokenId);
       }
 
-      function testCallTrxInsufficientBalance(address caller) payable public {
+      function testCallStbInsufficientBalance(address caller) payable public {
           caller.call.value(10)(abi.encodeWithSignature("test()"));
       }
 
-      function testCreateTrxInsufficientBalance() payable public {
+      function testCreateStbInsufficientBalance() payable public {
           (new Caller).value(10)();
       }
 
       // NonexistentTarget
-      function testTransferTrxNonexistentTarget(address nonexistentTarget) payable public {
+      function testTransferStbNonexistentTarget(address nonexistentTarget) payable public {
           require(address(this).balance >= 10);
           nonexistentTarget.transfer(10);
       }
@@ -140,7 +140,7 @@ public class TransferFailedEnergyTest extends VMTestBase {
           nonexistentTarget.transferToken(10, tokenId);
       }
 
-      function testCallTrxNonexistentTarget(address nonexistentTarget) public {
+      function testCallStbNonexistentTarget(address nonexistentTarget) public {
           require(address(this).balance >= 10);
           nonexistentTarget.call.value(10)(abi.encodeWithSignature("test()"));
       }
@@ -150,13 +150,13 @@ public class TransferFailedEnergyTest extends VMTestBase {
       }
 
       // target is self
-      function testTransferTrxSelf() payable public{
+      function testTransferStbSelf() payable public{
           require(address(this).balance >= 10);
           address self = address(uint160(address(this)));
           self.transfer(10);
       }
 
-      function testSendTrxSelf() payable public{
+      function testSendStbSelf() payable public{
           require(address(this).balance >= 10);
           address self = address(uint160(address(this)));
           self.send(10);
@@ -180,43 +180,43 @@ public class TransferFailedEnergyTest extends VMTestBase {
 
   private static final String nonExistAddress = "27k66nycZATHzBasFT9782nTsYWqVtxdtAc";  // 21 char
   TestCase[] testCasesAfterAllowTvmConstantinop = {
-      new TestCase("testTransferTrxSelf()", Collections.emptyList(), false,
+      new TestCase("testTransferStbSelf()", Collections.emptyList(), false,
           contractResult.TRANSFER_FAILED),
-      new TestCase("testSendTrxSelf()", Collections.emptyList(), false,
+      new TestCase("testSendStbSelf()", Collections.emptyList(), false,
           contractResult.TRANSFER_FAILED),
       new TestCase("testSuicideNonexistentTarget(address)",
           Collections.singletonList(nonExistAddress), false,
           contractResult.TRANSFER_FAILED),
-      new TestCase("testTransferTrxNonexistentTarget(address)",
+      new TestCase("testTransferStbNonexistentTarget(address)",
           Collections.singletonList(nonExistAddress), false,
           contractResult.TRANSFER_FAILED),
-      new TestCase("testCallTrxNonexistentTarget(address)",
+      new TestCase("testCallStbNonexistentTarget(address)",
           Collections.singletonList(nonExistAddress), false,
           contractResult.TRANSFER_FAILED),
   };
   TestCase[] testCasesBeforeAllowTvmConstantinop = {
-      new TestCase("testTransferTrxSelf()", Collections.emptyList(),
+      new TestCase("testTransferStbSelf()", Collections.emptyList(),
           true, contractResult.UNKNOWN),
-      new TestCase("testSendTrxSelf()", Collections.emptyList(),
+      new TestCase("testSendStbSelf()", Collections.emptyList(),
           true, contractResult.UNKNOWN),
       new TestCase("testSuicideNonexistentTarget(address)",
           Collections.singletonList(nonExistAddress), true, contractResult.UNKNOWN),
-      new TestCase("testTransferTrxNonexistentTarget(address)",
+      new TestCase("testTransferStbNonexistentTarget(address)",
           Collections.singletonList(nonExistAddress), true, contractResult.UNKNOWN),
-      new TestCase("testCallTrxNonexistentTarget(address)",
+      new TestCase("testCallStbNonexistentTarget(address)",
           Collections.singletonList(nonExistAddress), true, contractResult.UNKNOWN),
   };
   TestCase[] testCasesInsufficientBalance = {
-      new TestCase("testTransferTrxInsufficientBalance()", Collections.emptyList(),
+      new TestCase("testTransferStbInsufficientBalance()", Collections.emptyList(),
           false,
           contractResult.REVERT),
-      new TestCase("testSendTrxInsufficientBalance()", Collections.emptyList(),
+      new TestCase("testSendStbInsufficientBalance()", Collections.emptyList(),
           false,
           contractResult.SUCCESS),
-      new TestCase("testCreateTrxInsufficientBalance()", Collections.emptyList(),
+      new TestCase("testCreateStbInsufficientBalance()", Collections.emptyList(),
           false,
           contractResult.REVERT),
-      new TestCase("testCallTrxInsufficientBalance()", Collections.emptyList(),
+      new TestCase("testCallStbInsufficientBalance()", Collections.emptyList(),
           false,
           contractResult.REVERT),
       new TestCase("testTransferTokenInsufficientBalance(trcToken)",

@@ -376,7 +376,7 @@ public class TvmAssetIssue002 {
   }
 
   @Test(enabled = false, description = "tokenIssue trx balance insufficient")
-  public void tokenIssue002TrxBalanceInsufficient() {
+  public void tokenIssue002StbBalanceInsufficient() {
     Assert.assertTrue(PublicMethed
         .sendcoin(dev001Address, 3100_000_000L, fromAddress, testKey002, blockingStubFull));
     PublicMethed.waitProduceNextBlock(blockingStubFull);

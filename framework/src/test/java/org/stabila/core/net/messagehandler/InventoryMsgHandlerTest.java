@@ -13,7 +13,7 @@ public class InventoryMsgHandlerTest {
 
   @Test
   public void testProcessMessage() {
-    InventoryMessage msg = new InventoryMessage(new ArrayList<>(), InventoryType.TRX);
+    InventoryMessage msg = new InventoryMessage(new ArrayList<>(), InventoryType.STB);
 
     peer.setNeedSyncFromPeer(true);
     peer.setNeedSyncFromUs(true);

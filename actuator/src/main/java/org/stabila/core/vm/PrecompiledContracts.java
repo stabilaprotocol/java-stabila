@@ -1713,7 +1713,7 @@ public class PrecompiledContracts {
       AccountCapsule accountCapsule = this.getDeposit().getAccount(voteStabilaAddr);
       if (accountCapsule != null) {
         return Pair.of(true,
-            longTo32Bytes(accountCapsule.getStabilaPower() / Parameter.ChainConstant.TRX_PRECISION));
+            longTo32Bytes(accountCapsule.getStabilaPower() / Parameter.ChainConstant.STB_PRECISION));
       }
 
       return Pair.of(true, longTo32Bytes(0L));
