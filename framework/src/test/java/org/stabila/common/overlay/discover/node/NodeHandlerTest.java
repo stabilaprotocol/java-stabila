@@ -78,8 +78,8 @@ public class NodeHandlerTest {
         + "f0249bbbf5a4ce8cff9e34e2fdf8bac883540e026d1e5d6ebf536414bdde81198e";
     String replaceNodeId = "74c11ffad1d59d7b1a56691a0b84a53f0791c92361357364f1d2537"
         + "837407ef0249bbbf5a4ce8cff9e34e2fdf8bac883540e026d1e5d6ebf536414bdde81198e";
-    currNode = new Node(currNodeId.getBytes(), "212.28.87.244", 18885, 18888);
-    oldNode = new Node(oldNodeId.getBytes(), "212.28.87.244", 18885, 18888);
+    currNode = new Node(currNodeId.getBytes(), "210.28.87.244", 18885, 18888);
+    oldNode = new Node(oldNodeId.getBytes(), "211.28.87.244", 18885, 18888);
     replaceNode = new Node(replaceNodeId.getBytes(), "212.28.87.244", 18885, 18888);
     currHandler = new NodeHandler(currNode, nodeManager);
     oldHandler = new NodeHandler(oldNode, nodeManager);
