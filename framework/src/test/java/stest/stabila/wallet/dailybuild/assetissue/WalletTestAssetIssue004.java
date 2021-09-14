@@ -112,7 +112,7 @@ public class WalletTestAssetIssue004 {
       if (queryAssetIssueByAccount.get().getAssetIssue(j).getTotalSupply() == totalSupply) {
         Assert.assertTrue(queryAssetIssueByAccount.isPresent());
         //Assert.assertTrue(queryAssetIssueByAccount.get().getAssetIssue(j).getDecayRatio() > 0);
-        Assert.assertTrue(queryAssetIssueByAccount.get().getAssetIssue(j).getTrxNum() > 0);
+        Assert.assertTrue(queryAssetIssueByAccount.get().getAssetIssue(j).getStbNum() > 0);
         Assert.assertTrue(queryAssetIssueByAccount.get().getAssetIssue(j).getVoteScore() > 0);
         Assert.assertFalse(queryAssetIssueByAccount.get().getAssetIssue(j).getUrl().isEmpty());
         logger.info("TestGetAssetIssueByAccount ok!");

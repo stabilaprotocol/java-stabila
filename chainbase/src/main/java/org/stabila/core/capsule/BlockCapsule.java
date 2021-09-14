@@ -145,7 +145,7 @@ public class BlockCapsule implements ProtoCapsule<Block> {
 
   private void initTxs() {
     transactions = this.block.getTransactionsList().stream()
-        .map(stb -> new TransactionCapsule(trx))
+        .map(stb -> new TransactionCapsule(stb))
         .collect(Collectors.toList());
   }
 

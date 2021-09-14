@@ -1,7 +1,7 @@
 package org.stabila.core.db;
 
-import static org.stabila.common.runtime.InternalTransaction.StbType.TRX_CONTRACT_CALL_TYPE;
-import static org.stabila.common.runtime.InternalTransaction.StbType.TRX_CONTRACT_CREATION_TYPE;
+import static org.stabila.common.runtime.InternalTransaction.StbType.STB_CONTRACT_CALL_TYPE;
+import static org.stabila.common.runtime.InternalTransaction.StbType.STB_CONTRACT_CREATION_TYPE;
 
 import java.util.Objects;
 import lombok.Getter;
@@ -86,13 +86,13 @@ public class TransactionTrace {
         .getContract(0).getType();
     switch (contractType.getNumber()) {
       case ContractType.TriggerSmartContract_VALUE:
-        trxType = TRX_CONTRACT_CALL_TYPE;
+        trxType = STB_CONTRACT_CALL_TYPE;
         break;
       case ContractType.CreateSmartContract_VALUE:
-        trxType = TRX_CONTRACT_CREATION_TYPE;
+        trxType = STB_CONTRACT_CREATION_TYPE;
         break;
       default:
-        trxType = TrxType.TRX_PRECOMPILED_TYPE;
+        trxType = StbType.STB_PRECOMPILED_TYPE;
     }
     this.storeFactory = storeFactory;
     this.dynamicPropertiesStore = storeFactory.getChainBaseManager().getDynamicPropertiesStore();
@@ -113,8 +113,8 @@ public class TransactionTrace {
   }
 
   private boolean needVM() {
-    return this.trxType == TRX_CONTRACT_CALL_TYPE
-        || this.trxType == TRX_CONTRACT_CREATION_TYPE;
+    return this.trxType == STB_CONTRACT_CALL_TYPE
+        || this.trxType == STB_CONTRACT_CREATION_TYPE;
   }
 
   public void init(BlockCapsule blockCap) {
@@ -134,7 +134,7 @@ public class TransactionTrace {
     }
     TriggerSmartContract triggerContractFromTransaction = ContractCapsule
         .getTriggerContractFromTransaction(this.getTrx().getInstance());
-    if (TRX_CONTRACT_CALL_TYPE == this.trxType) {
+    if (STB_CONTRACT_CALL_TYPE == this.trxType) {
       ContractCapsule contract = contractStore
           .get(triggerContractFromTransaction.getContractAddress().toByteArray());
       if (contract == null) {
@@ -181,7 +181,7 @@ public class TransactionTrace {
     runtime.execute(transactionContext);
     setBill(transactionContext.getProgramResult().getEnergyUsed());
 
-//    if (TrxType.TRX_PRECOMPILED_TYPE != trxType) {
+//    if (TrxType.STB_PRECOMPILED_TYPE != trxType) {
 //      if (contractResult.OUT_OF_TIME
 //          .equals(receipt.getResult())) {
 //        setTimeResultType(TimeResultType.OUT_OF_TIME);
@@ -223,11 +223,11 @@ public class TransactionTrace {
     long percent = 0;
     long originEnergyLimit = 0;
     switch (trxType) {
-      case TRX_CONTRACT_CREATION_TYPE:
+      case STB_CONTRACT_CREATION_TYPE:
         callerAccount = TransactionCapsule.getOwner(trx.getInstance().getRawData().getContract(0));
         originAccount = callerAccount;
         break;
-      case TRX_CONTRACT_CALL_TYPE:
+      case STB_CONTRACT_CALL_TYPE:
         TriggerSmartContract callContract = ContractCapsule
             .getTriggerContractFromTransaction(trx.getInstance());
         ContractCapsule contractCapsule =
