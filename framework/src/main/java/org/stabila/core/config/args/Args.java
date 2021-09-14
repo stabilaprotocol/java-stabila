@@ -488,7 +488,7 @@ public class Args extends CommonParameter {
       PARAMETER.blockProducedTimeOut = 100;
     }
 
-    PARAMETER.netMaxTrxPerSecond = config.hasPath(Constant.NODE_NET_MAX_TRX_PER_SECOND)
+    PARAMETER.netMaxStbPerSecond = config.hasPath(Constant.NODE_NET_MAX_TRX_PER_SECOND)
         ? config.getInt(Constant.NODE_NET_MAX_TRX_PER_SECOND)
         : NetConstants.NET_MAX_TRX_PER_SECOND;
 

@@ -862,7 +862,7 @@ public class RepositoryImpl implements Repository {
     return account;
   }
 
-  //The unit is trx
+  //The unit is stb
   @Override
   public void addTotalNetWeight(long amount) {
     long totalNetWeight = getTotalNetWeight();
@@ -870,7 +870,7 @@ public class RepositoryImpl implements Repository {
     saveTotalNetWeight(totalNetWeight);
   }
 
-  //The unit is trx
+  //The unit is stb
   @Override
   public void addTotalEnergyWeight(long amount) {
     long totalEnergyWeight = getTotalEnergyWeight();

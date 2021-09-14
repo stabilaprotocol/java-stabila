@@ -5,13 +5,13 @@ import javax.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.stabila.core.services.http.GetBurnTrxServlet;
+import org.stabila.core.services.http.GetBurnSTBServlet;
 import org.stabila.core.services.interfaceOnSolidity.WalletOnSolidity;
 
 
 @Component
 @Slf4j(topic = "API")
-public class GetBurnTrxOnSolidityServlet extends GetBurnTrxServlet {
+public class GetBurnStbOnSolidityServlet extends GetBurnStbServlet {
 
   @Autowired
   private WalletOnSolidity walletOnSolidity;

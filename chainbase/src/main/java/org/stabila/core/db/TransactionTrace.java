@@ -1,7 +1,7 @@
 package org.stabila.core.db;
 
-import static org.stabila.common.runtime.InternalTransaction.TrxType.TRX_CONTRACT_CALL_TYPE;
-import static org.stabila.common.runtime.InternalTransaction.TrxType.TRX_CONTRACT_CREATION_TYPE;
+import static org.stabila.common.runtime.InternalTransaction.StbType.TRX_CONTRACT_CALL_TYPE;
+import static org.stabila.common.runtime.InternalTransaction.StbType.TRX_CONTRACT_CREATION_TYPE;
 
 import java.util.Objects;
 import lombok.Getter;
@@ -9,7 +9,7 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.bouncycastle.util.encoders.Hex;
 import org.springframework.util.StringUtils;
-import org.stabila.common.runtime.InternalTransaction.TrxType;
+import org.stabila.common.runtime.InternalTransaction.StbType;
 import org.stabila.common.runtime.ProgramResult;
 import org.stabila.common.runtime.Runtime;
 import org.stabila.common.runtime.vm.DataWord;
@@ -62,7 +62,7 @@ public class TransactionTrace {
 
   private EnergyProcessor energyProcessor;
 
-  private TrxType trxType;
+  private StbType trxType;
 
   private long txStartTimeInMs;
 

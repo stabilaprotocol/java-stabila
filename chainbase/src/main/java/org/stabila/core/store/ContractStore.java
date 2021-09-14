@@ -50,8 +50,8 @@ public class ContractStore extends StabilaStoreWithRevoking<ContractCapsule> {
   /**
    * find a transaction  by it's id.
    */
-  public byte[] findContractByHash(byte[] trxHash) {
-    return revokingDB.getUnchecked(trxHash);
+  public byte[] findContractByHash(byte[] stbHash) {
+    return revokingDB.getUnchecked(stbHash);
   }
 
 }

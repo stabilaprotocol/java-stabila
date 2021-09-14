@@ -59,7 +59,7 @@ public class TransactionUtil {
         Contract.ContractType.TransferContract).getInstance();
   }
 
-  public static TransactionInfoCapsule buildTransactionInfoInstance(TransactionCapsule trxCap,
+  public static TransactionInfoCapsule buildTransactionInfoInstance(TransactionCapsule stbCap,
                                                                     BlockCapsule block, TransactionTrace trace) {
 
     TransactionInfo.Builder builder = TransactionInfo.newBuilder();
@@ -70,7 +70,7 @@ public class TransactionUtil {
       builder.setResult(code.FAILED);
       builder.setResMessage(ByteString.copyFromUtf8(trace.getRuntimeError()));
     }
-    builder.setId(ByteString.copyFrom(trxCap.getTransactionId().getBytes()));
+    builder.setId(ByteString.copyFrom(stbCap.getTransactionId().getBytes()));
     ProgramResult programResult = trace.getRuntimeResult();
     long fee =
         programResult.getRet().getFee() + traceReceipt.getEnergyFee()
@@ -126,32 +126,32 @@ public class TransactionUtil {
         .getInternalTransactions()) {
       for (InternalTransaction internalTransaction : programResult
           .getInternalTransactions()) {
-        Protocol.InternalTransaction.Builder internalTrxBuilder = Protocol.InternalTransaction
+        Protocol.InternalTransaction.Builder internalStbBuilder = Protocol.InternalTransaction
             .newBuilder();
         // set hash
-        internalTrxBuilder.setHash(ByteString.copyFrom(internalTransaction.getHash()));
+        internalStbBuilder.setHash(ByteString.copyFrom(internalTransaction.getHash()));
         // set caller
-        internalTrxBuilder.setCallerAddress(ByteString.copyFrom(internalTransaction.getSender()));
+        internalStbBuilder.setCallerAddress(ByteString.copyFrom(internalTransaction.getSender()));
         // set TransferTo
-        internalTrxBuilder
+        internalStbBuilder
             .setTransferToAddress(ByteString.copyFrom(internalTransaction.getTransferToAddress()));
         //TODO: "for loop" below in future for multiple token case, we only have one for now.
         Protocol.InternalTransaction.CallValueInfo.Builder callValueInfoBuilder =
             Protocol.InternalTransaction.CallValueInfo.newBuilder();
-        // trx will not be set token name
+        // stb will not be set token name
         callValueInfoBuilder.setCallValue(internalTransaction.getValue());
         // Just one transferBuilder for now.
-        internalTrxBuilder.addCallValueInfo(callValueInfoBuilder);
+        internalStbBuilder.addCallValueInfo(callValueInfoBuilder);
         internalTransaction.getTokenInfo().forEach((tokenId, amount) -> {
-          internalTrxBuilder.addCallValueInfo(
+          internalStbBuilder.addCallValueInfo(
               Protocol.InternalTransaction.CallValueInfo.newBuilder().setTokenId(tokenId)
                   .setCallValue(amount));
         });
         // Token for loop end here
-        internalTrxBuilder.setNote(ByteString.copyFrom(internalTransaction.getNote().getBytes()));
-        internalTrxBuilder.setRejected(internalTransaction.isRejected());
-        internalTrxBuilder.setExtra(internalTransaction.getExtra());
-        builder.addInternalTransactions(internalTrxBuilder);
+        internalStbBuilder.setNote(ByteString.copyFrom(internalTransaction.getNote().getBytes()));
+        internalStbBuilder.setRejected(internalTransaction.isRejected());
+        internalStbBuilder.setExtra(internalTransaction.getExtra());
+        builder.addInternalTransactions(internalStbBuilder);
       }
     }
 

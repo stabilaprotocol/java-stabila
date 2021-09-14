@@ -141,9 +141,9 @@ public class FetchInvDataMsgHandler implements StabilaMsgHandler {
           throw new P2pException(TypeEnum.BAD_MESSAGE, "not spread inv: {}" + hash);
         }
       }
-      int fetchCount = peer.getNodeStatistics().messageStatistics.stabilaInTrxFetchInvDataElement
+      int fetchCount = peer.getNodeStatistics().messageStatistics.stabilaInStbFetchInvDataElement
           .getCount(10);
-      int maxCount = advService.getTrxCount().getCount(60);
+      int maxCount = advService.getStbCount().getCount(60);
       if (fetchCount > maxCount) {
         logger.error("maxCount: " + maxCount + ", fetchCount: " + fetchCount);
       }

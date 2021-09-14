@@ -719,7 +719,7 @@ public class Program {
             .setConsumeUserResourcePercent(100)
             .setOriginAddress(ByteString.copyFrom(senderAddress));
         if (isCreate2) {
-          builder.setTrxHash(ByteString.copyFrom(rootTransactionId));
+          builder.setStbHash(ByteString.copyFrom(rootTransactionId));
         }
         SmartContract newSmartContract = builder.build();
         deposit.createContract(newAddress, new ContractCapsule(newSmartContract));

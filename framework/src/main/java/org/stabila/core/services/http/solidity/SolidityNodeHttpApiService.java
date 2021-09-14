@@ -22,7 +22,7 @@ import org.stabila.core.services.http.GetBlockByLatestNumServlet;
 import org.stabila.core.services.http.GetBlockByLimitNextServlet;
 import org.stabila.core.services.http.GetBlockByNumServlet;
 import org.stabila.core.services.http.GetBrokerageServlet;
-import org.stabila.core.services.http.GetBurnTrxServlet;
+import org.stabila.core.services.http.GetBurnStbServlet;
 import org.stabila.core.services.http.GetDelegatedResourceAccountIndexServlet;
 import org.stabila.core.services.http.GetDelegatedResourceServlet;
 import org.stabila.core.services.http.GetExchangeByIdServlet;
@@ -129,7 +129,7 @@ public class SolidityNodeHttpApiService implements Service {
   @Autowired
   private GetMarketPairListServlet getMarketPairListServlet;
   @Autowired
-  private GetBurnTrxServlet getBurnTrxServlet;
+  private GetBurnStbServlet getBurnStbServlet;
   @Autowired
   private GetBrokerageServlet getBrokerageServlet;
   @Autowired
@@ -239,7 +239,7 @@ public class SolidityNodeHttpApiService implements Service {
       context.addServlet(new ServletHolder(getNodeInfoServlet), "/wallet/getnodeinfo");
       context.addServlet(new ServletHolder(getBrokerageServlet), "/walletsolidity/getBrokerage");
       context.addServlet(new ServletHolder(getRewardServlet), "/walletsolidity/getReward");
-      context.addServlet(new ServletHolder(getBurnTrxServlet), "/walletsolidity/getburntrx");
+      context.addServlet(new ServletHolder(getBurnStbServlet), "/walletsolidity/getburntrx");
 
       int maxHttpConnectNumber = Args.getInstance().getMaxHttpConnectNumber();
       if (maxHttpConnectNumber > 0) {

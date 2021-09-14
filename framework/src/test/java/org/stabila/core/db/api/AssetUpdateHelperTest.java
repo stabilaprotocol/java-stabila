@@ -68,7 +68,7 @@ public class AssetUpdateHelperTest {
             Exchange.newBuilder()
                 .setExchangeId(1L)
                 .setFirstTokenId(assetName)
-                .setSecondTokenId(ByteString.copyFrom(Parameter.ChainSymbol.TRX_SYMBOL_BYTES))
+                .setSecondTokenId(ByteString.copyFrom(Parameter.ChainSymbol.STB_SYMBOL_BYTES))
                 .build());
     chainBaseManager.getExchangeStore().put(exchangeCapsule.createDbKey(), exchangeCapsule);
 

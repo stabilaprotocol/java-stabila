@@ -45,10 +45,10 @@ public class BandwidthProcessorTest {
   private static final String ASSET_ADDRESS_V2;
   private static final String TO_ADDRESS;
   private static final long TOTAL_SUPPLY = 10000000000000L;
-  private static final int TRX_NUM = 2;
+  private static final int STB_NUM = 2;
   private static final int NUM = 2147483647;
   private static final int VOTE_SCORE = 2;
-  private static final String DESCRIPTION = "TRX";
+  private static final String DESCRIPTION = "STB";
   private static final String URL = "https://stabila.network";
   private static Manager dbManager;
   private static ChainBaseManager chainBaseManager;
@@ -206,7 +206,7 @@ public class BandwidthProcessorTest {
             .setName(ByteString.copyFrom(ByteArray.fromString(assetName)))
             .setId(Long.toString(id))
             .setTotalSupply(TOTAL_SUPPLY)
-            .setTrxNum(TRX_NUM)
+            .setTrxNum(STB_NUM)
             .setNum(NUM)
             .setStartTime(startTimestmp)
             .setEndTime(endTimestmp)
@@ -595,7 +595,7 @@ public class BandwidthProcessorTest {
             .setName(ByteString.copyFrom(ByteArray.fromString(ASSET_NAME)))
             .setId(Long.toString(id))
             .setTotalSupply(TOTAL_SUPPLY)
-            .setTrxNum(TRX_NUM)
+            .setTrxNum(STB_NUM)
             .setNum(NUM)
             .setStartTime(START_TIME)
             .setEndTime(END_TIME)
@@ -710,7 +710,7 @@ public class BandwidthProcessorTest {
             .setName(ByteString.copyFrom(ByteArray.fromString(ASSET_NAME)))
             .setId(Long.toString(id))
             .setTotalSupply(TOTAL_SUPPLY)
-            .setTrxNum(TRX_NUM)
+            .setTrxNum(STB_NUM)
             .setNum(NUM)
             .setStartTime(START_TIME)
             .setEndTime(END_TIME)

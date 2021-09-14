@@ -24,7 +24,7 @@ import org.stabila.core.services.interfaceOnSolidity.http.GetBlockByLatestNumOnS
 import org.stabila.core.services.interfaceOnSolidity.http.GetBlockByLimitNextOnSolidityServlet;
 import org.stabila.core.services.interfaceOnSolidity.http.GetBlockByNumOnSolidityServlet;
 import org.stabila.core.services.interfaceOnSolidity.http.GetBrokerageOnSolidityServlet;
-import org.stabila.core.services.interfaceOnSolidity.http.GetBurnTrxOnSolidityServlet;
+import org.stabila.core.services.interfaceOnSolidity.http.GetBurnStbOnSolidityServlet;
 import org.stabila.core.services.interfaceOnSolidity.http.GetDelegatedResourceAccountIndexOnSolidityServlet;
 import org.stabila.core.services.interfaceOnSolidity.http.GetDelegatedResourceOnSolidityServlet;
 import org.stabila.core.services.interfaceOnSolidity.http.GetExchangeByIdOnSolidityServlet;
@@ -127,7 +127,7 @@ public class HttpApiOnSolidityService implements Service {
   @Autowired
   private GetRewardOnSolidityServlet getRewardServlet;
   @Autowired
-  private GetBurnTrxOnSolidityServlet getBurnTrxOnSolidityServlet;
+  private GetBurnStbOnSolidityServlet getBurnStbOnSolidityServlet;
   @Autowired
   private TriggerConstantContractOnSolidityServlet triggerConstantContractOnSolidityServlet;
   @Autowired
@@ -243,7 +243,7 @@ public class HttpApiOnSolidityService implements Service {
       context.addServlet(new ServletHolder(getBrokerageServlet), "/walletsolidity/getBrokerage");
       context.addServlet(new ServletHolder(getRewardServlet), "/walletsolidity/getReward");
       context
-          .addServlet(new ServletHolder(getBurnTrxOnSolidityServlet), "/walletsolidity/getburntrx");
+          .addServlet(new ServletHolder(getBurnStbOnSolidityServlet), "/walletsolidity/getburnstb");
 
       // filters the specified APIs
       // when node is lite fullnode and openHistoryQueryWhenLiteFN is false

@@ -21,8 +21,8 @@ public class NullifierStoreTest {
 
   private static final byte[] NULLIFIER_ONE = randomBytes(32);
   private static final byte[] NULLIFIER_TWO = randomBytes(32);
-  private static final byte[] TRX_TWO = randomBytes(32);
-  private static final byte[] TRX_TWO_NEW = randomBytes(32);
+  private static final byte[] STB_TWO = randomBytes(32);
+  private static final byte[] STB_TWO_NEW = randomBytes(32);
   public static Application AppT;
   private static NullifierStore nullifierStore;
   private static String dbPath = "output_NullifierStore_test";
@@ -49,8 +49,8 @@ public class NullifierStoreTest {
   public static void init() {
     nullifierStore = context.getBean(NullifierStore.class);
     nullifier1 = new BytesCapsule(NULLIFIER_ONE);
-    nullifier2 = new BytesCapsule(TRX_TWO);
-    nullifier2New = new BytesCapsule(TRX_TWO_NEW);
+    nullifier2 = new BytesCapsule(STB_TWO);
+    nullifier2New = new BytesCapsule(STB_TWO_NEW);
 
     nullifierStore.put(nullifier1);
     nullifierStore.put(NULLIFIER_TWO, nullifier2);
@@ -70,11 +70,11 @@ public class NullifierStoreTest {
     Assert.assertArrayEquals("putAndGet1", nullifier, NULLIFIER_ONE);
 
     nullifier = nullifierStore.get(NULLIFIER_TWO).getData();
-    Assert.assertArrayEquals("putAndGet2", nullifier, TRX_TWO);
+    Assert.assertArrayEquals("putAndGet2", nullifier, STB_TWO);
 
     nullifierStore.put(NULLIFIER_TWO, nullifier2New);
     nullifier = nullifierStore.get(NULLIFIER_TWO).getData();
-    Assert.assertArrayEquals("putAndGet2New", nullifier, TRX_TWO_NEW);
+    Assert.assertArrayEquals("putAndGet2New", nullifier, STB_TWO_NEW);
   }
 
   @Test

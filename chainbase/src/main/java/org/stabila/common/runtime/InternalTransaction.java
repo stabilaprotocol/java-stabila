@@ -75,7 +75,7 @@ public class InternalTransaction {
   /**
    * Construct a root InternalTransaction
    */
-  public InternalTransaction(Transaction trx, InternalTransaction.TrxType trxType)
+  public InternalTransaction(Transaction trx, InternalTransaction.StbType trxType)
       throws ContractValidateException {
     this.transaction = trx;
     TransactionCapsule trxCap = new TransactionCapsule(trx);
@@ -84,7 +84,7 @@ public class InternalTransaction {
     // outside transaction should not have deep, so use -1 to mark it is root.
     // It will not count in vm trace. But this deep will be shown in program result.
     this.deep = -1;
-    if (trxType == TrxType.TRX_CONTRACT_CREATION_TYPE) {
+    if (trxType == StbType.TRX_CONTRACT_CREATION_TYPE) {
       CreateSmartContract contract = ContractCapsule.getSmartContractFromTransaction(trx);
       if (contract == null) {
         throw new ContractValidateException("Invalid CreateSmartContract Protocol");
@@ -96,7 +96,7 @@ public class InternalTransaction {
       this.value = contract.getNewContract().getCallValue();
       this.data = contract.getNewContract().getBytecode().toByteArray();
       this.tokenInfo.put(String.valueOf(contract.getTokenId()), contract.getCallTokenValue());
-    } else if (trxType == TrxType.TRX_CONTRACT_CALL_TYPE) {
+    } else if (trxType == StbType.TRX_CONTRACT_CALL_TYPE) {
       TriggerSmartContract contract = ContractCapsule.getTriggerContractFromTransaction(trx);
       if (contract == null) {
         throw new ContractValidateException("Invalid TriggerSmartContract Protocol");
@@ -262,7 +262,7 @@ public class InternalTransaction {
     return protoEncoded.clone();
   }
 
-  public enum TrxType {
+  public enum StbType {
     TRX_PRECOMPILED_TYPE,
     TRX_CONTRACT_CREATION_TYPE,
     TRX_CONTRACT_CALL_TYPE,

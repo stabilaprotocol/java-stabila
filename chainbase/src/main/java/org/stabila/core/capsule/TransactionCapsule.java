@@ -96,7 +96,7 @@ public class TransactionCapsule implements ProtoCapsule<Transaction> {
   private long blockNum = -1;
   @Getter
   @Setter
-  private TransactionTrace trxTrace;
+  private TransactionTrace stbTrace;
 
   private StringBuilder toStringBuff = new StringBuilder();
   @Getter
@@ -109,8 +109,8 @@ public class TransactionCapsule implements ProtoCapsule<Transaction> {
   /**
    * constructor TransactionCapsule.
    */
-  public TransactionCapsule(Transaction trx) {
-    this.transaction = trx;
+  public TransactionCapsule(Transaction stb) {
+    this.transaction = stb;
   }
 
   /**

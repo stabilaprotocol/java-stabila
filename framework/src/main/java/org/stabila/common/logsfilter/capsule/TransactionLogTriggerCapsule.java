@@ -32,29 +32,29 @@ public class TransactionLogTriggerCapsule extends TriggerCapsule {
   @Setter
   private TransactionLogTrigger transactionLogTrigger;
 
-  public TransactionLogTriggerCapsule(TransactionCapsule trxCapsule, BlockCapsule blockCapsule) {
+  public TransactionLogTriggerCapsule(TransactionCapsule stbCapsule, BlockCapsule blockCapsule) {
     transactionLogTrigger = new TransactionLogTrigger();
     if (Objects.nonNull(blockCapsule)) {
       transactionLogTrigger.setBlockHash(blockCapsule.getBlockId().toString());
     }
-    transactionLogTrigger.setTransactionId(trxCapsule.getTransactionId().toString());
+    transactionLogTrigger.setTransactionId(stbCapsule.getTransactionId().toString());
     transactionLogTrigger.setTimeStamp(blockCapsule.getTimeStamp());
-    transactionLogTrigger.setBlockNumber(trxCapsule.getBlockNum());
-    transactionLogTrigger.setData(Hex.toHexString(trxCapsule
+    transactionLogTrigger.setBlockNumber(stbCapsule.getBlockNum());
+    transactionLogTrigger.setData(Hex.toHexString(stbCapsule
         .getInstance().getRawData().getData().toByteArray()));
 
-    TransactionTrace trxTrace = trxCapsule.getTrxTrace();
+    TransactionTrace stbTrace = stbCapsule.getStbTrace();
 
     //result
-    if (Objects.nonNull(trxCapsule.getContractRet())) {
-      transactionLogTrigger.setResult(trxCapsule.getContractRet().toString());
+    if (Objects.nonNull(stbCapsule.getContractRet())) {
+      transactionLogTrigger.setResult(stbCapsule.getContractRet().toString());
     }
 
-    if (Objects.nonNull(trxCapsule.getInstance().getRawData())) {
+    if (Objects.nonNull(stbCapsule.getInstance().getRawData())) {
       // fee limit
-      transactionLogTrigger.setFeeLimit(trxCapsule.getInstance().getRawData().getFeeLimit());
+      transactionLogTrigger.setFeeLimit(stbCapsule.getInstance().getRawData().getFeeLimit());
 
-      Protocol.Transaction.Contract contract = trxCapsule.getInstance().getRawData().getContract(0);
+      Protocol.Transaction.Contract contract = stbCapsule.getInstance().getRawData().getContract(0);
       Any contractParameter = null;
       // contract type
       if (Objects.nonNull(contract)) {
@@ -74,7 +74,7 @@ public class TransactionLogTriggerCapsule extends TriggerCapsule {
             TransferContract contractTransfer = contractParameter.unpack(TransferContract.class);
 
             if (Objects.nonNull(contractTransfer)) {
-              transactionLogTrigger.setAssetName("trx");
+              transactionLogTrigger.setAssetName("stb");
 
               if (Objects.nonNull(contractTransfer.getOwnerAddress())) {
                 transactionLogTrigger.setFromAddress(StringUtil

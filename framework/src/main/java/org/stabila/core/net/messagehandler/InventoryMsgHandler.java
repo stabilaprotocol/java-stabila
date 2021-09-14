@@ -55,7 +55,7 @@ public class InventoryMsgHandler implements StabilaMsgHandler {
     }
 
     if (type.equals(InventoryType.TRX)) {
-      int count = peer.getNodeStatistics().messageStatistics.stabilaInTrxInventoryElement.getCount(10);
+      int count = peer.getNodeStatistics().messageStatistics.stabilaInStbInventoryElement.getCount(10);
       if (count > maxCountIn10s) {
         logger.warn("Drop inv: {} size: {} from Peer {}, Inv count: {} is overload.",
             type, size, peer.getInetAddress(), count);

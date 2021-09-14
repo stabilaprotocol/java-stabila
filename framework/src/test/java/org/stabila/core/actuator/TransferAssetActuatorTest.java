@@ -70,12 +70,12 @@ public class TransferAssetActuatorTest {
   private static final String OWNER_ADDRESS_INVALID = "cccc";
   private static final String TO_ADDRESS_INVALID = "dddd";
   private static final long TOTAL_SUPPLY = 10L;
-  private static final int TRX_NUM = 10;
+  private static final int STB_NUM = 10;
   private static final int NUM = 1;
   private static final long START_TIME = 1;
   private static final long END_TIME = 2;
   private static final int VOTE_SCORE = 2;
-  private static final String DESCRIPTION = "TRX";
+  private static final String DESCRIPTION = "STB";
   private static final String URL = "https://stabila.network";
   private static StabilaApplicationContext context;
   private static Manager dbManager;
@@ -151,7 +151,7 @@ public class TransferAssetActuatorTest {
             .setName(ByteString.copyFrom(ByteArray.fromString(assetName)))
             .setId(Long.toString(id))
             .setTotalSupply(TOTAL_SUPPLY)
-            .setTrxNum(TRX_NUM)
+            .setTrxNum(STB_NUM)
             .setNum(NUM)
             .setStartTime(START_TIME)
             .setEndTime(END_TIME)
@@ -242,7 +242,7 @@ public class TransferAssetActuatorTest {
             .setName(ByteString.copyFrom(ByteArray.fromString(ASSET_NAME)))
             .setId(Long.toString(id))
             .setTotalSupply(TOTAL_SUPPLY)
-            .setTrxNum(TRX_NUM)
+            .setTrxNum(STB_NUM)
             .setNum(NUM)
             .setStartTime(START_TIME)
             .setEndTime(END_TIME)
@@ -280,7 +280,7 @@ public class TransferAssetActuatorTest {
             .setName(ByteString.copyFrom(ByteArray.fromString(ASSET_NAME)))
             .setId(Long.toString(id))
             .setTotalSupply(TOTAL_SUPPLY)
-            .setTrxNum(TRX_NUM)
+            .setTrxNum(STB_NUM)
             .setNum(NUM)
             .setStartTime(START_TIME)
             .setEndTime(END_TIME)
@@ -1146,7 +1146,7 @@ public class TransferAssetActuatorTest {
             .setOwnerAddress(ByteString.copyFrom(ByteArray.fromHexString(ownerAsset_ADDRESS)))
             .setName(ByteString.copyFrom(ByteArray.fromString(ownerASSET_NAME)))
             .setTotalSupply(TOTAL_SUPPLY)
-            .setTrxNum(TRX_NUM)
+            .setTrxNum(STB_NUM)
             .setNum(NUM)
             .setStartTime(START_TIME)
             .setEndTime(END_TIME)
@@ -1207,7 +1207,7 @@ public class TransferAssetActuatorTest {
             .setOwnerAddress(ByteString.copyFrom(ByteArray.fromHexString(ownerAsset_ADDRESS)))
             .setName(ByteString.copyFrom(ByteArray.fromString(ownerASSET_NAME)))
             .setTotalSupply(TOTAL_SUPPLY)
-            .setTrxNum(TRX_NUM)
+            .setTrxNum(STB_NUM)
             .setId(String.valueOf(tokenIdNum))
             .setNum(NUM)
             .setStartTime(START_TIME)
@@ -1265,7 +1265,7 @@ public class TransferAssetActuatorTest {
             .setName(ByteString.copyFrom(ByteArray.fromString(ASSET_NAME)))
             .setId(Long.toString(id))
             .setTotalSupply(TOTAL_SUPPLY)
-            .setTrxNum(TRX_NUM)
+            .setTrxNum(STB_NUM)
             .setNum(NUM)
             .setStartTime(START_TIME)
             .setEndTime(END_TIME)

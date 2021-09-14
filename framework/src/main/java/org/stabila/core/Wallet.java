@@ -392,12 +392,12 @@ public class Wallet {
   private void setTransaction(TransactionCapsule trx) {
     try {
       BlockId blockId = chainBaseManager.getHeadBlockId();
-      if ("solid".equals(Args.getInstance().getTrxReferenceBlock())) {
+      if ("solid".equals(Args.getInstance().getStbReferenceBlock())) {
         blockId = chainBaseManager.getSolidBlockId();
       }
       trx.setReference(blockId.getNum(), blockId.getBytes());
       long expiration = chainBaseManager.getHeadBlockTimeStamp() + Args.getInstance()
-          .getTrxExpirationTimeInMilliseconds();
+          .getStbExpirationTimeInMilliseconds();
       trx.setExpiration(expiration);
       trx.setTimestamp();
     } catch (Exception e) {
@@ -412,7 +412,7 @@ public class Wallet {
     TransactionCapsule trx = new TransactionCapsule(message, contractType);
     try {
       BlockId blockId = chainBaseManager.getHeadBlockId();
-      if ("solid".equals(Args.getInstance().getTrxReferenceBlock())) {
+      if ("solid".equals(Args.getInstance().getStbReferenceBlock())) {
         blockId = chainBaseManager.getSolidBlockId();
       }
       trx.setReference(blockId.getNum(), blockId.getBytes());
@@ -424,7 +424,7 @@ public class Wallet {
       } else {
         expiration =
             chainBaseManager.getHeadBlockTimeStamp() + Args.getInstance()
-                .getTrxExpirationTimeInMilliseconds();
+                .getStbExpirationTimeInMilliseconds();
       }
       trx.setExpiration(expiration);
       trx.setTimestamp();

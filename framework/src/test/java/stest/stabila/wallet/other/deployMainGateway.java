@@ -32,9 +32,9 @@ import stest.stabila.wallet.common.client.utils.PublicMethed;
 public class deployMainGateway {
 
 
-  private final String testDepositTrx = "324a2052e491e99026442d81df4d2777292840c1b3949e20696c49096"
+  private final String testDepositStb = "324a2052e491e99026442d81df4d2777292840c1b3949e20696c49096"
       + "c6bacb7";
-  private final byte[] testDepositAddress = PublicMethed.getFinalAddress(testDepositTrx);
+  private final byte[] testDepositAddress = PublicMethed.getFinalAddress(testDepositStb);
   ECKey ecKey1 = new ECKey(Utils.getRandom());
   byte[] depositAddress = ecKey1.getAddress();
   String testKeyFordeposit = ByteArray.toHexString(ecKey1.getPrivKeyBytes());
@@ -70,7 +70,7 @@ public class deployMainGateway {
     PublicMethed.printAddress(testKeyFordeposit);
 
     Assert.assertTrue(PublicMethed
-        .sendcoin(depositAddress, 1000_000_000L, testDepositAddress, testDepositTrx,
+        .sendcoin(depositAddress, 1000_000_000L, testDepositAddress, testDepositStb,
             blockingStubFull));
     PublicMethed.waitProduceNextBlock(blockingStubFull);
 

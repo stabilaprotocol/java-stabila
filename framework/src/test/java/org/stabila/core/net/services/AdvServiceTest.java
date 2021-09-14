@@ -56,15 +56,15 @@ public class AdvServiceTest {
     testAddInv();
     testBroadcast();
     testFastSend();
-    testTrxBroadcast();
+    testStbBroadcast();
   }
 
   private void testAddInv() {
     boolean flag;
-    Item itemTrx = new Item(Sha256Hash.ZERO_HASH, InventoryType.TRX);
-    flag = service.addInv(itemTrx);
+    Item itemStb = new Item(Sha256Hash.ZERO_HASH, InventoryType.STB);
+    flag = service.addInv(itemStb);
     Assert.assertTrue(flag);
-    flag = service.addInv(itemTrx);
+    flag = service.addInv(itemStb);
     Assert.assertFalse(flag);
 
     Item itemBlock = new Item(Sha256Hash.ZERO_HASH, InventoryType.BLOCK);

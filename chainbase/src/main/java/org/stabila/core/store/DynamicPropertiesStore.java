@@ -725,9 +725,9 @@ public class DynamicPropertiesStore extends StabilaStoreWithRevoking<BytesCapsul
     }
 
     try {
-      this.getBurnTrxAmount();
+      this.getBurnStbAmount();
     } catch (IllegalArgumentException e) {
-      this.saveBurnTrx(0L);
+      this.saveBurnStb(0L);
     }
 
     try {
@@ -1546,9 +1546,9 @@ public class DynamicPropertiesStore extends StabilaStoreWithRevoking<BytesCapsul
             () -> new IllegalArgumentException("not found TOTAL_CREATE_WITNESS_COST"));
   }
 
-  public void saveTotalStoragePool(long trx) {
+  public void saveTotalStoragePool(long stb) {
     this.put(TOTAL_STORAGE_POOL,
-        new BytesCapsule(ByteArray.fromLong(trx)));
+        new BytesCapsule(ByteArray.fromLong(stb)));
   }
 
   public long getTotalStoragePool() {
@@ -1559,9 +1559,9 @@ public class DynamicPropertiesStore extends StabilaStoreWithRevoking<BytesCapsul
             () -> new IllegalArgumentException("not found TOTAL_STORAGE_POOL"));
   }
 
-  public void saveTotalStorageTax(long trx) {
+  public void saveTotalStorageTax(long stb) {
     this.put(TOTAL_STORAGE_TAX,
-        new BytesCapsule(ByteArray.fromLong(trx)));
+        new BytesCapsule(ByteArray.fromLong(stb)));
   }
 
   public long getTotalStorageTax() {
@@ -2172,22 +2172,22 @@ public class DynamicPropertiesStore extends StabilaStoreWithRevoking<BytesCapsul
         new BytesCapsule(ByteArray.fromLong(maxFeeLimit)));
   }
 
-  public long getBurnTrxAmount() {
+  public long getBurnStbAmount() {
     return Optional.ofNullable(getUnchecked(BURN_TRX_AMOUNT))
         .map(BytesCapsule::getData)
         .map(ByteArray::toLong)
         .orElseThrow(() -> new IllegalArgumentException("not found BURN_TRX_AMOUNT"));
   }
 
-  public void burnTrx(long amount) {
+  public void burnStb(long amount) {
     if (amount <= 0) {
       return;
     }
-    amount += getBurnTrxAmount();
-    saveBurnTrx(amount);
+    amount += getBurnStbAmount();
+    saveBurnStb(amount);
   }
 
-  private void saveBurnTrx(long amount) {
+  private void saveBurnStb(long amount) {
     this.put(BURN_TRX_AMOUNT, new BytesCapsule(ByteArray.fromLong(amount)));
   }
 

@@ -1,7 +1,7 @@
 package org.stabila.common.runtime.vm;
 
 import static org.stabila.core.config.Parameter.ChainConstant.FROZEN_PERIOD;
-import static org.stabila.core.config.Parameter.ChainConstant.TRX_PRECISION;
+import static org.stabila.core.config.Parameter.ChainConstant.STB_PRECISION;
 import static org.stabila.protos.Protocol.Transaction.Result.contractResult.REVERT;
 import static org.stabila.protos.Protocol.Transaction.Result.contractResult.SUCCESS;
 
@@ -166,7 +166,7 @@ public class FreezeTest {
     TransactionCapsule trxCap = new TransactionCapsule(trx);
     TransactionTrace trace = new TransactionTrace(trxCap, StoreFactory.getInstance(),
         new RuntimeImpl());
-    trxCap.setTrxTrace(trace);
+    trxCap.setStbTrace(trace);
     trace.init(null);
     trace.exec();
     trace.finalization();
@@ -190,7 +190,7 @@ public class FreezeTest {
             callerAddr, contractAddr, Hex.decode(hexInput), 0, feeLimit));
     TransactionTrace trace = new TransactionTrace(trxCap, StoreFactory.getInstance(),
         new RuntimeImpl());
-    trxCap.setTrxTrace(trace);
+    trxCap.setStbTrace(trace);
     trace.init(null);
     trace.exec();
     trace.finalization();
@@ -657,7 +657,7 @@ public class FreezeTest {
     if (res == 0) {
       Assert.assertEquals(1, newOwner.getFrozenCount());
       Assert.assertEquals(oldOwner.getFrozenBalance() + frozenBalance, newOwner.getFrozenBalance());
-      Assert.assertEquals(oldTotalNetWeight + frozenBalance / TRX_PRECISION,
+      Assert.assertEquals(oldTotalNetWeight + frozenBalance / STB_PRECISION,
           dynamicStore.getTotalNetWeight());
       Assert.assertEquals(oldTotalEnergyWeight, dynamicStore.getTotalEnergyWeight());
       oldOwner.setFrozenForBandwidth(0, 0);
@@ -666,7 +666,7 @@ public class FreezeTest {
       Assert.assertEquals(oldOwner.getEnergyFrozenBalance() + frozenBalance,
           newOwner.getEnergyFrozenBalance());
       Assert.assertEquals(oldTotalNetWeight, dynamicStore.getTotalNetWeight());
-      Assert.assertEquals(oldTotalEnergyWeight + frozenBalance / TRX_PRECISION,
+      Assert.assertEquals(oldTotalEnergyWeight + frozenBalance / STB_PRECISION,
           dynamicStore.getTotalEnergyWeight());
       oldOwner.setFrozenForEnergy(0, 0);
       newOwner.setFrozenForEnergy(0, 0);
@@ -710,7 +710,7 @@ public class FreezeTest {
     if (res == 0) {
       Assert.assertEquals(0, newOwner.getFrozenCount());
       Assert.assertEquals(0, newOwner.getFrozenBalance());
-      Assert.assertEquals(oldTotalNetWeight - frozenBalance / TRX_PRECISION,
+      Assert.assertEquals(oldTotalNetWeight - frozenBalance / STB_PRECISION,
           dynamicStore.getTotalNetWeight());
       Assert.assertEquals(oldTotalEnergyWeight, dynamicStore.getTotalEnergyWeight());
       oldOwner.setFrozenForBandwidth(0, 0);
@@ -718,7 +718,7 @@ public class FreezeTest {
     } else {
       Assert.assertEquals(0, newOwner.getEnergyFrozenBalance());
       Assert.assertEquals(oldTotalNetWeight, dynamicStore.getTotalNetWeight());
-      Assert.assertEquals(oldTotalEnergyWeight - frozenBalance / TRX_PRECISION,
+      Assert.assertEquals(oldTotalEnergyWeight - frozenBalance / STB_PRECISION,
           dynamicStore.getTotalEnergyWeight());
       oldOwner.setFrozenForEnergy(0, 0);
       newOwner.setFrozenForEnergy(0, 0);
@@ -825,12 +825,12 @@ public class FreezeTest {
     }
 
     if (res == 0) {
-      Assert.assertEquals(oldTotalNetWeight + frozenBalance / TRX_PRECISION,
+      Assert.assertEquals(oldTotalNetWeight + frozenBalance / STB_PRECISION,
           dynamicStore.getTotalNetWeight());
       Assert.assertEquals(oldTotalEnergyWeight, dynamicStore.getTotalEnergyWeight());
     } else {
       Assert.assertEquals(oldTotalNetWeight, dynamicStore.getTotalNetWeight());
-      Assert.assertEquals(oldTotalEnergyWeight + frozenBalance / TRX_PRECISION,
+      Assert.assertEquals(oldTotalEnergyWeight + frozenBalance / STB_PRECISION,
           dynamicStore.getTotalEnergyWeight());
     }
 
@@ -941,12 +941,12 @@ public class FreezeTest {
 
     // check total weight
     if (res == 0) {
-      Assert.assertEquals(oldTotalNetWeight - delegatedFrozenBalance / TRX_PRECISION,
+      Assert.assertEquals(oldTotalNetWeight - delegatedFrozenBalance / STB_PRECISION,
           dynamicStore.getTotalNetWeight());
       Assert.assertEquals(oldTotalEnergyWeight, dynamicStore.getTotalEnergyWeight());
     } else {
       Assert.assertEquals(oldTotalNetWeight, dynamicStore.getTotalNetWeight());
-      Assert.assertEquals(oldTotalEnergyWeight - delegatedFrozenBalance / TRX_PRECISION,
+      Assert.assertEquals(oldTotalEnergyWeight - delegatedFrozenBalance / STB_PRECISION,
           dynamicStore.getTotalEnergyWeight());
     }
 
@@ -1007,9 +1007,9 @@ public class FreezeTest {
     long newTotalNetWeight = dynamicStore.getTotalNetWeight();
     long newTotalEnergyWeight = dynamicStore.getTotalEnergyWeight();
     Assert.assertEquals(contract.getFrozenBalance(),
-        (oldTotalNetWeight - newTotalNetWeight) * TRX_PRECISION);
+        (oldTotalNetWeight - newTotalNetWeight) * STB_PRECISION);
     Assert.assertEquals(contract.getEnergyFrozenBalance(),
-        (oldTotalEnergyWeight - newTotalEnergyWeight) * TRX_PRECISION);
+        (oldTotalEnergyWeight - newTotalEnergyWeight) * STB_PRECISION);
 
     return result;
   }
@@ -1020,13 +1020,13 @@ public class FreezeTest {
     AccountStore accountStore = manager.getAccountStore();
     long callerEnergyUsage = result.getReceipt().getEnergyUsage();
     long deployerEnergyUsage = result.getReceipt().getOriginEnergyUsage();
-    long burnedTrx = result.getReceipt().getEnergyFee();
+    long burnedStb = result.getReceipt().getEnergyFee();
     AccountCapsule newCaller = accountStore.get(caller.createDbKey());
     Assert.assertEquals(callerEnergyUsage,
         newCaller.getEnergyUsage() - caller.getEnergyUsage());
     Assert.assertEquals(deployerEnergyUsage,
         accountStore.get(deployer.createDbKey()).getEnergyUsage() - deployer.getEnergyUsage());
-    Assert.assertEquals(burnedTrx,
+    Assert.assertEquals(burnedStb,
         caller.getBalance() - accountStore.get(caller.createDbKey()).getBalance());
   }
 

@@ -37,7 +37,7 @@ public class TransactionsMsgHandler implements StabilaMsgHandler {
   @Autowired
   private AdvService advService;
 
-  private BlockingQueue<TrxEvent> smartContractQueue = new LinkedBlockingQueue(MAX_TRX_SIZE);
+  private BlockingQueue<StbEvent> smartContractQueue = new LinkedBlockingQueue(MAX_TRX_SIZE);
 
   private BlockingQueue<Runnable> queue = new LinkedBlockingQueue();
 
@@ -68,7 +68,7 @@ public class TransactionsMsgHandler implements StabilaMsgHandler {
       int type = trx.getRawData().getContract(0).getType().getNumber();
       if (type == ContractType.TriggerSmartContract_VALUE
           || type == ContractType.CreateSmartContract_VALUE) {
-        if (!smartContractQueue.offer(new TrxEvent(peer, new TransactionMessage(trx)))) {
+        if (!smartContractQueue.offer(new StbEvent(peer, new TransactionMessage(trx)))) {
           logger.warn("Add smart contract failed, queueSize {}:{}", smartContractQueue.size(),
               queue.size());
         }
@@ -93,7 +93,7 @@ public class TransactionsMsgHandler implements StabilaMsgHandler {
     smartContractExecutor.scheduleWithFixedDelay(() -> {
       try {
         while (queue.size() < MAX_SMART_CONTRACT_SUBMIT_SIZE) {
-          TrxEvent event = smartContractQueue.take();
+          StbEvent event = smartContractQueue.take();
           trxHandlePool.submit(() -> handleTransaction(event.getPeer(), event.getMsg()));
         }
       } catch (Exception e) {
@@ -117,18 +117,18 @@ public class TransactionsMsgHandler implements StabilaMsgHandler {
       stabilaNetDelegate.pushTransaction(trx.getTransactionCapsule());
       advService.broadcast(trx);
     } catch (P2pException e) {
-      logger.warn("Trx {} from peer {} process failed. type: {}, reason: {}",
+      logger.warn("Stb {} from peer {} process failed. type: {}, reason: {}",
           trx.getMessageId(), peer.getInetAddress(), e.getType(), e.getMessage());
       if (e.getType().equals(TypeEnum.BAD_TRX)) {
         peer.disconnect(ReasonCode.BAD_TX);
       }
     } catch (Exception e) {
-      logger.error("Trx {} from peer {} process failed.", trx.getMessageId(), peer.getInetAddress(),
+      logger.error("Stb {} from peer {} process failed.", trx.getMessageId(), peer.getInetAddress(),
           e);
     }
   }
 
-  class TrxEvent {
+  class StbEvent {
 
     @Getter
     private PeerConnection peer;
@@ -137,7 +137,7 @@ public class TransactionsMsgHandler implements StabilaMsgHandler {
     @Getter
     private long time;
 
-    public TrxEvent(PeerConnection peer, TransactionMessage msg) {
+    public StbEvent(PeerConnection peer, TransactionMessage msg) {
       this.peer = peer;
       this.msg = msg;
       this.time = System.currentTimeMillis();

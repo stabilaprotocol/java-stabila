@@ -2,7 +2,7 @@ package org.stabila.core.actuator;
 
 import static org.stabila.core.actuator.ActuatorConstant.NOT_EXIST_STR;
 import static org.stabila.core.config.Parameter.ChainConstant.FROZEN_PERIOD;
-import static org.stabila.core.config.Parameter.ChainConstant.TRX_PRECISION;
+import static org.stabila.core.config.Parameter.ChainConstant.STB_PRECISION;
 
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
@@ -85,7 +85,7 @@ public class FreezeBalanceActuator extends AbstractActuator {
           accountCapsule.setFrozenForBandwidth(newFrozenBalanceForBandwidth, expireTime);
         }
         dynamicStore
-            .addTotalNetWeight(frozenBalance / TRX_PRECISION);
+            .addTotalNetWeight(frozenBalance / STB_PRECISION);
         break;
       case ENERGY:
         if (!ArrayUtils.isEmpty(receiverAddress)
@@ -101,7 +101,7 @@ public class FreezeBalanceActuator extends AbstractActuator {
           accountCapsule.setFrozenForEnergy(newFrozenBalanceForEnergy, expireTime);
         }
         dynamicStore
-            .addTotalEnergyWeight(frozenBalance / TRX_PRECISION);
+            .addTotalEnergyWeight(frozenBalance / STB_PRECISION);
         break;
       case STABILA_POWER:
         long newFrozenBalanceForStabilaPower =
@@ -109,7 +109,7 @@ public class FreezeBalanceActuator extends AbstractActuator {
         accountCapsule.setFrozenForStabilaPower(newFrozenBalanceForStabilaPower, expireTime);
 
         dynamicStore
-            .addTotalStabilaPowerWeight(frozenBalance / TRX_PRECISION);
+            .addTotalStabilaPowerWeight(frozenBalance / STB_PRECISION);
         break;
       default:
         logger.debug("Resource Code Error.");
@@ -163,8 +163,8 @@ public class FreezeBalanceActuator extends AbstractActuator {
     if (frozenBalance <= 0) {
       throw new ContractValidateException("frozenBalance must be positive");
     }
-    if (frozenBalance < TRX_PRECISION) {
-      throw new ContractValidateException("frozenBalance must be more than 1TRX");
+    if (frozenBalance < STB_PRECISION) {
+      throw new ContractValidateException("frozenBalance must be more than 1STB");
     }
 
     int frozenCount = accountCapsule.getFrozenCount();

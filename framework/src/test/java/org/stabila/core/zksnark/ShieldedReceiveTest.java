@@ -109,13 +109,13 @@ public class ShieldedReceiveTest extends BlockGenerate {
   private static final long OWNER_BALANCE = 100_000_000;
   private static final long FROM_AMOUNT = 110_000_000;
   private static final long tokenId = 1;
-  private static final String ASSET_NAME = "trx";
-  private static final int TRX_NUM = 10;
+  private static final String ASSET_NAME = "stb";
+  private static final int STB_NUM = 10;
   private static final int NUM = 1;
   private static final long START_TIME = 1;
   private static final long END_TIME = 2;
   private static final int VOTE_SCORE = 2;
-  private static final String DESCRIPTION = "TRX";
+  private static final String DESCRIPTION = "STB";
   private static final String URL = "https://stabila.network";
   private static Manager dbManager;
   private static ChainBaseManager chainBaseManager;
@@ -200,7 +200,7 @@ public class ShieldedReceiveTest extends BlockGenerate {
             .setName(ByteString.copyFrom(ByteArray.fromString(ASSET_NAME)))
             .setId(Long.toString(tokenId))
             .setTotalSupply(OWNER_BALANCE)
-            .setTrxNum(TRX_NUM)
+            .setStbNum(STB_NUM)
             .setNum(NUM)
             .setStartTime(START_TIME)
             .setEndTime(END_TIME)

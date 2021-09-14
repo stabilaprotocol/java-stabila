@@ -163,11 +163,11 @@ public class IsSRCandidateTest extends VMTestBase {
         TvmTestUtils.generateTriggerSmartContractAndGetTransaction(
             Hex.decode(OWNER_ADDRESS), factoryAddress, Hex.decode(hexInput), 0, fee);
     InternalTransaction rootInternalTransaction =
-        new InternalTransaction(trx, InternalTransaction.TrxType.TRX_CONTRACT_CALL_TYPE);
+        new InternalTransaction(trx, InternalTransaction.TrxType.STB_CONTRACT_CALL_TYPE);
     repository = RepositoryImpl.createRoot(storeFactory);
     ProgramInvoke programInvoke =
         programInvokeFactory.createProgramInvoke(
-            InternalTransaction.TrxType.TRX_CONTRACT_CALL_TYPE,
+            InternalTransaction.TrxType.STB_CONTRACT_CALL_TYPE,
             InternalTransaction.ExecutorType.ET_PRE_TYPE,
             trx,
             0,
@@ -190,11 +190,11 @@ public class IsSRCandidateTest extends VMTestBase {
         TvmTestUtils.generateTriggerSmartContractAndGetTransaction(
             Hex.decode(OWNER_ADDRESS), factoryAddress, Hex.decode(hexInput), 0, fee);
     rootInternalTransaction =
-        new InternalTransaction(trx, InternalTransaction.TrxType.TRX_CONTRACT_CALL_TYPE);
+        new InternalTransaction(trx, InternalTransaction.TrxType.STB_CONTRACT_CALL_TYPE);
     repository = RepositoryImpl.createRoot(storeFactory);
     programInvoke =
         programInvokeFactory.createProgramInvoke(
-            InternalTransaction.TrxType.TRX_CONTRACT_CALL_TYPE,
+            InternalTransaction.TrxType.STB_CONTRACT_CALL_TYPE,
             InternalTransaction.ExecutorType.ET_PRE_TYPE,
             trx,
             0,
@@ -219,11 +219,11 @@ public class IsSRCandidateTest extends VMTestBase {
         TvmTestUtils.generateTriggerSmartContractAndGetTransaction(
             Hex.decode(OWNER_ADDRESS), factoryAddress, Hex.decode(hexInput), 0, fee);
     rootInternalTransaction =
-        new InternalTransaction(trx, InternalTransaction.TrxType.TRX_CONTRACT_CALL_TYPE);
+        new InternalTransaction(trx, InternalTransaction.TrxType.STB_CONTRACT_CALL_TYPE);
     repository = RepositoryImpl.createRoot(storeFactory);
     programInvoke =
         programInvokeFactory.createProgramInvoke(
-            InternalTransaction.TrxType.TRX_CONTRACT_CALL_TYPE,
+            InternalTransaction.TrxType.STB_CONTRACT_CALL_TYPE,
             InternalTransaction.ExecutorType.ET_PRE_TYPE,
             trx,
             0,
@@ -247,11 +247,11 @@ public class IsSRCandidateTest extends VMTestBase {
         TvmTestUtils.generateTriggerSmartContractAndGetTransaction(
             Hex.decode(OWNER_ADDRESS), factoryAddress, Hex.decode(hexInput), 0, fee);
     rootInternalTransaction =
-        new InternalTransaction(trx, InternalTransaction.TrxType.TRX_CONTRACT_CALL_TYPE);
+        new InternalTransaction(trx, InternalTransaction.TrxType.STB_CONTRACT_CALL_TYPE);
     repository = RepositoryImpl.createRoot(storeFactory);
     programInvoke =
         programInvokeFactory.createProgramInvoke(
-            InternalTransaction.TrxType.TRX_CONTRACT_CALL_TYPE,
+            InternalTransaction.TrxType.STB_CONTRACT_CALL_TYPE,
             InternalTransaction.ExecutorType.ET_PRE_TYPE,
             trx,
             0,

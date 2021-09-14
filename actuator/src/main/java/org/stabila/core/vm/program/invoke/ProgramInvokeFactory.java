@@ -32,7 +32,7 @@ import org.stabila.protos.Protocol.Transaction;
  */
 public interface ProgramInvokeFactory {
 
-  ProgramInvoke createProgramInvoke(InternalTransaction.TrxType trxType,
+  ProgramInvoke createProgramInvoke(InternalTransaction.TrxType stbType,
       InternalTransaction.ExecutorType executorType,
       Transaction tx, long tokenValue, long tokenId, Block block, Repository deposit,
       long vmStartInUs,

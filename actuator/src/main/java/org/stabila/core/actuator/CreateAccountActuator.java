@@ -50,7 +50,7 @@ public class CreateAccountActuator extends AbstractActuator {
           .adjustBalance(accountStore, accountCreateContract.getOwnerAddress().toByteArray(), -fee);
       // Add to blackhole address
       if (dynamicStore.supportBlackHoleOptimization()) {
-        dynamicStore.burnTrx(fee);
+        dynamicStore.burnStb(fee);
       } else {
         Commons.adjustBalance(accountStore, accountStore.getBlackhole(), fee);
       }

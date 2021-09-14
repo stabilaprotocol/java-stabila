@@ -8,16 +8,16 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class TrxProtobufVarint32FrameDecoder extends ByteToMessageDecoder {
+public class StbProtobufVarint32FrameDecoder extends ByteToMessageDecoder {
 
   private static final Logger logger = LoggerFactory
-      .getLogger(TrxProtobufVarint32FrameDecoder.class);
+      .getLogger(StbProtobufVarint32FrameDecoder.class);
 
   private static final int maxMsgLength = 5 * 1024 * 1024;//5M
 
   private Channel channel;
 
-  public TrxProtobufVarint32FrameDecoder(Channel channel) {
+  public StbProtobufVarint32FrameDecoder(Channel channel) {
     this.channel = channel;
   }
 

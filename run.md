@@ -106,7 +106,7 @@ Using TaskInputs.file() with something that doesn't resolve to a File object has
 20:39:35.005 INFO [o.t.c.s.WitnessService] It's not my turn
 20:39:35.005 INFO [o.t.c.s.WitnessService] Sleep : 4995 ms,next time:2018-03-22T20:39:40.000+08:00
 20:39:40.005 WARN [o.t.c.d.Manager] nextFirstSlotTime:[2018-03-22T17:57:20.001+08:00],now[2018-03-22T20:39:40.055+08:00]
-20:39:40.010 INFO [o.t.c.d.Manager] postponedTrxCount[0],TrxLeft[0]
+20:39:40.010 INFO [o.t.c.d.Manager] postponedStbCount[0],StbLeft[0]
 20:39:40.022 INFO [o.t.c.d.DynamicPropertiesStore] update latest block header id = fd30a16160715f3ca1a5bcad18e81991cd6f47265a71815bd2c943129b258cd2
 20:39:40.022 INFO [o.t.c.d.StabilaStoreWithRevoking] Address is [108, 97, 116, 101, 115, 116, 95, 98, 108, 111, 99, 107, 95, 104, 101, 97, 100, 101, 114, 95, 104, 97, 115, 104], BytesCapsule is BytesCapsule@2ce0e954
 20:39:40.023 INFO [o.t.c.d.DynamicPropertiesStore] update latest block header number = 140

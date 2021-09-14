@@ -473,7 +473,7 @@ public class ContractGrammar004 {
     logger.info("ByteArray.toStr(infoById.get().getResMessage().toByteArray()):   " + ByteArray
         .toStr(infoById.get().getResMessage().toByteArray()));
     /*Assert.assertEquals(
-        "transfer trx failed: Validate InternalTransfer error, no ToAccount."
+        "transfer stb failed: Validate InternalTransfer error, no ToAccount."
             + " And not allowed to create account in smart contract.",
         ByteArray.toStr(infoById.get().getResMessage().toByteArray()));*/
 

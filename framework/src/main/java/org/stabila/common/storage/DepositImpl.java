@@ -492,18 +492,18 @@ public class DepositImpl implements Deposit {
   }
 
   @Override
-  public TransactionCapsule getTransaction(byte[] trxHash) {
-    Key key = Key.create(trxHash);
+  public TransactionCapsule getTransaction(byte[] stbHash) {
+    Key key = Key.create(stbHash);
     if (transactionCache.containsKey(key)) {
       return transactionCache.get(key).getTransaction();
     }
 
     TransactionCapsule transactionCapsule;
     if (parent != null) {
-      transactionCapsule = parent.getTransaction(trxHash);
+      transactionCapsule = parent.getTransaction(stbHash);
     } else {
       try {
-        transactionCapsule = getTransactionStore().get(trxHash);
+        transactionCapsule = getTransactionStore().get(stbHash);
       } catch (BadItemException e) {
         transactionCapsule = null;
       }
