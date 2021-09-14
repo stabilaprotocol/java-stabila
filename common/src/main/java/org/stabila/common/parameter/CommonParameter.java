@@ -292,7 +292,7 @@ public class CommonParameter {
   public boolean needToUpdateAsset;
   @Getter
   @Setter
-  public String trxReferenceBlock;
+  public String stbReferenceBlock;
   @Getter
   @Setter
   public int minEffectiveConnection;
@@ -329,7 +329,7 @@ public class CommonParameter {
   public boolean eventSubscribe = false;
   @Getter
   @Setter
-  public long trxExpirationTimeInMilliseconds; // (ms)
+  public long stbExpirationTimeInMilliseconds; // (ms)
   @Parameter(names = {"-v", "--version"}, description = "output code version", help = true)
   public boolean version;
   @Getter

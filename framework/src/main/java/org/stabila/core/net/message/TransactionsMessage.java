@@ -9,9 +9,9 @@ public class TransactionsMessage extends StabilaMessage {
 
   private Protocol.Transactions transactions;
 
-  public TransactionsMessage(List<Transaction> trxs) {
+  public TransactionsMessage(List<Transaction> stbs) {
     Protocol.Transactions.Builder builder = Protocol.Transactions.newBuilder();
-    trxs.forEach(trx -> builder.addTransactions(trx));
+    stbs.forEach(stb -> builder.addTransactions(stb));
     this.transactions = builder.build();
     this.type = MessageTypes.STBS.asByte();
     this.data = this.transactions.toByteArray();
@@ -33,7 +33,7 @@ public class TransactionsMessage extends StabilaMessage {
 
   @Override
   public String toString() {
-    return new StringBuilder().append(super.toString()).append("trx size: ")
+    return new StringBuilder().append(super.toString()).append("stb size: ")
         .append(this.transactions.getTransactionsList().size()).toString();
   }
 

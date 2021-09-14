@@ -572,7 +572,7 @@ public class Program {
       } catch (ContractValidateException e) {
         if (VMConfig.allowTvmConstantinople()) {
           throw new TransferException(
-              "transfer all token or transfer all trx failed in suicide: %s", e.getMessage());
+              "transfer all token or transfer all stb failed in suicide: %s", e.getMessage());
         }
         throw new BytecodeExecutionException("transfer failure");
       }
@@ -944,7 +944,7 @@ public class Program {
         } catch (ContractValidateException e) {
           if (VMConfig.allowTvmConstantinople()) {
             refundEnergy(msg.getEnergy().longValue(), REFUND_ENERGY_FROM_MESSAGE_CALL);
-            throw new TransferException("transfer trx failed: %s", e.getMessage());
+            throw new TransferException("transfer stb failed: %s", e.getMessage());
           }
           throw new BytecodeExecutionException(VALIDATE_FOR_SMART_CONTRACT_FAILURE, e.getMessage());
         }

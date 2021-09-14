@@ -283,7 +283,7 @@ public class TransferActuatorTest {
     try {
       actuator.validate();
       actuator.execute(ret);
-      fail("Cannot transfer trx to yourself.");
+      fail("Cannot transfer stb to yourself.");
 
     } catch (ContractValidateException e) {
       Assert.assertTrue(e instanceof ContractValidateException);

@@ -125,10 +125,10 @@ public class StorageTest extends VMTestBase {
     long consumeUserResourcePercent = 0;
 
     // deploy contract
-    Transaction trx = TvmTestUtils.generateDeploySmartContractAndGetTransaction(
+    Transaction stb = TvmTestUtils.generateDeploySmartContractAndGetTransaction(
         contractName, address, ABI, code, value, fee, consumeUserResourcePercent, null);
-    byte[] contractAddress = WalletUtil.generateContractAddress(trx);
-    runtime = TvmTestUtils.processTransactionAndReturnRuntime(trx, rootDeposit, null);
+    byte[] contractAddress = WalletUtil.generateContractAddress(stb);
+    runtime = TvmTestUtils.processTransactionAndReturnRuntime(stb, rootDeposit, null);
     Assert.assertNull(runtime.getRuntimeError());
 
     // write storage

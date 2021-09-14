@@ -108,7 +108,7 @@ public class PublicMethedForMutiSign {
    */
 
   public static Boolean createAssetIssue(byte[] address, String name, Long totalSupply,
-      Integer trxNum, Integer icoNum, Long startTime, Long endTime, Integer voteScore,
+      Integer stbNum, Integer icoNum, Long startTime, Long endTime, Integer voteScore,
       String description, String url, Long freeAssetNetLimit, Long publicFreeAssetNetLimit,
       Long fronzenAmount, Long frozenDay, String priKey,
       WalletGrpc.WalletBlockingStub blockingStubFull, String[] permissionKeyString) {
@@ -126,7 +126,7 @@ public class PublicMethedForMutiSign {
       builder.setOwnerAddress(ByteString.copyFrom(address));
       builder.setName(ByteString.copyFrom(name.getBytes()));
       builder.setTotalSupply(totalSupply);
-      builder.setStbNum(trxNum);
+      builder.setStbNum(stbNum);
       builder.setNum(icoNum);
       builder.setStartTime(startTime);
       builder.setEndTime(endTime);
@@ -170,7 +170,7 @@ public class PublicMethedForMutiSign {
    */
 
   public static Boolean createAssetIssueWithpermissionId(byte[] address, String name,
-      Long totalSupply, Integer trxNum, Integer icoNum, Long startTime, Long endTime,
+      Long totalSupply, Integer stbNum, Integer icoNum, Long startTime, Long endTime,
       Integer voteScore, String description, String url, Long freeAssetNetLimit,
       Long publicFreeAssetNetLimit, Long fronzenAmount, Long frozenDay, String priKey,
       WalletGrpc.WalletBlockingStub blockingStubFull, int permissionId,
@@ -189,7 +189,7 @@ public class PublicMethedForMutiSign {
       builder.setOwnerAddress(ByteString.copyFrom(address));
       builder.setName(ByteString.copyFrom(name.getBytes()));
       builder.setTotalSupply(totalSupply);
-      builder.setStbNum(trxNum);
+      builder.setStbNum(stbNum);
       builder.setNum(icoNum);
       builder.setStartTime(startTime);
       builder.setEndTime(endTime);
@@ -241,7 +241,7 @@ public class PublicMethedForMutiSign {
    */
 
   public static String createAssetIssueForTransactionId(byte[] address, String name,
-      Long totalSupply, Integer trxNum, Integer icoNum, Long startTime, Long endTime,
+      Long totalSupply, Integer stbNum, Integer icoNum, Long startTime, Long endTime,
       Integer voteScore, String description, String url, Long freeAssetNetLimit,
       Long publicFreeAssetNetLimit, Long fronzenAmount, Long frozenDay, String priKey,
       WalletGrpc.WalletBlockingStub blockingStubFull, String[] permissionKeyString) {
@@ -259,7 +259,7 @@ public class PublicMethedForMutiSign {
       builder.setOwnerAddress(ByteString.copyFrom(address));
       builder.setName(ByteString.copyFrom(name.getBytes()));
       builder.setTotalSupply(totalSupply);
-      builder.setStbNum(trxNum);
+      builder.setStbNum(stbNum);
       builder.setNum(icoNum);
       builder.setStartTime(startTime);
       builder.setEndTime(endTime);
@@ -1656,7 +1656,7 @@ public class PublicMethedForMutiSign {
     TransactionExtention transactionExtention = blockingStubFull
         .deployContract(contractDeployContract);
     if (transactionExtention == null || !transactionExtention.getResult().getResult()) {
-      System.out.println("RPC create trx failed!");
+      System.out.println("RPC create stb failed!");
       if (transactionExtention != null) {
         System.out.println("Code = " + transactionExtention.getResult().getCode());
         System.out
@@ -1783,7 +1783,7 @@ public class PublicMethedForMutiSign {
     TransactionExtention transactionExtention = blockingStubFull
         .deployContract(contractDeployContract);
     if (transactionExtention == null || !transactionExtention.getResult().getResult()) {
-      System.out.println("RPC create trx failed!");
+      System.out.println("RPC create stb failed!");
       if (transactionExtention != null) {
         System.out.println("Code = " + transactionExtention.getResult().getCode());
         System.out
@@ -2070,7 +2070,7 @@ public class PublicMethedForMutiSign {
     TransactionExtention transactionExtention = blockingStubFull
         .updateSetting(updateSettingContract);
     if (transactionExtention == null || !transactionExtention.getResult().getResult()) {
-      System.out.println("RPC create trx failed!");
+      System.out.println("RPC create stb failed!");
       if (transactionExtention != null) {
         System.out.println("Code = " + transactionExtention.getResult().getCode());
         System.out
@@ -2126,7 +2126,7 @@ public class PublicMethedForMutiSign {
     TransactionExtention transactionExtention = blockingStubFull
         .updateSetting(updateSettingContract);
     if (transactionExtention == null || !transactionExtention.getResult().getResult()) {
-      System.out.println("RPC create trx failed!");
+      System.out.println("RPC create stb failed!");
       if (transactionExtention != null) {
         System.out.println("Code = " + transactionExtention.getResult().getCode());
         System.out
@@ -2187,7 +2187,7 @@ public class PublicMethedForMutiSign {
     TransactionExtention transactionExtention = blockingStubFull
         .updateEnergyLimit(updateEnergyLimitContract);
     if (transactionExtention == null || !transactionExtention.getResult().getResult()) {
-      System.out.println("RPC create trx failed!");
+      System.out.println("RPC create stb failed!");
       if (transactionExtention != null) {
         System.out.println("Code = " + transactionExtention.getResult().getCode());
         System.out
@@ -2267,7 +2267,7 @@ public class PublicMethedForMutiSign {
 
     TransactionExtention transactionExtention = blockingStubFull.triggerContract(triggerContract);
     if (transactionExtention == null || !transactionExtention.getResult().getResult()) {
-      System.out.println("RPC create call trx failed!");
+      System.out.println("RPC create call stb failed!");
       System.out.println("Code = " + transactionExtention.getResult().getCode());
       System.out
           .println("Message = " + transactionExtention.getResult().getMessage().toStringUtf8());
@@ -2582,7 +2582,7 @@ public class PublicMethedForMutiSign {
     TransactionExtention transactionExtention = blockingStubFull
         .deployContract(contractDeployContract);
     if (transactionExtention == null || !transactionExtention.getResult().getResult()) {
-      System.out.println("RPC create trx failed!");
+      System.out.println("RPC create stb failed!");
       if (transactionExtention != null) {
         System.out.println("Code = " + transactionExtention.getResult().getCode());
         System.out
@@ -3677,7 +3677,7 @@ public class PublicMethedForMutiSign {
 
     TransactionExtention transactionExtention = blockingStubFull.triggerContract(triggerContract);
     if (transactionExtention == null || !transactionExtention.getResult().getResult()) {
-      System.out.println("RPC create call trx failed!");
+      System.out.println("RPC create call stb failed!");
       System.out.println("Code = " + transactionExtention.getResult().getCode());
       System.out
           .println("Message = " + transactionExtention.getResult().getMessage().toStringUtf8());
@@ -3747,15 +3747,15 @@ public class PublicMethedForMutiSign {
    * constructor.
    */
 
-  public static byte[] generateContractAddress(Transaction trx, byte[] owneraddress) {
+  public static byte[] generateContractAddress(Transaction stb, byte[] owneraddress) {
 
     // get owner address
-    // this address should be as same as the onweraddress in trx, DONNOT modify it
+    // this address should be as same as the onweraddress in stb, DONNOT modify it
     byte[] ownerAddress = owneraddress;
 
     // get tx hash
     byte[] txRawDataHash = Sha256Hash.of(CommonParameter.getInstance()
-        .isECKeyCryptoEngine(), trx.getRawData().toByteArray()).getBytes();
+        .isECKeyCryptoEngine(), stb.getRawData().toByteArray()).getBytes();
 
     // combine
     byte[] combined = new byte[txRawDataHash.length + ownerAddress.length];
@@ -3822,7 +3822,7 @@ public class PublicMethedForMutiSign {
     TransactionExtention transactionExtention = blockingStubFull
         .deployContract(contractDeployContract);
     if (transactionExtention == null || !transactionExtention.getResult().getResult()) {
-      System.out.println("RPC create trx failed!");
+      System.out.println("RPC create stb failed!");
       if (transactionExtention != null) {
         System.out.println("Code = " + transactionExtention.getResult().getCode());
         System.out
@@ -3949,7 +3949,7 @@ public class PublicMethedForMutiSign {
     TransactionExtention transactionExtention = blockingStubFull
         .deployContract(contractDeployContract);
     if (transactionExtention == null || !transactionExtention.getResult().getResult()) {
-      System.out.println("RPC create trx failed!");
+      System.out.println("RPC create stb failed!");
       if (transactionExtention != null) {
         System.out.println("Code = " + transactionExtention.getResult().getCode());
         System.out
@@ -4047,7 +4047,7 @@ public class PublicMethedForMutiSign {
 
     TransactionExtention transactionExtention = blockingStubFull.triggerContract(triggerContract);
     if (transactionExtention == null || !transactionExtention.getResult().getResult()) {
-      System.out.println("RPC create call trx failed!");
+      System.out.println("RPC create call stb failed!");
       System.out.println("Code = " + transactionExtention.getResult().getCode());
       System.out
           .println("Message = " + transactionExtention.getResult().getMessage().toStringUtf8());
@@ -4446,7 +4446,7 @@ public class PublicMethedForMutiSign {
    */
 
   public static String createAssetIssueForTransactionId1(byte[] address, String name,
-      Long totalSupply, Integer trxNum, Integer icoNum, Long startTime, Long endTime,
+      Long totalSupply, Integer stbNum, Integer icoNum, Long startTime, Long endTime,
       Integer voteScore, String description, String url, Long freeAssetNetLimit,
       Long publicFreeAssetNetLimit, Long fronzenAmount, Long frozenDay, String priKey,
       WalletGrpc.WalletBlockingStub blockingStubFull, int permissionId,
@@ -4465,7 +4465,7 @@ public class PublicMethedForMutiSign {
       builder.setOwnerAddress(ByteString.copyFrom(address));
       builder.setName(ByteString.copyFrom(name.getBytes()));
       builder.setTotalSupply(totalSupply);
-      builder.setStbNum(trxNum);
+      builder.setStbNum(stbNum);
       builder.setNum(icoNum);
       builder.setStartTime(startTime);
       builder.setEndTime(endTime);
@@ -4736,7 +4736,7 @@ public class PublicMethedForMutiSign {
 
     TransactionExtention transactionExtention = blockingStubFull.clearContractABI(clearABIContract);
     if (transactionExtention == null || !transactionExtention.getResult().getResult()) {
-      System.out.println("RPC create call trx failed!");
+      System.out.println("RPC create call stb failed!");
       System.out.println("Code = " + transactionExtention.getResult().getCode());
       System.out
           .println("Message = " + transactionExtention.getResult().getMessage().toStringUtf8());
@@ -4857,7 +4857,7 @@ public class PublicMethedForMutiSign {
       //System.out.println("address " + noteInfo.getPaymentAddress());
       //System.out.println("value " + noteInfo.getValue());
       //System.out.println("rcm " + ByteArray.toHexString(noteInfo.getR()));
-      //System.out.println("trxId " + noteInfo.getStbId());
+      //System.out.println("stbId " + noteInfo.getStbId());
       //System.out.println("index " + noteInfo.getIndex());
       //System.out.println("meno " + new String(noteInfo.getMemo()));
 
@@ -5001,7 +5001,7 @@ public class PublicMethedForMutiSign {
 
     TransactionExtention transactionExtention = blockingStubFull.createWitness2(contract);
     if (transactionExtention == null || !transactionExtention.getResult().getResult()) {
-      System.out.println("RPC create trx failed!");
+      System.out.println("RPC create stb failed!");
       if (transactionExtention != null) {
         System.out.println("Code = " + transactionExtention.getResult().getCode());
         System.out

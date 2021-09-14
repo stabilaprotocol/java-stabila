@@ -58,14 +58,14 @@ import org.stabila.protos.contract.AssetIssueContractOuterClass.TransferAssetCon
 public class TransferAssetActuatorTest {
 
   private static final String dbPath = "output_transferasset_test";
-  private static final String ASSET_NAME = "trx";
+  private static final String ASSET_NAME = "stb";
   private static final String OWNER_ADDRESS;
   private static final String TO_ADDRESS;
   private static final String NOT_EXIT_ADDRESS;
   private static final String NOT_EXIT_ADDRESS_2;
   private static final long OWNER_ASSET_BALANCE = 99999;
   private static final String ownerAsset_ADDRESS;
-  private static final String ownerASSET_NAME = "trxtest";
+  private static final String ownerASSET_NAME = "stbtest";
   private static final long OWNER_ASSET_Test_BALANCE = 99999;
   private static final String OWNER_ADDRESS_INVALID = "cccc";
   private static final String TO_ADDRESS_INVALID = "dddd";

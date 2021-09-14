@@ -165,20 +165,20 @@ contract isTestCtr {
     long consumeUserResourcePercent = 0;
 
     // deploy contract
-    Transaction trx = TvmTestUtils.generateDeploySmartContractAndGetTransaction(
+    Transaction stb = TvmTestUtils.generateDeploySmartContractAndGetTransaction(
         contractName, address, ABI, factoryCode, value, fee, consumeUserResourcePercent,
         null);
-    byte[] factoryAddress = WalletUtil.generateContractAddress(trx);
+    byte[] factoryAddress = WalletUtil.generateContractAddress(stb);
     String factoryAddressStr = StringUtil.encode58Check(factoryAddress);
-    runtime = TvmTestUtils.processTransactionAndReturnRuntime(trx, rootDeposit, null);
+    runtime = TvmTestUtils.processTransactionAndReturnRuntime(stb, rootDeposit, null);
     Assert.assertNull(runtime.getRuntimeError());
 
-    trx = TvmTestUtils.generateDeploySmartContractAndGetTransaction(
+    stb = TvmTestUtils.generateDeploySmartContractAndGetTransaction(
         "", address, ABI, factoryCode, value, fee, consumeUserResourcePercent,
         null);
-    byte[] factoryAddressOther = WalletUtil.generateContractAddress(trx);
+    byte[] factoryAddressOther = WalletUtil.generateContractAddress(stb);
     String factoryAddressStrOther = StringUtil.encode58Check(factoryAddressOther);
-    runtime = TvmTestUtils.processTransactionAndReturnRuntime(trx, rootDeposit, null);
+    runtime = TvmTestUtils.processTransactionAndReturnRuntime(stb, rootDeposit, null);
     Assert.assertNull(runtime.getRuntimeError());
 
     // Trigger contract method: isTest(address)

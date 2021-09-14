@@ -117,19 +117,19 @@ public class TransactionLogTriggerCapsule extends TriggerCapsule {
     }
 
     // receipt
-    if (Objects.nonNull(trxTrace) && Objects.nonNull(trxTrace.getReceipt())) {
-      transactionLogTrigger.setEnergyFee(trxTrace.getReceipt().getEnergyFee());
-      transactionLogTrigger.setOriginEnergyUsage(trxTrace.getReceipt().getOriginEnergyUsage());
-      transactionLogTrigger.setEnergyUsageTotal(trxTrace.getReceipt().getEnergyUsageTotal());
-      transactionLogTrigger.setNetUsage(trxTrace.getReceipt().getNetUsage());
-      transactionLogTrigger.setNetFee(trxTrace.getReceipt().getNetFee());
-      transactionLogTrigger.setEnergyUsage(trxTrace.getReceipt().getEnergyUsage());
+    if (Objects.nonNull(stbTrace) && Objects.nonNull(stbTrace.getReceipt())) {
+      transactionLogTrigger.setEnergyFee(stbTrace.getReceipt().getEnergyFee());
+      transactionLogTrigger.setOriginEnergyUsage(stbTrace.getReceipt().getOriginEnergyUsage());
+      transactionLogTrigger.setEnergyUsageTotal(stbTrace.getReceipt().getEnergyUsageTotal());
+      transactionLogTrigger.setNetUsage(stbTrace.getReceipt().getNetUsage());
+      transactionLogTrigger.setNetFee(stbTrace.getReceipt().getNetFee());
+      transactionLogTrigger.setEnergyUsage(stbTrace.getReceipt().getEnergyUsage());
     }
 
     // program result
-    if (Objects.nonNull(trxTrace) && Objects.nonNull(trxTrace.getRuntime()) && Objects
-        .nonNull(trxTrace.getRuntime().getResult())) {
-      ProgramResult programResult = trxTrace.getRuntime().getResult();
+    if (Objects.nonNull(stbTrace) && Objects.nonNull(stbTrace.getRuntime()) && Objects
+        .nonNull(stbTrace.getRuntime().getResult())) {
+      ProgramResult programResult = stbTrace.getRuntime().getResult();
       ByteString contractResult = ByteString.copyFrom(programResult.getHReturn());
       ByteString contractAddress = ByteString.copyFrom(programResult.getContractAddress());
 

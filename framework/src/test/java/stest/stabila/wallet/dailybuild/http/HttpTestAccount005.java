@@ -36,7 +36,7 @@ public class HttpTestAccount005 {
   @Test(enabled = true, description = "Test transfer with notes by http")
   public void test01TransferWithNotes() {
     PublicMethed.printAddress(toAddressKey);
-    //Send trx to test account
+    //Send stb to test account
     String txid = HttpMethed
         .sendCoin(httpnode, fromAddress, toAddress, amount, sendText, testKey002);
     HttpMethed.waitToProduceOneBlock(httpnode);

@@ -19,7 +19,7 @@ public class ShieldNoteInfo {
   public byte[] r; // 256
   @Setter
   @Getter
-  public String trxId;
+  public String stbId;
   @Setter
   @Getter
   public int index;
@@ -45,7 +45,7 @@ public class ShieldNoteInfo {
     encodeString += ";";
     encodeString += ByteArray.toHexString(r);
     encodeString += ";";
-    encodeString += trxId;
+    encodeString += stbId;
     encodeString += ";";
     encodeString += String.valueOf(value);
     encodeString += ";";
@@ -69,7 +69,7 @@ public class ShieldNoteInfo {
     noteIndex = Long.valueOf(sourceStrArray[0]);
     paymentAddress = sourceStrArray[1];
     r = ByteArray.fromHexString(sourceStrArray[2]);
-    trxId = sourceStrArray[3];
+    stbId = sourceStrArray[3];
     value = Long.valueOf(sourceStrArray[4]);
     index = Integer.valueOf(sourceStrArray[5]);
     memo = ByteArray.fromHexString(sourceStrArray[6]);

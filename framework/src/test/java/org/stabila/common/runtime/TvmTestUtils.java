@@ -48,10 +48,10 @@ public class TvmTestUtils {
       String libraryAddressPair, DepositImpl deposit, BlockCapsule block)
       throws ContractExeException, ReceiptCheckErrException,
       ContractValidateException, VMIllegalException {
-    Transaction trx = generateDeploySmartContractAndGetTransaction(contractName, callerAddress, abi,
+    Transaction stb = generateDeploySmartContractAndGetTransaction(contractName, callerAddress, abi,
         code, value, feeLimit, consumeUserResourcePercent, libraryAddressPair);
-    processTransactionAndReturnRuntime(trx, deposit, block);
-    return WalletUtil.generateContractAddress(trx);
+    processTransactionAndReturnRuntime(stb, deposit, block);
+    return WalletUtil.generateContractAddress(stb);
   }
 
   public static byte[] deployContractWholeProcessReturnContractAddress(String contractName,
@@ -61,10 +61,10 @@ public class TvmTestUtils {
       BlockCapsule block)
       throws ContractExeException, ReceiptCheckErrException,
       ContractValidateException, VMIllegalException {
-    Transaction trx = generateDeploySmartContractAndGetTransaction(contractName, callerAddress, abi,
+    Transaction stb = generateDeploySmartContractAndGetTransaction(contractName, callerAddress, abi,
         code, value, feeLimit, consumeUserResourcePercent, tokenValue, tokenId, libraryAddressPair);
-    processTransactionAndReturnRuntime(trx, deposit, block);
-    return WalletUtil.generateContractAddress(trx);
+    processTransactionAndReturnRuntime(stb, deposit, block);
+    return WalletUtil.generateContractAddress(stb);
   }
 
   public static Runtime triggerContractWholeProcessReturnContractAddress(byte[] callerAddress,
@@ -72,9 +72,9 @@ public class TvmTestUtils {
                                                                          BlockCapsule block)
       throws ContractExeException, ReceiptCheckErrException,
       ContractValidateException, VMIllegalException {
-    Transaction trx = generateTriggerSmartContractAndGetTransaction(callerAddress, contractAddress,
+    Transaction stb = generateTriggerSmartContractAndGetTransaction(callerAddress, contractAddress,
         data, callValue, feeLimit);
-    return processTransactionAndReturnRuntime(trx, deposit, block);
+    return processTransactionAndReturnRuntime(stb, deposit, block);
   }
 
   /**
@@ -110,16 +110,16 @@ public class TvmTestUtils {
 
     CreateSmartContract contract = buildCreateSmartContract(contractName, callerAddress, abi, code,
         value, consumeUserResourcePercent, libraryAddressPair, orginEngeryLimit);
-    TransactionCapsule trxCapWithoutFeeLimit = new TransactionCapsule(contract,
+    TransactionCapsule stbCapWithoutFeeLimit = new TransactionCapsule(contract,
         ContractType.CreateSmartContract);
-    Transaction.Builder transactionBuilder = trxCapWithoutFeeLimit.getInstance().toBuilder();
+    Transaction.Builder transactionBuilder = stbCapWithoutFeeLimit.getInstance().toBuilder();
 
-    Transaction.raw.Builder rawBuilder = trxCapWithoutFeeLimit.getInstance().getRawData()
+    Transaction.raw.Builder rawBuilder = stbCapWithoutFeeLimit.getInstance().getRawData()
         .toBuilder();
     rawBuilder.setFeeLimit(feeLimit);
     transactionBuilder.setRawData(rawBuilder);
-    Transaction trx = transactionBuilder.build();
-    return trx;
+    Transaction stb = transactionBuilder.build();
+    return stb;
   }
 
   public static Transaction generateDeploySmartContractAndGetTransaction(String contractName,
@@ -130,16 +130,16 @@ public class TvmTestUtils {
     CreateSmartContract contract = buildCreateSmartContract(contractName, callerAddress, abi, code,
         value, consumeUserResourcePercent, libraryAddressPair, orginEngeryLimit, tokenValue,
         tokenId);
-    TransactionCapsule trxCapWithoutFeeLimit = new TransactionCapsule(contract,
+    TransactionCapsule stbCapWithoutFeeLimit = new TransactionCapsule(contract,
         ContractType.CreateSmartContract);
-    Transaction.Builder transactionBuilder = trxCapWithoutFeeLimit.getInstance().toBuilder();
+    Transaction.Builder transactionBuilder = stbCapWithoutFeeLimit.getInstance().toBuilder();
 
-    Transaction.raw.Builder rawBuilder = trxCapWithoutFeeLimit.getInstance().getRawData()
+    Transaction.raw.Builder rawBuilder = stbCapWithoutFeeLimit.getInstance().getRawData()
         .toBuilder();
     rawBuilder.setFeeLimit(feeLimit);
     transactionBuilder.setRawData(rawBuilder);
-    Transaction trx = transactionBuilder.build();
-    return trx;
+    Transaction stb = transactionBuilder.build();
+    return stb;
   }
 
   public static Transaction generateDeploySmartContractWithCreatorEnergyLimitAndGetTransaction(
@@ -151,15 +151,15 @@ public class TvmTestUtils {
     CreateSmartContract contract = buildCreateSmartContractWithCreatorEnergyLimit(contractName,
         callerAddress, abi, code,
         value, consumeUserResourcePercent, libraryAddressPair, creatorEnergyLimit);
-    TransactionCapsule trxCapWithoutFeeLimit = new TransactionCapsule(contract,
+    TransactionCapsule stbCapWithoutFeeLimit = new TransactionCapsule(contract,
         ContractType.CreateSmartContract);
-    Transaction.Builder transactionBuilder = trxCapWithoutFeeLimit.getInstance().toBuilder();
-    Transaction.raw.Builder rawBuilder = trxCapWithoutFeeLimit.getInstance().getRawData()
+    Transaction.Builder transactionBuilder = stbCapWithoutFeeLimit.getInstance().toBuilder();
+    Transaction.raw.Builder rawBuilder = stbCapWithoutFeeLimit.getInstance().getRawData()
         .toBuilder();
     rawBuilder.setFeeLimit(feeLimit);
     transactionBuilder.setRawData(rawBuilder);
-    Transaction trx = transactionBuilder.build();
-    return trx;
+    Transaction stb = transactionBuilder.build();
+    return stb;
   }
 
   /**
@@ -167,13 +167,13 @@ public class TvmTestUtils {
    * contracts).
    */
 
-  public static Runtime processTransactionAndReturnRuntime(Transaction trx,
+  public static Runtime processTransactionAndReturnRuntime(Transaction stb,
       Deposit deposit, BlockCapsule block)
       throws ContractExeException, ContractValidateException,
       ReceiptCheckErrException, VMIllegalException {
-    TransactionCapsule trxCap = new TransactionCapsule(trx);
+    TransactionCapsule stbCap = new TransactionCapsule(stb);
     deposit.commit();
-    TransactionTrace trace = new TransactionTrace(trxCap, StoreFactory.getInstance(),
+    TransactionTrace trace = new TransactionTrace(stbCap, StoreFactory.getInstance(),
         new RuntimeImpl());    // init
     trace.init(block);
     //exec
@@ -184,13 +184,13 @@ public class TvmTestUtils {
     return trace.getRuntime();
   }
 
-  public static Runtime processTransactionAndReturnRuntime(Transaction trx,
+  public static Runtime processTransactionAndReturnRuntime(Transaction stb,
       Manager dbmanager, BlockCapsule block)
       throws ContractExeException, ContractValidateException,
       ReceiptCheckErrException, VMIllegalException {
-    TransactionCapsule trxCap = new TransactionCapsule(trx);
+    TransactionCapsule stbCap = new TransactionCapsule(stb);
 
-    TransactionTrace trace = new TransactionTrace(trxCap, StoreFactory.getInstance(),
+    TransactionTrace trace = new TransactionTrace(stbCap, StoreFactory.getInstance(),
         new RuntimeImpl());
     // init
     trace.init(block);
@@ -202,13 +202,13 @@ public class TvmTestUtils {
     return trace.getRuntime();
   }
 
-  public static TransactionTrace processTransactionAndReturnTrace(Transaction trx,
+  public static TransactionTrace processTransactionAndReturnTrace(Transaction stb,
       DepositImpl deposit, BlockCapsule block)
       throws ContractExeException, ContractValidateException,
       ReceiptCheckErrException, VMIllegalException {
-    TransactionCapsule trxCap = new TransactionCapsule(trx);
+    TransactionCapsule stbCap = new TransactionCapsule(stb);
     deposit.commit();
-    TransactionTrace trace = new TransactionTrace(trxCap, StoreFactory.getInstance(),
+    TransactionTrace trace = new TransactionTrace(stbCap, StoreFactory.getInstance(),
         new RuntimeImpl());    // init
     trace.init(block);
     //exec
@@ -226,13 +226,13 @@ public class TvmTestUtils {
       String libraryAddressPair, Manager dbManager, BlockCapsule blockCap)
       throws ContractExeException, ReceiptCheckErrException,
       ContractValidateException, VMIllegalException {
-    Transaction trx = generateDeploySmartContractAndGetTransaction(contractName, callerAddress, abi,
+    Transaction stb = generateDeploySmartContractAndGetTransaction(contractName, callerAddress, abi,
         code, value, feeLimit, consumeUserResourcePercent, libraryAddressPair);
 
-    byte[] contractAddress = WalletUtil.generateContractAddress(trx);
+    byte[] contractAddress = WalletUtil.generateContractAddress(stb);
 
-    return processTransactionAndReturnTvmTestResult(trx, dbManager, blockCap)
-        .setContractAddress(WalletUtil.generateContractAddress(trx));
+    return processTransactionAndReturnTvmTestResult(stb, dbManager, blockCap)
+        .setContractAddress(WalletUtil.generateContractAddress(stb));
   }
 
   public static TVMTestResult deployContractWithCreatorEnergyLimitAndReturnTvmTestResult(
@@ -242,14 +242,14 @@ public class TvmTestUtils {
       String libraryAddressPair, Manager dbManager, BlockCapsule blockCap, long creatorEnergyLimit)
       throws ContractExeException, ReceiptCheckErrException,
       ContractValidateException, VMIllegalException {
-    Transaction trx = generateDeploySmartContractWithCreatorEnergyLimitAndGetTransaction(
+    Transaction stb = generateDeploySmartContractWithCreatorEnergyLimitAndGetTransaction(
         contractName, callerAddress, abi,
         code, value, feeLimit, consumeUserResourcePercent, libraryAddressPair, creatorEnergyLimit);
 
-    byte[] contractAddress = WalletUtil.generateContractAddress(trx);
+    byte[] contractAddress = WalletUtil.generateContractAddress(stb);
 
-    return processTransactionAndReturnTvmTestResult(trx, dbManager, blockCap)
-        .setContractAddress(WalletUtil.generateContractAddress(trx));
+    return processTransactionAndReturnTvmTestResult(stb, dbManager, blockCap)
+        .setContractAddress(WalletUtil.generateContractAddress(stb));
   }
 
   public static TVMTestResult triggerContractAndReturnTvmTestResult(byte[] callerAddress,
@@ -257,19 +257,19 @@ public class TvmTestUtils {
       BlockCapsule blockCap)
       throws ContractExeException, ReceiptCheckErrException,
       ContractValidateException, VMIllegalException {
-    Transaction trx = generateTriggerSmartContractAndGetTransaction(callerAddress, contractAddress,
+    Transaction stb = generateTriggerSmartContractAndGetTransaction(callerAddress, contractAddress,
         data, callValue, feeLimit);
-    return processTransactionAndReturnTvmTestResult(trx, dbManager, blockCap)
+    return processTransactionAndReturnTvmTestResult(stb, dbManager, blockCap)
         .setContractAddress(contractAddress);
   }
 
 
-  public static TVMTestResult processTransactionAndReturnTvmTestResult(Transaction trx,
+  public static TVMTestResult processTransactionAndReturnTvmTestResult(Transaction stb,
       Manager dbManager, BlockCapsule blockCap)
       throws ContractExeException, ContractValidateException,
       ReceiptCheckErrException, VMIllegalException {
-    TransactionCapsule trxCap = new TransactionCapsule(trx);
-    TransactionTrace trace = new TransactionTrace(trxCap, StoreFactory.getInstance(),
+    TransactionCapsule stbCap = new TransactionCapsule(stb);
+    TransactionTrace trace = new TransactionTrace(stbCap, StoreFactory.getInstance(),
         new RuntimeImpl());
     // init
     trace.init(blockCap);
@@ -399,15 +399,15 @@ public class TvmTestUtils {
 
     TriggerSmartContract contract = buildTriggerSmartContract(callerAddress, contractAddress, data,
         callValue);
-    TransactionCapsule trxCapWithoutFeeLimit = new TransactionCapsule(contract,
+    TransactionCapsule stbCapWithoutFeeLimit = new TransactionCapsule(contract,
         ContractType.TriggerSmartContract);
-    Transaction.Builder transactionBuilder = trxCapWithoutFeeLimit.getInstance().toBuilder();
-    Transaction.raw.Builder rawBuilder = trxCapWithoutFeeLimit.getInstance().getRawData()
+    Transaction.Builder transactionBuilder = stbCapWithoutFeeLimit.getInstance().toBuilder();
+    Transaction.raw.Builder rawBuilder = stbCapWithoutFeeLimit.getInstance().getRawData()
         .toBuilder();
     rawBuilder.setFeeLimit(feeLimit);
     transactionBuilder.setRawData(rawBuilder);
-    Transaction trx = transactionBuilder.build();
-    return trx;
+    Transaction stb = transactionBuilder.build();
+    return stb;
   }
 
   public static Transaction generateTriggerSmartContractAndGetTransaction(
@@ -416,15 +416,15 @@ public class TvmTestUtils {
 
     TriggerSmartContract contract = buildTriggerSmartContract(callerAddress, contractAddress, data,
         callValue, tokenValue, tokenId);
-    TransactionCapsule trxCapWithoutFeeLimit = new TransactionCapsule(contract,
+    TransactionCapsule stbCapWithoutFeeLimit = new TransactionCapsule(contract,
         ContractType.TriggerSmartContract);
-    Transaction.Builder transactionBuilder = trxCapWithoutFeeLimit.getInstance().toBuilder();
-    Transaction.raw.Builder rawBuilder = trxCapWithoutFeeLimit.getInstance().getRawData()
+    Transaction.Builder transactionBuilder = stbCapWithoutFeeLimit.getInstance().toBuilder();
+    Transaction.raw.Builder rawBuilder = stbCapWithoutFeeLimit.getInstance().getRawData()
         .toBuilder();
     rawBuilder.setFeeLimit(feeLimit);
     transactionBuilder.setRawData(rawBuilder);
-    Transaction trx = transactionBuilder.build();
-    return trx;
+    Transaction stb = transactionBuilder.build();
+    return stb;
   }
 
 

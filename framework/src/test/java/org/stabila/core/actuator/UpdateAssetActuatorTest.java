@@ -42,7 +42,7 @@ public class UpdateAssetActuatorTest {
   private static final String SECOND_ACCOUNT_ADDRESS;
   private static final String OWNER_ADDRESS_NOTEXIST;
   private static final String OWNER_ADDRESS_INVALID = "aaaa";
-  private static final String NAME = "trx-my";
+  private static final String NAME = "stb-my";
   private static final long TOTAL_SUPPLY = 10000L;
   private static final String DESCRIPTION = "myCoin";
   private static final String URL = "stabila-my.com";

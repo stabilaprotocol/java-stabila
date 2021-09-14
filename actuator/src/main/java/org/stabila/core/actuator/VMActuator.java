@@ -64,7 +64,7 @@ import org.stabila.protos.contract.SmartContractOuterClass.TriggerSmartContract;
 @Slf4j(topic = "VM")
 public class VMActuator implements Actuator2 {
 
-  private Transaction trx;
+  private Transaction stb;
   private BlockCapsule blockCap;
   private Repository repository;
   private InternalTransaction rootInternalTransaction;
@@ -78,7 +78,7 @@ public class VMActuator implements Actuator2 {
 
   @Getter
   @Setter
-  private InternalTransaction.StbType trxType;
+  private InternalTransaction.StbType stbType;
   private ExecutorType executorType;
 
   @Getter
@@ -115,13 +115,13 @@ public class VMActuator implements Actuator2 {
 
     //Load Config
     ConfigLoader.load(context.getStoreFactory());
-    trx = context.getStbCap().getInstance();
+    stb = context.getStbCap().getInstance();
     blockCap = context.getBlockCap();
     if (VMConfig.allowTvmFreeze() && context.getStbCap().getStbTrace() != null) {
       receipt = context.getStbCap().getStbTrace().getReceipt();
     }
     //Route Type
-    ContractType contractType = this.trx.getRawData().getContract(0).getType();
+    ContractType contractType = this.stb.getRawData().getContract(0).getType();
     //Prepare Repository
     repository = RepositoryImpl.createRoot(context.getStoreFactory());
 
@@ -140,11 +140,11 @@ public class VMActuator implements Actuator2 {
 
     switch (contractType.getNumber()) {
       case ContractType.TriggerSmartContract_VALUE:
-        trxType = StbType.STB_CONTRACT_CALL_TYPE;
+        stbType = StbType.STB_CONTRACT_CALL_TYPE;
         call();
         break;
       case ContractType.CreateSmartContract_VALUE:
-        trxType = StbType.STB_CONTRACT_CREATION_TYPE;
+        stbType = StbType.STB_CONTRACT_CREATION_TYPE;
         create();
         break;
       default:
@@ -163,8 +163,8 @@ public class VMActuator implements Actuator2 {
     try {
       if (vm != null) {
         if (null != blockCap && blockCap.generatedByMyself && blockCap.hasWitnessSignature()
-            && null != TransactionUtil.getContractRet(trx)
-            && contractResult.OUT_OF_TIME == TransactionUtil.getContractRet(trx)) {
+            && null != TransactionUtil.getContractRet(stb)
+            && contractResult.OUT_OF_TIME == TransactionUtil.getContractRet(stb)) {
           result = program.getResult();
           program.spendAllEnergy();
 
@@ -178,9 +178,9 @@ public class VMActuator implements Actuator2 {
         result = program.getResult();
 
         if (isConstantCall) {
-          long callValue = TransactionCapsule.getCallValue(trx.getRawData().getContract(0));
+          long callValue = TransactionCapsule.getCallValue(stb.getRawData().getContract(0));
           long callTokenValue = TransactionUtil
-              .getCallTokenValue(trx.getRawData().getContract(0));
+              .getCallTokenValue(stb.getRawData().getContract(0));
           if (callValue > 0 || callTokenValue > 0) {
             result.setRuntimeError("constant cannot set call value or call token value.");
             result.rejectInternalTransactions();
@@ -193,7 +193,7 @@ public class VMActuator implements Actuator2 {
           return;
         }
 
-        if (StbType.STB_CONTRACT_CREATION_TYPE == trxType && !result.isRevert()) {
+        if (StbType.STB_CONTRACT_CREATION_TYPE == stbType && !result.isRevert()) {
           byte[] code = program.getResult().getHReturn();
           long saveCodeEnergy = (long) getLength(code) * EnergyCost.getInstance().getCREATE_DATA();
           long afterSpend = program.getEnergyLimitLeft().longValue() - saveCodeEnergy;
@@ -293,7 +293,7 @@ public class VMActuator implements Actuator2 {
       throw new ContractValidateException("vm work is off, need to be opened by the committee");
     }
 
-    CreateSmartContract contract = ContractCapsule.getSmartContractFromTransaction(trx);
+    CreateSmartContract contract = ContractCapsule.getSmartContractFromTransaction(stb);
     if (contract == null) {
       throw new ContractValidateException("Cannot get CreateSmartContract from transaction");
     }
@@ -314,7 +314,7 @@ public class VMActuator implements Actuator2 {
       throw new ContractValidateException("percent must be >= 0 and <= 100");
     }
 
-    byte[] contractAddress = WalletUtil.generateContractAddress(trx);
+    byte[] contractAddress = WalletUtil.generateContractAddress(stb);
     // insure the new contract address haven't exist
     if (repository.getAccount(contractAddress) != null) {
       throw new ContractValidateException(
@@ -334,7 +334,7 @@ public class VMActuator implements Actuator2 {
     byte[] callerAddress = contract.getOwnerAddress().toByteArray();
     // create vm to constructor smart contract
     try {
-      long feeLimit = trx.getRawData().getFeeLimit();
+      long feeLimit = stb.getRawData().getFeeLimit();
       if (feeLimit < 0 || feeLimit > repository.getDynamicPropertiesStore().getMaxFeeLimit()) {
         logger.info("invalid feeLimit {}", feeLimit);
         throw new ContractValidateException(
@@ -364,7 +364,7 @@ public class VMActuator implements Actuator2 {
       checkTokenValueAndId(tokenValue, tokenId);
 
       byte[] ops = newSmartContract.getBytecode().toByteArray();
-      rootInternalTransaction = new InternalTransaction(trx, trxType);
+      rootInternalTransaction = new InternalTransaction(stb, stbType);
 
       long maxCpuTimeOfOneTx = repository.getDynamicPropertiesStore()
           .getMaxCpuTimeOfOneTx() * VMConstant.ONE_THOUSAND;
@@ -372,12 +372,12 @@ public class VMActuator implements Actuator2 {
       long vmStartInUs = System.nanoTime() / VMConstant.ONE_THOUSAND;
       long vmShouldEndInUs = vmStartInUs + thisTxCPULimitInUs;
       ProgramInvoke programInvoke = programInvokeFactory
-          .createProgramInvoke(StbType.STB_CONTRACT_CREATION_TYPE, executorType, trx,
+          .createProgramInvoke(StbType.STB_CONTRACT_CREATION_TYPE, executorType, stb,
               tokenValue, tokenId, blockCap.getInstance(), repository, vmStartInUs,
               vmShouldEndInUs, energyLimit);
       this.vm = new VM();
       this.program = new Program(ops, programInvoke, rootInternalTransaction, vmConfig);
-      byte[] txId = TransactionUtil.getTransactionId(trx).getBytes();
+      byte[] txId = TransactionUtil.getTransactionId(stb).getBytes();
       this.program.setRootTransactionId(txId);
       if (enableEventListener && isCheckTransaction()) {
         logInfoTriggerParser = new LogInfoTriggerParser(blockCap.getNum(), blockCap.getTimeStamp(),
@@ -420,7 +420,7 @@ public class VMActuator implements Actuator2 {
       throw new ContractValidateException("VM work is off, need to be opened by the committee");
     }
 
-    TriggerSmartContract contract = ContractCapsule.getTriggerContractFromTransaction(trx);
+    TriggerSmartContract contract = ContractCapsule.getTriggerContractFromTransaction(stb);
     if (contract == null) {
       return;
     }
@@ -460,7 +460,7 @@ public class VMActuator implements Actuator2 {
     byte[] code = repository.getCode(contractAddress);
     if (isNotEmpty(code)) {
 
-      long feeLimit = trx.getRawData().getFeeLimit();
+      long feeLimit = stb.getRawData().getFeeLimit();
       if (feeLimit < 0 || feeLimit > repository.getDynamicPropertiesStore().getMaxFeeLimit()) {
         logger.info("invalid feeLimit {}", feeLimit);
         throw new ContractValidateException(
@@ -483,16 +483,16 @@ public class VMActuator implements Actuator2 {
       long vmStartInUs = System.nanoTime() / VMConstant.ONE_THOUSAND;
       long vmShouldEndInUs = vmStartInUs + thisTxCPULimitInUs;
       ProgramInvoke programInvoke = programInvokeFactory
-          .createProgramInvoke(StbType.STB_CONTRACT_CALL_TYPE, executorType, trx,
+          .createProgramInvoke(StbType.STB_CONTRACT_CALL_TYPE, executorType, stb,
               tokenValue, tokenId, blockCap.getInstance(), repository, vmStartInUs,
               vmShouldEndInUs, energyLimit);
       if (isConstantCall) {
         programInvoke.setConstantCall();
       }
       this.vm = new VM();
-      rootInternalTransaction = new InternalTransaction(trx, trxType);
+      rootInternalTransaction = new InternalTransaction(stb, stbType);
       this.program = new Program(code, programInvoke, rootInternalTransaction, vmConfig);
-      byte[] txId = TransactionUtil.getTransactionId(trx).getBytes();
+      byte[] txId = TransactionUtil.getTransactionId(stb).getBytes();
       this.program.setRootTransactionId(txId);
 
       if (enableEventListener && isCheckTransaction()) {
@@ -617,7 +617,7 @@ public class VMActuator implements Actuator2 {
         cpuLimitRatio = 1.0;
       } else {
         // self witness or other witness or fullnode verifies block
-        if (trx.getRet(0).getContractRet() == contractResult.OUT_OF_TIME) {
+        if (stb.getRet(0).getContractRet() == contractResult.OUT_OF_TIME) {
           cpuLimitRatio = CommonParameter.getInstance().getMinTimeRatio();
         } else {
           cpuLimitRatio = CommonParameter.getInstance().getMaxTimeRatio();

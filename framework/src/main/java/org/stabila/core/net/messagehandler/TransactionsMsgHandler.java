@@ -42,7 +42,7 @@ public class TransactionsMsgHandler implements StabilaMsgHandler {
   private BlockingQueue<Runnable> queue = new LinkedBlockingQueue();
 
   private int threadNum = Args.getInstance().getValidateSignThreadNum();
-  private ExecutorService trxHandlePool = new ThreadPoolExecutor(threadNum, threadNum, 0L,
+  private ExecutorService stbHandlePool = new ThreadPoolExecutor(threadNum, threadNum, 0L,
       TimeUnit.MILLISECONDS, queue);
 
   private ScheduledExecutorService smartContractExecutor = Executors
@@ -64,26 +64,26 @@ public class TransactionsMsgHandler implements StabilaMsgHandler {
   public void processMessage(PeerConnection peer, StabilaMessage msg) throws P2pException {
     TransactionsMessage transactionsMessage = (TransactionsMessage) msg;
     check(peer, transactionsMessage);
-    for (Transaction trx : transactionsMessage.getTransactions().getTransactionsList()) {
-      int type = trx.getRawData().getContract(0).getType().getNumber();
+    for (Transaction stb : transactionsMessage.getTransactions().getTransactionsList()) {
+      int type = stb.getRawData().getContract(0).getType().getNumber();
       if (type == ContractType.TriggerSmartContract_VALUE
           || type == ContractType.CreateSmartContract_VALUE) {
-        if (!smartContractQueue.offer(new StbEvent(peer, new TransactionMessage(trx)))) {
+        if (!smartContractQueue.offer(new StbEvent(peer, new TransactionMessage(stb)))) {
           logger.warn("Add smart contract failed, queueSize {}:{}", smartContractQueue.size(),
               queue.size());
         }
       } else {
-        trxHandlePool.submit(() -> handleTransaction(peer, new TransactionMessage(trx)));
+        stbHandlePool.submit(() -> handleTransaction(peer, new TransactionMessage(stb)));
       }
     }
   }
 
   private void check(PeerConnection peer, TransactionsMessage msg) throws P2pException {
-    for (Transaction trx : msg.getTransactions().getTransactionsList()) {
-      Item item = new Item(new TransactionMessage(trx).getMessageId(), InventoryType.STB);
+    for (Transaction stb : msg.getTransactions().getTransactionsList()) {
+      Item item = new Item(new TransactionMessage(stb).getMessageId(), InventoryType.STB);
       if (!peer.getAdvInvRequest().containsKey(item)) {
         throw new P2pException(TypeEnum.BAD_MESSAGE,
-            "trx: " + msg.getMessageId() + " without request.");
+            "stb: " + msg.getMessageId() + " without request.");
       }
       peer.getAdvInvRequest().remove(item);
     }
@@ -94,7 +94,7 @@ public class TransactionsMsgHandler implements StabilaMsgHandler {
       try {
         while (queue.size() < MAX_SMART_CONTRACT_SUBMIT_SIZE) {
           StbEvent event = smartContractQueue.take();
-          trxHandlePool.submit(() -> handleTransaction(event.getPeer(), event.getMsg()));
+          stbHandlePool.submit(() -> handleTransaction(event.getPeer(), event.getMsg()));
         }
       } catch (Exception e) {
         logger.error("Handle smart contract exception.", e);
@@ -102,28 +102,28 @@ public class TransactionsMsgHandler implements StabilaMsgHandler {
     }, 1000, 20, TimeUnit.MILLISECONDS);
   }
 
-  private void handleTransaction(PeerConnection peer, TransactionMessage trx) {
+  private void handleTransaction(PeerConnection peer, TransactionMessage stb) {
     if (peer.isDisconnect()) {
-      logger.warn("Drop trx {} from {}, peer is disconnect.", trx.getMessageId(),
+      logger.warn("Drop stb {} from {}, peer is disconnect.", stb.getMessageId(),
           peer.getInetAddress());
       return;
     }
 
-    if (advService.getMessage(new Item(trx.getMessageId(), InventoryType.STB)) != null) {
+    if (advService.getMessage(new Item(stb.getMessageId(), InventoryType.STB)) != null) {
       return;
     }
 
     try {
-      stabilaNetDelegate.pushTransaction(trx.getTransactionCapsule());
-      advService.broadcast(trx);
+      stabilaNetDelegate.pushTransaction(stb.getTransactionCapsule());
+      advService.broadcast(stb);
     } catch (P2pException e) {
       logger.warn("Stb {} from peer {} process failed. type: {}, reason: {}",
-          trx.getMessageId(), peer.getInetAddress(), e.getType(), e.getMessage());
+          stb.getMessageId(), peer.getInetAddress(), e.getType(), e.getMessage());
       if (e.getType().equals(TypeEnum.BAD_STB)) {
         peer.disconnect(ReasonCode.BAD_TX);
       }
     } catch (Exception e) {
-      logger.error("Stb {} from peer {} process failed.", trx.getMessageId(), peer.getInetAddress(),
+      logger.error("Stb {} from peer {} process failed.", stb.getMessageId(), peer.getInetAddress(),
           e);
     }
   }

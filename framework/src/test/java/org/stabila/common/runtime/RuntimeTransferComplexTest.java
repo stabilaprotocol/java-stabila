@@ -95,11 +95,11 @@ public class RuntimeTransferComplexTest {
     long fee = 100000000;
     long consumeUserResourcePercent = 0;
 
-    Transaction trx = TvmTestUtils
+    Transaction stb = TvmTestUtils
         .generateDeploySmartContractAndGetTransaction(contractName, address, ABI, code, value, fee,
             consumeUserResourcePercent, null);
-    byte[] contractAddress = WalletUtil.generateContractAddress(trx);
-    runtime = TvmTestUtils.processTransactionAndReturnRuntime(trx, deposit, null);
+    byte[] contractAddress = WalletUtil.generateContractAddress(stb);
+    runtime = TvmTestUtils.processTransactionAndReturnRuntime(stb, deposit, null);
     Assert.assertNull(runtime.getRuntimeError());
     Assert.assertEquals(dbManager.getAccountStore().get(contractAddress).getBalance(), 100);
     recoverDeposit();
@@ -126,11 +126,11 @@ public class RuntimeTransferComplexTest {
     long fee = 100000000;
     long consumeUserResourcePercent = 0;
 
-    Transaction trx = TvmTestUtils
+    Transaction stb = TvmTestUtils
         .generateDeploySmartContractAndGetTransaction(contractName, address, ABI, code, value, fee,
             consumeUserResourcePercent, null);
-    byte[] contractAddress = WalletUtil.generateContractAddress(trx);
-    runtime = TvmTestUtils.processTransactionAndReturnRuntime(trx, deposit, null);
+    byte[] contractAddress = WalletUtil.generateContractAddress(stb);
+    runtime = TvmTestUtils.processTransactionAndReturnRuntime(stb, deposit, null);
     Assert.assertNotNull(runtime.getRuntimeError().contains("REVERT"));
     Assert.assertNull(dbManager.getAccountStore().get(contractAddress));
     recoverDeposit();

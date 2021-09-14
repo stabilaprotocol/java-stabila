@@ -61,7 +61,7 @@ public class ShieldedTransferActuatorTest {
   private static final String INVAILID_ADDRESS = "aaaa";
   private static final byte[] DEFAULT_OVK;
   private static final long tokenId = 1;
-  private static final String ASSET_NAME = "trx";
+  private static final String ASSET_NAME = "stb";
   private static final int STB_NUM = 10;
   private static final int NUM = 1;
   private static final long START_TIME = 1;

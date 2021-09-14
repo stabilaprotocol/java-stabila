@@ -163,7 +163,7 @@ public class Args extends CommonParameter {
     // PARAMETER.allowShieldedTransaction = 0;
     PARAMETER.maxHttpConnectNumber = 50;
     PARAMETER.allowMultiSign = 0;
-    PARAMETER.trxExpirationTimeInMilliseconds = 0;
+    PARAMETER.stbExpirationTimeInMilliseconds = 0;
     PARAMETER.fullNodeAllowShieldedTransactionArgs = true;
     PARAMETER.zenTokenId = "000000";
     PARAMETER.allowProtoFilterNum = 0;
@@ -598,10 +598,10 @@ public class Args extends CommonParameter {
         config.hasPath(Constant.STORAGE_NEEDTO_UPDATE_ASSET) ? config
             .getBoolean(Constant.STORAGE_NEEDTO_UPDATE_ASSET)
             : true;
-    PARAMETER.trxReferenceBlock = config.hasPath(Constant.STB_REFERENCE_BLOCK)
+    PARAMETER.stbReferenceBlock = config.hasPath(Constant.STB_REFERENCE_BLOCK)
         ? config.getString(Constant.STB_REFERENCE_BLOCK) : "head";
 
-    PARAMETER.trxExpirationTimeInMilliseconds =
+    PARAMETER.stbExpirationTimeInMilliseconds =
         config.hasPath(Constant.STB_EXPIRATION_TIME_IN_MILLIS_SECONDS)
             && config.getLong(Constant.STB_EXPIRATION_TIME_IN_MILLIS_SECONDS) > 0
             ? config.getLong(Constant.STB_EXPIRATION_TIME_IN_MILLIS_SECONDS)

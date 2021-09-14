@@ -2024,21 +2024,21 @@ public class DynamicPropertiesStore extends StabilaStoreWithRevoking<BytesCapsul
     );
   }
 
-  //The unit is trx
+  //The unit is stb
   public void addTotalNetWeight(long amount) {
     long totalNetWeight = getTotalNetWeight();
     totalNetWeight += amount;
     saveTotalNetWeight(totalNetWeight);
   }
 
-  //The unit is trx
+  //The unit is stb
   public void addTotalEnergyWeight(long amount) {
     long totalEnergyWeight = getTotalEnergyWeight();
     totalEnergyWeight += amount;
     saveTotalEnergyWeight(totalEnergyWeight);
   }
 
-  //The unit is trx
+  //The unit is stb
   public void addTotalStabilaPowerWeight(long amount) {
     long totalWeight = getTotalStabilaPowerWeight();
     totalWeight += amount;

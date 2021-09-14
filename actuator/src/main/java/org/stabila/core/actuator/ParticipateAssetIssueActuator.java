@@ -179,10 +179,10 @@ public class ParticipateAssetIssueActuator extends AbstractActuator {
         throw new ContractValidateException("No longer valid period!");
       }
 
-      int trxNum = assetIssueCapsule.getStbNum();
+      int stbNum = assetIssueCapsule.getStbNum();
       int num = assetIssueCapsule.getNum();
       long exchangeAmount = Math.multiplyExact(amount, num);
-      exchangeAmount = Math.floorDiv(exchangeAmount, trxNum);
+      exchangeAmount = Math.floorDiv(exchangeAmount, stbNum);
       if (exchangeAmount <= 0) {
         throw new ContractValidateException("Can not process the exchange!");
       }

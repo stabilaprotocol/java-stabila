@@ -240,10 +240,10 @@ public class StabilaNetDelegate {
     }
   }
 
-  public void pushTransaction(TransactionCapsule trx) throws P2pException {
+  public void pushTransaction(TransactionCapsule stb) throws P2pException {
     try {
-      trx.setTime(System.currentTimeMillis());
-      dbManager.pushTransaction(trx);
+      stb.setTime(System.currentTimeMillis());
+      dbManager.pushTransaction(stb);
     } catch (ContractSizeNotEqualToOneException
         | VMIllegalException e) {
       throw new P2pException(TypeEnum.BAD_STB, e);

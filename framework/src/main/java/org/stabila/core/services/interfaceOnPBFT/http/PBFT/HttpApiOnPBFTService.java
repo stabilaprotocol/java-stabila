@@ -228,7 +228,7 @@ public class HttpApiOnPBFTService implements Service {
       context.addServlet(new ServletHolder(isShieldedTRC20ContractNoteSpentOnPBFTServlet),
           "/isshieldedtrc20contractnotespent");
       context.addServlet(new ServletHolder(getBurnStbOnPBFTServlet),
-          "/getburntrx");
+          "/getburnstb");
 
       int maxHttpConnectNumber = Args.getInstance().getMaxHttpConnectNumber();
       if (maxHttpConnectNumber > 0) {

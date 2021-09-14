@@ -174,9 +174,9 @@ public class WalletTest {
 
   private static void addTransactionInfoToStore(Transaction transaction) {
     TransactionInfoCapsule transactionInfo = new TransactionInfoCapsule();
-    byte[] trxId = transaction.getRawData().toByteArray();
-    transactionInfo.setId(trxId);
-    chainBaseManager.getTransactionHistoryStore().put(trxId, transactionInfo);
+    byte[] stbId = transaction.getRawData().toByteArray();
+    transactionInfo.setId(stbId);
+    chainBaseManager.getTransactionHistoryStore().put(stbId, transactionInfo);
   }
 
 

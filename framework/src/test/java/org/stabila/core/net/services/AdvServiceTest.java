@@ -128,9 +128,9 @@ public class AdvServiceTest {
   }
 
   private void testStbBroadcast() {
-    Protocol.Transaction trx = Protocol.Transaction.newBuilder().build();
+    Protocol.Transaction stb = Protocol.Transaction.newBuilder().build();
     CommonParameter.getInstance().setValidContractProtoThreadNum(1);
-    TransactionMessage msg = new TransactionMessage(trx);
+    TransactionMessage msg = new TransactionMessage(stb);
     service.broadcast(msg);
     Item item = new Item(msg.getMessageId(), InventoryType.STB);
     Assert.assertNotNull(service.getMessage(item));

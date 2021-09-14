@@ -197,16 +197,16 @@ public class TransactionUtil {
   public TransactionSignWeight getTransactionSignWeight(Transaction stb) {
     TransactionSignWeight.Builder tswBuilder = TransactionSignWeight.newBuilder();
     TransactionExtention.Builder stbExBuilder = TransactionExtention.newBuilder();
-    trxExBuilder.setTransaction(trx);
-    trxExBuilder.setTxid(ByteString.copyFrom(Sha256Hash.hash(CommonParameter
-        .getInstance().isECKeyCryptoEngine(), trx.getRawData().toByteArray())));
+    stbExBuilder.setTransaction(stb);
+    stbExBuilder.setTxid(ByteString.copyFrom(Sha256Hash.hash(CommonParameter
+        .getInstance().isECKeyCryptoEngine(), stb.getRawData().toByteArray())));
     Return.Builder retBuilder = Return.newBuilder();
     retBuilder.setResult(true).setCode(response_code.SUCCESS);
-    trxExBuilder.setResult(retBuilder);
-    tswBuilder.setTransaction(trxExBuilder);
+    stbExBuilder.setResult(retBuilder);
+    tswBuilder.setTransaction(stbExBuilder);
     Result.Builder resultBuilder = Result.newBuilder();
     try {
-      Contract contract = trx.getRawData().getContract(0);
+      Contract contract = stb.getRawData().getContract(0);
       byte[] owner = TransactionCapsule.getOwner(contract);
       AccountCapsule account = chainBaseManager.getAccountStore().get(owner);
       if (Objects.isNull(account)) {
@@ -227,11 +227,11 @@ public class TransactionUtil {
         }
       }
       tswBuilder.setPermission(permission);
-      if (trx.getSignatureCount() > 0) {
+      if (stb.getSignatureCount() > 0) {
         List<ByteString> approveList = new ArrayList<ByteString>();
-        long currentWeight = TransactionCapsule.checkWeight(permission, trx.getSignatureList(),
+        long currentWeight = TransactionCapsule.checkWeight(permission, stb.getSignatureList(),
             Sha256Hash.hash(CommonParameter.getInstance()
-                .isECKeyCryptoEngine(), trx.getRawData().toByteArray()), approveList);
+                .isECKeyCryptoEngine(), stb.getRawData().toByteArray()), approveList);
         tswBuilder.addAllApprovedList(approveList);
         tswBuilder.setCurrentWeight(currentWeight);
       }

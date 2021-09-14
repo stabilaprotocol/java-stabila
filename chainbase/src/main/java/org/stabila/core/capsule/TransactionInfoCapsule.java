@@ -17,8 +17,8 @@ public class TransactionInfoCapsule implements ProtoCapsule<TransactionInfo> {
   /**
    * constructor TransactionCapsule.
    */
-  public TransactionInfoCapsule(TransactionInfo trxRet) {
-    this.transactionInfo = trxRet;
+  public TransactionInfoCapsule(TransactionInfo stbRet) {
+    this.transactionInfo = stbRet;
   }
 
   public TransactionInfoCapsule(byte[] data) throws BadItemException {

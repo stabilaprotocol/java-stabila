@@ -277,22 +277,22 @@ public class TransferFailedEnergyTest extends VMTestBase {
     long consumeUserResourcePercent = 0;
 
     // deploy contract
-    Transaction trx = TvmTestUtils.generateDeploySmartContractAndGetTransaction(
+    Transaction stb = TvmTestUtils.generateDeploySmartContractAndGetTransaction(
         contractName, address, ABI, code, value, fee, consumeUserResourcePercent,
         null);
-    byte[] addressWithSufficientBalance = WalletUtil.generateContractAddress(trx);
-    runtime = TvmTestUtils.processTransactionAndReturnRuntime(trx, rootDeposit, null);
+    byte[] addressWithSufficientBalance = WalletUtil.generateContractAddress(stb);
+    runtime = TvmTestUtils.processTransactionAndReturnRuntime(stb, rootDeposit, null);
     Assert.assertNull(runtime.getRuntimeError());
 
     for (TestCase testCase : testCasesAfterAllowTvmConstantinop) {
       checkResult(testCase, addressWithSufficientBalance);
     }
 
-    trx = TvmTestUtils.generateDeploySmartContractAndGetTransaction(
+    stb = TvmTestUtils.generateDeploySmartContractAndGetTransaction(
         contractName, address, ABI, code, 0, fee, consumeUserResourcePercent,
         null);
-    byte[] addressWithoutBalance = WalletUtil.generateContractAddress(trx);
-    runtime = TvmTestUtils.processTransactionAndReturnRuntime(trx, rootDeposit, null);
+    byte[] addressWithoutBalance = WalletUtil.generateContractAddress(stb);
+    runtime = TvmTestUtils.processTransactionAndReturnRuntime(stb, rootDeposit, null);
     Assert.assertNull(runtime.getRuntimeError());
 
     for (TestCase testCase : testCasesInsufficientBalance) {
@@ -349,22 +349,22 @@ public class TransferFailedEnergyTest extends VMTestBase {
     long consumeUserResourcePercent = 0;
 
     // deploy contract
-    Transaction trx = TvmTestUtils.generateDeploySmartContractAndGetTransaction(
+    Transaction stb = TvmTestUtils.generateDeploySmartContractAndGetTransaction(
         contractName, address, ABI, code, value, fee, consumeUserResourcePercent,
         null);
-    byte[] addressWithSufficientBalance = WalletUtil.generateContractAddress(trx);
-    runtime = TvmTestUtils.processTransactionAndReturnRuntime(trx, rootDeposit, null);
+    byte[] addressWithSufficientBalance = WalletUtil.generateContractAddress(stb);
+    runtime = TvmTestUtils.processTransactionAndReturnRuntime(stb, rootDeposit, null);
     Assert.assertNull(runtime.getRuntimeError());
 
     for (TestCase testCase : testCasesBeforeAllowTvmConstantinop) {
       checkResult(testCase, addressWithSufficientBalance);
     }
 
-    trx = TvmTestUtils.generateDeploySmartContractAndGetTransaction(
+    stb = TvmTestUtils.generateDeploySmartContractAndGetTransaction(
         contractName, address, ABI, code, 0, fee, consumeUserResourcePercent,
         null);
-    byte[] addressWithoutBalance = WalletUtil.generateContractAddress(trx);
-    runtime = TvmTestUtils.processTransactionAndReturnRuntime(trx, rootDeposit, null);
+    byte[] addressWithoutBalance = WalletUtil.generateContractAddress(stb);
+    runtime = TvmTestUtils.processTransactionAndReturnRuntime(stb, rootDeposit, null);
     Assert.assertNull(runtime.getRuntimeError());
 
     for (TestCase testCase : testCasesInsufficientBalance) {

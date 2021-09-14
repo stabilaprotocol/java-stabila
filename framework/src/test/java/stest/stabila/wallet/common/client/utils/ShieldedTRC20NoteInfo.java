@@ -21,7 +21,7 @@ public class ShieldedTRC20NoteInfo {
   public byte[] r; // 256
   @Setter
   @Getter
-  public String trxId;
+  public String stbId;
   @Setter
   @Getter
   public int index;
@@ -47,7 +47,7 @@ public class ShieldedTRC20NoteInfo {
     encodeString += ";";
     encodeString += ByteArray.toHexString(r);
     encodeString += ";";
-    encodeString += trxId;
+    encodeString += stbId;
     encodeString += ";";
     encodeString += String.valueOf(value);
     encodeString += ";";
@@ -82,7 +82,7 @@ public class ShieldedTRC20NoteInfo {
     noteIndex = Long.valueOf(sourceStrArray[0]);
     paymentAddress = sourceStrArray[1];
     r = ByteArray.fromHexString(sourceStrArray[2]);
-    trxId = sourceStrArray[3];
+    stbId = sourceStrArray[3];
     value = Long.valueOf(sourceStrArray[4]);
     index = Integer.valueOf(sourceStrArray[5]);
     position = Long.valueOf(sourceStrArray[6]);

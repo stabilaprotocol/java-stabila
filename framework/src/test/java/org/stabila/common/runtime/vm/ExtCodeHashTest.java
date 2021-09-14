@@ -46,11 +46,11 @@ public class ExtCodeHashTest extends VMTestBase {
     long consumeUserResourcePercent = 0;
 
     // deploy contract
-    Transaction trx = TvmTestUtils.generateDeploySmartContractAndGetTransaction(
+    Transaction stb = TvmTestUtils.generateDeploySmartContractAndGetTransaction(
         contractName, address, ABI, factoryCode, value, fee, consumeUserResourcePercent,
         null);
-    byte[] factoryAddress = WalletUtil.generateContractAddress(trx);
-    runtime = TvmTestUtils.processTransactionAndReturnRuntime(trx, rootDeposit, null);
+    byte[] factoryAddress = WalletUtil.generateContractAddress(stb);
+    runtime = TvmTestUtils.processTransactionAndReturnRuntime(stb, rootDeposit, null);
     Assert.assertNull(runtime.getRuntimeError());
 
     // Trigger contract method: getCodeHashByAddr(address)

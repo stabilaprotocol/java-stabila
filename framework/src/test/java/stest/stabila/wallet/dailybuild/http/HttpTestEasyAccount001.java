@@ -61,7 +61,7 @@ public class HttpTestEasyAccount001 {
     HttpMethed.printJsonContent(responseContent);
     easyAddress = responseContent.get("base58checkAddress").toString();
 
-    //Send trx to easy account
+    //Send stb to easy account
     response = HttpMethed
         .sendCoin(httpnode, fromAddress, Commons.decodeFromBase58Check(easyAddress), 5000000L,
             testKey002);
@@ -87,7 +87,7 @@ public class HttpTestEasyAccount001 {
     generateHexAddress = responseContent.get("hexAddress").toString();
     generatePriKey = responseContent.get("privateKey").toString();
 
-    //Send trx to easy account
+    //Send stb to easy account
     response = HttpMethed
         .sendCoin(httpnode, fromAddress, Commons.decodeFromBase58Check(generateAddress), 5000000L,
             testKey002);
@@ -133,7 +133,7 @@ public class HttpTestEasyAccount001 {
     Assert.assertEquals(response.getStatusLine().getStatusCode(), 200);
     HttpMethed.waitToProduceOneBlock(httpnode);
 
-    //Send trx to easy account
+    //Send stb to easy account
     afterEasyBalance = HttpMethed.getBalance(httpnode, Commons.decodeFromBase58Check(easyAddress));
     logger.info("afterEasyBalance: " + afterEasyBalance);
 
@@ -159,7 +159,7 @@ public class HttpTestEasyAccount001 {
     Assert.assertEquals(response.getStatusLine().getStatusCode(), 200);
     HttpMethed.waitToProduceOneBlock(httpnode);
 
-    //Send trx to easy account
+    //Send stb to easy account
     afterEasyBalance = HttpMethed.getBalance(httpnode, Commons.decodeFromBase58Check(easyAddress));
     logger.info("beforeEasyBalance: " + beforeEasyBalance);
     logger.info("afterEasyBalance: " + afterEasyBalance);

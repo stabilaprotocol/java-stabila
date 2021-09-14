@@ -410,7 +410,7 @@ Transaction and transaction-related messages.
 
     `net_usage`: consume yourself net.
 
-    `net_fee`: consume yourself trx of net usage.
+    `net_fee`: consume yourself stb of net usage.
 
     `result`: the result of executing transaction.
 
@@ -449,7 +449,7 @@ Transaction and transaction-related messages.
 
     `transferTo_address`:
 
-    `callValueInfo`: Refers to asset transfer information in internal transactions, including trx and trc10.
+    `callValueInfo`: Refers to asset transfer information in internal transactions, including stb and trc10.
 
    ```java
        message InternalTransaction {
@@ -735,7 +735,7 @@ Transaction and transaction-related messages.
 
    `withdraw_amount`: the amount for witness withdraw.
 
-   `unfreeze_amount`: unfreeze trx amount.
+   `unfreeze_amount`: unfreeze stb amount.
 
    `internal_transactions`: internal transaction lists.
 
@@ -1045,11 +1045,11 @@ Contract and contract-related messages.
 
       `frozen_supply`: frozen supplt of asset.
 
-      `trx_num`: trx num defines token price.
+      `stb_num`: stb num defines token price.
 
       `precision`: precision.
 
-      `num`: trx num defines token price.
+      `num`: stb num defines token price.
 
       `start_time`: starting date of contract.
 
@@ -1082,7 +1082,7 @@ Contract and contract-related messages.
           bytes abbr = 3;
           int64 total_supply = 4;
           repeated FrozenSupply frozen_supply = 5;
-          int32 trx_num = 6;
+          int32 stb_num = 6;
           int32 precision = 7;
           int32 num = 8;
           int64 start_time = 9;
@@ -1606,7 +1606,7 @@ message `SmartContract` has mutiple attributes and nested message `ABI`
   
   `code_hash`: hash of smart contract bytecode.
   
-  `trx_hash`:  transactionId of Deploying contract transaction.
+  `stb_hash`:  transactionId of Deploying contract transaction.
   
   ```java
     message SmartContract {
@@ -1653,7 +1653,7 @@ message `SmartContract` has mutiple attributes and nested message `ABI`
         string name = 7;
         int64 origin_energy_limit = 8;
         bytes code_hash = 9;
-        bytes trx_hash = 10;
+        bytes stb_hash = 10;
     }
     ```
   

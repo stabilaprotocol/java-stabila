@@ -490,7 +490,7 @@ public class ContractGrammar003 {
   @Test(enabled = true, description = "Stb and sun unit conversion.")
   public void test7Grammar020() {
     String filePath = "src/test/resources/soliditycode/contractGrammar003test7Grammar020.sol";
-    String contractName = "trxtest";
+    String contractName = "stbtest";
     HashMap retMap = PublicMethed.getBycodeAbi(filePath, contractName);
     String code = retMap.get("byteCode").toString();
     String abi = retMap.get("abI").toString();

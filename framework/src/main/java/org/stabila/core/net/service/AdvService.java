@@ -56,7 +56,7 @@ public class AdvService {
       .maximumSize(MAX_INV_TO_FETCH_CACHE_SIZE).expireAfterWrite(1, TimeUnit.HOURS)
       .recordStats().build();
 
-  private Cache<Item, Message> trxCache = CacheBuilder.newBuilder()
+  private Cache<Item, Message> stbCache = CacheBuilder.newBuilder()
       .maximumSize(MAX_STB_CACHE_SIZE).expireAfterWrite(1, TimeUnit.HOURS)
       .recordStats().build();
 
@@ -69,7 +69,7 @@ public class AdvService {
   private ScheduledExecutorService fetchExecutor = Executors.newSingleThreadScheduledExecutor();
 
   @Getter
-  private MessageCount trxCount = new MessageCount();
+  private MessageCount stbCount = new MessageCount();
 
   private boolean fastForward = Args.getInstance().isFastForward();
 
@@ -111,7 +111,7 @@ public class AdvService {
       return false;
     }
 
-    if (item.getType().equals(InventoryType.STB) && trxCache.getIfPresent(item) != null) {
+    if (item.getType().equals(InventoryType.STB) && stbCache.getIfPresent(item) != null) {
       return false;
     }
     if (item.getType().equals(InventoryType.BLOCK) && blockCache.getIfPresent(item) != null) {
@@ -135,7 +135,7 @@ public class AdvService {
 
   public Message getMessage(Item item) {
     if (item.getType() == InventoryType.STB) {
-      return trxCache.getIfPresent(item);
+      return stbCache.getIfPresent(item);
     } else {
       return blockCache.getIfPresent(item);
     }
@@ -160,17 +160,17 @@ public class AdvService {
       blockMsg.getBlockCapsule().getTransactions().forEach(transactionCapsule -> {
         Sha256Hash tid = transactionCapsule.getTransactionId();
         invToSpread.remove(tid);
-        trxCache.put(new Item(tid, InventoryType.STB),
+        stbCache.put(new Item(tid, InventoryType.STB),
             new TransactionMessage(transactionCapsule.getInstance()));
       });
       blockCache.put(item, msg);
     } else if (msg instanceof TransactionMessage) {
-      TransactionMessage trxMsg = (TransactionMessage) msg;
-      item = new Item(trxMsg.getMessageId(), InventoryType.STB);
-      trxCount.add();
-      trxCache.put(item, new TransactionMessage(trxMsg.getTransactionCapsule().getInstance()));
+      TransactionMessage stbMsg = (TransactionMessage) msg;
+      item = new Item(stbMsg.getMessageId(), InventoryType.STB);
+      stbCount.add();
+      stbCache.put(item, new TransactionMessage(stbMsg.getTransactionCapsule().getInstance()));
     } else {
-      logger.error("Adv item is neither block nor trx, type: {}", msg.getType());
+      logger.error("Adv item is neither block nor stb, type: {}", msg.getType());
       return;
     }
 

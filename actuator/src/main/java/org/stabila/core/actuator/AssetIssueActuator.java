@@ -166,8 +166,8 @@ public class AssetIssueActuator extends AbstractActuator {
 
     if (dynamicStore.getAllowSameTokenName() != 0) {
       String name = assetIssueContract.getName().toStringUtf8().toLowerCase();
-      if (("trx").equals(name)) {
-        throw new ContractValidateException("assetName can't be trx");
+      if (("stb").equals(name)) {
+        throw new ContractValidateException("assetName can't be stb");
       }
     }
 

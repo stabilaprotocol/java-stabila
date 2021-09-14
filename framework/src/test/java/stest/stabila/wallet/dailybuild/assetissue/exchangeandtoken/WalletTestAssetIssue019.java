@@ -84,7 +84,7 @@ public class WalletTestAssetIssue019 {
     Long start = System.currentTimeMillis() + 20000000;
     Long end = System.currentTimeMillis() + 1000000000;
     Assert.assertFalse(PublicMethed.createAssetIssue(asset019Address,
-        "trx", totalSupply, 1, 1, start, end, 1, description, url,
+        "stb", totalSupply, 1, 1, start, end, 1, description, url,
         2000L, 2000L, 1L, 1L, asset019Key, blockingStubFull));
 
     Assert.assertFalse(PublicMethed.createAssetIssue(asset019Address,
@@ -116,7 +116,7 @@ public class WalletTestAssetIssue019 {
         2000L, 2000L, 1L, 1L, asset019Key, blockingStubFull));
 
     Assert.assertTrue(PublicMethed.createAssetIssue(asset019Address,
-        "trxtrx", totalSupply, 1, 1, start, end, 1, description, url,
+        "stbstb", totalSupply, 1, 1, start, end, 1, description, url,
         2000L, 2000L, 1L, 1L, asset019Key, blockingStubFull));
 
     Assert.assertTrue(PublicMethed.createAssetIssue(asset019SecondAddress,

@@ -33,7 +33,7 @@ public class MarketSellAsset004 {
   String url = Configuration.getByPath("testng.conf")
       .getString("defaultParameter.assetUrl");
 
-  byte [] trx = ByteArray.fromString("_");
+  byte [] stb = ByteArray.fromString("_");
 
 
   ECKey ecKey001 = new ECKey(Utils.getRandom());
@@ -91,7 +91,7 @@ public class MarketSellAsset004 {
   void marketCancelAssetTest002() {
 
     String txid = PublicMethed.marketSellAsset(testAddress001,testKey001,assetAccountId001,100,
-        trx,50,blockingStubFull);
+        stb,50,blockingStubFull);
     PublicMethed.waitProduceNextBlock(blockingStubFull);
     Optional<Transaction> transaction = PublicMethed
         .getTransactionById(txid, blockingStubFull);

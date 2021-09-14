@@ -44,7 +44,7 @@ import org.stabila.protos.contract.SmartContractOuterClass.TriggerSmartContract;
 @Slf4j(topic = "TransactionTrace")
 public class TransactionTrace {
 
-  private TransactionCapsule trx;
+  private TransactionCapsule stb;
 
   private ReceiptCapsule receipt;
 
@@ -62,7 +62,7 @@ public class TransactionTrace {
 
   private EnergyProcessor energyProcessor;
 
-  private StbType trxType;
+  private StbType stbType;
 
   private long txStartTimeInMs;
 
@@ -79,20 +79,20 @@ public class TransactionTrace {
   @Setter
   private boolean netFeeForBandwidth = true;
 
-  public TransactionTrace(TransactionCapsule trx, StoreFactory storeFactory,
+  public TransactionTrace(TransactionCapsule stb, StoreFactory storeFactory,
       Runtime runtime) {
-    this.trx = trx;
-    Transaction.Contract.ContractType contractType = this.trx.getInstance().getRawData()
+    this.stb = stb;
+    Transaction.Contract.ContractType contractType = this.stb.getInstance().getRawData()
         .getContract(0).getType();
     switch (contractType.getNumber()) {
       case ContractType.TriggerSmartContract_VALUE:
-        trxType = STB_CONTRACT_CALL_TYPE;
+        stbType = STB_CONTRACT_CALL_TYPE;
         break;
       case ContractType.CreateSmartContract_VALUE:
-        trxType = STB_CONTRACT_CREATION_TYPE;
+        stbType = STB_CONTRACT_CREATION_TYPE;
         break;
       default:
-        trxType = StbType.STB_PRECOMPILED_TYPE;
+        stbType = StbType.STB_PRECOMPILED_TYPE;
     }
     this.storeFactory = storeFactory;
     this.dynamicPropertiesStore = storeFactory.getChainBaseManager().getDynamicPropertiesStore();
@@ -109,12 +109,12 @@ public class TransactionTrace {
   }
 
   public TransactionCapsule getStb() {
-    return trx;
+    return stb;
   }
 
   private boolean needVM() {
-    return this.trxType == STB_CONTRACT_CALL_TYPE
-        || this.trxType == STB_CONTRACT_CREATION_TYPE;
+    return this.stbType == STB_CONTRACT_CALL_TYPE
+        || this.stbType == STB_CONTRACT_CREATION_TYPE;
   }
 
   public void init(BlockCapsule blockCap) {
@@ -124,7 +124,7 @@ public class TransactionTrace {
   //pre transaction check
   public void init(BlockCapsule blockCap, boolean eventPluginLoaded) {
     txStartTimeInMs = System.currentTimeMillis();
-    transactionContext = new TransactionContext(blockCap, trx, storeFactory, false,
+    transactionContext = new TransactionContext(blockCap, stb, storeFactory, false,
         eventPluginLoaded);
   }
 
@@ -134,7 +134,7 @@ public class TransactionTrace {
     }
     TriggerSmartContract triggerContractFromTransaction = ContractCapsule
         .getTriggerContractFromTransaction(this.getStb().getInstance());
-    if (STB_CONTRACT_CALL_TYPE == this.trxType) {
+    if (STB_CONTRACT_CALL_TYPE == this.stbType) {
       ContractCapsule contract = contractStore
           .get(triggerContractFromTransaction.getContractAddress().toByteArray());
       if (contract == null) {
@@ -181,7 +181,7 @@ public class TransactionTrace {
     runtime.execute(transactionContext);
     setBill(transactionContext.getProgramResult().getEnergyUsed());
 
-//    if (StbType.STB_PRECOMPILED_TYPE != trxType) {
+//    if (StbType.STB_PRECOMPILED_TYPE != stbType) {
 //      if (contractResult.OUT_OF_TIME
 //          .equals(receipt.getResult())) {
 //        setTimeResultType(TimeResultType.OUT_OF_TIME);
@@ -222,14 +222,14 @@ public class TransactionTrace {
     byte[] callerAccount;
     long percent = 0;
     long originEnergyLimit = 0;
-    switch (trxType) {
+    switch (stbType) {
       case STB_CONTRACT_CREATION_TYPE:
-        callerAccount = TransactionCapsule.getOwner(trx.getInstance().getRawData().getContract(0));
+        callerAccount = TransactionCapsule.getOwner(stb.getInstance().getRawData().getContract(0));
         originAccount = callerAccount;
         break;
       case STB_CONTRACT_CALL_TYPE:
         TriggerSmartContract callContract = ContractCapsule
-            .getTriggerContractFromTransaction(trx.getInstance());
+            .getTriggerContractFromTransaction(stb.getInstance());
         ContractCapsule contractCapsule =
             contractStore.get(callContract.getContractAddress().toByteArray());
 
@@ -260,7 +260,7 @@ public class TransactionTrace {
     if (!needVM()) {
       return false;
     }
-    return trx.getContractRet() != contractResult.OUT_OF_TIME && receipt.getResult()
+    return stb.getContractRet() != contractResult.OUT_OF_TIME && receipt.getResult()
         == contractResult.OUT_OF_TIME;
   }
 
@@ -268,13 +268,13 @@ public class TransactionTrace {
     if (!needVM()) {
       return;
     }
-    if (Objects.isNull(trx.getContractRet())) {
+    if (Objects.isNull(stb.getContractRet())) {
       throw new ReceiptCheckErrException("null resultCode");
     }
-    if (!trx.getContractRet().equals(receipt.getResult())) {
+    if (!stb.getContractRet().equals(receipt.getResult())) {
       logger.info(
           "this tx id: {}, the resultCode in received block: {}, the resultCode in self: {}",
-          Hex.toHexString(trx.getTransactionId().getBytes()), trx.getContractRet(),
+          Hex.toHexString(stb.getTransactionId().getBytes()), stb.getContractRet(),
           receipt.getResult());
       throw new ReceiptCheckErrException("Different resultCode");
     }

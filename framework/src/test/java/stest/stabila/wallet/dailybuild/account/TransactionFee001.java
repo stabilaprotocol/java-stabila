@@ -639,7 +639,7 @@ public class TransactionFee001 {
    * constructor.
    */
 
-  @Test(enabled = true, description = "Test getburntrx api from solidity or pbft")
+  @Test(enabled = true, description = "Test getburnstb api from solidity or pbft")
   public void test07GetBurnStbFromSolidityOrPbft() {
     PublicMethed.waitSolidityNodeSynFullNodeData(blockingStubFull,blockingStubSolidity);
     Assert.assertEquals(blockingStubFull

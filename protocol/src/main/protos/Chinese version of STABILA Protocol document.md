@@ -209,7 +209,7 @@
    `name`：合约名称——比如：_“SiCongcontract”_。  
    `total_supply`：合约的赞成总票数——比如：_100000000_。  
    `owner_address`：合约持有人地址——比如：_“0xu82h…7237”_。  
-   `trx_num`：对应STB数量——比如：_232241_。  
+   `stb_num`：对应STB数量——比如：_232241_。  
    `num`： 对应的自定义资产数目。  
    `start_time`：开始时间——比如：_20170312_。  
    `end_time`：结束时间——比如：_20170512_。  
@@ -221,7 +221,7 @@
       bytes owner_address = 1;   
       bytes name = 2;   
       int64 total_supply = 4;   
-      int32 trx_num = 6;   
+      int32 stb_num = 6;   
       int32 num = 8;   
       int64 start_time = 9;   
       int64 end_time = 10; 

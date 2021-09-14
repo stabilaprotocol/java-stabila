@@ -158,15 +158,15 @@ public class FreezeTest {
                                 String code,
                                 long consumeUserResourcePercent,
                                 long originEnergyLimit) throws Exception {
-    Protocol.Transaction trx = TvmTestUtils.generateDeploySmartContractAndGetTransaction(
+    Protocol.Transaction stb = TvmTestUtils.generateDeploySmartContractAndGetTransaction(
         contractName, deployer, "[]", code, value, fee, consumeUserResourcePercent,
         null, originEnergyLimit);
-    byte[] contractAddr = WalletUtil.generateContractAddress(trx);
+    byte[] contractAddr = WalletUtil.generateContractAddress(stb);
     //String contractAddrStr = StringUtil.encode58Check(contractAddr);
-    TransactionCapsule trxCap = new TransactionCapsule(trx);
-    TransactionTrace trace = new TransactionTrace(trxCap, StoreFactory.getInstance(),
+    TransactionCapsule stbCap = new TransactionCapsule(stb);
+    TransactionTrace trace = new TransactionTrace(stbCap, StoreFactory.getInstance(),
         new RuntimeImpl());
-    trxCap.setStbTrace(trace);
+    stbCap.setStbTrace(trace);
     trace.init(null);
     trace.exec();
     trace.finalization();
@@ -185,12 +185,12 @@ public class FreezeTest {
                                         String method,
                                         Object... args) throws Exception {
     String hexInput = AbiUtil.parseMethod(method, Arrays.asList(args));
-    TransactionCapsule trxCap = new TransactionCapsule(
+    TransactionCapsule stbCap = new TransactionCapsule(
         TvmTestUtils.generateTriggerSmartContractAndGetTransaction(
             callerAddr, contractAddr, Hex.decode(hexInput), 0, feeLimit));
-    TransactionTrace trace = new TransactionTrace(trxCap, StoreFactory.getInstance(),
+    TransactionTrace trace = new TransactionTrace(stbCap, StoreFactory.getInstance(),
         new RuntimeImpl());
-    trxCap.setStbTrace(trace);
+    stbCap.setStbTrace(trace);
     trace.init(null);
     trace.exec();
     trace.finalization();

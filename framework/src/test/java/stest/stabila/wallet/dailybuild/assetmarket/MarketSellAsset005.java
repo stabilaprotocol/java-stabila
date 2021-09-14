@@ -36,7 +36,7 @@ public class MarketSellAsset005 {
       .getString("defaultParameter.assetUrl");
   long sellTokenQuantity = 100;
   long buyTokenQuantity = 50;
-  byte [] trx = ByteArray.fromString("_");
+  byte [] stb = ByteArray.fromString("_");
 
 
   ECKey ecKey001 = new ECKey(Utils.getRandom());
@@ -95,7 +95,7 @@ public class MarketSellAsset005 {
     final Map<String, Long> beforeAsset001 = PublicMethed.queryAccount(testAddress001,
         blockingStubFull).getAssetV2Map();
 
-    String txid = PublicMethed.marketSellAsset(testAddress002,testKey002,trx,
+    String txid = PublicMethed.marketSellAsset(testAddress002,testKey002,stb,
             sellTokenQuantity,assetAccountId001,
             buyTokenQuantity,blockingStubFull);
     PublicMethed.waitProduceNextBlock(blockingStubFull);
@@ -108,7 +108,7 @@ public class MarketSellAsset005 {
 
     txid = PublicMethed.marketSellAsset(testAddress001, testKey001, assetAccountId001,
             sellTokenQuantity * 2,
-            trx, buyTokenQuantity * 2, blockingStubFull);
+            stb, buyTokenQuantity * 2, blockingStubFull);
 
     PublicMethed.waitProduceNextBlock(blockingStubFull);
     Assert.assertNotNull(txid);
@@ -133,7 +133,7 @@ public class MarketSellAsset005 {
         blockingStubFull).getAssetV2Map();
 
     String txid = PublicMethed.marketSellAsset(testAddress002,testKey002,assetAccountId001,
-            sellTokenQuantity,trx,
+            sellTokenQuantity,stb,
             buyTokenQuantity,blockingStubFull);
     PublicMethed.waitProduceNextBlock(blockingStubFull);
     Optional<Transaction> transaction = PublicMethed
@@ -143,7 +143,7 @@ public class MarketSellAsset005 {
 
     logger.info("beforeAsset001: " + beforeAsset001);
 
-    txid = PublicMethed.marketSellAsset(testAddress001, testKey001, trx,
+    txid = PublicMethed.marketSellAsset(testAddress001, testKey001, stb,
             sellTokenQuantity * 2,
             assetAccountId001, buyTokenQuantity * 2, blockingStubFull);
 

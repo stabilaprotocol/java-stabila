@@ -84,7 +84,7 @@ public class TransferFailed001 {
     blockingStubSolidity = WalletSolidityGrpc.newBlockingStub(channelSolidity);
   }
 
-  @Test(enabled = true, description = "Transfer trx insufficient balance")
+  @Test(enabled = true, description = "Transfer stb insufficient balance")
   public void test001TransferStbInsufficientBalance() {
     Assert.assertTrue(PublicMethed
         .sendcoin(contractExcAddress, 10000000000L, testNetAccountAddress, testNetAccountKey,
@@ -222,7 +222,7 @@ public class TransferFailed001 {
   }
 
 
-  @Test(enabled = true, description = "Transfer trx nonexistent target")
+  @Test(enabled = true, description = "Transfer stb nonexistent target")
   public void test003TransferStbNonexistentTarget() {
 
     //Assert.assertTrue(PublicMethed
@@ -331,7 +331,7 @@ public class TransferFailed001 {
   }
 
 
-  @Test(enabled = true, description = "Transfer trx to myself")
+  @Test(enabled = true, description = "Transfer stb to myself")
   public void test004TransferStbSelf() {
 
     Account info;
@@ -383,7 +383,7 @@ public class TransferFailed001 {
 
     Assert.assertTrue(infoById.get().getResultValue() == 1);
     Assert.assertEquals(contractResult.TRANSFER_FAILED, infoById.get().getReceipt().getResult());
-    Assert.assertEquals("transfer trx failed: Cannot transfer STB to yourself.",
+    Assert.assertEquals("transfer stb failed: Cannot transfer STB to yourself.",
         ByteArray.toStr(infoById.get().getResMessage().toByteArray()));
 
     Assert.assertTrue(afterBalance + fee == beforeBalance);
@@ -396,7 +396,7 @@ public class TransferFailed001 {
   }
 
 
-  @Test(enabled = true, description = "Transfer trx nonexistent target and insufficient balance")
+  @Test(enabled = true, description = "Transfer stb nonexistent target and insufficient balance")
   public void test005TransferStbNonexistentTarget() {
 
     Account info;
@@ -464,7 +464,7 @@ public class TransferFailed001 {
   }
 
 
-  @Test(enabled = true, description = "Transfer trx to myself and insufficient balance")
+  @Test(enabled = true, description = "Transfer stb to myself and insufficient balance")
   public void test006TransferStbSelf() {
 
     Account info;

@@ -135,7 +135,7 @@ public class ContractScenario012 {
     receiverAddress = ecKey2.getAddress();
     receiverKey = ByteArray.toHexString(ecKey2.getPrivKeyBytes());
 
-    //Send some trx to the contract account.
+    //Send some stb to the contract account.
     Account account = PublicMethed.queryAccount(contractAddress, blockingStubFull);
     logger.info("contract Balance : -- " + account.getBalance());
     receiveAddressParam = "\"" + Base58.encode58Check(receiverAddress)

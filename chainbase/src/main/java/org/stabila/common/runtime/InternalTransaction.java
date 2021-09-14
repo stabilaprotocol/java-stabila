@@ -40,7 +40,7 @@ public class InternalTransaction {
   private Transaction transaction;
   private byte[] hash;
   private byte[] parentHash;
-  /* the amount of trx to transfer (calculated as sun) */
+  /* the amount of stb to transfer (calculated as sun) */
   private long value;
 
   private Map<String, Long> tokenInfo = new HashMap<>();
@@ -75,29 +75,29 @@ public class InternalTransaction {
   /**
    * Construct a root InternalTransaction
    */
-  public InternalTransaction(Transaction trx, InternalTransaction.StbType trxType)
+  public InternalTransaction(Transaction stb, InternalTransaction.StbType stbType)
       throws ContractValidateException {
-    this.transaction = trx;
-    TransactionCapsule trxCap = new TransactionCapsule(trx);
-    this.protoEncoded = trxCap.getData();
+    this.transaction = stb;
+    TransactionCapsule stbCap = new TransactionCapsule(stb);
+    this.protoEncoded = stbCap.getData();
     this.nonce = 0;
     // outside transaction should not have deep, so use -1 to mark it is root.
     // It will not count in vm trace. But this deep will be shown in program result.
     this.deep = -1;
-    if (trxType == StbType.STB_CONTRACT_CREATION_TYPE) {
-      CreateSmartContract contract = ContractCapsule.getSmartContractFromTransaction(trx);
+    if (stbType == StbType.STB_CONTRACT_CREATION_TYPE) {
+      CreateSmartContract contract = ContractCapsule.getSmartContractFromTransaction(stb);
       if (contract == null) {
         throw new ContractValidateException("Invalid CreateSmartContract Protocol");
       }
       this.sendAddress = contract.getOwnerAddress().toByteArray();
       this.receiveAddress = EMPTY_BYTE_ARRAY;
-      this.transferToAddress = WalletUtil.generateContractAddress(trx);
+      this.transferToAddress = WalletUtil.generateContractAddress(stb);
       this.note = "create";
       this.value = contract.getNewContract().getCallValue();
       this.data = contract.getNewContract().getBytecode().toByteArray();
       this.tokenInfo.put(String.valueOf(contract.getTokenId()), contract.getCallTokenValue());
-    } else if (trxType == StbType.STB_CONTRACT_CALL_TYPE) {
-      TriggerSmartContract contract = ContractCapsule.getTriggerContractFromTransaction(trx);
+    } else if (stbType == StbType.STB_CONTRACT_CALL_TYPE) {
+      TriggerSmartContract contract = ContractCapsule.getTriggerContractFromTransaction(stb);
       if (contract == null) {
         throw new ContractValidateException("Invalid TriggerSmartContract Protocol");
       }
@@ -111,7 +111,7 @@ public class InternalTransaction {
     } else {
       // do nothing, just for running byte code
     }
-    this.hash = trxCap.getTransactionId().getBytes();
+    this.hash = stbCap.getTransactionId().getBytes();
   }
 
   /**
@@ -132,12 +132,12 @@ public class InternalTransaction {
     } else {
       this.receiveAddress = ArrayUtils.nullToEmpty(transferToAddress);
     }
-    // in this case, value also can represent a tokenValue when tokenId is not null, otherwise it is a trx callvalue.
+    // in this case, value also can represent a tokenValue when tokenId is not null, otherwise it is a stb callvalue.
     this.value = value;
     this.data = ArrayUtils.nullToEmpty(data);
     this.nonce = nonce;
     this.hash = getHash();
-    // in a contract call contract case, only one value should be used. trx or a token. can't be both. We should avoid using
+    // in a contract call contract case, only one value should be used. stb or a token. can't be both. We should avoid using
     // tokenValue in this case.
     if (tokenInfo != null) {
       this.tokenInfo.putAll(tokenInfo);

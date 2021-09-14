@@ -276,7 +276,7 @@ public class SumActuatorTest {
 
     // send contract and return transaction
     Protocol.Transaction transaction = blockingStubFull.invokeSum(contract);
-    // sign trx
+    // sign stb
     transaction = signTransaction(ecKey, transaction);
     // broadcast transaction
     GrpcAPI.Return response = blockingStubFull.broadcastTransaction(transaction);

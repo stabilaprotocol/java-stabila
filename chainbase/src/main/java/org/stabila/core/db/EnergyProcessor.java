@@ -89,7 +89,7 @@ public class EnergyProcessor extends ResourceProcessor {
   }
 
   @Override
-  public void consume(TransactionCapsule trx,
+  public void consume(TransactionCapsule stb,
       TransactionTrace trace)
       throws ContractValidateException, AccountResourceInsufficientException {
     throw new RuntimeException("Not support");

@@ -206,7 +206,7 @@ public class TransferFailed002 {
   }
 
 
-  @Test(enabled = true, description = "Send trx nonexistent target")
+  @Test(enabled = true, description = "Send stb nonexistent target")
   public void test3SendStbNonexistentTarget() {
 
     Account info;
@@ -311,7 +311,7 @@ public class TransferFailed002 {
   }
 
 
-  @Test(enabled = true, description = "Send trx self")
+  @Test(enabled = true, description = "Send stb self")
   public void test4SendStbSelf() {
     Account info;
 
@@ -361,7 +361,7 @@ public class TransferFailed002 {
 
     Assert.assertTrue(infoById.get().getResultValue() == 1);
     Assert.assertEquals(contractResult.TRANSFER_FAILED, infoById.get().getReceipt().getResult());
-    Assert.assertEquals("transfer trx failed: Cannot transfer STB to yourself.",
+    Assert.assertEquals("transfer stb failed: Cannot transfer STB to yourself.",
         ByteArray.toStr(infoById.get().getResMessage().toByteArray()));
 
     Assert.assertTrue(afterBalance + fee == beforeBalance);
@@ -375,7 +375,7 @@ public class TransferFailed002 {
   }
 
 
-  @Test(enabled = true, description = "Send trx nonexistent target and balance not enough")
+  @Test(enabled = true, description = "Send stb nonexistent target and balance not enough")
   public void test5SendStbNonexistentTarget() {
     Account info;
 
@@ -437,7 +437,7 @@ public class TransferFailed002 {
   }
 
 
-  @Test(enabled = true, description = "Send trx self and balance not enough")
+  @Test(enabled = true, description = "Send stb self and balance not enough")
   public void test6SendStbSelf() {
     Account info;
 
@@ -498,7 +498,7 @@ public class TransferFailed002 {
 
   }
 
-  @Test(enabled = true, description = "Send trx nonexistent target, but revert")
+  @Test(enabled = true, description = "Send stb nonexistent target, but revert")
   public void test7SendStbNonexistentTargetRevert() {
 
     Account info;

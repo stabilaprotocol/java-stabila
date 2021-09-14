@@ -29,7 +29,7 @@ public class WalletTestAssetIssue007 {
   private static final long totalSupply = now;
   private static final long sendAmount = 10000000000L;
   private static final long netCostMeasure = 200L;
-  private static final Integer trxNum = 1;
+  private static final Integer stbNum = 1;
   private static final Integer icoNum = 1;
   private static String name = "AssetIssue007_" + Long.toString(now);
   private final String testKey002 = Configuration.getByPath("testng.conf")
@@ -82,7 +82,7 @@ public class WalletTestAssetIssue007 {
     Long start = System.currentTimeMillis() + 5000;
     Long end = System.currentTimeMillis() + 1000000000;
     Assert.assertTrue(PublicMethed
-        .createAssetIssue(asset007Address, name, totalSupply, trxNum, icoNum, start, end, 1,
+        .createAssetIssue(asset007Address, name, totalSupply, stbNum, icoNum, start, end, 1,
             description, url, freeAssetNetLimit, publicFreeAssetNetLimit, 1L, 1L,
             testKeyForAssetIssue007, blockingStubFull));
 
@@ -153,7 +153,7 @@ public class WalletTestAssetIssue007 {
     participateInfo = PublicMethed.queryAccount(participateAssetCreateKey, blockingStubFull);
     final Long afterBalance = participateInfo.getBalance();
 
-    Assert.assertTrue(beforeBalance - trxNum * 1 * icoNum >= afterBalance);
+    Assert.assertTrue(beforeBalance - stbNum * 1 * icoNum >= afterBalance);
   }
 
   @AfterMethod

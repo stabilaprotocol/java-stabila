@@ -65,20 +65,20 @@ public class BandwidthProcessor extends ResourceProcessor {
   }
 
   @Override
-  public void consume(TransactionCapsule trx, TransactionTrace trace)
+  public void consume(TransactionCapsule stb, TransactionTrace trace)
       throws ContractValidateException, AccountResourceInsufficientException,
       TooBigTransactionResultException {
-    List<Contract> contracts = trx.getInstance().getRawData().getContractList();
-    if (trx.getResultSerializedSize() > Constant.MAX_RESULT_SIZE_IN_TX * contracts.size()) {
+    List<Contract> contracts = stb.getInstance().getRawData().getContractList();
+    if (stb.getResultSerializedSize() > Constant.MAX_RESULT_SIZE_IN_TX * contracts.size()) {
       throw new TooBigTransactionResultException();
     }
 
     long bytesSize;
 
     if (chainBaseManager.getDynamicPropertiesStore().supportVM()) {
-      bytesSize = trx.getInstance().toBuilder().clearRet().build().getSerializedSize();
+      bytesSize = stb.getInstance().toBuilder().clearRet().build().getSerializedSize();
     } else {
-      bytesSize = trx.getSerializedSize();
+      bytesSize = stb.getSerializedSize();
     }
 
     for (Contract contract : contracts) {
@@ -89,7 +89,7 @@ public class BandwidthProcessor extends ResourceProcessor {
         bytesSize += Constant.MAX_RESULT_SIZE_IN_TX;
       }
 
-      logger.debug("trxId {}, bandwidth cost: {}", trx.getTransactionId(), bytesSize);
+      logger.debug("stbId {}, bandwidth cost: {}", stb.getTransactionId(), bytesSize);
       trace.setNetBill(bytesSize, 0);
       byte[] address = TransactionCapsule.getOwner(contract);
       AccountCapsule accountCapsule = chainBaseManager.getAccountStore().get(address);

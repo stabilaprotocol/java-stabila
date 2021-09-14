@@ -226,7 +226,7 @@ public class ZenTrc20Base {
 
         System.out.println("address " + shieldedAddressInfoList.get(0).getAddress());
         System.out.println("value " + inputNoteList.getNoteTxs(i).getNote().getValue());
-        System.out.println("trxId " + inputNoteList.getNoteTxs(i).getTxid());
+        System.out.println("stbId " + inputNoteList.getNoteTxs(i).getTxid());
         System.out.println("index " + inputNoteList.getNoteTxs(i).getIndex());
         System.out.println("position " + inputNoteList.getNoteTxs(i).getPosition());
 
@@ -354,7 +354,7 @@ public class ZenTrc20Base {
 
         System.out.println("address " + shieldedAddressInfoList.get(i).getAddress());
         System.out.println("value " + inputNoteList.getNoteTxs(i).getNote().getValue());
-        System.out.println("trxId " + ByteArray.toHexString(inputNoteList.getNoteTxs(i)
+        System.out.println("stbId " + ByteArray.toHexString(inputNoteList.getNoteTxs(i)
             .getTxid().toByteArray()));
         System.out.println("index " + inputNoteList.getNoteTxs(i).getIndex());
         System.out.println("position " + inputNoteList.getNoteTxs(i).getPosition());

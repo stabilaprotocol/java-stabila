@@ -111,8 +111,8 @@ public class TvmAssetIssue002 {
         + "0000000000000000000074657374417373657431353938333439363637393631"
         + "0000000000000000000000000000000000000000000000000000000000989680"
         + "0000000000000000000000000000000000000000000000000000000000000001";*/
-    // assetName is trx
-    String tokenName = PublicMethed.stringToHexString("trx");
+    // assetName is stb
+    String tokenName = PublicMethed.stringToHexString("stb");
     String tokenAbbr = PublicMethed.stringToHexString(abbr);
     String param =
         "\"" + tokenName + "\",\"" + tokenAbbr + "\"," + totalSupply + "," + 6;
@@ -251,7 +251,7 @@ public class TvmAssetIssue002 {
 
     // totalSupply is -1
     tokenName = PublicMethed.stringToHexString(name);
-    tokenAbbr = PublicMethed.stringToHexString("trx");
+    tokenAbbr = PublicMethed.stringToHexString("stb");
     param =
         "\"" + tokenName + "\",\"" + tokenAbbr + "\"," + -1 + "," + 6;
     logger.info("param: " + param);
@@ -273,7 +273,7 @@ public class TvmAssetIssue002 {
 
     // totalSupply is 0
     tokenName = PublicMethed.stringToHexString(name);
-    tokenAbbr = PublicMethed.stringToHexString("trx");
+    tokenAbbr = PublicMethed.stringToHexString("stb");
     param =
         "\"" + tokenName + "\",\"" + tokenAbbr + "\"," + 0 + "," + 6;
     logger.info("param: " + param);
@@ -331,9 +331,9 @@ public class TvmAssetIssue002 {
         .getAssetV2Map();
     Assert.assertEquals(0, assetV2Map.size());
 
-    // assetAbbr is trx will success
+    // assetAbbr is stb will success
     tokenName = PublicMethed.stringToHexString(name);
-    tokenAbbr = PublicMethed.stringToHexString("trx");
+    tokenAbbr = PublicMethed.stringToHexString("stb");
     param = "\"" + tokenName + "\",\"" + tokenAbbr + "\"," + totalSupply + "," + 6;
     logger.info("param: " + param);
     txid = PublicMethed.triggerContract(contractAddress, methodTokenIssue, param, false,
@@ -351,7 +351,7 @@ public class TvmAssetIssue002 {
     AssetIssueContract assetIssueById = PublicMethed
         .getAssetIssueById(assetIssueId, blockingStubFull);
     Assert.assertEquals(name, ByteArray.toStr(assetIssueById.getName().toByteArray()));
-    Assert.assertEquals("trx", ByteArray.toStr(assetIssueById.getAbbr().toByteArray()));
+    Assert.assertEquals("stb", ByteArray.toStr(assetIssueById.getAbbr().toByteArray()));
     assetV2Map = PublicMethed.queryAccount(contractAddress, blockingStubFull)
         .getAssetV2Map();
     Assert.assertEquals(1, assetV2Map.size());
@@ -375,7 +375,7 @@ public class TvmAssetIssue002 {
     Assert.assertEquals(assetIssueId, assetIssueId1);
   }
 
-  @Test(enabled = false, description = "tokenIssue trx balance insufficient")
+  @Test(enabled = false, description = "tokenIssue stb balance insufficient")
   public void tokenIssue002StbBalanceInsufficient() {
     Assert.assertTrue(PublicMethed
         .sendcoin(dev001Address, 3100_000_000L, fromAddress, testKey002, blockingStubFull));
@@ -408,7 +408,7 @@ public class TvmAssetIssue002 {
         .getBalance();
     Assert.assertEquals(callvalue, contractAddressBalance);
 
-    // trx balance insufficient
+    // stb balance insufficient
     String tokenName = PublicMethed.stringToHexString(name);
     String tokenAbbr = PublicMethed.stringToHexString(abbr);
     String param = "\"" + tokenName + "\",\"" + tokenAbbr + "\"," + totalSupply + "," + 6;

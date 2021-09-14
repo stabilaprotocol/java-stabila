@@ -142,9 +142,9 @@ public class TvmAssetIssue003 {
         .getBalance();
     Assert.assertEquals(contractAddressBalance - 1024000000L, contractAddressBalance2);
 
-    // desc and url is trx, will success
-    url = "trx";
-    description = "trx";
+    // desc and url is stb, will success
+    url = "stb";
+    description = "stb";
     param = "\"" + assetIssueId + "\",\"" + url + "\",\"" + description + "\"";
     logger.info("param: " + param);
     String methodUpdateAsset = "updateAsset(trcToken,string,string)";
@@ -772,8 +772,8 @@ public class TvmAssetIssue003 {
     Assert.assertEquals(contractAddressBalance - 1024000000L, contractAddressBalance2);
 
     // token id does not exist, will update myself
-    url = "trx";
-    description = "trx";
+    url = "stb";
+    description = "stb";
     param = "\"1119125\",\"" + url + "\",\"" + description + "\"";
     logger.info("param: " + param);
     String methodUpdateAsset = "updateAsset(trcToken,string,string)";

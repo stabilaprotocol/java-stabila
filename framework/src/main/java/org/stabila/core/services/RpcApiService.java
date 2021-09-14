@@ -281,38 +281,38 @@ public class RpcApiService implements Service {
 
   private void callContract(TriggerSmartContract request,
       StreamObserver<TransactionExtention> responseObserver, boolean isConstant) {
-    TransactionExtention.Builder trxExtBuilder = TransactionExtention.newBuilder();
+    TransactionExtention.Builder stbExtBuilder = TransactionExtention.newBuilder();
     Return.Builder retBuilder = Return.newBuilder();
     try {
-      TransactionCapsule trxCap = createTransactionCapsule(request,
+      TransactionCapsule stbCap = createTransactionCapsule(request,
           ContractType.TriggerSmartContract);
-      Transaction trx;
+      Transaction stb;
       if (isConstant) {
-        trx = wallet.triggerConstantContract(request, trxCap, trxExtBuilder, retBuilder);
+        stb = wallet.triggerConstantContract(request, stbCap, stbExtBuilder, retBuilder);
       } else {
-        trx = wallet.triggerContract(request, trxCap, trxExtBuilder, retBuilder);
+        stb = wallet.triggerContract(request, stbCap, stbExtBuilder, retBuilder);
       }
-      trxExtBuilder.setTransaction(trx);
-      trxExtBuilder.setTxid(trxCap.getTransactionId().getByteString());
+      stbExtBuilder.setTransaction(stb);
+      stbExtBuilder.setTxid(stbCap.getTransactionId().getByteString());
       retBuilder.setResult(true).setCode(response_code.SUCCESS);
-      trxExtBuilder.setResult(retBuilder);
+      stbExtBuilder.setResult(retBuilder);
     } catch (ContractValidateException | VMIllegalException e) {
       retBuilder.setResult(false).setCode(response_code.CONTRACT_VALIDATE_ERROR)
           .setMessage(ByteString.copyFromUtf8(Wallet.CONTRACT_VALIDATE_ERROR + e.getMessage()));
-      trxExtBuilder.setResult(retBuilder);
+      stbExtBuilder.setResult(retBuilder);
       logger.warn(CONTRACT_VALIDATE_EXCEPTION, e.getMessage());
     } catch (RuntimeException e) {
       retBuilder.setResult(false).setCode(response_code.CONTRACT_EXE_ERROR)
           .setMessage(ByteString.copyFromUtf8(e.getClass() + " : " + e.getMessage()));
-      trxExtBuilder.setResult(retBuilder);
+      stbExtBuilder.setResult(retBuilder);
       logger.warn("When run constant call in VM, have RuntimeException: " + e.getMessage());
     } catch (Exception e) {
       retBuilder.setResult(false).setCode(response_code.OTHER_ERROR)
           .setMessage(ByteString.copyFromUtf8(e.getClass() + " : " + e.getMessage()));
-      trxExtBuilder.setResult(retBuilder);
+      stbExtBuilder.setResult(retBuilder);
       logger.warn("unknown exception caught: " + e.getMessage(), e);
     } finally {
-      responseObserver.onNext(trxExtBuilder.build());
+      responseObserver.onNext(stbExtBuilder.build());
       responseObserver.onCompleted();
     }
   }
@@ -327,14 +327,14 @@ public class RpcApiService implements Service {
     if (transaction == null) {
       return null;
     }
-    TransactionExtention.Builder trxExtBuilder = TransactionExtention.newBuilder();
+    TransactionExtention.Builder stbExtBuilder = TransactionExtention.newBuilder();
     Return.Builder retBuilder = Return.newBuilder();
-    trxExtBuilder.setTransaction(transaction);
-    trxExtBuilder.setTxid(Sha256Hash.of(CommonParameter.getInstance()
+    stbExtBuilder.setTransaction(transaction);
+    stbExtBuilder.setTxid(Sha256Hash.of(CommonParameter.getInstance()
         .isECKeyCryptoEngine(), transaction.getRawData().toByteArray()).getByteString());
     retBuilder.setResult(true).setCode(response_code.SUCCESS);
-    trxExtBuilder.setResult(retBuilder);
-    return trxExtBuilder.build();
+    stbExtBuilder.setResult(retBuilder);
+    return stbExtBuilder.build();
   }
 
   private BlockExtention block2Extention(Block block) {
@@ -1011,12 +1011,12 @@ public class RpcApiService implements Service {
 
     private void createTransactionExtention(Message request, ContractType contractType,
         StreamObserver<TransactionExtention> responseObserver) {
-      TransactionExtention.Builder trxExtBuilder = TransactionExtention.newBuilder();
+      TransactionExtention.Builder stbExtBuilder = TransactionExtention.newBuilder();
       Return.Builder retBuilder = Return.newBuilder();
       try {
-        TransactionCapsule trx = createTransactionCapsule(request, contractType);
-        trxExtBuilder.setTransaction(trx.getInstance());
-        trxExtBuilder.setTxid(trx.getTransactionId().getByteString());
+        TransactionCapsule stb = createTransactionCapsule(request, contractType);
+        stbExtBuilder.setTransaction(stb.getInstance());
+        stbExtBuilder.setTxid(stb.getTransactionId().getByteString());
         retBuilder.setResult(true).setCode(response_code.SUCCESS);
       } catch (ContractValidateException e) {
         retBuilder.setResult(false).setCode(response_code.CONTRACT_VALIDATE_ERROR)
@@ -1028,8 +1028,8 @@ public class RpcApiService implements Service {
             .setMessage(ByteString.copyFromUtf8(e.getClass() + " : " + e.getMessage()));
         logger.info(EXCEPTION_CAUGHT + e.getMessage());
       }
-      trxExtBuilder.setResult(retBuilder);
-      responseObserver.onNext(trxExtBuilder.build());
+      stbExtBuilder.setResult(retBuilder);
+      responseObserver.onNext(stbExtBuilder.build());
       responseObserver.onCompleted();
     }
 
@@ -1045,40 +1045,40 @@ public class RpcApiService implements Service {
     @Override
     public void getTransactionSign2(TransactionSign req,
         StreamObserver<TransactionExtention> responseObserver) {
-      TransactionExtention.Builder trxExtBuilder = TransactionExtention.newBuilder();
+      TransactionExtention.Builder stbExtBuilder = TransactionExtention.newBuilder();
       Return.Builder retBuilder = Return.newBuilder();
       try {
-        TransactionCapsule trx = TransactionUtil.getTransactionSign(req);
-        trxExtBuilder.setTransaction(trx.getInstance());
-        trxExtBuilder.setTxid(trx.getTransactionId().getByteString());
+        TransactionCapsule stb = TransactionUtil.getTransactionSign(req);
+        stbExtBuilder.setTransaction(stb.getInstance());
+        stbExtBuilder.setTxid(stb.getTransactionId().getByteString());
         retBuilder.setResult(true).setCode(response_code.SUCCESS);
       } catch (Exception e) {
         retBuilder.setResult(false).setCode(response_code.OTHER_ERROR)
             .setMessage(ByteString.copyFromUtf8(e.getClass() + " : " + e.getMessage()));
         logger.info(EXCEPTION_CAUGHT + e.getMessage());
       }
-      trxExtBuilder.setResult(retBuilder);
-      responseObserver.onNext(trxExtBuilder.build());
+      stbExtBuilder.setResult(retBuilder);
+      responseObserver.onNext(stbExtBuilder.build());
       responseObserver.onCompleted();
     }
 
     @Override
     public void addSign(TransactionSign req,
         StreamObserver<TransactionExtention> responseObserver) {
-      TransactionExtention.Builder trxExtBuilder = TransactionExtention.newBuilder();
+      TransactionExtention.Builder stbExtBuilder = TransactionExtention.newBuilder();
       Return.Builder retBuilder = Return.newBuilder();
       try {
-        TransactionCapsule trx = transactionUtil.addSign(req);
-        trxExtBuilder.setTransaction(trx.getInstance());
-        trxExtBuilder.setTxid(trx.getTransactionId().getByteString());
+        TransactionCapsule stb = transactionUtil.addSign(req);
+        stbExtBuilder.setTransaction(stb.getInstance());
+        stbExtBuilder.setTxid(stb.getTransactionId().getByteString());
         retBuilder.setResult(true).setCode(response_code.SUCCESS);
       } catch (Exception e) {
         retBuilder.setResult(false).setCode(response_code.OTHER_ERROR)
             .setMessage(ByteString.copyFromUtf8(e.getClass() + " : " + e.getMessage()));
         logger.info(EXCEPTION_CAUGHT + e.getMessage());
       }
-      trxExtBuilder.setResult(retBuilder);
-      responseObserver.onNext(trxExtBuilder.build());
+      stbExtBuilder.setResult(retBuilder);
+      responseObserver.onNext(stbExtBuilder.build());
       responseObserver.onCompleted();
     }
 
@@ -1886,39 +1886,39 @@ public class RpcApiService implements Service {
 
     private void callContract(TriggerSmartContract request,
         StreamObserver<TransactionExtention> responseObserver, boolean isConstant) {
-      TransactionExtention.Builder trxExtBuilder = TransactionExtention.newBuilder();
+      TransactionExtention.Builder stbExtBuilder = TransactionExtention.newBuilder();
       Return.Builder retBuilder = Return.newBuilder();
       try {
-        TransactionCapsule trxCap = createTransactionCapsule(request,
+        TransactionCapsule stbCap = createTransactionCapsule(request,
             ContractType.TriggerSmartContract);
-        Transaction trx;
+        Transaction stb;
         if (isConstant) {
-          trx = wallet.triggerConstantContract(request, trxCap, trxExtBuilder, retBuilder);
+          stb = wallet.triggerConstantContract(request, stbCap, stbExtBuilder, retBuilder);
         } else {
-          trx = wallet.triggerContract(request, trxCap, trxExtBuilder, retBuilder);
+          stb = wallet.triggerContract(request, stbCap, stbExtBuilder, retBuilder);
         }
-        trxExtBuilder.setTransaction(trx);
-        trxExtBuilder.setTxid(trxCap.getTransactionId().getByteString());
+        stbExtBuilder.setTransaction(stb);
+        stbExtBuilder.setTxid(stbCap.getTransactionId().getByteString());
         retBuilder.setResult(true).setCode(response_code.SUCCESS);
-        trxExtBuilder.setResult(retBuilder);
+        stbExtBuilder.setResult(retBuilder);
       } catch (ContractValidateException | VMIllegalException e) {
         retBuilder.setResult(false).setCode(response_code.CONTRACT_VALIDATE_ERROR)
             .setMessage(ByteString.copyFromUtf8(Wallet
                 .CONTRACT_VALIDATE_ERROR + e.getMessage()));
-        trxExtBuilder.setResult(retBuilder);
+        stbExtBuilder.setResult(retBuilder);
         logger.warn(CONTRACT_VALIDATE_EXCEPTION, e.getMessage());
       } catch (RuntimeException e) {
         retBuilder.setResult(false).setCode(response_code.CONTRACT_EXE_ERROR)
             .setMessage(ByteString.copyFromUtf8(e.getClass() + " : " + e.getMessage()));
-        trxExtBuilder.setResult(retBuilder);
+        stbExtBuilder.setResult(retBuilder);
         logger.warn("When run constant call in VM, have Runtime Exception: " + e.getMessage());
       } catch (Exception e) {
         retBuilder.setResult(false).setCode(response_code.OTHER_ERROR)
             .setMessage(ByteString.copyFromUtf8(e.getClass() + " : " + e.getMessage()));
-        trxExtBuilder.setResult(retBuilder);
+        stbExtBuilder.setResult(retBuilder);
         logger.warn("unknown exception caught: " + e.getMessage(), e);
       } finally {
-        responseObserver.onNext(trxExtBuilder.build());
+        responseObserver.onNext(stbExtBuilder.build());
         responseObserver.onCompleted();
       }
     }
@@ -2065,15 +2065,15 @@ public class RpcApiService implements Service {
     public void createShieldedTransaction(PrivateParameters request,
         StreamObserver<TransactionExtention> responseObserver) {
 
-      TransactionExtention.Builder trxExtBuilder = TransactionExtention.newBuilder();
+      TransactionExtention.Builder stbExtBuilder = TransactionExtention.newBuilder();
       Return.Builder retBuilder = Return.newBuilder();
 
       try {
         checkSupportShieldedTransaction();
 
-        TransactionCapsule trx = wallet.createShieldedTransaction(request);
-        trxExtBuilder.setTransaction(trx.getInstance());
-        trxExtBuilder.setTxid(trx.getTransactionId().getByteString());
+        TransactionCapsule stb = wallet.createShieldedTransaction(request);
+        stbExtBuilder.setTransaction(stb.getInstance());
+        stbExtBuilder.setTxid(stb.getTransactionId().getByteString());
         retBuilder.setResult(true).setCode(response_code.SUCCESS);
       } catch (ContractValidateException | ZksnarkException e) {
         retBuilder.setResult(false).setCode(response_code.CONTRACT_VALIDATE_ERROR)
@@ -2086,8 +2086,8 @@ public class RpcApiService implements Service {
         logger.info("createShieldedTransaction exception caught: " + e.getMessage());
       }
 
-      trxExtBuilder.setResult(retBuilder);
-      responseObserver.onNext(trxExtBuilder.build());
+      stbExtBuilder.setResult(retBuilder);
+      responseObserver.onNext(stbExtBuilder.build());
       responseObserver.onCompleted();
 
     }
@@ -2096,15 +2096,15 @@ public class RpcApiService implements Service {
     public void createShieldedTransactionWithoutSpendAuthSig(PrivateParametersWithoutAsk request,
         StreamObserver<TransactionExtention> responseObserver) {
 
-      TransactionExtention.Builder trxExtBuilder = TransactionExtention.newBuilder();
+      TransactionExtention.Builder stbExtBuilder = TransactionExtention.newBuilder();
       Return.Builder retBuilder = Return.newBuilder();
 
       try {
         checkSupportShieldedTransaction();
 
-        TransactionCapsule trx = wallet.createShieldedTransactionWithoutSpendAuthSig(request);
-        trxExtBuilder.setTransaction(trx.getInstance());
-        trxExtBuilder.setTxid(trx.getTransactionId().getByteString());
+        TransactionCapsule stb = wallet.createShieldedTransactionWithoutSpendAuthSig(request);
+        stbExtBuilder.setTransaction(stb.getInstance());
+        stbExtBuilder.setTxid(stb.getTransactionId().getByteString());
         retBuilder.setResult(true).setCode(response_code.SUCCESS);
       } catch (ContractValidateException | ZksnarkException e) {
         retBuilder.setResult(false).setCode(response_code.CONTRACT_VALIDATE_ERROR)
@@ -2118,8 +2118,8 @@ public class RpcApiService implements Service {
             "createShieldedTransactionWithoutSpendAuthSig exception caught: " + e.getMessage());
       }
 
-      trxExtBuilder.setResult(retBuilder);
-      responseObserver.onNext(trxExtBuilder.build());
+      stbExtBuilder.setResult(retBuilder);
+      responseObserver.onNext(stbExtBuilder.build());
       responseObserver.onCompleted();
 
     }

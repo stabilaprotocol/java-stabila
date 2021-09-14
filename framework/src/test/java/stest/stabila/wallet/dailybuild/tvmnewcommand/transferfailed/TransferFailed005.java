@@ -163,7 +163,7 @@ public class TransferFailed005 {
         .queryAccount(contractAddress1, blockingStubFull).getBalance());
     long paramValue = 1;
 
-    // transfer trx to self`s account
+    // transfer stb to self`s account
     String param = "\"" + paramValue + "\",\"" + Base58.encode58Check(contractAddress) + "\"";
     String triggerTxid = PublicMethed
         .triggerContract(contractAddress, "testCallStbInsufficientBalance(uint256,address)", param,
@@ -175,7 +175,7 @@ public class TransferFailed005 {
     Assert.assertEquals(infoById.get().getResultValue(), 1);
     Assert.assertEquals("FAILED", infoById.get().getResult().toString());
     Assert.assertEquals("TRANSFER_FAILED", infoById.get().getReceipt().getResult().toString());
-    Assert.assertEquals("transfer trx failed: Cannot transfer STB to yourself.",
+    Assert.assertEquals("transfer stb failed: Cannot transfer STB to yourself.",
         infoById.get().getResMessage().toStringUtf8());
     Assert.assertEquals(100L,
         PublicMethed.queryAccount(contractAddress, blockingStubFull).getBalance());
@@ -183,7 +183,7 @@ public class TransferFailed005 {
         PublicMethed.queryAccount(contractAddress1, blockingStubFull).getBalance());
     Assert.assertTrue(infoById.get().getReceipt().getEnergyUsageTotal() < 10000000);
 
-    // transfer trx to unactivate account
+    // transfer stb to unactivate account
     ECKey ecKey2 = new ECKey(Utils.getRandom());
     byte[] accountExcAddress2 = ecKey2.getAddress();
     param = "\"" + paramValue + "\",\"" + Base58.encode58Check(accountExcAddress2) + "\"";
@@ -202,7 +202,7 @@ public class TransferFailed005 {
         PublicMethed.queryAccount(contractAddress1, blockingStubFull).getBalance());
     Assert.assertTrue(infoById.get().getReceipt().getEnergyUsageTotal() < 10000000);
 
-    // transfer trx to caller, value enough , function success contractResult(call_value) successed
+    // transfer stb to caller, value enough , function success contractResult(call_value) successed
     param = "\"" + paramValue + "\",\"" + Base58.encode58Check(contractAddress1) + "\"";
     triggerTxid = PublicMethed
         .triggerContract(contractAddress, "testCallStbInsufficientBalance(uint256,address)", param,
@@ -234,7 +234,7 @@ public class TransferFailed005 {
         PublicMethed.queryAccount(contractAddress1, blockingStubFull).getBalance());
     Assert.assertTrue(infoById.get().getReceipt().getEnergyUsageTotal() < 10000000);
 
-    // transfer trx to caller, value not enough, function success
+    // transfer stb to caller, value not enough, function success
     // but contractResult(call_value) failed
     param = "\"" + 100 + "\",\"" + Base58.encode58Check(contractAddress1) + "\"";
     triggerTxid = PublicMethed

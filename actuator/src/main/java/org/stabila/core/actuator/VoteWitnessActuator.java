@@ -135,7 +135,7 @@ public class VoteWitnessActuator extends AbstractActuator {
       }
 
       sum = LongMath
-          .checkedMultiply(sum, STB_PRECISION); //trx -> drop. The vote count is based on STB
+          .checkedMultiply(sum, STB_PRECISION); //stb -> drop. The vote count is based on STB
       if (sum > stabilaPower) {
         throw new ContractValidateException(
             "The total number of votes[" + sum + "] is greater than the stabilaPower[" + stabilaPower

@@ -144,12 +144,12 @@ public class IsSRCandidateTest extends VMTestBase {
     VMConfig vmConfig = VMConfig.getInstance();
 
     // deploy contract
-    Transaction trx =
+    Transaction stb =
         TvmTestUtils.generateDeploySmartContractAndGetTransaction(
             contractName, address, abi, factoryCode, value, fee, consumeUserResourcePercent, null);
-    byte[] factoryAddress = WalletUtil.generateContractAddress(trx);
+    byte[] factoryAddress = WalletUtil.generateContractAddress(stb);
     String factoryAddressStr = StringUtil.encode58Check(factoryAddress);
-    runtime = TvmTestUtils.processTransactionAndReturnRuntime(trx, rootDeposit, null);
+    runtime = TvmTestUtils.processTransactionAndReturnRuntime(stb, rootDeposit, null);
     Assert.assertNull(runtime.getRuntimeError());
 
     // Trigger contract method: isSRCandidateTest(address)
@@ -159,17 +159,17 @@ public class IsSRCandidateTest extends VMTestBase {
     String hexInput =
         AbiUtil.parseMethod(methodByAddr, Collections.singletonList(nonexistentAccount));
 
-    trx =
+    stb =
         TvmTestUtils.generateTriggerSmartContractAndGetTransaction(
             Hex.decode(OWNER_ADDRESS), factoryAddress, Hex.decode(hexInput), 0, fee);
     InternalTransaction rootInternalTransaction =
-        new InternalTransaction(trx, InternalTransaction.StbType.STB_CONTRACT_CALL_TYPE);
+        new InternalTransaction(stb, InternalTransaction.StbType.STB_CONTRACT_CALL_TYPE);
     repository = RepositoryImpl.createRoot(storeFactory);
     ProgramInvoke programInvoke =
         programInvokeFactory.createProgramInvoke(
             InternalTransaction.StbType.STB_CONTRACT_CALL_TYPE,
             InternalTransaction.ExecutorType.ET_PRE_TYPE,
-            trx,
+            stb,
             0,
             0,
             null,
@@ -186,17 +186,17 @@ public class IsSRCandidateTest extends VMTestBase {
 
     // trigger deployed contract
     hexInput = AbiUtil.parseMethod(methodByAddr, Collections.singletonList(factoryAddressStr));
-    trx =
+    stb =
         TvmTestUtils.generateTriggerSmartContractAndGetTransaction(
             Hex.decode(OWNER_ADDRESS), factoryAddress, Hex.decode(hexInput), 0, fee);
     rootInternalTransaction =
-        new InternalTransaction(trx, InternalTransaction.StbType.STB_CONTRACT_CALL_TYPE);
+        new InternalTransaction(stb, InternalTransaction.StbType.STB_CONTRACT_CALL_TYPE);
     repository = RepositoryImpl.createRoot(storeFactory);
     programInvoke =
         programInvokeFactory.createProgramInvoke(
             InternalTransaction.StbType.STB_CONTRACT_CALL_TYPE,
             InternalTransaction.ExecutorType.ET_PRE_TYPE,
-            trx,
+            stb,
             0,
             0,
             null,
@@ -215,17 +215,17 @@ public class IsSRCandidateTest extends VMTestBase {
     String witnessAccount = "27Ssb1WE8FArwJVRRb8Dwy3ssVGuLY8L3S1";
     byte[] witnessAddr = Hex.decode("a0299f3db80a24b20a254b89ce639d59132f157f13");
     hexInput = AbiUtil.parseMethod(methodByAddr, Collections.singletonList(witnessAccount));
-    trx =
+    stb =
         TvmTestUtils.generateTriggerSmartContractAndGetTransaction(
             Hex.decode(OWNER_ADDRESS), factoryAddress, Hex.decode(hexInput), 0, fee);
     rootInternalTransaction =
-        new InternalTransaction(trx, InternalTransaction.StbType.STB_CONTRACT_CALL_TYPE);
+        new InternalTransaction(stb, InternalTransaction.StbType.STB_CONTRACT_CALL_TYPE);
     repository = RepositoryImpl.createRoot(storeFactory);
     programInvoke =
         programInvokeFactory.createProgramInvoke(
             InternalTransaction.StbType.STB_CONTRACT_CALL_TYPE,
             InternalTransaction.ExecutorType.ET_PRE_TYPE,
-            trx,
+            stb,
             0,
             0,
             null,
@@ -243,17 +243,17 @@ public class IsSRCandidateTest extends VMTestBase {
     // Trigger contract method: nullAddressTest(address)
     methodByAddr = "nullAddressTest()";
     hexInput = AbiUtil.parseMethod(methodByAddr, Collections.singletonList(""));
-    trx =
+    stb =
         TvmTestUtils.generateTriggerSmartContractAndGetTransaction(
             Hex.decode(OWNER_ADDRESS), factoryAddress, Hex.decode(hexInput), 0, fee);
     rootInternalTransaction =
-        new InternalTransaction(trx, InternalTransaction.StbType.STB_CONTRACT_CALL_TYPE);
+        new InternalTransaction(stb, InternalTransaction.StbType.STB_CONTRACT_CALL_TYPE);
     repository = RepositoryImpl.createRoot(storeFactory);
     programInvoke =
         programInvokeFactory.createProgramInvoke(
             InternalTransaction.StbType.STB_CONTRACT_CALL_TYPE,
             InternalTransaction.ExecutorType.ET_PRE_TYPE,
-            trx,
+            stb,
             0,
             0,
             null,

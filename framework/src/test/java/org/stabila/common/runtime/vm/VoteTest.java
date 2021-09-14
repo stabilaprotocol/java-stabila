@@ -199,7 +199,7 @@ public class VoteTest {
   private static final long value = 100_000_000_000_000_000L;
   private static final long fee = 1_000_000_000L;
   private static final long freezeUnit = 1_000_000_000_000L;
-  private static final long trx_precision = 1_000_000L;
+  private static final long stb_precision = 1_000_000L;
   private static final String userAStr = "27k66nycZATHzBasFT9782nTsYWqVtxdtAc";
   private static final byte[] userA = Commons.decode58Check(userAStr);
   private static final String userBStr = "27jzp7nVEkH4Hf3H1PHPp4VDY7DxTy5eydL";
@@ -317,17 +317,17 @@ public class VoteTest {
   }
 
   private byte[] deployContract(String contractName, String abi, String code) throws Exception {
-    Protocol.Transaction trx = TvmTestUtils.generateDeploySmartContractAndGetTransaction(
+    Protocol.Transaction stb = TvmTestUtils.generateDeploySmartContractAndGetTransaction(
         contractName, owner, abi, code, value, fee, 80,
         null, 1_000_000L);
-    trx = trx.toBuilder().setRawData(
-        trx.getRawData().toBuilder().setTimestamp(System.currentTimeMillis()).build()).build();
-    byte[] contractAddr = WalletUtil.generateContractAddress(trx);
+    stb = stb.toBuilder().setRawData(
+        stb.getRawData().toBuilder().setTimestamp(System.currentTimeMillis()).build()).build();
+    byte[] contractAddr = WalletUtil.generateContractAddress(stb);
     //String contractAddrStr = StringUtil.encode58Check(contractAddr);
-    TransactionCapsule trxCap = new TransactionCapsule(trx);
-    TransactionTrace trace = new TransactionTrace(trxCap, StoreFactory.getInstance(),
+    TransactionCapsule stbCap = new TransactionCapsule(stb);
+    TransactionTrace trace = new TransactionTrace(stbCap, StoreFactory.getInstance(),
         new RuntimeImpl());
-    trxCap.setStbTrace(trace);
+    stbCap.setStbTrace(trace);
     trace.init(null);
     trace.exec();
     trace.finalization();
@@ -344,12 +344,12 @@ public class VoteTest {
                                         String method,
                                         Object... args) throws Exception {
     String hexInput = AbiUtil.parseMethod(method, Arrays.asList(args));
-    TransactionCapsule trxCap = new TransactionCapsule(
+    TransactionCapsule stbCap = new TransactionCapsule(
         TvmTestUtils.generateTriggerSmartContractAndGetTransaction(
             owner, contractAddr, Hex.decode(hexInput), 0, fee));
-    TransactionTrace trace = new TransactionTrace(trxCap, StoreFactory.getInstance(),
+    TransactionTrace trace = new TransactionTrace(stbCap, StoreFactory.getInstance(),
         new RuntimeImpl());
-    trxCap.setStbTrace(trace);
+    stbCap.setStbTrace(trace);
     trace.init(null);
     trace.exec();
     trace.finalization();
@@ -383,7 +383,7 @@ public class VoteTest {
           freezeMethod, voteContractStr, freezeUnit, 1);
 
       // query stabila power, not zero
-      long totalStabilaPower = 2 * freezeUnit / trx_precision;
+      long totalStabilaPower = 2 * freezeUnit / stb_precision;
       triggerContract(voteContract, SUCCESS, getEqualConsumer(totalStabilaPower),
           queryTotalVoteCountMethod, voteContractStr);
 

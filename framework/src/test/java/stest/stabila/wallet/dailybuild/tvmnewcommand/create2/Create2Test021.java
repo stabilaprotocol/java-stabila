@@ -215,7 +215,7 @@ public class Create2Test021 {
     // active create2 Address to normal Address
     Assert.assertTrue(PublicMethed
         .sendcoin(bytes, 1000000L, contractExcAddress, contractExcKey, blockingStubFull));
-    //Trigger contract to transfer trx and token.
+    //Trigger contract to transfer stb and token.
     Account getAssetIdFromAccount = PublicMethed
         .queryAccount(resourceOnwerAddress, blockingStubFull);
     assetAccountId = getAssetIdFromAccount.getAssetIssuedID();
@@ -299,7 +299,7 @@ public class Create2Test021 {
     Assert.assertEquals(account.getBalance(), 1000000);
   }
 
-  @Test(enabled = true, description = "Create2 contract can transfer trx and token.")
+  @Test(enabled = true, description = "Create2 contract can transfer stb and token.")
   public void test2TriggerContract() {
     Account accountbefore = PublicMethed.queryAccount(bytes, blockingStubFull);
     int typeValue = accountbefore.getTypeValue();

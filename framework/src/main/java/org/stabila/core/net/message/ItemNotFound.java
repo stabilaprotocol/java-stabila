@@ -7,7 +7,7 @@ public class ItemNotFound extends StabilaMessage {
   private org.stabila.protos.Protocol.Items notFound;
 
   /**
-   * means can not find this block or trx.
+   * means can not find this block or stb.
    */
   public ItemNotFound() {
     Protocol.Items.Builder itemsBuilder = Protocol.Items.newBuilder();

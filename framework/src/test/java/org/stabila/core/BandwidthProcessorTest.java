@@ -235,7 +235,7 @@ public class BandwidthProcessorTest {
   public void testCreateNewAccount() throws Exception {
     BandwidthProcessor processor = new BandwidthProcessor(chainBaseManager);
     TransferAssetContract transferAssetContract = getTransferAssetContract();
-    TransactionCapsule trx = new TransactionCapsule(transferAssetContract);
+    TransactionCapsule stb = new TransactionCapsule(transferAssetContract);
 
     String NOT_EXISTS_ADDRESS =
         Wallet.getAddressPreFixString() + "008794500882809695a8a687866e76d4271a1abc";
@@ -257,8 +257,8 @@ public class BandwidthProcessorTest {
     ownerCapsule.setFrozen(10_000_000L, 0L);
 
     Assert.assertEquals(true, processor.contractCreateNewAccount(contract));
-    long bytes = trx.getSerializedSize();
-    TransactionTrace trace = new TransactionTrace(trx, StoreFactory
+    long bytes = stb.getSerializedSize();
+    TransactionTrace trace = new TransactionTrace(stb, StoreFactory
         .getInstance(), new RuntimeImpl());
     processor.consumeBandwidthForCreateNewAccount(ownerCapsule, bytes, 1526647838000L, trace);
 
@@ -278,16 +278,16 @@ public class BandwidthProcessorTest {
 
     chainBaseManager.getDynamicPropertiesStore().saveLatestBlockHeaderTimestamp(1526647838000L);
     TransferAssetContract contract = getTransferAssetContract();
-    TransactionCapsule trx = new TransactionCapsule(contract);
+    TransactionCapsule stb = new TransactionCapsule(contract);
 
     AccountCapsule ownerCapsule = chainBaseManager.getAccountStore()
         .get(ByteArray.fromHexString(OWNER_ADDRESS));
     chainBaseManager.getAccountStore().put(ownerCapsule.getAddress().toByteArray(), ownerCapsule);
 
     TransactionResultCapsule ret = new TransactionResultCapsule();
-    TransactionTrace trace = new TransactionTrace(trx, StoreFactory
+    TransactionTrace trace = new TransactionTrace(stb, StoreFactory
         .getInstance(), new RuntimeImpl());
-    dbManager.consumeBandwidth(trx, trace);
+    dbManager.consumeBandwidth(stb, trace);
 
     AccountCapsule ownerCapsuleNew = chainBaseManager.getAccountStore()
         .get(ByteArray.fromHexString(OWNER_ADDRESS));
@@ -308,7 +308,7 @@ public class BandwidthProcessorTest {
     chainBaseManager.getDynamicPropertiesStore()
         .saveLatestBlockHeaderTimestamp(1526691038000L); // + 12h
 
-    dbManager.consumeBandwidth(trx, trace);
+    dbManager.consumeBandwidth(stb, trace);
     ownerCapsuleNew = chainBaseManager.getAccountStore()
         .get(ByteArray.fromHexString(OWNER_ADDRESS));
 
@@ -337,7 +337,7 @@ public class BandwidthProcessorTest {
         .saveTotalNetWeight(10_000_000L);//only assetAccount has frozen balance
 
     TransferAssetContract contract = getTransferAssetContract();
-    TransactionCapsule trx = new TransactionCapsule(contract);
+    TransactionCapsule stb = new TransactionCapsule(contract);
 
     AccountCapsule assetCapsule = chainBaseManager.getAccountStore()
         .get(ByteArray.fromHexString(ASSET_ADDRESS));
@@ -345,9 +345,9 @@ public class BandwidthProcessorTest {
     chainBaseManager.getAccountStore().put(assetCapsule.getAddress().toByteArray(), assetCapsule);
 
     TransactionResultCapsule ret = new TransactionResultCapsule();
-    TransactionTrace trace = new TransactionTrace(trx, StoreFactory
+    TransactionTrace trace = new TransactionTrace(stb, StoreFactory
         .getInstance(), new RuntimeImpl());
-    dbManager.consumeBandwidth(trx, trace);
+    dbManager.consumeBandwidth(stb, trace);
 
     AccountCapsule ownerCapsuleNew = chainBaseManager.getAccountStore()
         .get(ByteArray.fromHexString(OWNER_ADDRESS));
@@ -376,7 +376,7 @@ public class BandwidthProcessorTest {
     chainBaseManager.getDynamicPropertiesStore()
         .saveLatestBlockHeaderTimestamp(1526691038000L); // + 12h
 
-    dbManager.consumeBandwidth(trx, trace);
+    dbManager.consumeBandwidth(stb, trace);
 
     ownerCapsuleNew = chainBaseManager.getAccountStore()
         .get(ByteArray.fromHexString(OWNER_ADDRESS));
@@ -411,7 +411,7 @@ public class BandwidthProcessorTest {
         .saveTotalNetWeight(10_000_000L);//only assetAccount has frozen balance
 
     TransferAssetContract contract = getTransferAssetV2Contract();
-    TransactionCapsule trx = new TransactionCapsule(contract);
+    TransactionCapsule stb = new TransactionCapsule(contract);
 
     // issuer freeze balance for bandwidth
     AccountCapsule issuerCapsuleV2 = chainBaseManager.getAccountStore()
@@ -421,9 +421,9 @@ public class BandwidthProcessorTest {
         issuerCapsuleV2);
 
     TransactionResultCapsule ret = new TransactionResultCapsule();
-    TransactionTrace trace = new TransactionTrace(trx, StoreFactory
+    TransactionTrace trace = new TransactionTrace(stb, StoreFactory
         .getInstance(), new RuntimeImpl());
-    dbManager.consumeBandwidth(trx, trace);
+    dbManager.consumeBandwidth(stb, trace);
 
     AccountCapsule ownerCapsuleNew = chainBaseManager.getAccountStore()
         .get(ByteArray.fromHexString(OWNER_ADDRESS));
@@ -450,7 +450,7 @@ public class BandwidthProcessorTest {
     chainBaseManager.getDynamicPropertiesStore()
         .saveLatestBlockHeaderTimestamp(1526691038000L); // + 12h
 
-    dbManager.consumeBandwidth(trx, trace);
+    dbManager.consumeBandwidth(stb, trace);
 
     ownerCapsuleNew = chainBaseManager.getAccountStore()
         .get(ByteArray.fromHexString(OWNER_ADDRESS));
@@ -480,7 +480,7 @@ public class BandwidthProcessorTest {
         .saveTotalNetWeight(10_000_000L);//only owner has frozen balance
 
     TransferAssetContract contract = getTransferAssetContract();
-    TransactionCapsule trx = new TransactionCapsule(contract);
+    TransactionCapsule stb = new TransactionCapsule(contract);
 
     AccountCapsule ownerCapsule = chainBaseManager.getAccountStore()
         .get(ByteArray.fromHexString(OWNER_ADDRESS));
@@ -492,9 +492,9 @@ public class BandwidthProcessorTest {
     chainBaseManager.getAccountStore().put(ownerCapsule.getAddress().toByteArray(), ownerCapsule);
 
     TransactionResultCapsule ret = new TransactionResultCapsule();
-    TransactionTrace trace = new TransactionTrace(trx, StoreFactory
+    TransactionTrace trace = new TransactionTrace(stb, StoreFactory
         .getInstance(), new RuntimeImpl());
-    dbManager.consumeBandwidth(trx, trace);
+    dbManager.consumeBandwidth(stb, trace);
 
     AccountCapsule ownerCapsuleNew = chainBaseManager.getAccountStore()
         .get(ByteArray.fromHexString(OWNER_ADDRESS));
@@ -513,7 +513,7 @@ public class BandwidthProcessorTest {
     chainBaseManager.getDynamicPropertiesStore()
         .saveLatestBlockHeaderTimestamp(1526691038000L); // + 12h
 
-    dbManager.consumeBandwidth(trx, trace);
+    dbManager.consumeBandwidth(stb, trace);
 
     ownerCapsuleNew = chainBaseManager.getAccountStore()
         .get(ByteArray.fromHexString(OWNER_ADDRESS));
@@ -546,7 +546,7 @@ public class BandwidthProcessorTest {
     chainBaseManager.getDynamicPropertiesStore().saveFreeNetLimit(0L);
 
     TransferAssetContract contract = getTransferAssetContract();
-    TransactionCapsule trx = new TransactionCapsule(contract);
+    TransactionCapsule stb = new TransactionCapsule(contract);
 
     AccountCapsule ownerCapsule = chainBaseManager.getAccountStore()
         .get(ByteArray.fromHexString(OWNER_ADDRESS));
@@ -555,9 +555,9 @@ public class BandwidthProcessorTest {
     chainBaseManager.getAccountStore().put(ownerCapsule.getAddress().toByteArray(), ownerCapsule);
 
     TransactionResultCapsule ret = new TransactionResultCapsule();
-    TransactionTrace trace = new TransactionTrace(trx, StoreFactory
+    TransactionTrace trace = new TransactionTrace(stb, StoreFactory
         .getInstance(), new RuntimeImpl());
-    dbManager.consumeBandwidth(trx, trace);
+    dbManager.consumeBandwidth(stb, trace);
 
     AccountCapsule ownerCapsuleNew = chainBaseManager.getAccountStore()
         .get(ByteArray.fromHexString(OWNER_ADDRESS));
@@ -575,7 +575,7 @@ public class BandwidthProcessorTest {
     Assert.assertEquals(transactionFee, trace.getReceipt().getNetFee());
 
     chainBaseManager.getAccountStore().delete(ByteArray.fromHexString(TO_ADDRESS));
-    dbManager.consumeBandwidth(trx, trace);
+    dbManager.consumeBandwidth(stb, trace);
   }
 
   /**
@@ -642,17 +642,17 @@ public class BandwidthProcessorTest {
         .setAmount(100L)
         .build();
 
-    TransactionCapsule trx = new TransactionCapsule(contract);
-    TransactionTrace trace = new TransactionTrace(trx, StoreFactory
+    TransactionCapsule stb = new TransactionCapsule(contract);
+    TransactionTrace trace = new TransactionTrace(stb, StoreFactory
         .getInstance(), new RuntimeImpl());
 
-    long byteSize = trx.getInstance().toBuilder().clearRet().build().getSerializedSize()
+    long byteSize = stb.getInstance().toBuilder().clearRet().build().getSerializedSize()
         + Constant.MAX_RESULT_SIZE_IN_TX;
 
     BandwidthProcessor processor = new BandwidthProcessor(chainBaseManager);
 
     try {
-      processor.consume(trx, trace);
+      processor.consume(stb, trace);
       Assert.assertEquals(trace.getReceipt().getNetFee(), 0);
       Assert.assertEquals(trace.getReceipt().getNetUsage(), byteSize);
       //V1
@@ -755,17 +755,17 @@ public class BandwidthProcessorTest {
         .setAmount(100L)
         .build();
 
-    TransactionCapsule trx = new TransactionCapsule(contract);
-    TransactionTrace trace = new TransactionTrace(trx, StoreFactory
+    TransactionCapsule stb = new TransactionCapsule(contract);
+    TransactionTrace trace = new TransactionTrace(stb, StoreFactory
         .getInstance(), new RuntimeImpl());
 
-    long byteSize = trx.getInstance().toBuilder().clearRet().build().getSerializedSize()
+    long byteSize = stb.getInstance().toBuilder().clearRet().build().getSerializedSize()
         + Constant.MAX_RESULT_SIZE_IN_TX;
 
     BandwidthProcessor processor = new BandwidthProcessor(chainBaseManager);
 
     try {
-      processor.consume(trx, trace);
+      processor.consume(stb, trace);
       Assert.assertEquals(trace.getReceipt().getNetFee(), 0);
       Assert.assertEquals(trace.getReceipt().getNetUsage(), byteSize);
       AccountCapsule ownerAccount =
@@ -836,17 +836,17 @@ public class BandwidthProcessorTest {
         .setAmount(100L)
         .build();
 
-    TransactionCapsule trx = new TransactionCapsule(contract, chainBaseManager.getAccountStore());
-    TransactionTrace trace = new TransactionTrace(trx, StoreFactory
+    TransactionCapsule stb = new TransactionCapsule(contract, chainBaseManager.getAccountStore());
+    TransactionTrace trace = new TransactionTrace(stb, StoreFactory
         .getInstance(), new RuntimeImpl());
 
-    long byteSize = trx.getInstance().toBuilder().clearRet().build().getSerializedSize()
+    long byteSize = stb.getInstance().toBuilder().clearRet().build().getSerializedSize()
         + Constant.MAX_RESULT_SIZE_IN_TX;
 
     BandwidthProcessor processor = new BandwidthProcessor(chainBaseManager);
 
     try {
-      processor.consume(trx, trace);
+      processor.consume(stb, trace);
 
       Assert.assertEquals(trace.getReceipt().getNetFee(), 0);
       Assert.assertEquals(trace.getReceipt().getNetUsage(), byteSize);

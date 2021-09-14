@@ -92,7 +92,7 @@ public class SendCoinShieldTest {
   private static final String PUBLIC_ADDRESS_ONE;
   private static final long OWNER_BALANCE = 9999999000000L;
   private static final long tokenId = 1;
-  private static final String ASSET_NAME = "trx";
+  private static final String ASSET_NAME = "stb";
   private static final int STB_NUM = 10;
   private static final int NUM = 1;
   private static final long START_TIME = 1;

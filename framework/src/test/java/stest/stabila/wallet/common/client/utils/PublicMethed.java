@@ -155,7 +155,7 @@ public class PublicMethed {
    */
 
   public static String createAssetIssueGetTxid(byte[] address, String name, String abbreviation,
-      Long totalSupply, Integer trxNum, Integer icoNum, Long startTime, Long endTime,
+      Long totalSupply, Integer stbNum, Integer icoNum, Long startTime, Long endTime,
       Integer voteScore, String description, String url, Long freeAssetNetLimit,
       Long publicFreeAssetNetLimit, Long fronzenAmount, Long frozenDay, String priKey,
       WalletGrpc.WalletBlockingStub blockingStubFull) {
@@ -174,7 +174,7 @@ public class PublicMethed {
       builder.setName(ByteString.copyFrom(name.getBytes()));
       builder.setAbbr(ByteString.copyFrom(abbreviation.getBytes()));
       builder.setTotalSupply(totalSupply);
-      builder.setStbNum(trxNum);
+      builder.setStbNum(stbNum);
       builder.setNum(icoNum);
       builder.setStartTime(startTime);
       builder.setEndTime(endTime);
@@ -212,7 +212,7 @@ public class PublicMethed {
    * constructor.
    */
   public static Boolean createAssetIssue(byte[] address, String name, Long totalSupply,
-      Integer trxNum, Integer icoNum, Long startTime, Long endTime, Integer voteScore,
+      Integer stbNum, Integer icoNum, Long startTime, Long endTime, Integer voteScore,
       String description, String url, Long freeAssetNetLimit, Long publicFreeAssetNetLimit,
       Long fronzenAmount, Long frozenDay, String priKey,
       WalletGrpc.WalletBlockingStub blockingStubFull) {
@@ -230,7 +230,7 @@ public class PublicMethed {
       builder.setOwnerAddress(ByteString.copyFrom(address));
       builder.setName(ByteString.copyFrom(name.getBytes()));
       builder.setTotalSupply(totalSupply);
-      builder.setStbNum(trxNum);
+      builder.setStbNum(stbNum);
       builder.setNum(icoNum);
       builder.setStartTime(startTime);
       builder.setEndTime(endTime);
@@ -266,7 +266,7 @@ public class PublicMethed {
    */
 
   public static Boolean createAssetIssue(byte[] address, String name, String abbreviation,
-      Long totalSupply, Integer trxNum, Integer icoNum, Long startTime, Long endTime,
+      Long totalSupply, Integer stbNum, Integer icoNum, Long startTime, Long endTime,
       Integer voteScore, String description, String url, Long freeAssetNetLimit,
       Long publicFreeAssetNetLimit, Long fronzenAmount, Long frozenDay, String priKey,
       WalletGrpc.WalletBlockingStub blockingStubFull) {
@@ -285,7 +285,7 @@ public class PublicMethed {
       builder.setName(ByteString.copyFrom(name.getBytes()));
       builder.setAbbr(ByteString.copyFrom(abbreviation.getBytes()));
       builder.setTotalSupply(totalSupply);
-      builder.setStbNum(trxNum);
+      builder.setStbNum(stbNum);
       builder.setNum(icoNum);
       builder.setStartTime(startTime);
       builder.setEndTime(endTime);
@@ -321,7 +321,7 @@ public class PublicMethed {
    */
 
   public static Boolean createAssetIssue(byte[] address, String name, Long totalSupply,
-      Integer trxNum, Integer icoNum, int precision, Long startTime, Long endTime,
+      Integer stbNum, Integer icoNum, int precision, Long startTime, Long endTime,
       Integer voteScore, String description, String url, Long freeAssetNetLimit,
       Long publicFreeAssetNetLimit, Long fronzenAmount, Long frozenDay, String priKey,
       WalletGrpc.WalletBlockingStub blockingStubFull) {
@@ -339,7 +339,7 @@ public class PublicMethed {
       builder.setOwnerAddress(ByteString.copyFrom(address));
       builder.setName(ByteString.copyFrom(name.getBytes()));
       builder.setTotalSupply(totalSupply);
-      builder.setStbNum(trxNum);
+      builder.setStbNum(stbNum);
       builder.setNum(icoNum);
       builder.setStartTime(startTime);
       builder.setEndTime(endTime);
@@ -376,7 +376,7 @@ public class PublicMethed {
    */
 
   public static Return createAssetIssue2(byte[] address, String name, Long totalSupply,
-      Integer trxNum, Integer icoNum, Long startTime, Long endTime, Integer voteScore,
+      Integer stbNum, Integer icoNum, Long startTime, Long endTime, Integer voteScore,
       String description, String url, Long freeAssetNetLimit, Long publicFreeAssetNetLimit,
       Long fronzenAmount, Long frozenDay, String priKey,
       WalletGrpc.WalletBlockingStub blockingStubFull) {
@@ -395,7 +395,7 @@ public class PublicMethed {
       builder.setOwnerAddress(ByteString.copyFrom(address));
       builder.setName(ByteString.copyFrom(name.getBytes()));
       builder.setTotalSupply(totalSupply);
-      builder.setStbNum(trxNum);
+      builder.setStbNum(stbNum);
       builder.setNum(icoNum);
       builder.setStartTime(startTime);
       builder.setEndTime(endTime);
@@ -2493,7 +2493,7 @@ public class PublicMethed {
     TransactionExtention transactionExtention = blockingStubFull
         .deployContract(contractDeployContract);
     if (transactionExtention == null || !transactionExtention.getResult().getResult()) {
-      System.out.println("RPC create trx failed!");
+      System.out.println("RPC create stb failed!");
       if (transactionExtention != null) {
         System.out.println("Code = " + transactionExtention.getResult().getCode());
         System.out
@@ -2609,7 +2609,7 @@ public class PublicMethed {
     TransactionExtention transactionExtention = blockingStubFull
         .deployContract(contractDeployContract);
     if (transactionExtention == null || !transactionExtention.getResult().getResult()) {
-      System.out.println("RPC create trx failed!");
+      System.out.println("RPC create stb failed!");
       if (transactionExtention != null) {
         System.out.println("Code = " + transactionExtention.getResult().getCode());
         System.out
@@ -2756,7 +2756,7 @@ public class PublicMethed {
     TransactionExtention transactionExtention = blockingStubFull
         .deployContract(contractDeployContract);
     if (transactionExtention == null || !transactionExtention.getResult().getResult()) {
-      System.out.println("RPC create trx failed!");
+      System.out.println("RPC create stb failed!");
       if (transactionExtention != null) {
         System.out.println("Code = " + transactionExtention.getResult().getCode());
         System.out
@@ -2888,7 +2888,7 @@ public class PublicMethed {
     TransactionExtention transactionExtention = blockingStubFull
         .deployContract(contractDeployContract);
     if (transactionExtention == null || !transactionExtention.getResult().getResult()) {
-      System.out.println("RPC create trx failed!");
+      System.out.println("RPC create stb failed!");
       if (transactionExtention != null) {
         System.out.println("Code = " + transactionExtention.getResult().getCode());
         System.out
@@ -3234,15 +3234,15 @@ public class PublicMethed {
    * constructor.
    */
 
-  public static byte[] generateContractAddress(Transaction trx, byte[] owneraddress) {
+  public static byte[] generateContractAddress(Transaction stb, byte[] owneraddress) {
 
     // get owner address
-    // this address should be as same as the onweraddress in trx, DONNOT modify it
+    // this address should be as same as the onweraddress in stb, DONNOT modify it
     byte[] ownerAddress = owneraddress;
 
     // get tx hash
     byte[] txRawDataHash = Sha256Hash
-        .of(CommonParameter.getInstance().isECKeyCryptoEngine(), trx.getRawData().toByteArray())
+        .of(CommonParameter.getInstance().isECKeyCryptoEngine(), stb.getRawData().toByteArray())
         .getBytes();
 
     // combine
@@ -3383,7 +3383,7 @@ public class PublicMethed {
     TransactionExtention transactionExtention = blockingStubFull
         .updateSetting(updateSettingContract);
     if (transactionExtention == null || !transactionExtention.getResult().getResult()) {
-      System.out.println("RPC create trx failed!");
+      System.out.println("RPC create stb failed!");
       if (transactionExtention != null) {
         System.out.println("Code = " + transactionExtention.getResult().getCode());
         System.out
@@ -3439,7 +3439,7 @@ public class PublicMethed {
     TransactionExtention transactionExtention = blockingStubFull
         .updateSetting(updateSettingContract);
     if (transactionExtention == null || !transactionExtention.getResult().getResult()) {
-      System.out.println("RPC create trx failed!");
+      System.out.println("RPC create stb failed!");
       if (transactionExtention != null) {
         System.out.println("Code = " + transactionExtention.getResult().getCode());
         System.out
@@ -3498,7 +3498,7 @@ public class PublicMethed {
     TransactionExtention transactionExtention = blockingStubFull
         .updateSetting(updateSettingContract);
     if (transactionExtention == null || !transactionExtention.getResult().getResult()) {
-      System.out.println("RPC create trx failed!");
+      System.out.println("RPC create stb failed!");
       if (transactionExtention != null) {
         System.out.println("Code = " + transactionExtention.getResult().getCode());
         System.out
@@ -3535,7 +3535,7 @@ public class PublicMethed {
     TransactionExtention transactionExtention = blockingStubFull
         .updateEnergyLimit(updateEnergyLimitContract);
     if (transactionExtention == null || !transactionExtention.getResult().getResult()) {
-      System.out.println("RPC create trx failed!");
+      System.out.println("RPC create stb failed!");
       if (transactionExtention != null) {
         System.out.println("Code = " + transactionExtention.getResult().getCode());
         System.out
@@ -3667,7 +3667,7 @@ public class PublicMethed {
 
     TransactionExtention transactionExtention = blockingStubFull.triggerContract(triggerContract);
     if (transactionExtention == null || !transactionExtention.getResult().getResult()) {
-      System.out.println("RPC create call trx failed!");
+      System.out.println("RPC create call stb failed!");
       System.out.println("Code = " + transactionExtention.getResult().getCode());
       System.out
           .println("Message = " + transactionExtention.getResult().getMessage().toStringUtf8());
@@ -3780,7 +3780,7 @@ public class PublicMethed {
 
     TransactionExtention transactionExtention = blockingStubFull.triggerContract(triggerContract);
     if (transactionExtention == null || !transactionExtention.getResult().getResult()) {
-      System.out.println("RPC create call trx failed!");
+      System.out.println("RPC create call stb failed!");
       System.out.println("Code = " + transactionExtention.getResult().getCode());
       System.out
           .println("Message = " + transactionExtention.getResult().getMessage().toStringUtf8());
@@ -3878,7 +3878,7 @@ public class PublicMethed {
 
     TransactionExtention transactionExtention = blockingStubFull.triggerContract(triggerContract);
     if (transactionExtention == null || !transactionExtention.getResult().getResult()) {
-      System.out.println("RPC create call trx failed!");
+      System.out.println("RPC create call stb failed!");
       System.out.println("Code = " + transactionExtention.getResult().getCode());
       System.out
           .println("Message = " + transactionExtention.getResult().getMessage().toStringUtf8());
@@ -4250,7 +4250,7 @@ public class PublicMethed {
     TransactionExtention transactionExtention = blockingStubFull
         .deployContract(contractDeployContract);
     if (transactionExtention == null || !transactionExtention.getResult().getResult()) {
-      System.out.println("RPC create trx failed!");
+      System.out.println("RPC create stb failed!");
       if (transactionExtention != null) {
         System.out.println("Code = " + transactionExtention.getResult().getCode());
         System.out
@@ -4820,7 +4820,7 @@ public class PublicMethed {
     TransactionExtention transactionExtention = blockingStubFull
         .deployContract(contractDeployContract);
     if (transactionExtention == null || !transactionExtention.getResult().getResult()) {
-      System.out.println("RPC create trx failed!");
+      System.out.println("RPC create stb failed!");
       if (transactionExtention != null) {
         System.out.println("Code = " + transactionExtention.getResult().getCode());
         System.out
@@ -4908,7 +4908,7 @@ public class PublicMethed {
 
     TransactionExtention transactionExtention = blockingStubFull.triggerContract(triggerContract);
     if (transactionExtention == null || !transactionExtention.getResult().getResult()) {
-      System.out.println("RPC create call trx failed!");
+      System.out.println("RPC create call stb failed!");
       System.out.println("Code = " + transactionExtention.getResult().getCode());
       System.out
           .println("Message = " + transactionExtention.getResult().getMessage().toStringUtf8());
@@ -4990,7 +4990,7 @@ public class PublicMethed {
     TransactionExtention transactionExtention = blockingStubFull
         .updateEnergyLimit(updateEnergyLimitContract);
     if (transactionExtention == null || !transactionExtention.getResult().getResult()) {
-      System.out.println("RPC create trx failed!");
+      System.out.println("RPC create stb failed!");
       if (transactionExtention != null) {
         System.out.println("Code = " + transactionExtention.getResult().getCode());
         System.out
@@ -5350,7 +5350,7 @@ public class PublicMethed {
     TransactionExtention transactionExtention = blockingStubFull
         .triggerConstantContract(triggerContract);
     if (transactionExtention == null || !transactionExtention.getResult().getResult()) {
-      System.out.println("RPC create call trx failed!");
+      System.out.println("RPC create call stb failed!");
       System.out.println("Code = " + transactionExtention.getResult().getCode());
       System.out
           .println("Message = " + transactionExtention.getResult().getMessage().toStringUtf8());
@@ -5477,7 +5477,7 @@ public class PublicMethed {
 
     TransactionExtention transactionExtention = blockingStubFull.clearContractABI(clearAbiContract);
     if (transactionExtention == null || !transactionExtention.getResult().getResult()) {
-      System.out.println("RPC create call trx failed!");
+      System.out.println("RPC create call stb failed!");
       System.out.println("Code = " + transactionExtention.getResult().getCode());
       System.out
           .println("Message = " + transactionExtention.getResult().getMessage().toStringUtf8());
@@ -5782,7 +5782,7 @@ public class PublicMethed {
       //System.out.println("address " + noteInfo.getPaymentAddress());
       //System.out.println("value " + noteInfo.getValue());
       //System.out.println("rcm " + ByteArray.toHexString(noteInfo.getR()));
-      //System.out.println("trxId " + noteInfo.getStbId());
+      //System.out.println("stbId " + noteInfo.getStbId());
       //System.out.println("index " + noteInfo.getIndex());
       //System.out.println("meno " + new String(noteInfo.getMemo()));
 
@@ -5923,7 +5923,7 @@ public class PublicMethed {
       //System.out.println("address " + noteInfo.getPaymentAddress());
       //System.out.println("value " + noteInfo.getValue());
       //System.out.println("rcm " + ByteArray.toHexString(noteInfo.getR()));
-      //System.out.println("trxId " + noteInfo.getStbId());
+      //System.out.println("stbId " + noteInfo.getStbId());
       //System.out.println("index " + noteInfo.getIndex());
       //System.out.println("meno " + new String(noteInfo.getMemo()));
 
@@ -5959,9 +5959,9 @@ public class PublicMethed {
       System.out.println("sendShieldCoinWithoutAsk failure.");
       return false;
     }
-    BytesMessage trxHash = blockingStubFull
+    BytesMessage stbHash = blockingStubFull
         .getShieldTransactionHash(transactionExtention.getTransaction());
-    if (trxHash == null || trxHash.getValue().toByteArray().length != 32) {
+    if (stbHash == null || stbHash.getValue().toByteArray().length != 32) {
       System.out.println("sendShieldCoinWithoutAsk get transaction hash failure.");
       return false;
     }
@@ -5982,7 +5982,7 @@ public class PublicMethed {
 
         SpendAuthSigParameters.Builder builder1 = SpendAuthSigParameters.newBuilder();
         builder1.setAsk(ByteString.copyFrom(ask));
-        builder1.setTxHash(ByteString.copyFrom(trxHash.getValue().toByteArray()));
+        builder1.setTxHash(ByteString.copyFrom(stbHash.getValue().toByteArray()));
         builder1.setAlpha(builder.getShieldedSpends(i).getAlpha());
         SpendDescription.Builder spendDescription = spendDescList.get(i).toBuilder();
         BytesMessage authSig = blockingStubFull.createSpendAuthSig(builder1.build());
@@ -6501,7 +6501,7 @@ public class PublicMethed {
       //System.out.println("address " + noteInfo.getPaymentAddress());
       //System.out.println("value " + noteInfo.getValue());
       //System.out.println("rcm " + ByteArray.toHexString(noteInfo.getR()));
-      //System.out.println("trxId " + noteInfo.getStbId());
+      //System.out.println("stbId " + noteInfo.getStbId());
       //System.out.println("index " + noteInfo.getIndex());
       //System.out.println("meno " + new String(noteInfo.getMemo()));
 

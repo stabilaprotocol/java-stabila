@@ -20,10 +20,10 @@ public class TransactionMessage extends StabilaMessage {
     }
   }
 
-  public TransactionMessage(Transaction trx) {
-    this.transactionCapsule = new TransactionCapsule(trx);
+  public TransactionMessage(Transaction stb) {
+    this.transactionCapsule = new TransactionCapsule(stb);
     this.type = MessageTypes.STB.asByte();
-    this.data = trx.toByteArray();
+    this.data = stb.toByteArray();
   }
 
   @Override

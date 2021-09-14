@@ -250,7 +250,7 @@ public class NewFeatureForSolc080 {
     logger.info("0000000:  " + trueRes);
   }
 
-  @Test(enabled = true, description = "transfer trx to tx.origin address with payable")
+  @Test(enabled = true, description = "transfer stb to tx.origin address with payable")
   public void test14TransferToTxoriginAddress() {
     Protocol.Account info = PublicMethed.queryAccount(mapKeyContract, blockingStubFull);
     Long beforeBalance = info.getBalance();
@@ -273,7 +273,7 @@ public class NewFeatureForSolc080 {
     Assert.assertTrue(beforeBalance == afterBalance + 1000000);
   }
 
-  @Test(enabled = true, description = "transfer trx to literal address with payable")
+  @Test(enabled = true, description = "transfer stb to literal address with payable")
   public void test15TransferToLiteralAddress() {
     Protocol.Account info = PublicMethed.queryAccount(mapKeyContract, blockingStubFull);
     Long beforeBalance = info.getBalance();

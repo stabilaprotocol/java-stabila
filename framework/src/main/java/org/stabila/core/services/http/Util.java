@@ -182,10 +182,10 @@ public class Util {
     return jsonObject.toJSONString();
   }
 
-  public static byte[] generateContractAddress(Transaction trx, byte[] ownerAddress) {
+  public static byte[] generateContractAddress(Transaction stb, byte[] ownerAddress) {
     // get tx hash
     byte[] txRawDataHash = Sha256Hash
-        .of(CommonParameter.getInstance().isECKeyCryptoEngine(), trx.getRawData().toByteArray())
+        .of(CommonParameter.getInstance().isECKeyCryptoEngine(), stb.getRawData().toByteArray())
         .getBytes();
 
     // combine

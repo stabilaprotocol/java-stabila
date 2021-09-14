@@ -563,7 +563,7 @@ public class HttpMethed {
    * constructor.
    */
   public static HttpResponse assetIssue(String httpNode, byte[] ownerAddress, String name,
-      String abbr, Long totalSupply, Integer trxNum, Integer num, Long startTime, Long endTime,
+      String abbr, Long totalSupply, Integer stbNum, Integer num, Long startTime, Long endTime,
       Integer voteScore, Integer precision, String description, String url, Long freeAssetNetLimit,
       Long publicFreeAssetNetLimit, String fromKey) {
     try {
@@ -573,7 +573,7 @@ public class HttpMethed {
       userBaseObj2.addProperty("name", str2hex(name));
       userBaseObj2.addProperty("abbr", str2hex(abbr));
       userBaseObj2.addProperty("total_supply", totalSupply);
-      userBaseObj2.addProperty("trx_num", trxNum);
+      userBaseObj2.addProperty("stb_num", stbNum);
       userBaseObj2.addProperty("num", num);
       userBaseObj2.addProperty("precision", precision);
       userBaseObj2.addProperty("start_time", startTime);
@@ -2110,7 +2110,7 @@ public class HttpMethed {
    */
   public static Long getBurnStb(String httpNode) {
     try {
-      final String requestUrl = "http://" + httpNode + "/wallet/getburntrx";
+      final String requestUrl = "http://" + httpNode + "/wallet/getburnstb";
       JsonObject blockObj = new JsonObject();
       response = createConnect(requestUrl, blockObj);
     } catch (Exception e) {
@@ -2127,7 +2127,7 @@ public class HttpMethed {
    */
   public static Long getBurnStbFromSolidity(String httpNode) {
     try {
-      final String requestUrl = "http://" + httpNode + "/walletsolidity/getburntrx";
+      final String requestUrl = "http://" + httpNode + "/walletsolidity/getburnstb";
       JsonObject blockObj = new JsonObject();
       response = createConnect(requestUrl, blockObj);
     } catch (Exception e) {
@@ -2144,7 +2144,7 @@ public class HttpMethed {
    */
   public static Long getBurnStbFromPbft(String httpNode) {
     try {
-      final String requestUrl = "http://" + httpNode + "/walletpbft/getburntrx";
+      final String requestUrl = "http://" + httpNode + "/walletpbft/getburnstb";
       JsonObject blockObj = new JsonObject();
       response = createConnect(requestUrl, blockObj);
     } catch (Exception e) {

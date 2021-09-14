@@ -1188,14 +1188,14 @@ public class ParticipateAssetIssueActuatorTest {
   }
 
   /**
-   * SameTokenName close, not enough trx
+   * SameTokenName close, not enough stb
    */
   @Test
   public void sameTokenNameCloseNotEnoughStbTest() {
     initAssetIssue(chainBaseManager.getDynamicPropertiesStore()
             .getLatestBlockHeaderTimestamp() - 1000,
         chainBaseManager.getDynamicPropertiesStore().getLatestBlockHeaderTimestamp() + 1000);
-    // First, reduce the owner trx balance. Else can't complete this test case.
+    // First, reduce the owner stb balance. Else can't complete this test case.
     AccountCapsule owner = chainBaseManager.getAccountStore()
         .get(ByteArray.fromHexString(OWNER_ADDRESS));
     owner.setBalance(100);
@@ -1228,7 +1228,7 @@ public class ParticipateAssetIssueActuatorTest {
 
 
   /**
-   * SameTokenName open, not enough trx
+   * SameTokenName open, not enough stb
    */
   @Test
   public void sameTokenNameOpenNotEnoughStbTest() {
@@ -1236,7 +1236,7 @@ public class ParticipateAssetIssueActuatorTest {
     initAssetIssue(chainBaseManager.getDynamicPropertiesStore()
             .getLatestBlockHeaderTimestamp() - 1000,
         chainBaseManager.getDynamicPropertiesStore().getLatestBlockHeaderTimestamp() + 1000);
-    // First, reduce the owner trx balance. Else can't complete this test case.
+    // First, reduce the owner stb balance. Else can't complete this test case.
     AccountCapsule owner = chainBaseManager.getAccountStore()
         .get(ByteArray.fromHexString(OWNER_ADDRESS));
     owner.setBalance(100);
@@ -1522,7 +1522,7 @@ public class ParticipateAssetIssueActuatorTest {
     initAssetIssue(chainBaseManager.getDynamicPropertiesStore()
             .getLatestBlockHeaderTimestamp() - 1000,
         chainBaseManager.getDynamicPropertiesStore().getLatestBlockHeaderTimestamp() + 1000);
-    // First, increase the owner trx balance. Else can't complete this test case.
+    // First, increase the owner stb balance. Else can't complete this test case.
     AccountCapsule owner = chainBaseManager.getAccountStore()
         .get(ByteArray.fromHexString(OWNER_ADDRESS));
     owner.setBalance(100000000000000L);
@@ -1571,7 +1571,7 @@ public class ParticipateAssetIssueActuatorTest {
     initAssetIssue(chainBaseManager.getDynamicPropertiesStore()
             .getLatestBlockHeaderTimestamp() - 1000,
         chainBaseManager.getDynamicPropertiesStore().getLatestBlockHeaderTimestamp() + 1000);
-    // First, increase the owner trx balance. Else can't complete this test case.
+    // First, increase the owner stb balance. Else can't complete this test case.
     AccountCapsule owner = chainBaseManager.getAccountStore()
         .get(ByteArray.fromHexString(OWNER_ADDRESS));
     owner.setBalance(100000000000000L);
@@ -1613,7 +1613,7 @@ public class ParticipateAssetIssueActuatorTest {
   }
 
   /**
-   * SameTokenName close, exchangeAmount <= 0 trx, throw exception
+   * SameTokenName close, exchangeAmount <= 0 stb, throw exception
    */
   @Test
   public void sameTokenNameCloseExchangeAmountTest() {
@@ -1664,7 +1664,7 @@ public class ParticipateAssetIssueActuatorTest {
 
 
   /**
-   * SameTokenName open, exchangeAmount <= 0 trx, throw exception
+   * SameTokenName open, exchangeAmount <= 0 stb, throw exception
    */
   @Test
   public void sameTokenNameOpenExchangeAmountTest() {

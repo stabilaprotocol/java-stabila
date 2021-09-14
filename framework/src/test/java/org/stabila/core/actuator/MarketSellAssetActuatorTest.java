@@ -644,8 +644,8 @@ public class MarketSellAssetActuatorTest {
   // execute: combination
   // Trading object：
   //    abc to def
-  //    abc to trx
-  //    trx to abc
+  //    abc to stb
+  //    stb to abc
   // Scenes：
   //    no buy orders before,add first sell order
   //    no buy orders before，add multiple sell orders, need to maintain the correct sequence

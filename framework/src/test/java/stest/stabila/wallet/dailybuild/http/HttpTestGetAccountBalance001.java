@@ -166,7 +166,7 @@ public class HttpTestGetAccountBalance001 {
   /**
    * constructor.
    */
-  @Test(enabled = true, description = "Get burn trx by http")
+  @Test(enabled = true, description = "Get burn stb by http")
   public void test03GetBurnStb() {
 
     ECKey ecKey2 = new ECKey(Utils.getRandom());

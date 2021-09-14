@@ -34,7 +34,7 @@ public class AccountCapsuleTest {
   private static final Manager dbManager;
   private static final StabilaApplicationContext context;
   private static final String OWNER_ADDRESS;
-  private static final String ASSET_NAME = "trx";
+  private static final String ASSET_NAME = "stb";
   private static final long TOTAL_SUPPLY = 10000L;
   private static final int STB_NUM = 10;
   private static final int NUM = 1;

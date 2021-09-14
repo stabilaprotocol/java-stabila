@@ -44,7 +44,7 @@ public class AssetIssueActuatorTest {
   private static final String dbPath = "output_assetIssue_test";
   private static final String OWNER_ADDRESS;
   private static final String OWNER_ADDRESS_SECOND;
-  private static final String NAME = "trx-my";
+  private static final String NAME = "stb-my";
   private static final long TOTAL_SUPPLY = 10000L;
   private static final int STB_NUM = 10000;
   private static final int NUM = 100000;
@@ -1589,7 +1589,7 @@ public class AssetIssueActuatorTest {
       Assert.assertTrue(false);
     } catch (ContractValidateException e) {
       Assert.assertTrue(e instanceof ContractValidateException);
-      Assert.assertEquals("assetName can't be trx", e.getMessage());
+      Assert.assertEquals("assetName can't be stb", e.getMessage());
     } catch (ContractExeException e) {
       Assert.assertFalse(e instanceof ContractExeException);
     } finally {

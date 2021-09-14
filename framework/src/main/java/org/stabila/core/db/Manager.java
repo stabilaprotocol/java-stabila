@@ -603,7 +603,7 @@ public class Manager {
       logger.info(e.getMessage());
     }
 
-    logger.info("end to init txs cache. trx ids:{}, block count:{}, empty block count:{}, cost:{}",
+    logger.info("end to init txs cache. stb ids:{}, block count:{}, empty block count:{}, cost:{}",
         transactionCache.size(),
         blockCount.get(),
         emptyBlockCount.get(),
@@ -692,27 +692,27 @@ public class Manager {
   /**
    * push transaction into pending.
    */
-  public boolean pushTransaction(final TransactionCapsule trx)
+  public boolean pushTransaction(final TransactionCapsule stb)
       throws ValidateSignatureException, ContractValidateException, ContractExeException,
       AccountResourceInsufficientException, DupTransactionException, TaposException,
       TooBigTransactionException, TransactionExpirationException,
       ReceiptCheckErrException, VMIllegalException, TooBigTransactionResultException {
 
-    if (isShieldedTransaction(trx.getInstance()) && !Args.getInstance()
+    if (isShieldedTransaction(stb.getInstance()) && !Args.getInstance()
         .isFullNodeAllowShieldedTransactionArgs()) {
       return true;
     }
 
-    pushTransactionQueue.add(trx);
+    pushTransactionQueue.add(stb);
 
     try {
-      if (!trx.validateSignature(chainBaseManager.getAccountStore(),
+      if (!stb.validateSignature(chainBaseManager.getAccountStore(),
           chainBaseManager.getDynamicPropertiesStore())) {
         throw new ValidateSignatureException("trans sig validate failed");
       }
 
       synchronized (this) {
-        if (isShieldedTransaction(trx.getInstance())
+        if (isShieldedTransaction(stb.getInstance())
             && shieldedTransInPendingCounts.get() >= shieldedTransInPendingMaxCounts) {
           return false;
         }
@@ -721,27 +721,27 @@ public class Manager {
         }
 
         try (ISession tmpSession = revokingStore.buildSession()) {
-          processTransaction(trx, null);
-          trx.setStbTrace(null);
-          pendingTransactions.add(trx);
+          processTransaction(stb, null);
+          stb.setStbTrace(null);
+          pendingTransactions.add(stb);
           tmpSession.merge();
         }
-        if (isShieldedTransaction(trx.getInstance())) {
+        if (isShieldedTransaction(stb.getInstance())) {
           shieldedTransInPendingCounts.incrementAndGet();
         }
       }
     } finally {
-      pushTransactionQueue.remove(trx);
+      pushTransactionQueue.remove(stb);
     }
     return true;
   }
 
-  public void consumeMultiSignFee(TransactionCapsule trx, TransactionTrace trace)
+  public void consumeMultiSignFee(TransactionCapsule stb, TransactionTrace trace)
       throws AccountResourceInsufficientException {
-    if (trx.getInstance().getSignatureCount() > 1) {
+    if (stb.getInstance().getSignatureCount() > 1) {
       long fee = getDynamicPropertiesStore().getMultiSignFee();
 
-      List<Contract> contracts = trx.getInstance().getRawData().getContractList();
+      List<Contract> contracts = stb.getInstance().getRawData().getContractList();
       for (Contract contract : contracts) {
         byte[] address = TransactionCapsule.getOwner(contract);
         AccountCapsule accountCapsule = getAccountStore().get(address);
@@ -765,11 +765,11 @@ public class Manager {
     }
   }
 
-  public void consumeBandwidth(TransactionCapsule trx, TransactionTrace trace)
+  public void consumeBandwidth(TransactionCapsule stb, TransactionTrace trace)
       throws ContractValidateException, AccountResourceInsufficientException,
       TooBigTransactionResultException {
     BandwidthProcessor processor = new BandwidthProcessor(chainBaseManager);
-    processor.consume(trx, trace);
+    processor.consume(stb, trace);
   }
 
 
@@ -801,7 +801,7 @@ public class Manager {
     block.generatedByMyself = true;
     long start = System.currentTimeMillis();
     pushBlock(block);
-    logger.info("push block cost:{}ms, blockNum:{}, blockHash:{}, trx count:{}",
+    logger.info("push block cost:{}ms, blockNum:{}, blockHash:{}, stb count:{}",
         System.currentTimeMillis() - start,
         block.getNum(),
         block.getBlockId(),
@@ -1179,40 +1179,40 @@ public class Manager {
   /**
    * Process transaction.
    */
-  public TransactionInfo processTransaction(final TransactionCapsule trxCap, BlockCapsule blockCap)
+  public TransactionInfo processTransaction(final TransactionCapsule stbCap, BlockCapsule blockCap)
       throws ValidateSignatureException, ContractValidateException, ContractExeException,
       AccountResourceInsufficientException, TransactionExpirationException,
       TooBigTransactionException, TooBigTransactionResultException,
       DupTransactionException, TaposException, ReceiptCheckErrException, VMIllegalException {
-    if (trxCap == null) {
+    if (stbCap == null) {
       return null;
     }
 
     if (Objects.nonNull(blockCap)) {
-      chainBaseManager.getBalanceTraceStore().initCurrentTransactionBalanceTrace(trxCap);
+      chainBaseManager.getBalanceTraceStore().initCurrentTransactionBalanceTrace(stbCap);
     }
 
-    validateTapos(trxCap);
-    validateCommon(trxCap);
+    validateTapos(stbCap);
+    validateCommon(stbCap);
 
-    if (trxCap.getInstance().getRawData().getContractList().size() != 1) {
+    if (stbCap.getInstance().getRawData().getContractList().size() != 1) {
       throw new ContractSizeNotEqualToOneException(
           "act size should be exactly 1, this is extend feature");
     }
 
-    validateDup(trxCap);
+    validateDup(stbCap);
 
-    if (!trxCap.validateSignature(chainBaseManager.getAccountStore(),
+    if (!stbCap.validateSignature(chainBaseManager.getAccountStore(),
         chainBaseManager.getDynamicPropertiesStore())) {
       throw new ValidateSignatureException("transaction signature validate failed");
     }
 
-    TransactionTrace trace = new TransactionTrace(trxCap, StoreFactory.getInstance(),
+    TransactionTrace trace = new TransactionTrace(stbCap, StoreFactory.getInstance(),
         new RuntimeImpl());
-    trxCap.setStbTrace(trace);
+    stbCap.setStbTrace(trace);
 
-    consumeBandwidth(trxCap, trace);
-    consumeMultiSignFee(trxCap, trace);
+    consumeBandwidth(stbCap, trace);
+    consumeMultiSignFee(stbCap, trace);
 
     trace.init(blockCap, eventPluginLoaded);
     trace.checkIsConstant();
@@ -1222,7 +1222,7 @@ public class Manager {
       trace.setResult();
       if (blockCap.hasWitnessSignature()) {
         if (trace.checkNeedRetry()) {
-          String txId = Hex.toHexString(trxCap.getTransactionId().getBytes());
+          String txId = Hex.toHexString(stbCap.getTransactionId().getBytes());
           logger.info("Retry for tx id: {}", txId);
           trace.init(blockCap, eventPluginLoaded);
           trace.checkIsConstant();
@@ -1237,21 +1237,21 @@ public class Manager {
 
     trace.finalization();
     if (Objects.nonNull(blockCap) && getDynamicPropertiesStore().supportVM()) {
-      trxCap.setResult(trace.getTransactionContext());
+      stbCap.setResult(trace.getTransactionContext());
     }
-    chainBaseManager.getTransactionStore().put(trxCap.getTransactionId().getBytes(), trxCap);
+    chainBaseManager.getTransactionStore().put(stbCap.getTransactionId().getBytes(), stbCap);
 
     Optional.ofNullable(transactionCache)
-        .ifPresent(t -> t.put(trxCap.getTransactionId().getBytes(),
-            new BytesCapsule(ByteArray.fromLong(trxCap.getBlockNum()))));
+        .ifPresent(t -> t.put(stbCap.getTransactionId().getBytes(),
+            new BytesCapsule(ByteArray.fromLong(stbCap.getBlockNum()))));
 
     TransactionInfoCapsule transactionInfo = TransactionUtil
-        .buildTransactionInfoInstance(trxCap, blockCap, trace);
+        .buildTransactionInfoInstance(stbCap, blockCap, trace);
 
     // if event subscribe is enabled, post contract triggers to queue
     postContractTrigger(trace, false);
-    Contract contract = trxCap.getInstance().getRawData().getContract(0);
-    if (isMultiSignTransaction(trxCap.getInstance())) {
+    Contract contract = stbCap.getInstance().getRawData().getContract(0);
+    if (isMultiSignTransaction(stbCap.getInstance())) {
       ownerAddressSet.add(ByteArray.toHexString(TransactionCapsule.getOwner(contract)));
     }
 
@@ -1262,9 +1262,9 @@ public class Manager {
       chainBaseManager.getBalanceTraceStore().resetCurrentTransactionTrace();
     }
     //set the sort order
-    trxCap.setOrder(transactionInfo.getFee());
+    stbCap.setOrder(transactionInfo.getFee());
     if (!eventPluginLoaded) {
-      trxCap.setStbTrace(null);
+      stbCap.setStbTrace(null);
     }
     return transactionInfo.getInstance();
   }
@@ -1301,21 +1301,21 @@ public class Manager {
     AtomicInteger shieldedTransCounts = new AtomicInteger(0);
     while (pendingTransactions.size() > 0 || rePushTransactions.size() > 0) {
       boolean fromPending = false;
-      TransactionCapsule trx;
+      TransactionCapsule stb;
       if (pendingTransactions.size() > 0) {
-        trx = pendingTransactions.peek();
+        stb = pendingTransactions.peek();
         if (Args.getInstance().isOpenTransactionSort()) {
-          TransactionCapsule trxRepush = rePushTransactions.peek();
-          if (trxRepush == null || trx.getOrder() >= trxRepush.getOrder()) {
+          TransactionCapsule stbRepush = rePushTransactions.peek();
+          if (stbRepush == null || stb.getOrder() >= stbRepush.getOrder()) {
             fromPending = true;
           } else {
-            trx = rePushTransactions.poll();
+            stb = rePushTransactions.poll();
           }
         } else {
           fromPending = true;
         }
       } else {
-        trx = rePushTransactions.poll();
+        stb = rePushTransactions.poll();
       }
 
       if (System.currentTimeMillis() > timeout) {
@@ -1324,37 +1324,37 @@ public class Manager {
       }
 
       // check the block size
-      if ((blockCapsule.getInstance().getSerializedSize() + trx.getSerializedSize() + 3)
+      if ((blockCapsule.getInstance().getSerializedSize() + stb.getSerializedSize() + 3)
           > ChainConstant.BLOCK_SIZE) {
         postponedStbCount++;
         continue;
       }
       //shielded transaction
-      if (isShieldedTransaction(trx.getInstance())
+      if (isShieldedTransaction(stb.getInstance())
           && shieldedTransCounts.incrementAndGet() > SHIELDED_TRANS_IN_BLOCK_COUNTS) {
         continue;
       }
       //multi sign transaction
-      Contract contract = trx.getInstance().getRawData().getContract(0);
+      Contract contract = stb.getInstance().getRawData().getContract(0);
       byte[] owner = TransactionCapsule.getOwner(contract);
       String ownerAddress = ByteArray.toHexString(owner);
       if (accountSet.contains(ownerAddress)) {
         continue;
       } else {
-        if (isMultiSignTransaction(trx.getInstance())) {
+        if (isMultiSignTransaction(stb.getInstance())) {
           accountSet.add(ownerAddress);
         }
       }
       if (ownerAddressSet.contains(ownerAddress)) {
-        trx.setVerified(false);
+        stb.setVerified(false);
       }
       // apply transaction
       try (ISession tmpSession = revokingStore.buildSession()) {
         accountStateCallBack.preExeTrans();
-        TransactionInfo result = processTransaction(trx, blockCapsule);
+        TransactionInfo result = processTransaction(stb, blockCapsule);
         accountStateCallBack.exeTransFinish();
         tmpSession.merge();
-        blockCapsule.addTransaction(trx);
+        blockCapsule.addTransaction(stb);
         if (Objects.nonNull(result)) {
           transactionRetCapsule.addTransactionInfo(result);
         }
@@ -1362,7 +1362,7 @@ public class Manager {
           pendingTransactions.poll();
         }
       } catch (Exception e) {
-        logger.error("Process trx {} failed when generating block: {}", trx.getTransactionId(),
+        logger.error("Process stb {} failed when generating block: {}", stb.getTransactionId(),
             e.getMessage());
       }
     }
@@ -1785,14 +1785,14 @@ public class Manager {
     }
   }
 
-  private void postTransactionTrigger(final TransactionCapsule trxCap,
+  private void postTransactionTrigger(final TransactionCapsule stbCap,
       final BlockCapsule blockCap) {
     if (eventPluginLoaded && EventPluginLoader.getInstance().isTransactionLogTriggerEnable()) {
-      TransactionLogTriggerCapsule trx = new TransactionLogTriggerCapsule(trxCap, blockCap);
-      trx.setLatestSolidifiedBlockNumber(getDynamicPropertiesStore()
+      TransactionLogTriggerCapsule stb = new TransactionLogTriggerCapsule(stbCap, blockCap);
+      stb.setLatestSolidifiedBlockNumber(getDynamicPropertiesStore()
           .getLatestSolidifiedBlockNum());
-      if (!triggerCapsuleQueue.offer(trx)) {
-        logger.info("too many triggers, transaction trigger lost: {}", trxCap.getTransactionId());
+      if (!triggerCapsuleQueue.offer(stb)) {
+        logger.info("too many triggers, transaction trigger lost: {}", stbCap.getTransactionId());
       }
     }
   }
@@ -1805,8 +1805,8 @@ public class Manager {
       try {
         BlockCapsule oldHeadBlock = chainBaseManager.getBlockById(
             getDynamicPropertiesStore().getLatestBlockHeaderHash());
-        for (TransactionCapsule trx : oldHeadBlock.getTransactions()) {
-          postContractTrigger(trx.getStbTrace(), true);
+        for (TransactionCapsule stb : oldHeadBlock.getTransactions()) {
+          postContractTrigger(stb.getStbTrace(), true);
         }
       } catch (BadItemException | ItemNotFoundException e) {
         logger.error("block header hash does not exist or is bad: {}",
@@ -1845,13 +1845,13 @@ public class Manager {
 
   private static class ValidateSignTask implements Callable<Boolean> {
 
-    private TransactionCapsule trx;
+    private TransactionCapsule stb;
     private CountDownLatch countDownLatch;
     private ChainBaseManager manager;
 
-    ValidateSignTask(TransactionCapsule trx, CountDownLatch countDownLatch,
+    ValidateSignTask(TransactionCapsule stb, CountDownLatch countDownLatch,
         ChainBaseManager manager) {
-      this.trx = trx;
+      this.stb = stb;
       this.countDownLatch = countDownLatch;
       this.manager = manager;
     }
@@ -1859,7 +1859,7 @@ public class Manager {
     @Override
     public Boolean call() throws ValidateSignatureException {
       try {
-        trx.validateSignature(manager.getAccountStore(), manager.getDynamicPropertiesStore());
+        stb.validateSignature(manager.getAccountStore(), manager.getDynamicPropertiesStore());
       } catch (ValidateSignatureException e) {
         throw e;
       } finally {

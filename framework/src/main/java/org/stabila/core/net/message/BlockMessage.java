@@ -57,6 +57,6 @@ public class BlockMessage extends StabilaMessage {
   @Override
   public String toString() {
     return new StringBuilder().append(super.toString()).append(block.getBlockId().getString())
-        .append(", trx size: ").append(block.getTransactions().size()).append("\n").toString();
+        .append(", stb size: ").append(block.getTransactions().size()).append("\n").toString();
   }
 }

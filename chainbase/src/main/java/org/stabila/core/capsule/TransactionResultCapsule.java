@@ -17,8 +17,8 @@ public class TransactionResultCapsule implements ProtoCapsule<Result> {
   /**
    * constructor TransactionCapsule.
    */
-  public TransactionResultCapsule(Result trxRet) {
-    this.transactionResult = trxRet;
+  public TransactionResultCapsule(Result stbRet) {
+    this.transactionResult = stbRet;
   }
 
   public TransactionResultCapsule(byte[] data) throws BadItemException {

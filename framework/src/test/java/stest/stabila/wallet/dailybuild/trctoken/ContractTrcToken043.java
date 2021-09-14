@@ -358,7 +358,7 @@ public class ContractTrcToken043 {
             blockingStubFull), 0, 1,
         ByteString.copyFrom(user001Address), testKey002, blockingStubFull));
 
-    // tokenId is 0, contract not have trx
+    // tokenId is 0, contract not have stb
     tokenId = Long.toString(0);
     tokenValue = Long.valueOf(1);
     callValue = Long.valueOf(0);
@@ -388,7 +388,7 @@ public class ContractTrcToken043 {
             blockingStubFull));
     PublicMethed.waitProduceNextBlock(blockingStubFull);
 
-    //tokenId is 0, transfer contract has trx, transfer to normal account
+    //tokenId is 0, transfer contract has stb, transfer to normal account
     tokenId = Long.toString(0);
     tokenValue = Long.valueOf(1);
     callValue = Long.valueOf(1);

@@ -2450,7 +2450,7 @@ public class ShieldedReceiveTest extends BlockGenerate {
 
     TransactionCapsule transactionCap = builder.build();
 
-    byte[] trxId = transactionCap.getTransactionId().getBytes();
+    byte[] stbId = transactionCap.getTransactionId().getBytes();
     boolean ok = dbManager.pushTransaction(transactionCap);
     Assert.assertTrue(ok);
 
@@ -2478,7 +2478,7 @@ public class ShieldedReceiveTest extends BlockGenerate {
     OutputPointInfo.Builder request = OutputPointInfo.newBuilder();
     for (int i = 0; i < notes1.getNoteTxsCount(); i++) {
       OutputPoint.Builder outPointBuild = OutputPoint.newBuilder();
-      outPointBuild.setHash(ByteString.copyFrom(trxId));
+      outPointBuild.setHash(ByteString.copyFrom(stbId));
       outPointBuild.setIndex(i);
       request.addOutPoints(outPointBuild.build());
     }

@@ -154,14 +154,14 @@ public class ManagerTest extends BlockGenerate {
             .setOwnerAddress(ByteString.copyFromUtf8("aaa"))
             .setToAddress(ByteString.copyFromUtf8("bbb"))
             .build();
-    TransactionCapsule trx = new TransactionCapsule(tc, ContractType.TransferContract);
+    TransactionCapsule stb = new TransactionCapsule(tc, ContractType.TransferContract);
     if (chainManager.getDynamicPropertiesStore().getLatestBlockHeaderNumber() == 0) {
       dbManager.pushBlock(blockCapsule);
       Assert.assertEquals(1,
           chainManager.getDynamicPropertiesStore().getLatestBlockHeaderNumber());
-      chainManager.setBlockReference(trx);
+      chainManager.setBlockReference(stb);
       Assert.assertEquals(1,
-          ByteArray.toInt(trx.getInstance().getRawData().getRefBlockBytes().toByteArray()));
+          ByteArray.toInt(stb.getInstance().getRawData().getRefBlockBytes().toByteArray()));
     }
 
     while (chainManager.getDynamicPropertiesStore().getLatestBlockHeaderNumber() > 0) {
@@ -171,9 +171,9 @@ public class ManagerTest extends BlockGenerate {
     dbManager.pushBlock(blockCapsule);
     Assert.assertEquals(1,
         chainManager.getDynamicPropertiesStore().getLatestBlockHeaderNumber());
-    chainManager.setBlockReference(trx);
+    chainManager.setBlockReference(stb);
     Assert.assertEquals(1,
-        ByteArray.toInt(trx.getInstance().getRawData().getRefBlockBytes().toByteArray()));
+        ByteArray.toInt(stb.getInstance().getRawData().getRefBlockBytes().toByteArray()));
   }
 
   @Test
@@ -372,8 +372,8 @@ public class ManagerTest extends BlockGenerate {
 
   @Test
   public void pushBlockInvalidMerkelRoot() {
-    Transaction trx = Transaction.newBuilder().build();
-    TransactionCapsule moreTrans = new TransactionCapsule(trx);
+    Transaction stb = Transaction.newBuilder().build();
+    TransactionCapsule moreTrans = new TransactionCapsule(stb);
     blockCapsule2.addTransaction(moreTrans);  // add one more transaction will change merkroot
     blockCapsule2.sign(ByteArray.fromHexString(Args.getLocalWitnesses()
         .getPrivateKey()));
@@ -415,18 +415,18 @@ public class ManagerTest extends BlockGenerate {
 
   @Test
   public void pushBlockTooMuchShieldedTransactions() {
-    ShieldContract.ShieldedTransferContract trx1 = ShieldContract.ShieldedTransferContract
+    ShieldContract.ShieldedTransferContract stb1 = ShieldContract.ShieldedTransferContract
         .newBuilder()
         .setFromAmount(10)
         .setToAmount(10)
         .build();
-    ShieldContract.ShieldedTransferContract trx2 = ShieldContract.ShieldedTransferContract
+    ShieldContract.ShieldedTransferContract stb2 = ShieldContract.ShieldedTransferContract
         .newBuilder()
         .setFromAmount(20)
         .setToAmount(20)
         .build();
-    TransactionCapsule trans1 = new TransactionCapsule(trx1, ContractType.ShieldedTransferContract);
-    TransactionCapsule trans2 = new TransactionCapsule(trx2, ContractType.ShieldedTransferContract);
+    TransactionCapsule trans1 = new TransactionCapsule(stb1, ContractType.ShieldedTransferContract);
+    TransactionCapsule trans2 = new TransactionCapsule(stb2, ContractType.ShieldedTransferContract);
     blockCapsule2.addTransaction(trans1);  // addShield transaction
     blockCapsule2.addTransaction(trans2);  //  add Shield transaction
     blockCapsule2.setMerkleRoot();

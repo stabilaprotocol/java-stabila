@@ -64,7 +64,7 @@ public class RuntimeImplTest {
         .decode(Wallet.getAddressPreFixString() + "abd4b9367799eaa3197fecb144eb71de1e049abd");
     dbManager = context.getBean(Manager.class);
     dbManager.getDynamicPropertiesStore().saveLatestBlockHeaderTimestamp(1526647838000L);
-    dbManager.getDynamicPropertiesStore().saveTotalEnergyWeight(5_000_000_000L); // unit is trx
+    dbManager.getDynamicPropertiesStore().saveTotalEnergyWeight(5_000_000_000L); // unit is stb
     repository = RepositoryImpl.createRoot(StoreFactory.getInstance());
     repository.createAccount(callerAddress, AccountType.Normal);
     repository.addBalance(callerAddress, callerTotalBalance);
@@ -119,13 +119,13 @@ public class RuntimeImplTest {
         + "4c8c17b0029";
     String libraryAddressPair = null;
 
-    Transaction trx = generateDeploySmartContractAndGetTransaction(contractName, creatorAddress,
+    Transaction stb = generateDeploySmartContractAndGetTransaction(contractName, creatorAddress,
         ABI,
         code, value, feeLimit, consumeUserResourcePercent, libraryAddressPair);
 
     RuntimeImpl runtimeImpl = new RuntimeImpl();
     runtimeImpl.execute(
-        new TransactionContext(null, new TransactionCapsule(trx),
+        new TransactionContext(null, new TransactionCapsule(stb),
             StoreFactory.getInstance(), true, true));
 
     repository = RepositoryImpl.createRoot(StoreFactory.getInstance());
@@ -216,18 +216,18 @@ public class RuntimeImplTest {
 
     byte[] contractAddress = result.getContractAddress();
     byte[] triggerData = TvmTestUtils.parseAbi("testNotConstant()", null);
-    Transaction trx = generateTriggerSmartContractAndGetTransaction(callerAddress, contractAddress,
+    Transaction stb = generateTriggerSmartContractAndGetTransaction(callerAddress, contractAddress,
         triggerData, value, feeLimit);
 
     repository = RepositoryImpl.createRoot(StoreFactory.getInstance());
     RuntimeImpl runtimeImpl = new RuntimeImpl();
     runtimeImpl.execute(
-        new TransactionContext(null, new TransactionCapsule(trx),
+        new TransactionContext(null, new TransactionCapsule(stb),
             StoreFactory.getInstance(), true, true));
 
     AccountCapsule creatorAccount = repository.getAccount(creatorAddress);
     AccountCapsule callerAccount = repository.getAccount(callerAddress);
-    TriggerSmartContract contract = ContractCapsule.getTriggerContractFromTransaction(trx);
+    TriggerSmartContract contract = ContractCapsule.getTriggerContractFromTransaction(stb);
 
     feeLimit = 1_000_000_000L;
     value = 0L;
@@ -320,18 +320,18 @@ public class RuntimeImplTest {
 
     byte[] contractAddress = result.getContractAddress();
     byte[] triggerData = TvmTestUtils.parseAbi("testNotConstant()", null);
-    Transaction trx = generateTriggerSmartContractAndGetTransaction(callerAddress, contractAddress,
+    Transaction stb = generateTriggerSmartContractAndGetTransaction(callerAddress, contractAddress,
         triggerData, value, feeLimit);
 
     repository = RepositoryImpl.createRoot(StoreFactory.getInstance());
     RuntimeImpl runtimeImpl = new RuntimeImpl();
     runtimeImpl.execute(
-        new TransactionContext(null, new TransactionCapsule(trx),
+        new TransactionContext(null, new TransactionCapsule(stb),
             StoreFactory.getInstance(), true, true));
 
     AccountCapsule creatorAccount = repository.getAccount(creatorAddress);
     AccountCapsule callerAccount = repository.getAccount(callerAddress);
-    TriggerSmartContract contract = ContractCapsule.getTriggerContractFromTransaction(trx);
+    TriggerSmartContract contract = ContractCapsule.getTriggerContractFromTransaction(stb);
 
     feeLimit = 1_000_000_000L;
     value = 0L;
@@ -400,18 +400,18 @@ public class RuntimeImplTest {
 
     byte[] contractAddress = result.getContractAddress();
     byte[] triggerData = TvmTestUtils.parseAbi("testNotConstant()", null);
-    Transaction trx = generateTriggerSmartContractAndGetTransaction(callerAddress, contractAddress,
+    Transaction stb = generateTriggerSmartContractAndGetTransaction(callerAddress, contractAddress,
         triggerData, value, feeLimit);
 
     repository = RepositoryImpl.createRoot(StoreFactory.getInstance());
     RuntimeImpl runtimeImpl = new RuntimeImpl();
     runtimeImpl.execute(
-        new TransactionContext(null, new TransactionCapsule(trx),
+        new TransactionContext(null, new TransactionCapsule(stb),
             StoreFactory.getInstance(), true, true));
 
     AccountCapsule creatorAccount = repository.getAccount(creatorAddress);
     AccountCapsule callerAccount = repository.getAccount(callerAddress);
-    TriggerSmartContract contract = ContractCapsule.getTriggerContractFromTransaction(trx);
+    TriggerSmartContract contract = ContractCapsule.getTriggerContractFromTransaction(stb);
 
     feeLimit = 1_000_000_000L;
     value = 0L;

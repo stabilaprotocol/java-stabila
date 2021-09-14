@@ -56,8 +56,8 @@ public class InterpreterTest {
     // 0x5b      - JUMPTEST
     // 0x60 0x00 - PUSH 0x00
     // 0x56      - JUMP to 0
-    Transaction trx = Transaction.getDefaultInstance();
-    InternalTransaction interStb = new InternalTransaction(trx, StbType.STB_UNKNOWN_TYPE);
+    Transaction stb = Transaction.getDefaultInstance();
+    InternalTransaction interStb = new InternalTransaction(stb, StbType.STB_UNKNOWN_TYPE);
     program = new Program(op, invoke, interStb);
 
     boolean result = false;
@@ -79,8 +79,8 @@ public class InterpreterTest {
     invoke = new ProgramInvokeMockImpl();
     byte[] op = {0x56};
     // 0x56      - JUMP
-    Transaction trx = Transaction.getDefaultInstance();
-    InternalTransaction interStb = new InternalTransaction(trx, StbType.STB_UNKNOWN_TYPE);
+    Transaction stb = Transaction.getDefaultInstance();
+    InternalTransaction interStb = new InternalTransaction(stb, StbType.STB_UNKNOWN_TYPE);
     program = new Program(op, invoke, interStb);
 
     boolean result = false;
@@ -105,8 +105,8 @@ public class InterpreterTest {
     // 0x60      - PUSH1
     // 0x20      - 20
     // 0x56      - JUMP
-    Transaction trx = Transaction.getDefaultInstance();
-    InternalTransaction interStb = new InternalTransaction(trx, StbType.STB_UNKNOWN_TYPE);
+    Transaction stb = Transaction.getDefaultInstance();
+    InternalTransaction interStb = new InternalTransaction(stb, StbType.STB_UNKNOWN_TYPE);
     program = new Program(op, invoke, interStb);
 
     boolean result = false;
@@ -132,8 +132,8 @@ public class InterpreterTest {
     // 0x60              - PUSH5
     // 0x7F7F7F7F7F      - 547599908735
     // 0x56              - JUMP
-    Transaction trx = Transaction.getDefaultInstance();
-    InternalTransaction interStb = new InternalTransaction(trx, StbType.STB_UNKNOWN_TYPE);
+    Transaction stb = Transaction.getDefaultInstance();
+    InternalTransaction interStb = new InternalTransaction(stb, StbType.STB_UNKNOWN_TYPE);
     program = new Program(op, invoke, interStb);
 
     boolean result = false;

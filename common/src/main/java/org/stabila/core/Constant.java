@@ -162,9 +162,9 @@ public class Constant {
 
   public static final String STORAGE_NEEDTO_UPDATE_ASSET = "storage.needToUpdateAsset";
 
-  public static final String STB_REFERENCE_BLOCK = "trx.reference.block";
+  public static final String STB_REFERENCE_BLOCK = "stb.reference.block";
 
-  public static final String STB_EXPIRATION_TIME_IN_MILLIS_SECONDS = "trx.expiration.timeInMilliseconds";
+  public static final String STB_EXPIRATION_TIME_IN_MILLIS_SECONDS = "stb.expiration.timeInMilliseconds";
 
   public static final String NODE_RPC_MIN_EFFECTIVE_CONNECTION = "node.rpc.minEffectiveConnection";
 

@@ -128,7 +128,7 @@ public class TransferActuator extends AbstractActuator {
       if (toAccount == null) {
         fee = fee + dynamicStore.getCreateNewAccountFeeInSystemContract();
       }
-      //after ForbidTransferToContract proposal, send trx to smartContract by actuator is not allowed.
+      //after ForbidTransferToContract proposal, send stb to smartContract by actuator is not allowed.
       if (dynamicStore.getForbidTransferToContract() == 1
           && toAccount != null
           && toAccount.getType() == AccountType.Contract) {
