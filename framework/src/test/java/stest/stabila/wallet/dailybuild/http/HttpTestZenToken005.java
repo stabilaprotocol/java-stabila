@@ -120,7 +120,7 @@ public class HttpTestZenToken005 {
   public void test02GetMerkleTreeVoucherInfo() {
     HttpMethed.waitToProduceOneBlock(httpnode);
     response = HttpMethed
-        .getMerkleTreeVoucherInfo(httpnode, sendNote.getTrxId(), sendNote.getIndex(), 1);
+        .getMerkleTreeVoucherInfo(httpnode, sendNote.getStbId(), sendNote.getIndex(), 1);
     responseContent = HttpMethed.parseResponseContent(response);
     HttpMethed.printJsonContent(responseContent);
     Assert.assertTrue(responseContent.toJSONString().contains("tree"));
@@ -128,7 +128,7 @@ public class HttpTestZenToken005 {
     Assert.assertTrue(responseContent.toJSONString().contains("paths"));
 
     response = HttpMethed
-        .getMerkleTreeVoucherInfo(httpnode, receiveNote.getTrxId(), receiveNote.getIndex(), 1000);
+        .getMerkleTreeVoucherInfo(httpnode, receiveNote.getStbId(), receiveNote.getIndex(), 1000);
     responseContent = HttpMethed.parseResponseContent(response);
     HttpMethed.printJsonContent(responseContent);
     Assert.assertTrue(responseContent.toJSONString().contains(
@@ -139,7 +139,7 @@ public class HttpTestZenToken005 {
   public void test03GetMerkleTreeVoucherInfoFromSolidity() {
     HttpMethed.waitToProduceOneBlock(httpnode);
     response = HttpMethed
-        .getMerkleTreeVoucherInfoFromSolidity(httpSolidityNode, sendNote.getTrxId(),
+        .getMerkleTreeVoucherInfoFromSolidity(httpSolidityNode, sendNote.getStbId(),
             sendNote.getIndex(), 1);
     responseContent = HttpMethed.parseResponseContent(response);
     HttpMethed.printJsonContent(responseContent);
@@ -148,7 +148,7 @@ public class HttpTestZenToken005 {
     Assert.assertTrue(responseContent.toJSONString().contains("paths"));
 
     response = HttpMethed
-        .getMerkleTreeVoucherInfoFromSolidity(httpSolidityNode, receiveNote.getTrxId(),
+        .getMerkleTreeVoucherInfoFromSolidity(httpSolidityNode, receiveNote.getStbId(),
             receiveNote.getIndex(), 1000);
     responseContent = HttpMethed.parseResponseContent(response);
     HttpMethed.printJsonContent(responseContent);

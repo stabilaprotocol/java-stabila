@@ -146,7 +146,7 @@ public class ShieldWrapper {
 
         OutputPointInfo.Builder request = OutputPointInfo.newBuilder();
         OutputPoint.Builder outPointBuild = OutputPoint.newBuilder();
-        outPointBuild.setHash(ByteString.copyFrom(ByteArray.fromHexString(noteInfo.getTrxId())));
+        outPointBuild.setHash(ByteString.copyFrom(ByteArray.fromHexString(noteInfo.getStbId())));
         outPointBuild.setIndex(noteInfo.getIndex());
         request.addOutPoints(outPointBuild.build());
 
@@ -388,7 +388,7 @@ public class ShieldWrapper {
       String string = entry.getKey() + " " + entry.getValue().getPaymentAddress() + " ";
       string += entry.getValue().getValue();
       string += " ";
-      string += entry.getValue().getTrxId();
+      string += entry.getValue().getStbId();
       string += " ";
       string += entry.getValue().getIndex();
       string += " ";

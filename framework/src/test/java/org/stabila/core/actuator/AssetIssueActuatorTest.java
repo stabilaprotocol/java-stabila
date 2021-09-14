@@ -168,7 +168,7 @@ public class AssetIssueActuatorTest {
       Assert.assertNotNull(assetIssueCapsule);
       Assert.assertEquals(6, assetIssueCapsule.getPrecision());
       Assert.assertEquals(NUM, assetIssueCapsule.getNum());
-      Assert.assertEquals(STB_NUM, assetIssueCapsule.getTrxNum());
+      Assert.assertEquals(STB_NUM, assetIssueCapsule.getStbNum());
       Assert.assertEquals(owner.getAssetMap().get(NAME).longValue(), TOTAL_SUPPLY);
       // check V2
       long tokenIdNum = dbManager.getDynamicPropertiesStore().getTokenIdNum();
@@ -177,7 +177,7 @@ public class AssetIssueActuatorTest {
       Assert.assertNotNull(assetIssueCapsuleV2);
       Assert.assertEquals(0, assetIssueCapsuleV2.getPrecision());
       Assert.assertEquals(NUM, assetIssueCapsuleV2.getNum());
-      Assert.assertEquals(STB_NUM, assetIssueCapsuleV2.getTrxNum());
+      Assert.assertEquals(STB_NUM, assetIssueCapsuleV2.getStbNum());
       Assert.assertEquals(owner.getAssetMapV2().get(String.valueOf(tokenIdNum)).longValue(),
           TOTAL_SUPPLY);
 
@@ -221,7 +221,7 @@ public class AssetIssueActuatorTest {
       Assert.assertNotNull(assetIssueCapsuleV2);
       Assert.assertEquals(6, assetIssueCapsuleV2.getPrecision());
       Assert.assertEquals(NUM, assetIssueCapsuleV2.getNum());
-      Assert.assertEquals(STB_NUM, assetIssueCapsuleV2.getTrxNum());
+      Assert.assertEquals(STB_NUM, assetIssueCapsuleV2.getStbNum());
       Assert.assertEquals(owner.getAssetMapV2().get(String.valueOf(tokenIdNum)).longValue(),
           TOTAL_SUPPLY);
 
@@ -264,7 +264,7 @@ public class AssetIssueActuatorTest {
       Assert.assertNotNull(assetIssueCapsuleV2);
       Assert.assertEquals(6, assetIssueCapsuleV2.getPrecision());
       Assert.assertEquals(NUM, assetIssueCapsuleV2.getNum());
-      Assert.assertEquals(STB_NUM, assetIssueCapsuleV2.getTrxNum());
+      Assert.assertEquals(STB_NUM, assetIssueCapsuleV2.getStbNum());
       Assert.assertEquals(owner.getAssetMapV2().get(String.valueOf(tokenIdNum)).longValue(),
           TOTAL_SUPPLY);
 

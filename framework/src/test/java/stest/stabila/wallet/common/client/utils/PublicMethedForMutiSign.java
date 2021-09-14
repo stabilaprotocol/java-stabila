@@ -4857,7 +4857,7 @@ public class PublicMethedForMutiSign {
       //System.out.println("address " + noteInfo.getPaymentAddress());
       //System.out.println("value " + noteInfo.getValue());
       //System.out.println("rcm " + ByteArray.toHexString(noteInfo.getR()));
-      //System.out.println("trxId " + noteInfo.getTrxId());
+      //System.out.println("trxId " + noteInfo.getStbId());
       //System.out.println("index " + noteInfo.getIndex());
       //System.out.println("meno " + new String(noteInfo.getMemo()));
 
