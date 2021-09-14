@@ -71,7 +71,7 @@ public class ArgsTest {
     Assert.assertTrue(parameter.isNodeDiscoveryEnable());
     Assert.assertTrue(parameter.isNodeDiscoveryPersist());
     Assert.assertEquals("127.0.0.1", parameter.getNodeDiscoveryBindIp());
-    Assert.assertEquals("46.168.1.1", parameter.getNodeExternalIp());
+    Assert.assertEquals("212.28.87.244", parameter.getNodeExternalIp());
     Assert.assertEquals(18888, parameter.getNodeListenPort());
     Assert.assertEquals(2000, parameter.getNodeConnectionTimeout());
     Assert.assertEquals(0, parameter.getActiveNodes().size());
