@@ -182,10 +182,10 @@ public class LiteFullNodeToolTest {
       ECKey ecKey2 = new ECKey(Utils.getRandom());
       byte[] address = ecKey2.getAddress();
 
-      String sunPri = "cba92a516ea09f620a16ff7ee95ce0df1d56550a8babe9964981a7144c8a784a";
-      byte[] sunAddress = getFinalAddress(sunPri);
+      String unitPri = "cba92a516ea09f620a16ff7ee95ce0df1d56550a8babe9964981a7144c8a784a";
+      byte[] unitAddress = getFinalAddress(unitPri);
       sendcoin(address, 1L,
-              sunAddress, sunPri, blockingStubFull);
+              unitAddress, unitPri, blockingStubFull);
       try {
         Thread.sleep(sleepOnce);
       } catch (InterruptedException e) {

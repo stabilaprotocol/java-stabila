@@ -199,13 +199,13 @@ public class ReceiptCapsule {
         dynamicPropertiesStore.saveBlockEnergyUsage(blockEnergyUsage);
       }
 
-      long sunPerEnergy = Constant.SUN_PER_ENERGY;
+      long unitPerEnergy = Constant.UNIT_PER_ENERGY;
       long dynamicEnergyFee = dynamicPropertiesStore.getEnergyFee();
       if (dynamicEnergyFee > 0) {
-        sunPerEnergy = dynamicEnergyFee;
+        unitPerEnergy = dynamicEnergyFee;
       }
       long energyFee =
-          (usage - accountEnergyLeft) * sunPerEnergy;
+          (usage - accountEnergyLeft) * unitPerEnergy;
       this.setEnergyUsage(accountEnergyLeft);
       this.setEnergyFee(energyFee);
       long balance = account.getBalance();

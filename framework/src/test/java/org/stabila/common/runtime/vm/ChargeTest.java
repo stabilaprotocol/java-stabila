@@ -73,7 +73,7 @@ public class ChargeTest {
       throws ContractExeException, ContractValidateException,
       ReceiptCheckErrException, VMIllegalException {
     long value = 0;
-    long feeLimit = 1_000_000_000L; // sun
+    long feeLimit = 1_000_000_000L; // unit
     long consumeUserResourcePercent = 100;
 
     String contractName = "testOverflow";
@@ -135,7 +135,7 @@ public class ChargeTest {
       throws ContractExeException, ContractValidateException,
       ReceiptCheckErrException, VMIllegalException {
     long value = 0;
-    long feeLimit = 1_000_000_000L; // sun
+    long feeLimit = 1_000_000_000L; // unit
     long consumeUserResourcePercent = 100;
 
     String contractName = "testNegative";
@@ -222,7 +222,7 @@ public class ChargeTest {
       throws ContractExeException, ContractValidateException,
       ReceiptCheckErrException, VMIllegalException {
     long value = 0;
-    long feeLimit = 1_000_000_000L; // sun
+    long feeLimit = 1_000_000_000L; // unit
     long consumeUserResourcePercent = 100;
 
     String contractName = "testCallDepth";
@@ -317,7 +317,7 @@ public class ChargeTest {
       throws ContractExeException, ContractValidateException,
       ReceiptCheckErrException, VMIllegalException {
     long value = 0;
-    long feeLimit = 1_000_000_000L; // sun
+    long feeLimit = 1_000_000_000L; // unit
     long consumeUserResourcePercent = 100;
 
     String contractName = "testCallDepthAndWidth";
@@ -393,7 +393,7 @@ public class ChargeTest {
       throws ContractExeException, ContractValidateException,
       ReceiptCheckErrException, VMIllegalException {
     long value = 0;
-    long feeLimit = 1_000_000_000L; // sun
+    long feeLimit = 1_000_000_000L; // unit
     long consumeUserResourcePercent = 100;
 
     String contractName = "testCallDepthAndWidth";

@@ -79,7 +79,7 @@ public class ContractScenario015 {
     Assert.assertTrue(PublicMethed.sendcoin(contract014Address, 500000000L, fromAddress,
         testKey002, blockingStubFull));
     PublicMethed.waitProduceNextBlock(blockingStubFull);
-    //Deploy contract1, contract1 has a function to transaction 5 sun to target account
+    //Deploy contract1, contract1 has a function to transaction 5 unit to target account
     String contractName = "STABILA TRC20";
     String code = Configuration.getByPath("testng.conf")
         .getString("code.code_Scenario015_TRC20_STABILA");

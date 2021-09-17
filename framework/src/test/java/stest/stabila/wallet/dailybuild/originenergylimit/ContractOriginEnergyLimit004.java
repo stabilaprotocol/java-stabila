@@ -156,10 +156,10 @@ public class ContractOriginEnergyLimit004 {
     final boolean expectRet = true;
 
     // count dev energy, balance
-    long devFreezeBalanceSun = PublicMethed.getFreezeBalanceCount(dev001Address, dev001Key,
+    long devFreezeBalanceUnit = PublicMethed.getFreezeBalanceCount(dev001Address, dev001Key,
         devTargetEnergy, blockingStubFull);
 
-    long devNeedBalance = devTargetBalance + devFreezeBalanceSun;
+    long devNeedBalance = devTargetBalance + devFreezeBalanceUnit;
 
     logger.info("need balance:" + devNeedBalance);
 
@@ -168,7 +168,7 @@ public class ContractOriginEnergyLimit004 {
         testKey002, blockingStubFull));
     PublicMethed.waitProduceNextBlock(blockingStubFull);
     // get energy
-    Assert.assertTrue(PublicMethed.freezeBalanceGetEnergy(dev001Address, devFreezeBalanceSun,
+    Assert.assertTrue(PublicMethed.freezeBalanceGetEnergy(dev001Address, devFreezeBalanceUnit,
         0, 1, dev001Key, blockingStubFull));
     PublicMethed.waitProduceNextBlock(blockingStubFull);
 
@@ -217,17 +217,17 @@ public class ContractOriginEnergyLimit004 {
     Assert.assertEquals(devBalanceBefore, devBalanceAfter);
 
     // count dev energy, balance
-    devFreezeBalanceSun = PublicMethed.getFreezeBalanceCount(dev001Address, dev001Key,
+    devFreezeBalanceUnit = PublicMethed.getFreezeBalanceCount(dev001Address, dev001Key,
         devTriggerTargetEnergy, blockingStubFull);
 
-    devNeedBalance = devTriggerTargetBalance + devFreezeBalanceSun;
+    devNeedBalance = devTriggerTargetBalance + devFreezeBalanceUnit;
     logger.info("dev need  balance:" + devNeedBalance);
 
     // count user energy, balance
-    long userFreezeBalanceSun = PublicMethed.getFreezeBalanceCount(user001Address, user001Key,
+    long userFreezeBalanceUnit = PublicMethed.getFreezeBalanceCount(user001Address, user001Key,
         userTargetEnergy, blockingStubFull);
 
-    long userNeedBalance = userTargetBalance + userFreezeBalanceSun;
+    long userNeedBalance = userTargetBalance + userFreezeBalanceUnit;
 
     logger.info("User need  balance:" + userNeedBalance);
 
@@ -239,9 +239,9 @@ public class ContractOriginEnergyLimit004 {
     PublicMethed.waitProduceNextBlock(blockingStubFull);
 
     // get energy
-    Assert.assertTrue(PublicMethed.freezeBalanceGetEnergy(dev001Address, devFreezeBalanceSun,
+    Assert.assertTrue(PublicMethed.freezeBalanceGetEnergy(dev001Address, devFreezeBalanceUnit,
         0, 1, dev001Key, blockingStubFull));
-    Assert.assertTrue(PublicMethed.freezeBalanceGetEnergy(user001Address, userFreezeBalanceSun,
+    Assert.assertTrue(PublicMethed.freezeBalanceGetEnergy(user001Address, userFreezeBalanceUnit,
         0, 1, user001Key, blockingStubFull));
     PublicMethed.waitProduceNextBlock(blockingStubFull);
 

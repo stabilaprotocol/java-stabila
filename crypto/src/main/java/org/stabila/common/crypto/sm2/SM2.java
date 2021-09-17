@@ -187,7 +187,7 @@ public class SM2 implements Serializable, SignInterface {
   /* Test if a generic private key is an EC private key
    *
    * it is not sufficient to check that privKey is a subtype of ECPrivateKey
-   * as the SunPKCS11 Provider will return a generic PrivateKey instance
+   * as the UnitPKCS11 Provider will return a generic PrivateKey instance
    * a fallback that covers this case is to check the key algorithm
    */
   private static boolean isECPrivateKey(PrivateKey privKey) {

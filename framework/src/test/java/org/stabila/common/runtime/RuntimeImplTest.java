@@ -190,7 +190,7 @@ public class RuntimeImplTest {
       ContractValidateException {
 
     long value = 0;
-    long feeLimit = 1_000_000_000L; // sun
+    long feeLimit = 1_000_000_000L; // unit
     long consumeUserResourcePercent = 0L;
     long creatorEnergyLimit = 5_000L;
     String contractName = "test";
@@ -294,7 +294,7 @@ public class RuntimeImplTest {
       ContractValidateException {
 
     long value = 0;
-    long feeLimit = 1_000_000_000L; // sun
+    long feeLimit = 1_000_000_000L; // unit
     long consumeUserResourcePercent = 40L;
     long creatorEnergyLimit = 5_000L;
     String contractName = "test";
@@ -374,7 +374,7 @@ public class RuntimeImplTest {
       ContractValidateException {
 
     long value = 0;
-    long feeLimit = 1_000_000_000L; // sun
+    long feeLimit = 1_000_000_000L; // unit
     long consumeUserResourcePercent = 100L;
     long creatorEnergyLimit = 5_000L;
     String contractName = "test";

@@ -24,7 +24,7 @@ import org.stabila.protos.Protocol.Block;
 import stest.stabila.wallet.common.client.Configuration;
 import stest.stabila.wallet.common.client.Parameter.CommonConstant;
 
-//import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIConversion;
+//import com.unit.tools.internal.xjc.reader.xmlschema.bindinfo.BIConversion;
 
 //import stest.stabila.wallet.common.client.AccountComparator;
 

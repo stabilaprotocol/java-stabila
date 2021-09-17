@@ -256,7 +256,7 @@ public class SumActuatorTest {
 
   @Test
   public void sumActuatorTest() {
-    // this key is defined in config-localtest.conf as accountName=Sun
+    // this key is defined in config-localtest.conf as accountName=Unit
     String key = "cba92a516ea09f620a16ff7ee95ce0df1d56550a8babe9964981a7144c8a784a";
     byte[] address = PublicMethed.getFinalAddress(key);
     ECKey ecKey = null;

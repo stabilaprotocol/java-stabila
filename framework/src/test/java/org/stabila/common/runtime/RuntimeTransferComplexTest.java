@@ -254,9 +254,9 @@ public class RuntimeTransferComplexTest {
     Assert.assertEquals(dbManager.getAccountStore().get(callerAddress).getBalance(),
         1000);  //Not changed
     Assert.assertEquals(dbManager.getAccountStore().get(calledAddress).getBalance(),
-        1000 - 5);  //Transfer 5 sun to TransferTo
+        1000 - 5);  //Transfer 5 unit to TransferTo
     Assert.assertEquals(dbManager.getAccountStore().get(Hex.decode(TRANSFER_TO)).getBalance(),
-        transferToInitBalance + 5); // get 5 sun from calledAddress
+        transferToInitBalance + 5); // get 5 unit from calledAddress
     recoverDeposit();
 
     //======================2. testRevertForCall =========================================

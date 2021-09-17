@@ -1,6 +1,6 @@
 package org.stabila.core.services;
 
-import com.sun.management.OperatingSystemMXBean;
+import com.unit.management.OperatingSystemMXBean;
 import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
 import java.lang.management.MemoryPoolMXBean;

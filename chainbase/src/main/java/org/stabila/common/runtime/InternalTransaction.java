@@ -40,7 +40,7 @@ public class InternalTransaction {
   private Transaction transaction;
   private byte[] hash;
   private byte[] parentHash;
-  /* the amount of stb to transfer (calculated as sun) */
+  /* the amount of stb to transfer (calculated as unit) */
   private long value;
 
   private Map<String, Long> tokenInfo = new HashMap<>();

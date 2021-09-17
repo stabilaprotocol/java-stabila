@@ -92,7 +92,7 @@ public class TimeBenchmarkTest {
       throws ContractExeException, ContractValidateException, ReceiptCheckErrException,
       VMIllegalException {
     long value = 0;
-    long feeLimit = 200_000_000L; // sun
+    long feeLimit = 200_000_000L; // unit
     long consumeUserResourcePercent = 100;
 
     String contractName = "timeBenchmark";

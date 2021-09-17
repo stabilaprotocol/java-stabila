@@ -13,7 +13,7 @@ public class InternalTransactionPojo {
 
   @Getter
   @Setter
-  /* the amount of stb to transfer (calculated as sun) */
+  /* the amount of stb to transfer (calculated as unit) */
   private long callValue;
 
   @Getter

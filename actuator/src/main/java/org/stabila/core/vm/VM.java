@@ -59,7 +59,7 @@ public class VM {
 
     checkMemorySize(op, newMemSize);
 
-    // memory SUN consume calc
+    // memory UNIT consume calc
     long memoryUsage = (newMemSize.longValueExact() + 31) / 32 * 32;
     if (memoryUsage > oldMemSize) {
       long memWords = (memoryUsage / 32);

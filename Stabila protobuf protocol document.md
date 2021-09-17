@@ -1119,7 +1119,7 @@ Contract and contract-related messages.
 
       `asset_name`: target asset name.
 
-      `amount`: amount of suns.
+      `amount`: amount of units.
 
       ```java
       message ParticipateAssetIssueContract {

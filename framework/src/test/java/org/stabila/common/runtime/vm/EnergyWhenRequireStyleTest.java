@@ -88,7 +88,7 @@ public class EnergyWhenRequireStyleTest {
       VMIllegalException {
 
     long value = 0;
-    long feeLimit = 1_000_000_000L; // sun
+    long feeLimit = 1_000_000_000L; // unit
     long consumeUserResourcePercent = 100;
 
     String contractName = "test";
@@ -141,7 +141,7 @@ public class EnergyWhenRequireStyleTest {
       VMIllegalException {
 
     long value = 0;
-    long feeLimit = 1_000_000_000L; // sun
+    long feeLimit = 1_000_000_000L; // unit
     long consumeUserResourcePercent = 100;
 
     String contractName = "test";
@@ -199,7 +199,7 @@ public class EnergyWhenRequireStyleTest {
       VMIllegalException {
 
     long value = 0;
-    long feeLimit = 1_000_000_000L; // sun
+    long feeLimit = 1_000_000_000L; // unit
     long consumeUserResourcePercent = 100;
 
     String contractName = "test";
@@ -273,7 +273,7 @@ public class EnergyWhenRequireStyleTest {
       VMIllegalException {
 
     long value = 0;
-    long feeLimit = 1_000_000_000L; // sun
+    long feeLimit = 1_000_000_000L; // unit
     long consumeUserResourcePercent = 100;
 
     String contractName = "test";
@@ -342,7 +342,7 @@ public class EnergyWhenRequireStyleTest {
       VMIllegalException {
 
     long value = 0;
-    long feeLimit = 1_000_000_000L; // sun
+    long feeLimit = 1_000_000_000L; // unit
     long consumeUserResourcePercent = 100;
 
     String contractName = "test";
@@ -411,7 +411,7 @@ public class EnergyWhenRequireStyleTest {
       VMIllegalException {
 
     long value = 10;
-    long feeLimit = 1_000_000_000L; // sun
+    long feeLimit = 1_000_000_000L; // unit
     long consumeUserResourcePercent = 100;
 
     String contractName = "test";
@@ -496,7 +496,7 @@ public class EnergyWhenRequireStyleTest {
       VMIllegalException {
 
     long value = 0;
-    long feeLimit = 1_000_000_000L; // sun
+    long feeLimit = 1_000_000_000L; // unit
     long consumeUserResourcePercent = 100;
 
     String contractName = "test";

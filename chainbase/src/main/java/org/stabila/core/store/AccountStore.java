@@ -127,8 +127,8 @@ public class AccountStore extends StabilaStoreWithRevoking<AccountCapsule> {
   /**
    * Max STB account.
    */
-  public AccountCapsule getSun() {
-    return getUnchecked(assertsAddress.get("Sun"));
+  public AccountCapsule getUnit() {
+    return getUnchecked(assertsAddress.get("Unit"));
   }
 
   /**

@@ -173,7 +173,7 @@ public class ContractLinkage004 {
 
   @Test(enabled = true)
   public void test2FeeLimitIsTooSmall() {
-    //When the fee limit is only short with 1 sun,failed.use freezeBalanceGetNet.
+    //When the fee limit is only short with 1 unit,failed.use freezeBalanceGetNet.
     maxFeeLimit = currentFee - 1L;
     AccountResourceMessage resourceInfo1 = PublicMethed.getAccountResource(linkage004Address,
         blockingStubFull);

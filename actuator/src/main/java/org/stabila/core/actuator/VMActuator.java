@@ -517,9 +517,9 @@ public class VMActuator implements Actuator2 {
   public long getAccountEnergyLimitWithFixRatio(AccountCapsule account, long feeLimit,
       long callValue) {
 
-    long sunPerEnergy = VMConstant.SUN_PER_ENERGY;
+    long unitPerEnergy = VMConstant.UNIT_PER_ENERGY;
     if (repository.getDynamicPropertiesStore().getEnergyFee() > 0) {
-      sunPerEnergy = repository.getDynamicPropertiesStore().getEnergyFee();
+      unitPerEnergy = repository.getDynamicPropertiesStore().getEnergyFee();
     }
 
     long leftFrozenEnergy = repository.getAccountLeftEnergyFromFreeze(account);
@@ -527,10 +527,10 @@ public class VMActuator implements Actuator2 {
       receipt.setCallerEnergyLeft(leftFrozenEnergy);
     }
 
-    long energyFromBalance = max(account.getBalance() - callValue, 0) / sunPerEnergy;
+    long energyFromBalance = max(account.getBalance() - callValue, 0) / unitPerEnergy;
     long availableEnergy = Math.addExact(leftFrozenEnergy, energyFromBalance);
 
-    long energyFromFeeLimit = feeLimit / sunPerEnergy;
+    long energyFromFeeLimit = feeLimit / unitPerEnergy;
     return min(availableEnergy, energyFromFeeLimit);
 
   }
@@ -538,21 +538,21 @@ public class VMActuator implements Actuator2 {
   private long getAccountEnergyLimitWithFloatRatio(AccountCapsule account, long feeLimit,
       long callValue) {
 
-    long sunPerEnergy = VMConstant.SUN_PER_ENERGY;
+    long unitPerEnergy = VMConstant.UNIT_PER_ENERGY;
     if (repository.getDynamicPropertiesStore().getEnergyFee() > 0) {
-      sunPerEnergy = repository.getDynamicPropertiesStore().getEnergyFee();
+      unitPerEnergy = repository.getDynamicPropertiesStore().getEnergyFee();
     }
     // can change the calc way
     long leftEnergyFromFreeze = repository.getAccountLeftEnergyFromFreeze(account);
     callValue = max(callValue, 0);
     long energyFromBalance = Math
-        .floorDiv(max(account.getBalance() - callValue, 0), sunPerEnergy);
+        .floorDiv(max(account.getBalance() - callValue, 0), unitPerEnergy);
 
     long energyFromFeeLimit;
     long totalBalanceForEnergyFreeze = account.getAllFrozenBalanceForEnergy();
     if (0 == totalBalanceForEnergyFreeze) {
       energyFromFeeLimit =
-          feeLimit / sunPerEnergy;
+          feeLimit / unitPerEnergy;
     } else {
       long totalEnergyFromFreeze = repository
           .calculateGlobalEnergyLimit(account);
@@ -567,7 +567,7 @@ public class VMActuator implements Actuator2 {
       } else {
         energyFromFeeLimit = Math
             .addExact(leftEnergyFromFreeze,
-                (feeLimit - leftBalanceForEnergyFreeze) / sunPerEnergy);
+                (feeLimit - leftBalanceForEnergyFreeze) / unitPerEnergy);
       }
     }
 

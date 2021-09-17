@@ -725,43 +725,43 @@ public class Wallet {
                     .setKey("getMaintenanceTimeInterval")
                     .setValue(chainBaseManager.getDynamicPropertiesStore().getMaintenanceTimeInterval())
                     .build());
-    //    ACCOUNT_UPGRADE_COST, //SUN ,1
+    //    ACCOUNT_UPGRADE_COST, //UNIT ,1
     builder.addChainParameter(
             Protocol.ChainParameters.ChainParameter.newBuilder()
                     .setKey("getAccountUpgradeCost")
                     .setValue(chainBaseManager.getDynamicPropertiesStore().getAccountUpgradeCost())
                     .build());
-    //    CREATE_ACCOUNT_FEE, //SUN ,2
+    //    CREATE_ACCOUNT_FEE, //UNIT ,2
     builder.addChainParameter(
             Protocol.ChainParameters.ChainParameter.newBuilder()
                     .setKey("getCreateAccountFee")
                     .setValue(chainBaseManager.getDynamicPropertiesStore().getCreateAccountFee())
                     .build());
-    //    TRANSACTION_FEE, //SUN ,3
+    //    TRANSACTION_FEE, //UNIT ,3
     builder.addChainParameter(
             Protocol.ChainParameters.ChainParameter.newBuilder()
                     .setKey("getTransactionFee")
                     .setValue(chainBaseManager.getDynamicPropertiesStore().getTransactionFee())
                     .build());
-    //    ASSET_ISSUE_FEE, //SUN ,4
+    //    ASSET_ISSUE_FEE, //UNIT ,4
     builder.addChainParameter(
             Protocol.ChainParameters.ChainParameter.newBuilder()
                     .setKey("getAssetIssueFee")
                     .setValue(chainBaseManager.getDynamicPropertiesStore().getAssetIssueFee())
                     .build());
-    //    WITNESS_PAY_PER_BLOCK, //SUN ,5
+    //    WITNESS_PAY_PER_BLOCK, //UNIT ,5
     builder.addChainParameter(
             Protocol.ChainParameters.ChainParameter.newBuilder()
                     .setKey("getWitnessPayPerBlock")
                     .setValue(chainBaseManager.getDynamicPropertiesStore().getWitnessPayPerBlock())
                     .build());
-    //    WITNESS_STANDBY_ALLOWANCE, //SUN ,6
+    //    WITNESS_STANDBY_ALLOWANCE, //UNIT ,6
     builder.addChainParameter(
             Protocol.ChainParameters.ChainParameter.newBuilder()
                     .setKey("getWitnessStandbyAllowance")
                     .setValue(chainBaseManager.getDynamicPropertiesStore().getWitnessStandbyAllowance())
                     .build());
-    //    CREATE_NEW_ACCOUNT_FEE_IN_SYSTEM_CONTRACT, //SUN ,7
+    //    CREATE_NEW_ACCOUNT_FEE_IN_SYSTEM_CONTRACT, //UNIT ,7
     builder.addChainParameter(
             Protocol.ChainParameters.ChainParameter.newBuilder()
                     .setKey("getCreateNewAccountFeeInSystemContract")
@@ -786,13 +786,13 @@ public class Wallet {
                     .setKey("getRemoveThePowerOfTheGr")
                     .setValue(chainBaseManager.getDynamicPropertiesStore().getRemoveThePowerOfTheGr())
                     .build());
-    //    ENERGY_FEE, // SUN, 11
+    //    ENERGY_FEE, // UNIT, 11
     builder.addChainParameter(
             Protocol.ChainParameters.ChainParameter.newBuilder()
                     .setKey("getEnergyFee")
                     .setValue(chainBaseManager.getDynamicPropertiesStore().getEnergyFee())
                     .build());
-    //    EXCHANGE_CREATE_FEE, // SUN, 12
+    //    EXCHANGE_CREATE_FEE, // UNIT, 12
     builder.addChainParameter(
             Protocol.ChainParameters.ChainParameter.newBuilder()
                     .setKey("getExchangeCreateFee")

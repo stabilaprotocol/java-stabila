@@ -92,7 +92,7 @@ public class EnergyWhenSendAndTransferTest {
       VMIllegalException {
 
     long value = 10000000L;
-    long feeLimit = 1000_000_000L; // sun
+    long feeLimit = 1000_000_000L; // unit
     long consumeUserResourcePercent = 100;
     byte[] address = Hex.decode(OWNER_ADDRESS);
     TVMTestResult result = deployCallValueTestContract(value, feeLimit, consumeUserResourcePercent);
@@ -167,7 +167,7 @@ public class EnergyWhenSendAndTransferTest {
       VMIllegalException {
 
     long value = 1000L;
-    long feeLimit = 1000_000_000L; // sun
+    long feeLimit = 1000_000_000L; // unit
     long consumeUserResourcePercent = 100;
     byte[] address = Hex.decode(OWNER_ADDRESS);
     TVMTestResult result = deploySendAndTransferTestContract(value, feeLimit,
@@ -202,7 +202,7 @@ public class EnergyWhenSendAndTransferTest {
 
     long value = 1000L;
     // long value = 10000000L;
-    long feeLimit = 1000_000_000L; // sun
+    long feeLimit = 1000_000_000L; // unit
     long consumeUserResourcePercent = 100;
     byte[] address = Hex.decode(OWNER_ADDRESS);
     TVMTestResult result = deploySendAndTransferTestContract(value, feeLimit,

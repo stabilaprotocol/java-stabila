@@ -1032,7 +1032,7 @@ contract ERC721Token is SupportsInterfaceWithLookup, ERC721BasicToken, ERC721 {
     // Configure these for your own deployment
     string public constant NAME = "Gods Unchained";
     string public constant SYMBOL = "GODS";
-    string public tokenMetadataBaseURI = "https://api.godsunchained.com/card/";
+    string public tokenMetadataBaseURI = "https://api.godunitchained.com/card/";
 
     // Mapping from owner to list of owned token IDs
     // EDITED: limit to 2^40 (around 1T)

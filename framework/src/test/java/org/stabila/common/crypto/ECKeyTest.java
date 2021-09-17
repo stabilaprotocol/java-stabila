@@ -70,7 +70,7 @@ public class ECKeyTest {
 
   @Test(expected = IllegalArgumentException.class)
   public void testInvalidPrivateKey() throws Exception {
-    new ECKey(Security.getProvider("SunEC"),
+    new ECKey(Security.getProvider("UnitEC"),
         KeyPairGenerator.getInstance("RSA").generateKeyPair().getPrivate(),
         ECKey.fromPublicOnly(pubKey).getPubKeyPoint());
     fail("Expecting an IllegalArgumentException for using an non EC private key");

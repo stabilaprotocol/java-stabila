@@ -84,7 +84,7 @@ public class ContractScenario014 {
             blockingStubFull));
 
     logger.info("contract014Address : == " + contract014Key);
-    //Deploy contract1, contract1 has a function to transaction 5 sun to target account
+    //Deploy contract1, contract1 has a function to transaction 5 unit to target account
     String contractName = "Contract1";
     String filePath = "./src/test/resources/soliditycode/contractScenario014.sol";
     HashMap retMap = PublicMethed.getBycodeAbi(filePath, contractName);
@@ -98,7 +98,7 @@ public class ContractScenario014 {
     Assert.assertTrue(infoById.get().getResultValue() == 0);
     contractAddress1 = infoById.get().getContractAddress().toByteArray();
 
-    //Deploy contract2, contract2 has a function to call contract1 transaction sun function.
+    //Deploy contract2, contract2 has a function to call contract1 transaction unit function.
     // and has a revert function.
     contractName = "contract2";
     String filePath1 = "./src/test/resources/soliditycode/contractScenario014.sol";
