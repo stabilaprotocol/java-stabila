@@ -18,11 +18,10 @@ package org.stabila.core.capsule.utils;
 import com.google.protobuf.ByteString;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import org.stabila.core.capsule.BlockCapsule;
 import org.stabila.common.args.GenesisBlock;
 import org.stabila.common.parameter.CommonParameter;
 import org.stabila.common.utils.ByteArray;
+import org.stabila.core.capsule.BlockCapsule;
 import org.stabila.protos.Protocol.Transaction;
 
 public class BlockUtil {
