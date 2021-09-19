@@ -1,8 +1,6 @@
 apply plugin: 'com.google.protobuf'
 
 dependencies {
-    implementation 'org.incode.module.note:incode-module-note-dom:1.15.1.1'
-    implementation 'org.incode.example.note:incode-example-note-dom:1.16.2'
     compile group: 'com.google.protobuf', name: 'protobuf-java', version: '3.4.0'
     compile group: 'com.google.protobuf', name: 'protobuf-java-util', version: '3.4.0'
     compile group: 'net.jcip', name: 'jcip-annotations', version: '1.0'
@@ -62,4 +60,3 @@ protobuf {
 clean.doFirst {
     delete "src/main/java"
 }
-
