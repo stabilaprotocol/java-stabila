@@ -10,7 +10,7 @@ import org.stabila.common.zksnark.JLibsodiumParam.Chacha20poly1305IetfDecryptPar
 
 public class JLibsodium {
 
-  public static final int CRYPTO_GENERICHASH_BLAKE2B_PERSONALBYTES = 16;
+  public static final int CRYPTO_GENERICHASH_BLAKE2B_PERSONALBYTES = 19;
   public static final int CRYPTO_AEAD_CHACHA20POLY1305_IETF_NPUBBYTES = 12;
   private static Libsodium INSTANCE;
 

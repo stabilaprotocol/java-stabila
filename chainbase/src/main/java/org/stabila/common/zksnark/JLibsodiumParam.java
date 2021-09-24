@@ -67,7 +67,7 @@ public class JLibsodiumParam {
     @Override
     public void valid() throws ZksnarkException {
       validValueParams(state);
-      validParamLength(personal, 16);
+      validParamLength(personal, 19);
     }
   }
 
@@ -178,7 +178,7 @@ public class JLibsodiumParam {
             + "or in.length is not equal to inlen");
       }
       validParamLength(out, 32);
-      validParamLength(personal, 16);
+      validParamLength(personal, 19);
     }
   }
 
