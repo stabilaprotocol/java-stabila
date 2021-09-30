@@ -86,12 +86,12 @@ public class ContractTrcToken067 {
     Assert.assertTrue(PublicMethed.sendcoin(user001Address, 4048_000_000L, fromAddress,
         testKey002, blockingStubFull));
 
-    Assert.assertTrue(PublicMethed.freezeBalanceForReceiver(fromAddress,
-        PublicMethed.getFreezeBalanceCount(dev001Address, dev001Key, 170000L,
+    Assert.assertTrue(PublicMethed.cdBalanceForReceiver(fromAddress,
+        PublicMethed.getCdBalanceCount(dev001Address, dev001Key, 170000L,
             blockingStubFull), 0, 1,
         ByteString.copyFrom(dev001Address), testKey002, blockingStubFull));
 
-    Assert.assertTrue(PublicMethed.freezeBalanceForReceiver(fromAddress, 10_000_000L,
+    Assert.assertTrue(PublicMethed.cdBalanceForReceiver(fromAddress, 10_000_000L,
         0, 0, ByteString.copyFrom(dev001Address), testKey002, blockingStubFull));
 
     PublicMethed.waitProduceNextBlock(blockingStubFull);
@@ -129,7 +129,7 @@ public class ContractTrcToken067 {
 
     Optional<TransactionInfo> infoById = PublicMethed
         .getTransactionInfoById(transferTokenTxid, blockingStubFull);
-    logger.info("Deploy energytotal is " + infoById.get().getReceipt().getEnergyUsageTotal());
+    logger.info("Deploy ucrtotal is " + infoById.get().getReceipt().getUcrUsageTotal());
 
     if (transferTokenTxid == null || infoById.get().getResultValue() != 0) {
       Assert.fail("deploy transaction failed with message: " + infoById.get().getResMessage());
@@ -158,8 +158,8 @@ public class ContractTrcToken067 {
   @Test(enabled = true, description = "TransferToken with 0 tokenValue, "
       + "and not existed tokenId, deploy receive contract")
   public void test02DeployRevContract() {
-    Assert.assertTrue(PublicMethed.freezeBalanceForReceiver(fromAddress,
-        PublicMethed.getFreezeBalanceCount(dev001Address, dev001Key, 50000L,
+    Assert.assertTrue(PublicMethed.cdBalanceForReceiver(fromAddress,
+        PublicMethed.getCdBalanceCount(dev001Address, dev001Key, 50000L,
             blockingStubFull), 0, 1,
         ByteString.copyFrom(dev001Address), testKey002, blockingStubFull));
 
@@ -183,7 +183,7 @@ public class ContractTrcToken067 {
     PublicMethed.waitProduceNextBlock(blockingStubFull);
     Optional<TransactionInfo> infoById = PublicMethed
         .getTransactionInfoById(recieveTokenTxid, blockingStubFull);
-    logger.info("Deploy energytotal is " + infoById.get().getReceipt().getEnergyUsageTotal());
+    logger.info("Deploy ucrtotal is " + infoById.get().getReceipt().getUcrUsageTotal());
 
     if (recieveTokenTxid == null || infoById.get().getResultValue() != 0) {
       Assert.fail("deploy receive failed with message: " + infoById.get().getResMessage());
@@ -212,8 +212,8 @@ public class ContractTrcToken067 {
   @Test(enabled = true, description = "TransferToken with 0 tokenValue, "
       + "and not existed tokenId, trigger transfer contract")
   public void test03TriggerContract() {
-    Assert.assertTrue(PublicMethed.freezeBalanceForReceiver(fromAddress,
-        PublicMethed.getFreezeBalanceCount(user001Address, user001Key, 50000L,
+    Assert.assertTrue(PublicMethed.cdBalanceForReceiver(fromAddress,
+        PublicMethed.getCdBalanceCount(user001Address, user001Key, 50000L,
             blockingStubFull), 0, 1,
         ByteString.copyFrom(user001Address), testKey002, blockingStubFull));
 
@@ -247,7 +247,7 @@ public class ContractTrcToken067 {
     PublicMethed.waitProduceNextBlock(blockingStubFull);
     Optional<TransactionInfo> infoById = PublicMethed
         .getTransactionInfoById(triggerTxid, blockingStubFull);
-    logger.info("Trigger energytotal is " + infoById.get().getReceipt().getEnergyUsageTotal());
+    logger.info("Trigger ucrtotal is " + infoById.get().getReceipt().getUcrUsageTotal());
 
     if (triggerTxid == null || infoById.get().getResultValue() != 0) {
       Assert.fail("transaction failed with message: " + infoById.get().getResMessage());
@@ -290,7 +290,7 @@ public class ContractTrcToken067 {
   @Test(enabled = true, description = "TransferToken with 0 tokenValue, "
       + "and not existed tokenId, get tokenBalance")
   public void test04TriggerTokenBalanceContract() {
-    Assert.assertTrue(PublicMethed.freezeBalanceGetEnergy(user001Address, 1000_000_000L,
+    Assert.assertTrue(PublicMethed.cdBalanceGetUcr(user001Address, 1000_000_000L,
         0, 1, user001Key, blockingStubFull));
 
     PublicMethed.waitProduceNextBlock(blockingStubFull);
@@ -306,7 +306,7 @@ public class ContractTrcToken067 {
     PublicMethed.waitProduceNextBlock(blockingStubFull);
     Optional<TransactionInfo> infoById = PublicMethed.getTransactionInfoById(triggerTxid,
         blockingStubFull);
-    logger.info("Trigger energytotal is " + infoById.get().getReceipt().getEnergyUsageTotal());
+    logger.info("Trigger ucrtotal is " + infoById.get().getReceipt().getUcrUsageTotal());
 
     if (triggerTxid == null || infoById.get().getResultValue() != 0) {
       Assert.fail("transaction failed with message: " + infoById.get().getResMessage());
@@ -330,9 +330,9 @@ public class ContractTrcToken067 {
   public void shutdown() throws InterruptedException {
     PublicMethed.freedResource(dev001Address, dev001Key, fromAddress, blockingStubFull);
     PublicMethed.freedResource(user001Address, user001Key, fromAddress, blockingStubFull);
-    PublicMethed.unFreezeBalance(fromAddress, testKey002, 1, dev001Address, blockingStubFull);
-    PublicMethed.unFreezeBalance(fromAddress, testKey002, 0, dev001Address, blockingStubFull);
-    PublicMethed.unFreezeBalance(fromAddress, testKey002, 1, user001Address, blockingStubFull);
+    PublicMethed.unCdBalance(fromAddress, testKey002, 1, dev001Address, blockingStubFull);
+    PublicMethed.unCdBalance(fromAddress, testKey002, 0, dev001Address, blockingStubFull);
+    PublicMethed.unCdBalance(fromAddress, testKey002, 1, user001Address, blockingStubFull);
     if (channelFull != null) {
       channelFull.shutdown().awaitTermination(5, TimeUnit.SECONDS);
     }

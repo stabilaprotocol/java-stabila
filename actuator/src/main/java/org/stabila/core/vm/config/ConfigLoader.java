@@ -18,15 +18,15 @@ public class ConfigLoader {
       DynamicPropertiesStore ds = storeFactory.getChainBaseManager().getDynamicPropertiesStore();
       VMConfig.setVmTrace(CommonParameter.getInstance().isVmTrace());
       if (ds != null) {
-        VMConfig.initVmHardFork(ReceiptCapsule.checkForEnergyLimit(ds));
+        VMConfig.initVmHardFork(ReceiptCapsule.checkForUcrLimit(ds));
         VMConfig.initAllowMultiSign(ds.getAllowMultiSign());
-        VMConfig.initAllowTvmTransferTrc10(ds.getAllowTvmTransferTrc10());
-        VMConfig.initAllowTvmConstantinople(ds.getAllowTvmConstantinople());
-        VMConfig.initAllowTvmSolidity059(ds.getAllowTvmSolidity059());
+        VMConfig.initAllowSvmTransferTrc10(ds.getAllowSvmTransferTrc10());
+        VMConfig.initAllowSvmConstantinople(ds.getAllowSvmConstantinople());
+        VMConfig.initAllowSvmSolidity059(ds.getAllowSvmSolidity059());
         VMConfig.initAllowShieldedTRC20Transaction(ds.getAllowShieldedTRC20Transaction());
-        VMConfig.initAllowTvmIstanbul(ds.getAllowTvmIstanbul());
-        VMConfig.initAllowTvmFreeze(ds.getAllowTvmFreeze());
-        VMConfig.initAllowTvmVote(ds.getAllowTvmVote());
+        VMConfig.initAllowSvmIstanbul(ds.getAllowSvmIstanbul());
+        VMConfig.initAllowSvmCd(ds.getAllowSvmCd());
+        VMConfig.initAllowSvmVote(ds.getAllowSvmVote());
       }
     }
   }

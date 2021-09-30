@@ -126,9 +126,9 @@ public class WalletTestAssetIssue019 {
 
   @Test(enabled = true)
   public void testGetAssetLastOperationTimeAndAssetIssueFreeNetUsed() {
-    Assert.assertTrue(PublicMethed.freezeBalance(asset019Address, 100000000L, 3,
+    Assert.assertTrue(PublicMethed.cdBalance(asset019Address, 100000000L, 3,
         asset019Key, blockingStubFull));
-    Assert.assertTrue(PublicMethed.freezeBalance(asset019SecondAddress, 100000000L, 3,
+    Assert.assertTrue(PublicMethed.cdBalance(asset019SecondAddress, 100000000L, 3,
         asset019SecondKey, blockingStubFull));
     Account getAssetIdFromThisAccount;
     getAssetIdFromThisAccount = PublicMethed.queryAccount(asset019Address, blockingStubFull);

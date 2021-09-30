@@ -136,22 +136,22 @@ public class WalletTestAccount014 {
   @Test(enabled = true, description = "Query net usage in 50061")
   public void fullAndSoliMerged2ForNetUsage() {
 
-    Assert.assertTrue(PublicMethed.freezeBalance(account014Address, 1000000L, 3,
+    Assert.assertTrue(PublicMethed.cdBalance(account014Address, 1000000L, 3,
         account014Key, blockingStubFull));
     Assert.assertTrue(PublicMethed.sendcoin(account014SecondAddress, 1000000L,
         account014Address, account014Key, blockingStubFull));
-    Assert.assertTrue(PublicMethed.freezeBalanceGetEnergy(account014Address, 1000000,
+    Assert.assertTrue(PublicMethed.cdBalanceGetUcr(account014Address, 1000000,
         3, 1, account014Key, blockingStubFull));
-    Assert.assertTrue(PublicMethed.freezeBalanceForReceiver(account014Address, 1000000,
+    Assert.assertTrue(PublicMethed.cdBalanceForReceiver(account014Address, 1000000,
         3, 0, ByteString.copyFrom(
             account014SecondAddress), account014Key, blockingStubFull));
-    Assert.assertTrue(PublicMethed.freezeBalanceForReceiver(account014Address, 1000000,
+    Assert.assertTrue(PublicMethed.cdBalanceForReceiver(account014Address, 1000000,
         3, 1, ByteString.copyFrom(
             account014SecondAddress), account014Key, blockingStubFull));
-    Assert.assertTrue(PublicMethed.freezeBalanceForReceiver(account014SecondAddress, 1000000,
+    Assert.assertTrue(PublicMethed.cdBalanceForReceiver(account014SecondAddress, 1000000,
         3, 0, ByteString.copyFrom(
             account014Address), account014SecondKey, blockingStubFull));
-    Assert.assertTrue(PublicMethed.freezeBalanceForReceiver(account014SecondAddress, 1000000,
+    Assert.assertTrue(PublicMethed.cdBalanceForReceiver(account014SecondAddress, 1000000,
         3, 1, ByteString.copyFrom(
             account014Address), account014SecondKey, blockingStubFull));
 
@@ -160,39 +160,39 @@ public class WalletTestAccount014 {
     final long lastCustomeTimeInFullnode = account014.getLatestConsumeTime();
     final long netUsageInFullnode = account014.getNetUsage();
     final long acquiredForBandwidthInFullnode = account014
-        .getAcquiredDelegatedFrozenBalanceForBandwidth();
-    final long delegatedBandwidthInFullnode = account014.getDelegatedFrozenBalanceForBandwidth();
-    final long acquiredForEnergyInFullnode = account014
-        .getAccountResource().getAcquiredDelegatedFrozenBalanceForEnergy();
-    final long delegatedForEnergyInFullnode = account014
-        .getAccountResource().getDelegatedFrozenBalanceForEnergy();
-    logger.info("delegatedForEnergyInFullnode " + delegatedForEnergyInFullnode);
+        .getAcquiredDelegatedCdedBalanceForBandwidth();
+    final long delegatedBandwidthInFullnode = account014.getDelegatedCdedBalanceForBandwidth();
+    final long acquiredForUcrInFullnode = account014
+        .getAccountResource().getAcquiredDelegatedCdedBalanceForUcr();
+    final long delegatedForUcrInFullnode = account014
+        .getAccountResource().getDelegatedCdedBalanceForUcr();
+    logger.info("delegatedForUcrInFullnode " + delegatedForUcrInFullnode);
     PublicMethed.waitSolidityNodeSynFullNodeData(blockingStubFull, blockingStubSoliInFull);
     account014 = PublicMethed.queryAccount(account014Address, blockingStubSoliInFull);
     final long lastCustomeTimeInSoliInFull = account014.getLatestConsumeTime();
     logger.info("freeNetUsageInSoliInFull " + lastCustomeTimeInSoliInFull);
     final long netUsageInSoliInFull = account014.getNetUsage();
     final long acquiredForBandwidthInSoliInFull = account014
-        .getAcquiredDelegatedFrozenBalanceForBandwidth();
-    final long delegatedBandwidthInSoliInFull = account014.getDelegatedFrozenBalanceForBandwidth();
-    final long acquiredForEnergyInSoliInFull = account014
-        .getAccountResource().getAcquiredDelegatedFrozenBalanceForEnergy();
-    final long delegatedForEnergyInSoliInFull = account014
-        .getAccountResource().getDelegatedFrozenBalanceForEnergy();
-    logger.info("delegatedForEnergyInSoliInFull " + delegatedForEnergyInSoliInFull);
+        .getAcquiredDelegatedCdedBalanceForBandwidth();
+    final long delegatedBandwidthInSoliInFull = account014.getDelegatedCdedBalanceForBandwidth();
+    final long acquiredForUcrInSoliInFull = account014
+        .getAccountResource().getAcquiredDelegatedCdedBalanceForUcr();
+    final long delegatedForUcrInSoliInFull = account014
+        .getAccountResource().getDelegatedCdedBalanceForUcr();
+    logger.info("delegatedForUcrInSoliInFull " + delegatedForUcrInSoliInFull);
     PublicMethed.waitSolidityNodeSynFullNodeData(blockingStubFull, blockingStubSolidity);
     account014 = PublicMethed.queryAccount(account014Address, blockingStubSolidity);
     final long netUsageInSolidity = account014.getNetUsage();
     final long lastCustomeTimeInSolidity = account014.getLatestConsumeTime();
     final long acquiredForBandwidthInSolidity = account014
-        .getAcquiredDelegatedFrozenBalanceForBandwidth();
-    final long delegatedBandwidthInSolidity = account014.getDelegatedFrozenBalanceForBandwidth();
-    final long acquiredForEnergyInSolidity = account014.getAccountResource()
-        .getAcquiredDelegatedFrozenBalanceForEnergy();
-    final long delegatedForEnergyInSolidity = account014.getAccountResource()
-        .getDelegatedFrozenBalanceForEnergy();
+        .getAcquiredDelegatedCdedBalanceForBandwidth();
+    final long delegatedBandwidthInSolidity = account014.getDelegatedCdedBalanceForBandwidth();
+    final long acquiredForUcrInSolidity = account014.getAccountResource()
+        .getAcquiredDelegatedCdedBalanceForUcr();
+    final long delegatedForUcrInSolidity = account014.getAccountResource()
+        .getDelegatedCdedBalanceForUcr();
 
-    logger.info("delegatedForEnergyInSolidity " + delegatedForEnergyInSolidity);
+    logger.info("delegatedForUcrInSolidity " + delegatedForUcrInSolidity);
     Assert.assertTrue(netUsageInSoliInFull > 0 && netUsageInSolidity > 0
         && netUsageInFullnode > 0);
     Assert.assertTrue(netUsageInFullnode <= netUsageInSoliInFull + 5
@@ -203,13 +203,13 @@ public class WalletTestAccount014 {
         && acquiredForBandwidthInFullnode == acquiredForBandwidthInSolidity);
     Assert.assertTrue(delegatedBandwidthInFullnode == delegatedBandwidthInSoliInFull
         && delegatedBandwidthInFullnode == delegatedBandwidthInSolidity);
-    Assert.assertTrue(acquiredForEnergyInFullnode == acquiredForEnergyInSoliInFull
-        && acquiredForEnergyInFullnode == acquiredForEnergyInSolidity);
-    Assert.assertTrue(delegatedForEnergyInFullnode == delegatedForEnergyInSoliInFull
-        && delegatedForEnergyInFullnode == delegatedForEnergyInSolidity);
+    Assert.assertTrue(acquiredForUcrInFullnode == acquiredForUcrInSoliInFull
+        && acquiredForUcrInFullnode == acquiredForUcrInSolidity);
+    Assert.assertTrue(delegatedForUcrInFullnode == delegatedForUcrInSoliInFull
+        && delegatedForUcrInFullnode == delegatedForUcrInSolidity);
     Assert.assertTrue(acquiredForBandwidthInSoliInFull == 1000000
-        && delegatedBandwidthInSoliInFull == 1000000 && acquiredForEnergyInSoliInFull == 1000000
-        && delegatedForEnergyInSoliInFull == 1000000);
+        && delegatedBandwidthInSoliInFull == 1000000 && acquiredForUcrInSoliInFull == 1000000
+        && delegatedForUcrInSoliInFull == 1000000);
     logger.info("lastCustomeTimeInSoliInFull " + lastCustomeTimeInSoliInFull);
     Assert.assertTrue(lastCustomeTimeInFullnode == lastCustomeTimeInSolidity
         && lastCustomeTimeInFullnode == lastCustomeTimeInSoliInFull);

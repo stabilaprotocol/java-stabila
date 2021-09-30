@@ -36,14 +36,14 @@ import org.stabila.core.exception.VMIllegalException;
 import org.stabila.core.store.StoreFactory;
 import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.runtime.RuntimeImpl;
-import org.stabila.common.runtime.TvmTestUtils;
+import org.stabila.common.runtime.SvmTestUtils;
 import org.stabila.common.utils.ByteArray;
 import org.stabila.common.utils.Commons;
 import org.stabila.common.utils.FileUtil;
 import org.stabila.core.vm.config.VMConfig;
 import org.stabila.protos.Protocol.Account;
 import org.stabila.protos.Protocol.Account.AccountResource;
-import org.stabila.protos.Protocol.Account.Frozen;
+import org.stabila.protos.Protocol.Account.Cded;
 import org.stabila.protos.Protocol.AccountType;
 import org.stabila.protos.Protocol.Transaction;
 import org.stabila.protos.Protocol.Transaction.Contract;
@@ -124,9 +124,9 @@ public class TransactionTraceTest {
   @BeforeClass
   public static void init() {
     dbManager = context.getBean(Manager.class);
-    //init energy
+    //init ucr
     dbManager.getDynamicPropertiesStore().saveLatestBlockHeaderTimestamp(1526647838000L);
-    dbManager.getDynamicPropertiesStore().saveTotalEnergyWeight(100_000L);
+    dbManager.getDynamicPropertiesStore().saveTotalUcrWeight(100_000L);
     dbManager.getDynamicPropertiesStore().saveLatestBlockHeaderTimestamp(0);
     VMConfig.initVmHardFork(false);
 
@@ -164,7 +164,7 @@ public class TransactionTraceTest {
         + "name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"setCoin\",\"outputs\":[],\"payable"
         + "\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"pay"
         + "able\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"}]";
-    CreateSmartContract smartContract = TvmTestUtils.createSmartContract(
+    CreateSmartContract smartContract = SvmTestUtils.createSmartContract(
         Commons.decodeFromBase58Check(OwnerAddress), contractName, abi, code, 0,
         100);
     Transaction transaction = Transaction.newBuilder().setRawData(raw.newBuilder().addContract(
@@ -183,7 +183,7 @@ public class TransactionTraceTest {
         ByteString.copyFrom(Commons.decodeFromBase58Check(OwnerAddress)), AccountType.Normal,
         totalBalance);
 
-    accountCapsule.setFrozenForEnergy(5_000_000_000L, 0L);
+    accountCapsule.setCdedForUcr(5_000_000_000L, 0L);
     dbManager.getAccountStore()
         .put(Commons.decodeFromBase58Check(OwnerAddress), accountCapsule);
     String contractName = "tracetestContract";
@@ -204,7 +204,7 @@ public class TransactionTraceTest {
         + "uint256\"},{\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"setCoin\",\"outputs\""
         + ":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inpu"
         + "ts\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"}]";
-    CreateSmartContract smartContract = TvmTestUtils.createSmartContract(
+    CreateSmartContract smartContract = SvmTestUtils.createSmartContract(
         Commons.decodeFromBase58Check(OwnerAddress), contractName, abi, code, 0,
         100);
     Transaction transaction = Transaction.newBuilder().setRawData(raw.newBuilder().addContract(
@@ -220,13 +220,13 @@ public class TransactionTraceTest {
     trace.init(null);
     trace.exec();
     trace.pay();
-    Assert.assertEquals(2050831L, trace.getReceipt().getEnergyUsage());
-    Assert.assertEquals(0L, trace.getReceipt().getEnergyFee());
+    Assert.assertEquals(2050831L, trace.getReceipt().getUcrUsage());
+    Assert.assertEquals(0L, trace.getReceipt().getUcrFee());
     Assert.assertEquals(205083100L,
-        trace.getReceipt().getEnergyUsage() * 100 + trace.getReceipt().getEnergyFee());
+        trace.getReceipt().getUcrUsage() * 100 + trace.getReceipt().getUcrFee());
     accountCapsule = dbManager.getAccountStore().get(accountCapsule.getAddress().toByteArray());
     Assert.assertEquals(totalBalance,
-        accountCapsule.getBalance() + trace.getReceipt().getEnergyFee());
+        accountCapsule.getBalance() + trace.getReceipt().getUcrFee());
 
   }
 
@@ -252,7 +252,7 @@ public class TransactionTraceTest {
         + "uint256\"},{\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"setCoin\",\"outputs\""
         + ":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inpu"
         + "ts\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"}]";
-    CreateSmartContract smartContract = TvmTestUtils.createSmartContract(
+    CreateSmartContract smartContract = SvmTestUtils.createSmartContract(
         Commons.decodeFromBase58Check(OwnerAddress), contractName, abi, code, 0,
         100);
     Transaction transaction = Transaction.newBuilder().setRawData(raw.newBuilder().addContract(
@@ -267,13 +267,13 @@ public class TransactionTraceTest {
     AccountCapsule originCapsule = new AccountCapsule(ByteString.copyFrom("origin".getBytes()),
         ByteString.copyFrom(Commons.decodeFromBase58Check(OwnerAddress)), AccountType.Normal,
         totalBalance);
-    ownerCapsule.setFrozenForEnergy(5_000_000_000L, 0L);
-    originCapsule.setFrozenForEnergy(5_000_000_000L, 0L);
+    ownerCapsule.setCdedForUcr(5_000_000_000L, 0L);
+    originCapsule.setCdedForUcr(5_000_000_000L, 0L);
     dbManager.getAccountStore()
         .put(Commons.decodeFromBase58Check(TriggerOwnerAddress), ownerCapsule);
     dbManager.getAccountStore()
         .put(Commons.decodeFromBase58Check(TriggerOwnerAddress), originCapsule);
-    TriggerSmartContract triggerContract = TvmTestUtils.createTriggerContract(contractAddress,
+    TriggerSmartContract triggerContract = SvmTestUtils.createTriggerContract(contractAddress,
         "setCoin(uint256,uint256)", "133,133", false,
         0, Commons.decodeFromBase58Check(TriggerOwnerAddress));
     Transaction transaction2 = Transaction.newBuilder().setRawData(raw.newBuilder().addContract(
@@ -285,11 +285,11 @@ public class TransactionTraceTest {
     trace.init(null);
     trace.exec();
     trace.pay();
-    Assert.assertEquals(20252, trace.getReceipt().getEnergyUsage());
-    Assert.assertEquals(0, trace.getReceipt().getEnergyFee());
+    Assert.assertEquals(20252, trace.getReceipt().getUcrUsage());
+    Assert.assertEquals(0, trace.getReceipt().getUcrFee());
     ownerCapsule = dbManager.getAccountStore().get(ownerCapsule.getAddress().toByteArray());
     Assert.assertEquals(totalBalance,
-        trace.getReceipt().getEnergyFee() + ownerCapsule
+        trace.getReceipt().getUcrFee() + ownerCapsule
             .getBalance());
   }
 
@@ -315,7 +315,7 @@ public class TransactionTraceTest {
         + "\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"setCoin\",\"outputs\":[],\"payab"
         + "le\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\""
         + "payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"}]";
-    CreateSmartContract smartContract = TvmTestUtils.createSmartContract(
+    CreateSmartContract smartContract = SvmTestUtils.createSmartContract(
         Commons.decodeFromBase58Check(OwnerAddress), contractName, abi, code, 0,
         100);
     Transaction transaction = Transaction.newBuilder().setRawData(raw.newBuilder().addContract(
@@ -330,10 +330,10 @@ public class TransactionTraceTest {
         AccountType.Normal,
         totalBalance);
 
-    accountCapsule.setFrozenForEnergy(10_000_000L, 0L);
+    accountCapsule.setCdedForUcr(10_000_000L, 0L);
     dbManager.getAccountStore()
         .put(Commons.decodeFromBase58Check(TriggerOwnerAddress), accountCapsule);
-    TriggerSmartContract triggerContract = TvmTestUtils.createTriggerContract(contractAddress,
+    TriggerSmartContract triggerContract = SvmTestUtils.createTriggerContract(contractAddress,
         "setCoin(uint256,uint256)", "133,133", false,
         0, Commons.decodeFromBase58Check(TriggerOwnerAddress));
     Transaction transaction2 = Transaction.newBuilder().setRawData(raw.newBuilder().addContract(
@@ -345,13 +345,13 @@ public class TransactionTraceTest {
     trace.init(null);
     trace.exec();
     trace.pay();
-    Assert.assertEquals(20252, trace.getReceipt().getEnergyUsage());
-    Assert.assertEquals(0, trace.getReceipt().getEnergyFee());
+    Assert.assertEquals(20252, trace.getReceipt().getUcrUsage());
+    Assert.assertEquals(0, trace.getReceipt().getUcrFee());
     Assert.assertEquals(2025200,
-        trace.getReceipt().getEnergyUsage() * 100 + trace.getReceipt().getEnergyFee());
+        trace.getReceipt().getUcrUsage() * 100 + trace.getReceipt().getUcrFee());
     accountCapsule = dbManager.getAccountStore().get(accountCapsule.getAddress().toByteArray());
     Assert.assertEquals(totalBalance,
-        accountCapsule.getBalance() + trace.getReceipt().getEnergyFee());
+        accountCapsule.getBalance() + trace.getReceipt().getUcrFee());
 
   }
 
@@ -371,11 +371,11 @@ public class TransactionTraceTest {
     trace.init(null);
     trace.exec();
     trace.pay();
-    Assert.assertEquals(0, trace.getReceipt().getEnergyUsage());
-    Assert.assertEquals(205083100L, trace.getReceipt().getEnergyFee());
+    Assert.assertEquals(0, trace.getReceipt().getUcrUsage());
+    Assert.assertEquals(205083100L, trace.getReceipt().getUcrFee());
     accountCapsule = dbManager.getAccountStore().get(accountCapsule.getAddress().toByteArray());
     Assert.assertEquals(totalBalance,
-        trace.getReceipt().getEnergyFee() + accountCapsule
+        trace.getReceipt().getUcrFee() + accountCapsule
             .getBalance());
     return trace.getRuntime().getResult().getContractAddress();
 
@@ -388,11 +388,11 @@ public class TransactionTraceTest {
         .setBalance(1000000)
         .setAccountResource(
             AccountResource.newBuilder()
-                .setEnergyUsage(1111111L)
-                .setFrozenBalanceForEnergy(
-                    Frozen.newBuilder()
+                .setUcrUsage(1111111L)
+                .setCdedBalanceForUcr(
+                    Cded.newBuilder()
                         .setExpireTime(100000)
-                        .setFrozenBalance(100000)
+                        .setCdedBalance(100000)
                         .build())
                 .build()).build();
 

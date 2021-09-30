@@ -105,7 +105,7 @@ public class UpdateAccount2Test {
   public void testCreateAccount2() {
     Account noCreateAccount = queryAccount(lowBalTest, blockingStubFull);
     if (noCreateAccount.getAccountName().isEmpty()) {
-      Assert.assertTrue(PublicMethed.freezeBalance(fromAddress, 10000000, 3, testKey002,
+      Assert.assertTrue(PublicMethed.cdBalance(fromAddress, 10000000, 3, testKey002,
           blockingStubFull));
       //Assert.assertTrue(sendCoin2(lowBalAddress, 1L, fromAddress, testKey002));
       GrpcAPI.Return ret1 = sendCoin2(lowBalAddress, 1000000L, fromAddress, testKey002);
@@ -155,9 +155,9 @@ public class UpdateAccount2Test {
         //logger.info("vote to non witness account ok!!!");
       }
 
-      //normal freezeBalance
-      //Assert.assertTrue(freezeBalance2(fromAddress, 10000000L, 3L, testKey002))
-      ret1 = freezeBalance2(fromAddress, 100000000L, 3L, testKey002);
+      //normal cdBalance
+      //Assert.assertTrue(cdBalance2(fromAddress, 10000000L, 3L, testKey002))
+      ret1 = cdBalance2(fromAddress, 100000000L, 3L, testKey002);
       Assert.assertEquals(ret1.getCode(), GrpcAPI.Return.response_code.SUCCESS);
       Assert.assertEquals(ret1.getMessage().toStringUtf8(), "");
 
@@ -241,16 +241,16 @@ public class UpdateAccount2Test {
   }
 
   @Test(enabled = true)
-  public void testNoFreezeBalanceToUnfreezeBalance2() {
-    //Unfreeze account failed when no freeze balance
-    Account noFreezeAccount = queryAccount(lowBalTest, blockingStubFull);
-    if (noFreezeAccount.getFrozenCount() == 0) {
-      GrpcAPI.Return ret1 = unFreezeBalance2(lowBalAddress, lowBalTest);
+  public void testNoCdBalanceToUncdBalance2() {
+    //Uncd account failed when no cd balance
+    Account noCdAccount = queryAccount(lowBalTest, blockingStubFull);
+    if (noCdAccount.getCdedCount() == 0) {
+      GrpcAPI.Return ret1 = unCdBalance2(lowBalAddress, lowBalTest);
       Assert.assertEquals(ret1.getCode(), GrpcAPI.Return.response_code.CONTRACT_VALIDATE_ERROR);
       Assert.assertEquals(ret1.getMessage().toStringUtf8(),
-          "contract validate error : no frozenBalance");
+          "contract validate error : no cdedBalance");
     } else {
-      logger.info("This account has freeze balance, please test this case for manual");
+      logger.info("This account has cd balance, please test this case for manual");
     }
   }
 
@@ -647,7 +647,7 @@ public class UpdateAccount2Test {
    * constructor.
    */
 
-  public boolean unFreezeBalance(byte[] address, String priKey) {
+  public boolean unCdBalance(byte[] address, String priKey) {
     ECKey temKey = null;
     try {
       BigInteger priK = new BigInteger(priKey, 16);
@@ -656,16 +656,16 @@ public class UpdateAccount2Test {
       ex.printStackTrace();
     }
     final ECKey ecKey = temKey;
-    BalanceContract.UnfreezeBalanceContract.Builder builder =
-        BalanceContract.UnfreezeBalanceContract
+    BalanceContract.UncdBalanceContract.Builder builder =
+        BalanceContract.UncdBalanceContract
             .newBuilder();
     ByteString byteAddreess = ByteString.copyFrom(address);
 
     builder.setOwnerAddress(byteAddreess);
 
-    BalanceContract.UnfreezeBalanceContract contract = builder.build();
+    BalanceContract.UncdBalanceContract contract = builder.build();
 
-    Protocol.Transaction transaction = blockingStubFull.unfreezeBalance(contract);
+    Protocol.Transaction transaction = blockingStubFull.uncdBalance(contract);
 
     if (transaction == null || transaction.getRawData().getContractCount() == 0) {
       return false;
@@ -685,7 +685,7 @@ public class UpdateAccount2Test {
    * constructor.
    */
 
-  public GrpcAPI.Return unFreezeBalance2(byte[] address, String priKey) {
+  public GrpcAPI.Return unCdBalance2(byte[] address, String priKey) {
     //byte[] address = address;
 
     ECKey temKey = null;
@@ -696,15 +696,15 @@ public class UpdateAccount2Test {
       ex.printStackTrace();
     }
     final ECKey ecKey = temKey;
-    BalanceContract.UnfreezeBalanceContract.Builder builder =
-        BalanceContract.UnfreezeBalanceContract
+    BalanceContract.UncdBalanceContract.Builder builder =
+        BalanceContract.UncdBalanceContract
             .newBuilder();
     ByteString byteAddreess = ByteString.copyFrom(address);
 
     builder.setOwnerAddress(byteAddreess);
 
-    BalanceContract.UnfreezeBalanceContract contract = builder.build();
-    GrpcAPI.TransactionExtention transactionExtention = blockingStubFull.unfreezeBalance2(contract);
+    BalanceContract.UncdBalanceContract contract = builder.build();
+    GrpcAPI.TransactionExtention transactionExtention = blockingStubFull.uncdBalance2(contract);
     if (transactionExtention == null) {
       return transactionExtention.getResult();
     }
@@ -854,11 +854,11 @@ public class UpdateAccount2Test {
    * constructor.
    */
 
-  public Boolean freezeBalance(byte[] addRess, long freezeBalance, long freezeDuration,
+  public Boolean cdBalance(byte[] addRess, long cdBalance, long cdDuration,
       String priKey) {
     byte[] address = addRess;
-    long frozenBalance = freezeBalance;
-    long frozenDuration = freezeDuration;
+    long cdedBalance = cdBalance;
+    long cdedDuration = cdDuration;
 
     ECKey temKey = null;
     try {
@@ -869,15 +869,15 @@ public class UpdateAccount2Test {
     }
     final ECKey ecKey = temKey;
 
-    BalanceContract.FreezeBalanceContract.Builder builder = BalanceContract.FreezeBalanceContract
+    BalanceContract.CdBalanceContract.Builder builder = BalanceContract.CdBalanceContract
         .newBuilder();
     ByteString byteAddreess = ByteString.copyFrom(address);
 
-    builder.setOwnerAddress(byteAddreess).setFrozenBalance(frozenBalance)
-        .setFrozenDuration(frozenDuration);
+    builder.setOwnerAddress(byteAddreess).setCdedBalance(cdedBalance)
+        .setCdedDuration(cdedDuration);
 
-    BalanceContract.FreezeBalanceContract contract = builder.build();
-    Protocol.Transaction transaction = blockingStubFull.freezeBalance(contract);
+    BalanceContract.CdBalanceContract contract = builder.build();
+    Protocol.Transaction transaction = blockingStubFull.cdBalance(contract);
 
     if (transaction == null || transaction.getRawData().getContractCount() == 0) {
       return false;
@@ -896,11 +896,11 @@ public class UpdateAccount2Test {
    * constructor.
    */
 
-  public GrpcAPI.Return freezeBalance2(byte[] addRess, long freezeBalance, long freezeDuration,
+  public GrpcAPI.Return cdBalance2(byte[] addRess, long cdBalance, long cdDuration,
       String priKey) {
     byte[] address = addRess;
-    long frozenBalance = freezeBalance;
-    long frozenDuration = freezeDuration;
+    long cdedBalance = cdBalance;
+    long cdedDuration = cdDuration;
 
     //String priKey = testKey002;
     ECKey temKey = null;
@@ -912,15 +912,15 @@ public class UpdateAccount2Test {
     }
     final ECKey ecKey = temKey;
 
-    BalanceContract.FreezeBalanceContract.Builder builder = BalanceContract.FreezeBalanceContract
+    BalanceContract.CdBalanceContract.Builder builder = BalanceContract.CdBalanceContract
         .newBuilder();
     ByteString byteAddreess = ByteString.copyFrom(address);
 
-    builder.setOwnerAddress(byteAddreess).setFrozenBalance(frozenBalance)
-        .setFrozenDuration(frozenDuration);
+    builder.setOwnerAddress(byteAddreess).setCdedBalance(cdedBalance)
+        .setCdedDuration(cdedDuration);
 
-    BalanceContract.FreezeBalanceContract contract = builder.build();
-    GrpcAPI.TransactionExtention transactionExtention = blockingStubFull.freezeBalance2(contract);
+    BalanceContract.CdBalanceContract contract = builder.build();
+    GrpcAPI.TransactionExtention transactionExtention = blockingStubFull.cdBalance2(contract);
     if (transactionExtention == null) {
       return transactionExtention.getResult();
     }

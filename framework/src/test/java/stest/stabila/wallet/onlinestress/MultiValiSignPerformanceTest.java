@@ -87,19 +87,19 @@ public class MultiValiSignPerformanceTest {
   public void test01DeployEcrecoverContract() {
     Assert.assertTrue(PublicMethed.sendcoin(contractDepAddress, 1000_000_000L, fromAddress,
         fromKey, blockingStubFull));
-    Assert.assertTrue(PublicMethed.freezeBalanceForReceiver(fromAddress,
-        PublicMethed.getFreezeBalanceCount(contractDepAddress, contractDepKey, 170000L,
+    Assert.assertTrue(PublicMethed.cdBalanceForReceiver(fromAddress,
+        PublicMethed.getCdBalanceCount(contractDepAddress, contractDepKey, 170000L,
             blockingStubFull), 0, 1,
         ByteString.copyFrom(contractDepAddress), fromKey, blockingStubFull));
 
     //before deploy, check account resource
     AccountResourceMessage accountResource = PublicMethed.getAccountResource(contractDepAddress,
         blockingStubFull);
-    long energyLimit = accountResource.getEnergyLimit();
-    long energyUsage = accountResource.getEnergyUsed();
+    long ucrLimit = accountResource.getUcrLimit();
+    long ucrUsage = accountResource.getUcrUsed();
     long balanceBefore = PublicMethed.queryAccount(contractDepKey, blockingStubFull).getBalance();
-    logger.info("before energyLimit is " + Long.toString(energyLimit));
-    logger.info("before energyUsage is " + Long.toString(energyUsage));
+    logger.info("before ucrLimit is " + Long.toString(ucrLimit));
+    logger.info("before ucrUsage is " + Long.toString(ucrUsage));
     logger.info("before balanceBefore is " + Long.toString(balanceBefore));
 
     String filePath = "src/test/resources/soliditycode/multiValiSignPerformance01.sol";
@@ -117,12 +117,12 @@ public class MultiValiSignPerformanceTest {
     PublicMethed.waitProduceNextBlock(blockingStubFull);
 
     accountResource = PublicMethed.getAccountResource(contractDepAddress, blockingStubFull);
-    energyLimit = accountResource.getEnergyLimit();
-    energyUsage = accountResource.getEnergyUsed();
+    ucrLimit = accountResource.getUcrLimit();
+    ucrUsage = accountResource.getUcrUsed();
     long balanceAfter = PublicMethed.queryAccount(contractDepKey, blockingStubFull).getBalance();
 
-    logger.info("after energyLimit is " + Long.toString(energyLimit));
-    logger.info("after energyUsage is " + Long.toString(energyUsage));
+    logger.info("after ucrLimit is " + Long.toString(ucrLimit));
+    logger.info("after ucrUsage is " + Long.toString(ucrUsage));
     logger.info("after balanceAfter is " + Long.toString(balanceAfter));
 
     Optional<TransactionInfo> infoById = PublicMethed
@@ -133,7 +133,7 @@ public class MultiValiSignPerformanceTest {
     }
 
     TransactionInfo transactionInfo = infoById.get();
-    logger.info("EnergyUsageTotal: " + transactionInfo.getReceipt().getEnergyUsageTotal());
+    logger.info("UcrUsageTotal: " + transactionInfo.getReceipt().getUcrUsageTotal());
     logger.info("NetUsage: " + transactionInfo.getReceipt().getNetUsage());
 
     ecrecoverContractAddress = infoById.get().getContractAddress().toByteArray();
@@ -147,19 +147,19 @@ public class MultiValiSignPerformanceTest {
   public void test02DeployMultvalisignContract() {
     Assert.assertTrue(PublicMethed.sendcoin(contractDepAddress, 1000_000_000L, fromAddress,
         fromKey, blockingStubFull));
-    Assert.assertTrue(PublicMethed.freezeBalanceForReceiver(fromAddress,
-        PublicMethed.getFreezeBalanceCount(contractDepAddress, contractDepKey, 170000L,
+    Assert.assertTrue(PublicMethed.cdBalanceForReceiver(fromAddress,
+        PublicMethed.getCdBalanceCount(contractDepAddress, contractDepKey, 170000L,
             blockingStubFull), 0, 1,
         ByteString.copyFrom(contractDepAddress), fromKey, blockingStubFull));
 
     //before deploy, check account resource
     AccountResourceMessage accountResource = PublicMethed.getAccountResource(contractDepAddress,
         blockingStubFull);
-    long energyLimit = accountResource.getEnergyLimit();
-    long energyUsage = accountResource.getEnergyUsed();
+    long ucrLimit = accountResource.getUcrLimit();
+    long ucrUsage = accountResource.getUcrUsed();
     long balanceBefore = PublicMethed.queryAccount(contractDepKey, blockingStubFull).getBalance();
-    logger.info("before energyLimit is " + Long.toString(energyLimit));
-    logger.info("before energyUsage is " + Long.toString(energyUsage));
+    logger.info("before ucrLimit is " + Long.toString(ucrLimit));
+    logger.info("before ucrUsage is " + Long.toString(ucrUsage));
     logger.info("before balanceBefore is " + Long.toString(balanceBefore));
 
     String filePath = "src/test/resources/soliditycode/multiValiSignPerformance02.sol";
@@ -177,12 +177,12 @@ public class MultiValiSignPerformanceTest {
     PublicMethed.waitProduceNextBlock(blockingStubFull);
 
     accountResource = PublicMethed.getAccountResource(contractDepAddress, blockingStubFull);
-    energyLimit = accountResource.getEnergyLimit();
-    energyUsage = accountResource.getEnergyUsed();
+    ucrLimit = accountResource.getUcrLimit();
+    ucrUsage = accountResource.getUcrUsed();
     long balanceAfter = PublicMethed.queryAccount(contractDepKey, blockingStubFull).getBalance();
 
-    logger.info("after energyLimit is " + Long.toString(energyLimit));
-    logger.info("after energyUsage is " + Long.toString(energyUsage));
+    logger.info("after ucrLimit is " + Long.toString(ucrLimit));
+    logger.info("after ucrUsage is " + Long.toString(ucrUsage));
     logger.info("after balanceAfter is " + Long.toString(balanceAfter));
 
     Optional<TransactionInfo> infoById = PublicMethed
@@ -193,7 +193,7 @@ public class MultiValiSignPerformanceTest {
     }
 
     TransactionInfo transactionInfo = infoById.get();
-    logger.info("EnergyUsageTotal: " + transactionInfo.getReceipt().getEnergyUsageTotal());
+    logger.info("UcrUsageTotal: " + transactionInfo.getReceipt().getUcrUsageTotal());
     logger.info("NetUsage: " + transactionInfo.getReceipt().getNetUsage());
 
     multiValiSignContractAddress = infoById.get().getContractAddress().toByteArray();

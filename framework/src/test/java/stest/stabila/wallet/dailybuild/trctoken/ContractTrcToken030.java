@@ -81,8 +81,8 @@ public class ContractTrcToken030 {
 
 
 
-    // freeze balance
-    Assert.assertTrue(PublicMethed.freezeBalanceGetEnergy(dev001Address, 204800000,
+    // cd balance
+    Assert.assertTrue(PublicMethed.cdBalanceGetUcr(dev001Address, 204800000,
         0, 1, dev001Key, blockingStubFull));
     PublicMethed.waitProduceNextBlock(blockingStubFull);
 
@@ -96,7 +96,7 @@ public class ContractTrcToken030 {
     assetAccountId = PublicMethed.queryAccount(dev001Address, blockingStubFull).getAssetIssuedID();
 
     // deploy transferTokenContract
-    int originEnergyLimit = 50000;
+    int originUcrLimit = 50000;
     String filePath = "src/test/resources/soliditycode/contractTrcToken030.sol";
     String contractName = "token";
     HashMap retMap = PublicMethed.getBycodeAbi(filePath, contractName);
@@ -104,7 +104,7 @@ public class ContractTrcToken030 {
     String abi = retMap.get("abI").toString();
     transferTokenContractAddress = PublicMethed
         .deployContract(contractName, abi, code, "", maxFeeLimit,
-            1000000000L, 0, originEnergyLimit, assetAccountId.toStringUtf8(),
+            1000000000L, 0, originUcrLimit, assetAccountId.toStringUtf8(),
             100, null, dev001Key, dev001Address, blockingStubFull);
     PublicMethed.waitProduceNextBlock(blockingStubFull);
 
@@ -174,8 +174,8 @@ public class ContractTrcToken030 {
   @AfterClass
   public void shutdown() throws InterruptedException {
 
-    PublicMethed.unFreezeBalance(dev001Address, dev001Key, 1, dev001Address, blockingStubFull);
-    PublicMethed.unFreezeBalance(user001Address, user001Key, 1, user001Address, blockingStubFull);
+    PublicMethed.unCdBalance(dev001Address, dev001Key, 1, dev001Address, blockingStubFull);
+    PublicMethed.unCdBalance(user001Address, user001Key, 1, user001Address, blockingStubFull);
     PublicMethed.freedResource(dev001Address, dev001Key, fromAddress, blockingStubFull);
     PublicMethed.freedResource(user001Address, user001Key, fromAddress, blockingStubFull);
     if (channelFull != null) {

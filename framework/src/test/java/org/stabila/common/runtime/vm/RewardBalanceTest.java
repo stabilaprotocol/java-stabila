@@ -6,7 +6,7 @@ import org.bouncycastle.util.encoders.Hex;
 import org.junit.Test;
 import org.testng.Assert;
 import org.stabila.common.runtime.InternalTransaction;
-import org.stabila.common.runtime.TvmTestUtils;
+import org.stabila.common.runtime.SvmTestUtils;
 import org.stabila.common.utils.Base58;
 import org.stabila.common.utils.StringUtil;
 import org.stabila.common.utils.WalletUtil;
@@ -81,10 +81,10 @@ public class RewardBalanceTest extends VMTestBase {
       throws ContractExeException, ReceiptCheckErrException, VMIllegalException,
       ContractValidateException {
     ConfigLoader.disable = true;
-    VMConfig.initAllowTvmTransferTrc10(1);
-    VMConfig.initAllowTvmConstantinople(1);
-    VMConfig.initAllowTvmSolidity059(1);
-    VMConfig.initAllowTvmVote(1);
+    VMConfig.initAllowSvmTransferTrc10(1);
+    VMConfig.initAllowSvmConstantinople(1);
+    VMConfig.initAllowSvmSolidity059(1);
+    VMConfig.initAllowSvmVote(1);
     manager.getDynamicPropertiesStore().saveChangeDelegation(1);
     StoreFactory storeFactory = StoreFactory.getInstance();
     Repository repository;
@@ -147,12 +147,12 @@ public class RewardBalanceTest extends VMTestBase {
     long consumeUserResourcePercent = 0;
 
     // deploy contract
-    Transaction stb = TvmTestUtils.generateDeploySmartContractAndGetTransaction(
+    Transaction stb = SvmTestUtils.generateDeploySmartContractAndGetTransaction(
         contractName, address, abi, factoryCode, value, feeLimit, consumeUserResourcePercent,
         null);
     byte[] factoryAddress = WalletUtil.generateContractAddress(stb);
     String factoryAddressStr = StringUtil.encode58Check(factoryAddress);
-    runtime = TvmTestUtils.processTransactionAndReturnRuntime(stb, rootDeposit, null);
+    runtime = SvmTestUtils.processTransactionAndReturnRuntime(stb, rootDeposit, null);
     Assert.assertNull(runtime.getRuntimeError());
 
     // Trigger contract method: rewardBalanceTest(address)
@@ -161,7 +161,7 @@ public class RewardBalanceTest extends VMTestBase {
     String hexInput = AbiUtil.parseMethod(methodByAddr,
         Collections.singletonList(nonexistentAccount));
     BlockCapsule blockCap = new BlockCapsule(Protocol.Block.newBuilder().build());
-    stb = TvmTestUtils.generateTriggerSmartContractAndGetTransaction(Hex.decode(OWNER_ADDRESS),
+    stb = SvmTestUtils.generateTriggerSmartContractAndGetTransaction(Hex.decode(OWNER_ADDRESS),
         factoryAddress, Hex.decode(hexInput), 0, feeLimit);
     InternalTransaction rootInternalTransaction = new InternalTransaction(stb,
         InternalTransaction.StbType.STB_CONTRACT_CALL_TYPE);
@@ -181,7 +181,7 @@ public class RewardBalanceTest extends VMTestBase {
 
     // trigger deployed contract
     hexInput = AbiUtil.parseMethod(methodByAddr, Collections.singletonList(factoryAddressStr));
-    stb = TvmTestUtils.generateTriggerSmartContractAndGetTransaction(Hex.decode(OWNER_ADDRESS),
+    stb = SvmTestUtils.generateTriggerSmartContractAndGetTransaction(Hex.decode(OWNER_ADDRESS),
         factoryAddress, Hex.decode(hexInput), 0, feeLimit);
     rootInternalTransaction = new InternalTransaction(stb,
         InternalTransaction.StbType.STB_CONTRACT_CALL_TYPE);
@@ -200,7 +200,7 @@ public class RewardBalanceTest extends VMTestBase {
     // trigger deployed contract
     String witnessAccount = "27Ssb1WE8FArwJVRRb8Dwy3ssVGuLY8L3S1";
     hexInput = AbiUtil.parseMethod(methodByAddr, Collections.singletonList(witnessAccount));
-    stb = TvmTestUtils.generateTriggerSmartContractAndGetTransaction(Hex.decode(OWNER_ADDRESS),
+    stb = SvmTestUtils.generateTriggerSmartContractAndGetTransaction(Hex.decode(OWNER_ADDRESS),
         factoryAddress, Hex.decode(hexInput), 0, feeLimit);
     rootInternalTransaction = new InternalTransaction(stb,
         InternalTransaction.StbType.STB_CONTRACT_CALL_TYPE);
@@ -219,7 +219,7 @@ public class RewardBalanceTest extends VMTestBase {
     // Trigger contract method: nullAddressTest(address)
     methodByAddr = "nullAddressTest()";
     hexInput = AbiUtil.parseMethod(methodByAddr, Collections.singletonList(""));
-    stb = TvmTestUtils.generateTriggerSmartContractAndGetTransaction(Hex.decode(OWNER_ADDRESS),
+    stb = SvmTestUtils.generateTriggerSmartContractAndGetTransaction(Hex.decode(OWNER_ADDRESS),
         factoryAddress, Hex.decode(hexInput), 0, feeLimit);
     rootInternalTransaction = new InternalTransaction(stb,
         InternalTransaction.StbType.STB_CONTRACT_CALL_TYPE);
@@ -238,7 +238,7 @@ public class RewardBalanceTest extends VMTestBase {
     // Trigger contract method: localContractAddrTest()
     methodByAddr = "localContractAddrTest()";
     hexInput = AbiUtil.parseMethod(methodByAddr, Collections.singletonList(""));
-    stb = TvmTestUtils.generateTriggerSmartContractAndGetTransaction(Hex.decode(OWNER_ADDRESS),
+    stb = SvmTestUtils.generateTriggerSmartContractAndGetTransaction(Hex.decode(OWNER_ADDRESS),
         factoryAddress, Hex.decode(hexInput), 0, feeLimit);
     rootInternalTransaction = new InternalTransaction(stb,
         InternalTransaction.StbType.STB_CONTRACT_CALL_TYPE);

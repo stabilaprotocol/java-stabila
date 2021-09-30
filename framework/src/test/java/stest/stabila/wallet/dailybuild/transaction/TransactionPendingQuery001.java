@@ -130,7 +130,7 @@ public class TransactionPendingQuery001 {
 
   @AfterClass
   public void shutdown() throws InterruptedException {
-    PublicMethed.unFreezeBalance(receiverAddress, receiverKey, 1, receiverAddress,
+    PublicMethed.unCdBalance(receiverAddress, receiverKey, 1, receiverAddress,
             blockingStubFull);
     PublicMethed.freedResource(receiverAddress, receiverKey, fromAddress, blockingStubFull);
     if (channelFull != null) {

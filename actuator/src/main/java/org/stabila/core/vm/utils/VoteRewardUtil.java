@@ -14,7 +14,7 @@ public class VoteRewardUtil {
   }
 
   public static void withdrawReward(byte[] address, Repository repository) {
-    if (!VMConfig.allowTvmVote()) {
+    if (!VMConfig.allowSvmVote()) {
       return;
     }
     AccountCapsule accountCapsule = repository.getAccount(address);
@@ -55,7 +55,7 @@ public class VoteRewardUtil {
   }
 
   public static long queryReward(byte[] address, Repository repository) {
-    if (!VMConfig.allowTvmVote()) {
+    if (!VMConfig.allowSvmVote()) {
       return 0;
     }
     AccountCapsule accountCapsule = repository.getAccount(address);

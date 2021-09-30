@@ -70,7 +70,7 @@ public class Fuzzytest {
   public static Boolean createAssetIssue(byte[] address, String name, Long totalSupply,
       Integer stbNum, Integer icoNum, Long startTime, Long endTime, Integer voteScore,
       String description, String url, Long freeAssetNetLimit, Long publicFreeAssetNetLimit,
-      Long fronzenAmount, Long frozenDay, String priKey,
+      Long fronzenAmount, Long cdedDay, String priKey,
       WalletGrpc.WalletBlockingStub blockingStubFull) {
     Wallet.setAddressPreFixByte(CommonConstant.ADD_PRE_FIX_BYTE_MAINNET);
     ECKey temKey = null;
@@ -98,11 +98,11 @@ public class Fuzzytest {
       builder.setUrl(ByteString.copyFrom(url.getBytes()));
       builder.setFreeAssetNetLimit(freeAssetNetLimit);
       builder.setPublicFreeAssetNetLimit(publicFreeAssetNetLimit);
-      AssetIssueContractOuterClass.AssetIssueContract.FrozenSupply.Builder frozenBuilder =
-          AssetIssueContractOuterClass.AssetIssueContract.FrozenSupply.newBuilder();
-      frozenBuilder.setFrozenAmount(fronzenAmount);
-      frozenBuilder.setFrozenDays(frozenDay);
-      builder.addFrozenSupply(0, frozenBuilder);
+      AssetIssueContractOuterClass.AssetIssueContract.CdedSupply.Builder cdedBuilder =
+          AssetIssueContractOuterClass.AssetIssueContract.CdedSupply.newBuilder();
+      cdedBuilder.setCdedAmount(fronzenAmount);
+      cdedBuilder.setCdedDays(cdedDay);
+      builder.addCdedSupply(0, cdedBuilder);
 
       Protocol.Transaction transaction = blockingStubFull.createAssetIssue(builder.build());
       if (transaction == null || transaction.getRawData().getContractCount() == 0) {
@@ -164,7 +164,7 @@ public class Fuzzytest {
 
     AssetIssueList assetIssueList = blockingStubFull
         .getAssetIssueList(GrpcAPI.EmptyMessage.newBuilder().build());
-    Assert.assertTrue(PublicMethed.freezeBalance(fromAddress, 10000000, 3, testKey002,
+    Assert.assertTrue(PublicMethed.cdBalance(fromAddress, 10000000, 3, testKey002,
         blockingStubFull));
     while (assetIssueList.getAssetIssueCount() <= 1) {
       //Sendcoin to this account

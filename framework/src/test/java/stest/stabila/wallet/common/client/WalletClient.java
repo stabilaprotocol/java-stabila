@@ -40,9 +40,9 @@ import org.stabila.protos.contract.AccountContract.AccountUpdateContract;
 import org.stabila.protos.contract.AssetIssueContractOuterClass;
 import org.stabila.protos.contract.AssetIssueContractOuterClass.AssetIssueContract;
 import org.stabila.protos.contract.AssetIssueContractOuterClass.ParticipateAssetIssueContract;
-import org.stabila.protos.contract.BalanceContract.FreezeBalanceContract;
+import org.stabila.protos.contract.BalanceContract.CdBalanceContract;
 import org.stabila.protos.contract.BalanceContract.TransferContract;
-import org.stabila.protos.contract.BalanceContract.UnfreezeBalanceContract;
+import org.stabila.protos.contract.BalanceContract.UncdBalanceContract;
 import org.stabila.protos.contract.BalanceContract.WithdrawBalanceContract;
 import org.stabila.protos.contract.WitnessContract;
 import stest.stabila.wallet.common.client.Parameter.CommonConstant;
@@ -905,10 +905,10 @@ public class WalletClient {
    * constructor.
    */
 
-  public boolean freezeBalance(long frozenBalance, long frozenDuration) {
+  public boolean cdBalance(long cdedBalance, long cdedDuration) {
 
-    FreezeBalanceContract contract = createFreezeBalanceContract(frozenBalance,
-        frozenDuration);
+    CdBalanceContract contract = createCdBalanceContract(cdedBalance,
+        cdedDuration);
 
     Transaction transaction = rpcCli.createTransaction(contract);
 
@@ -920,14 +920,14 @@ public class WalletClient {
     return rpcCli.broadcastTransaction(transaction);
   }
 
-  private FreezeBalanceContract createFreezeBalanceContract(long frozenBalance,
-      long frozenDuration) {
+  private CdBalanceContract createCdBalanceContract(long cdedBalance,
+      long cdedDuration) {
     byte[] address = getAddress();
-    FreezeBalanceContract.Builder builder = FreezeBalanceContract.newBuilder();
+    CdBalanceContract.Builder builder = CdBalanceContract.newBuilder();
     ByteString byteAddress = ByteString.copyFrom(address);
 
-    builder.setOwnerAddress(byteAddress).setFrozenBalance(frozenBalance)
-        .setFrozenDuration(frozenDuration);
+    builder.setOwnerAddress(byteAddress).setCdedBalance(cdedBalance)
+        .setCdedDuration(cdedDuration);
 
     return builder.build();
   }
@@ -936,8 +936,8 @@ public class WalletClient {
    * constructor.
    */
 
-  public boolean unfreezeBalance() {
-    UnfreezeBalanceContract contract = createUnfreezeBalanceContract();
+  public boolean uncdBalance() {
+    UncdBalanceContract contract = createUncdBalanceContract();
 
     Transaction transaction = rpcCli.createTransaction(contract);
 
@@ -949,10 +949,10 @@ public class WalletClient {
     return rpcCli.broadcastTransaction(transaction);
   }
 
-  private UnfreezeBalanceContract createUnfreezeBalanceContract() {
+  private UncdBalanceContract createUncdBalanceContract() {
 
     byte[] address = getAddress();
-    UnfreezeBalanceContract.Builder builder = UnfreezeBalanceContract
+    UncdBalanceContract.Builder builder = UncdBalanceContract
         .newBuilder();
     ByteString byteAddress = ByteString.copyFrom(address);
     builder.setOwnerAddress(byteAddress);

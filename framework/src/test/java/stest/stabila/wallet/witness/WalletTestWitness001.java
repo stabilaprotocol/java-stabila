@@ -24,8 +24,8 @@ import org.stabila.core.Wallet;
 import org.stabila.protos.Protocol.Account;
 import org.stabila.protos.Protocol.Block;
 import org.stabila.protos.Protocol.Transaction;
-import org.stabila.protos.contract.BalanceContract.FreezeBalanceContract;
-import org.stabila.protos.contract.BalanceContract.UnfreezeBalanceContract;
+import org.stabila.protos.contract.BalanceContract.CdBalanceContract;
+import org.stabila.protos.contract.BalanceContract.UncdBalanceContract;
 import org.stabila.protos.contract.WitnessContract.VoteWitnessContract;
 import stest.stabila.wallet.common.client.Configuration;
 import stest.stabila.wallet.common.client.Parameter.CommonConstant;
@@ -103,14 +103,14 @@ public class WalletTestWitness001 {
     HashMap<String, String> wrongDropMap = new HashMap<String, String>();
     wrongDropMap.put(voteStr, "10000000000000000");
 
-    //Vote failed due to no freeze balance.
-    //Assert.assertFalse(VoteWitness(smallVoteMap, NO_FROZEN_ADDRESS, no_frozen_balance_testKey));
+    //Vote failed due to no cd balance.
+    //Assert.assertFalse(VoteWitness(smallVoteMap, NO_CDED_ADDRESS, no_cded_balance_testKey));
 
-    //Freeze balance to get vote ability.
-    Assert.assertTrue(PublicMethed.freezeBalanceGetStabilaPower(fromAddress, 1200000L, 3L,
+    //Cd balance to get vote ability.
+    Assert.assertTrue(PublicMethed.cdBalanceGetStabilaPower(fromAddress, 1200000L, 3L,
         2,null,testKey002, blockingStubFull));
     PublicMethed.waitProduceNextBlock(blockingStubFull);
-    //Vote failed when the vote is large than the freeze balance.
+    //Vote failed when the vote is large than the cd balance.
     Assert.assertFalse(voteWitness(veryLargeMap, fromAddress, testKey002));
     //Vote failed due to 0 vote.
     Assert.assertFalse(voteWitness(zeroVoteMap, fromAddress, testKey002));
@@ -218,11 +218,11 @@ public class WalletTestWitness001 {
    * constructor.
    */
 
-  public Boolean freezeBalance(byte[] addRess, long freezeBalance, long freezeDuration,
+  public Boolean cdBalance(byte[] addRess, long cdBalance, long cdDuration,
       String priKey) {
     byte[] address = addRess;
-    long frozenBalance = freezeBalance;
-    long frozenDuration = freezeDuration;
+    long cdedBalance = cdBalance;
+    long cdedDuration = cdDuration;
 
     //String priKey = testKey002;
     ECKey temKey = null;
@@ -235,24 +235,24 @@ public class WalletTestWitness001 {
     ECKey ecKey = temKey;
     Account beforeFronzen = queryAccount(ecKey, blockingStubFull);
 
-    Long beforeFrozenBalance = 0L;
+    Long beforeCdedBalance = 0L;
     //Long beforeBandwidth     = beforeFronzen.getBandwidth();
-    if (beforeFronzen.getFrozenCount() != 0) {
-      beforeFrozenBalance = beforeFronzen.getFrozen(0).getFrozenBalance();
+    if (beforeFronzen.getCdedCount() != 0) {
+      beforeCdedBalance = beforeFronzen.getCded(0).getCdedBalance();
       //beforeBandwidth     = beforeFronzen.getBandwidth();
       //logger.info(Long.toString(beforeFronzen.getBandwidth()));
-      logger.info(Long.toString(beforeFronzen.getFrozen(0).getFrozenBalance()));
+      logger.info(Long.toString(beforeFronzen.getCded(0).getCdedBalance()));
     }
 
-    FreezeBalanceContract.Builder builder = FreezeBalanceContract.newBuilder();
+    CdBalanceContract.Builder builder = CdBalanceContract.newBuilder();
     ByteString byteAddreess = ByteString.copyFrom(address);
 
-    builder.setOwnerAddress(byteAddreess).setFrozenBalance(frozenBalance)
-        .setFrozenDuration(frozenDuration);
+    builder.setOwnerAddress(byteAddreess).setCdedBalance(cdedBalance)
+        .setCdedDuration(cdedDuration);
 
-    FreezeBalanceContract contract = builder.build();
+    CdBalanceContract contract = builder.build();
 
-    Transaction transaction = blockingStubFull.freezeBalance(contract);
+    Transaction transaction = blockingStubFull.cdBalance(contract);
 
     if (transaction == null || transaction.getRawData().getContractCount() == 0) {
       return false;
@@ -287,22 +287,22 @@ public class WalletTestWitness001 {
     }
 
     Account afterFronzen = queryAccount(ecKey, searchBlockingStubFull);
-    Long afterFrozenBalance = afterFronzen.getFrozen(0).getFrozenBalance();
+    Long afterCdedBalance = afterFronzen.getCded(0).getCdedBalance();
     //Long afterBandwidth     = afterFronzen.getBandwidth();
     //logger.info(Long.toString(afterFronzen.getBandwidth()));
-    //logger.info(Long.toString(afterFronzen.getFrozen(0).getFrozenBalance()));
-    //logger.info(Integer.toString(search.getFrozenCount()));
+    //logger.info(Long.toString(afterFronzen.getCded(0).getCdedBalance()));
+    //logger.info(Integer.toString(search.getCdedCount()));
     logger.info(
-        "afterfrozenbalance =" + Long.toString(afterFrozenBalance) + "beforefrozenbalance =  "
-            + beforeFrozenBalance + "freezebalance = " + Long.toString(freezeBalance));
+        "aftercdedbalance =" + Long.toString(afterCdedBalance) + "beforecdedbalance =  "
+            + beforeCdedBalance + "cdbalance = " + Long.toString(cdBalance));
     //logger.info("afterbandwidth = " + Long.toString(afterBandwidth) + " beforebandwidth =
     // " + Long.toString(beforeBandwidth));
-    //if ((afterFrozenBalance - beforeFrozenBalance != freezeBalance) ||
-    //       (freezeBalance * frozen_duration -(afterBandwidth - beforeBandwidth) !=0)){
+    //if ((afterCdedBalance - beforeCdedBalance != cdBalance) ||
+    //       (cdBalance * cded_duration -(afterBandwidth - beforeBandwidth) !=0)){
     //  logger.info("After 20 second, two node still not synchronous");
     // }
-    Assert.assertTrue(afterFrozenBalance - beforeFrozenBalance == freezeBalance);
-    //Assert.assertTrue(freezeBalance * frozen_duration - (afterBandwidth -
+    Assert.assertTrue(afterCdedBalance - beforeCdedBalance == cdBalance);
+    //Assert.assertTrue(cdBalance * cded_duration - (afterBandwidth -
     // beforeBandwidth) <= 1000000);
     return true;
 
@@ -313,7 +313,7 @@ public class WalletTestWitness001 {
    * constructor.
    */
 
-  public boolean unFreezeBalance(byte[] addRess, String priKey) {
+  public boolean unCdBalance(byte[] addRess, String priKey) {
     byte[] address = addRess;
 
     ECKey temKey = null;
@@ -326,15 +326,15 @@ public class WalletTestWitness001 {
     ECKey ecKey = temKey;
     Account search = queryAccount(ecKey, blockingStubFull);
 
-    UnfreezeBalanceContract.Builder builder = UnfreezeBalanceContract
+    UncdBalanceContract.Builder builder = UncdBalanceContract
         .newBuilder();
     ByteString byteAddreess = ByteString.copyFrom(address);
 
     builder.setOwnerAddress(byteAddreess);
 
-    UnfreezeBalanceContract contract = builder.build();
+    UncdBalanceContract contract = builder.build();
 
-    Transaction transaction = blockingStubFull.unfreezeBalance(contract);
+    Transaction transaction = blockingStubFull.uncdBalance(contract);
 
     if (transaction == null || transaction.getRawData().getContractCount() == 0) {
       return false;

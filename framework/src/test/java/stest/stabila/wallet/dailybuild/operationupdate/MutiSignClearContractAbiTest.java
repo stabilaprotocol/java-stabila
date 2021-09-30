@@ -111,10 +111,10 @@ public class MutiSignClearContractAbiTest {
         PublicMethed.sendcoin(ownerAddress, needcoin + 100000000L, fromAddress, testKey002,
             blockingStubFull));
     Assert.assertTrue(PublicMethed
-        .freezeBalanceForReceiver(fromAddress, 1000000000, 0, 0, ByteString.copyFrom(ownerAddress),
+        .cdBalanceForReceiver(fromAddress, 1000000000, 0, 0, ByteString.copyFrom(ownerAddress),
             testKey002, blockingStubFull));
     Assert.assertTrue(PublicMethed
-        .freezeBalanceForReceiver(fromAddress, 1000000000, 0, 1, ByteString.copyFrom(ownerAddress),
+        .cdBalanceForReceiver(fromAddress, 1000000000, 0, 1, ByteString.copyFrom(ownerAddress),
             testKey002, blockingStubFull));
 
     PublicMethed.waitProduceNextBlock(blockingStubFull);
@@ -162,9 +162,9 @@ public class MutiSignClearContractAbiTest {
     PublicMethed.waitProduceNextBlock(blockingStubFull);
 
     Assert.assertTrue(
-        PublicMethed.unFreezeBalance(fromAddress, testKey002, 0, ownerAddress, blockingStubFull));
+        PublicMethed.unCdBalance(fromAddress, testKey002, 0, ownerAddress, blockingStubFull));
     Assert.assertTrue(
-        PublicMethed.unFreezeBalance(fromAddress, testKey002, 1, ownerAddress, blockingStubFull));
+        PublicMethed.unCdBalance(fromAddress, testKey002, 1, ownerAddress, blockingStubFull));
   }
 
   @Test(enabled = true, threadPoolSize = 1, invocationCount = 1)
@@ -188,10 +188,10 @@ public class MutiSignClearContractAbiTest {
         PublicMethed.sendcoin(ownerAddress, needcoin + 100000000L, fromAddress, testKey002,
             blockingStubFull));
     Assert.assertTrue(PublicMethed
-        .freezeBalanceForReceiver(fromAddress, 1000000000, 0, 0, ByteString.copyFrom(ownerAddress),
+        .cdBalanceForReceiver(fromAddress, 1000000000, 0, 0, ByteString.copyFrom(ownerAddress),
             testKey002, blockingStubFull));
     Assert.assertTrue(PublicMethed
-        .freezeBalanceForReceiver(fromAddress, 1000000000, 0, 1, ByteString.copyFrom(ownerAddress),
+        .cdBalanceForReceiver(fromAddress, 1000000000, 0, 1, ByteString.copyFrom(ownerAddress),
             testKey002, blockingStubFull));
 
     PublicMethed.waitProduceNextBlock(blockingStubFull);
@@ -239,9 +239,9 @@ public class MutiSignClearContractAbiTest {
     PublicMethed.waitProduceNextBlock(blockingStubFull);
 
     Assert.assertTrue(
-        PublicMethed.unFreezeBalance(fromAddress, testKey002, 0, ownerAddress, blockingStubFull));
+        PublicMethed.unCdBalance(fromAddress, testKey002, 0, ownerAddress, blockingStubFull));
     Assert.assertTrue(
-        PublicMethed.unFreezeBalance(fromAddress, testKey002, 1, ownerAddress, blockingStubFull));
+        PublicMethed.unCdBalance(fromAddress, testKey002, 1, ownerAddress, blockingStubFull));
   }
 
 
@@ -258,10 +258,10 @@ public class MutiSignClearContractAbiTest {
         PublicMethed.sendcoin(ownerAddress, needcoin + 100000000L, fromAddress, testKey002,
             blockingStubFull));
     Assert.assertTrue(PublicMethed
-        .freezeBalanceForReceiver(fromAddress, 1000000000, 0, 0, ByteString.copyFrom(ownerAddress),
+        .cdBalanceForReceiver(fromAddress, 1000000000, 0, 0, ByteString.copyFrom(ownerAddress),
             testKey002, blockingStubFull));
     Assert.assertTrue(PublicMethed
-        .freezeBalanceForReceiver(fromAddress, 1000000000, 0, 1, ByteString.copyFrom(ownerAddress),
+        .cdBalanceForReceiver(fromAddress, 1000000000, 0, 1, ByteString.copyFrom(ownerAddress),
             testKey002, blockingStubFull));
 
     PublicMethed.waitProduceNextBlock(blockingStubFull);
@@ -294,9 +294,9 @@ public class MutiSignClearContractAbiTest {
     PublicMethed.waitProduceNextBlock(blockingStubFull);
 
     Assert.assertTrue(
-        PublicMethed.unFreezeBalance(fromAddress, testKey002, 0, ownerAddress, blockingStubFull));
+        PublicMethed.unCdBalance(fromAddress, testKey002, 0, ownerAddress, blockingStubFull));
     Assert.assertTrue(
-        PublicMethed.unFreezeBalance(fromAddress, testKey002, 1, ownerAddress, blockingStubFull));
+        PublicMethed.unCdBalance(fromAddress, testKey002, 1, ownerAddress, blockingStubFull));
   }
 
   /**

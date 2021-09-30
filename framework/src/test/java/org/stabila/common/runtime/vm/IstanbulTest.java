@@ -3,8 +3,8 @@ package org.stabila.common.runtime.vm;
 import org.bouncycastle.util.encoders.Hex;
 import org.junit.Test;
 import org.testng.Assert;
-import org.stabila.common.runtime.TVMTestResult;
-import org.stabila.common.runtime.TvmTestUtils;
+import org.stabila.common.runtime.SVMTestResult;
+import org.stabila.common.runtime.SvmTestUtils;
 import org.stabila.common.utils.WalletUtil;
 import org.stabila.core.exception.ContractExeException;
 import org.stabila.core.exception.ContractValidateException;
@@ -43,10 +43,10 @@ public class IstanbulTest extends VMTestBase {
       throws ContractExeException, ReceiptCheckErrException, VMIllegalException,
       ContractValidateException {
     ConfigLoader.disable = true;
-    VMConfig.initAllowTvmTransferTrc10(1);
-    VMConfig.initAllowTvmConstantinople(1);
-    VMConfig.initAllowTvmSolidity059(1);
-    VMConfig.initAllowTvmIstanbul(1);
+    VMConfig.initAllowSvmTransferTrc10(1);
+    VMConfig.initAllowSvmConstantinople(1);
+    VMConfig.initAllowSvmSolidity059(1);
+    VMConfig.initAllowSvmIstanbul(1);
     String contractName = "IstanbulTest";
     byte[] address = Hex.decode(OWNER_ADDRESS);
     String abi = "[{\"inputs\":[],\"payable\":true,\"stateMutability\":\"payable\",\"type\":"
@@ -67,18 +67,18 @@ public class IstanbulTest extends VMTestBase {
     long consumeUserResourcePercent = 0;
 
     // deploy contract
-    Transaction tx = TvmTestUtils.generateDeploySmartContractAndGetTransaction(
+    Transaction tx = SvmTestUtils.generateDeploySmartContractAndGetTransaction(
         contractName, address, abi, factoryCode, value, fee, consumeUserResourcePercent,
         null);
     byte[] istanbulAddress = WalletUtil.generateContractAddress(tx);
-    runtime = TvmTestUtils.processTransactionAndReturnRuntime(tx, rootDeposit, null);
+    runtime = SvmTestUtils.processTransactionAndReturnRuntime(tx, rootDeposit, null);
     Assert.assertNull(runtime.getRuntimeError());
 
     // SELFBALANCE Test
     String methodByAddr = "getBalance()";
-    TVMTestResult result = TvmTestUtils
-        .triggerContractAndReturnTvmTestResult(Hex.decode(OWNER_ADDRESS),
-            istanbulAddress, TvmTestUtils.parseAbi(methodByAddr, null),
+    SVMTestResult result = SvmTestUtils
+        .triggerContractAndReturnSvmTestResult(Hex.decode(OWNER_ADDRESS),
+            istanbulAddress, SvmTestUtils.parseAbi(methodByAddr, null),
             0, fee, manager, null);
     Assert.assertNull(result.getRuntime().getRuntimeError());
     Assert.assertEquals(Hex.toHexString(result.getRuntime().getResult().getHReturn()),
@@ -88,9 +88,9 @@ public class IstanbulTest extends VMTestBase {
     //CHAINID Test, if genesis block is changed in config file,
     // this value should be changed as well in this test
     methodByAddr = "getId()";
-    result = TvmTestUtils
-        .triggerContractAndReturnTvmTestResult(Hex.decode(OWNER_ADDRESS),
-            istanbulAddress, TvmTestUtils.parseAbi(methodByAddr, null),
+    result = SvmTestUtils
+        .triggerContractAndReturnSvmTestResult(Hex.decode(OWNER_ADDRESS),
+            istanbulAddress, SvmTestUtils.parseAbi(methodByAddr, null),
             0, fee, manager, null);
     Assert.assertNull(result.getRuntime().getRuntimeError());
     Assert.assertEquals(Hex.toHexString(result.getRuntime().getResult().getHReturn()),
@@ -167,14 +167,14 @@ public class IstanbulTest extends VMTestBase {
   */
 
   @Test
-  public void altBn128AddMulEnergyChangeTest()
+  public void altBn128AddMulUcrChangeTest()
       throws ContractExeException, ReceiptCheckErrException, VMIllegalException,
       ContractValidateException {
     ConfigLoader.disable = true;
-    VMConfig.initAllowTvmTransferTrc10(1);
-    VMConfig.initAllowTvmConstantinople(1);
-    VMConfig.initAllowTvmSolidity059(1);
-    VMConfig.initAllowTvmIstanbul(1);
+    VMConfig.initAllowSvmTransferTrc10(1);
+    VMConfig.initAllowSvmConstantinople(1);
+    VMConfig.initAllowSvmSolidity059(1);
+    VMConfig.initAllowSvmIstanbul(1);
     String contractName = "Alt_bn128AddMulTest";
     byte[] address = Hex.decode(OWNER_ADDRESS);
     String abi = "[]";
@@ -213,18 +213,18 @@ public class IstanbulTest extends VMTestBase {
     long consumeUserResourcePercent = 0;
 
     // deploy contract
-    Transaction tx = TvmTestUtils.generateDeploySmartContractAndGetTransaction(
+    Transaction tx = SvmTestUtils.generateDeploySmartContractAndGetTransaction(
         contractName, address, abi, factoryCode, value, fee, consumeUserResourcePercent,
         null);
     byte[] istanbulAddress = WalletUtil.generateContractAddress(tx);
-    runtime = TvmTestUtils.processTransactionAndReturnRuntime(tx, rootDeposit, null);
+    runtime = SvmTestUtils.processTransactionAndReturnRuntime(tx, rootDeposit, null);
     Assert.assertNull(runtime.getRuntimeError());
 
     // bn128 add
     String methodAdd = "callBn256Add(bytes32,bytes32,bytes32,bytes32)";
-    TVMTestResult result1 = TvmTestUtils
-        .triggerContractAndReturnTvmTestResult(Hex.decode(OWNER_ADDRESS),
-            istanbulAddress, TvmTestUtils.parseAbi(methodAdd,
+    SVMTestResult result1 = SvmTestUtils
+        .triggerContractAndReturnSvmTestResult(Hex.decode(OWNER_ADDRESS),
+            istanbulAddress, SvmTestUtils.parseAbi(methodAdd,
                 "0000000000000000000000000000000000000000000000000000000000000001\n"
                 + "0000000000000000000000000000000000000000000000000000000000000002\n"
                 + "0000000000000000000000000000000000000000000000000000000000000001\n"
@@ -235,9 +235,9 @@ public class IstanbulTest extends VMTestBase {
 
     //bn128 mul
     String methodMul = "callBn256ScalarMul(bytes32,bytes32,bytes32)";
-    TVMTestResult result2 = TvmTestUtils
-        .triggerContractAndReturnTvmTestResult(Hex.decode(OWNER_ADDRESS),
-            istanbulAddress, TvmTestUtils.parseAbi(methodMul,
+    SVMTestResult result2 = SvmTestUtils
+        .triggerContractAndReturnSvmTestResult(Hex.decode(OWNER_ADDRESS),
+            istanbulAddress, SvmTestUtils.parseAbi(methodMul,
                 "0000000000000000000000000000000000000000000000000000000000000001\n"
                     + "0000000000000000000000000000000000000000000000000000000000000002\n"
                     + "0000000000000000000000000000000000000000000000000000000000000001\n"),
@@ -245,13 +245,13 @@ public class IstanbulTest extends VMTestBase {
     Assert.assertNull(result2.getRuntime().getRuntimeError());
 
 
-    VMConfig.initAllowTvmIstanbul(0);
+    VMConfig.initAllowSvmIstanbul(0);
 
     // bn128 add
     methodAdd = "callBn256Add(bytes32,bytes32,bytes32,bytes32)";
-    TVMTestResult result3 = TvmTestUtils
-        .triggerContractAndReturnTvmTestResult(Hex.decode(OWNER_ADDRESS),
-            istanbulAddress, TvmTestUtils.parseAbi(methodAdd,
+    SVMTestResult result3 = SvmTestUtils
+        .triggerContractAndReturnSvmTestResult(Hex.decode(OWNER_ADDRESS),
+            istanbulAddress, SvmTestUtils.parseAbi(methodAdd,
                 "0000000000000000000000000000000000000000000000000000000000000001\n"
                     + "0000000000000000000000000000000000000000000000000000000000000002\n"
                     + "0000000000000000000000000000000000000000000000000000000000000001\n"
@@ -262,33 +262,33 @@ public class IstanbulTest extends VMTestBase {
 
     //bn128 mul
     methodMul = "callBn256ScalarMul(bytes32,bytes32,bytes32)";
-    TVMTestResult result4 = TvmTestUtils
-        .triggerContractAndReturnTvmTestResult(Hex.decode(OWNER_ADDRESS),
-            istanbulAddress, TvmTestUtils.parseAbi(methodMul,
+    SVMTestResult result4 = SvmTestUtils
+        .triggerContractAndReturnSvmTestResult(Hex.decode(OWNER_ADDRESS),
+            istanbulAddress, SvmTestUtils.parseAbi(methodMul,
                 "0000000000000000000000000000000000000000000000000000000000000001\n"
                     + "0000000000000000000000000000000000000000000000000000000000000002\n"
                     + "0000000000000000000000000000000000000000000000000000000000000001\n"),
             0, fee, manager, null);
     Assert.assertNull(result4.getRuntime().getRuntimeError());
 
-    long energyAddFuncIstanbul = result1.getRuntime().getResult().getEnergyUsed();
-    long energyMulFuncIstanbul = result2.getRuntime().getResult().getEnergyUsed();
-    long energyAddFunc = result3.getRuntime().getResult().getEnergyUsed();
-    long energyMulFunc = result4.getRuntime().getResult().getEnergyUsed();
+    long ucrAddFuncIstanbul = result1.getRuntime().getResult().getUcrUsed();
+    long ucrMulFuncIstanbul = result2.getRuntime().getResult().getUcrUsed();
+    long ucrAddFunc = result3.getRuntime().getResult().getUcrUsed();
+    long ucrMulFunc = result4.getRuntime().getResult().getUcrUsed();
 
-    Assert.assertEquals(energyAddFunc - energyAddFuncIstanbul,500 - 150);
-    Assert.assertEquals(energyMulFunc - energyMulFuncIstanbul,40000 - 6000);
+    Assert.assertEquals(ucrAddFunc - ucrAddFuncIstanbul,500 - 150);
+    Assert.assertEquals(ucrMulFunc - ucrMulFuncIstanbul,40000 - 6000);
   }
 
   @Test
-  public void altBn128PairingEnergyChangeTest()
+  public void altBn128PairingUcrChangeTest()
       throws ContractExeException, ReceiptCheckErrException, VMIllegalException,
       ContractValidateException {
     ConfigLoader.disable = true;
-    VMConfig.initAllowTvmTransferTrc10(1);
-    VMConfig.initAllowTvmConstantinople(1);
-    VMConfig.initAllowTvmSolidity059(1);
-    VMConfig.initAllowTvmIstanbul(1);
+    VMConfig.initAllowSvmTransferTrc10(1);
+    VMConfig.initAllowSvmConstantinople(1);
+    VMConfig.initAllowSvmSolidity059(1);
+    VMConfig.initAllowSvmIstanbul(1);
     String contractName = "Alt_bn128AddMulTest";
     byte[] address = Hex.decode(OWNER_ADDRESS);
     String abi = "[]";
@@ -443,43 +443,43 @@ public class IstanbulTest extends VMTestBase {
     long consumeUserResourcePercent = 0;
 
     // deploy contract
-    Transaction tx = TvmTestUtils.generateDeploySmartContractAndGetTransaction(
+    Transaction tx = SvmTestUtils.generateDeploySmartContractAndGetTransaction(
         contractName, address, abi, factoryCode, value, fee, consumeUserResourcePercent,
         null);
     byte[] istanbulAddress = WalletUtil.generateContractAddress(tx);
-    runtime = TvmTestUtils.processTransactionAndReturnRuntime(tx, rootDeposit, null);
+    runtime = SvmTestUtils.processTransactionAndReturnRuntime(tx, rootDeposit, null);
     Assert.assertNull(runtime.getRuntimeError());
 
     // bn128 add
     String methodAdd = "verifyBGLS2()";
-    TVMTestResult result1 = TvmTestUtils
-        .triggerContractAndReturnTvmTestResult(Hex.decode(OWNER_ADDRESS),
-            istanbulAddress, TvmTestUtils.parseAbi(methodAdd,
+    SVMTestResult result1 = SvmTestUtils
+        .triggerContractAndReturnSvmTestResult(Hex.decode(OWNER_ADDRESS),
+            istanbulAddress, SvmTestUtils.parseAbi(methodAdd,
                 null),
             0, fee, manager, null);
     Assert.assertNull(result1.getRuntime().getRuntimeError());
 
-    VMConfig.initAllowTvmIstanbul(0);
+    VMConfig.initAllowSvmIstanbul(0);
 
     // bn128 add
     methodAdd = "verifyBGLS2()";
-    TVMTestResult result2 = TvmTestUtils
-        .triggerContractAndReturnTvmTestResult(Hex.decode(OWNER_ADDRESS),
-            istanbulAddress, TvmTestUtils.parseAbi(methodAdd,
+    SVMTestResult result2 = SvmTestUtils
+        .triggerContractAndReturnSvmTestResult(Hex.decode(OWNER_ADDRESS),
+            istanbulAddress, SvmTestUtils.parseAbi(methodAdd,
                 null),
             0, fee, manager, null);
     Assert.assertNull(result2.getRuntime().getRuntimeError());
-    long energyParingFuncIstanbul = result1.getRuntime().getResult().getEnergyUsed();
-    long energyParingFunc = result2.getRuntime().getResult().getEnergyUsed();
+    long ucrParingFuncIstanbul = result1.getRuntime().getResult().getUcrUsed();
+    long ucrParingFunc = result2.getRuntime().getResult().getUcrUsed();
 
     //verifyBGLS2() = 3 * paring + 2 * mul
-    Assert.assertEquals(energyParingFunc - energyParingFuncIstanbul,
+    Assert.assertEquals(ucrParingFunc - ucrParingFuncIstanbul,
         (80000L * 3 + 100000) - (34000L * 3 + 45000) + (40000 - 6000) * 2);
   }
 
   /*
    pragma solidity ^0.4.14;
-  contract Alt_bn128PairingEnergyChangeTest {
+  contract Alt_bn128PairingUcrChangeTest {
     struct G1Point {
       uint X;
       uint Y;

@@ -348,7 +348,7 @@ public class BandwidthProcessor extends ResourceProcessor {
   }
 
   public long calculateGlobalNetLimit(AccountCapsule accountCapsule) {
-    long frozeBalance = accountCapsule.getAllFrozenBalanceForBandwidth();
+    long frozeBalance = accountCapsule.getAllCdedBalanceForBandwidth();
     if (frozeBalance < STB_PRECISION) {
       return 0;
     }

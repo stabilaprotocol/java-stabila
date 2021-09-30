@@ -75,17 +75,17 @@ public class ContractScenario001 {
 
     Assert.assertTrue(PublicMethed.sendcoin(contract001Address, 20000000L, toAddress,
         testKey003, blockingStubFull));
-    Assert.assertTrue(PublicMethed.freezeBalanceGetEnergy(contract001Address, 15000000L,
+    Assert.assertTrue(PublicMethed.cdBalanceGetUcr(contract001Address, 15000000L,
         3, 1, contract001Key, blockingStubFull));
     PublicMethed.waitProduceNextBlock(blockingStubFull1);
     AccountResourceMessage accountResource = PublicMethed.getAccountResource(contract001Address,
         blockingStubFull);
-    Long energyLimit = accountResource.getEnergyLimit();
-    Long energyUsage = accountResource.getEnergyUsed();
+    Long ucrLimit = accountResource.getUcrLimit();
+    Long ucrUsage = accountResource.getUcrUsed();
     Long balanceBefore = PublicMethed.queryAccount(contract001Key, blockingStubFull).getBalance();
 
-    logger.info("before energy limit is " + Long.toString(energyLimit));
-    logger.info("before energy usage is " + Long.toString(energyUsage));
+    logger.info("before ucr limit is " + Long.toString(ucrLimit));
+    logger.info("before ucr usage is " + Long.toString(ucrUsage));
     logger.info("before balance is " + Long.toString(balanceBefore));
 
     String filePath = "./src/test/resources/soliditycode/contractScenario001.sol";
@@ -102,16 +102,16 @@ public class ContractScenario001 {
     PublicMethed.waitProduceNextBlock(blockingStubFull);
     PublicMethed.waitProduceNextBlock(blockingStubFull1);
     accountResource = PublicMethed.getAccountResource(contract001Address, blockingStubFull1);
-    energyLimit = accountResource.getEnergyLimit();
-    energyUsage = accountResource.getEnergyUsed();
+    ucrLimit = accountResource.getUcrLimit();
+    ucrUsage = accountResource.getUcrUsed();
     Long balanceAfter = PublicMethed.queryAccount(contract001Key, blockingStubFull1).getBalance();
 
-    logger.info("after energy limit is " + Long.toString(energyLimit));
-    logger.info("after energy usage is " + Long.toString(energyUsage));
+    logger.info("after ucr limit is " + Long.toString(ucrLimit));
+    logger.info("after ucr usage is " + Long.toString(ucrUsage));
     logger.info("after balance is " + Long.toString(balanceAfter));
 
-    Assert.assertTrue(energyLimit > 0);
-    Assert.assertTrue(energyUsage > 0);
+    Assert.assertTrue(ucrLimit > 0);
+    Assert.assertTrue(ucrUsage > 0);
     Assert.assertEquals(balanceBefore, balanceAfter);
   }
 

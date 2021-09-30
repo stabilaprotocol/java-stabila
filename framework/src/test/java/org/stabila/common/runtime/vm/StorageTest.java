@@ -7,8 +7,8 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.testng.Assert;
 import org.stabila.common.parameter.CommonParameter;
-import org.stabila.common.runtime.TVMTestResult;
-import org.stabila.common.runtime.TvmTestUtils;
+import org.stabila.common.runtime.SVMTestResult;
+import org.stabila.common.runtime.SvmTestUtils;
 import org.stabila.common.storage.Deposit;
 import org.stabila.common.storage.DepositImpl;
 import org.stabila.common.utils.WalletUtil;
@@ -125,10 +125,10 @@ public class StorageTest extends VMTestBase {
     long consumeUserResourcePercent = 0;
 
     // deploy contract
-    Transaction stb = TvmTestUtils.generateDeploySmartContractAndGetTransaction(
+    Transaction stb = SvmTestUtils.generateDeploySmartContractAndGetTransaction(
         contractName, address, ABI, code, value, fee, consumeUserResourcePercent, null);
     byte[] contractAddress = WalletUtil.generateContractAddress(stb);
-    runtime = TvmTestUtils.processTransactionAndReturnRuntime(stb, rootDeposit, null);
+    runtime = SvmTestUtils.processTransactionAndReturnRuntime(stb, rootDeposit, null);
     Assert.assertNull(runtime.getRuntimeError());
 
     // write storage
@@ -142,44 +142,44 @@ public class StorageTest extends VMTestBase {
         + "0000000000000000000000000000000000000000000000000400000000000000000000000000000000000000"
         + "0000000000000000000000000033132330000000000000000000000000000000000000000000000000000000"
         + "000";
-    byte[] triggerData = TvmTestUtils.parseAbi("testPut(uint256,string)", params1);
-    TVMTestResult result = TvmTestUtils
-        .triggerContractAndReturnTvmTestResult(Hex.decode(OWNER_ADDRESS),
+    byte[] triggerData = SvmTestUtils.parseAbi("testPut(uint256,string)", params1);
+    SVMTestResult result = SvmTestUtils
+        .triggerContractAndReturnSvmTestResult(Hex.decode(OWNER_ADDRESS),
             contractAddress, triggerData, 0, fee, manager, null);
 
     Assert.assertNull(result.getRuntime().getRuntimeError());
 
     // overwrite storage with same value
     // testPut(uint256,string) 1,"abc"
-    triggerData = TvmTestUtils.parseAbi("testPut(uint256,string)", params1);
-    result = TvmTestUtils
-        .triggerContractAndReturnTvmTestResult(Hex.decode(OWNER_ADDRESS),
+    triggerData = SvmTestUtils.parseAbi("testPut(uint256,string)", params1);
+    result = SvmTestUtils
+        .triggerContractAndReturnSvmTestResult(Hex.decode(OWNER_ADDRESS),
             contractAddress, triggerData, 0, fee, manager, null);
 
     Assert.assertNull(result.getRuntime().getRuntimeError());
-    Assert.assertEquals(result.getReceipt().getEnergyUsageTotal(), 10855);
+    Assert.assertEquals(result.getReceipt().getUcrUsageTotal(), 10855);
 
     // overwrite storage with same value
     // testPut(uint256,string) 1,"123"
 
-    triggerData = TvmTestUtils.parseAbi("testPut(uint256,string)", params2);
-    result = TvmTestUtils
-        .triggerContractAndReturnTvmTestResult(Hex.decode(OWNER_ADDRESS),
+    triggerData = SvmTestUtils.parseAbi("testPut(uint256,string)", params2);
+    result = SvmTestUtils
+        .triggerContractAndReturnSvmTestResult(Hex.decode(OWNER_ADDRESS),
             contractAddress, triggerData, 0, fee, manager, null);
 
     Assert.assertNull(result.getRuntime().getRuntimeError());
-    Assert.assertEquals(result.getReceipt().getEnergyUsageTotal(), 10855);
+    Assert.assertEquals(result.getReceipt().getUcrUsageTotal(), 10855);
 
     // delete storage
     // testDelete(uint256) 1
-    triggerData = TvmTestUtils.parseAbi("testDelete(uint256)",
+    triggerData = SvmTestUtils.parseAbi("testDelete(uint256)",
         "0000000000000000000000000000000000000000000000000000000000000001");
-    result = TvmTestUtils
-        .triggerContractAndReturnTvmTestResult(Hex.decode(OWNER_ADDRESS),
+    result = SvmTestUtils
+        .triggerContractAndReturnSvmTestResult(Hex.decode(OWNER_ADDRESS),
             contractAddress, triggerData, 0, fee, manager, null);
     Assert.assertNull(result.getRuntime().getRuntimeError());
     Assert.assertNull(result.getRuntime().getResult().getException());
-    Assert.assertEquals(result.getReceipt().getEnergyUsageTotal(), 5389);
+    Assert.assertEquals(result.getReceipt().getUcrUsageTotal(), 5389);
   }
 
   @Test
@@ -188,7 +188,7 @@ public class StorageTest extends VMTestBase {
     byte[] stats = new byte[27];
     Arrays.fill(stats, (byte) 1);
     this.manager.getDynamicPropertiesStore()
-        .statsByVersion(ForkBlockVersionConsts.ENERGY_LIMIT, stats);
+        .statsByVersion(ForkBlockVersionConsts.UCR_LIMIT, stats);
     VMConfig.initVmHardFork(true);
     byte[] address = Hex.decode(OWNER_ADDRESS);
     DataWord storageKey1 = new DataWord("key1".getBytes());
@@ -260,7 +260,7 @@ public class StorageTest extends VMTestBase {
         parentChangedVal);
     Assert
         .assertNull(DepositImpl.createRoot(manager).getStorageValue(address, storageParentZeroKey));
-    CommonParameter.setENERGY_LIMIT_HARD_FORK(false);
+    CommonParameter.setUCR_LIMIT_HARD_FORK(false);
   }
 
   @Test
@@ -268,7 +268,7 @@ public class StorageTest extends VMTestBase {
     byte[] stats = new byte[27];
     Arrays.fill(stats, (byte) 0);
     this.manager.getDynamicPropertiesStore()
-        .statsByVersion(ForkBlockVersionConsts.ENERGY_LIMIT, stats);
+        .statsByVersion(ForkBlockVersionConsts.UCR_LIMIT, stats);
     byte[] address = Hex.decode(OWNER_ADDRESS);
     DataWord storageKey1 = new DataWord("key1".getBytes());
     DataWord storageVal1 = new DataWord("val1".getBytes());
@@ -350,6 +350,6 @@ public class StorageTest extends VMTestBase {
         parentChangedVal);
     Assert
         .assertNull(DepositImpl.createRoot(manager).getStorageValue(address, storageParentZeroKey));
-    CommonParameter.setENERGY_LIMIT_HARD_FORK(false);
+    CommonParameter.setUCR_LIMIT_HARD_FORK(false);
   }
 }

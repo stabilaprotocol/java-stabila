@@ -18,7 +18,7 @@ import org.stabila.core.vm.program.Program;
 import org.stabila.core.vm.program.Program.BadJumpDestinationException;
 import org.stabila.core.vm.program.Program.IllegalOperationException;
 import org.stabila.core.vm.program.Program.JVMStackOverFlowException;
-import org.stabila.core.vm.program.Program.OutOfEnergyException;
+import org.stabila.core.vm.program.Program.OutOfUcrException;
 import org.stabila.core.vm.program.Program.OutOfMemoryException;
 import org.stabila.core.vm.program.Program.OutOfTimeException;
 import org.stabila.core.vm.program.Program.PrecompiledContractException;
@@ -95,8 +95,8 @@ public class RuntimeImpl implements Runtime {
       result.setResultCode(contractResult.ILLEGAL_OPERATION);
       return;
     }
-    if (exception instanceof OutOfEnergyException) {
-      result.setResultCode(contractResult.OUT_OF_ENERGY);
+    if (exception instanceof OutOfUcrException) {
+      result.setResultCode(contractResult.OUT_OF_UCR);
       return;
     }
     if (exception instanceof BadJumpDestinationException) {

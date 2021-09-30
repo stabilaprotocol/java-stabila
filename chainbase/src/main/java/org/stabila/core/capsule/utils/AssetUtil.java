@@ -35,16 +35,16 @@ public class AssetUtil {
             .putAllLatestAssetOperationTime(account.getLatestAssetOperationTimeMap())
             .putAllLatestAssetOperationTimeV2(
                     account.getLatestAssetOperationTimeV2Map())
-            .addAllFrozenSupply(getFrozen(account.getFrozenSupplyList()))
+            .addAllCdedSupply(getCded(account.getCdedSupplyList()))
             .build();
   }
 
-  private static List<AccountAsset.Frozen> getFrozen(List<Account.Frozen> frozenSupplyList) {
-    return frozenSupplyList
+  private static List<AccountAsset.Cded> getCded(List<Account.Cded> cdedSupplyList) {
+    return cdedSupplyList
             .stream()
-            .map(frozen -> AccountAsset.Frozen.newBuilder()
-                    .setExpireTime(frozen.getExpireTime())
-                    .setFrozenBalance(frozen.getFrozenBalance())
+            .map(cded -> AccountAsset.Cded.newBuilder()
+                    .setExpireTime(cded.getExpireTime())
+                    .setCdedBalance(cded.getCdedBalance())
                     .build())
             .collect(Collectors.toList());
   }
@@ -69,17 +69,17 @@ public class AssetUtil {
             .putAllLatestAssetOperationTime(accountAssetCapsule.getLatestAssetOperationTimeMap())
             .putAllLatestAssetOperationTimeV2(
                     accountAssetCapsule.getLatestAssetOperationTimeMapV2())
-            .addAllFrozenSupply(getAccountFrozenSupplyList(accountAssetCapsule.getFrozenSupplyList()))
+            .addAllCdedSupply(getAccountCdedSupplyList(accountAssetCapsule.getCdedSupplyList()))
             .build();
   }
 
-  private static List<Account.Frozen> getAccountFrozenSupplyList(List<AccountAsset.Frozen> frozenSupplyList) {
-    return Optional.ofNullable(frozenSupplyList)
+  private static List<Account.Cded> getAccountCdedSupplyList(List<AccountAsset.Cded> cdedSupplyList) {
+    return Optional.ofNullable(cdedSupplyList)
             .orElseGet(ArrayList::new)
             .stream()
-            .map(frozen -> Account.Frozen.newBuilder()
-                    .setExpireTime(frozen.getExpireTime())
-                    .setFrozenBalance(frozen.getFrozenBalance())
+            .map(cded -> Account.Cded.newBuilder()
+                    .setExpireTime(cded.getExpireTime())
+                    .setCdedBalance(cded.getCdedBalance())
                     .build())
             .collect(Collectors.toList());
   }
@@ -94,7 +94,7 @@ public class AssetUtil {
             .clearFreeAssetNetUsageV2()
             .clearLatestAssetOperationTime()
             .clearLatestAssetOperationTimeV2()
-            .clearFrozenSupply()
+            .clearCdedSupply()
             .build();
   }
 
@@ -121,10 +121,10 @@ public class AssetUtil {
     if (MapUtils.isNotEmpty(account.getFreeAssetNetUsageV2Map())) {
       return true;
     }
-    List<Account.Frozen> frozenSupplyList =
-            account.getFrozenSupplyList();
-    if (CollectionUtils.isNotEmpty(frozenSupplyList)
-            && frozenSupplyList.size() > 0) {
+    List<Account.Cded> cdedSupplyList =
+            account.getCdedSupplyList();
+    if (CollectionUtils.isNotEmpty(cdedSupplyList)
+            && cdedSupplyList.size() > 0) {
       return true;
     }
     return false;

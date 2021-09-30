@@ -5,7 +5,7 @@ import lombok.Getter;
 public class Parameter {
 
   public enum ForkBlockVersionEnum {
-    ENERGY_LIMIT(5, 0L, 0),
+    UCR_LIMIT(5, 0L, 0),
     VERSION_3_2_2(6, 0L, 0),
     VERSION_3_5(7, 0L, 0),
     VERSION_3_6(8, 0L, 0),
@@ -63,9 +63,9 @@ public class Parameter {
     public static final long MAINTENANCE_SKIP_SLOTS = 2;
     public static final int SINGLE_REPEAT = 1;
     public static final int BLOCK_FILLED_SLOTS_NUMBER = 128;
-    public static final int MAX_FROZEN_NUMBER = 1;
+    public static final int MAX_CDED_NUMBER = 1;
     public static final int BLOCK_VERSION = 22;
-    public static final long FROZEN_PERIOD = 86_400_000L;
+    public static final long CDED_PERIOD = 86_400_000L;
     public static final long STB_PRECISION = 1000_000L;
   }
 
@@ -109,7 +109,7 @@ public class Parameter {
   public class ForkBlockVersionConsts {
 
     public static final int START_NEW_TRANSACTION = 4;
-    public static final int ENERGY_LIMIT = 5;
+    public static final int UCR_LIMIT = 5;
   }
 
 }

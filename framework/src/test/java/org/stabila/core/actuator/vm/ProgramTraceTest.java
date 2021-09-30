@@ -35,12 +35,12 @@ public class ProgramTraceTest {
 
     ProgramTrace programTrace = new ProgramTrace();
     ProgramTrace anotherProgramTrace = new ProgramTrace();
-    DataWord energyDataWord = new DataWord(4);
+    DataWord ucrDataWord = new DataWord(4);
     OpActions opActions = new OpActions();
     byte addOpCode = OpCode.ADD.val();
     byte subOpCode = OpCode.SUB.val();
-    programTrace.addOp(addOpCode, 2, 3, energyDataWord, opActions);
-    anotherProgramTrace.addOp(subOpCode, 5, 6, energyDataWord, opActions);
+    programTrace.addOp(addOpCode, 2, 3, ucrDataWord, opActions);
+    anotherProgramTrace.addOp(subOpCode, 5, 6, ucrDataWord, opActions);
 
     programTrace.merge(anotherProgramTrace);
 
@@ -51,11 +51,11 @@ public class ProgramTraceTest {
       if (op.getCode() == OpCode.ADD) {
         Assert.assertEquals(3, op.getDeep());
         Assert.assertEquals(2, op.getPc());
-        Assert.assertEquals(BigInteger.valueOf(4), op.getEnergy());
+        Assert.assertEquals(BigInteger.valueOf(4), op.getUcr());
       } else if (op.getCode() == OpCode.SUB) {
         Assert.assertEquals(6, op.getDeep());
         Assert.assertEquals(5, op.getPc());
-        Assert.assertEquals(BigInteger.valueOf(4), op.getEnergy());
+        Assert.assertEquals(BigInteger.valueOf(4), op.getUcr());
       } else {
         Assert.fail("Invalid op code");
       }

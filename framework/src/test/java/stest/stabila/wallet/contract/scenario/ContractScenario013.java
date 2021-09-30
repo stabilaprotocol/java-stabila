@@ -66,11 +66,11 @@ public class ContractScenario013 {
         testKey002, blockingStubFull));
     AccountResourceMessage accountResource = PublicMethed.getAccountResource(contract013Address,
         blockingStubFull);
-    Long energyLimit = accountResource.getEnergyLimit();
-    Long energyUsage = accountResource.getEnergyUsed();
+    Long ucrLimit = accountResource.getUcrLimit();
+    Long ucrUsage = accountResource.getUcrUsed();
 
-    logger.info("before energy limit is " + Long.toString(energyLimit));
-    logger.info("before energy usage is " + Long.toString(energyUsage));
+    logger.info("before ucr limit is " + Long.toString(ucrLimit));
+    logger.info("before ucr usage is " + Long.toString(ucrUsage));
 
     String filePath = "./src/test/resources/soliditycode/contractScenario013.sol";
     String contractName = "timetest";
@@ -84,9 +84,9 @@ public class ContractScenario013 {
     logger.info(txid);
     PublicMethed.waitProduceNextBlock(blockingStubFull);
     infoById = PublicMethed.getTransactionInfoById(txid, blockingStubFull);
-    logger.info("energytotal is " + infoById.get().getReceipt().getEnergyUsageTotal());
+    logger.info("ucrtotal is " + infoById.get().getReceipt().getUcrUsageTotal());
     Assert.assertTrue(infoById.get().getResultValue() == 0);
-    Assert.assertTrue(infoById.get().getReceipt().getEnergyUsageTotal() > 0);
+    Assert.assertTrue(infoById.get().getReceipt().getUcrUsageTotal() > 0);
     Assert.assertFalse(infoById.get().getContractAddress().isEmpty());
   }
 
@@ -94,11 +94,11 @@ public class ContractScenario013 {
   public void triggerStabilaStbAndUnitContract() {
     AccountResourceMessage accountResource = PublicMethed.getAccountResource(contract013Address,
         blockingStubFull);
-    Long energyLimit = accountResource.getEnergyLimit();
-    Long energyUsage = accountResource.getEnergyUsed();
+    Long ucrLimit = accountResource.getUcrLimit();
+    Long ucrUsage = accountResource.getUcrUsed();
 
-    logger.info("before energy limit is " + Long.toString(energyLimit));
-    logger.info("before energy usage is " + Long.toString(energyUsage));
+    logger.info("before ucr limit is " + Long.toString(ucrLimit));
+    logger.info("before ucr usage is " + Long.toString(ucrUsage));
 
     String filePath = "./src/test/resources/soliditycode/contractScenario013.sol";
     String contractName = "timetest";
@@ -113,7 +113,7 @@ public class ContractScenario013 {
     PublicMethed.waitProduceNextBlock(blockingStubFull);
     infoById = PublicMethed.getTransactionInfoById(txid, blockingStubFull);
     Assert.assertTrue(infoById.get().getResultValue() == 0);
-    logger.info("energytotal is " + infoById.get().getReceipt().getEnergyUsageTotal());
+    logger.info("ucrtotal is " + infoById.get().getReceipt().getUcrUsageTotal());
 
     contractAddress = infoById.get().getContractAddress().toByteArray();
 
@@ -124,10 +124,10 @@ public class ContractScenario013 {
     PublicMethed.waitProduceNextBlock(blockingStubFull);
     infoById = PublicMethed.getTransactionInfoById(txid, blockingStubFull);
     logger.info("result is " + infoById.get().getResultValue());
-    logger.info("energytotal is " + infoById.get().getReceipt().getEnergyUsageTotal());
+    logger.info("ucrtotal is " + infoById.get().getReceipt().getUcrUsageTotal());
     Assert.assertTrue(infoById.get().getResultValue() == 0);
-    Assert.assertTrue(infoById.get().getReceipt().getEnergyUsageTotal() > 0);
-    Assert.assertTrue(infoById.get().getFee() == infoById.get().getReceipt().getEnergyFee());
+    Assert.assertTrue(infoById.get().getReceipt().getUcrUsageTotal() > 0);
+    Assert.assertTrue(infoById.get().getFee() == infoById.get().getReceipt().getUcrFee());
     Assert.assertFalse(infoById.get().getContractAddress().isEmpty());
   }
 

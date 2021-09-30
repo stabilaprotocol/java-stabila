@@ -172,13 +172,13 @@ public class DelayTransaction003 {
 
   }
 
-  @Test(enabled = false, description = "Delay unfreeze asset")
-  public void test3DelayUnfreezeAsset() {
+  @Test(enabled = false, description = "Delay uncd asset")
+  public void test3DelayUncdAsset() {
 
     final Long ownerAssetBalanceOfbeforeTransferAsset = PublicMethed
         .getAssetBalanceByAssetId(assetId, assetOwnerKey, blockingStubFull);
 
-    String txid = PublicMethed.unfreezeAssetDelayGetTxid(assetOwnerAddress, delaySecond,
+    String txid = PublicMethed.uncdAssetDelayGetTxid(assetOwnerAddress, delaySecond,
         assetOwnerKey, blockingStubFull);
 
 

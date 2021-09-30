@@ -2,7 +2,7 @@ package org.stabila.core.actuator;
 
 import static org.stabila.core.actuator.ActuatorConstant.ACCOUNT_EXCEPTION_STR;
 import static org.stabila.core.actuator.ActuatorConstant.NOT_EXIST_STR;
-import static org.stabila.core.config.Parameter.ChainConstant.FROZEN_PERIOD;
+import static org.stabila.core.config.Parameter.ChainConstant.CDED_PERIOD;
 
 import com.google.common.math.LongMath;
 import com.google.protobuf.ByteString;
@@ -120,9 +120,9 @@ public class WithdrawBalanceActuator extends AbstractActuator {
 
     long latestWithdrawTime = accountCapsule.getLatestWithdrawTime();
     long now = dynamicStore.getLatestBlockHeaderTimestamp();
-    long witnessAllowanceFrozenTime = dynamicStore.getWitnessAllowanceFrozenTime() * FROZEN_PERIOD;
+    long witnessAllowanceCdedTime = dynamicStore.getWitnessAllowanceCdedTime() * CDED_PERIOD;
 
-    if (now - latestWithdrawTime < witnessAllowanceFrozenTime) {
+    if (now - latestWithdrawTime < witnessAllowanceCdedTime) {
       throw new ContractValidateException("The last withdraw time is "
           + latestWithdrawTime + ", less than 24 hours");
     }

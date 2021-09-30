@@ -624,7 +624,7 @@ public class HttpMethed {
    */
   public static HttpResponse deployContract(String httpNode, String name, String abi,
       String bytecode, Long bandwidthLimit, Long feeLimit, Integer consumeUserResourcePercent,
-      Long originEnergyLimit, Long callValue, Integer tokenId, Long tokenValue, byte[] ownerAddress,
+      Long originUcrLimit, Long callValue, Integer tokenId, Long tokenValue, byte[] ownerAddress,
       String fromKey) {
     try {
       final String requestUrl = "http://" + httpNode + "/wallet/deploycontract";
@@ -636,7 +636,7 @@ public class HttpMethed {
       userBaseObj2.addProperty("bandwidth_limit", bandwidthLimit);
       userBaseObj2.addProperty("fee_limit", feeLimit);
       userBaseObj2.addProperty("consume_user_resource_percent", consumeUserResourcePercent);
-      userBaseObj2.addProperty("origin_energy_limit", originEnergyLimit);
+      userBaseObj2.addProperty("origin_ucr_limit", originUcrLimit);
       userBaseObj2.addProperty("call_value", callValue);
       userBaseObj2.addProperty("token_id", tokenId);
       userBaseObj2.addProperty("tokenValue", tokenValue);
@@ -660,7 +660,7 @@ public class HttpMethed {
    */
   public static String deployContractGetTxid(String httpNode, String name, String abi,
       String bytecode, Long bandwidthLimit, Long feeLimit, Integer consumeUserResourcePercent,
-      Long originEnergyLimit, Long callValue, Integer tokenId, Long tokenValue, byte[] ownerAddress,
+      Long originUcrLimit, Long callValue, Integer tokenId, Long tokenValue, byte[] ownerAddress,
       String fromKey) {
     try {
       final String requestUrl = "http://" + httpNode + "/wallet/deploycontract";
@@ -672,7 +672,7 @@ public class HttpMethed {
       userBaseObj2.addProperty("bandwidth_limit", bandwidthLimit);
       userBaseObj2.addProperty("fee_limit", feeLimit);
       userBaseObj2.addProperty("consume_user_resource_percent", consumeUserResourcePercent);
-      userBaseObj2.addProperty("origin_energy_limit", originEnergyLimit);
+      userBaseObj2.addProperty("origin_ucr_limit", originUcrLimit);
       userBaseObj2.addProperty("call_value", callValue);
       userBaseObj2.addProperty("token_id", tokenId);
       userBaseObj2.addProperty("call_token_value", tokenValue);
@@ -699,7 +699,7 @@ public class HttpMethed {
    */
   public static HttpResponse deployContractGetTxidWithTooBigLong(String httpNode, String name,
       String abi, String bytecode, Long bandwidthLimit, Long feeLimit,
-      Integer consumeUserResourcePercent, Long originEnergyLimit, Long callValue, Integer tokenId,
+      Integer consumeUserResourcePercent, Long originUcrLimit, Long callValue, Integer tokenId,
       Long tokenValue, byte[] ownerAddress, String fromKey) {
     try {
       final String requestUrl = "http://" + httpNode + "/wallet/deploycontract";
@@ -713,7 +713,7 @@ public class HttpMethed {
       jsonObject.put("bandwidth_limit", bandwidthLimit);
       jsonObject.put("fee_limit", feeLimit);
       jsonObject.put("consume_user_resource_percent", consumeUserResourcePercent);
-      jsonObject.put("origin_energy_limit", originEnergyLimit);
+      jsonObject.put("origin_ucr_limit", originUcrLimit);
       jsonObject.put("call_value", callValue);
       jsonObject.put("token_id", tokenId);
       jsonObject.put("owner_address", ByteArray.toHexString(ownerAddress));
@@ -983,28 +983,28 @@ public class HttpMethed {
   /**
    * constructor.
    */
-  public static HttpResponse freezeBalance(String httpNode, byte[] ownerAddress, Long frozenBalance,
-      Integer frozenDuration, Integer resourceCode, String fromKey) {
-    return freezeBalance(httpNode, ownerAddress, frozenBalance, frozenDuration, resourceCode, null,
+  public static HttpResponse cdBalance(String httpNode, byte[] ownerAddress, Long cdedBalance,
+      Integer cdedDuration, Integer resourceCode, String fromKey) {
+    return cdBalance(httpNode, ownerAddress, cdedBalance, cdedDuration, resourceCode, null,
         fromKey);
   }
 
   /**
    * constructor.
    */
-  public static HttpResponse freezeBalance(String httpNode, byte[] ownerAddress, Long frozenBalance,
-      Integer frozenDuration, Integer resourceCode, byte[] receiverAddress, String fromKey) {
+  public static HttpResponse cdBalance(String httpNode, byte[] ownerAddress, Long cdedBalance,
+      Integer cdedDuration, Integer resourceCode, byte[] receiverAddress, String fromKey) {
     try {
-      final String requestUrl = "http://" + httpNode + "/wallet/freezebalance";
+      final String requestUrl = "http://" + httpNode + "/wallet/cdbalance";
       JsonObject userBaseObj2 = new JsonObject();
       userBaseObj2.addProperty("owner_address", ByteArray.toHexString(ownerAddress));
-      userBaseObj2.addProperty("frozen_balance", frozenBalance);
-      userBaseObj2.addProperty("frozen_duration", frozenDuration);
+      userBaseObj2.addProperty("cded_balance", cdedBalance);
+      userBaseObj2.addProperty("cded_duration", cdedDuration);
       if (resourceCode == 0) {
         userBaseObj2.addProperty("resource", "BANDWIDTH");
       }
       if (resourceCode == 1) {
-        userBaseObj2.addProperty("resource", "ENERGY");
+        userBaseObj2.addProperty("resource", "UCR");
       }
       if (resourceCode == 2) {
         userBaseObj2.addProperty("resource", "STABILA_POWER");
@@ -1027,25 +1027,25 @@ public class HttpMethed {
   /**
    * constructor.
    */
-  public static HttpResponse unFreezeBalance(String httpNode, byte[] ownerAddress,
+  public static HttpResponse unCdBalance(String httpNode, byte[] ownerAddress,
       Integer resourceCode, String fromKey) {
-    return unFreezeBalance(httpNode, ownerAddress, resourceCode, null, fromKey);
+    return unCdBalance(httpNode, ownerAddress, resourceCode, null, fromKey);
   }
 
   /**
    * constructor.
    */
-  public static HttpResponse unFreezeBalance(String httpNode, byte[] ownerAddress,
+  public static HttpResponse unCdBalance(String httpNode, byte[] ownerAddress,
       Integer resourceCode, byte[] receiverAddress, String fromKey) {
     try {
-      final String requestUrl = "http://" + httpNode + "/wallet/unfreezebalance";
+      final String requestUrl = "http://" + httpNode + "/wallet/uncdbalance";
       JsonObject userBaseObj2 = new JsonObject();
       userBaseObj2.addProperty("owner_address", ByteArray.toHexString(ownerAddress));
       if (resourceCode == 0) {
         userBaseObj2.addProperty("resource", "BANDWIDTH");
       }
       if (resourceCode == 1) {
-        userBaseObj2.addProperty("resource", "ENERGY");
+        userBaseObj2.addProperty("resource", "UCR");
       }
       if (resourceCode == 2) {
         userBaseObj2.addProperty("resource", "STABILA_POWER");
@@ -3026,14 +3026,14 @@ public class HttpMethed {
   /**
    * constructor.
    */
-  public static HttpResponse updateEnergyLimit(String httpNode, byte[] ownerAddress,
-      String contractAddress, Integer originEnergyLimit, String fromKey) {
+  public static HttpResponse updateUcrLimit(String httpNode, byte[] ownerAddress,
+      String contractAddress, Integer originUcrLimit, String fromKey) {
     try {
-      final String requestUrl = "http://" + httpNode + "/wallet/updateenergylimit";
+      final String requestUrl = "http://" + httpNode + "/wallet/updateucrlimit";
       JsonObject userBaseObj2 = new JsonObject();
       userBaseObj2.addProperty("owner_address", ByteArray.toHexString(ownerAddress));
       userBaseObj2.addProperty("contract_address", contractAddress);
-      userBaseObj2.addProperty("origin_energy_limit", originEnergyLimit);
+      userBaseObj2.addProperty("origin_ucr_limit", originUcrLimit);
       logger.info(userBaseObj2.toString());
       response = createConnect(requestUrl, userBaseObj2);
       transactionString = EntityUtils.toString(response.getEntity());

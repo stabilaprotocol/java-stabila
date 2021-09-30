@@ -85,10 +85,10 @@ public class ContractTrcToken005 {
     Assert.assertTrue(PublicMethed
         .sendcoin(user001Address, 1_000_000L, fromAddress, testKey002, blockingStubFull));
 
-    Assert.assertTrue(PublicMethed.freezeBalanceForReceiver(fromAddress,
-        PublicMethed.getFreezeBalanceCount(dev001Address, dev001Key, 70000L, blockingStubFull), 0,
+    Assert.assertTrue(PublicMethed.cdBalanceForReceiver(fromAddress,
+        PublicMethed.getCdBalanceCount(dev001Address, dev001Key, 70000L, blockingStubFull), 0,
         1, ByteString.copyFrom(dev001Address), testKey002, blockingStubFull));
-    Assert.assertTrue(PublicMethed.freezeBalanceForReceiver(fromAddress, 10_000_000L, 0, 0,
+    Assert.assertTrue(PublicMethed.cdBalanceForReceiver(fromAddress, 10_000_000L, 0, 0,
         ByteString.copyFrom(dev001Address), testKey002, blockingStubFull));
     PublicMethed.waitProduceNextBlock(blockingStubFull);
 
@@ -106,14 +106,14 @@ public class ContractTrcToken005 {
     //before deploy, check account resource
     AccountResourceMessage accountResource = PublicMethed
         .getAccountResource(dev001Address, blockingStubFull);
-    long energyLimit = accountResource.getEnergyLimit();
-    long energyUsage = accountResource.getEnergyUsed();
+    long ucrLimit = accountResource.getUcrLimit();
+    long ucrUsage = accountResource.getUcrUsed();
     long balanceBefore = PublicMethed.queryAccount(dev001Key, blockingStubFull).getBalance();
     Long devAssetCountBefore = PublicMethed
         .getAssetIssueValue(dev001Address, assetAccountId, blockingStubFull);
 
-    logger.info("before energyLimit is " + energyLimit);
-    logger.info("before energyUsage is " + energyUsage);
+    logger.info("before ucrLimit is " + ucrLimit);
+    logger.info("before ucrUsage is " + ucrUsage);
     logger.info("before balanceBefore is " + balanceBefore);
     logger.info("before AssetId: " + assetAccountId.toStringUtf8() + ", devAssetCountBefore: "
         + devAssetCountBefore);
@@ -137,7 +137,7 @@ public class ContractTrcToken005 {
 
     Optional<TransactionInfo> infoById = PublicMethed
         .getTransactionInfoById(transferTokenTxid, blockingStubFull);
-    logger.info("Deploy energytotal is " + infoById.get().getReceipt().getEnergyUsageTotal());
+    logger.info("Deploy ucrtotal is " + infoById.get().getReceipt().getUcrUsageTotal());
 
     if (transferTokenTxid == null || infoById.get().getResultValue() != 0) {
       Assert.fail("deploy transaction failed with message: " + infoById.get().getResMessage());
@@ -149,14 +149,14 @@ public class ContractTrcToken005 {
     Assert.assertNotNull(smartContract.getAbi());
 
     accountResource = PublicMethed.getAccountResource(dev001Address, blockingStubFull);
-    energyLimit = accountResource.getEnergyLimit();
-    energyUsage = accountResource.getEnergyUsed();
+    ucrLimit = accountResource.getUcrLimit();
+    ucrUsage = accountResource.getUcrUsed();
     long balanceAfter = PublicMethed.queryAccount(dev001Key, blockingStubFull).getBalance();
     Long devAssetCountAfter = PublicMethed
         .getAssetIssueValue(dev001Address, assetAccountId, blockingStubFull);
 
-    logger.info("after energyLimit is " + energyLimit);
-    logger.info("after energyUsage is " + energyUsage);
+    logger.info("after ucrLimit is " + ucrLimit);
+    logger.info("after ucrUsage is " + ucrUsage);
     logger.info("after balanceAfter is " + balanceAfter);
     logger.info("after AssetId: " + assetAccountId.toStringUtf8() + ", devAssetCountAfter: "
         + devAssetCountAfter);
@@ -169,28 +169,28 @@ public class ContractTrcToken005 {
     Assert.assertEquals(Long.valueOf(200), Long.valueOf(devAssetCountBefore - devAssetCountAfter));
     Assert.assertEquals(Long.valueOf(200), contractAssetCount);
 
-    Assert.assertTrue(PublicMethed.freezeBalanceForReceiver(fromAddress,
-        PublicMethed.getFreezeBalanceCount(user001Address, user001Key, 50000L, blockingStubFull), 0,
+    Assert.assertTrue(PublicMethed.cdBalanceForReceiver(fromAddress,
+        PublicMethed.getCdBalanceCount(user001Address, user001Key, 50000L, blockingStubFull), 0,
         1, ByteString.copyFrom(user001Address), testKey002, blockingStubFull));
     PublicMethed.waitProduceNextBlock(blockingStubFull);
 
     accountResource = PublicMethed.getAccountResource(dev001Address, blockingStubFull);
-    long devEnergyLimitBefore = accountResource.getEnergyLimit();
-    long devEnergyUsageBefore = accountResource.getEnergyUsed();
+    long devUcrLimitBefore = accountResource.getUcrLimit();
+    long devUcrUsageBefore = accountResource.getUcrUsed();
     long devBalanceBefore = PublicMethed.queryAccount(dev001Address, blockingStubFull).getBalance();
 
-    logger.info("before trigger, devEnergyLimitBefore is " + devEnergyLimitBefore);
-    logger.info("before trigger, devEnergyUsageBefore is " + devEnergyUsageBefore);
+    logger.info("before trigger, devUcrLimitBefore is " + devUcrLimitBefore);
+    logger.info("before trigger, devUcrUsageBefore is " + devUcrUsageBefore);
     logger.info("before trigger, devBalanceBefore is " + devBalanceBefore);
 
     accountResource = PublicMethed.getAccountResource(user001Address, blockingStubFull);
-    long userEnergyLimitBefore = accountResource.getEnergyLimit();
-    long userEnergyUsageBefore = accountResource.getEnergyUsed();
+    long userUcrLimitBefore = accountResource.getUcrLimit();
+    long userUcrUsageBefore = accountResource.getUcrUsed();
     long userBalanceBefore = PublicMethed.queryAccount(user001Address, blockingStubFull)
         .getBalance();
 
-    logger.info("before trigger, userEnergyLimitBefore is " + userEnergyLimitBefore);
-    logger.info("before trigger, userEnergyUsageBefore is " + userEnergyUsageBefore);
+    logger.info("before trigger, userUcrLimitBefore is " + userUcrLimitBefore);
+    logger.info("before trigger, userUcrUsageBefore is " + userUcrUsageBefore);
     logger.info("before trigger, userBalanceBefore is " + userBalanceBefore);
 
     Long transferAssetBefore = PublicMethed
@@ -385,22 +385,22 @@ public class ContractTrcToken005 {
         response.getMessage().toStringUtf8());
 
     accountResource = PublicMethed.getAccountResource(dev001Address, blockingStubFull);
-    long devEnergyLimitAfter = accountResource.getEnergyLimit();
-    long devEnergyUsageAfter = accountResource.getEnergyUsed();
+    long devUcrLimitAfter = accountResource.getUcrLimit();
+    long devUcrUsageAfter = accountResource.getUcrUsed();
     long devBalanceAfter = PublicMethed.queryAccount(dev001Address, blockingStubFull).getBalance();
 
-    logger.info("after trigger, devEnergyLimitAfter is " + devEnergyLimitAfter);
-    logger.info("after trigger, devEnergyUsageAfter is " + devEnergyUsageAfter);
+    logger.info("after trigger, devUcrLimitAfter is " + devUcrLimitAfter);
+    logger.info("after trigger, devUcrUsageAfter is " + devUcrUsageAfter);
     logger.info("after trigger, devBalanceAfter is " + devBalanceAfter);
 
     accountResource = PublicMethed.getAccountResource(user001Address, blockingStubFull);
-    long userEnergyLimitAfter = accountResource.getEnergyLimit();
-    long userEnergyUsageAfter = accountResource.getEnergyUsed();
+    long userUcrLimitAfter = accountResource.getUcrLimit();
+    long userUcrUsageAfter = accountResource.getUcrUsed();
     long userBalanceAfter = PublicMethed.queryAccount(user001Address, blockingStubFull)
         .getBalance();
 
-    logger.info("after trigger, userEnergyLimitAfter is " + userEnergyLimitAfter);
-    logger.info("after trigger, userEnergyUsageAfter is " + userEnergyUsageAfter);
+    logger.info("after trigger, userUcrLimitAfter is " + userUcrLimitAfter);
+    logger.info("after trigger, userUcrUsageAfter is " + userUcrUsageAfter);
     logger.info("after trigger, userBalanceAfter is " + userBalanceAfter);
 
   }
@@ -412,9 +412,9 @@ public class ContractTrcToken005 {
   public void shutdown() throws InterruptedException {
     PublicMethed.freedResource(dev001Address, dev001Key, fromAddress, blockingStubFull);
     PublicMethed.freedResource(user001Address, user001Key, fromAddress, blockingStubFull);
-    PublicMethed.unFreezeBalance(fromAddress, testKey002, 1, dev001Address, blockingStubFull);
-    PublicMethed.unFreezeBalance(fromAddress, testKey002, 0, dev001Address, blockingStubFull);
-    PublicMethed.unFreezeBalance(fromAddress, testKey002, 1, user001Address, blockingStubFull);
+    PublicMethed.unCdBalance(fromAddress, testKey002, 1, dev001Address, blockingStubFull);
+    PublicMethed.unCdBalance(fromAddress, testKey002, 0, dev001Address, blockingStubFull);
+    PublicMethed.unCdBalance(fromAddress, testKey002, 1, user001Address, blockingStubFull);
     if (channelFull != null) {
       channelFull.shutdown().awaitTermination(5, TimeUnit.SECONDS);
     }

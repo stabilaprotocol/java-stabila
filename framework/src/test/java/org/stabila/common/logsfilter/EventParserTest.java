@@ -8,7 +8,7 @@ import java.util.Map;
 import org.junit.Test;
 import org.testng.Assert;
 import org.stabila.common.crypto.Hash;
-import org.stabila.common.runtime.TvmTestUtils;
+import org.stabila.common.runtime.SvmTestUtils;
 import org.stabila.common.utils.ByteArray;
 import org.stabila.core.Wallet;
 import org.stabila.core.vm.LogInfoTriggerParser;
@@ -54,7 +54,7 @@ public class EventParserTest {
         + "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
         + "000000000000000000000000000000a6162636465666731323300000000000000000000000000000000000"
         + "000000000";
-    ABI abi = TvmTestUtils.jsonStr2Abi(abiStr);
+    ABI abi = SvmTestUtils.jsonStr2Abi(abiStr);
 
     byte[] data = ByteArray.fromHexString(dataStr);
     List<byte[]> topicList = new LinkedList<>();

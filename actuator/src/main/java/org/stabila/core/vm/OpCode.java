@@ -586,11 +586,11 @@ public enum OpCode {
 
   ISCONTRACT(0xd4, 1, 1, OpCode.Tier.ExtTier),
 
-  FREEZE(0xd5, 3, 1, OpCode.Tier.ExtTier),
+  CD(0xd5, 3, 1, OpCode.Tier.ExtTier),
 
-  UNFREEZE(0xd6, 2, 1, OpCode.Tier.ExtTier),
+  UNCD(0xd6, 2, 1, OpCode.Tier.ExtTier),
 
-  FREEZEEXPIRETIME(0xd7, 2, 1, OpCode.Tier.ExtTier),
+  CDEXPIRETIME(0xd7, 2, 1, OpCode.Tier.ExtTier),
 
   VOTEWITNESS(0xd8, 4, 1, OpCode.Tier.ExtTier),
 

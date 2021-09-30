@@ -71,16 +71,16 @@ public class ContractScenario006 {
         testKey003, blockingStubFull);
     logger.info(Long.toString(PublicMethed.queryAccount(contract006Key, blockingStubFull)
         .getBalance()));
-    Assert.assertTrue(PublicMethed.freezeBalanceGetEnergy(contract006Address, 100000000L,
+    Assert.assertTrue(PublicMethed.cdBalanceGetUcr(contract006Address, 100000000L,
         3, 1, contract006Key, blockingStubFull));
     PublicMethed.waitProduceNextBlock(blockingStubFull);
     AccountResourceMessage accountResource = PublicMethed.getAccountResource(contract006Address,
         blockingStubFull);
-    Long energyLimit = accountResource.getEnergyLimit();
-    Long energyUsage = accountResource.getEnergyUsed();
+    Long ucrLimit = accountResource.getUcrLimit();
+    Long ucrUsage = accountResource.getUcrUsed();
 
-    logger.info("before energy limit is " + Long.toString(energyLimit));
-    logger.info("before energy usage is " + Long.toString(energyUsage));
+    logger.info("before ucr limit is " + Long.toString(ucrLimit));
+    logger.info("before ucr usage is " + Long.toString(ucrUsage));
 
     String filePath = "./src/test/resources/soliditycode/contractScenario006.sol";
     String contractName = "FoMo3Dlong";
@@ -104,12 +104,12 @@ public class ContractScenario006 {
     Assert.assertTrue(smartContract.getName().equalsIgnoreCase(contractName));
     Assert.assertFalse(smartContract.getBytecode().toString().isEmpty());
     accountResource = PublicMethed.getAccountResource(contract006Address, blockingStubFull);
-    energyLimit = accountResource.getEnergyLimit();
-    energyUsage = accountResource.getEnergyUsed();
-    Assert.assertTrue(energyLimit > 0);
-    Assert.assertTrue(energyUsage > 0);
-    logger.info("after energy limit is " + Long.toString(energyLimit));
-    logger.info("after energy usage is " + Long.toString(energyUsage));
+    ucrLimit = accountResource.getUcrLimit();
+    ucrUsage = accountResource.getUcrUsed();
+    Assert.assertTrue(ucrLimit > 0);
+    Assert.assertTrue(ucrUsage > 0);
+    logger.info("after ucr limit is " + Long.toString(ucrLimit));
+    logger.info("after ucr usage is " + Long.toString(ucrUsage));
   }
 
   /**

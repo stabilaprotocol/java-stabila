@@ -149,7 +149,7 @@ import org.stabila.core.capsule.utils.MarketUtils;
 import org.stabila.core.config.args.Args;
 import org.stabila.core.db.BandwidthProcessor;
 import org.stabila.core.db.BlockIndexStore;
-import org.stabila.core.db.EnergyProcessor;
+import org.stabila.core.db.UcrProcessor;
 import org.stabila.core.db.Manager;
 import org.stabila.core.db.TransactionContext;
 import org.stabila.core.exception.AccountResourceInsufficientException;
@@ -333,18 +333,18 @@ public class Wallet {
     BandwidthProcessor processor = new BandwidthProcessor(chainBaseManager);
     processor.updateUsage(accountCapsule);
 
-    EnergyProcessor energyProcessor = new EnergyProcessor(
+    UcrProcessor ucrProcessor = new UcrProcessor(
             chainBaseManager.getDynamicPropertiesStore(),
             chainBaseManager.getAccountStore());
-    energyProcessor.updateUsage(accountCapsule);
+    ucrProcessor.updateUsage(accountCapsule);
 
     long genesisTimeStamp = chainBaseManager.getGenesisBlock().getTimeStamp();
     accountCapsule.setLatestConsumeTime(genesisTimeStamp
             + BLOCK_PRODUCED_INTERVAL * accountCapsule.getLatestConsumeTime());
     accountCapsule.setLatestConsumeFreeTime(genesisTimeStamp
             + BLOCK_PRODUCED_INTERVAL * accountCapsule.getLatestConsumeFreeTime());
-    accountCapsule.setLatestConsumeTimeForEnergy(genesisTimeStamp
-            + BLOCK_PRODUCED_INTERVAL * accountCapsule.getLatestConsumeTimeForEnergy());
+    accountCapsule.setLatestConsumeTimeForUcr(genesisTimeStamp
+            + BLOCK_PRODUCED_INTERVAL * accountCapsule.getLatestConsumeTimeForUcr());
 
     return accountCapsule.getInstance();
   }
@@ -364,18 +364,18 @@ public class Wallet {
     BandwidthProcessor processor = new BandwidthProcessor(chainBaseManager);
     processor.updateUsage(accountCapsule);
 
-    EnergyProcessor energyProcessor = new EnergyProcessor(
+    UcrProcessor ucrProcessor = new UcrProcessor(
             chainBaseManager.getDynamicPropertiesStore(),
             chainBaseManager.getAccountStore());
-    energyProcessor.updateUsage(accountCapsule);
+    ucrProcessor.updateUsage(accountCapsule);
 
     long genesisTimeStamp = chainBaseManager.getGenesisBlock().getTimeStamp();
     accountCapsule.setLatestConsumeTime(genesisTimeStamp
             + BLOCK_PRODUCED_INTERVAL * accountCapsule.getLatestConsumeTime());
     accountCapsule.setLatestConsumeFreeTime(genesisTimeStamp
             + BLOCK_PRODUCED_INTERVAL * accountCapsule.getLatestConsumeFreeTime());
-    accountCapsule.setLatestConsumeTimeForEnergy(genesisTimeStamp
-            + BLOCK_PRODUCED_INTERVAL * accountCapsule.getLatestConsumeTimeForEnergy());
+    accountCapsule.setLatestConsumeTimeForUcr(genesisTimeStamp
+            + BLOCK_PRODUCED_INTERVAL * accountCapsule.getLatestConsumeTimeForUcr());
 
     return accountCapsule.getInstance();
   }
@@ -786,11 +786,11 @@ public class Wallet {
                     .setKey("getRemoveThePowerOfTheGr")
                     .setValue(chainBaseManager.getDynamicPropertiesStore().getRemoveThePowerOfTheGr())
                     .build());
-    //    ENERGY_FEE, // UNIT, 11
+    //    UCR_FEE, // UNIT, 11
     builder.addChainParameter(
             Protocol.ChainParameters.ChainParameter.newBuilder()
-                    .setKey("getEnergyFee")
-                    .setValue(chainBaseManager.getDynamicPropertiesStore().getEnergyFee())
+                    .setKey("getUcrFee")
+                    .setValue(chainBaseManager.getDynamicPropertiesStore().getUcrFee())
                     .build());
     //    EXCHANGE_CREATE_FEE, // UNIT, 12
     builder.addChainParameter(
@@ -822,23 +822,23 @@ public class Wallet {
                     .setKey("getAllowDelegateResource")
                     .setValue(chainBaseManager.getDynamicPropertiesStore().getAllowDelegateResource())
                     .build());
-    //    TOTAL_ENERGY_LIMIT, // 50,000,000,000, 17
+    //    TOTAL_UCR_LIMIT, // 50,000,000,000, 17
     builder.addChainParameter(
             Protocol.ChainParameters.ChainParameter.newBuilder()
-                    .setKey("getTotalEnergyLimit")
-                    .setValue(chainBaseManager.getDynamicPropertiesStore().getTotalEnergyLimit())
+                    .setKey("getTotalUcrLimit")
+                    .setValue(chainBaseManager.getDynamicPropertiesStore().getTotalUcrLimit())
                     .build());
-    //    ALLOW_TVM_TRANSFER_TRC10, // 1, 18
+    //    ALLOW_SVM_TRANSFER_TRC10, // 1, 18
     builder.addChainParameter(
             Protocol.ChainParameters.ChainParameter.newBuilder()
-                    .setKey("getAllowTvmTransferTrc10")
-                    .setValue(chainBaseManager.getDynamicPropertiesStore().getAllowTvmTransferTrc10())
+                    .setKey("getAllowSvmTransferTrc10")
+                    .setValue(chainBaseManager.getDynamicPropertiesStore().getAllowSvmTransferTrc10())
                     .build());
-    //    TOTAL_CURRENT_ENERGY_LIMIT, // 50,000,000,000, 19
+    //    TOTAL_CURRENT_UCR_LIMIT, // 50,000,000,000, 19
     builder.addChainParameter(
             Protocol.ChainParameters.ChainParameter.newBuilder()
-                    .setKey("getTotalEnergyCurrentLimit")
-                    .setValue(chainBaseManager.getDynamicPropertiesStore().getTotalEnergyCurrentLimit())
+                    .setKey("getTotalUcrCurrentLimit")
+                    .setValue(chainBaseManager.getDynamicPropertiesStore().getTotalUcrCurrentLimit())
                     .build());
     //    ALLOW_MULTI_SIGN, // 1, 20
     builder.addChainParameter(
@@ -846,21 +846,21 @@ public class Wallet {
                     .setKey("getAllowMultiSign")
                     .setValue(chainBaseManager.getDynamicPropertiesStore().getAllowMultiSign())
                     .build());
-    //    ALLOW_ADAPTIVE_ENERGY, // 1, 21
+    //    ALLOW_ADAPTIVE_UCR, // 1, 21
     builder.addChainParameter(
             Protocol.ChainParameters.ChainParameter.newBuilder()
-                    .setKey("getAllowAdaptiveEnergy")
-                    .setValue(chainBaseManager.getDynamicPropertiesStore().getAllowAdaptiveEnergy())
+                    .setKey("getAllowAdaptiveUcr")
+                    .setValue(chainBaseManager.getDynamicPropertiesStore().getAllowAdaptiveUcr())
                     .build());
     //other chainParameters
     builder.addChainParameter(Protocol.ChainParameters.ChainParameter.newBuilder()
-            .setKey("getTotalEnergyTargetLimit")
-            .setValue(chainBaseManager.getDynamicPropertiesStore().getTotalEnergyTargetLimit())
+            .setKey("getTotalUcrTargetLimit")
+            .setValue(chainBaseManager.getDynamicPropertiesStore().getTotalUcrTargetLimit())
             .build());
 
     builder.addChainParameter(Protocol.ChainParameters.ChainParameter.newBuilder()
-            .setKey("getTotalEnergyAverageUsage")
-            .setValue(chainBaseManager.getDynamicPropertiesStore().getTotalEnergyAverageUsage())
+            .setKey("getTotalUcrAverageUsage")
+            .setValue(chainBaseManager.getDynamicPropertiesStore().getTotalUcrAverageUsage())
             .build());
 
     builder.addChainParameter(Protocol.ChainParameters.ChainParameter.newBuilder()
@@ -883,21 +883,21 @@ public class Wallet {
             .setValue(chainBaseManager.getDynamicPropertiesStore().getAllowProtoFilterNum())
             .build());
 
-    // ALLOW_TVM_CONSTANTINOPLE
+    // ALLOW_SVM_CONSTANTINOPLE
     builder.addChainParameter(Protocol.ChainParameters.ChainParameter.newBuilder()
-            .setKey("getAllowTvmConstantinople")
-            .setValue(chainBaseManager.getDynamicPropertiesStore().getAllowTvmConstantinople())
+            .setKey("getAllowSvmConstantinople")
+            .setValue(chainBaseManager.getDynamicPropertiesStore().getAllowSvmConstantinople())
             .build());
 
     builder.addChainParameter(Protocol.ChainParameters.ChainParameter.newBuilder()
-            .setKey("getAllowTvmSolidity059")
-            .setValue(chainBaseManager.getDynamicPropertiesStore().getAllowTvmSolidity059())
+            .setKey("getAllowSvmSolidity059")
+            .setValue(chainBaseManager.getDynamicPropertiesStore().getAllowSvmSolidity059())
             .build());
 
-    // ALLOW_TVM_ISTANBUL
+    // ALLOW_SVM_ISTANBUL
     builder.addChainParameter(
-            Protocol.ChainParameters.ChainParameter.newBuilder().setKey("getAllowTvmIstanbul")
-                    .setValue(dbManager.getDynamicPropertiesStore().getAllowTvmIstanbul()).build());
+            Protocol.ChainParameters.ChainParameter.newBuilder().setKey("getAllowSvmIstanbul")
+                    .setValue(dbManager.getDynamicPropertiesStore().getAllowSvmIstanbul()).build());
 
     // ALLOW_ZKSNARK_TRANSACTION
     //    builder.addChainParameter(
@@ -998,13 +998,13 @@ public class Wallet {
             .build());
 
     builder.addChainParameter(Protocol.ChainParameters.ChainParameter.newBuilder()
-            .setKey("getAllowTvmFreeze")
-            .setValue(dbManager.getDynamicPropertiesStore().getAllowTvmFreeze())
+            .setKey("getAllowSvmCd")
+            .setValue(dbManager.getDynamicPropertiesStore().getAllowSvmCd())
             .build());
 
     builder.addChainParameter(Protocol.ChainParameters.ChainParameter.newBuilder()
-            .setKey("getAllowTvmVote")
-            .setValue(dbManager.getDynamicPropertiesStore().getAllowTvmVote())
+            .setKey("getAllowSvmVote")
+            .setValue(dbManager.getDynamicPropertiesStore().getAllowSvmVote())
             .build());
 
     builder.addChainParameter(Protocol.ChainParameters.ChainParameter.newBuilder()
@@ -1139,10 +1139,10 @@ public class Wallet {
     BandwidthProcessor processor = new BandwidthProcessor(chainBaseManager);
     processor.updateUsage(accountCapsule);
 
-    EnergyProcessor energyProcessor = new EnergyProcessor(
+    UcrProcessor ucrProcessor = new UcrProcessor(
             chainBaseManager.getDynamicPropertiesStore(),
             chainBaseManager.getAccountStore());
-    energyProcessor.updateUsage(accountCapsule);
+    ucrProcessor.updateUsage(accountCapsule);
 
     long netLimit = processor
             .calculateGlobalNetLimit(accountCapsule);
@@ -1151,12 +1151,12 @@ public class Wallet {
     long totalNetWeight = chainBaseManager.getDynamicPropertiesStore().getTotalNetWeight();
     long totalStabilaPowerWeight = chainBaseManager.getDynamicPropertiesStore()
             .getTotalStabilaPowerWeight();
-    long energyLimit = energyProcessor
-            .calculateGlobalEnergyLimit(accountCapsule);
-    long totalEnergyLimit =
-            chainBaseManager.getDynamicPropertiesStore().getTotalEnergyCurrentLimit();
-    long totalEnergyWeight =
-            chainBaseManager.getDynamicPropertiesStore().getTotalEnergyWeight();
+    long ucrLimit = ucrProcessor
+            .calculateGlobalUcrLimit(accountCapsule);
+    long totalUcrLimit =
+            chainBaseManager.getDynamicPropertiesStore().getTotalUcrCurrentLimit();
+    long totalUcrWeight =
+            chainBaseManager.getDynamicPropertiesStore().getTotalUcrWeight();
 
     long storageLimit = accountCapsule.getAccountResource().getStorageLimit();
     long storageUsage = accountCapsule.getAccountResource().getStorageUsage();
@@ -1173,12 +1173,12 @@ public class Wallet {
             .setTotalNetLimit(totalNetLimit)
             .setTotalNetWeight(totalNetWeight)
             .setTotalStabilaPowerWeight(totalStabilaPowerWeight)
-            .setEnergyLimit(energyLimit)
-            .setEnergyUsed(accountCapsule.getAccountResource().getEnergyUsage())
+            .setUcrLimit(ucrLimit)
+            .setUcrUsed(accountCapsule.getAccountResource().getUcrUsage())
             .setStabilaPowerUsed(allStabilaPowerUsage)
             .setStabilaPowerLimit(allStabilaPower)
-            .setTotalEnergyLimit(totalEnergyLimit)
-            .setTotalEnergyWeight(totalEnergyWeight)
+            .setTotalUcrLimit(totalUcrLimit)
+            .setTotalUcrWeight(totalUcrWeight)
             .setStorageLimit(storageLimit)
             .setStorageUsed(storageUsage)
             .putAllAssetNetUsed(allFreeAssetNetUsage)
@@ -2566,7 +2566,7 @@ public class Wallet {
     }
 
     TransactionResultCapsule ret = new TransactionResultCapsule();
-    builder.setEnergyUsed(result.getEnergyUsed());
+    builder.setUcrUsed(result.getUcrUsed());
     builder.addConstantResult(ByteString.copyFrom(result.getHReturn()));
     ret.setStatus(0, code.SUCESS);
     if (StringUtils.isNoneEmpty(result.getRuntimeError())) {
@@ -2988,9 +2988,9 @@ public class Wallet {
       throw new ContractValidateException("No valid shielded TRC-20 contract address");
     }
 
-    byte[] shieldedTRC20ContractAddressTvm = new byte[20];
-    System.arraycopy(shieldedTRC20ContractAddress, 1, shieldedTRC20ContractAddressTvm, 0, 20);
-    builder.setShieldedTRC20Address(shieldedTRC20ContractAddressTvm);
+    byte[] shieldedTRC20ContractAddressSvm = new byte[20];
+    System.arraycopy(shieldedTRC20ContractAddress, 1, shieldedTRC20ContractAddressSvm, 0, 20);
+    builder.setShieldedTRC20Address(shieldedTRC20ContractAddressSvm);
 
     BigInteger fromAmount;
     BigInteger toAmount;
@@ -3069,9 +3069,9 @@ public class Wallet {
         throw new ContractValidateException("No valid transparent TRC-20 output address");
       }
 
-      byte[] transparentToAddressTvm = new byte[20];
-      System.arraycopy(transparentToAddress, 1, transparentToAddressTvm, 0, 20);
-      builder.setTransparentToAddress(transparentToAddressTvm);
+      byte[] transparentToAddressSvm = new byte[20];
+      System.arraycopy(transparentToAddress, 1, transparentToAddressSvm, 0, 20);
+      builder.setTransparentToAddress(transparentToAddressSvm);
       builder.setTransparentToAmount(toAmount);
 
       Optional<byte[]> cipher = NoteEncryption.Encryption
@@ -3122,9 +3122,9 @@ public class Wallet {
             || shieldedTRC20ContractAddress.length != 21) {
       throw new ContractValidateException("No valid shielded TRC-20 contract address");
     }
-    byte[] shieldedTRC20ContractAddressTvm = new byte[20];
-    System.arraycopy(shieldedTRC20ContractAddress, 1, shieldedTRC20ContractAddressTvm, 0, 20);
-    builder.setShieldedTRC20Address(shieldedTRC20ContractAddressTvm);
+    byte[] shieldedTRC20ContractAddressSvm = new byte[20];
+    System.arraycopy(shieldedTRC20ContractAddress, 1, shieldedTRC20ContractAddressSvm, 0, 20);
+    builder.setShieldedTRC20Address(shieldedTRC20ContractAddressSvm);
 
     BigInteger fromAmount;
     BigInteger toAmount;
@@ -3193,9 +3193,9 @@ public class Wallet {
       if (ArrayUtils.isEmpty(transparentToAddress) || transparentToAddress.length != 21) {
         throw new ContractValidateException("No transparent TRC-20 output address");
       }
-      byte[] transparentToAddressTvm = new byte[20];
-      System.arraycopy(transparentToAddress, 1, transparentToAddressTvm, 0, 20);
-      builder.setTransparentToAddress(transparentToAddressTvm);
+      byte[] transparentToAddressSvm = new byte[20];
+      System.arraycopy(transparentToAddress, 1, transparentToAddressSvm, 0, 20);
+      builder.setTransparentToAddress(transparentToAddressSvm);
       builder.setTransparentToAmount(toAmount);
       Optional<byte[]> cipher = NoteEncryption.Encryption
               .encryptBurnMessageByOvk(ovk, toAmount, transparentToAddress);
@@ -3678,10 +3678,10 @@ public class Wallet {
     BigInteger value = getBigIntegerFromString(request.getAmount());
     checkBigIntegerRange(value);
     byte[] transparentToAddress = request.getTransparentToAddress().toByteArray();
-    byte[] transparentToAddressTvm = new byte[20];
+    byte[] transparentToAddressSvm = new byte[20];
     if (!ArrayUtils.isEmpty(transparentToAddress)) {
       if (transparentToAddress.length == 21) {
-        System.arraycopy(transparentToAddress, 1, transparentToAddressTvm, 0, 20);
+        System.arraycopy(transparentToAddress, 1, transparentToAddressSvm, 0, 20);
       } else {
         throw new ZksnarkException("invalid transparent to address");
       }
@@ -3705,7 +3705,7 @@ public class Wallet {
     }
     String input = parametersBuilder
             .getTriggerContractInput(shieldedTRC20Parameters, spendAuthoritySignature, value, false,
-                    transparentToAddressTvm);
+                    transparentToAddressSvm);
     if (Objects.isNull(input)) {
       throw new ZksnarkException("generate the trigger contract parameters error");
     }

@@ -171,13 +171,13 @@ public class WalletTestAccount003 {
   }
 
   @Test(enabled = true)
-  public void test6NoFreezeBalanceToUnfreezeBalance() {
-    //Unfreeze account failed when no freeze balance
-    Account noFreezeAccount = PublicMethed.queryAccount(lowBalTest, blockingStubFull);
-    if (noFreezeAccount.getFrozenCount() == 0) {
-      Assert.assertFalse(unFreezeBalance(lowBalAddress, lowBalTest));
+  public void test6NoCdBalanceToUncdBalance() {
+    //Uncd account failed when no cd balance
+    Account noCdAccount = PublicMethed.queryAccount(lowBalTest, blockingStubFull);
+    if (noCdAccount.getCdedCount() == 0) {
+      Assert.assertFalse(unCdBalance(lowBalAddress, lowBalTest));
     } else {
-      logger.info("This account has freeze balance, please test this case for manual");
+      logger.info("This account has cd balance, please test this case for manual");
     }
   }
 
@@ -347,7 +347,7 @@ public class WalletTestAccount003 {
    * constructor.
    */
 
-  public boolean unFreezeBalance(byte[] address, String priKey) {
+  public boolean unCdBalance(byte[] address, String priKey) {
     //byte[] address = address;
 
     ECKey temKey = null;
@@ -358,15 +358,15 @@ public class WalletTestAccount003 {
       ex.printStackTrace();
     }
     final ECKey ecKey = temKey;
-    BalanceContract.UnfreezeBalanceContract.Builder builder
-        = BalanceContract.UnfreezeBalanceContract.newBuilder();
+    BalanceContract.UncdBalanceContract.Builder builder
+        = BalanceContract.UncdBalanceContract.newBuilder();
     ByteString byteAddreess = ByteString.copyFrom(address);
 
     builder.setOwnerAddress(byteAddreess);
 
-    BalanceContract.UnfreezeBalanceContract contract = builder.build();
+    BalanceContract.UncdBalanceContract contract = builder.build();
 
-    Protocol.Transaction transaction = blockingStubFull.unfreezeBalance(contract);
+    Protocol.Transaction transaction = blockingStubFull.uncdBalance(contract);
 
     if (transaction == null || transaction.getRawData().getContractCount() == 0) {
       return false;
@@ -434,11 +434,11 @@ public class WalletTestAccount003 {
    * constructor.
    */
 
-  public Boolean freezeBalance(byte[] addRess, long freezeBalance, long freezeDuration,
+  public Boolean cdBalance(byte[] addRess, long cdBalance, long cdDuration,
       String priKey) {
     byte[] address = addRess;
-    long frozenBalance = freezeBalance;
-    long frozenDuration = freezeDuration;
+    long cdedBalance = cdBalance;
+    long cdedDuration = cdDuration;
 
     //String priKey = testKey002;
     ECKey temKey = null;
@@ -450,15 +450,15 @@ public class WalletTestAccount003 {
     }
     final ECKey ecKey = temKey;
 
-    BalanceContract.FreezeBalanceContract.Builder builder = BalanceContract.FreezeBalanceContract
+    BalanceContract.CdBalanceContract.Builder builder = BalanceContract.CdBalanceContract
         .newBuilder();
     ByteString byteAddreess = ByteString.copyFrom(address);
 
-    builder.setOwnerAddress(byteAddreess).setFrozenBalance(frozenBalance)
-        .setFrozenDuration(frozenDuration);
+    builder.setOwnerAddress(byteAddreess).setCdedBalance(cdedBalance)
+        .setCdedDuration(cdedDuration);
 
-    BalanceContract.FreezeBalanceContract contract = builder.build();
-    Protocol.Transaction transaction = blockingStubFull.freezeBalance(contract);
+    BalanceContract.CdBalanceContract contract = builder.build();
+    Protocol.Transaction transaction = blockingStubFull.cdBalance(contract);
 
     if (transaction == null || transaction.getRawData().getContractCount() == 0) {
       return false;

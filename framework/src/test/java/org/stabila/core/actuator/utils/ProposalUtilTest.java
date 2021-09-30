@@ -69,7 +69,7 @@ public class ProposalUtilTest {
     Assert.assertEquals(true, ProposalUtil.ProposalType.contain(2));
 
     Assert.assertEquals(null, ProposalUtil.ProposalType.getEnumOrNull(-2));
-    Assert.assertEquals(ProposalUtil.ProposalType.ALLOW_TVM_SOLIDITY_059, ProposalUtil.ProposalType.getEnumOrNull(32));
+    Assert.assertEquals(ProposalUtil.ProposalType.ALLOW_SVM_SOLIDITY_059, ProposalUtil.ProposalType.getEnumOrNull(32));
 
     long code = -1;
     try {
@@ -80,7 +80,7 @@ public class ProposalUtilTest {
     }
 
     code = 32;
-    Assert.assertEquals(ProposalUtil.ProposalType.ALLOW_TVM_SOLIDITY_059, ProposalUtil.ProposalType.getEnum(code));
+    Assert.assertEquals(ProposalUtil.ProposalType.ALLOW_SVM_SOLIDITY_059, ProposalUtil.ProposalType.getEnum(code));
 
   }
 
@@ -287,21 +287,21 @@ public class ProposalUtilTest {
     dynamicPropertiesStore.saveAllowSameTokenName(1);
     try {
       actuatorUtil.validator(dynamicPropertiesStore, forkUtils,
-          ProposalUtil.ProposalType.ALLOW_TVM_TRANSFER_TRC10.getCode(), 2);
+          ProposalUtil.ProposalType.ALLOW_SVM_TRANSFER_TRC10.getCode(), 2);
       Assert.assertTrue(false);
     } catch (ContractValidateException e) {
       Assert.assertEquals(
-          "This value[ALLOW_TVM_TRANSFER_TRC10] is only allowed to be 1", e.getMessage());
+          "This value[ALLOW_SVM_TRANSFER_TRC10] is only allowed to be 1", e.getMessage());
     }
 
     dynamicPropertiesStore.saveAllowSameTokenName(0);
     try {
       actuatorUtil.validator(dynamicPropertiesStore, forkUtils,
-          ProposalUtil.ProposalType.ALLOW_TVM_TRANSFER_TRC10.getCode(), 1);
+          ProposalUtil.ProposalType.ALLOW_SVM_TRANSFER_TRC10.getCode(), 1);
       Assert.assertTrue(false);
     } catch (ContractValidateException e) {
       Assert.assertEquals("[ALLOW_SAME_TOKEN_NAME] proposal must be approved "
-          + "before [ALLOW_TVM_TRANSFER_TRC10] can be proposed", e.getMessage());
+          + "before [ALLOW_SVM_TRANSFER_TRC10] can be proposed", e.getMessage());
     }
 
     forkUtils.init(dbManager.getChainBaseManager());

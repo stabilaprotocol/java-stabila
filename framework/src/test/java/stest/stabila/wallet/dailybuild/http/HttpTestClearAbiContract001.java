@@ -101,7 +101,7 @@ public class HttpTestClearAbiContract001 {
         ByteArray.toHexString(assetOwnerAddress));
     Assert.assertThat(responseContent.getString("abi"), containsString("testView"));
 
-    Assert.assertEquals(responseContent.getString("origin_energy_limit"), "11111111111111");
+    Assert.assertEquals(responseContent.getString("origin_ucr_limit"), "11111111111111");
     Assert.assertEquals(responseContent.getString("name"), contractName);
   }
 
@@ -170,7 +170,7 @@ public class HttpTestClearAbiContract001 {
     Assert.assertEquals(responseContent.getString("origin_address"),
         ByteArray.toHexString(assetOwnerAddress));
     Assert.assertEquals(responseContent.getString("abi"), "{}");
-    Assert.assertEquals(responseContent.getString("origin_energy_limit"), "11111111111111");
+    Assert.assertEquals(responseContent.getString("origin_ucr_limit"), "11111111111111");
     Assert.assertEquals(responseContent.getString("name"), contractName);
   }
 

@@ -100,12 +100,12 @@ public class UpdateAsset2Test {
         .getAssetIssueByAccount(request1);
     Optional<GrpcAPI.AssetIssueList> queryAssetByAccount = Optional.ofNullable(assetIssueList1);
     if (queryAssetByAccount.get().getAssetIssueCount() == 0) {
-      //Assert.assertTrue(PublicMethed.freezeBalance(fromAddress,10000000L,3,
+      //Assert.assertTrue(PublicMethed.cdBalance(fromAddress,10000000L,3,
       //    testKey002,blockingStubFull));
       Assert.assertTrue(PublicMethed
           .sendcoin(asset010Address, sendAmount, fromAddress, testKey002, blockingStubFull));
       Assert.assertTrue(PublicMethed
-          .freezeBalance(asset010Address, 200000000L, 3, testKeyForAssetIssue010,
+          .cdBalance(asset010Address, 200000000L, 3, testKeyForAssetIssue010,
               blockingStubFull));
       Long start = System.currentTimeMillis() + 2000;
       Long end = System.currentTimeMillis() + 1000000000;
@@ -237,7 +237,7 @@ public class UpdateAsset2Test {
 
   public Boolean createAssetIssue(byte[] address, String name, Long totalSupply, Integer stbNum,
       Integer icoNum, Long startTime, Long endTime,
-      Integer voteScore, String description, String url, Long fronzenAmount, Long frozenDay,
+      Integer voteScore, String description, String url, Long fronzenAmount, Long cdedDay,
       String priKey) {
     ECKey temKey = null;
     try {
@@ -263,12 +263,12 @@ public class UpdateAsset2Test {
       builder.setVoteScore(voteScore);
       builder.setDescription(ByteString.copyFrom(description.getBytes()));
       builder.setUrl(ByteString.copyFrom(url.getBytes()));
-      AssetIssueContractOuterClass.AssetIssueContract.FrozenSupply.Builder frozenBuilder =
-          AssetIssueContractOuterClass.AssetIssueContract.FrozenSupply
+      AssetIssueContractOuterClass.AssetIssueContract.CdedSupply.Builder cdedBuilder =
+          AssetIssueContractOuterClass.AssetIssueContract.CdedSupply
               .newBuilder();
-      frozenBuilder.setFrozenAmount(fronzenAmount);
-      frozenBuilder.setFrozenDays(frozenDay);
-      builder.addFrozenSupply(0, frozenBuilder);
+      cdedBuilder.setCdedAmount(fronzenAmount);
+      cdedBuilder.setCdedDays(cdedDay);
+      builder.addCdedSupply(0, cdedBuilder);
 
       Transaction transaction = blockingStubFull.createAssetIssue(builder.build());
       if (transaction == null || transaction.getRawData().getContractCount() == 0) {
@@ -389,7 +389,7 @@ public class UpdateAsset2Test {
    * constructor.
    */
 
-  public boolean unFreezeAsset(byte[] addRess, String priKey) {
+  public boolean unCdAsset(byte[] addRess, String priKey) {
     byte[] address = addRess;
 
     ECKey temKey = null;
@@ -401,16 +401,16 @@ public class UpdateAsset2Test {
     }
     final ECKey ecKey = temKey;
 
-    AssetIssueContractOuterClass.UnfreezeAssetContract.Builder builder =
-        AssetIssueContractOuterClass.UnfreezeAssetContract
+    AssetIssueContractOuterClass.UncdAssetContract.Builder builder =
+        AssetIssueContractOuterClass.UncdAssetContract
             .newBuilder();
     ByteString byteAddreess = ByteString.copyFrom(address);
 
     builder.setOwnerAddress(byteAddreess);
 
-    AssetIssueContractOuterClass.UnfreezeAssetContract contract = builder.build();
+    AssetIssueContractOuterClass.UncdAssetContract contract = builder.build();
 
-    Transaction transaction = blockingStubFull.unfreezeAsset(contract);
+    Transaction transaction = blockingStubFull.uncdAsset(contract);
 
     if (transaction == null || transaction.getRawData().getContractCount() == 0) {
       return false;

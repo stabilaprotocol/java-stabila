@@ -57,9 +57,9 @@ public class FullNode {
     }
 
     if (Args.getInstance().isDebug()) {
-      logger.info("in debug mode, it won't check energy time");
+      logger.info("in debug mode, it won't check ucr time");
     } else {
-      logger.info("not in debug mode, it will check energy time");
+      logger.info("not in debug mode, it will check ucr time");
     }
 
     DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();

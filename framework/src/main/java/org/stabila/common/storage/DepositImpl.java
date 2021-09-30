@@ -49,7 +49,7 @@ import org.stabila.protos.Protocol.AccountType;
 public class DepositImpl implements Deposit {
 
   private static final byte[] LATEST_PROPOSAL_NUM = "LATEST_PROPOSAL_NUM".getBytes();
-  private static final byte[] WITNESS_ALLOWANCE_FROZEN_TIME = "WITNESS_ALLOWANCE_FROZEN_TIME"
+  private static final byte[] WITNESS_ALLOWANCE_CDED_TIME = "WITNESS_ALLOWANCE_CDED_TIME"
       .getBytes();
   private static final byte[] MAINTENANCE_TIME_INTERVAL = "MAINTENANCE_TIME_INTERVAL".getBytes();
   private static final byte[] NEXT_MAINTENANCE_TIME = "NEXT_MAINTENANCE_TIME".getBytes();
@@ -299,7 +299,7 @@ public class DepositImpl implements Deposit {
     Value value = Value.create(code, Type.VALUE_TYPE_CREATE);
     codeCache.put(key, value);
 
-    if (VMConfig.allowTvmConstantinople()) {
+    if (VMConfig.allowSvmConstantinople()) {
       ContractCapsule contract = getContract(address);
       byte[] codeHash = Hash.sha3(code);
       contract.setCodeHash(codeHash);
@@ -339,7 +339,7 @@ public class DepositImpl implements Deposit {
     Storage storage;
     if (this.parent != null) {
       Storage parentStorage = parent.getStorage(address);
-      if (StorageUtils.getEnergyLimitHardFork()) {
+      if (StorageUtils.getUcrLimitHardFork()) {
         // deep copy
         storage = new Storage(parentStorage);
       } else {
@@ -595,14 +595,14 @@ public class DepositImpl implements Deposit {
   }
 
   @Override
-  public long getWitnessAllowanceFrozenTime() {
-    byte[] frozenTime = getDynamic(WITNESS_ALLOWANCE_FROZEN_TIME).getData();
-    if (frozenTime.length >= 8) {
-      return Longs.fromByteArray(getDynamic(WITNESS_ALLOWANCE_FROZEN_TIME).getData());
+  public long getWitnessAllowanceCdedTime() {
+    byte[] cdedTime = getDynamic(WITNESS_ALLOWANCE_CDED_TIME).getData();
+    if (cdedTime.length >= 8) {
+      return Longs.fromByteArray(getDynamic(WITNESS_ALLOWANCE_CDED_TIME).getData());
     }
 
     byte[] result = new byte[8];
-    System.arraycopy(frozenTime, 0, result, 8 - frozenTime.length, frozenTime.length);
+    System.arraycopy(cdedTime, 0, result, 8 - cdedTime.length, cdedTime.length);
     return Longs.fromByteArray(result);
 
   }

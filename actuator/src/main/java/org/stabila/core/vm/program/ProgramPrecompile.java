@@ -80,7 +80,7 @@ public class ProgramPrecompile {
         i += op.asInt() - OpCode.PUSH1.asInt() + 1;
       }
     }
-    if (VMConfig.allowTvmConstantinople()) {
+    if (VMConfig.allowSvmConstantinople()) {
       return new byte[0];
     } else {
       return new DataWord(0).getData();

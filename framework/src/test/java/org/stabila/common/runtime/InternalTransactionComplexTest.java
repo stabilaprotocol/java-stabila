@@ -71,7 +71,7 @@ public class InternalTransactionComplexTest {
   /**
    * pragma solidity 0.4.24;
    *
-   * // this is to test wither the TVM is returning vars from one contract calling another //
+   * // this is to test wither the SVM is returning vars from one contract calling another //
    * contract's functions.
    *
    * contract callerContract { // lets set up our instance of the new contract calledContract
@@ -96,14 +96,14 @@ public class InternalTransactionComplexTest {
     byte[] callerContractAddress = deployCallerContractAndGetItsAddress(calledContractAddress);
 
     /* =================================== CALL makeTheCall =================================== */
-    byte[] triggerData1 = TvmTestUtils.parseAbi("makeTheCall()", "");
-    runtime = TvmTestUtils
+    byte[] triggerData1 = SvmTestUtils.parseAbi("makeTheCall()", "");
+    runtime = SvmTestUtils
         .triggerContractWholeProcessReturnContractAddress(Hex.decode(OWNER_ADDRESS),
             callerContractAddress, triggerData1, 0, 100000000, deposit, null);
 
     /* =============== CALL testCallbackReturns_ to check data ====================== */
-    byte[] triggerData2 = TvmTestUtils.parseAbi("testCallbackReturns_()", "");
-    runtime = TvmTestUtils
+    byte[] triggerData2 = SvmTestUtils.parseAbi("testCallbackReturns_()", "");
+    runtime = SvmTestUtils
         .triggerContractWholeProcessReturnContractAddress(Hex.decode(OWNER_ADDRESS),
             callerContractAddress, triggerData2, 0, 100000000, deposit, null);
 
@@ -142,7 +142,7 @@ public class InternalTransactionComplexTest {
     long feeLimit = 1000000000;
     long consumeUserResourcePercent = 0;
 
-    return TvmTestUtils
+    return SvmTestUtils
         .deployContractWholeProcessReturnContractAddress(contractName, address, ABI, code, value,
             feeLimit, consumeUserResourcePercent, null, deposit, null);
   }
@@ -190,7 +190,7 @@ public class InternalTransactionComplexTest {
     long feeLimit = 1000000000;
     long consumeUserResourcePercent = 0;
 
-    return TvmTestUtils
+    return SvmTestUtils
         .deployContractWholeProcessReturnContractAddress(contractName, address, ABI, code, value,
             feeLimit, consumeUserResourcePercent, null, deposit, null);
   }

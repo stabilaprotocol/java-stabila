@@ -94,7 +94,7 @@ public interface Deposit {
 
   long getLatestProposalNum();
 
-  long getWitnessAllowanceFrozenTime();
+  long getWitnessAllowanceCdedTime();
 
   long getMaintenanceTimeInterval();
 

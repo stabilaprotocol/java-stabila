@@ -114,12 +114,12 @@ public class ContractCapsule implements ProtoCapsule<SmartContract> {
     return max(0, min(percent, Constant.ONE_HUNDRED));
   }
 
-  public long getOriginEnergyLimit() {
-    long originEnergyLimit = this.smartContract.getOriginEnergyLimit();
-    if (originEnergyLimit == Constant.PB_DEFAULT_ENERGY_LIMIT) {
-      originEnergyLimit = Constant.CREATOR_DEFAULT_ENERGY_LIMIT;
+  public long getOriginUcrLimit() {
+    long originUcrLimit = this.smartContract.getOriginUcrLimit();
+    if (originUcrLimit == Constant.PB_DEFAULT_UCR_LIMIT) {
+      originUcrLimit = Constant.CREATOR_DEFAULT_UCR_LIMIT;
     }
-    return originEnergyLimit;
+    return originUcrLimit;
   }
 
   public void clearABI() {

@@ -90,21 +90,21 @@ public class ContractLinkage002 {
     Assert.assertEquals(ById.get().getRet(0).getContractRetValue(), SUCCESS_VALUE);
     Assert.assertEquals(ById.get().getRet(0).getContractRet(), contractResult.SUCCESS);
 
-    Assert.assertTrue(PublicMethed.freezeBalanceGetEnergy(linkage002Address, 50000000L,
+    Assert.assertTrue(PublicMethed.cdBalanceGetUcr(linkage002Address, 50000000L,
         3, 1, linkage002Key, blockingStubFull));
     AccountResourceMessage resourceInfo = PublicMethed.getAccountResource(linkage002Address,
         blockingStubFull);
     info = PublicMethed.queryAccount(linkage002Address, blockingStubFull);
     Long beforeBalance = info.getBalance();
-    Long beforeEnergyLimit = resourceInfo.getEnergyLimit();
-    Long beforeEnergyUsed = resourceInfo.getEnergyUsed();
+    Long beforeUcrLimit = resourceInfo.getUcrLimit();
+    Long beforeUcrUsed = resourceInfo.getUcrUsed();
     Long beforeFreeNetLimit = resourceInfo.getFreeNetLimit();
     Long beforeNetLimit = resourceInfo.getNetLimit();
     Long beforeNetUsed = resourceInfo.getNetUsed();
     Long beforeFreeNetUsed = resourceInfo.getFreeNetUsed();
     logger.info("beforeBalance:" + beforeBalance);
-    logger.info("beforeEnergyLimit:" + beforeEnergyLimit);
-    logger.info("beforeEnergyUsed:" + beforeEnergyUsed);
+    logger.info("beforeUcrLimit:" + beforeUcrLimit);
+    logger.info("beforeUcrUsed:" + beforeUcrUsed);
     logger.info("beforeFreeNetLimit:" + beforeFreeNetLimit);
     logger.info("beforeNetLimit:" + beforeNetLimit);
     logger.info("beforeNetUsed:" + beforeNetUsed);
@@ -126,22 +126,22 @@ public class ContractLinkage002 {
     AccountResourceMessage resourceInfoafter = PublicMethed.getAccountResource(linkage002Address,
         blockingStubFull1);
     Long afterBalance = infoafter.getBalance();
-    Long afterEnergyLimit = resourceInfoafter.getEnergyLimit();
-    Long afterEnergyUsed = resourceInfoafter.getEnergyUsed();
+    Long afterUcrLimit = resourceInfoafter.getUcrLimit();
+    Long afterUcrUsed = resourceInfoafter.getUcrUsed();
     Long afterFreeNetLimit = resourceInfoafter.getFreeNetLimit();
     Long afterNetLimit = resourceInfoafter.getNetLimit();
     Long afterNetUsed = resourceInfoafter.getNetUsed();
     Long afterFreeNetUsed = resourceInfoafter.getFreeNetUsed();
     logger.info("afterBalance:" + afterBalance);
-    logger.info("afterEnergyLimit:" + afterEnergyLimit);
-    logger.info("afterEnergyUsed:" + afterEnergyUsed);
+    logger.info("afterUcrLimit:" + afterUcrLimit);
+    logger.info("afterUcrUsed:" + afterUcrUsed);
     logger.info("afterFreeNetLimit:" + afterFreeNetLimit);
     logger.info("afterNetLimit:" + afterNetLimit);
     logger.info("afterNetUsed:" + afterNetUsed);
     logger.info("afterFreeNetUsed:" + afterFreeNetUsed);
     Assert.assertEquals(beforeBalance, afterBalance);
     Assert.assertTrue(afterNetUsed == 0);
-    Assert.assertTrue(afterEnergyUsed == 0);
+    Assert.assertTrue(afterUcrUsed == 0);
     Assert.assertTrue(afterFreeNetUsed > 0);
 
     //Set the consumeUserResourcePercent is 101,Nothing change.
@@ -149,15 +149,15 @@ public class ContractLinkage002 {
         blockingStubFull);
     Account info3 = PublicMethed.queryAccount(linkage002Address, blockingStubFull);
     Long beforeBalance3 = info3.getBalance();
-    Long beforeEnergyLimit3 = resourceInfo3.getEnergyLimit();
-    Long beforeEnergyUsed3 = resourceInfo3.getEnergyUsed();
+    Long beforeUcrLimit3 = resourceInfo3.getUcrLimit();
+    Long beforeUcrUsed3 = resourceInfo3.getUcrUsed();
     Long beforeFreeNetLimit3 = resourceInfo3.getFreeNetLimit();
     Long beforeNetLimit3 = resourceInfo3.getNetLimit();
     Long beforeNetUsed3 = resourceInfo3.getNetUsed();
     Long beforeFreeNetUsed3 = resourceInfo3.getFreeNetUsed();
     logger.info("beforeBalance3:" + beforeBalance3);
-    logger.info("beforeEnergyLimit3:" + beforeEnergyLimit3);
-    logger.info("beforeEnergyUsed3:" + beforeEnergyUsed3);
+    logger.info("beforeUcrLimit3:" + beforeUcrLimit3);
+    logger.info("beforeUcrUsed3:" + beforeUcrUsed3);
     logger.info("beforeFreeNetLimit3:" + beforeFreeNetLimit3);
     logger.info("beforeNetLimit3:" + beforeNetLimit3);
     logger.info("beforeNetUsed3:" + beforeNetUsed3);
@@ -169,15 +169,15 @@ public class ContractLinkage002 {
     AccountResourceMessage resourceInfoafter3 = PublicMethed.getAccountResource(linkage002Address,
         blockingStubFull1);
     Long afterBalance3 = infoafter3.getBalance();
-    Long afterEnergyLimit3 = resourceInfoafter3.getEnergyLimit();
-    Long afterEnergyUsed3 = resourceInfoafter3.getEnergyUsed();
+    Long afterUcrLimit3 = resourceInfoafter3.getUcrLimit();
+    Long afterUcrUsed3 = resourceInfoafter3.getUcrUsed();
     Long afterFreeNetLimit3 = resourceInfoafter3.getFreeNetLimit();
     Long afterNetLimit3 = resourceInfoafter3.getNetLimit();
     Long afterNetUsed3 = resourceInfoafter3.getNetUsed();
     Long afterFreeNetUsed3 = resourceInfoafter3.getFreeNetUsed();
     logger.info("afterBalance3:" + afterBalance3);
-    logger.info("afterEnergyLimit3:" + afterEnergyLimit3);
-    logger.info("afterEnergyUsed3:" + afterEnergyUsed3);
+    logger.info("afterUcrLimit3:" + afterUcrLimit3);
+    logger.info("afterUcrUsed3:" + afterUcrUsed3);
     logger.info("afterFreeNetLimit3:" + afterFreeNetLimit3);
     logger.info("afterNetLimit3:" + afterNetLimit3);
     logger.info("afterNetUsed3:" + afterNetUsed3);
@@ -185,30 +185,30 @@ public class ContractLinkage002 {
 
     Assert.assertEquals(beforeBalance3, afterBalance3);
     Assert.assertTrue(afterNetUsed3 == 0);
-    Assert.assertTrue(afterEnergyUsed3 == 0);
+    Assert.assertTrue(afterUcrUsed3 == 0);
     Assert.assertTrue(afterFreeNetUsed3 > 0);
 
-    //Set consumeUserResourcePercent is 100,balance not change,use FreeNet freezeBalanceGetEnergy.
+    //Set consumeUserResourcePercent is 100,balance not change,use FreeNet cdBalanceGetUcr.
 
     contractAddress = PublicMethed.deployContract(contractName, abi, code, "", maxFeeLimit,
         0L, 100, null, linkage002Key, linkage002Address, blockingStubFull);
     SmartContract smartContract = PublicMethed.getContract(contractAddress, blockingStubFull);
     Assert.assertTrue(smartContract.getConsumeUserResourcePercent() == 100);
 
-    //Set the consumeUserResourcePercent is 0,balance not change,use FreeNet freezeBalanceGetEnergy.
+    //Set the consumeUserResourcePercent is 0,balance not change,use FreeNet cdBalanceGetUcr.
     AccountResourceMessage resourceInfo2 = PublicMethed.getAccountResource(linkage002Address,
         blockingStubFull);
     Account info2 = PublicMethed.queryAccount(linkage002Address, blockingStubFull);
     Long beforeBalance2 = info2.getBalance();
-    Long beforeEnergyLimit2 = resourceInfo2.getEnergyLimit();
-    Long beforeEnergyUsed2 = resourceInfo2.getEnergyUsed();
+    Long beforeUcrLimit2 = resourceInfo2.getUcrLimit();
+    Long beforeUcrUsed2 = resourceInfo2.getUcrUsed();
     Long beforeFreeNetLimit2 = resourceInfo2.getFreeNetLimit();
     Long beforeNetLimit2 = resourceInfo2.getNetLimit();
     Long beforeNetUsed2 = resourceInfo2.getNetUsed();
     Long beforeFreeNetUsed2 = resourceInfo2.getFreeNetUsed();
     logger.info("beforeBalance2:" + beforeBalance2);
-    logger.info("beforeEnergyLimit2:" + beforeEnergyLimit2);
-    logger.info("beforeEnergyUsed2:" + beforeEnergyUsed2);
+    logger.info("beforeUcrLimit2:" + beforeUcrLimit2);
+    logger.info("beforeUcrUsed2:" + beforeUcrUsed2);
     logger.info("beforeFreeNetLimit2:" + beforeFreeNetLimit2);
     logger.info("beforeNetLimit2:" + beforeNetLimit2);
     logger.info("beforeNetUsed2:" + beforeNetUsed2);
@@ -221,15 +221,15 @@ public class ContractLinkage002 {
     AccountResourceMessage resourceInfoafter2 = PublicMethed.getAccountResource(linkage002Address,
         blockingStubFull1);
     Long afterBalance2 = infoafter2.getBalance();
-    Long afterEnergyLimit2 = resourceInfoafter2.getEnergyLimit();
-    Long afterEnergyUsed2 = resourceInfoafter2.getEnergyUsed();
+    Long afterUcrLimit2 = resourceInfoafter2.getUcrLimit();
+    Long afterUcrUsed2 = resourceInfoafter2.getUcrUsed();
     Long afterFreeNetLimit2 = resourceInfoafter2.getFreeNetLimit();
     Long afterNetLimit2 = resourceInfoafter2.getNetLimit();
     Long afterNetUsed2 = resourceInfoafter2.getNetUsed();
     Long afterFreeNetUsed2 = resourceInfoafter2.getFreeNetUsed();
     logger.info("afterBalance2:" + afterBalance2);
-    logger.info("afterEnergyLimit2:" + afterEnergyLimit2);
-    logger.info("afterEnergyUsed2:" + afterEnergyUsed2);
+    logger.info("afterUcrLimit2:" + afterUcrLimit2);
+    logger.info("afterUcrUsed2:" + afterUcrUsed2);
     logger.info("afterFreeNetLimit2:" + afterFreeNetLimit2);
     logger.info("afterNetLimit2:" + afterNetLimit2);
     logger.info("afterNetUsed2:" + afterNetUsed2);
@@ -237,7 +237,7 @@ public class ContractLinkage002 {
 
     Assert.assertEquals(beforeBalance2, afterBalance2);
     Assert.assertTrue(afterNetUsed2 == 0);
-    Assert.assertTrue(afterEnergyUsed2 > 0);
+    Assert.assertTrue(afterUcrUsed2 > 0);
     Assert.assertTrue(afterFreeNetUsed2 > 0);
     smartContract = PublicMethed.getContract(contractAddress, blockingStubFull);
     Assert.assertTrue(smartContract.getConsumeUserResourcePercent() == 0);

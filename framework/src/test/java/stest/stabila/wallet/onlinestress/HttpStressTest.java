@@ -141,12 +141,12 @@ public class HttpStressTest {
           assetIssueId1, 1L, asset2Key);
       HttpMethed.participateAssetIssue(httpnode, asset2Address, exchangeOwnerAddress,
           assetIssueId2, 1L, exchangeOwnerKey);
-      HttpMethed.freezeBalance(httpnode, fromAddress, 10000000000L, 0, 0,
+      HttpMethed.cdBalance(httpnode, fromAddress, 10000000000L, 0, 0,
           exchangeOwnerAddress, testKey002);
-      HttpMethed.freezeBalance(httpnode, fromAddress, 10000000000L, 0, 1,
+      HttpMethed.cdBalance(httpnode, fromAddress, 10000000000L, 0, 1,
           exchangeOwnerAddress, testKey002);
-      HttpMethed.unFreezeBalance(httpnode, fromAddress, 0, exchangeOwnerAddress, testKey002);
-      HttpMethed.unFreezeBalance(httpnode, fromAddress, 1, exchangeOwnerAddress, testKey002);
+      HttpMethed.unCdBalance(httpnode, fromAddress, 0, exchangeOwnerAddress, testKey002);
+      HttpMethed.unCdBalance(httpnode, fromAddress, 1, exchangeOwnerAddress, testKey002);
     }
   }
 

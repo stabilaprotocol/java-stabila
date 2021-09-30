@@ -77,7 +77,7 @@ public class HttpTestConstantContract001 {
     Assert.assertEquals(responseContent.getString("contract_address"), contractAddress);
     Assert.assertEquals(responseContent.getString("origin_address"),
         ByteArray.toHexString(assetOwnerAddress));
-    Assert.assertEquals(responseContent.getString("origin_energy_limit"), "11111111111111");
+    Assert.assertEquals(responseContent.getString("origin_ucr_limit"), "11111111111111");
     Assert.assertEquals(responseContent.getString("name"), contractName);
   }
 
@@ -104,8 +104,8 @@ public class HttpTestConstantContract001 {
         .parseStringContent(responseContent.getString("transaction"));
     Assert.assertTrue(!transactionObject.getString("raw_data").isEmpty());
     Assert.assertTrue(!transactionObject.getString("raw_data_hex").isEmpty());
-    Assert.assertTrue(responseContent.getIntValue("energy_used") > 400
-        && responseContent.getIntValue("energy_used") < 500);
+    Assert.assertTrue(responseContent.getIntValue("ucr_used") > 400
+        && responseContent.getIntValue("ucr_used") < 500);
   }
 
   /**

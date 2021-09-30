@@ -71,7 +71,7 @@ public class WalletTestAccount009 {
   }
 
   @Test(enabled = true)
-  public void testGetEnergy() {
+  public void testGetUcr() {
     Assert.assertTrue(PublicMethed.sendcoin(account009Address, 10000000,
         fromAddress, testKey002, blockingStubFull));
     Assert.assertTrue(PublicMethed.sendcoin(account009SecondAddress, 10000000,
@@ -81,33 +81,33 @@ public class WalletTestAccount009 {
 
     Account account009Info = PublicMethed.queryAccount(account009Key, blockingStubFull);
     logger.info(Long.toString(
-        account009Info.getAccountResource().getFrozenBalanceForEnergy().getExpireTime()));
-    Assert.assertTrue(account009Info.getAccountResource().getEnergyUsage() == 0);
-    Assert.assertTrue(account009Info.getAccountResource().getFrozenBalanceForEnergy()
+        account009Info.getAccountResource().getCdedBalanceForUcr().getExpireTime()));
+    Assert.assertTrue(account009Info.getAccountResource().getUcrUsage() == 0);
+    Assert.assertTrue(account009Info.getAccountResource().getCdedBalanceForUcr()
         .getExpireTime() == 0);
 
-    Assert.assertTrue(PublicMethed.freezeBalanceGetEnergy(account009Address, 1000000L,
+    Assert.assertTrue(PublicMethed.cdBalanceGetUcr(account009Address, 1000000L,
         3, 1, account009Key, blockingStubFull));
     account009Info = PublicMethed.queryAccount(account009Key, blockingStubFull);
-    Assert.assertTrue(account009Info.getAccountResource().getEnergyUsage() == 0);
-    Assert.assertTrue(account009Info.getAccountResource().getFrozenBalanceForEnergy()
-        .getFrozenBalance() == 1000000L);
+    Assert.assertTrue(account009Info.getAccountResource().getUcrUsage() == 0);
+    Assert.assertTrue(account009Info.getAccountResource().getCdedBalanceForUcr()
+        .getCdedBalance() == 1000000L);
 
     AccountResourceMessage account009Resource = PublicMethed.getAccountResource(account009Address,
         blockingStubFull);
-    Assert.assertTrue(account009Resource.getTotalEnergyLimit() >= 50000000000L);
-    Assert.assertTrue(account009Resource.getEnergyLimit() > 0);
-    Assert.assertTrue(account009Resource.getTotalEnergyWeight() >= 1);
+    Assert.assertTrue(account009Resource.getTotalUcrLimit() >= 50000000000L);
+    Assert.assertTrue(account009Resource.getUcrLimit() > 0);
+    Assert.assertTrue(account009Resource.getTotalUcrWeight() >= 1);
   }
 
   @Test(enabled = true)
-  public void testGetEnergyInvalid() {
+  public void testGetUcrInvalid() {
     //The resourceCode can only be 0 or 1
-    Assert.assertTrue(PublicMethed.freezeBalanceGetEnergy(account009InvalidAddress,
+    Assert.assertTrue(PublicMethed.cdBalanceGetUcr(account009InvalidAddress,
         1000000L, 3, 0, account009InvalidKey, blockingStubFull));
-    Assert.assertFalse(PublicMethed.freezeBalanceGetEnergy(account009InvalidAddress, 1000000L,
+    Assert.assertFalse(PublicMethed.cdBalanceGetUcr(account009InvalidAddress, 1000000L,
         3, -1, account009InvalidKey, blockingStubFull));
-    Assert.assertFalse(PublicMethed.freezeBalanceGetEnergy(account009InvalidAddress, 1000000L,
+    Assert.assertFalse(PublicMethed.cdBalanceGetUcr(account009InvalidAddress, 1000000L,
         3, 3, account009InvalidKey, blockingStubFull));
 
   }

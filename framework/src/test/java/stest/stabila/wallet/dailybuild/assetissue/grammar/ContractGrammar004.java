@@ -109,7 +109,7 @@ public class ContractGrammar004 {
     PublicMethed.waitProduceNextBlock(blockingStubFull);
     infoById = PublicMethed.getTransactionInfoById(txid, blockingStubFull);
     logger.info("Txid is " + txid);
-    logger.info("Trigger energytotal is " + infoById.get().getReceipt().getEnergyUsageTotal());
+    logger.info("Trigger ucrtotal is " + infoById.get().getReceipt().getUcrUsageTotal());
 
     Optional<Transaction> byId = PublicMethed.getTransactionById(txid, blockingStubFull);
     logger.info("getRet:" + byId.get().getRet(0));
@@ -157,7 +157,7 @@ public class ContractGrammar004 {
     PublicMethed.waitProduceNextBlock(blockingStubFull);
     infoById = PublicMethed.getTransactionInfoById(txid, blockingStubFull);
     logger.info("Txid is " + txid);
-    logger.info("Trigger energytotal is " + infoById.get().getReceipt().getEnergyUsageTotal());
+    logger.info("Trigger ucrtotal is " + infoById.get().getReceipt().getUcrUsageTotal());
 
     Optional<Transaction> byId = PublicMethed.getTransactionById(txid, blockingStubFull);
     logger.info("getRet:" + byId.get().getRet(0));
@@ -216,7 +216,7 @@ public class ContractGrammar004 {
     PublicMethed.waitProduceNextBlock(blockingStubFull);
     infoById = PublicMethed.getTransactionInfoById(txid, blockingStubFull);
     logger.info("Txid is " + txid);
-    logger.info("Trigger energytotal is " + infoById.get().getReceipt().getEnergyUsageTotal());
+    logger.info("Trigger ucrtotal is " + infoById.get().getReceipt().getUcrUsageTotal());
 
     Optional<Transaction> byId = PublicMethed.getTransactionById(txid, blockingStubFull);
     logger.info("getRet:" + byId.get().getRet(0));
@@ -242,7 +242,7 @@ public class ContractGrammar004 {
   }
 
 
-  @Test(enabled = true, description = "ContractResult is OUT_OF_ENERGY")
+  @Test(enabled = true, description = "ContractResult is OUT_OF_UCR")
   public void test4Grammar004() {
 
     String filePath = "src/test/resources/soliditycode/contractUnknownException.sol";
@@ -257,7 +257,7 @@ public class ContractGrammar004 {
     PublicMethed.waitProduceNextBlock(blockingStubFull);
     infoById = PublicMethed.getTransactionInfoById(txid, blockingStubFull);
     logger.info("Txid is " + txid);
-    logger.info("Trigger energytotal is " + infoById.get().getReceipt().getEnergyUsageTotal());
+    logger.info("Trigger ucrtotal is " + infoById.get().getReceipt().getUcrUsageTotal());
 
     Optional<Transaction> byId = PublicMethed.getTransactionById(txid, blockingStubFull);
     logger.info("getRet:" + byId.get().getRet(0));
@@ -409,7 +409,7 @@ public class ContractGrammar004 {
   @Test(enabled = true, description = "ContractResult is TRANSFER_FAILED")
   public void test8Grammar008() {
     String filePath = "src/test/resources/soliditycode/TransferFailed001.sol";
-    String contractName = "EnergyOfTransferFailedTest";
+    String contractName = "UcrOfTransferFailedTest";
     HashMap retMap = PublicMethed.getBycodeAbi(filePath, contractName);
     String code = retMap.get("byteCode").toString();
     String abi = retMap.get("abI").toString();
@@ -424,11 +424,11 @@ public class ContractGrammar004 {
         .getAccountResource(grammarAddress, blockingStubFull);
     info = PublicMethed.queryAccount(testKeyForGrammarAddress, blockingStubFull);
     Long beforeBalance = info.getBalance();
-    Long beforeEnergyUsed = resourceInfo.getEnergyUsed();
+    Long beforeUcrUsed = resourceInfo.getUcrUsed();
     Long beforeNetUsed = resourceInfo.getNetUsed();
     Long beforeFreeNetUsed = resourceInfo.getFreeNetUsed();
     logger.info("beforeBalance:" + beforeBalance);
-    logger.info("beforeEnergyUsed:" + beforeEnergyUsed);
+    logger.info("beforeUcrUsed:" + beforeUcrUsed);
     logger.info("beforeNetUsed:" + beforeNetUsed);
     logger.info("beforeFreeNetUsed:" + beforeFreeNetUsed);
     ECKey ecKey2 = new ECKey(Utils.getRandom());
@@ -446,24 +446,24 @@ public class ContractGrammar004 {
 
     Long fee = infoById.get().getFee();
     Long netUsed = infoById.get().getReceipt().getNetUsage();
-    Long energyUsed = infoById.get().getReceipt().getEnergyUsage();
+    Long ucrUsed = infoById.get().getReceipt().getUcrUsage();
     Long netFee = infoById.get().getReceipt().getNetFee();
-    long energyUsageTotal = infoById.get().getReceipt().getEnergyUsageTotal();
+    long ucrUsageTotal = infoById.get().getReceipt().getUcrUsageTotal();
     logger.info("fee:" + fee);
     logger.info("netUsed:" + netUsed);
-    logger.info("energyUsed:" + energyUsed);
+    logger.info("ucrUsed:" + ucrUsed);
     logger.info("netFee:" + netFee);
-    logger.info("energyUsageTotal:" + energyUsageTotal);
+    logger.info("ucrUsageTotal:" + ucrUsageTotal);
 
     Account infoafter = PublicMethed.queryAccount(testKeyForGrammarAddress, blockingStubFull1);
     AccountResourceMessage resourceInfoafter = PublicMethed
         .getAccountResource(grammarAddress, blockingStubFull1);
     Long afterBalance = infoafter.getBalance();
-    Long afterEnergyUsed = resourceInfoafter.getEnergyUsed();
+    Long afterUcrUsed = resourceInfoafter.getUcrUsed();
     Long afterNetUsed = resourceInfoafter.getNetUsed();
     Long afterFreeNetUsed = resourceInfoafter.getFreeNetUsed();
     logger.info("afterBalance:" + afterBalance);
-    logger.info("afterEnergyUsed:" + afterEnergyUsed);
+    logger.info("afterUcrUsed:" + afterUcrUsed);
     logger.info("afterNetUsed:" + afterNetUsed);
     logger.info("afterFreeNetUsed:" + afterFreeNetUsed);
 
@@ -478,10 +478,10 @@ public class ContractGrammar004 {
         ByteArray.toStr(infoById.get().getResMessage().toByteArray()));*/
 
     Assert.assertTrue(afterBalance + fee == beforeBalance);
-    Assert.assertTrue(beforeEnergyUsed + energyUsed >= afterEnergyUsed);
+    Assert.assertTrue(beforeUcrUsed + ucrUsed >= afterUcrUsed);
     Assert.assertTrue(beforeFreeNetUsed + netUsed >= afterFreeNetUsed);
     Assert.assertTrue(beforeNetUsed + netUsed >= afterNetUsed);
-    Assert.assertNotEquals(10000000, energyUsageTotal);
+    Assert.assertNotEquals(10000000, ucrUsageTotal);
 
 
   }

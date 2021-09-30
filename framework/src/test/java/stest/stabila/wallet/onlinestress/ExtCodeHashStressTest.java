@@ -97,11 +97,11 @@ public class ExtCodeHashStressTest {
     //before deploy, check account resource
     AccountResourceMessage accountResource = PublicMethed.getAccountResource(dev001Address,
         blockingStubFull);
-    long energyLimit = accountResource.getEnergyLimit();
-    long energyUsage = accountResource.getEnergyUsed();
+    long ucrLimit = accountResource.getUcrLimit();
+    long ucrUsage = accountResource.getUcrUsed();
     long balanceBefore = PublicMethed.queryAccount(dev001Key, blockingStubFull).getBalance();
-    logger.info("before energyLimit is " + Long.toString(energyLimit));
-    logger.info("before energyUsage is " + Long.toString(energyUsage));
+    logger.info("before ucrLimit is " + Long.toString(ucrLimit));
+    logger.info("before ucrUsage is " + Long.toString(ucrUsage));
     logger.info("before balanceBefore is " + Long.toString(balanceBefore));
 
     String filePath = "./src/test/resources/soliditycode/extCodeHashStress.sol";
@@ -127,11 +127,11 @@ public class ExtCodeHashStressTest {
     //before deploy, check account resource
     AccountResourceMessage accountResource = PublicMethed.getAccountResource(dev001Address,
         blockingStubFull);
-    long energyLimit = accountResource.getEnergyLimit();
-    long energyUsage = accountResource.getEnergyUsed();
+    long ucrLimit = accountResource.getUcrLimit();
+    long ucrUsage = accountResource.getUcrUsed();
     long balanceBefore = PublicMethed.queryAccount(dev001Key, blockingStubFull).getBalance();
-    logger.info("before energyLimit is " + Long.toString(energyLimit));
-    logger.info("before energyUsage is " + Long.toString(energyUsage));
+    logger.info("before ucrLimit is " + Long.toString(ucrLimit));
+    logger.info("before ucrUsage is " + Long.toString(ucrUsage));
     logger.info("before balanceBefore is " + Long.toString(balanceBefore));
 
     String filePath = "./src/test/resources/soliditycode/extCodeHashStress.sol";
@@ -166,7 +166,7 @@ public class ExtCodeHashStressTest {
         .getTransactionInfoById(transferTokenTxid, blockingStubFull);
 
     TransactionInfo transactionInfo = infoById.get();
-    logger.info("EnergyUsageTotal: " + transactionInfo.getReceipt().getEnergyUsageTotal());
+    logger.info("UcrUsageTotal: " + transactionInfo.getReceipt().getUcrUsageTotal());
     logger.info("NetUsage: " + transactionInfo.getReceipt().getNetUsage());
 
     if (infoById.get().getResultValue() != 0) {
@@ -184,8 +184,8 @@ public class ExtCodeHashStressTest {
       String user001Key, long maxFeeLimit) {
     Assert.assertTrue(PublicMethed.sendcoin(user001Address, 10000_000_000L, fromAddress,
         testKey002, blockingStubFull));
-    Assert.assertTrue(PublicMethed.freezeBalanceForReceiver(fromAddress,
-        PublicMethed.getFreezeBalanceCount(user001Address, user001Key, 50000L,
+    Assert.assertTrue(PublicMethed.cdBalanceForReceiver(fromAddress,
+        PublicMethed.getCdBalanceCount(user001Address, user001Key, 50000L,
             blockingStubFull), 0, 1,
         ByteString.copyFrom(user001Address), testKey002, blockingStubFull));
 
@@ -206,7 +206,7 @@ public class ExtCodeHashStressTest {
         .getTransactionInfoById(triggerTxid, blockingStubFull);
 
     TransactionInfo transactionInfo = infoById.get();
-    logger.info("EnergyUsageTotal: " + transactionInfo.getReceipt().getEnergyUsageTotal());
+    logger.info("UcrUsageTotal: " + transactionInfo.getReceipt().getUcrUsageTotal());
     logger.info("NetUsage: " + transactionInfo.getReceipt().getNetUsage());
 
     logger
@@ -244,7 +244,7 @@ public class ExtCodeHashStressTest {
         .getTransactionInfoById(triggerTxid, blockingStubFull);
 
     TransactionInfo transactionInfo = infoById.get();
-    logger.info("EnergyUsageTotal: " + transactionInfo.getReceipt().getEnergyUsageTotal());
+    logger.info("UcrUsageTotal: " + transactionInfo.getReceipt().getUcrUsageTotal());
     logger.info("NetUsage: " + transactionInfo.getReceipt().getNetUsage());
     logger
         .info(
@@ -275,7 +275,7 @@ public class ExtCodeHashStressTest {
         .getTransactionInfoById(triggerTxid, blockingStubFull);
 
     TransactionInfo transactionInfo = infoById.get();
-    logger.info("EnergyUsageTotal: " + transactionInfo.getReceipt().getEnergyUsageTotal());
+    logger.info("UcrUsageTotal: " + transactionInfo.getReceipt().getUcrUsageTotal());
     logger.info("NetUsage: " + transactionInfo.getReceipt().getNetUsage());
     logger
         .info(

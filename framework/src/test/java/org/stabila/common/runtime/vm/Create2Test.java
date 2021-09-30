@@ -9,8 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.bouncycastle.util.encoders.Hex;
 import org.junit.Test;
 import org.testng.Assert;
-import org.stabila.common.runtime.TVMTestResult;
-import org.stabila.common.runtime.TvmTestUtils;
+import org.stabila.common.runtime.SVMTestResult;
+import org.stabila.common.runtime.SvmTestUtils;
 import org.stabila.common.utils.WalletUtil;
 import org.stabila.core.exception.ContractExeException;
 import org.stabila.core.exception.ContractValidateException;
@@ -101,9 +101,9 @@ public class Create2Test extends VMTestBase {
   public void testCreate2()
       throws ContractExeException, ReceiptCheckErrException,
       VMIllegalException, ContractValidateException {
-    manager.getDynamicPropertiesStore().saveAllowTvmTransferTrc10(1);
-    manager.getDynamicPropertiesStore().saveAllowTvmConstantinople(1);
-    manager.getDynamicPropertiesStore().saveAllowTvmIstanbul(0);
+    manager.getDynamicPropertiesStore().saveAllowSvmTransferTrc10(1);
+    manager.getDynamicPropertiesStore().saveAllowSvmConstantinople(1);
+    manager.getDynamicPropertiesStore().saveAllowSvmIstanbul(0);
     String contractName = "Factory_0";
     byte[] address = Hex.decode(OWNER_ADDRESS);
     String abi = "[{\"constant\":false,\"inputs\":[{\"name\":\"code\",\"type\":\"bytes\"},"
@@ -139,18 +139,18 @@ public class Create2Test extends VMTestBase {
     String methodSign = "deploy(bytes,uint256)";
 
     // deploy contract
-    Transaction stb = TvmTestUtils.generateDeploySmartContractAndGetTransaction(
+    Transaction stb = SvmTestUtils.generateDeploySmartContractAndGetTransaction(
         contractName, address, abi, factoryCode, value, fee, consumeUserResourcePercent,
         null);
     byte[] factoryAddress = WalletUtil.generateContractAddress(stb);
-    runtime = TvmTestUtils.processTransactionAndReturnRuntime(stb, rootDeposit, null);
+    runtime = SvmTestUtils.processTransactionAndReturnRuntime(stb, rootDeposit, null);
     Assert.assertNull(runtime.getRuntimeError());
 
     // Trigger contract method: deploy(bytes,uint)
     long salt = 100L;
     String hexInput = AbiUtil.parseMethod(methodSign, Arrays.asList(testCode, salt));
-    TVMTestResult result = TvmTestUtils
-        .triggerContractAndReturnTvmTestResult(Hex.decode(OWNER_ADDRESS),
+    SVMTestResult result = SvmTestUtils
+        .triggerContractAndReturnSvmTestResult(Hex.decode(OWNER_ADDRESS),
             factoryAddress, Hex.decode(hexInput), 0, fee, manager, null);
     Assert.assertNull(result.getRuntime().getRuntimeError());
 
@@ -168,8 +168,8 @@ public class Create2Test extends VMTestBase {
     String methodToTrigger = "plusOne()";
     for (int i = 1; i < 3; i++) {
       hexInput = AbiUtil.parseMethod(methodToTrigger, Collections.emptyList());
-      result = TvmTestUtils
-          .triggerContractAndReturnTvmTestResult(Hex.decode(OWNER_ADDRESS),
+      result = SvmTestUtils
+          .triggerContractAndReturnSvmTestResult(Hex.decode(OWNER_ADDRESS),
               actualContract, Hex.decode(hexInput), 0, fee, manager, null);
       Assert.assertNull(result.getRuntime().getRuntimeError());
       Assert.assertEquals(result.getRuntime().getResult().getHReturn(), new DataWord(i).getData());
@@ -208,10 +208,10 @@ contract A {
   @Test
   public void create2AddressTest() throws ContractExeException, ReceiptCheckErrException,
       VMIllegalException, ContractValidateException {
-    manager.getDynamicPropertiesStore().saveAllowTvmTransferTrc10(1);
-    manager.getDynamicPropertiesStore().saveAllowTvmConstantinople(1);
-    manager.getDynamicPropertiesStore().saveAllowTvmSolidity059(1);
-    manager.getDynamicPropertiesStore().saveAllowTvmIstanbul(1);
+    manager.getDynamicPropertiesStore().saveAllowSvmTransferTrc10(1);
+    manager.getDynamicPropertiesStore().saveAllowSvmConstantinople(1);
+    manager.getDynamicPropertiesStore().saveAllowSvmSolidity059(1);
+    manager.getDynamicPropertiesStore().saveAllowSvmIstanbul(1);
     String contractName = "Factory_0";
     byte[] address = Hex.decode(OWNER_ADDRESS);
     String abi = "[]";
@@ -254,18 +254,18 @@ contract A {
     String methodDeploy = "deploy(bytes,uint256)";
 
     // deploy contract
-    Transaction stb = TvmTestUtils.generateDeploySmartContractAndGetTransaction(
+    Transaction stb = SvmTestUtils.generateDeploySmartContractAndGetTransaction(
         contractName, address, abi, factoryCode, value, fee, consumeUserResourcePercent,
         null);
     byte[] factoryAddress = WalletUtil.generateContractAddress(stb);
-    runtime = TvmTestUtils.processTransactionAndReturnRuntime(stb, rootDeposit, null);
+    runtime = SvmTestUtils.processTransactionAndReturnRuntime(stb, rootDeposit, null);
     Assert.assertNull(runtime.getRuntimeError());
 
     // Trigger contract method: deploy(bytes,uint256)
     long salt = 100L;
     String hexInput = AbiUtil.parseMethod(methodDeploy, Arrays.asList(testCode, salt));
-    TVMTestResult result = TvmTestUtils
-        .triggerContractAndReturnTvmTestResult(Hex.decode(OWNER_ADDRESS),
+    SVMTestResult result = SvmTestUtils
+        .triggerContractAndReturnSvmTestResult(Hex.decode(OWNER_ADDRESS),
             factoryAddress, Hex.decode(hexInput), 0, fee, manager, null);
     Assert.assertNull(result.getRuntime().getRuntimeError());
 
@@ -285,7 +285,7 @@ contract A {
     hexInput = AbiUtil.parseMethod(methodToTrigger,
         Arrays.asList(Wallet.getAddressPreFixString(), testCode, salt));
     // same input
-    result = TvmTestUtils.triggerContractAndReturnTvmTestResult(Hex.decode(OWNER_ADDRESS),
+    result = SvmTestUtils.triggerContractAndReturnSvmTestResult(Hex.decode(OWNER_ADDRESS),
               factoryAddress, Hex.decode(hexInput), 0, fee, manager, null);
     Assert.assertEquals(result.getRuntime().getResult().getHReturn(),
           new DataWord(new DataWord(actualContract).getLast20Bytes()).getData());
@@ -298,12 +298,12 @@ contract A {
 
     // deploy contract by OTHER user again, should fail
     hexInput = AbiUtil.parseMethod(methodDeploy, Arrays.asList(testCode, salt));
-    result = TvmTestUtils
-        .triggerContractAndReturnTvmTestResult(Hex.decode(ownerAddress2),
+    result = SvmTestUtils
+        .triggerContractAndReturnSvmTestResult(Hex.decode(ownerAddress2),
             factoryAddress, Hex.decode(hexInput), 0, fee, manager, null);
     Assert.assertNotNull(result.getRuntime().getRuntimeError());
     Assert.assertTrue(result.getRuntime().getResult().getException()
-        instanceof OutOfEnergyException);
+        instanceof OutOfUcrException);
   }
   */
 }

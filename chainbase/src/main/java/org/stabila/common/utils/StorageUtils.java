@@ -1,6 +1,6 @@
 package org.stabila.common.utils;
 
-import static org.stabila.common.parameter.CommonParameter.ENERGY_LIMIT_HARD_FORK;
+import static org.stabila.common.parameter.CommonParameter.UCR_LIMIT_HARD_FORK;
 import static org.stabila.common.utils.DbOptionalsUtils.createDefaultDbOptions;
 
 import java.io.File;
@@ -11,8 +11,8 @@ import org.stabila.common.parameter.CommonParameter;
 
 public class StorageUtils {
 
-  public static boolean getEnergyLimitHardFork() {
-    return ENERGY_LIMIT_HARD_FORK;
+  public static boolean getUcrLimitHardFork() {
+    return UCR_LIMIT_HARD_FORK;
   }
 
   public static String getOutputDirectoryByDbName(String dbName) {

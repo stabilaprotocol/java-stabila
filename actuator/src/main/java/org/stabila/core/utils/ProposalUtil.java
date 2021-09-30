@@ -63,7 +63,7 @@ public class ProposalUtil {
         }
         break;
       }
-      case ENERGY_FEE:
+      case UCR_FEE:
       case EXCHANGE_CREATE_FEE:
         break;
       case MAX_CPU_TIME_OF_ONE_TX:
@@ -93,8 +93,8 @@ public class ProposalUtil {
         }
         break;
       }
-      case TOTAL_ENERGY_LIMIT: { // deprecated
-        if (!forkController.pass(ForkBlockVersionConsts.ENERGY_LIMIT)) {
+      case TOTAL_UCR_LIMIT: { // deprecated
+        if (!forkController.pass(ForkBlockVersionConsts.UCR_LIMIT)) {
           throw new ContractValidateException(BAD_PARAM_ID);
         }
         if (forkController.pass(ForkBlockVersionEnum.VERSION_3_2_2)) {
@@ -105,18 +105,18 @@ public class ProposalUtil {
         }
         break;
       }
-      case ALLOW_TVM_TRANSFER_TRC10: {
+      case ALLOW_SVM_TRANSFER_TRC10: {
         if (value != 1) {
           throw new ContractValidateException(
-              PRE_VALUE_NOT_ONE_ERROR + "ALLOW_TVM_TRANSFER_TRC10" + VALUE_NOT_ONE_ERROR);
+              PRE_VALUE_NOT_ONE_ERROR + "ALLOW_SVM_TRANSFER_TRC10" + VALUE_NOT_ONE_ERROR);
         }
         if (dynamicPropertiesStore.getAllowSameTokenName() == 0) {
           throw new ContractValidateException("[ALLOW_SAME_TOKEN_NAME] proposal must be approved "
-              + "before [ALLOW_TVM_TRANSFER_TRC10] can be proposed");
+              + "before [ALLOW_SVM_TRANSFER_TRC10] can be proposed");
         }
         break;
       }
-      case TOTAL_CURRENT_ENERGY_LIMIT: {
+      case TOTAL_CURRENT_UCR_LIMIT: {
         if (!forkController.pass(ForkBlockVersionEnum.VERSION_3_2_2)) {
           throw new ContractValidateException(BAD_PARAM_ID);
         }
@@ -135,13 +135,13 @@ public class ProposalUtil {
         }
         break;
       }
-      case ALLOW_ADAPTIVE_ENERGY: {
+      case ALLOW_ADAPTIVE_UCR: {
         if (!forkController.pass(ForkBlockVersionEnum.VERSION_3_5)) {
-          throw new ContractValidateException("Bad chain parameter id: ALLOW_ADAPTIVE_ENERGY");
+          throw new ContractValidateException("Bad chain parameter id: ALLOW_ADAPTIVE_UCR");
         }
         if (value != 1) {
           throw new ContractValidateException(
-              PRE_VALUE_NOT_ONE_ERROR + "ALLOW_ADAPTIVE_ENERGY" + VALUE_NOT_ONE_ERROR);
+              PRE_VALUE_NOT_ONE_ERROR + "ALLOW_ADAPTIVE_UCR" + VALUE_NOT_ONE_ERROR);
         }
         break;
       }
@@ -184,34 +184,34 @@ public class ProposalUtil {
         }
         break;
       }
-      case ALLOW_TVM_CONSTANTINOPLE: {
+      case ALLOW_SVM_CONSTANTINOPLE: {
         if (!forkController.pass(ForkBlockVersionEnum.VERSION_3_6)) {
           throw new ContractValidateException(BAD_PARAM_ID);
         }
         if (value != 1) {
           throw new ContractValidateException(
-              PRE_VALUE_NOT_ONE_ERROR + "ALLOW_TVM_CONSTANTINOPLE" + VALUE_NOT_ONE_ERROR);
+              PRE_VALUE_NOT_ONE_ERROR + "ALLOW_SVM_CONSTANTINOPLE" + VALUE_NOT_ONE_ERROR);
         }
-        if (dynamicPropertiesStore.getAllowTvmTransferTrc10() == 0) {
+        if (dynamicPropertiesStore.getAllowSvmTransferTrc10() == 0) {
           throw new ContractValidateException(
-              "[ALLOW_TVM_TRANSFER_TRC10] proposal must be approved "
-                  + "before [ALLOW_TVM_CONSTANTINOPLE] can be proposed");
+              "[ALLOW_SVM_TRANSFER_TRC10] proposal must be approved "
+                  + "before [ALLOW_SVM_CONSTANTINOPLE] can be proposed");
         }
         break;
       }
-      case ALLOW_TVM_SOLIDITY_059: {
+      case ALLOW_SVM_SOLIDITY_059: {
         if (!forkController.pass(ForkBlockVersionEnum.VERSION_3_6_5)) {
 
           throw new ContractValidateException(BAD_PARAM_ID);
         }
         if (value != 1) {
           throw new ContractValidateException(
-              PRE_VALUE_NOT_ONE_ERROR + "ALLOW_TVM_SOLIDITY_059" + VALUE_NOT_ONE_ERROR);
+              PRE_VALUE_NOT_ONE_ERROR + "ALLOW_SVM_SOLIDITY_059" + VALUE_NOT_ONE_ERROR);
         }
         if (dynamicPropertiesStore.getAllowCreationOfContracts() == 0) {
           throw new ContractValidateException(
               "[ALLOW_CREATION_OF_CONTRACTS] proposal must be approved "
-                  + "before [ALLOW_TVM_SOLIDITY_059] can be proposed");
+                  + "before [ALLOW_SVM_SOLIDITY_059] can be proposed");
         }
         break;
       }
@@ -318,14 +318,14 @@ public class ProposalUtil {
         }
         break;
       }
-      case ALLOW_TVM_ISTANBUL: {
+      case ALLOW_SVM_ISTANBUL: {
         if (!forkController.pass(ForkBlockVersionEnum.VERSION_4_1)) {
           throw new ContractValidateException(
-              "Bad chain parameter id [ALLOW_TVM_ISTANBUL]");
+              "Bad chain parameter id [ALLOW_SVM_ISTANBUL]");
         }
         if (value != 1) {
           throw new ContractValidateException(
-              "This value[ALLOW_TVM_ISTANBUL] is only allowed to be 1");
+              "This value[ALLOW_SVM_ISTANBUL] is only allowed to be 1");
         }
         break;
       }
@@ -422,50 +422,50 @@ public class ProposalUtil {
         }
         break;
       }
-      case ALLOW_TVM_FREEZE: {
+      case ALLOW_SVM_CD: {
         if (!forkController.pass(ForkBlockVersionEnum.VERSION_4_2)) {
           throw new ContractValidateException(
-              "Bad chain parameter id [ALLOW_TVM_FREEZE]");
+              "Bad chain parameter id [ALLOW_SVM_CD]");
         }
         if (value != 1) {
           throw new ContractValidateException(
-              PRE_VALUE_NOT_ONE_ERROR + "ALLOW_TVM_FREEZE" + VALUE_NOT_ONE_ERROR);
+              PRE_VALUE_NOT_ONE_ERROR + "ALLOW_SVM_CD" + VALUE_NOT_ONE_ERROR);
         }
         if (dynamicPropertiesStore.getAllowDelegateResource() == 0) {
           throw new ContractValidateException(
               "[ALLOW_DELEGATE_RESOURCE] proposal must be approved "
-                  + "before [ALLOW_TVM_FREEZE] can be proposed");
+                  + "before [ALLOW_SVM_CD] can be proposed");
         }
         if (dynamicPropertiesStore.getAllowMultiSign() == 0) {
           throw new ContractValidateException(
               "[ALLOW_MULTI_SIGN] proposal must be approved "
-                  + "before [ALLOW_TVM_FREEZE] can be proposed");
+                  + "before [ALLOW_SVM_CD] can be proposed");
         }
-        if (dynamicPropertiesStore.getAllowTvmConstantinople() == 0) {
+        if (dynamicPropertiesStore.getAllowSvmConstantinople() == 0) {
           throw new ContractValidateException(
-              "[ALLOW_TVM_CONSTANTINOPLE] proposal must be approved "
-                  + "before [ALLOW_TVM_FREEZE] can be proposed");
+              "[ALLOW_SVM_CONSTANTINOPLE] proposal must be approved "
+                  + "before [ALLOW_SVM_CD] can be proposed");
         }
-        if (dynamicPropertiesStore.getAllowTvmSolidity059() == 0) {
+        if (dynamicPropertiesStore.getAllowSvmSolidity059() == 0) {
           throw new ContractValidateException(
-              "[ALLOW_TVM_SOLIDITY_059] proposal must be approved "
-                  + "before [ALLOW_TVM_FREEZE] can be proposed");
+              "[ALLOW_SVM_SOLIDITY_059] proposal must be approved "
+                  + "before [ALLOW_SVM_CD] can be proposed");
         }
         break;
       }
-      case ALLOW_TVM_VOTE: {
+      case ALLOW_SVM_VOTE: {
         if (!forkController.pass(ForkBlockVersionEnum.VERSION_4_3)) {
           throw new ContractValidateException(
-              "Bad chain parameter id [ALLOW_TVM_VOTE]");
+              "Bad chain parameter id [ALLOW_SVM_VOTE]");
         }
         if (value != 1) {
           throw new ContractValidateException(
-              PRE_VALUE_NOT_ONE_ERROR + "ALLOW_TVM_VOTE" + VALUE_NOT_ONE_ERROR);
+              PRE_VALUE_NOT_ONE_ERROR + "ALLOW_SVM_VOTE" + VALUE_NOT_ONE_ERROR);
         }
         if (dynamicPropertiesStore.getChangeDelegation() == 0) {
           throw new ContractValidateException(
               "[ALLOW_CHANGE_DELEGATION] proposal must be approved "
-                  + "before [ALLOW_TVM_VOTE] can be proposed");
+                  + "before [ALLOW_SVM_VOTE] can be proposed");
         }
         break;
       }
@@ -519,36 +519,36 @@ public class ProposalUtil {
     CREATE_NEW_ACCOUNT_BANDWIDTH_RATE(8), // 1 Bandwith/Byte, [0, 100000000000000000] Bandwith/Byte
     ALLOW_CREATION_OF_CONTRACTS(9), // 1, {0, 1}
     REMOVE_THE_POWER_OF_THE_GR(10),  // 1, {0, 1}
-    ENERGY_FEE(11), // 10 Unit, [0, 100000000000] STB
+    UCR_FEE(11), // 10 Unit, [0, 100000000000] STB
     EXCHANGE_CREATE_FEE(12), // 1024 STB, [0, 100000000000] STB
     MAX_CPU_TIME_OF_ONE_TX(13), // 50 ms, [0, 1000] ms
     ALLOW_UPDATE_ACCOUNT_NAME(14), // 0, {0, 1}
     ALLOW_SAME_TOKEN_NAME(15), // 1, {0, 1}
     ALLOW_DELEGATE_RESOURCE(16), // 1, {0, 1}
-    TOTAL_ENERGY_LIMIT(17), // 50,000,000,000, [0, 100000000000000000]
-    ALLOW_TVM_TRANSFER_TRC10(18), // 1, {0, 1}
-    TOTAL_CURRENT_ENERGY_LIMIT(19), // 50,000,000,000, [0, 100000000000000000]
+    TOTAL_UCR_LIMIT(17), // 50,000,000,000, [0, 100000000000000000]
+    ALLOW_SVM_TRANSFER_TRC10(18), // 1, {0, 1}
+    TOTAL_CURRENT_UCR_LIMIT(19), // 50,000,000,000, [0, 100000000000000000]
     ALLOW_MULTI_SIGN(20), // 1, {0, 1}
-    ALLOW_ADAPTIVE_ENERGY(21), // 1, {0, 1}
+    ALLOW_ADAPTIVE_UCR(21), // 1, {0, 1}
     UPDATE_ACCOUNT_PERMISSION_FEE(22), // 100 STB, [0, 100000] STB
     MULTI_SIGN_FEE(23), // 1 STB, [0, 100000] STB
     ALLOW_PROTO_FILTER_NUM(24), // 0, {0, 1}
     ALLOW_ACCOUNT_STATE_ROOT(25), // 1, {0, 1}
-    ALLOW_TVM_CONSTANTINOPLE(26), // 1, {0, 1}
+    ALLOW_SVM_CONSTANTINOPLE(26), // 1, {0, 1}
     // ALLOW_SHIELDED_TRANSACTION(27), // 0, {0, 1}
     // SHIELDED_TRANSACTION_FEE(28), // 10 STB, [0, 10000] STB
     ADAPTIVE_RESOURCE_LIMIT_MULTIPLIER(29), // 1000, [1, 10000]
     ALLOW_CHANGE_DELEGATION(30), // 1, {0, 1}
     WITNESS_127_PAY_PER_BLOCK(31), // 160 STB, [0, 100000000000] STB
-    ALLOW_TVM_SOLIDITY_059(32), // 1, {0, 1}
+    ALLOW_SVM_SOLIDITY_059(32), // 1, {0, 1}
     ADAPTIVE_RESOURCE_LIMIT_TARGET_RATIO(33), // 10, [1, 1000]
     // SHIELDED_TRANSACTION_CREATE_ACCOUNT_FEE(34), // 1 STB, [0, 10000] STB
     FORBID_TRANSFER_TO_CONTRACT(35), // 1, {0, 1}
     ALLOW_SHIELDED_TRC20_TRANSACTION(39), // 1, 39
     ALLOW_PBFT(40),// 1,40
-    ALLOW_TVM_ISTANBUL(41),//1, {0,1}
-    // ALLOW_TVM_ASSET_ISSUE(42), // 0, 1
-    // ALLOW_TVM_STAKE(43), // 0, 1
+    ALLOW_SVM_ISTANBUL(41),//1, {0,1}
+    // ALLOW_SVM_ASSET_ISSUE(42), // 0, 1
+    // ALLOW_SVM_STAKE(43), // 0, 1
     ALLOW_MARKET_TRANSACTION(44), // {0, 1}
     MARKET_SELL_FEE(45), // 0 [0,10_000_000_000]
     MARKET_CANCEL_FEE(46), // 0 [0,10_000_000_000]
@@ -556,10 +556,10 @@ public class ProposalUtil {
     ALLOW_TRANSACTION_FEE_POOL(48), // 0, 1
     ALLOW_BLACKHOLE_OPTIMIZATION(49),// 0,1
     ALLOW_NEW_RESOURCE_MODEL(51),// 0,1
-    ALLOW_TVM_FREEZE(52), // 0, 1
+    ALLOW_SVM_CD(52), // 0, 1
     ALLOW_ACCOUNT_ASSET_OPTIMIZATION(53), // 1
     // ALLOW_NEW_REWARD_ALGORITHM(58), // 0, 1
-    ALLOW_TVM_VOTE(59), // 0, 1
+    ALLOW_SVM_VOTE(59), // 0, 1
     FREE_NET_LIMIT(61), // 5000, [0, 100_000]
     TOTAL_NET_LIMIT(62); // 43_200_000_000L, [0, 1000_000_000_000L]
 

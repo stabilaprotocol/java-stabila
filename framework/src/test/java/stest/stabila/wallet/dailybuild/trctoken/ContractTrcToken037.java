@@ -81,8 +81,8 @@ public class ContractTrcToken037 {
             fromAddress, testKey002, blockingStubFull));
     logger.info("dev001Address:" + Base58.encode58Check(dev001Address));
 
-    // freeze balance
-    Assert.assertTrue(PublicMethed.freezeBalanceGetEnergy(dev001Address, 204800000,
+    // cd balance
+    Assert.assertTrue(PublicMethed.cdBalanceGetUcr(dev001Address, 204800000,
         0, 1, dev001Key, blockingStubFull));
     PublicMethed.waitProduceNextBlock(blockingStubFull);
 
@@ -97,7 +97,7 @@ public class ContractTrcToken037 {
     assetAccountId = PublicMethed.queryAccount(dev001Address, blockingStubFull).getAssetIssuedID();
 
     // deploy transferTokenContract
-    int originEnergyLimit = 50000;
+    int originUcrLimit = 50000;
 
     String filePath = "src/test/resources/soliditycode/contractTrcToken037.sol";
     String contractName = "receiveTrc10";
@@ -106,7 +106,7 @@ public class ContractTrcToken037 {
     String abi = retMap.get("abI").toString();
     byte[] btestAddress = PublicMethed
         .deployContract(contractName, abi, code, "", maxFeeLimit, 0L,
-                0, originEnergyLimit, "0", 0,
+                0, originUcrLimit, "0", 0,
                 null, dev001Key, dev001Address, blockingStubFull);
 
     String contractName1 = "transferTrc10";
@@ -115,7 +115,7 @@ public class ContractTrcToken037 {
     String abi1 = retMap1.get("abI").toString();
     byte[] transferTokenContractAddress = PublicMethed
         .deployContract(contractName1, abi1, code1, "", maxFeeLimit,
-            0L, 0, originEnergyLimit, "0",
+            0L, 0, originUcrLimit, "0",
             0, null, dev001Key, dev001Address, blockingStubFull);
 
     PublicMethed.waitProduceNextBlock(blockingStubFull);
@@ -124,7 +124,7 @@ public class ContractTrcToken037 {
         blockingStubFull);
     info = PublicMethed.queryAccount(dev001Address, blockingStubFull);
     Long beforeBalance = info.getBalance();
-    Long beforeEnergyUsed = resourceInfo.getEnergyUsed();
+    Long beforeUcrUsed = resourceInfo.getUcrUsed();
     Long beforeNetUsed = resourceInfo.getNetUsed();
     Long beforeFreeNetUsed = resourceInfo.getFreeNetUsed();
     Long beforeAssetIssueDevAddress = PublicMethed
@@ -138,7 +138,7 @@ public class ContractTrcToken037 {
     Long beforeBalanceContractAddress = PublicMethed.queryAccount(transferTokenContractAddress,
         blockingStubFull).getBalance();
     logger.info("beforeBalance:" + beforeBalance);
-    logger.info("beforeEnergyUsed:" + beforeEnergyUsed);
+    logger.info("beforeUcrUsed:" + beforeUcrUsed);
     logger.info("beforeNetUsed:" + beforeNetUsed);
     logger.info("beforeFreeNetUsed:" + beforeFreeNetUsed);
     logger.info("beforeAssetIssueContractAddress:" + beforeAssetIssueContractAddress);
@@ -163,7 +163,7 @@ public class ContractTrcToken037 {
     AccountResourceMessage resourceInfoafter = PublicMethed.getAccountResource(dev001Address,
         blockingStubFull);
     Long afterBalance = infoafter.getBalance();
-    Long afterEnergyUsed = resourceInfoafter.getEnergyUsed();
+    Long afterUcrUsed = resourceInfoafter.getUcrUsed();
     Long afterAssetIssueDevAddress = PublicMethed
         .getAssetIssueValue(dev001Address, assetAccountId, blockingStubFull);
     Long afterNetUsed = resourceInfoafter.getNetUsed();
@@ -177,7 +177,7 @@ public class ContractTrcToken037 {
         blockingStubFull).getBalance();
 
     logger.info("afterBalance:" + afterBalance);
-    logger.info("afterEnergyUsed:" + afterEnergyUsed);
+    logger.info("afterUcrUsed:" + afterUcrUsed);
     logger.info("afterNetUsed:" + afterNetUsed);
     logger.info("afterFreeNetUsed:" + afterFreeNetUsed);
     logger.info("afterAssetIssueCount:" + afterAssetIssueDevAddress);
@@ -198,7 +198,7 @@ public class ContractTrcToken037 {
   @AfterClass
   public void shutdown() throws InterruptedException {
     PublicMethed.freedResource(dev001Address, dev001Key, fromAddress, blockingStubFull);
-    PublicMethed.unFreezeBalance(dev001Address, dev001Key, 1, dev001Address, blockingStubFull);
+    PublicMethed.unCdBalance(dev001Address, dev001Key, 1, dev001Address, blockingStubFull);
     if (channelFull != null) {
       channelFull.shutdown().awaitTermination(5, TimeUnit.SECONDS);
     }

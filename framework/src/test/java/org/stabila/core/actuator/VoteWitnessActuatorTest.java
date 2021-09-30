@@ -32,7 +32,7 @@ import org.stabila.protos.Protocol.AccountType;
 import org.stabila.protos.Protocol.Block;
 import org.stabila.protos.Protocol.Transaction.Result.code;
 import org.stabila.protos.contract.AssetIssueContractOuterClass;
-import org.stabila.protos.contract.BalanceContract.FreezeBalanceContract;
+import org.stabila.protos.contract.BalanceContract.CdBalanceContract;
 import org.stabila.protos.contract.WitnessContract.VoteWitnessContract;
 import org.stabila.protos.contract.WitnessContract.VoteWitnessContract.Vote;
 
@@ -132,12 +132,12 @@ public class VoteWitnessActuatorTest {
             .build());
   }
 
-  private Any getContract(String ownerAddress, long frozenBalance, long duration) {
+  private Any getContract(String ownerAddress, long cdedBalance, long duration) {
     return Any.pack(
-        FreezeBalanceContract.newBuilder()
+        CdBalanceContract.newBuilder()
             .setOwnerAddress(StringUtil.hexString2ByteString(ownerAddress))
-            .setFrozenBalance(frozenBalance)
-            .setFrozenDuration(duration)
+            .setCdedBalance(cdedBalance)
+            .setCdedDuration(duration)
             .build());
   }
 
@@ -157,18 +157,18 @@ public class VoteWitnessActuatorTest {
    */
   @Test
   public void voteWitness() {
-    long frozenBalance = 1_000_000_000_000L;
+    long cdedBalance = 1_000_000_000_000L;
     long duration = 3;
-    FreezeBalanceActuator freezeBalanceActuator = new FreezeBalanceActuator();
-    freezeBalanceActuator.setChainBaseManager(dbManager.getChainBaseManager())
-        .setAny(getContract(OWNER_ADDRESS, frozenBalance, duration));
+    CdBalanceActuator cdBalanceActuator = new CdBalanceActuator();
+    cdBalanceActuator.setChainBaseManager(dbManager.getChainBaseManager())
+        .setAny(getContract(OWNER_ADDRESS, cdedBalance, duration));
     VoteWitnessActuator actuator = new VoteWitnessActuator();
     actuator.setChainBaseManager(dbManager.getChainBaseManager())
         .setAny(getContract(OWNER_ADDRESS, WITNESS_ADDRESS, 1L));
     TransactionResultCapsule ret = new TransactionResultCapsule();
     try {
-      freezeBalanceActuator.validate();
-      freezeBalanceActuator.execute(ret);
+      cdBalanceActuator.validate();
+      cdBalanceActuator.execute(ret);
       actuator.validate();
       actuator.execute(ret);
       Assert.assertEquals(1,
@@ -320,19 +320,19 @@ public class VoteWitnessActuatorTest {
    */
   @Test
   public void voteCountTest() {
-    long frozenBalance = 1_000_000_000_000L;
+    long cdedBalance = 1_000_000_000_000L;
     long duration = 3;
-    FreezeBalanceActuator freezeBalanceActuator = new FreezeBalanceActuator();
-    freezeBalanceActuator.setChainBaseManager(dbManager.getChainBaseManager())
-        .setAny(getContract(OWNER_ADDRESS, frozenBalance, duration));
+    CdBalanceActuator cdBalanceActuator = new CdBalanceActuator();
+    cdBalanceActuator.setChainBaseManager(dbManager.getChainBaseManager())
+        .setAny(getContract(OWNER_ADDRESS, cdedBalance, duration));
     //0 votes
     VoteWitnessActuator actuator = new VoteWitnessActuator();
     actuator.setChainBaseManager(dbManager.getChainBaseManager())
         .setAny(getContract(OWNER_ADDRESS, WITNESS_ADDRESS, 0L));
     TransactionResultCapsule ret = new TransactionResultCapsule();
     try {
-      freezeBalanceActuator.validate();
-      freezeBalanceActuator.execute(ret);
+      cdBalanceActuator.validate();
+      cdBalanceActuator.execute(ret);
       actuator.validate();
       actuator.execute(ret);
       Assert.assertTrue(false);
@@ -352,8 +352,8 @@ public class VoteWitnessActuatorTest {
         .setAny(getContract(OWNER_ADDRESS, WITNESS_ADDRESS, -1L));
     ret = new TransactionResultCapsule();
     try {
-      freezeBalanceActuator.validate();
-      freezeBalanceActuator.execute(ret);
+      cdBalanceActuator.validate();
+      cdBalanceActuator.execute(ret);
       actuator.validate();
       actuator.execute(ret);
       Assert.assertTrue(false);
@@ -374,19 +374,19 @@ public class VoteWitnessActuatorTest {
    */
   @Test
   public void voteCountsTest() {
-    long frozenBalance = 1_000_000_000_000L;
+    long cdedBalance = 1_000_000_000_000L;
     long duration = 3;
-    FreezeBalanceActuator freezeBalanceActuator = new FreezeBalanceActuator();
-    freezeBalanceActuator.setChainBaseManager(dbManager.getChainBaseManager())
-        .setAny(getContract(OWNER_ADDRESS, frozenBalance, duration));
+    CdBalanceActuator cdBalanceActuator = new CdBalanceActuator();
+    cdBalanceActuator.setChainBaseManager(dbManager.getChainBaseManager())
+        .setAny(getContract(OWNER_ADDRESS, cdedBalance, duration));
 
     VoteWitnessActuator actuator = new VoteWitnessActuator();
     actuator.setChainBaseManager(dbManager.getChainBaseManager())
         .setAny(getRepeateContract(OWNER_ADDRESS, WITNESS_ADDRESS, 1L, 0));
     TransactionResultCapsule ret = new TransactionResultCapsule();
     try {
-      freezeBalanceActuator.validate();
-      freezeBalanceActuator.execute(ret);
+      cdBalanceActuator.validate();
+      cdBalanceActuator.execute(ret);
       actuator.validate();
       actuator.execute(ret);
       Assert.assertTrue(false);
@@ -425,18 +425,18 @@ public class VoteWitnessActuatorTest {
    */
   @Test
   public void vote1WitnssOneMoreTiems() {
-    long frozenBalance = 1_000_000_000_000L;
+    long cdedBalance = 1_000_000_000_000L;
     long duration = 3;
-    FreezeBalanceActuator freezeBalanceActuator = new FreezeBalanceActuator();
-    freezeBalanceActuator.setChainBaseManager(dbManager.getChainBaseManager())
-        .setAny(getContract(OWNER_ADDRESS, frozenBalance, duration));
+    CdBalanceActuator cdBalanceActuator = new CdBalanceActuator();
+    cdBalanceActuator.setChainBaseManager(dbManager.getChainBaseManager())
+        .setAny(getContract(OWNER_ADDRESS, cdedBalance, duration));
     VoteWitnessActuator actuator = new VoteWitnessActuator();
     actuator.setChainBaseManager(dbManager.getChainBaseManager())
         .setAny(getRepeateContract(OWNER_ADDRESS, WITNESS_ADDRESS, 1L, 30));
     TransactionResultCapsule ret = new TransactionResultCapsule();
     try {
-      freezeBalanceActuator.validate();
-      freezeBalanceActuator.execute(ret);
+      cdBalanceActuator.validate();
+      cdBalanceActuator.execute(ret);
       actuator.validate();
       actuator.execute(ret);
 
@@ -478,7 +478,7 @@ public class VoteWitnessActuatorTest {
   }
 
   /**
-   * witnessAccount not freeze Balance, result is failed ,exception is "The total number of votes
+   * witnessAccount not cd Balance, result is failed ,exception is "The total number of votes
    * 1000000 is greater than 0.
    */
   @Test
@@ -521,11 +521,11 @@ public class VoteWitnessActuatorTest {
    */
   @Test
   public void voteWitnessTwice() {
-    long frozenBalance = 7_000_000_000_000L;
+    long cdedBalance = 7_000_000_000_000L;
     long duration = 3;
-    FreezeBalanceActuator freezeBalanceActuator = new FreezeBalanceActuator();
-    freezeBalanceActuator.setChainBaseManager(dbManager.getChainBaseManager())
-        .setAny(getContract(OWNER_ADDRESS, frozenBalance, duration));
+    CdBalanceActuator cdBalanceActuator = new CdBalanceActuator();
+    cdBalanceActuator.setChainBaseManager(dbManager.getChainBaseManager())
+        .setAny(getContract(OWNER_ADDRESS, cdedBalance, duration));
     VoteWitnessActuator actuator = new VoteWitnessActuator();
     actuator.setChainBaseManager(dbManager.getChainBaseManager())
         .setAny(getContract(OWNER_ADDRESS, WITNESS_ADDRESS, 1L));
@@ -534,8 +534,8 @@ public class VoteWitnessActuatorTest {
         .setAny(getContract(OWNER_ADDRESS, WITNESS_ADDRESS, 3L));
     TransactionResultCapsule ret = new TransactionResultCapsule();
     try {
-      freezeBalanceActuator.validate();
-      freezeBalanceActuator.execute(ret);
+      cdBalanceActuator.validate();
+      cdBalanceActuator.execute(ret);
       actuator.validate();
       actuator.execute(ret);
       actuatorTwice.validate();
@@ -586,7 +586,7 @@ public class VoteWitnessActuatorTest {
 
     AccountCapsule owner =
         dbManager.getAccountStore().get(ByteArray.fromHexString(OWNER_ADDRESS));
-    owner.setFrozenForEnergy(1L,0L);
+    owner.setCdedForUcr(1L,0L);
     dbManager.getAccountStore().put(ByteArray.fromHexString(OWNER_ADDRESS),owner);
 
     VoteWitnessActuator actuator = new VoteWitnessActuator();
@@ -609,7 +609,7 @@ public class VoteWitnessActuatorTest {
 
     AccountCapsule owner =
         dbManager.getAccountStore().get(ByteArray.fromHexString(OWNER_ADDRESS));
-    owner.setFrozenForEnergy(2000000L,0L);
+    owner.setCdedForUcr(2000000L,0L);
     dbManager.getAccountStore().put(ByteArray.fromHexString(OWNER_ADDRESS),owner);
 
     VoteWitnessActuator actuator = new VoteWitnessActuator();
@@ -640,8 +640,8 @@ public class VoteWitnessActuatorTest {
 
     AccountCapsule owner =
         dbManager.getAccountStore().get(ByteArray.fromHexString(OWNER_ADDRESS));
-    owner.setFrozenForEnergy(2000000L,0L);
-    owner.setFrozenForStabilaPower(1000000L,0L);
+    owner.setCdedForUcr(2000000L,0L);
+    owner.setCdedForStabilaPower(1000000L,0L);
     dbManager.getAccountStore().put(ByteArray.fromHexString(OWNER_ADDRESS),owner);
 
     VoteWitnessActuator actuator = new VoteWitnessActuator();
@@ -656,7 +656,7 @@ public class VoteWitnessActuatorTest {
           dbManager.getAccountStore().get(ByteArray.fromHexString(OWNER_ADDRESS));
       Assert.assertEquals(3000000L, owner.getAllStabilaPower());
       Assert.assertEquals(2000000L, owner.getInstance().getOldStabilaPower());
-      Assert.assertEquals(1000000L, owner.getInstance().getStabilaPower().getFrozenBalance());
+      Assert.assertEquals(1000000L, owner.getInstance().getStabilaPower().getCdedBalance());
     } catch (ContractValidateException e) {
       e.printStackTrace();
       Assert.assertFalse(e instanceof ContractValidateException);
@@ -674,8 +674,8 @@ public class VoteWitnessActuatorTest {
 
     AccountCapsule owner =
         dbManager.getAccountStore().get(ByteArray.fromHexString(OWNER_ADDRESS));
-    owner.setFrozenForEnergy(2000000L,0L);
-    owner.setFrozenForStabilaPower(1000000L,0L);
+    owner.setCdedForUcr(2000000L,0L);
+    owner.setCdedForStabilaPower(1000000L,0L);
     dbManager.getAccountStore().put(ByteArray.fromHexString(OWNER_ADDRESS),owner);
 
     VoteWitnessActuator actuator = new VoteWitnessActuator();

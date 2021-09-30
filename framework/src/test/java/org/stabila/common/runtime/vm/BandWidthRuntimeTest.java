@@ -25,7 +25,7 @@ import org.junit.Test;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.runtime.RuntimeImpl;
-import org.stabila.common.runtime.TvmTestUtils;
+import org.stabila.common.runtime.SvmTestUtils;
 import org.stabila.common.storage.DepositImpl;
 import org.stabila.common.utils.Commons;
 import org.stabila.common.utils.FileUtil;
@@ -88,9 +88,9 @@ public class BandWidthRuntimeTest {
   public static void init() {
     dbManager = context.getBean(Manager.class);
     chainBaseManager = context.getBean(ChainBaseManager.class);
-    //init energy
+    //init ucr
     dbManager.getDynamicPropertiesStore().saveLatestBlockHeaderTimestamp(1526547838000L);
-    dbManager.getDynamicPropertiesStore().saveTotalEnergyWeight(10_000_000L);
+    dbManager.getDynamicPropertiesStore().saveTotalUcrWeight(10_000_000L);
 
     dbManager.getDynamicPropertiesStore().saveLatestBlockHeaderTimestamp(0);
 
@@ -98,7 +98,7 @@ public class BandWidthRuntimeTest {
         ByteString.copyFrom(Commons.decodeFromBase58Check(OwnerAddress)), AccountType.Normal,
         totalBalance);
 
-    accountCapsule.setFrozenForEnergy(10_000_000L, 0L);
+    accountCapsule.setCdedForUcr(10_000_000L, 0L);
     dbManager.getAccountStore()
         .put(Commons.decodeFromBase58Check(OwnerAddress), accountCapsule);
 
@@ -107,7 +107,7 @@ public class BandWidthRuntimeTest {
         ByteString.copyFrom(Commons.decodeFromBase58Check(TriggerOwnerAddress)), AccountType.Normal,
         totalBalance);
 
-    accountCapsule2.setFrozenForEnergy(10_000_000L, 0L);
+    accountCapsule2.setCdedForUcr(10_000_000L, 0L);
     dbManager.getAccountStore()
         .put(Commons.decodeFromBase58Check(TriggerOwnerAddress), accountCapsule2);
     AccountCapsule accountCapsule3 = new AccountCapsule(
@@ -117,7 +117,7 @@ public class BandWidthRuntimeTest {
         totalBalance);
     accountCapsule3.setNetUsage(5000L);
     accountCapsule3.setLatestConsumeFreeTime(chainBaseManager.getHeadSlot());
-    accountCapsule3.setFrozenForEnergy(10_000_000L, 0L);
+    accountCapsule3.setCdedForUcr(10_000_000L, 0L);
     dbManager.getAccountStore()
         .put(Commons.decodeFromBase58Check(TriggerOwnerTwoAddress), accountCapsule3);
 
@@ -141,8 +141,8 @@ public class BandWidthRuntimeTest {
       byte[] contractAddress = createContract();
       AccountCapsule triggerOwner = dbManager.getAccountStore()
           .get(Commons.decodeFromBase58Check(TriggerOwnerAddress));
-      long energy = triggerOwner.getEnergyUsage();
-      TriggerSmartContract triggerContract = TvmTestUtils.createTriggerContract(contractAddress,
+      long ucr = triggerOwner.getUcrUsage();
+      TriggerSmartContract triggerContract = SvmTestUtils.createTriggerContract(contractAddress,
           "setCoin(uint256)", "3", false,
           0, Commons.decodeFromBase58Check(TriggerOwnerAddress));
       Transaction transaction = Transaction.newBuilder().setRawData(raw.newBuilder().addContract(
@@ -161,10 +161,10 @@ public class BandWidthRuntimeTest {
 
       triggerOwner = dbManager.getAccountStore()
           .get(Commons.decodeFromBase58Check(TriggerOwnerAddress));
-      energy = triggerOwner.getEnergyUsage();
+      ucr = triggerOwner.getUcrUsage();
       long balance = triggerOwner.getBalance();
-      Assert.assertEquals(45706, trace.getReceipt().getEnergyUsageTotal());
-      Assert.assertEquals(45706, energy);
+      Assert.assertEquals(45706, trace.getReceipt().getUcrUsageTotal());
+      Assert.assertEquals(45706, ucr);
       Assert.assertEquals(totalBalance, balance);
     } catch (StabilaException e) {
       Assert.assertNotNull(e);
@@ -175,7 +175,7 @@ public class BandWidthRuntimeTest {
   public void testSuccessNoBandd() {
     try {
       byte[] contractAddress = createContract();
-      TriggerSmartContract triggerContract = TvmTestUtils.createTriggerContract(contractAddress,
+      TriggerSmartContract triggerContract = SvmTestUtils.createTriggerContract(contractAddress,
           "setCoin(uint256)", "50", false,
           0, Commons.decodeFromBase58Check(TriggerOwnerTwoAddress));
       Transaction transaction = Transaction.newBuilder().setRawData(raw.newBuilder().addContract(
@@ -198,10 +198,10 @@ public class BandWidthRuntimeTest {
       ReceiptCapsule receipt = trace.getReceipt();
 
       Assert.assertEquals(bandWidth, receipt.getNetUsage());
-      Assert.assertEquals(522850, receipt.getEnergyUsageTotal());
-      Assert.assertEquals(50000, receipt.getEnergyUsage());
-      Assert.assertEquals(47285000, receipt.getEnergyFee());
-      Assert.assertEquals(totalBalance - receipt.getEnergyFee(),
+      Assert.assertEquals(522850, receipt.getUcrUsageTotal());
+      Assert.assertEquals(50000, receipt.getUcrUsage());
+      Assert.assertEquals(47285000, receipt.getUcrFee());
+      Assert.assertEquals(totalBalance - receipt.getUcrFee(),
           balance);
     } catch (StabilaException e) {
       Assert.assertNotNull(e);
@@ -213,7 +213,7 @@ public class BandWidthRuntimeTest {
       TooBigTransactionResultException, ContractExeException, VMIllegalException {
     AccountCapsule owner = dbManager.getAccountStore()
         .get(Commons.decodeFromBase58Check(OwnerAddress));
-    long energy = owner.getEnergyUsage();
+    long ucr = owner.getUcrUsage();
     long balance = owner.getBalance();
 
     String contractName = "foriContract";
@@ -231,7 +231,7 @@ public class BandWidthRuntimeTest {
         + "\"receiver\",\"type\":\"uint256\"}],\"name\":\"setCoin\",\"outputs\":[],\"payable\""
         + ":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"}]";
 
-    CreateSmartContract smartContract = TvmTestUtils.createSmartContract(
+    CreateSmartContract smartContract = SvmTestUtils.createSmartContract(
         Commons.decodeFromBase58Check(OwnerAddress), contractName, abi, code, 0,
         100);
     Transaction transaction = Transaction.newBuilder().setRawData(raw.newBuilder().addContract(
@@ -248,15 +248,15 @@ public class BandWidthRuntimeTest {
     trace.finalization();
     owner = dbManager.getAccountStore()
         .get(Commons.decodeFromBase58Check(OwnerAddress));
-    energy = owner.getEnergyUsage() - energy;
+    ucr = owner.getUcrUsage() - ucr;
     balance = balance - owner.getBalance();
     Assert.assertNull(trace.getRuntimeError());
-    Assert.assertEquals(52299, trace.getReceipt().getEnergyUsageTotal());
-    Assert.assertEquals(50000, energy);
+    Assert.assertEquals(52299, trace.getReceipt().getUcrUsageTotal());
+    Assert.assertEquals(50000, ucr);
     Assert.assertEquals(229900, balance);
     Assert
-        .assertEquals(52299 * Constant.UNIT_PER_ENERGY,
-            balance + energy * Constant.UNIT_PER_ENERGY);
+        .assertEquals(52299 * Constant.UNIT_PER_UCR,
+            balance + ucr * Constant.UNIT_PER_UCR);
     Assert.assertNull(trace.getRuntimeError());
     return trace.getRuntimeResult().getContractAddress();
   }

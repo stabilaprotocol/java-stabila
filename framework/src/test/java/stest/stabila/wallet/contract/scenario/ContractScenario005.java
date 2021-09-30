@@ -64,15 +64,15 @@ public class ContractScenario005 {
   public void deployIcoContract() {
     Assert.assertTrue(PublicMethed.sendcoin(contract005Address, 200000000L, fromAddress,
         testKey002, blockingStubFull));
-    Assert.assertTrue(PublicMethed.freezeBalanceGetEnergy(contract005Address, 10000000L,
+    Assert.assertTrue(PublicMethed.cdBalanceGetUcr(contract005Address, 10000000L,
         3, 1, contract005Key, blockingStubFull));
     AccountResourceMessage accountResource = PublicMethed.getAccountResource(contract005Address,
         blockingStubFull);
-    Long energyLimit = accountResource.getEnergyLimit();
-    Long energyUsage = accountResource.getEnergyUsed();
+    Long ucrLimit = accountResource.getUcrLimit();
+    Long ucrUsage = accountResource.getUcrUsed();
 
-    logger.info("before energy limit is " + Long.toString(energyLimit));
-    logger.info("before energy usage is " + Long.toString(energyUsage));
+    logger.info("before ucr limit is " + Long.toString(ucrLimit));
+    logger.info("before ucr usage is " + Long.toString(ucrUsage));
 
     String filePath = "./src/test/resources/soliditycode/contractScenario005.sol";
     String contractName = "Crowdsale";
@@ -88,15 +88,15 @@ public class ContractScenario005 {
     Optional<TransactionInfo> infoById = PublicMethed
         .getTransactionInfoById(txid, blockingStubFull);
     logger.info("Txid is " + txid);
-    logger.info("Deploy energytotal is " + infoById.get().getReceipt().getEnergyUsageTotal());
+    logger.info("Deploy ucrtotal is " + infoById.get().getReceipt().getUcrUsageTotal());
     Assert.assertEquals(1, infoById.get().getResultValue());
     accountResource = PublicMethed.getAccountResource(contract005Address, blockingStubFull);
-    energyLimit = accountResource.getEnergyLimit();
-    energyUsage = accountResource.getEnergyUsed();
-    Assert.assertTrue(energyLimit > 0);
-    Assert.assertTrue(energyUsage > 0);
-    logger.info("after energy limit is " + Long.toString(energyLimit));
-    logger.info("after energy usage is " + Long.toString(energyUsage));
+    ucrLimit = accountResource.getUcrLimit();
+    ucrUsage = accountResource.getUcrUsed();
+    Assert.assertTrue(ucrLimit > 0);
+    Assert.assertTrue(ucrUsage > 0);
+    logger.info("after ucr limit is " + Long.toString(ucrLimit));
+    logger.info("after ucr usage is " + Long.toString(ucrUsage));
   }
 
   /**

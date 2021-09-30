@@ -103,7 +103,7 @@ public class MainNetTransferSendOrAsset {
   }
 
   @Test(enabled = false, threadPoolSize = 20, invocationCount = 100000)
-  public void freezeAnd() throws InterruptedException {
+  public void cdAnd() throws InterruptedException {
     Random rand = new Random();
     Integer randNum = 0;
     randNum = rand.nextInt(1000);

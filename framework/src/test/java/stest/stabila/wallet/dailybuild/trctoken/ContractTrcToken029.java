@@ -78,8 +78,8 @@ public class ContractTrcToken029 {
     PublicMethed.printAddress(dev001Key);
 
 
-    // freeze balance
-    Assert.assertTrue(PublicMethed.freezeBalanceGetEnergy(dev001Address, 204800000,
+    // cd balance
+    Assert.assertTrue(PublicMethed.cdBalanceGetUcr(dev001Address, 204800000,
         0, 1, dev001Key, blockingStubFull));
     PublicMethed.waitProduceNextBlock(blockingStubFull);
 
@@ -93,7 +93,7 @@ public class ContractTrcToken029 {
     assetAccountId = PublicMethed.queryAccount(dev001Address, blockingStubFull).getAssetIssuedID();
 
     // deploy transferTokenContract
-    int originEnergyLimit = 50000;
+    int originUcrLimit = 50000;
     String filePath = "src/test/resources/soliditycode/contractTrcToken029.sol";
     String contractName = "token";
     HashMap retMap = PublicMethed.getBycodeAbi(filePath, contractName);
@@ -101,7 +101,7 @@ public class ContractTrcToken029 {
     String abi = retMap.get("abI").toString();
     transferTokenContractAddress = PublicMethed
         .deployContract(contractName, abi, code, "", maxFeeLimit,
-            1000000000L, 0, originEnergyLimit, assetAccountId.toStringUtf8(),
+            1000000000L, 0, originUcrLimit, assetAccountId.toStringUtf8(),
             100, null, dev001Key, dev001Address, blockingStubFull);
     PublicMethed.waitProduceNextBlock(blockingStubFull);
     /*Assert.assertFalse(PublicMethed.sendcoin(transferTokenContractAddress,

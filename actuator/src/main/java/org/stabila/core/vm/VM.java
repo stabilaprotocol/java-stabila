@@ -15,7 +15,7 @@ import org.stabila.common.runtime.vm.LogInfo;
 import org.stabila.core.vm.config.VMConfig;
 import org.stabila.core.vm.program.Program;
 import org.stabila.core.vm.program.Program.JVMStackOverFlowException;
-import org.stabila.core.vm.program.Program.OutOfEnergyException;
+import org.stabila.core.vm.program.Program.OutOfUcrException;
 import org.stabila.core.vm.program.Program.OutOfTimeException;
 import org.stabila.core.vm.program.Program.TransferException;
 import org.stabila.core.vm.program.Stack;
@@ -53,9 +53,9 @@ public class VM {
     }
   }
 
-  private long calcMemEnergy(EnergyCost energyCosts, long oldMemSize, BigInteger newMemSize,
-      long copySize, OpCode op) {
-    long energyCost = 0;
+  private long calcMemUcr(UcrCost ucrCosts, long oldMemSize, BigInteger newMemSize,
+                             long copySize, OpCode op) {
+    long ucrCost = 0;
 
     checkMemorySize(op, newMemSize);
 
@@ -65,16 +65,16 @@ public class VM {
       long memWords = (memoryUsage / 32);
       long memWordsOld = (oldMemSize / 32);
       //TODO #POC9 c_quadCoeffDiv = 512, this should be a constant, not magic number
-      long memEnergy = (energyCosts.getMemory() * memWords + memWords * memWords / 512)
-          - (energyCosts.getMemory() * memWordsOld + memWordsOld * memWordsOld / 512);
-      energyCost += memEnergy;
+      long memUcr = (ucrCosts.getMemory() * memWords + memWords * memWords / 512)
+          - (ucrCosts.getMemory() * memWordsOld + memWordsOld * memWordsOld / 512);
+      ucrCost += memUcr;
     }
 
     if (copySize > 0) {
-      long copyEnergy = energyCosts.getCopyEnergy() * ((copySize + 31) / 32);
-      energyCost += copyEnergy;
+      long copyUcr = ucrCosts.getCopyUcr() * ((copySize + 31) / 32);
+      ucrCost += copyUcr;
     }
-    return energyCost;
+    return ucrCost;
   }
 
   public void step(Program program) {
@@ -85,19 +85,19 @@ public class VM {
     try {
       OpCode op = OpCode.code(program.getCurrentOp());
       if (op == null
-          || (!VMConfig.allowTvmTransferTrc10()
+          || (!VMConfig.allowSvmTransferTrc10()
               && (op == OpCode.CALLTOKEN || op == OpCode.TOKENBALANCE
                   || op == OpCode.CALLTOKENVALUE || op == OpCode.CALLTOKENID))
-          || (!VMConfig.allowTvmConstantinople()
+          || (!VMConfig.allowSvmConstantinople()
               && (op == OpCode.SHL || op == OpCode.SHR || op == OpCode.SAR
                   || op == OpCode.CREATE2 || op == OpCode.EXTCODEHASH))
-          || (!VMConfig.allowTvmSolidity059()
+          || (!VMConfig.allowSvmSolidity059()
               && op == OpCode.ISCONTRACT)
-          || (!VMConfig.allowTvmIstanbul()
+          || (!VMConfig.allowSvmIstanbul()
               && (op == OpCode.SELFBALANCE || op == OpCode.CHAINID))
-          || (!VMConfig.allowTvmFreeze()
-              && (op == OpCode.FREEZE || op == OpCode.UNFREEZE || op == OpCode.FREEZEEXPIRETIME))
-          || (!VMConfig.allowTvmVote()
+          || (!VMConfig.allowSvmCd()
+              && (op == OpCode.CD || op == OpCode.UNCD || op == OpCode.CDEXPIRETIME))
+          || (!VMConfig.allowSvmVote()
               && (op == OpCode.VOTEWITNESS || op == OpCode.WITHDRAWREWARD))
       ) {
         throw Program.Exception.invalidOpCode(program.getCurrentOp());
@@ -110,21 +110,21 @@ public class VM {
       long oldMemSize = program.getMemSize();
       Stack stack = program.getStack();
 
-      long energyCost = op.getTier().asInt();
-      EnergyCost energyCosts = EnergyCost.getInstance();
-      DataWord adjustedCallEnergy = null;
+      long ucrCost = op.getTier().asInt();
+      UcrCost ucrCosts = UcrCost.getInstance();
+      DataWord adjustedCallUcr = null;
 
-      // Calculate fees and spend energy
+      // Calculate fees and spend ucr
       switch (op) {
         case STOP:
-          energyCost = energyCosts.getStop();
+          ucrCost = ucrCosts.getStop();
           break;
         case SUICIDE:
-          energyCost = energyCosts.getSuicide();
+          ucrCost = ucrCosts.getSuicide();
           DataWord suicideAddressWord = stack.get(stack.size() - 1);
           if (isDeadAccount(program, suicideAddressWord)
               && !program.getBalance(program.getContractAddress()).isZero()) {
-            energyCost += energyCosts.getNewAcctSuicide();
+            ucrCost += ucrCosts.getNewAcctSuicide();
           }
           break;
         case SSTORE:
@@ -133,41 +133,41 @@ public class VM {
           DataWord oldValue = program.storageLoad(stack.peek());
           if (oldValue == null && !newValue.isZero()) {
             // set a new not-zero value
-            energyCost = energyCosts.getSetSStore();
+            ucrCost = ucrCosts.getSetSStore();
           } else if (oldValue != null && newValue.isZero()) {
             // set zero to an old value
-            program.futureRefundEnergy(energyCosts.getRefundSStore());
-            energyCost = energyCosts.getClearSStore();
+            program.futureRefundUcr(ucrCosts.getRefundSStore());
+            ucrCost = ucrCosts.getClearSStore();
           } else {
             // include:
             // [1] oldValue == null && newValue == 0
             // [2] oldValue != null && newValue != 0
-            energyCost = energyCosts.getResetSStore();
+            ucrCost = ucrCosts.getResetSStore();
           }
           break;
         case SLOAD:
-          energyCost = energyCosts.getSLoad();
+          ucrCost = ucrCosts.getSLoad();
           break;
         case TOKENBALANCE:
         case BALANCE:
         case ISCONTRACT:
-          energyCost = energyCosts.getBalance();
+          ucrCost = ucrCosts.getBalance();
           break;
-        case FREEZE:
-          energyCost = energyCosts.getFreeze();
+        case CD:
+          ucrCost = ucrCosts.getCd();
           DataWord receiverAddressWord = stack.get(stack.size() - 3);
           if (isDeadAccount(program, receiverAddressWord)) {
-            energyCost += energyCosts.getNewAcctCall();
+            ucrCost += ucrCosts.getNewAcctCall();
           }
           break;
-        case UNFREEZE:
-          energyCost = energyCosts.getUnfreeze();
+        case UNCD:
+          ucrCost = ucrCosts.getUncd();
           break;
-        case FREEZEEXPIRETIME:
-          energyCost = energyCosts.getFreezeExpireTime();
+        case CDEXPIRETIME:
+          ucrCost = ucrCosts.getCdExpireTime();
           break;
         case VOTEWITNESS:
-          energyCost = energyCosts.getVoteWitness();
+          ucrCost = ucrCosts.getVoteWitness();
           DataWord amountArrayLength = stack.get(stack.size() - 1).clone();
           DataWord amountArrayOffset = stack.get(stack.size() - 2);
           DataWord witnessArrayLength = stack.get(stack.size() - 3).clone();
@@ -181,63 +181,63 @@ public class VM {
           witnessArrayLength.mul(wordSize);
           BigInteger witnessArrayMemoryNeeded = memNeeded(witnessArrayOffset, witnessArrayLength);
 
-          energyCost += calcMemEnergy(energyCosts, oldMemSize,
+          ucrCost += calcMemUcr(ucrCosts, oldMemSize,
               (amountArrayMemoryNeeded.compareTo(witnessArrayMemoryNeeded) > 0 ?
                   amountArrayMemoryNeeded : witnessArrayMemoryNeeded), 0, op);
           break;
         case WITHDRAWREWARD:
-          energyCost = energyCosts.getWithdrawReward();
+          ucrCost = ucrCosts.getWithdrawReward();
           break;
 
         // These all operate on memory and therefore potentially expand it:
         case MSTORE:
-          energyCost = calcMemEnergy(energyCosts, oldMemSize,
+          ucrCost = calcMemUcr(ucrCosts, oldMemSize,
               memNeeded(stack.peek(), new DataWord(32)),
               0, op);
           break;
         case MSTORE8:
-          energyCost = calcMemEnergy(energyCosts, oldMemSize,
+          ucrCost = calcMemUcr(ucrCosts, oldMemSize,
               memNeeded(stack.peek(), new DataWord(1)),
               0, op);
           break;
         case MLOAD:
-          energyCost = calcMemEnergy(energyCosts, oldMemSize,
+          ucrCost = calcMemUcr(ucrCosts, oldMemSize,
               memNeeded(stack.peek(), new DataWord(32)),
               0, op);
           break;
         case RETURN:
         case REVERT:
-          energyCost = energyCosts.getStop() + calcMemEnergy(energyCosts, oldMemSize,
+          ucrCost = ucrCosts.getStop() + calcMemUcr(ucrCosts, oldMemSize,
               memNeeded(stack.peek(), stack.get(stack.size() - 2)), 0, op);
           break;
         case SHA3:
-          energyCost = energyCosts.getSha3() + calcMemEnergy(energyCosts, oldMemSize,
+          ucrCost = ucrCosts.getSha3() + calcMemUcr(ucrCosts, oldMemSize,
               memNeeded(stack.peek(), stack.get(stack.size() - 2)), 0, op);
           DataWord size = stack.get(stack.size() - 2);
           long chunkUsed = (size.longValueSafe() + 31) / 32;
-          energyCost += chunkUsed * energyCosts.getSha3Word();
+          ucrCost += chunkUsed * ucrCosts.getSha3Word();
           break;
         case CALLDATACOPY:
         case RETURNDATACOPY:
-          energyCost = calcMemEnergy(energyCosts, oldMemSize,
+          ucrCost = calcMemUcr(ucrCosts, oldMemSize,
               memNeeded(stack.peek(), stack.get(stack.size() - 3)),
               stack.get(stack.size() - 3).longValueSafe(), op);
           break;
         case CODECOPY:
-          energyCost = calcMemEnergy(energyCosts, oldMemSize,
+          ucrCost = calcMemUcr(ucrCosts, oldMemSize,
               memNeeded(stack.peek(), stack.get(stack.size() - 3)),
               stack.get(stack.size() - 3).longValueSafe(), op);
           break;
         case EXTCODESIZE:
-          energyCost = energyCosts.getExtCodeSize();
+          ucrCost = ucrCosts.getExtCodeSize();
           break;
         case EXTCODECOPY:
-          energyCost = energyCosts.getExtCodeCopy() + calcMemEnergy(energyCosts, oldMemSize,
+          ucrCost = ucrCosts.getExtCodeCopy() + calcMemUcr(ucrCosts, oldMemSize,
               memNeeded(stack.get(stack.size() - 2), stack.get(stack.size() - 4)),
               stack.get(stack.size() - 4).longValueSafe(), op);
           break;
         case EXTCODEHASH:
-          energyCost = energyCosts.getExtCodeHash();
+          ucrCost = ucrCosts.getExtCodeHash();
           break;
         case CALL:
         case CALLCODE:
@@ -245,8 +245,8 @@ public class VM {
         case STATICCALL:
         case CALLTOKEN:
           // here, contract call an other contract, or a library, and so on
-          energyCost = energyCosts.getCall();
-          DataWord callEnergyWord = stack.get(stack.size() - 1);
+          ucrCost = ucrCosts.getCall();
+          DataWord callUcrWord = stack.get(stack.size() - 1);
           DataWord callAddressWord = stack.get(stack.size() - 2);
           DataWord value = op.callHasValue() ? stack.get(stack.size() - 3) : DataWord.ZERO;
 
@@ -254,12 +254,12 @@ public class VM {
           if ((op == OpCode.CALL || op == OpCode.CALLTOKEN)
               && isDeadAccount(program, callAddressWord)
               && !value.isZero()) {
-            energyCost += energyCosts.getNewAcctCall();
+            ucrCost += ucrCosts.getNewAcctCall();
           }
 
           // TODO #POC9 Make sure this is converted to BigInteger (256num support)
           if (!value.isZero()) {
-            energyCost += energyCosts.getVtCall();
+            ucrCost += ucrCosts.getVtCall();
           }
 
           int opOff = op.callHasValue() ? 4 : 3;
@@ -270,31 +270,31 @@ public class VM {
               stack.get(stack.size() - opOff - 1)); // in offset+size
           BigInteger out = memNeeded(stack.get(stack.size() - opOff - 2),
               stack.get(stack.size() - opOff - 3)); // out offset+size
-          energyCost += calcMemEnergy(energyCosts, oldMemSize, in.max(out), 0, op);
+          ucrCost += calcMemUcr(ucrCosts, oldMemSize, in.max(out), 0, op);
           checkMemorySize(op, in.max(out));
 
-          if (energyCost > program.getEnergyLimitLeft().longValueSafe()) {
-            throw new OutOfEnergyException(
-                "Not enough energy for '%s' operation executing: opEnergy[%d], programEnergy[%d]",
+          if (ucrCost > program.getUcrLimitLeft().longValueSafe()) {
+            throw new OutOfUcrException(
+                "Not enough ucr for '%s' operation executing: opUcr[%d], programUcr[%d]",
                 op.name(),
-                energyCost, program.getEnergyLimitLeft().longValueSafe());
+                ucrCost, program.getUcrLimitLeft().longValueSafe());
           }
-          DataWord getEnergyLimitLeft = program.getEnergyLimitLeft().clone();
-          getEnergyLimitLeft.sub(new DataWord(energyCost));
+          DataWord getUcrLimitLeft = program.getUcrLimitLeft().clone();
+          getUcrLimitLeft.sub(new DataWord(ucrCost));
 
-          adjustedCallEnergy = program.getCallEnergy(op, callEnergyWord, getEnergyLimitLeft);
-          energyCost += adjustedCallEnergy.longValueSafe();
+          adjustedCallUcr = program.getCallUcr(op, callUcrWord, getUcrLimitLeft);
+          ucrCost += adjustedCallUcr.longValueSafe();
           break;
         case CREATE:
-          energyCost = energyCosts.getCreate() + calcMemEnergy(energyCosts, oldMemSize,
+          ucrCost = ucrCosts.getCreate() + calcMemUcr(ucrCosts, oldMemSize,
               memNeeded(stack.get(stack.size() - 2), stack.get(stack.size() - 3)), 0, op);
           break;
         case CREATE2:
           DataWord codeSize = stack.get(stack.size() - 3);
-          energyCost = energyCosts.getCreate();
-          energyCost += calcMemEnergy(energyCosts, oldMemSize,
+          ucrCost = ucrCosts.getCreate();
+          ucrCost += calcMemUcr(ucrCosts, oldMemSize,
               memNeeded(stack.get(stack.size() - 2), stack.get(stack.size() - 3)), 0, op);
-          energyCost += DataWord.sizeInWords(codeSize.intValueSafe()) * energyCosts.getSha3Word();
+          ucrCost += DataWord.sizeInWords(codeSize.intValueSafe()) * ucrCosts.getSha3Word();
 
           break;
         case LOG0:
@@ -305,17 +305,17 @@ public class VM {
           int nTopics = op.val() - OpCode.LOG0.val();
           BigInteger dataSize = stack.get(stack.size() - 2).value();
           BigInteger dataCost = dataSize
-              .multiply(BigInteger.valueOf(energyCosts.getLogDataEnergy()));
-          if (program.getEnergyLimitLeft().value().compareTo(dataCost) < 0) {
-            throw new OutOfEnergyException(
-                "Not enough energy for '%s' operation executing: opEnergy[%d], programEnergy[%d]",
+              .multiply(BigInteger.valueOf(ucrCosts.getLogDataUcr()));
+          if (program.getUcrLimitLeft().value().compareTo(dataCost) < 0) {
+            throw new OutOfUcrException(
+                "Not enough ucr for '%s' operation executing: opUcr[%d], programUcr[%d]",
                 op.name(),
-                dataCost.longValueExact(), program.getEnergyLimitLeft().longValueSafe());
+                dataCost.longValueExact(), program.getUcrLimitLeft().longValueSafe());
           }
-          energyCost = energyCosts.getLogEnergy()
-              + energyCosts.getLogTopicEnergy() * nTopics
-              + energyCosts.getLogDataEnergy() * stack.get(stack.size() - 2).longValue()
-              + calcMemEnergy(energyCosts, oldMemSize,
+          ucrCost = ucrCosts.getLogUcr()
+              + ucrCosts.getLogTopicUcr() * nTopics
+              + ucrCosts.getLogDataUcr() * stack.get(stack.size() - 2).longValue()
+              + calcMemUcr(ucrCosts, oldMemSize,
               memNeeded(stack.peek(), stack.get(stack.size() - 2)), 0, op);
 
           checkMemorySize(op, memNeeded(stack.peek(), stack.get(stack.size() - 2)));
@@ -324,14 +324,14 @@ public class VM {
 
           DataWord exp = stack.get(stack.size() - 2);
           int bytesOccupied = exp.bytesOccupied();
-          energyCost =
-              (long) energyCosts.getExpEnergy() + energyCosts.getExpByteEnergy() * bytesOccupied;
+          ucrCost =
+              (long) ucrCosts.getExpUcr() + ucrCosts.getExpByteUcr() * bytesOccupied;
           break;
         default:
           break;
       }
 
-      program.spendEnergy(energyCost, op.name());
+      program.spendUcr(ucrCost, op.name());
       program.checkCPUTimeLimit(op.name());
 
       // Execute operation
@@ -808,9 +808,9 @@ public class VM {
         }
         break;
         case GASPRICE: {
-          DataWord energyPrice = new DataWord(0);
+          DataWord ucrPrice = new DataWord(0);
 
-          program.stackPush(energyPrice);
+          program.stackPush(ucrPrice);
           program.step();
         }
         break;
@@ -855,10 +855,10 @@ public class VM {
         }
         break;
         case GASLIMIT: {
-          // todo: this energylimit is the block's energy limit
-          DataWord energyLimit = new DataWord(0);
+          // todo: this ucrlimit is the block's ucr limit
+          DataWord ucrLimit = new DataWord(0);
 
-          program.stackPush(energyLimit);
+          program.stackPush(ucrLimit);
           program.step();
         }
         break;
@@ -1013,9 +1013,9 @@ public class VM {
         }
         break;
         case GAS: {
-          DataWord energy = program.getEnergyLimitLeft();
+          DataWord ucr = program.getUcrLimitLeft();
 
-          program.stackPush(energy);
+          program.stackPush(ucr);
           program.step();
         }
         break;
@@ -1080,7 +1080,7 @@ public class VM {
         case CALLTOKEN:
         case DELEGATECALL:
         case STATICCALL: {
-          program.stackPop(); // use adjustedCallEnergy instead of requested
+          program.stackPop(); // use adjustedCallUcr instead of requested
           DataWord codeAddress = program.stackPop();
 
           DataWord value;
@@ -1095,7 +1095,7 @@ public class VM {
           }
 
           if (!value.isZero()) {
-            adjustedCallEnergy.add(new DataWord(energyCosts.getStipendCall()));
+            adjustedCallUcr.add(new DataWord(ucrCosts.getStipendCall()));
           }
 
           DataWord tokenId = new DataWord(0);
@@ -1116,7 +1116,7 @@ public class VM {
           program.memoryExpand(outDataOffs, outDataSize);
 
           MessageCall msg = new MessageCall(
-              op, adjustedCallEnergy, codeAddress, value, inDataOffs, inDataSize,
+              op, adjustedCallUcr, codeAddress, value, inDataOffs, inDataSize,
               outDataOffs, outDataSize, tokenId, isTokenTransferMsg);
 
           PrecompiledContracts.PrecompiledContract contract =
@@ -1135,38 +1135,38 @@ public class VM {
           program.step();
         }
         break;
-        case FREEZE: {
-          if (VMConfig.allowTvmVote() && program.isStaticCall()) { // after allow vote, check static
+        case CD: {
+          if (VMConfig.allowSvmVote() && program.isStaticCall()) { // after allow vote, check static
             throw new Program.StaticCallModificationException();
           }
 
-          DataWord resourceType = program.stackPop(); // 0 as bandwidth, 1 as energy.
-          DataWord frozenBalance = program.stackPop();
+          DataWord resourceType = program.stackPop(); // 0 as bandwidth, 1 as ucr.
+          DataWord cdedBalance = program.stackPop();
           DataWord receiverAddress = program.stackPop();
 
-          boolean result = program.freeze(receiverAddress, frozenBalance, resourceType );
+          boolean result = program.cd(receiverAddress, cdedBalance, resourceType );
           program.stackPush(result ? DataWord.ONE() : DataWord.ZERO());
           program.step();
         }
         break;
-        case UNFREEZE: {
-          if (VMConfig.allowTvmVote() && program.isStaticCall()) { // after allow vote, check static
+        case UNCD: {
+          if (VMConfig.allowSvmVote() && program.isStaticCall()) { // after allow vote, check static
             throw new Program.StaticCallModificationException();
           }
 
-          DataWord resourceType = program.stackPop(); // 0 as bandwidth, 1 as energy.
+          DataWord resourceType = program.stackPop(); // 0 as bandwidth, 1 as ucr.
           DataWord receiverAddress = program.stackPop();
 
-          boolean result = program.unfreeze(receiverAddress, resourceType);
+          boolean result = program.uncd(receiverAddress, resourceType);
           program.stackPush(result ? DataWord.ONE() : DataWord.ZERO());
           program.step();
         }
         break;
-        case FREEZEEXPIRETIME: {
-          DataWord resourceType = program.stackPop(); // 0 as bandwidth, 1 as energy.
+        case CDEXPIRETIME: {
+          DataWord resourceType = program.stackPop(); // 0 as bandwidth, 1 as ucr.
           DataWord targetAddress = program.stackPop();
 
-          long expireTime = program.freezeExpireTime(targetAddress, resourceType);
+          long expireTime = program.cdExpireTime(targetAddress, resourceType);
           program.stackPush(new DataWord(expireTime / 1000));
           program.step();
         }
@@ -1237,7 +1237,7 @@ public class VM {
     } catch (RuntimeException e) {
       logger.info("VM halted: [{}]", e.getMessage());
       if (!(e instanceof TransferException)) {
-        program.spendAllEnergy();
+        program.spendAllUcr();
       }
       program.resetFutureRefund();
       program.stop();

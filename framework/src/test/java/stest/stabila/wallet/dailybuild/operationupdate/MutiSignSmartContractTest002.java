@@ -110,10 +110,10 @@ public class MutiSignSmartContractTest002 {
         PublicMethed.sendcoin(ownerAddress, needcoin + 100000000L, fromAddress, testKey002,
             blockingStubFull));
     Assert.assertTrue(PublicMethed
-        .freezeBalanceForReceiver(fromAddress, 1000000000, 0, 0, ByteString.copyFrom(ownerAddress),
+        .cdBalanceForReceiver(fromAddress, 1000000000, 0, 0, ByteString.copyFrom(ownerAddress),
             testKey002, blockingStubFull));
     Assert.assertTrue(PublicMethed
-        .freezeBalanceForReceiver(fromAddress, 1000000000, 0, 1, ByteString.copyFrom(ownerAddress),
+        .cdBalanceForReceiver(fromAddress, 1000000000, 0, 1, ByteString.copyFrom(ownerAddress),
             testKey002, blockingStubFull));
 
     PublicMethed.waitProduceNextBlock(blockingStubFull);
@@ -171,16 +171,16 @@ public class MutiSignSmartContractTest002 {
         PublicMethedForMutiSign.updateSettingWithPermissionId(contractAddress, 50, ownerKey,
             ownerAddress, 2, blockingStubFull, permissionKeyString));
     Assert.assertTrue(
-        PublicMethedForMutiSign.updateEnergyLimitWithPermissionId(contractAddress, 50, ownerKey,
+        PublicMethedForMutiSign.updateUcrLimitWithPermissionId(contractAddress, 50, ownerKey,
             ownerAddress, 2, blockingStubFull, permissionKeyString));
     PublicMethed.waitProduceNextBlock(blockingStubFull);
     long balanceAfter = PublicMethed.queryAccount(ownerAddress, blockingStubFull).getBalance();
     logger.info("balanceAfter: " + balanceAfter);
 
     Assert.assertTrue(
-        PublicMethed.unFreezeBalance(fromAddress, testKey002, 0, ownerAddress, blockingStubFull));
+        PublicMethed.unCdBalance(fromAddress, testKey002, 0, ownerAddress, blockingStubFull));
     Assert.assertTrue(
-        PublicMethed.unFreezeBalance(fromAddress, testKey002, 1, ownerAddress, blockingStubFull));
+        PublicMethed.unCdBalance(fromAddress, testKey002, 1, ownerAddress, blockingStubFull));
   }
 
   /**

@@ -36,7 +36,7 @@ import org.stabila.protos.Protocol.AccountType;
 import org.stabila.protos.Protocol.Transaction.Result.code;
 import org.stabila.protos.contract.AccountContract.AccountCreateContract;
 import org.stabila.protos.contract.AssetIssueContractOuterClass.AssetIssueContract;
-import org.stabila.protos.contract.AssetIssueContractOuterClass.AssetIssueContract.FrozenSupply;
+import org.stabila.protos.contract.AssetIssueContractOuterClass.AssetIssueContract.CdedSupply;
 
 @Slf4j
 public class AssetIssueActuatorTest {
@@ -1131,12 +1131,12 @@ public class AssetIssueActuatorTest {
   }
 
   /*
-   * Test FrozenSupply, 1. frozen_amount must greater than zero.
+   * Test CdedSupply, 1. cded_amount must greater than zero.
    */
   @Test
-  public void frozenTest() {
-    // frozen_amount = 0 throw exception.
-    FrozenSupply frozenSupply = FrozenSupply.newBuilder().setFrozenDays(1).setFrozenAmount(0)
+  public void cdedTest() {
+    // cded_amount = 0 throw exception.
+    CdedSupply cdedSupply = CdedSupply.newBuilder().setCdedDays(1).setCdedAmount(0)
         .build();
     long nowTime = new Date().getTime();
     Any contract = Any.pack(
@@ -1147,7 +1147,7 @@ public class AssetIssueActuatorTest {
             .setStartTime(nowTime).setEndTime(nowTime + 24 * 3600 * 1000)
             .setDescription(ByteString.copyFromUtf8(DESCRIPTION))
             .setUrl(ByteString.copyFromUtf8(URL))
-            .addFrozenSupply(frozenSupply).build());
+            .addCdedSupply(cdedSupply).build());
 
     AssetIssueActuator actuator = new AssetIssueActuator();
     actuator.setChainBaseManager(dbManager.getChainBaseManager()).setAny(contract);
@@ -1160,7 +1160,7 @@ public class AssetIssueActuatorTest {
       Assert.assertTrue(false);
     } catch (ContractValidateException e) {
       Assert.assertTrue(e instanceof ContractValidateException);
-      Assert.assertEquals("Frozen supply must be greater than 0!", e.getMessage());
+      Assert.assertEquals("Cded supply must be greater than 0!", e.getMessage());
       AccountCapsule owner = dbManager.getAccountStore()
           .get(ByteArray.fromHexString(OWNER_ADDRESS));
       AssetIssueCapsule assetIssueCapsule = dbManager.getAssetIssueStore()
@@ -1177,8 +1177,8 @@ public class AssetIssueActuatorTest {
       dbManager.getAssetIssueStore().delete(ByteArray.fromString(NAME));
     }
 
-    // frozen_amount < 0 throw exception.
-    frozenSupply = FrozenSupply.newBuilder().setFrozenDays(1).setFrozenAmount(-1).build();
+    // cded_amount < 0 throw exception.
+    cdedSupply = CdedSupply.newBuilder().setCdedDays(1).setCdedAmount(-1).build();
     contract = Any.pack(
         AssetIssueContract.newBuilder()
             .setOwnerAddress(ByteString.copyFrom(ByteArray.fromHexString(OWNER_ADDRESS)))
@@ -1187,7 +1187,7 @@ public class AssetIssueActuatorTest {
             .setStartTime(nowTime).setEndTime(nowTime + 24 * 3600 * 1000)
             .setDescription(ByteString.copyFromUtf8(DESCRIPTION))
             .setUrl(ByteString.copyFromUtf8(URL))
-            .addFrozenSupply(frozenSupply).build());
+            .addCdedSupply(cdedSupply).build());
 
     actuator = new AssetIssueActuator();
     actuator.setChainBaseManager(dbManager.getChainBaseManager()).setAny(contract);
@@ -1200,7 +1200,7 @@ public class AssetIssueActuatorTest {
       Assert.assertTrue(false);
     } catch (ContractValidateException e) {
       Assert.assertTrue(e instanceof ContractValidateException);
-      Assert.assertEquals("Frozen supply must be greater than 0!", e.getMessage());
+      Assert.assertEquals("Cded supply must be greater than 0!", e.getMessage());
       AccountCapsule owner = dbManager.getAccountStore()
           .get(ByteArray.fromHexString(OWNER_ADDRESS));
       AssetIssueCapsule assetIssueCapsule = dbManager.getAssetIssueStore()
@@ -1217,11 +1217,11 @@ public class AssetIssueActuatorTest {
       dbManager.getAssetIssueStore().delete(ByteArray.fromString(NAME));
     }
 
-    long minFrozenSupplyTime = dbManager.getDynamicPropertiesStore().getMinFrozenSupplyTime();
-    long maxFrozenSupplyTime = dbManager.getDynamicPropertiesStore().getMaxFrozenSupplyTime();
+    long minCdedSupplyTime = dbManager.getDynamicPropertiesStore().getMinCdedSupplyTime();
+    long maxCdedSupplyTime = dbManager.getDynamicPropertiesStore().getMaxCdedSupplyTime();
 
-    // FrozenDays = 0 throw exception.
-    frozenSupply = FrozenSupply.newBuilder().setFrozenDays(0).setFrozenAmount(1).build();
+    // CdedDays = 0 throw exception.
+    cdedSupply = CdedSupply.newBuilder().setCdedDays(0).setCdedAmount(1).build();
     nowTime = new Date().getTime();
     contract = Any.pack(
         AssetIssueContract.newBuilder()
@@ -1231,7 +1231,7 @@ public class AssetIssueActuatorTest {
             .setStartTime(nowTime).setEndTime(nowTime + 24 * 3600 * 1000)
             .setDescription(ByteString.copyFromUtf8(DESCRIPTION))
             .setUrl(ByteString.copyFromUtf8(URL))
-            .addFrozenSupply(frozenSupply).build());
+            .addCdedSupply(cdedSupply).build());
 
     actuator = new AssetIssueActuator();
     actuator.setChainBaseManager(dbManager.getChainBaseManager()).setAny(contract);
@@ -1245,8 +1245,8 @@ public class AssetIssueActuatorTest {
     } catch (ContractValidateException e) {
       Assert.assertTrue(e instanceof ContractValidateException);
       Assert.assertEquals(
-          "frozenDuration must be less than " + maxFrozenSupplyTime + " days " + "and more than "
-              + minFrozenSupplyTime + " days", e.getMessage());
+          "cdedDuration must be less than " + maxCdedSupplyTime + " days " + "and more than "
+              + minCdedSupplyTime + " days", e.getMessage());
       AccountCapsule owner = dbManager.getAccountStore()
           .get(ByteArray.fromHexString(OWNER_ADDRESS));
       AssetIssueCapsule assetIssueCapsule = dbManager.getAssetIssueStore()
@@ -1263,8 +1263,8 @@ public class AssetIssueActuatorTest {
       dbManager.getAssetIssueStore().delete(ByteArray.fromString(NAME));
     }
 
-    // FrozenDays < 0 throw exception.
-    frozenSupply = FrozenSupply.newBuilder().setFrozenDays(-1).setFrozenAmount(1).build();
+    // CdedDays < 0 throw exception.
+    cdedSupply = CdedSupply.newBuilder().setCdedDays(-1).setCdedAmount(1).build();
     contract = Any.pack(
         AssetIssueContract.newBuilder()
             .setOwnerAddress(ByteString.copyFrom(ByteArray.fromHexString(OWNER_ADDRESS)))
@@ -1273,7 +1273,7 @@ public class AssetIssueActuatorTest {
             .setStartTime(nowTime).setEndTime(nowTime + 24 * 3600 * 1000)
             .setDescription(ByteString.copyFromUtf8(DESCRIPTION))
             .setUrl(ByteString.copyFromUtf8(URL))
-            .addFrozenSupply(frozenSupply).build());
+            .addCdedSupply(cdedSupply).build());
 
     actuator = new AssetIssueActuator();
     actuator.setChainBaseManager(dbManager.getChainBaseManager()).setAny(contract);
@@ -1287,8 +1287,8 @@ public class AssetIssueActuatorTest {
     } catch (ContractValidateException e) {
       Assert.assertTrue(e instanceof ContractValidateException);
       Assert.assertEquals(
-          "frozenDuration must be less than " + maxFrozenSupplyTime + " days " + "and more than "
-              + minFrozenSupplyTime + " days", e.getMessage());
+          "cdedDuration must be less than " + maxCdedSupplyTime + " days " + "and more than "
+              + minCdedSupplyTime + " days", e.getMessage());
       AccountCapsule owner = dbManager.getAccountStore()
           .get(ByteArray.fromHexString(OWNER_ADDRESS));
       AssetIssueCapsule assetIssueCapsule = dbManager.getAssetIssueStore()
@@ -1305,9 +1305,9 @@ public class AssetIssueActuatorTest {
       dbManager.getAssetIssueStore().delete(ByteArray.fromString(NAME));
     }
 
-    // FrozenDays > maxFrozenSupplyTime throw exception.
-    frozenSupply = FrozenSupply.newBuilder().setFrozenDays(maxFrozenSupplyTime + 1)
-        .setFrozenAmount(1).build();
+    // CdedDays > maxCdedSupplyTime throw exception.
+    cdedSupply = CdedSupply.newBuilder().setCdedDays(maxCdedSupplyTime + 1)
+        .setCdedAmount(1).build();
     contract = Any.pack(
         AssetIssueContract.newBuilder()
             .setOwnerAddress(ByteString.copyFrom(ByteArray.fromHexString(OWNER_ADDRESS)))
@@ -1316,7 +1316,7 @@ public class AssetIssueActuatorTest {
             .setStartTime(nowTime).setEndTime(nowTime + 24 * 3600 * 1000)
             .setDescription(ByteString.copyFromUtf8(DESCRIPTION))
             .setUrl(ByteString.copyFromUtf8(URL))
-            .addFrozenSupply(frozenSupply).build());
+            .addCdedSupply(cdedSupply).build());
 
     actuator = new AssetIssueActuator();
     actuator.setChainBaseManager(dbManager.getChainBaseManager()).setAny(contract);
@@ -1330,8 +1330,8 @@ public class AssetIssueActuatorTest {
     } catch (ContractValidateException e) {
       Assert.assertTrue(e instanceof ContractValidateException);
       Assert.assertEquals(
-          "frozenDuration must be less than " + maxFrozenSupplyTime + " days " + "and more than "
-              + minFrozenSupplyTime + " days", e.getMessage());
+          "cdedDuration must be less than " + maxCdedSupplyTime + " days " + "and more than "
+              + minCdedSupplyTime + " days", e.getMessage());
       AccountCapsule owner = dbManager.getAccountStore()
           .get(ByteArray.fromHexString(OWNER_ADDRESS));
       AssetIssueCapsule assetIssueCapsule = dbManager.getAssetIssueStore()
@@ -1348,8 +1348,8 @@ public class AssetIssueActuatorTest {
       dbManager.getAssetIssueStore().delete(ByteArray.fromString(NAME));
     }
 
-    // frozen_amount = 1 and frozenDays = 1 is OK
-    frozenSupply = FrozenSupply.newBuilder().setFrozenDays(1).setFrozenAmount(1).build();
+    // cded_amount = 1 and cdedDays = 1 is OK
+    cdedSupply = CdedSupply.newBuilder().setCdedDays(1).setCdedAmount(1).build();
     contract = Any.pack(
         AssetIssueContract.newBuilder()
             .setOwnerAddress(ByteString.copyFrom(ByteArray.fromHexString(OWNER_ADDRESS)))
@@ -1358,7 +1358,7 @@ public class AssetIssueActuatorTest {
             .setStartTime(nowTime).setEndTime(nowTime + 24 * 3600 * 1000)
             .setDescription(ByteString.copyFromUtf8(DESCRIPTION))
             .setUrl(ByteString.copyFromUtf8(URL))
-            .addFrozenSupply(frozenSupply).build());
+            .addCdedSupply(cdedSupply).build());
 
     actuator = new AssetIssueActuator();
     actuator.setChainBaseManager(dbManager.getChainBaseManager()).setAny(contract);
@@ -1599,12 +1599,12 @@ public class AssetIssueActuatorTest {
   }
 
   @Test
-  public void frozenListSizeTest() {
-    this.dbManager.getDynamicPropertiesStore().saveMaxFrozenSupplyNumber(3);
-    List<FrozenSupply> frozenList = new ArrayList();
+  public void cdedListSizeTest() {
+    this.dbManager.getDynamicPropertiesStore().saveMaxCdedSupplyNumber(3);
+    List<CdedSupply> cdedList = new ArrayList();
     for (int i = 0; i < this.dbManager.getDynamicPropertiesStore()
-        .getMaxFrozenSupplyNumber() + 2; i++) {
-      frozenList.add(FrozenSupply.newBuilder().setFrozenAmount(10).setFrozenDays(3).build());
+        .getMaxCdedSupplyNumber() + 2; i++) {
+      cdedList.add(CdedSupply.newBuilder().setCdedAmount(10).setCdedDays(3).build());
     }
 
     Any contract = Any.pack(
@@ -1614,23 +1614,23 @@ public class AssetIssueActuatorTest {
             .setNum(NUM)
             .setStartTime(startTime).setEndTime(endTime)
             .setDescription(ByteString.copyFromUtf8("description"))
-            .setUrl(ByteString.copyFromUtf8(URL)).addAllFrozenSupply(frozenList).build());
+            .setUrl(ByteString.copyFromUtf8(URL)).addAllCdedSupply(cdedList).build());
     AssetIssueActuator actuator = new AssetIssueActuator();
     actuator.setChainBaseManager(dbManager.getChainBaseManager()).setAny(contract);
 
     TransactionResultCapsule ret = new TransactionResultCapsule();
 
-    processAndCheckInvalid(actuator, ret, "Frozen supply list length is too long",
-        "Frozen supply list length is too long");
+    processAndCheckInvalid(actuator, ret, "Cded supply list length is too long",
+        "Cded supply list length is too long");
 
   }
 
   @Test
-  public void frozenSupplyMoreThanTotalSupplyTest() {
-    this.dbManager.getDynamicPropertiesStore().saveMaxFrozenSupplyNumber(3);
-    List<FrozenSupply> frozenList = new ArrayList();
-    frozenList
-        .add(FrozenSupply.newBuilder().setFrozenAmount(TOTAL_SUPPLY + 1).setFrozenDays(3).build());
+  public void cdedSupplyMoreThanTotalSupplyTest() {
+    this.dbManager.getDynamicPropertiesStore().saveMaxCdedSupplyNumber(3);
+    List<CdedSupply> cdedList = new ArrayList();
+    cdedList
+        .add(CdedSupply.newBuilder().setCdedAmount(TOTAL_SUPPLY + 1).setCdedDays(3).build());
     Any contract = Any.pack(
         AssetIssueContract.newBuilder()
             .setOwnerAddress(ByteString.copyFrom(ByteArray.fromHexString(OWNER_ADDRESS)))
@@ -1638,14 +1638,14 @@ public class AssetIssueActuatorTest {
             .setNum(NUM)
             .setStartTime(startTime).setEndTime(endTime)
             .setDescription(ByteString.copyFromUtf8("description"))
-            .setUrl(ByteString.copyFromUtf8(URL)).addAllFrozenSupply(frozenList).build());
+            .setUrl(ByteString.copyFromUtf8(URL)).addAllCdedSupply(cdedList).build());
     AssetIssueActuator actuator = new AssetIssueActuator();
     actuator.setChainBaseManager(dbManager.getChainBaseManager()).setAny(contract);
 
     TransactionResultCapsule ret = new TransactionResultCapsule();
 
-    processAndCheckInvalid(actuator, ret, "Frozen supply cannot exceed total supply",
-        "Frozen supply cannot exceed total supply");
+    processAndCheckInvalid(actuator, ret, "Cded supply cannot exceed total supply",
+        "Cded supply cannot exceed total supply");
 
   }
 
@@ -1698,7 +1698,7 @@ public class AssetIssueActuatorTest {
     byte[] stats = new byte[27];
     Arrays.fill(stats, (byte) 1);
     dbManager.getDynamicPropertiesStore()
-        .statsByVersion(ForkBlockVersionConsts.ENERGY_LIMIT, stats);
+        .statsByVersion(ForkBlockVersionConsts.UCR_LIMIT, stats);
     dbManager.getDynamicPropertiesStore().saveAllowSameTokenName(1);
 
     processAndCheckInvalid(actuator, ret, "precision cannot exceed 6", "precision cannot exceed 6");
@@ -1731,7 +1731,7 @@ public class AssetIssueActuatorTest {
     byte[] stats = new byte[27];
     Arrays.fill(stats, (byte) 1);
     dbManager.getDynamicPropertiesStore()
-        .statsByVersion(ForkBlockVersionConsts.ENERGY_LIMIT, stats);
+        .statsByVersion(ForkBlockVersionConsts.UCR_LIMIT, stats);
 
     processAndCheckInvalid(actuator, ret, "Invalid abbreviation for token",
         "Invalid abbreviation for token");
@@ -1812,7 +1812,7 @@ public class AssetIssueActuatorTest {
     byte[] stats = new byte[27];
     Arrays.fill(stats, (byte) 1);
     dbManager.getDynamicPropertiesStore()
-        .statsByVersion(ForkBlockVersionConsts.ENERGY_LIMIT, stats);
+        .statsByVersion(ForkBlockVersionConsts.UCR_LIMIT, stats);
     TransactionResultCapsule ret = new TransactionResultCapsule();
 
     // PublicFreeAssetNetUsage must be 0!
@@ -1874,7 +1874,7 @@ public class AssetIssueActuatorTest {
     byte[] stats = new byte[27];
     Arrays.fill(stats, (byte) 1);
     dbManager.getDynamicPropertiesStore()
-        .statsByVersion(ForkBlockVersionConsts.ENERGY_LIMIT, stats);
+        .statsByVersion(ForkBlockVersionConsts.UCR_LIMIT, stats);
     TransactionResultCapsule ret = new TransactionResultCapsule();
 
     // No enough balance for fee!

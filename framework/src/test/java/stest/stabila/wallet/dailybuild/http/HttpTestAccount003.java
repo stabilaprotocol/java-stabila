@@ -80,9 +80,9 @@ public class HttpTestAccount003 {
    */
   @Test(enabled = true, description = "Vote witness account by http")
   public void test02VoteWitnessAccount() {
-    //Freeze balance
+    //Cd balance
     response = HttpMethed
-        .freezeBalance(httpnode, updateAccountAddress, 40000000L, 0, 2, updateAccountKey);
+        .cdBalance(httpnode, updateAccountAddress, 40000000L, 0, 2, updateAccountKey);
     responseContent = HttpMethed.parseResponseContent(response);
     Assert.assertTrue(HttpMethed.verificationResult(response));
     HttpMethed.printJsonContent(responseContent);
@@ -209,9 +209,9 @@ public class HttpTestAccount003 {
   /**
    * constructor.
    */
-  @Test(enabled = true, description = "Unfreeze balance for stabila power by http")
-  public void test10UnfreezeStabilaPower() {
-    response = HttpMethed.unFreezeBalance(httpnode, updateAccountAddress,2,updateAccountKey);
+  @Test(enabled = true, description = "Uncd balance for stabila power by http")
+  public void test10UncdStabilaPower() {
+    response = HttpMethed.unCdBalance(httpnode, updateAccountAddress,2,updateAccountKey);
     responseContent = HttpMethed.parseResponseContent(response);
     HttpMethed.printJsonContent(responseContent);
 

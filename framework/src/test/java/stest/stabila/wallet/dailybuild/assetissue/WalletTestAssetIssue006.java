@@ -63,7 +63,7 @@ public class WalletTestAssetIssue006 {
 
   /*  @Test(enabled = true)
   public void testGetAssetIssueListByTimestamp() {
-      Assert.assertTrue(PublicMethed.freezeBalance(fromAddress,10000000,3,testKey002,
+      Assert.assertTrue(PublicMethed.cdBalance(fromAddress,10000000,3,testKey002,
         blockingStubFull));
     Assert.assertTrue(PublicMethed.sendcoin(queryAssetIssueFromSoliAddress,2048000000,fromAddress,
         testKey002,blockingStubFull));

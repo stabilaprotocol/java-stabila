@@ -24,8 +24,8 @@ import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.parameter.CommonParameter;
 import org.stabila.common.runtime.Runtime;
 import org.stabila.common.runtime.RuntimeImpl;
-import org.stabila.common.runtime.TVMTestResult;
-import org.stabila.common.runtime.TvmTestUtils;
+import org.stabila.common.runtime.SVMTestResult;
+import org.stabila.common.runtime.SvmTestUtils;
 import org.stabila.common.storage.Deposit;
 import org.stabila.common.storage.DepositImpl;
 import org.stabila.common.utils.Commons;
@@ -56,11 +56,11 @@ public class VoteTest {
   /**
    * contract TestVote {
    *     constructor() public payable {}
-   *     function freeze(address payable receiver, uint amount, uint res) external {
-   *       receiver.freeze(amount, res);
+   *     function cd(address payable receiver, uint amount, uint res) external {
+   *       receiver.cd(amount, res);
    *     }
-   *     function unfreeze(address payable receiver, uint res) external {
-   *       receiver.unfreeze(res);
+   *     function uncd(address payable receiver, uint res) external {
+   *       receiver.uncd(res);
    *     }
    *     function voteWitness(address[] calldata srList,
    *         uint[] calldata tpList) external returns(bool) {
@@ -153,7 +153,7 @@ public class VoteTest {
       + "\"inputs\":[{\"internalType\":\"address payable\",\"name\":\"receiver\","
       + "\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"amount\","
       + "\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"res\","
-      + "\"type\":\"uint256\"}],\"name\":\"freeze\",\"outputs\":[],\"payable\":false,"
+      + "\"type\":\"uint256\"}],\"name\":\"cd\",\"outputs\":[],\"payable\":false,"
       + "\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,"
       + "\"inputs\":[{\"internalType\":\"address\",\"name\":\"sr\",\"type\":\"address\"}],"
       + "\"name\":\"isWitness\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\","
@@ -185,7 +185,7 @@ public class VoteTest {
       + "\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\","
       + "\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"address "
       + "payable\",\"name\":\"receiver\",\"type\":\"address\"},{\"internalType\":\"uint256\","
-      + "\"name\":\"res\",\"type\":\"uint256\"}],\"name\":\"unfreeze\",\"outputs\":[],"
+      + "\"name\":\"res\",\"type\":\"uint256\"}],\"name\":\"uncd\",\"outputs\":[],"
       + "\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},"
       + "{\"constant\":false,\"inputs\":[{\"internalType\":\"address[]\",\"name\":\"srList\","
       + "\"type\":\"address[]\"},{\"internalType\":\"uint256[]\",\"name\":\"tpList\","
@@ -198,7 +198,7 @@ public class VoteTest {
 
   private static final long value = 100_000_000_000_000_000L;
   private static final long fee = 1_000_000_000L;
-  private static final long freezeUnit = 1_000_000_000_000L;
+  private static final long cdUnit = 1_000_000_000_000L;
   private static final long stb_precision = 1_000_000L;
   private static final String userAStr = "27k66nycZATHzBasFT9782nTsYWqVtxdtAc";
   private static final byte[] userA = Commons.decode58Check(userAStr);
@@ -212,8 +212,8 @@ public class VoteTest {
   private static final byte[] witnessB = Commons.decode58Check(witnessBStr);
   private static final String witnessCStr = "27Wkfa5iEJtsKAKdDzSmF1b2gDm5s49kvdZ";
   private static final byte[] witnessC = Commons.decode58Check(witnessCStr);
-  private static final String freezeMethod = "freeze(address,uint256,uint256)";
-  private static final String unfreezeMethod = "unfreeze(address,uint256)";
+  private static final String cdMethod = "cd(address,uint256,uint256)";
+  private static final String uncdMethod = "uncd(address,uint256)";
   private static final String voteMethod = "voteWitness(address[],uint256[])";
   private static final String withdrawRewardMethod = "withdrawReward()";
   private static final String queryRewardBalanceMethod = "queryRewardBalance()";
@@ -277,7 +277,7 @@ public class VoteTest {
   public void init() throws Exception {
     dbPath = "output_" + VoteTest.class.getName();
     Args.setParam(new String[]{"--output-directory", dbPath, "--debug"}, Constant.TEST_CONF);
-    CommonParameter.getInstance().setCheckFrozenTime(0);
+    CommonParameter.getInstance().setCheckCdedTime(0);
     context = new StabilaApplicationContext(DefaultConfig.class);
     manager = context.getBean(Manager.class);
     maintenanceManager = context.getBean(MaintenanceManager.class);
@@ -293,14 +293,14 @@ public class VoteTest {
 
     ConfigLoader.disable = true;
     VMConfig.initVmHardFork(true);
-    VMConfig.initAllowTvmTransferTrc10(1);
-    VMConfig.initAllowTvmConstantinople(1);
-    VMConfig.initAllowTvmSolidity059(1);
-    VMConfig.initAllowTvmIstanbul(1);
-    VMConfig.initAllowTvmFreeze(1);
-    VMConfig.initAllowTvmVote(1);
+    VMConfig.initAllowSvmTransferTrc10(1);
+    VMConfig.initAllowSvmConstantinople(1);
+    VMConfig.initAllowSvmSolidity059(1);
+    VMConfig.initAllowSvmIstanbul(1);
+    VMConfig.initAllowSvmCd(1);
+    VMConfig.initAllowSvmVote(1);
     manager.getDynamicPropertiesStore().saveChangeDelegation(1);
-    manager.getDynamicPropertiesStore().saveAllowTvmVote(1);
+    manager.getDynamicPropertiesStore().saveAllowSvmVote(1);
   }
 
   @After
@@ -317,7 +317,7 @@ public class VoteTest {
   }
 
   private byte[] deployContract(String contractName, String abi, String code) throws Exception {
-    Protocol.Transaction stb = TvmTestUtils.generateDeploySmartContractAndGetTransaction(
+    Protocol.Transaction stb = SvmTestUtils.generateDeploySmartContractAndGetTransaction(
         contractName, owner, abi, code, value, fee, 80,
         null, 1_000_000L);
     stb = stb.toBuilder().setRawData(
@@ -338,14 +338,14 @@ public class VoteTest {
     return contractAddr;
   }
 
-  private TVMTestResult triggerContract(byte[] contractAddr,
+  private SVMTestResult triggerContract(byte[] contractAddr,
                                         contractResult expectedResult,
                                         Consumer<byte[]> check,
                                         String method,
                                         Object... args) throws Exception {
     String hexInput = AbiUtil.parseMethod(method, Arrays.asList(args));
     TransactionCapsule stbCap = new TransactionCapsule(
-        TvmTestUtils.generateTriggerSmartContractAndGetTransaction(
+        SvmTestUtils.generateTriggerSmartContractAndGetTransaction(
             owner, contractAddr, Hex.decode(hexInput), 0, fee));
     TransactionTrace trace = new TransactionTrace(stbCap, StoreFactory.getInstance(),
         new RuntimeImpl());
@@ -354,7 +354,7 @@ public class VoteTest {
     trace.exec();
     trace.finalization();
     trace.setResult();
-    TVMTestResult result = new TVMTestResult(trace.getRuntime(), trace.getReceipt(), null);
+    SVMTestResult result = new SVMTestResult(trace.getRuntime(), trace.getReceipt(), null);
     Assert.assertEquals(expectedResult, result.getReceipt().getResult());
     if (check != null) {
       check.accept(result.getRuntime().getResult().getHReturn());
@@ -377,13 +377,13 @@ public class VoteTest {
 
       // get stabila power: bandwidth
       triggerContract(voteContract, SUCCESS, null,
-          freezeMethod, voteContractStr, freezeUnit, 0);
-      // get stabila power: energy
+          cdMethod, voteContractStr, cdUnit, 0);
+      // get stabila power: ucr
       triggerContract(voteContract, SUCCESS, null,
-          freezeMethod, voteContractStr, freezeUnit, 1);
+          cdMethod, voteContractStr, cdUnit, 1);
 
       // query stabila power, not zero
-      long totalStabilaPower = 2 * freezeUnit / stb_precision;
+      long totalStabilaPower = 2 * cdUnit / stb_precision;
       triggerContract(voteContract, SUCCESS, getEqualConsumer(totalStabilaPower),
           queryTotalVoteCountMethod, voteContractStr);
 
@@ -442,15 +442,15 @@ public class VoteTest {
 
     // cycle-4
     {
-      // unfreeze bandwidth, not clear vote
-      triggerContract(voteContract, SUCCESS, null, unfreezeMethod,
+      // uncd bandwidth, not clear vote
+      triggerContract(voteContract, SUCCESS, null, uncdMethod,
           StringUtil.encode58Check(voteContract), 0);
 
       AccountCapsule contractCapsule = manager.getAccountStore().get(voteContract);
       Assert.assertEquals(2, contractCapsule.getVotesList().size());
 
-      // unfreeze energy, clear vote
-      triggerContract(voteContract, SUCCESS, null, unfreezeMethod,
+      // uncd ucr, clear vote
+      triggerContract(voteContract, SUCCESS, null, uncdMethod,
           StringUtil.encode58Check(voteContract), 1);
 
       contractCapsule = manager.getAccountStore().get(voteContract);
@@ -492,7 +492,7 @@ public class VoteTest {
   }
 
   /**
-   *   F - Freeze, U - Unfreeze
+   *   F - Cd, U - Uncd
    *   V - Vote, W - Withdraw, C - Clear Vote
    *   C* - Cycle-*, M* - Maintenance-*
    *
@@ -510,9 +510,9 @@ public class VoteTest {
 
     // cycle-1
     {
-      // freeze balance to get stabila power
-      freezeBalance(voteContractA);
-      freezeBalance(voteContractB);
+      // cd balance to get stabila power
+      cdBalance(voteContractA);
+      cdBalance(voteContractB);
 
       // vote through smart contract
       voteWitness(voteContractA,
@@ -559,7 +559,7 @@ public class VoteTest {
   }
 
   /**
-   *   F - Freeze, U - Unfreeze
+   *   F - Cd, U - Uncd
    *   V - Vote, W - Withdraw, C - Clear Vote
    *   C* - Cycle-*, M* - Maintenance-*
    *
@@ -577,9 +577,9 @@ public class VoteTest {
 
     // cycle-1
     {
-      // freeze balance to get stabila power
-      freezeBalance(voteContractA);
-      freezeBalance(voteContractB);
+      // cd balance to get stabila power
+      cdBalance(voteContractA);
+      cdBalance(voteContractB);
 
       // vote through smart contract
       voteWitness(voteContractA,
@@ -672,7 +672,7 @@ public class VoteTest {
   }
 
   /**
-   *   F - Freeze, U - Unfreeze
+   *   F - Cd, U - Uncd
    *   V - Vote, W - Withdraw, C - Clear Vote
    *   C* - Cycle-*, M* - Maintenance-*
    *
@@ -690,9 +690,9 @@ public class VoteTest {
 
     // cycle-1
     {
-      // freeze balance to get stabila power
-      freezeBalance(voteContractA);
-      freezeBalance(voteContractB);
+      // cd balance to get stabila power
+      cdBalance(voteContractA);
+      cdBalance(voteContractB);
 
       // vote through smart contract
       voteWitness(voteContractA,
@@ -775,7 +775,7 @@ public class VoteTest {
   }
 
   /**
-   *   F - Freeze, U - Unfreeze
+   *   F - Cd, U - Uncd
    *   V - Vote, W - Withdraw, C - Clear Vote
    *   C* - Cycle-*, M* - Maintenance-*
    *
@@ -794,9 +794,9 @@ public class VoteTest {
 
     // cycle-1
     {
-      // freeze balance to get stabila power
-      freezeBalance(voteContractA);
-      freezeBalance(voteContractB);
+      // cd balance to get stabila power
+      cdBalance(voteContractA);
+      cdBalance(voteContractB);
 
       // vote through smart contract
       voteWitness(voteContractA,
@@ -838,9 +838,9 @@ public class VoteTest {
     }
   }
 
-  private void freezeBalance(byte[] contract) throws Exception {
+  private void cdBalance(byte[] contract) throws Exception {
     triggerContract(contract, SUCCESS, null,
-        freezeMethod, StringUtil.encode58Check(contract), freezeUnit, 1);
+        cdMethod, StringUtil.encode58Check(contract), cdUnit, 1);
   }
 
   private void voteWitness(byte[] contract,

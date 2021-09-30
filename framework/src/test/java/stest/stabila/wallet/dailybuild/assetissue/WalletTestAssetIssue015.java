@@ -173,9 +173,9 @@ public class WalletTestAssetIssue015 {
     Assert.assertTrue(beforeBalance - afterBalance > 2000);
   }
 
-  @Test(enabled = true, description = "Transfer asset use bandwidth when freeze balance")
-  public void ctestWhenFreezeBalanceUseNet() {
-    Assert.assertTrue(PublicMethed.freezeBalance(transferAssetAddress, 5000000,
+  @Test(enabled = true, description = "Transfer asset use bandwidth when cd balance")
+  public void ctestWhenCdBalanceUseNet() {
+    Assert.assertTrue(PublicMethed.cdBalance(transferAssetAddress, 5000000,
         3, transferAssetCreateKey, blockingStubFull));
     PublicMethed.waitProduceNextBlock(blockingStubFull);
     AccountNetMessage assetTransferNet = PublicMethed

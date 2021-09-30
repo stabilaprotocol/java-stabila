@@ -1446,8 +1446,8 @@ public class Manager {
 
     chainBaseManager.getBalanceTraceStore().initCurrentBlockBalanceTrace(block);
 
-    //reset BlockEnergyUsage
-    chainBaseManager.getDynamicPropertiesStore().saveBlockEnergyUsage(0);
+    //reset BlockUcrUsage
+    chainBaseManager.getDynamicPropertiesStore().saveBlockUcrUsage(0);
     //parallel check sign
     if (!block.generatedByMyself) {
       try {
@@ -1481,11 +1481,11 @@ public class Manager {
     }
     merkleContainer.saveCurrentMerkleTreeAsBestMerkleTree(block.getNum());
     block.setResult(transactionRetCapsule);
-    if (getDynamicPropertiesStore().getAllowAdaptiveEnergy() == 1) {
-      EnergyProcessor energyProcessor = new EnergyProcessor(
+    if (getDynamicPropertiesStore().getAllowAdaptiveUcr() == 1) {
+      UcrProcessor ucrProcessor = new UcrProcessor(
           chainBaseManager.getDynamicPropertiesStore(), chainBaseManager.getAccountStore());
-      energyProcessor.updateTotalEnergyAverageUsage();
-      energyProcessor.updateAdaptiveTotalEnergyLimit();
+      ucrProcessor.updateTotalUcrAverageUsage();
+      ucrProcessor.updateAdaptiveTotalUcrLimit();
     }
 
     payReward(block);

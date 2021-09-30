@@ -6,7 +6,7 @@ import org.bouncycastle.util.encoders.Hex;
 import org.junit.Test;
 import org.testng.Assert;
 import org.stabila.common.runtime.Runtime;
-import org.stabila.common.runtime.TvmTestUtils;
+import org.stabila.common.runtime.SvmTestUtils;
 import org.stabila.common.storage.DepositImpl;
 import org.stabila.core.config.Parameter.ForkBlockVersionEnum;
 import org.stabila.core.exception.ContractExeException;
@@ -14,7 +14,7 @@ import org.stabila.core.exception.ContractValidateException;
 import org.stabila.core.exception.ReceiptCheckErrException;
 import org.stabila.core.exception.VMIllegalException;
 import org.stabila.core.vm.config.ConfigLoader;
-import org.stabila.core.vm.program.Program.OutOfEnergyException;
+import org.stabila.core.vm.program.Program.OutOfUcrException;
 import org.stabila.protos.Protocol.Transaction;
 
 @Slf4j
@@ -130,10 +130,10 @@ contract D {
       VMIllegalException, ContractValidateException {
     byte[] stats = new byte[27];
     Arrays.fill(stats, (byte) 1);
-    //VMConfig.initAllowTvmTransferTrc10(1);
+    //VMConfig.initAllowSvmTransferTrc10(1);
     ConfigLoader.disable = false;
     this.manager.getDynamicPropertiesStore().saveAllowMultiSign(1);
-    this.manager.getDynamicPropertiesStore().saveAllowTvmTransferTrc10(1);
+    this.manager.getDynamicPropertiesStore().saveAllowSvmTransferTrc10(1);
     byte[] address = Hex.decode(OWNER_ADDRESS);
 
     this.manager.getDynamicPropertiesStore()
@@ -141,27 +141,27 @@ contract D {
     this.manager.getDynamicPropertiesStore()
         .statsByVersion(ForkBlockVersionEnum.VERSION_3_5.getValue(), stats);
 
-    Transaction aStb = TvmTestUtils.generateDeploySmartContractAndGetTransaction(
+    Transaction aStb = SvmTestUtils.generateDeploySmartContractAndGetTransaction(
         "testA", address, abi, aCode, value, fee, consumeUserResourcePercent, null, engeryLimit);
-    Runtime aRuntime = TvmTestUtils
+    Runtime aRuntime = SvmTestUtils
         .processTransactionAndReturnRuntime(aStb, DepositImpl.createRoot(manager), null);
     Assert.assertEquals(aRuntime.getRuntimeError(), "REVERT opcode executed");
 
-    Transaction bStb = TvmTestUtils.generateDeploySmartContractAndGetTransaction(
+    Transaction bStb = SvmTestUtils.generateDeploySmartContractAndGetTransaction(
         "testB", address, abi, bCode, value, fee, consumeUserResourcePercent, null, engeryLimit);
-    Runtime bRuntime = TvmTestUtils
+    Runtime bRuntime = SvmTestUtils
         .processTransactionAndReturnRuntime(bStb, DepositImpl.createRoot(manager), null);
     Assert.assertEquals(bRuntime.getRuntimeError(), "REVERT opcode executed");
 
-    Transaction cStb = TvmTestUtils.generateDeploySmartContractAndGetTransaction(
+    Transaction cStb = SvmTestUtils.generateDeploySmartContractAndGetTransaction(
         "testC", address, abi, cCode, value, fee, consumeUserResourcePercent, null, engeryLimit);
-    Runtime cRuntime = TvmTestUtils
+    Runtime cRuntime = SvmTestUtils
         .processTransactionAndReturnRuntime(cStb, DepositImpl.createRoot(manager), null);
-    Assert.assertTrue(cRuntime.getResult().getException() instanceof OutOfEnergyException);
+    Assert.assertTrue(cRuntime.getResult().getException() instanceof OutOfUcrException);
 
-    Transaction dStb = TvmTestUtils.generateDeploySmartContractAndGetTransaction(
+    Transaction dStb = SvmTestUtils.generateDeploySmartContractAndGetTransaction(
         "testC", address, abi, dCode, value, fee, consumeUserResourcePercent, null, engeryLimit);
-    Runtime dRuntime = TvmTestUtils
+    Runtime dRuntime = SvmTestUtils
         .processTransactionAndReturnRuntime(dStb, DepositImpl.createRoot(manager), null);
     Assert.assertEquals(dRuntime.getRuntimeError(), "REVERT opcode executed");
 
@@ -174,30 +174,30 @@ contract D {
     //VMConfig.initAllowMultiSign(0);
     ConfigLoader.disable = false;
     this.manager.getDynamicPropertiesStore().saveAllowMultiSign(0);
-    this.manager.getDynamicPropertiesStore().saveAllowTvmTransferTrc10(1);
+    this.manager.getDynamicPropertiesStore().saveAllowSvmTransferTrc10(1);
 
     byte[] address = Hex.decode(OWNER_ADDRESS);
-    Transaction aStb = TvmTestUtils.generateDeploySmartContractAndGetTransaction(
+    Transaction aStb = SvmTestUtils.generateDeploySmartContractAndGetTransaction(
         "testA", address, abi, aCode, value, fee, consumeUserResourcePercent, null, engeryLimit);
-    Runtime aRuntime = TvmTestUtils
+    Runtime aRuntime = SvmTestUtils
         .processTransactionAndReturnRuntime(aStb, DepositImpl.createRoot(manager), null);
     Assert.assertEquals(aRuntime.getRuntimeError(), "Unknown Exception");
 
-    Transaction bStb = TvmTestUtils.generateDeploySmartContractAndGetTransaction(
+    Transaction bStb = SvmTestUtils.generateDeploySmartContractAndGetTransaction(
         "testB", address, abi, bCode, value, fee, consumeUserResourcePercent, null, engeryLimit);
-    Runtime bRuntime = TvmTestUtils
+    Runtime bRuntime = SvmTestUtils
         .processTransactionAndReturnRuntime(bStb, DepositImpl.createRoot(manager), null);
     Assert.assertEquals(bRuntime.getRuntimeError(), "REVERT opcode executed");
 
-    Transaction cStb = TvmTestUtils.generateDeploySmartContractAndGetTransaction(
+    Transaction cStb = SvmTestUtils.generateDeploySmartContractAndGetTransaction(
         "testC", address, abi, cCode, value, fee, consumeUserResourcePercent, null, engeryLimit);
-    Runtime cRuntime = TvmTestUtils
+    Runtime cRuntime = SvmTestUtils
         .processTransactionAndReturnRuntime(cStb, DepositImpl.createRoot(manager), null);
-    Assert.assertTrue(cRuntime.getResult().getException() instanceof OutOfEnergyException);
+    Assert.assertTrue(cRuntime.getResult().getException() instanceof OutOfUcrException);
 
-    Transaction dStb = TvmTestUtils.generateDeploySmartContractAndGetTransaction(
+    Transaction dStb = SvmTestUtils.generateDeploySmartContractAndGetTransaction(
         "testC", address, abi, dCode, value, fee, consumeUserResourcePercent, null, engeryLimit);
-    Runtime dRuntime = TvmTestUtils
+    Runtime dRuntime = SvmTestUtils
         .processTransactionAndReturnRuntime(dStb, DepositImpl.createRoot(manager), null);
     Assert.assertEquals(dRuntime.getRuntimeError(), "REVERT opcode executed");
 

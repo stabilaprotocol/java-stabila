@@ -25,11 +25,11 @@ public class Constant {
   public static final long TRANSACTION_DEFAULT_EXPIRATION_TIME = 60 * 1_000L; //60 seconds
   public static final long TRANSACTION_FEE_POOL_PERIOD = 1; //1 blocks
   // config for smart contract
-  public static final long UNIT_PER_ENERGY = 100; // 1 us = 100 UNIT = 100 * 10^-6 STB
-  public static final long ENERGY_LIMIT_IN_CONSTANT_TX = 3_000_000L; // ref: 1 us = 1 energy
+  public static final long UNIT_PER_UCR = 100; // 1 us = 100 UNIT = 100 * 10^-6 STB
+  public static final long UCR_LIMIT_IN_CONSTANT_TX = 3_000_000L; // ref: 1 us = 1 ucr
   public static final long MAX_RESULT_SIZE_IN_TX = 64; // max 8 * 8 items in result
-  public static final long PB_DEFAULT_ENERGY_LIMIT = 0L;
-  public static final long CREATOR_DEFAULT_ENERGY_LIMIT = 1000 * 10_000L;
+  public static final long PB_DEFAULT_UCR_LIMIT = 0L;
+  public static final long CREATOR_DEFAULT_UCR_LIMIT = 1000 * 10_000L;
 
 
   // Numbers
@@ -114,23 +114,23 @@ public class Constant {
   public static final String BLOCK_MAINTENANCE_TIME_INTERVAL = "block.maintenanceTimeInterval";
   public static final String BLOCK_PROPOSAL_EXPIRE_TIME = "block.proposalExpireTime";
 
-  public static final String BLOCK_CHECK_FROZEN_TIME = "block.checkFrozenTime";
+  public static final String BLOCK_CHECK_CDED_TIME = "block.checkCdedTime";
 
   public static final String COMMITTEE_ALLOW_CREATION_OF_CONTRACTS = "committee.allowCreationOfContracts";
 
   public static final String COMMITTEE_ALLOW_MULTI_SIGN = "committee.allowMultiSign";
 
-  public static final String COMMITTEE_ALLOW_ADAPTIVE_ENERGY = "committee.allowAdaptiveEnergy";
+  public static final String COMMITTEE_ALLOW_ADAPTIVE_UCR = "committee.allowAdaptiveUcr";
 
   public static final String COMMITTEE_ALLOW_DELEGATE_RESOURCE = "committee.allowDelegateResource";
 
   public static final String COMMITTEE_ALLOW_SAME_TOKEN_NAME = "committee.allowSameTokenName";
 
-  public static final String COMMITTEE_ALLOW_TVM_TRANSFER_TRC10 = "committee.allowTvmTransferTrc10";
+  public static final String COMMITTEE_ALLOW_SVM_TRANSFER_TRC10 = "committee.allowSvmTransferTrc10";
 
-  public static final String COMMITTEE_ALLOW_TVM_CONSTANTINOPLE = "committee.allowTvmConstantinople";
+  public static final String COMMITTEE_ALLOW_SVM_CONSTANTINOPLE = "committee.allowSvmConstantinople";
 
-  public static final String COMMITTEE_ALLOW_TVM_SOLIDITY059 = "committee.allowTvmSolidity059";
+  public static final String COMMITTEE_ALLOW_SVM_SOLIDITY059 = "committee.allowSvmSolidity059";
 
   public static final String COMMITTEE_FORBID_TRANSFER_TO_CONTRACT = "committee.forbidTransferToContract";
 
@@ -168,7 +168,7 @@ public class Constant {
 
   public static final String NODE_RPC_MIN_EFFECTIVE_CONNECTION = "node.rpc.minEffectiveConnection";
 
-  public static final String ENERGY_LIMIT_BLOCK_NUM = "enery.limit.block.num";
+  public static final String UCR_LIMIT_BLOCK_NUM = "enery.limit.block.num";
 
   public static final String VM_TRACE = "vm.vmTrace";
 
@@ -179,8 +179,8 @@ public class Constant {
   public static final String COMMITTEE_ALLOW_SHIELDED_TRC20_TRANSACTION = "committee"
       + ".allowShieldedTRC20Transaction";
 
-  public static final String COMMITTEE_ALLOW_TVM_ISTANBUL = "committee"
-      + ".allowTvmIstanbul";
+  public static final String COMMITTEE_ALLOW_SVM_ISTANBUL = "committee"
+      + ".allowSvmIstanbul";
 
   public static final String COMMITTEE_ALLOW_MARKET_TRANSACTION =
       "committee.allowMarketTransaction";
@@ -263,8 +263,8 @@ public class Constant {
   public static final String COMMITTEE_ALLOW_NEW_RESOURCE_MODEL = "committee.allowNewResourceModel";
   public static final String COMMITTEE_ALLOW_RECEIPTS_MERKLE_ROOT = "committee.allowReceiptsMerkleRoot";
 
-  public static final String COMMITTEE_ALLOW_TVM_FREEZE = "committee.allowTvmFreeze";
-  public static final String COMMITTEE_ALLOW_TVM_VOTE = "committee.allowTvmVote";
+  public static final String COMMITTEE_ALLOW_SVM_CD = "committee.allowSvmCd";
+  public static final String COMMITTEE_ALLOW_SVM_VOTE = "committee.allowSvmVote";
 
   public static final String METRICS_STORAGE_ENABLE = "node.metrics.storageEnable";
   public static final String METRICS_INFLUXDB_IP = "node.metrics.influxdb.ip";

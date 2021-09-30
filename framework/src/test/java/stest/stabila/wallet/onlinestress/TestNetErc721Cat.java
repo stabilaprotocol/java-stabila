@@ -76,17 +76,17 @@ public class TestNetErc721Cat {
         testKey002, blockingStubFull));
     Assert.assertTrue(PublicMethed.sendcoin(triggerAddress, 50000000000L, fromAddress,
         testKey002, blockingStubFull));
-    Assert.assertTrue(PublicMethed.freezeBalanceGetEnergy(deployAddress, 100000000L,
+    Assert.assertTrue(PublicMethed.cdBalanceGetUcr(deployAddress, 100000000L,
         3, 1, deployKey, blockingStubFull));
-    /*    Assert.assertTrue(PublicMethed.freezeBalanceGetCpu(triggerAddress,100000000L,
+    /*    Assert.assertTrue(PublicMethed.cdBalanceGetCpu(triggerAddress,100000000L,
         3,1,triggerKey,blockingStubFull));*/
     /*Assert.assertTrue(PublicMethed.buyStorage(500000000L,deployAddress,deployKey,
         blockingStubFull));
     Assert.assertTrue(PublicMethed.buyStorage(500000000L,triggerAddress,triggerKey,
         blockingStubFull));
-    Assert.assertTrue(PublicMethed.freezeBalance(deployAddress,100000000L,3,
+    Assert.assertTrue(PublicMethed.cdBalance(deployAddress,100000000L,3,
         deployKey,blockingStubFull));
-    Assert.assertTrue(PublicMethed.freezeBalance(triggerAddress,100000000L,3,
+    Assert.assertTrue(PublicMethed.cdBalance(triggerAddress,100000000L,3,
         triggerKey,blockingStubFull));*/
 
   }
@@ -95,9 +95,9 @@ public class TestNetErc721Cat {
   public void deployErc721KittyCore() {
     AccountResourceMessage accountResource = PublicMethed.getAccountResource(deployAddress,
         blockingStubFull);
-    Long cpuLimit = accountResource.getEnergyLimit();
+    Long cpuLimit = accountResource.getUcrLimit();
     //Long storageLimit = accountResource.getStorageLimit();
-    Long cpuUsage = accountResource.getEnergyUsed();
+    Long cpuUsage = accountResource.getUcrUsed();
     //Long storageUsage = accountResource.getStorageUsed();
     Account account = PublicMethed.queryAccount(deployAddress, blockingStubFull);
     logger.info("before balance is " + Long.toString(account.getBalance()));
@@ -120,9 +120,9 @@ public class TestNetErc721Cat {
 
     Assert.assertTrue(smartContract.getAbi() != null);
     accountResource = PublicMethed.getAccountResource(deployAddress, blockingStubFull);
-    cpuLimit = accountResource.getEnergyLimit();
+    cpuLimit = accountResource.getUcrLimit();
     //storageLimit = accountResource.getStorageLimit();
-    cpuUsage = accountResource.getEnergyUsed();
+    cpuUsage = accountResource.getUcrUsed();
     //storageUsage = accountResource.getStorageUsed();
     account = PublicMethed.queryAccount(deployKey, blockingStubFull);
     logger.info("after balance is " + Long.toString(account.getBalance()));
@@ -143,9 +143,9 @@ public class TestNetErc721Cat {
   public void deploySaleClockAuction() {
     AccountResourceMessage accountResource = PublicMethed.getAccountResource(deployAddress,
         blockingStubFull);
-    Long cpuLimit = accountResource.getEnergyLimit();
+    Long cpuLimit = accountResource.getUcrLimit();
     //Long storageLimit = accountResource.getStorageLimit();
-    Long cpuUsage = accountResource.getEnergyUsed();
+    Long cpuUsage = accountResource.getUcrUsed();
     //Long storageUsage = accountResource.getStorageUsed();
     Account account = PublicMethed.queryAccount(deployKey, blockingStubFull);
     logger.info("before balance is " + Long.toString(account.getBalance()));
@@ -167,9 +167,9 @@ public class TestNetErc721Cat {
         blockingStubFull);
     Assert.assertTrue(smartContract.getAbi() != null);
     accountResource = PublicMethed.getAccountResource(deployAddress, blockingStubFull);
-    cpuLimit = accountResource.getEnergyLimit();
+    cpuLimit = accountResource.getUcrLimit();
     //storageLimit = accountResource.getStorageLimit();
-    cpuUsage = accountResource.getEnergyUsed();
+    cpuUsage = accountResource.getUcrUsed();
     //storageUsage = accountResource.getStorageUsed();
     account = PublicMethed.queryAccount(deployKey, blockingStubFull);
     logger.info("after balance is " + Long.toString(account.getBalance()));
@@ -183,9 +183,9 @@ public class TestNetErc721Cat {
   public void deploySiringClockAuction() {
     AccountResourceMessage accountResource = PublicMethed.getAccountResource(deployAddress,
         blockingStubFull);
-    Long cpuLimit = accountResource.getEnergyLimit();
+    Long cpuLimit = accountResource.getUcrLimit();
     //Long storageLimit = accountResource.getStorageLimit();
-    Long cpuUsage = accountResource.getEnergyUsed();
+    Long cpuUsage = accountResource.getUcrUsed();
     //Long storageUsage = accountResource.getStorageUsed();
     Account account = PublicMethed.queryAccount(deployKey, blockingStubFull);
     logger.info("before balance is " + Long.toString(account.getBalance()));
@@ -207,9 +207,9 @@ public class TestNetErc721Cat {
         blockingStubFull);
     Assert.assertTrue(smartContract.getAbi() != null);
     accountResource = PublicMethed.getAccountResource(deployAddress, blockingStubFull);
-    cpuLimit = accountResource.getEnergyLimit();
+    cpuLimit = accountResource.getUcrLimit();
     //storageLimit = accountResource.getStorageLimit();
-    cpuUsage = accountResource.getEnergyUsed();
+    cpuUsage = accountResource.getUcrUsed();
     //storageUsage = accountResource.getStorageUsed();
     account = PublicMethed.queryAccount(deployKey, blockingStubFull);
     logger.info("after balance is " + Long.toString(account.getBalance()));
@@ -223,9 +223,9 @@ public class TestNetErc721Cat {
   public void deployGeneScienceInterface() {
     AccountResourceMessage accountResource = PublicMethed.getAccountResource(deployAddress,
         blockingStubFull);
-    Long cpuLimit = accountResource.getEnergyLimit();
+    Long cpuLimit = accountResource.getUcrLimit();
     //Long storageLimit = accountResource.getStorageLimit();
-    Long cpuUsage = accountResource.getEnergyUsed();
+    Long cpuUsage = accountResource.getUcrUsed();
     //Long storageUsage = accountResource.getStorageUsed();
     Account account = PublicMethed.queryAccount(deployKey, blockingStubFull);
     logger.info("before balance is " + Long.toString(account.getBalance()));
@@ -247,9 +247,9 @@ public class TestNetErc721Cat {
         blockingStubFull);
     Assert.assertTrue(smartContract.getAbi() != null);
     accountResource = PublicMethed.getAccountResource(deployAddress, blockingStubFull);
-    cpuLimit = accountResource.getEnergyLimit();
+    cpuLimit = accountResource.getUcrLimit();
     //storageLimit = accountResource.getStorageLimit();
-    cpuUsage = accountResource.getEnergyUsed();
+    cpuUsage = accountResource.getUcrUsed();
     //storageUsage = accountResource.getStorageUsed();
     account = PublicMethed.queryAccount(deployKey, blockingStubFull);
     logger.info("after balance is " + Long.toString(account.getBalance()));

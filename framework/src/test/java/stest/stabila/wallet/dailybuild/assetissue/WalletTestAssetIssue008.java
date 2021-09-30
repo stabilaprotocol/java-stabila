@@ -27,7 +27,7 @@ import org.stabila.protos.Protocol.Account;
 import org.stabila.protos.Protocol.Block;
 import org.stabila.protos.Protocol.Transaction;
 import org.stabila.protos.contract.AssetIssueContractOuterClass.TransferAssetContract;
-import org.stabila.protos.contract.AssetIssueContractOuterClass.UnfreezeAssetContract;
+import org.stabila.protos.contract.AssetIssueContractOuterClass.UncdAssetContract;
 import stest.stabila.wallet.common.client.Configuration;
 import stest.stabila.wallet.common.client.Parameter.CommonConstant;
 import stest.stabila.wallet.common.client.utils.PublicMethed;
@@ -106,7 +106,7 @@ public class WalletTestAssetIssue008 {
     logger.info(Long.toString(assetIssueList.getAssetIssueCount()));
 
     if (assetIssueList.getAssetIssueCount() == 0) {
-      Assert.assertTrue(PublicMethed.freezeBalance(fromAddress, 10000000L, 3,
+      Assert.assertTrue(PublicMethed.cdBalance(fromAddress, 10000000L, 3,
           testKey002, blockingStubFull));
       Assert.assertTrue(PublicMethed.sendcoin(toAddress, 999999L, fromAddress,
           testKey002, blockingStubFull));
@@ -246,7 +246,7 @@ public class WalletTestAssetIssue008 {
    * constructor.
    */
 
-  public boolean unFreezeAsset(byte[] addRess, String priKey) {
+  public boolean unCdAsset(byte[] addRess, String priKey) {
     byte[] address = addRess;
 
     ECKey temKey = null;
@@ -259,15 +259,15 @@ public class WalletTestAssetIssue008 {
     final ECKey ecKey = temKey;
     //Account search = queryAccount(ecKey, blockingStubFull);
 
-    UnfreezeAssetContract.Builder builder = UnfreezeAssetContract
+    UncdAssetContract.Builder builder = UncdAssetContract
         .newBuilder();
     ByteString byteAddress = ByteString.copyFrom(address);
 
     builder.setOwnerAddress(byteAddress);
 
-    UnfreezeAssetContract contract = builder.build();
+    UncdAssetContract contract = builder.build();
 
-    Transaction transaction = blockingStubFull.unfreezeAsset(contract);
+    Transaction transaction = blockingStubFull.uncdAsset(contract);
 
     if (transaction == null || transaction.getRawData().getContractCount() == 0) {
       return false;

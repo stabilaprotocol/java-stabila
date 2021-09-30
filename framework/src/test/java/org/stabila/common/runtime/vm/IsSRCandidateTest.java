@@ -6,7 +6,7 @@ import org.bouncycastle.util.encoders.Hex;
 import org.junit.Test;
 import org.testng.Assert;
 import org.stabila.common.runtime.InternalTransaction;
-import org.stabila.common.runtime.TvmTestUtils;
+import org.stabila.common.runtime.SvmTestUtils;
 import org.stabila.common.utils.StringUtil;
 import org.stabila.common.utils.WalletUtil;
 import org.stabila.core.exception.ContractExeException;
@@ -78,10 +78,10 @@ public class IsSRCandidateTest extends VMTestBase {
       throws ContractExeException, ReceiptCheckErrException, VMIllegalException,
       ContractValidateException {
     ConfigLoader.disable = true;
-    VMConfig.initAllowTvmTransferTrc10(1);
-    VMConfig.initAllowTvmConstantinople(1);
-    VMConfig.initAllowTvmSolidity059(1);
-    VMConfig.initAllowTvmVote(1);
+    VMConfig.initAllowSvmTransferTrc10(1);
+    VMConfig.initAllowSvmConstantinople(1);
+    VMConfig.initAllowSvmSolidity059(1);
+    VMConfig.initAllowSvmVote(1);
     String contractName = "TestIsSRCandidate";
     byte[] address = Hex.decode(OWNER_ADDRESS);
     String abi =
@@ -145,11 +145,11 @@ public class IsSRCandidateTest extends VMTestBase {
 
     // deploy contract
     Transaction stb =
-        TvmTestUtils.generateDeploySmartContractAndGetTransaction(
+        SvmTestUtils.generateDeploySmartContractAndGetTransaction(
             contractName, address, abi, factoryCode, value, fee, consumeUserResourcePercent, null);
     byte[] factoryAddress = WalletUtil.generateContractAddress(stb);
     String factoryAddressStr = StringUtil.encode58Check(factoryAddress);
-    runtime = TvmTestUtils.processTransactionAndReturnRuntime(stb, rootDeposit, null);
+    runtime = SvmTestUtils.processTransactionAndReturnRuntime(stb, rootDeposit, null);
     Assert.assertNull(runtime.getRuntimeError());
 
     // Trigger contract method: isSRCandidateTest(address)
@@ -160,7 +160,7 @@ public class IsSRCandidateTest extends VMTestBase {
         AbiUtil.parseMethod(methodByAddr, Collections.singletonList(nonexistentAccount));
 
     stb =
-        TvmTestUtils.generateTriggerSmartContractAndGetTransaction(
+        SvmTestUtils.generateTriggerSmartContractAndGetTransaction(
             Hex.decode(OWNER_ADDRESS), factoryAddress, Hex.decode(hexInput), 0, fee);
     InternalTransaction rootInternalTransaction =
         new InternalTransaction(stb, InternalTransaction.StbType.STB_CONTRACT_CALL_TYPE);
@@ -187,7 +187,7 @@ public class IsSRCandidateTest extends VMTestBase {
     // trigger deployed contract
     hexInput = AbiUtil.parseMethod(methodByAddr, Collections.singletonList(factoryAddressStr));
     stb =
-        TvmTestUtils.generateTriggerSmartContractAndGetTransaction(
+        SvmTestUtils.generateTriggerSmartContractAndGetTransaction(
             Hex.decode(OWNER_ADDRESS), factoryAddress, Hex.decode(hexInput), 0, fee);
     rootInternalTransaction =
         new InternalTransaction(stb, InternalTransaction.StbType.STB_CONTRACT_CALL_TYPE);
@@ -216,7 +216,7 @@ public class IsSRCandidateTest extends VMTestBase {
     byte[] witnessAddr = Hex.decode("a0299f3db80a24b20a254b89ce639d59132f157f13");
     hexInput = AbiUtil.parseMethod(methodByAddr, Collections.singletonList(witnessAccount));
     stb =
-        TvmTestUtils.generateTriggerSmartContractAndGetTransaction(
+        SvmTestUtils.generateTriggerSmartContractAndGetTransaction(
             Hex.decode(OWNER_ADDRESS), factoryAddress, Hex.decode(hexInput), 0, fee);
     rootInternalTransaction =
         new InternalTransaction(stb, InternalTransaction.StbType.STB_CONTRACT_CALL_TYPE);
@@ -244,7 +244,7 @@ public class IsSRCandidateTest extends VMTestBase {
     methodByAddr = "nullAddressTest()";
     hexInput = AbiUtil.parseMethod(methodByAddr, Collections.singletonList(""));
     stb =
-        TvmTestUtils.generateTriggerSmartContractAndGetTransaction(
+        SvmTestUtils.generateTriggerSmartContractAndGetTransaction(
             Hex.decode(OWNER_ADDRESS), factoryAddress, Hex.decode(hexInput), 0, fee);
     rootInternalTransaction =
         new InternalTransaction(stb, InternalTransaction.StbType.STB_CONTRACT_CALL_TYPE);

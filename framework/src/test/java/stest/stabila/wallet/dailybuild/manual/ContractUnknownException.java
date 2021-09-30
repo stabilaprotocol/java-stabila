@@ -83,23 +83,23 @@ public class ContractUnknownException {
         .sendcoin(grammarAddress, 1000000000L, testNetAccountAddress, testNetAccountKey,
             blockingStubFull));
     PublicMethed.waitProduceNextBlock(blockingStubFull);
-    Assert.assertTrue(PublicMethed.freezeBalanceGetEnergy(grammarAddress, 204800000,
+    Assert.assertTrue(PublicMethed.cdBalanceGetUcr(grammarAddress, 204800000,
         0, 1, testKeyForGrammarAddress, blockingStubFull));
     Account info;
     AccountResourceMessage resourceInfo = PublicMethed.getAccountResource(grammarAddress,
         blockingStubFull);
     info = PublicMethed.queryAccount(grammarAddress, blockingStubFull);
     Long beforeBalance = info.getBalance();
-    Long beforeEnergyUsed = resourceInfo.getEnergyUsed();
+    Long beforeUcrUsed = resourceInfo.getUcrUsed();
     Long beforeNetUsed = resourceInfo.getNetUsed();
     Long beforeFreeNetUsed = resourceInfo.getFreeNetUsed();
-    long beforeenergyLimit = resourceInfo.getEnergyLimit();
+    long beforeucrLimit = resourceInfo.getUcrLimit();
 
     logger.info("beforeBalance:" + beforeBalance);
-    logger.info("beforeEnergyUsed:" + beforeEnergyUsed);
+    logger.info("beforeUcrUsed:" + beforeUcrUsed);
     logger.info("beforeNetUsed:" + beforeNetUsed);
     logger.info("beforeFreeNetUsed:" + beforeFreeNetUsed);
-    logger.info("beforeenergyLimit:" + beforeenergyLimit);
+    logger.info("beforeucrLimit:" + beforeucrLimit);
     String filePath = "src/test/resources/soliditycode/contractUnknownException.sol";
     String contractName = "testA";
     HashMap retMap = PublicMethed.getBycodeAbi(filePath, contractName);
@@ -115,24 +115,24 @@ public class ContractUnknownException {
     infoById = PublicMethed.getTransactionInfoById(txid, blockingStubFull);
     final String s = infoById.get().getResMessage().toStringUtf8();
     long fee = infoById.get().getFee();
-    long energyUsage = infoById.get().getReceipt().getEnergyUsage();
-    long energyFee = infoById.get().getReceipt().getEnergyFee();
+    long ucrUsage = infoById.get().getReceipt().getUcrUsage();
+    long ucrFee = infoById.get().getReceipt().getUcrFee();
     Account infoafter = PublicMethed.queryAccount(grammarAddress, blockingStubFull);
     AccountResourceMessage resourceInfoafter = PublicMethed.getAccountResource(grammarAddress,
         blockingStubFull);
     Long afterBalance = infoafter.getBalance();
-    Long afterEnergyUsed = resourceInfoafter.getEnergyUsed();
+    Long afterUcrUsed = resourceInfoafter.getUcrUsed();
     Long afterNetUsed = resourceInfo.getNetUsed();
     Long afterFreeNetUsed = resourceInfo.getFreeNetUsed();
-    long aftereenergyLimit = resourceInfo.getEnergyLimit();
+    long aftereucrLimit = resourceInfo.getUcrLimit();
 
     logger.info("afterBalance:" + afterBalance);
-    logger.info("afterEnergyUsed:" + afterEnergyUsed);
+    logger.info("afterUcrUsed:" + afterUcrUsed);
     logger.info("afterNetUsed:" + afterNetUsed);
     logger.info("afterFreeNetUsed:" + afterFreeNetUsed);
-    logger.info("afterenergyLimit:" + aftereenergyLimit);
+    logger.info("afterucrLimit:" + aftereucrLimit);
     Assert.assertThat(s, containsString("REVERT opcode executed"));
-    PublicMethed.unFreezeBalance(grammarAddress, testKeyForGrammarAddress, 1, grammarAddress,
+    PublicMethed.unCdBalance(grammarAddress, testKeyForGrammarAddress, 1, grammarAddress,
         blockingStubFull);
     PublicMethed.freedResource(grammarAddress, testKeyForGrammarAddress, testNetAccountAddress,
         blockingStubFull);
@@ -144,23 +144,23 @@ public class ContractUnknownException {
         .sendcoin(grammarAddress2, 100000000L, testNetAccountAddress, testNetAccountKey,
             blockingStubFull));
     PublicMethed.waitProduceNextBlock(blockingStubFull);
-    Assert.assertTrue(PublicMethed.freezeBalanceGetEnergy(grammarAddress2, 10000000L,
+    Assert.assertTrue(PublicMethed.cdBalanceGetUcr(grammarAddress2, 10000000L,
         0, 1, testKeyForGrammarAddress2, blockingStubFull));
     Account info;
     AccountResourceMessage resourceInfo = PublicMethed.getAccountResource(grammarAddress2,
         blockingStubFull);
     info = PublicMethed.queryAccount(grammarAddress2, blockingStubFull);
     Long beforeBalance = info.getBalance();
-    Long beforeEnergyUsed = resourceInfo.getEnergyUsed();
+    Long beforeUcrUsed = resourceInfo.getUcrUsed();
     Long beforeNetUsed = resourceInfo.getNetUsed();
     Long beforeFreeNetUsed = resourceInfo.getFreeNetUsed();
-    long beforeenergyLimit = resourceInfo.getEnergyLimit();
+    long beforeucrLimit = resourceInfo.getUcrLimit();
 
     logger.info("beforeBalance:" + beforeBalance);
-    logger.info("beforeEnergyUsed:" + beforeEnergyUsed);
+    logger.info("beforeUcrUsed:" + beforeUcrUsed);
     logger.info("beforeNetUsed:" + beforeNetUsed);
     logger.info("beforeFreeNetUsed:" + beforeFreeNetUsed);
-    logger.info("beforeenergyLimit:" + beforeenergyLimit);
+    logger.info("beforeucrLimit:" + beforeucrLimit);
     String filePath = "src/test/resources/soliditycode/contractUnknownException.sol";
     String contractName = "testB";
     HashMap retMap = PublicMethed.getBycodeAbi(filePath, contractName);
@@ -175,8 +175,8 @@ public class ContractUnknownException {
     Optional<TransactionInfo> infoById = null;
     infoById = PublicMethed.getTransactionInfoById(txid, blockingStubFull);
     final long fee = infoById.get().getFee();
-    final long energyUsage = infoById.get().getReceipt().getEnergyUsage();
-    final long energyFee = infoById.get().getReceipt().getEnergyFee();
+    final long ucrUsage = infoById.get().getReceipt().getUcrUsage();
+    final long ucrFee = infoById.get().getReceipt().getUcrFee();
 
     final String s = infoById.get().getResMessage().toStringUtf8();
 
@@ -184,21 +184,21 @@ public class ContractUnknownException {
     AccountResourceMessage resourceInfoafter = PublicMethed.getAccountResource(grammarAddress2,
         blockingStubFull);
     Long afterBalance = infoafter.getBalance();
-    Long afterEnergyUsed = resourceInfoafter.getEnergyUsed();
+    Long afterUcrUsed = resourceInfoafter.getUcrUsed();
     Long afterNetUsed = resourceInfo.getNetUsed();
     Long afterFreeNetUsed = resourceInfo.getFreeNetUsed();
-    long aftereenergyLimit = resourceInfo.getEnergyLimit();
+    long aftereucrLimit = resourceInfo.getUcrLimit();
 
     logger.info("afterBalance:" + afterBalance);
-    logger.info("afterEnergyUsed:" + afterEnergyUsed);
+    logger.info("afterUcrUsed:" + afterUcrUsed);
     logger.info("afterNetUsed:" + afterNetUsed);
     logger.info("afterFreeNetUsed:" + afterFreeNetUsed);
-    logger.info("afterenergyLimit:" + aftereenergyLimit);
+    logger.info("afterucrLimit:" + aftereucrLimit);
     Assert.assertThat(s, containsString("REVERT opcode executed"));
-    Assert.assertFalse(energyFee == 1000000000);
+    Assert.assertFalse(ucrFee == 1000000000);
 
     Assert.assertTrue(beforeBalance - fee == afterBalance);
-    PublicMethed.unFreezeBalance(grammarAddress2, testKeyForGrammarAddress2, 1, grammarAddress2,
+    PublicMethed.unCdBalance(grammarAddress2, testKeyForGrammarAddress2, 1, grammarAddress2,
         blockingStubFull);
     PublicMethed.freedResource(grammarAddress2, testKeyForGrammarAddress2, testNetAccountAddress,
         blockingStubFull);
@@ -211,23 +211,23 @@ public class ContractUnknownException {
         .sendcoin(grammarAddress3, 100000000000L, testNetAccountAddress, testNetAccountKey,
             blockingStubFull));
     PublicMethed.waitProduceNextBlock(blockingStubFull);
-    Assert.assertTrue(PublicMethed.freezeBalanceGetEnergy(grammarAddress3, 1000000000L,
+    Assert.assertTrue(PublicMethed.cdBalanceGetUcr(grammarAddress3, 1000000000L,
         0, 1, testKeyForGrammarAddress3, blockingStubFull));
     Account info;
     AccountResourceMessage resourceInfo = PublicMethed.getAccountResource(grammarAddress3,
         blockingStubFull);
     info = PublicMethed.queryAccount(grammarAddress3, blockingStubFull);
     Long beforeBalance = info.getBalance();
-    Long beforeEnergyUsed = resourceInfo.getEnergyUsed();
+    Long beforeUcrUsed = resourceInfo.getUcrUsed();
     Long beforeNetUsed = resourceInfo.getNetUsed();
     Long beforeFreeNetUsed = resourceInfo.getFreeNetUsed();
-    long beforeenergyLimit = resourceInfo.getEnergyLimit();
+    long beforeucrLimit = resourceInfo.getUcrLimit();
 
     logger.info("beforeBalance:" + beforeBalance);
-    logger.info("beforeEnergyUsed:" + beforeEnergyUsed);
+    logger.info("beforeUcrUsed:" + beforeUcrUsed);
     logger.info("beforeNetUsed:" + beforeNetUsed);
     logger.info("beforeFreeNetUsed:" + beforeFreeNetUsed);
-    logger.info("beforeenergyLimit:" + beforeenergyLimit);
+    logger.info("beforeucrLimit:" + beforeucrLimit);
     String filePath = "src/test/resources/soliditycode/contractUnknownException.sol";
     String contractName = "testC";
     HashMap retMap = PublicMethed.getBycodeAbi(filePath, contractName);
@@ -242,27 +242,27 @@ public class ContractUnknownException {
     Optional<TransactionInfo> infoById = null;
     infoById = PublicMethed.getTransactionInfoById(txid, blockingStubFull);
     final long fee = infoById.get().getFee();
-    final long energyUsage = infoById.get().getReceipt().getEnergyUsage();
-    final long energyFee = infoById.get().getReceipt().getEnergyFee();
+    final long ucrUsage = infoById.get().getReceipt().getUcrUsage();
+    final long ucrFee = infoById.get().getReceipt().getUcrFee();
     String s = infoById.get().getResMessage().toStringUtf8();
     Account infoafter = PublicMethed.queryAccount(grammarAddress3, blockingStubFull);
     AccountResourceMessage resourceInfoafter = PublicMethed.getAccountResource(grammarAddress3,
         blockingStubFull);
     Long afterBalance = infoafter.getBalance();
-    Long afterEnergyUsed = resourceInfoafter.getEnergyUsed();
+    Long afterUcrUsed = resourceInfoafter.getUcrUsed();
     Long afterNetUsed = resourceInfo.getNetUsed();
     Long afterFreeNetUsed = resourceInfo.getFreeNetUsed();
-    long aftereenergyLimit = resourceInfo.getEnergyLimit();
+    long aftereucrLimit = resourceInfo.getUcrLimit();
 
     logger.info("afterBalance:" + afterBalance);
-    logger.info("afterEnergyUsed:" + afterEnergyUsed);
+    logger.info("afterUcrUsed:" + afterUcrUsed);
     logger.info("afterNetUsed:" + afterNetUsed);
     logger.info("afterFreeNetUsed:" + afterFreeNetUsed);
-    logger.info("afterenergyLimit:" + aftereenergyLimit);
+    logger.info("afterucrLimit:" + aftereucrLimit);
     logger.info("s:" + s);
     Assert.assertThat(s, containsString("REVERT opcode executed"));
     Assert.assertTrue(beforeBalance - fee == afterBalance);
-    PublicMethed.unFreezeBalance(grammarAddress3, testKeyForGrammarAddress3, 1, grammarAddress3,
+    PublicMethed.unCdBalance(grammarAddress3, testKeyForGrammarAddress3, 1, grammarAddress3,
         blockingStubFull);
     PublicMethed.freedResource(grammarAddress3, testKeyForGrammarAddress3, testNetAccountAddress,
         blockingStubFull);
@@ -276,23 +276,23 @@ public class ContractUnknownException {
         .sendcoin(grammarAddress4, 100000000000L, testNetAccountAddress, testNetAccountKey,
             blockingStubFull));
     PublicMethed.waitProduceNextBlock(blockingStubFull);
-    Assert.assertTrue(PublicMethed.freezeBalanceGetEnergy(grammarAddress4, 100000000L,
+    Assert.assertTrue(PublicMethed.cdBalanceGetUcr(grammarAddress4, 100000000L,
         0, 1, testKeyForGrammarAddress4, blockingStubFull));
     Account info;
     AccountResourceMessage resourceInfo = PublicMethed.getAccountResource(grammarAddress4,
         blockingStubFull);
     info = PublicMethed.queryAccount(grammarAddress4, blockingStubFull);
     Long beforeBalance = info.getBalance();
-    Long beforeEnergyUsed = resourceInfo.getEnergyUsed();
+    Long beforeUcrUsed = resourceInfo.getUcrUsed();
     Long beforeNetUsed = resourceInfo.getNetUsed();
     Long beforeFreeNetUsed = resourceInfo.getFreeNetUsed();
-    long beforeenergyLimit = resourceInfo.getEnergyLimit();
+    long beforeucrLimit = resourceInfo.getUcrLimit();
 
     logger.info("beforeBalance:" + beforeBalance);
-    logger.info("beforeEnergyUsed:" + beforeEnergyUsed);
+    logger.info("beforeUcrUsed:" + beforeUcrUsed);
     logger.info("beforeNetUsed:" + beforeNetUsed);
     logger.info("beforeFreeNetUsed:" + beforeFreeNetUsed);
-    logger.info("beforeenergyLimit:" + beforeenergyLimit);
+    logger.info("beforeucrLimit:" + beforeucrLimit);
     String filePath = "src/test/resources/soliditycode/contractUnknownException.sol";
     String contractName = "testD";
     HashMap retMap = PublicMethed.getBycodeAbi(filePath, contractName);
@@ -308,27 +308,27 @@ public class ContractUnknownException {
     infoById = PublicMethed.getTransactionInfoById(txid, blockingStubFull);
     final String s = infoById.get().getResMessage().toStringUtf8();
     final long fee = infoById.get().getFee();
-    long energyUsage = infoById.get().getReceipt().getEnergyUsage();
-    final long energyFee = infoById.get().getReceipt().getEnergyFee();
+    long ucrUsage = infoById.get().getReceipt().getUcrUsage();
+    final long ucrFee = infoById.get().getReceipt().getUcrFee();
 
     Account infoafter = PublicMethed.queryAccount(grammarAddress4, blockingStubFull);
     AccountResourceMessage resourceInfoafter = PublicMethed.getAccountResource(grammarAddress4,
         blockingStubFull);
     Long afterBalance = infoafter.getBalance();
-    Long afterEnergyUsed = resourceInfoafter.getEnergyUsed();
+    Long afterUcrUsed = resourceInfoafter.getUcrUsed();
     Long afterNetUsed = resourceInfo.getNetUsed();
     Long afterFreeNetUsed = resourceInfo.getFreeNetUsed();
-    long aftereenergyLimit = resourceInfo.getEnergyLimit();
+    long aftereucrLimit = resourceInfo.getUcrLimit();
 
     logger.info("afterBalance:" + afterBalance);
-    logger.info("afterEnergyUsed:" + afterEnergyUsed);
+    logger.info("afterUcrUsed:" + afterUcrUsed);
     logger.info("afterNetUsed:" + afterNetUsed);
     logger.info("afterFreeNetUsed:" + afterFreeNetUsed);
-    logger.info("afterenergyLimit:" + aftereenergyLimit);
+    logger.info("afterucrLimit:" + aftereucrLimit);
     Assert.assertThat(s, containsString("REVERT opcode executed"));
     Assert.assertTrue(beforeBalance - fee == afterBalance);
-    Assert.assertFalse(energyFee == 1000000000);
-    PublicMethed.unFreezeBalance(grammarAddress4, testKeyForGrammarAddress4, 1, grammarAddress4,
+    Assert.assertFalse(ucrFee == 1000000000);
+    PublicMethed.unCdBalance(grammarAddress4, testKeyForGrammarAddress4, 1, grammarAddress4,
         blockingStubFull);
     PublicMethed.freedResource(grammarAddress4, testKeyForGrammarAddress4, testNetAccountAddress,
         blockingStubFull);

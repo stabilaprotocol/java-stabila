@@ -94,7 +94,7 @@ public class MultiSign24 {
     Assert.assertTrue(PublicMethed.sendcoin(ownerAddress, needCoin + 1_000_000, fromAddress,
         testKey002, blockingStubFull));
     Assert.assertTrue(PublicMethed
-        .freezeBalanceForReceiver(fromAddress, 100000000000L, 0, 0,
+        .cdBalanceForReceiver(fromAddress, 100000000000L, 0, 0,
             ByteString.copyFrom(ownerAddress),
             testKey002, blockingStubFull));
     PublicMethed.waitProduceNextBlock(blockingStubFull);
@@ -177,7 +177,7 @@ public class MultiSign24 {
     logger.info("balanceAfter: " + balanceAfter);
     Assert.assertEquals(balanceBefore - balanceAfter, needCoin + 1000000);
     PublicMethed
-        .unFreezeBalance(fromAddress, testKey002, 0, ownerAddress, blockingStubFull);
+        .unCdBalance(fromAddress, testKey002, 0, ownerAddress, blockingStubFull);
 
   }
 
@@ -264,7 +264,7 @@ public class MultiSign24 {
   @AfterMethod
   public void aftertest() {
     PublicMethed.freedResource(ownerAddress, ownerKey, fromAddress, blockingStubFull);
-    PublicMethed.unFreezeBalance(fromAddress, testKey002, 0, ownerAddress, blockingStubFull);
+    PublicMethed.unCdBalance(fromAddress, testKey002, 0, ownerAddress, blockingStubFull);
   }
 
   /**

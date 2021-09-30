@@ -80,8 +80,8 @@ public class ContractTrcToken031 {
 
     Assert.assertTrue(PublicMethed.sendcoin(dev001Address, 4048000000L, fromAddress,
             testKey002, blockingStubFull));
-    // freeze balance
-    Assert.assertTrue(PublicMethed.freezeBalanceGetEnergy(dev001Address, 204800000,
+    // cd balance
+    Assert.assertTrue(PublicMethed.cdBalanceGetUcr(dev001Address, 204800000,
         0, 1, dev001Key, blockingStubFull));
     PublicMethed.waitProduceNextBlock(blockingStubFull);
     long start = System.currentTimeMillis() + 2000;
@@ -94,7 +94,7 @@ public class ContractTrcToken031 {
     assetAccountId = PublicMethed.queryAccount(dev001Address, blockingStubFull).getAssetIssuedID();
     logger.info("assetId: " + assetAccountId);
     // deploy transferTokenContract
-    int originEnergyLimit = 50000;
+    int originUcrLimit = 50000;
     String filePath = "src/test/resources/soliditycode/contractTrcToken031.sol";
     String contractName = "token";
     HashMap retMap = PublicMethed.getBycodeAbi(filePath, contractName);
@@ -102,7 +102,7 @@ public class ContractTrcToken031 {
     String abi = retMap.get("abI").toString();
     transferTokenContractAddress = PublicMethed
         .deployContract(contractName, abi, code, "", maxFeeLimit,
-            1000000000L, 0, originEnergyLimit, assetAccountId.toStringUtf8(),
+            1000000000L, 0, originUcrLimit, assetAccountId.toStringUtf8(),
             100, null, dev001Key, dev001Address, blockingStubFull);
     PublicMethed.waitProduceNextBlock(blockingStubFull);
     Assert.assertNotNull(transferTokenContractAddress);
@@ -161,7 +161,7 @@ public class ContractTrcToken031 {
 
   @AfterClass
   public void shutdown() throws InterruptedException {
-    PublicMethed.unFreezeBalance(dev001Address, dev001Key, 1, dev001Address, blockingStubFull);
+    PublicMethed.unCdBalance(dev001Address, dev001Key, 1, dev001Address, blockingStubFull);
     PublicMethed.freedResource(dev001Address, dev001Key, fromAddress, blockingStubFull);
     if (channelFull != null) {
       channelFull.shutdown().awaitTermination(5, TimeUnit.SECONDS);

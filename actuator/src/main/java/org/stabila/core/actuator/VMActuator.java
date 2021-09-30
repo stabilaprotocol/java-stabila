@@ -37,7 +37,7 @@ import org.stabila.core.capsule.TransactionCapsule;
 import org.stabila.core.db.TransactionContext;
 import org.stabila.core.exception.ContractExeException;
 import org.stabila.core.exception.ContractValidateException;
-import org.stabila.core.vm.EnergyCost;
+import org.stabila.core.vm.UcrCost;
 import org.stabila.core.vm.LogInfoTriggerParser;
 import org.stabila.core.vm.VM;
 import org.stabila.core.vm.VMConstant;
@@ -96,13 +96,13 @@ public class VMActuator implements Actuator2 {
     programInvokeFactory = new ProgramInvokeFactoryImpl();
   }
 
-  private static long getEnergyFee(long callerEnergyUsage, long callerEnergyFrozen,
-      long callerEnergyTotal) {
-    if (callerEnergyTotal <= 0) {
+  private static long getUcrFee(long callerUcrUsage, long callerUcrCded,
+      long callerUcrTotal) {
+    if (callerUcrTotal <= 0) {
       return 0;
     }
-    return BigInteger.valueOf(callerEnergyFrozen).multiply(BigInteger.valueOf(callerEnergyUsage))
-        .divide(BigInteger.valueOf(callerEnergyTotal)).longValueExact();
+    return BigInteger.valueOf(callerUcrCded).multiply(BigInteger.valueOf(callerUcrUsage))
+        .divide(BigInteger.valueOf(callerUcrTotal)).longValueExact();
   }
 
   @Override
@@ -117,7 +117,7 @@ public class VMActuator implements Actuator2 {
     ConfigLoader.load(context.getStoreFactory());
     stb = context.getStbCap().getInstance();
     blockCap = context.getBlockCap();
-    if (VMConfig.allowTvmFreeze() && context.getStbCap().getStbTrace() != null) {
+    if (VMConfig.allowSvmCd() && context.getStbCap().getStbTrace() != null) {
       receipt = context.getStbCap().getStbTrace().getReceipt();
     }
     //Route Type
@@ -166,7 +166,7 @@ public class VMActuator implements Actuator2 {
             && null != TransactionUtil.getContractRet(stb)
             && contractResult.OUT_OF_TIME == TransactionUtil.getContractRet(stb)) {
           result = program.getResult();
-          program.spendAllEnergy();
+          program.spendAllUcr();
 
           OutOfTimeException e = Program.Exception.alreadyTimeOut();
           result.setRuntimeError(e.getMessage());
@@ -195,17 +195,17 @@ public class VMActuator implements Actuator2 {
 
         if (StbType.STB_CONTRACT_CREATION_TYPE == stbType && !result.isRevert()) {
           byte[] code = program.getResult().getHReturn();
-          long saveCodeEnergy = (long) getLength(code) * EnergyCost.getInstance().getCREATE_DATA();
-          long afterSpend = program.getEnergyLimitLeft().longValue() - saveCodeEnergy;
+          long saveCodeUcr = (long) getLength(code) * UcrCost.getInstance().getCREATE_DATA();
+          long afterSpend = program.getUcrLimitLeft().longValue() - saveCodeUcr;
           if (afterSpend < 0) {
             if (null == result.getException()) {
               result.setException(Program.Exception
-                  .notEnoughSpendEnergy("save just created contract code",
-                      saveCodeEnergy, program.getEnergyLimitLeft().longValue()));
+                  .notEnoughSpendUcr("save just created contract code",
+                      saveCodeUcr, program.getUcrLimitLeft().longValue()));
             }
           } else {
-            result.spendEnergy(saveCodeEnergy);
-            if (VMConfig.allowTvmConstantinople()) {
+            result.spendUcr(saveCodeUcr);
+            if (VMConfig.allowSvmConstantinople()) {
               repository.saveCode(program.getContractAddress().getNoLeadZeroesData(), code);
             }
           }
@@ -219,7 +219,7 @@ public class VMActuator implements Actuator2 {
 
           if (result.getException() != null) {
             if (!(result.getException() instanceof TransferException)) {
-              program.spendAllEnergy();
+              program.spendAllUcr();
             }
             result.setRuntimeError(result.getException().getMessage());
             throw result.getException();
@@ -240,14 +240,14 @@ public class VMActuator implements Actuator2 {
         repository.commit();
       }
     } catch (JVMStackOverFlowException e) {
-      program.spendAllEnergy();
+      program.spendAllUcr();
       result = program.getResult();
       result.setException(e);
       result.rejectInternalTransactions();
       result.setRuntimeError(result.getException().getMessage());
       logger.info("JVMStackOverFlowException: {}", result.getException().getMessage());
     } catch (OutOfTimeException e) {
-      program.spendAllEnergy();
+      program.spendAllUcr();
       result = program.getResult();
       result.setException(e);
       result.rejectInternalTransactions();
@@ -255,7 +255,7 @@ public class VMActuator implements Actuator2 {
       logger.info("timeout: {}", result.getException().getMessage());
     } catch (Throwable e) {
       if (!(e instanceof TransferException)) {
-        program.spendAllEnergy();
+        program.spendAllUcr();
       }
       result = program.getResult();
       result.rejectInternalTransactions();
@@ -327,7 +327,7 @@ public class VMActuator implements Actuator2 {
     long callValue = newSmartContract.getCallValue();
     long tokenValue = 0;
     long tokenId = 0;
-    if (VMConfig.allowTvmTransferTrc10()) {
+    if (VMConfig.allowSvmTransferTrc10()) {
       tokenValue = contract.getCallTokenValue();
       tokenId = contract.getTokenId();
     }
@@ -343,22 +343,22 @@ public class VMActuator implements Actuator2 {
       AccountCapsule creator = this.repository
           .getAccount(newSmartContract.getOriginAddress().toByteArray());
 
-      long energyLimit;
+      long ucrLimit;
       // according to version
 
-      if (StorageUtils.getEnergyLimitHardFork()) {
+      if (StorageUtils.getUcrLimitHardFork()) {
         if (callValue < 0) {
           throw new ContractValidateException("callValue must be >= 0");
         }
         if (tokenValue < 0) {
           throw new ContractValidateException("tokenValue must be >= 0");
         }
-        if (newSmartContract.getOriginEnergyLimit() <= 0) {
-          throw new ContractValidateException("The originEnergyLimit must be > 0");
+        if (newSmartContract.getOriginUcrLimit() <= 0) {
+          throw new ContractValidateException("The originUcrLimit must be > 0");
         }
-        energyLimit = getAccountEnergyLimitWithFixRatio(creator, feeLimit, callValue);
+        ucrLimit = getAccountUcrLimitWithFixRatio(creator, feeLimit, callValue);
       } else {
-        energyLimit = getAccountEnergyLimitWithFloatRatio(creator, feeLimit, callValue);
+        ucrLimit = getAccountUcrLimitWithFloatRatio(creator, feeLimit, callValue);
       }
 
       checkTokenValueAndId(tokenValue, tokenId);
@@ -374,7 +374,7 @@ public class VMActuator implements Actuator2 {
       ProgramInvoke programInvoke = programInvokeFactory
           .createProgramInvoke(StbType.STB_CONTRACT_CREATION_TYPE, executorType, stb,
               tokenValue, tokenId, blockCap.getInstance(), repository, vmStartInUs,
-              vmShouldEndInUs, energyLimit);
+              vmShouldEndInUs, ucrLimit);
       this.vm = new VM();
       this.program = new Program(ops, programInvoke, rootInternalTransaction, vmConfig);
       byte[] txId = TransactionUtil.getTransactionId(stb).getBytes();
@@ -394,14 +394,14 @@ public class VMActuator implements Actuator2 {
 
     repository.createContract(contractAddress, new ContractCapsule(newSmartContract));
     byte[] code = newSmartContract.getBytecode().toByteArray();
-    if (!VMConfig.allowTvmConstantinople()) {
+    if (!VMConfig.allowSvmConstantinople()) {
       repository.saveCode(contractAddress, ProgramPrecompile.getCode(code));
     }
     // transfer from callerAddress to contractAddress according to callValue
     if (callValue > 0) {
       transfer(this.repository, callerAddress, contractAddress, callValue);
     }
-    if (VMConfig.allowTvmTransferTrc10() && tokenValue > 0) {
+    if (VMConfig.allowSvmTransferTrc10() && tokenValue > 0) {
       transferToken(this.repository, callerAddress, contractAddress, String.valueOf(tokenId),
           tokenValue);
     }
@@ -440,12 +440,12 @@ public class VMActuator implements Actuator2 {
     long callValue = contract.getCallValue();
     long tokenValue = 0;
     long tokenId = 0;
-    if (VMConfig.allowTvmTransferTrc10()) {
+    if (VMConfig.allowSvmTransferTrc10()) {
       tokenValue = contract.getCallTokenValue();
       tokenId = contract.getTokenId();
     }
 
-    if (StorageUtils.getEnergyLimitHardFork()) {
+    if (StorageUtils.getUcrLimitHardFork()) {
       if (callValue < 0) {
         throw new ContractValidateException("callValue must be >= 0");
       }
@@ -467,13 +467,13 @@ public class VMActuator implements Actuator2 {
             "feeLimit must be >= 0 and <= " + repository.getDynamicPropertiesStore().getMaxFeeLimit());
       }
       AccountCapsule caller = repository.getAccount(callerAddress);
-      long energyLimit;
+      long ucrLimit;
       if (isConstantCall) {
-        energyLimit = VMConstant.ENERGY_LIMIT_IN_CONSTANT_TX;
+        ucrLimit = VMConstant.UCR_LIMIT_IN_CONSTANT_TX;
       } else {
         AccountCapsule creator = repository
             .getAccount(deployedContract.getInstance().getOriginAddress().toByteArray());
-        energyLimit = getTotalEnergyLimit(creator, caller, contract, feeLimit, callValue);
+        ucrLimit = getTotalUcrLimit(creator, caller, contract, feeLimit, callValue);
       }
 
       long maxCpuTimeOfOneTx = repository.getDynamicPropertiesStore()
@@ -485,7 +485,7 @@ public class VMActuator implements Actuator2 {
       ProgramInvoke programInvoke = programInvokeFactory
           .createProgramInvoke(StbType.STB_CONTRACT_CALL_TYPE, executorType, stb,
               tokenValue, tokenId, blockCap.getInstance(), repository, vmStartInUs,
-              vmShouldEndInUs, energyLimit);
+              vmShouldEndInUs, ucrLimit);
       if (isConstantCall) {
         programInvoke.setConstantCall();
       }
@@ -507,90 +507,90 @@ public class VMActuator implements Actuator2 {
     if (callValue > 0) {
       transfer(this.repository, callerAddress, contractAddress, callValue);
     }
-    if (VMConfig.allowTvmTransferTrc10() && tokenValue > 0) {
+    if (VMConfig.allowSvmTransferTrc10() && tokenValue > 0) {
       transferToken(this.repository, callerAddress, contractAddress, String.valueOf(tokenId),
           tokenValue);
     }
 
   }
 
-  public long getAccountEnergyLimitWithFixRatio(AccountCapsule account, long feeLimit,
+  public long getAccountUcrLimitWithFixRatio(AccountCapsule account, long feeLimit,
       long callValue) {
 
-    long unitPerEnergy = VMConstant.UNIT_PER_ENERGY;
-    if (repository.getDynamicPropertiesStore().getEnergyFee() > 0) {
-      unitPerEnergy = repository.getDynamicPropertiesStore().getEnergyFee();
+    long unitPerUcr = VMConstant.UNIT_PER_UCR;
+    if (repository.getDynamicPropertiesStore().getUcrFee() > 0) {
+      unitPerUcr = repository.getDynamicPropertiesStore().getUcrFee();
     }
 
-    long leftFrozenEnergy = repository.getAccountLeftEnergyFromFreeze(account);
-    if (VMConfig.allowTvmFreeze()) {
-      receipt.setCallerEnergyLeft(leftFrozenEnergy);
+    long leftCdedUcr = repository.getAccountLeftUcrFromCd(account);
+    if (VMConfig.allowSvmCd()) {
+      receipt.setCallerUcrLeft(leftCdedUcr);
     }
 
-    long energyFromBalance = max(account.getBalance() - callValue, 0) / unitPerEnergy;
-    long availableEnergy = Math.addExact(leftFrozenEnergy, energyFromBalance);
+    long ucrFromBalance = max(account.getBalance() - callValue, 0) / unitPerUcr;
+    long availableUcr = Math.addExact(leftCdedUcr, ucrFromBalance);
 
-    long energyFromFeeLimit = feeLimit / unitPerEnergy;
-    return min(availableEnergy, energyFromFeeLimit);
+    long ucrFromFeeLimit = feeLimit / unitPerUcr;
+    return min(availableUcr, ucrFromFeeLimit);
 
   }
 
-  private long getAccountEnergyLimitWithFloatRatio(AccountCapsule account, long feeLimit,
+  private long getAccountUcrLimitWithFloatRatio(AccountCapsule account, long feeLimit,
       long callValue) {
 
-    long unitPerEnergy = VMConstant.UNIT_PER_ENERGY;
-    if (repository.getDynamicPropertiesStore().getEnergyFee() > 0) {
-      unitPerEnergy = repository.getDynamicPropertiesStore().getEnergyFee();
+    long unitPerUcr = VMConstant.UNIT_PER_UCR;
+    if (repository.getDynamicPropertiesStore().getUcrFee() > 0) {
+      unitPerUcr = repository.getDynamicPropertiesStore().getUcrFee();
     }
     // can change the calc way
-    long leftEnergyFromFreeze = repository.getAccountLeftEnergyFromFreeze(account);
+    long leftUcrFromCd = repository.getAccountLeftUcrFromCd(account);
     callValue = max(callValue, 0);
-    long energyFromBalance = Math
-        .floorDiv(max(account.getBalance() - callValue, 0), unitPerEnergy);
+    long ucrFromBalance = Math
+        .floorDiv(max(account.getBalance() - callValue, 0), unitPerUcr);
 
-    long energyFromFeeLimit;
-    long totalBalanceForEnergyFreeze = account.getAllFrozenBalanceForEnergy();
-    if (0 == totalBalanceForEnergyFreeze) {
-      energyFromFeeLimit =
-          feeLimit / unitPerEnergy;
+    long ucrFromFeeLimit;
+    long totalBalanceForUcrCd = account.getAllCdedBalanceForUcr();
+    if (0 == totalBalanceForUcrCd) {
+      ucrFromFeeLimit =
+          feeLimit / unitPerUcr;
     } else {
-      long totalEnergyFromFreeze = repository
-          .calculateGlobalEnergyLimit(account);
-      long leftBalanceForEnergyFreeze = getEnergyFee(totalBalanceForEnergyFreeze,
-          leftEnergyFromFreeze,
-          totalEnergyFromFreeze);
+      long totalUcrFromCd = repository
+          .calculateGlobalUcrLimit(account);
+      long leftBalanceForUcrCd = getUcrFee(totalBalanceForUcrCd,
+          leftUcrFromCd,
+          totalUcrFromCd);
 
-      if (leftBalanceForEnergyFreeze >= feeLimit) {
-        energyFromFeeLimit = BigInteger.valueOf(totalEnergyFromFreeze)
+      if (leftBalanceForUcrCd >= feeLimit) {
+        ucrFromFeeLimit = BigInteger.valueOf(totalUcrFromCd)
             .multiply(BigInteger.valueOf(feeLimit))
-            .divide(BigInteger.valueOf(totalBalanceForEnergyFreeze)).longValueExact();
+            .divide(BigInteger.valueOf(totalBalanceForUcrCd)).longValueExact();
       } else {
-        energyFromFeeLimit = Math
-            .addExact(leftEnergyFromFreeze,
-                (feeLimit - leftBalanceForEnergyFreeze) / unitPerEnergy);
+        ucrFromFeeLimit = Math
+            .addExact(leftUcrFromCd,
+                (feeLimit - leftBalanceForUcrCd) / unitPerUcr);
       }
     }
 
-    return min(Math.addExact(leftEnergyFromFreeze, energyFromBalance), energyFromFeeLimit);
+    return min(Math.addExact(leftUcrFromCd, ucrFromBalance), ucrFromFeeLimit);
   }
 
-  public long getTotalEnergyLimit(AccountCapsule creator, AccountCapsule caller,
+  public long getTotalUcrLimit(AccountCapsule creator, AccountCapsule caller,
       TriggerSmartContract contract, long feeLimit, long callValue)
       throws ContractValidateException {
-    if (Objects.isNull(creator) && VMConfig.allowTvmConstantinople()) {
-      return getAccountEnergyLimitWithFixRatio(caller, feeLimit, callValue);
+    if (Objects.isNull(creator) && VMConfig.allowSvmConstantinople()) {
+      return getAccountUcrLimitWithFixRatio(caller, feeLimit, callValue);
     }
     //  according to version
-    if (StorageUtils.getEnergyLimitHardFork()) {
-      return getTotalEnergyLimitWithFixRatio(creator, caller, contract, feeLimit, callValue);
+    if (StorageUtils.getUcrLimitHardFork()) {
+      return getTotalUcrLimitWithFixRatio(creator, caller, contract, feeLimit, callValue);
     } else {
-      return getTotalEnergyLimitWithFloatRatio(creator, caller, contract, feeLimit, callValue);
+      return getTotalUcrLimitWithFloatRatio(creator, caller, contract, feeLimit, callValue);
     }
   }
 
 
   public void checkTokenValueAndId(long tokenValue, long tokenId) throws ContractValidateException {
-    if (VMConfig.allowTvmTransferTrc10() && VMConfig.allowMultiSign()) {
+    if (VMConfig.allowSvmTransferTrc10() && VMConfig.allowMultiSign()) {
       // tokenid can only be 0
       // or (MIN_TOKEN_ID, Long.Max]
       if (tokenId <= VMConstant.MIN_TOKEN_ID && tokenId != 0) {
@@ -631,73 +631,73 @@ public class VMActuator implements Actuator2 {
     return cpuLimitRatio;
   }
 
-  public long getTotalEnergyLimitWithFixRatio(AccountCapsule creator, AccountCapsule caller,
+  public long getTotalUcrLimitWithFixRatio(AccountCapsule creator, AccountCapsule caller,
       TriggerSmartContract contract, long feeLimit, long callValue)
       throws ContractValidateException {
 
-    long callerEnergyLimit = getAccountEnergyLimitWithFixRatio(caller, feeLimit, callValue);
+    long callerUcrLimit = getAccountUcrLimitWithFixRatio(caller, feeLimit, callValue);
     if (Arrays.equals(creator.getAddress().toByteArray(), caller.getAddress().toByteArray())) {
       // when the creator calls his own contract, this logic will be used.
       // so, the creator must use a BIG feeLimit to call his own contract,
-      // which will cost the feeLimit STB when the creator's frozen energy is 0.
-      return callerEnergyLimit;
+      // which will cost the feeLimit STB when the creator's cded ucr is 0.
+      return callerUcrLimit;
     }
 
-    long creatorEnergyLimit = 0;
+    long creatorUcrLimit = 0;
     ContractCapsule contractCapsule = repository
         .getContract(contract.getContractAddress().toByteArray());
     long consumeUserResourcePercent = contractCapsule.getConsumeUserResourcePercent();
 
-    long originEnergyLimit = contractCapsule.getOriginEnergyLimit();
-    if (originEnergyLimit < 0) {
-      throw new ContractValidateException("originEnergyLimit can't be < 0");
+    long originUcrLimit = contractCapsule.getOriginUcrLimit();
+    if (originUcrLimit < 0) {
+      throw new ContractValidateException("originUcrLimit can't be < 0");
     }
 
-    long originEnergyLeft = 0;
+    long originUcrLeft = 0;
     if (consumeUserResourcePercent < VMConstant.ONE_HUNDRED) {
-      originEnergyLeft = repository.getAccountLeftEnergyFromFreeze(creator);
-      if (VMConfig.allowTvmFreeze()) {
-        receipt.setOriginEnergyLeft(originEnergyLeft);
+      originUcrLeft = repository.getAccountLeftUcrFromCd(creator);
+      if (VMConfig.allowSvmCd()) {
+        receipt.setOriginUcrLeft(originUcrLeft);
       }
     }
     if (consumeUserResourcePercent <= 0) {
-      creatorEnergyLimit = min(originEnergyLeft, originEnergyLimit);
+      creatorUcrLimit = min(originUcrLeft, originUcrLimit);
     } else {
       if (consumeUserResourcePercent < VMConstant.ONE_HUNDRED) {
-        // creatorEnergyLimit =
-        // min(callerEnergyLimit * (100 - percent) / percent, creatorLeftFrozenEnergy, originEnergyLimit)
+        // creatorUcrLimit =
+        // min(callerUcrLimit * (100 - percent) / percent, creatorLeftCdedUcr, originUcrLimit)
 
-        creatorEnergyLimit = min(
-            BigInteger.valueOf(callerEnergyLimit)
+        creatorUcrLimit = min(
+            BigInteger.valueOf(callerUcrLimit)
                 .multiply(BigInteger.valueOf(VMConstant.ONE_HUNDRED - consumeUserResourcePercent))
                 .divide(BigInteger.valueOf(consumeUserResourcePercent)).longValueExact(),
-            min(originEnergyLeft, originEnergyLimit)
+            min(originUcrLeft, originUcrLimit)
         );
       }
     }
-    return Math.addExact(callerEnergyLimit, creatorEnergyLimit);
+    return Math.addExact(callerUcrLimit, creatorUcrLimit);
   }
 
-  private long getTotalEnergyLimitWithFloatRatio(AccountCapsule creator, AccountCapsule caller,
+  private long getTotalUcrLimitWithFloatRatio(AccountCapsule creator, AccountCapsule caller,
       TriggerSmartContract contract, long feeLimit, long callValue) {
 
-    long callerEnergyLimit = getAccountEnergyLimitWithFloatRatio(caller, feeLimit, callValue);
+    long callerUcrLimit = getAccountUcrLimitWithFloatRatio(caller, feeLimit, callValue);
     if (Arrays.equals(creator.getAddress().toByteArray(), caller.getAddress().toByteArray())) {
-      return callerEnergyLimit;
+      return callerUcrLimit;
     }
 
-    // creatorEnergyFromFreeze
-    long creatorEnergyLimit = repository.getAccountLeftEnergyFromFreeze(creator);
+    // creatorUcrFromCd
+    long creatorUcrLimit = repository.getAccountLeftUcrFromCd(creator);
 
     ContractCapsule contractCapsule = repository
         .getContract(contract.getContractAddress().toByteArray());
     long consumeUserResourcePercent = contractCapsule.getConsumeUserResourcePercent();
 
-    if (creatorEnergyLimit * consumeUserResourcePercent
-        > (VMConstant.ONE_HUNDRED - consumeUserResourcePercent) * callerEnergyLimit) {
-      return Math.floorDiv(callerEnergyLimit * VMConstant.ONE_HUNDRED, consumeUserResourcePercent);
+    if (creatorUcrLimit * consumeUserResourcePercent
+        > (VMConstant.ONE_HUNDRED - consumeUserResourcePercent) * callerUcrLimit) {
+      return Math.floorDiv(callerUcrLimit * VMConstant.ONE_HUNDRED, consumeUserResourcePercent);
     } else {
-      return Math.addExact(callerEnergyLimit, creatorEnergyLimit);
+      return Math.addExact(callerUcrLimit, creatorUcrLimit);
     }
   }
 

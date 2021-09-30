@@ -140,7 +140,7 @@ public class WalletTestAssetIssue014 {
 
     PublicMethed
         .freedResource(asset014Address, testKeyForAssetIssue014, fromAddress, blockingStubFull);
-    PublicMethed.unFreezeBalance(asset014Address, testKeyForAssetIssue014, 0, asset014Address,
+    PublicMethed.unCdBalance(asset014Address, testKeyForAssetIssue014, 0, asset014Address,
         blockingStubFull);
   }
 

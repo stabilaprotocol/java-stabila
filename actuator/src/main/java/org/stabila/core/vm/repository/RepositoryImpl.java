@@ -60,12 +60,12 @@ import org.stabila.protos.Protocol.AccountType;
 @Slf4j(topic = "Repository")
 public class RepositoryImpl implements Repository {
 
-  //for energycal
+  //for ucrcal
   private final long precision = Parameter.ChainConstant.PRECISION;
   private final long windowSize = Parameter.ChainConstant.WINDOW_SIZE_MS /
       BLOCK_PRODUCED_INTERVAL;
   private static final byte[] TOTAL_NET_WEIGHT = "TOTAL_NET_WEIGHT".getBytes();
-  private static final byte[] TOTAL_ENERGY_WEIGHT = "TOTAL_ENERGY_WEIGHT".getBytes();
+  private static final byte[] TOTAL_UCR_WEIGHT = "TOTAL_UCR_WEIGHT".getBytes();
 
   private StoreFactory storeFactory;
   @Getter
@@ -149,16 +149,16 @@ public class RepositoryImpl implements Repository {
   }
 
   @Override
-  public long getAccountLeftEnergyFromFreeze(AccountCapsule accountCapsule) {
+  public long getAccountLeftUcrFromCd(AccountCapsule accountCapsule) {
     long now = getHeadSlot();
 
-    long energyUsage = accountCapsule.getEnergyUsage();
-    long latestConsumeTime = accountCapsule.getAccountResource().getLatestConsumeTimeForEnergy();
-    long energyLimit = calculateGlobalEnergyLimit(accountCapsule);
+    long ucrUsage = accountCapsule.getUcrUsage();
+    long latestConsumeTime = accountCapsule.getAccountResource().getLatestConsumeTimeForUcr();
+    long ucrLimit = calculateGlobalUcrLimit(accountCapsule);
 
-    long newEnergyUsage = increase(energyUsage, 0, latestConsumeTime, now);
+    long newUcrUsage = increase(ucrUsage, 0, latestConsumeTime, now);
 
-    return max(energyLimit - newEnergyUsage, 0); // us
+    return max(ucrLimit - newUcrUsage, 0); // us
   }
 
   @Override
@@ -440,7 +440,7 @@ public class RepositoryImpl implements Repository {
     Value value = Value.create(code, Type.VALUE_TYPE_CREATE);
     codeCache.put(key, value);
 
-    if (VMConfig.allowTvmConstantinople()) {
+    if (VMConfig.allowSvmConstantinople()) {
       ContractCapsule contract = getContract(address);
       byte[] codeHash = Hash.sha3(code);
       contract.setCodeHash(codeHash);
@@ -514,7 +514,7 @@ public class RepositoryImpl implements Repository {
     Storage storage;
     if (this.parent != null) {
       Storage parentStorage = parent.getStorage(address);
-      if (StorageUtils.getEnergyLimitHardFork()) {
+      if (StorageUtils.getUcrLimitHardFork()) {
         // deep copy
         storage = new Storage(parentStorage);
       } else {
@@ -720,18 +720,18 @@ public class RepositoryImpl implements Repository {
     return usage * windowSize / precision;
   }
 
-  public long calculateGlobalEnergyLimit(AccountCapsule accountCapsule) {
-    long frozeBalance = accountCapsule.getAllFrozenBalanceForEnergy();
+  public long calculateGlobalUcrLimit(AccountCapsule accountCapsule) {
+    long frozeBalance = accountCapsule.getAllCdedBalanceForUcr();
     if (frozeBalance < 1_000_000L) {
       return 0;
     }
-    long energyWeight = frozeBalance / 1_000_000L;
-    long totalEnergyLimit = getDynamicPropertiesStore().getTotalEnergyCurrentLimit();
-    long totalEnergyWeight = getDynamicPropertiesStore().getTotalEnergyWeight();
+    long ucrWeight = frozeBalance / 1_000_000L;
+    long totalUcrLimit = getDynamicPropertiesStore().getTotalUcrCurrentLimit();
+    long totalUcrWeight = getDynamicPropertiesStore().getTotalUcrWeight();
 
-    assert totalEnergyWeight > 0;
+    assert totalUcrWeight > 0;
 
-    return (long) (energyWeight * ((double) totalEnergyLimit / totalEnergyWeight));
+    return (long) (ucrWeight * ((double) totalUcrLimit / totalUcrWeight));
   }
 
   public long getHeadSlot() {
@@ -872,10 +872,10 @@ public class RepositoryImpl implements Repository {
 
   //The unit is stb
   @Override
-  public void addTotalEnergyWeight(long amount) {
-    long totalEnergyWeight = getTotalEnergyWeight();
-    totalEnergyWeight += amount;
-    saveTotalEnergyWeight(totalEnergyWeight);
+  public void addTotalUcrWeight(long amount) {
+    long totalUcrWeight = getTotalUcrWeight();
+    totalUcrWeight += amount;
+    saveTotalUcrWeight(totalUcrWeight);
   }
 
   @Override
@@ -885,9 +885,9 @@ public class RepositoryImpl implements Repository {
   }
 
   @Override
-  public void saveTotalEnergyWeight(long totalEnergyWeight) {
-    updateDynamicProperty(TOTAL_ENERGY_WEIGHT,
-        new BytesCapsule(ByteArray.fromLong(totalEnergyWeight)));
+  public void saveTotalUcrWeight(long totalUcrWeight) {
+    updateDynamicProperty(TOTAL_UCR_WEIGHT,
+        new BytesCapsule(ByteArray.fromLong(totalUcrWeight)));
   }
 
   @Override
@@ -900,12 +900,12 @@ public class RepositoryImpl implements Repository {
   }
 
   @Override
-  public long getTotalEnergyWeight() {
-    return Optional.ofNullable(getDynamicProperty(TOTAL_ENERGY_WEIGHT))
+  public long getTotalUcrWeight() {
+    return Optional.ofNullable(getDynamicProperty(TOTAL_UCR_WEIGHT))
         .map(BytesCapsule::getData)
         .map(ByteArray::toLong)
         .orElseThrow(
-            () -> new IllegalArgumentException("not found TOTAL_ENERGY_WEIGHT"));
+            () -> new IllegalArgumentException("not found TOTAL_UCR_WEIGHT"));
   }
 
 }

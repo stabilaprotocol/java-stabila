@@ -301,9 +301,9 @@ public class TransactionStoreTest {
             ByteString.copyFrom(ByteArray.fromHexString(OWNER_ADDRESS)),
             AccountType.Normal,
             1_000_000_000_000L);
-    long frozenBalance = 1_000_000_000_000L;
+    long cdedBalance = 1_000_000_000_000L;
     long duration = 3;
-    ownerAccountFirstCapsule.setFrozen(frozenBalance, duration);
+    ownerAccountFirstCapsule.setCded(cdedBalance, duration);
     chainBaseManager.getAccountStore()
         .put(ownerAccountFirstCapsule.getAddress().toByteArray(), ownerAccountFirstCapsule);
     VoteWitnessContract actuator = getVoteWitnessContract(OWNER_ADDRESS, WITNESS_ADDRESS, 1L);

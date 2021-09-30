@@ -28,7 +28,7 @@ import org.stabila.protos.Protocol.Transaction;
 import org.stabila.protos.contract.AssetIssueContractOuterClass.AssetIssueContract;
 import org.stabila.protos.contract.AssetIssueContractOuterClass.ParticipateAssetIssueContract;
 import org.stabila.protos.contract.AssetIssueContractOuterClass.TransferAssetContract;
-import org.stabila.protos.contract.AssetIssueContractOuterClass.UnfreezeAssetContract;
+import org.stabila.protos.contract.AssetIssueContractOuterClass.UncdAssetContract;
 import stest.stabila.wallet.common.client.Configuration;
 import stest.stabila.wallet.common.client.Parameter.CommonConstant;
 import stest.stabila.wallet.common.client.utils.PublicMethed;
@@ -106,7 +106,7 @@ public class WalletTestAssetIssue010 {
         .sendcoin(asset010Address, sendAmount, fromAddress, testKey002, blockingStubFull));
     PublicMethed.waitProduceNextBlock(blockingStubFull);
     Assert.assertTrue(PublicMethed
-        .freezeBalance(asset010Address, 200000000L, 0, testKeyForAssetIssue010,
+        .cdBalance(asset010Address, 200000000L, 0, testKeyForAssetIssue010,
             blockingStubFull));
     PublicMethed.waitProduceNextBlock(blockingStubFull);
     Long start = System.currentTimeMillis() + 2000;
@@ -198,7 +198,7 @@ public class WalletTestAssetIssue010 {
   public void aftertest() {
     PublicMethed
         .freedResource(asset010Address, testKeyForAssetIssue010, fromAddress, blockingStubFull);
-    PublicMethed.unFreezeBalance(asset010Address, testKeyForAssetIssue010, 0, asset010Address,
+    PublicMethed.unCdBalance(asset010Address, testKeyForAssetIssue010, 0, asset010Address,
         blockingStubFull);
   }
 
@@ -219,7 +219,7 @@ public class WalletTestAssetIssue010 {
 
   public Boolean createAssetIssue(byte[] address, String name, Long totalSupply, Integer stbNum,
       Integer icoNum, Long startTime, Long endTime,
-      Integer voteScore, String description, String url, Long fronzenAmount, Long frozenDay,
+      Integer voteScore, String description, String url, Long fronzenAmount, Long cdedDay,
       String priKey) {
     ECKey temKey = null;
     try {
@@ -243,12 +243,12 @@ public class WalletTestAssetIssue010 {
       builder.setVoteScore(voteScore);
       builder.setDescription(ByteString.copyFrom(description.getBytes()));
       builder.setUrl(ByteString.copyFrom(url.getBytes()));
-      AssetIssueContract.FrozenSupply.Builder frozenBuilder =
-          AssetIssueContract.FrozenSupply
+      AssetIssueContract.CdedSupply.Builder cdedBuilder =
+          AssetIssueContract.CdedSupply
               .newBuilder();
-      frozenBuilder.setFrozenAmount(fronzenAmount);
-      frozenBuilder.setFrozenDays(frozenDay);
-      builder.addFrozenSupply(0, frozenBuilder);
+      cdedBuilder.setCdedAmount(fronzenAmount);
+      cdedBuilder.setCdedDays(cdedDay);
+      builder.addCdedSupply(0, cdedBuilder);
 
       Transaction transaction = blockingStubFull.createAssetIssue(builder.build());
       if (transaction == null || transaction.getRawData().getContractCount() == 0) {
@@ -367,7 +367,7 @@ public class WalletTestAssetIssue010 {
    * constructor.
    */
 
-  public boolean unFreezeAsset(byte[] addRess, String priKey) {
+  public boolean unCdAsset(byte[] addRess, String priKey) {
     byte[] address = addRess;
 
     ECKey temKey = null;
@@ -379,15 +379,15 @@ public class WalletTestAssetIssue010 {
     }
     final ECKey ecKey = temKey;
 
-    UnfreezeAssetContract.Builder builder = UnfreezeAssetContract
+    UncdAssetContract.Builder builder = UncdAssetContract
         .newBuilder();
     ByteString byteAddress = ByteString.copyFrom(address);
 
     builder.setOwnerAddress(byteAddress);
 
-    UnfreezeAssetContract contract = builder.build();
+    UncdAssetContract contract = builder.build();
 
-    Transaction transaction = blockingStubFull.unfreezeAsset(contract);
+    Transaction transaction = blockingStubFull.uncdAsset(contract);
 
     if (transaction == null || transaction.getRawData().getContractCount() == 0) {
       return false;

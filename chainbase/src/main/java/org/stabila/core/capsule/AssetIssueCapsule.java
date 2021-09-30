@@ -22,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.stabila.core.store.DynamicPropertiesStore;
 import org.stabila.common.utils.ByteArray;
 import org.stabila.protos.contract.AssetIssueContractOuterClass.AssetIssueContract;
-import org.stabila.protos.contract.AssetIssueContractOuterClass.AssetIssueContract.FrozenSupply;
+import org.stabila.protos.contract.AssetIssueContractOuterClass.AssetIssueContract.CdedSupply;
 
 @Slf4j(topic = "capsule")
 public class AssetIssueCapsule implements ProtoCapsule<AssetIssueContract> {
@@ -147,20 +147,20 @@ public class AssetIssueCapsule implements ProtoCapsule<AssetIssueContract> {
     return this.assetIssueContract.getOwnerAddress();
   }
 
-  public int getFrozenSupplyCount() {
-    return getInstance().getFrozenSupplyCount();
+  public int getCdedSupplyCount() {
+    return getInstance().getCdedSupplyCount();
   }
 
-  public List<FrozenSupply> getFrozenSupplyList() {
-    return getInstance().getFrozenSupplyList();
+  public List<CdedSupply> getCdedSupplyList() {
+    return getInstance().getCdedSupplyList();
   }
 
-  public long getFrozenSupply() {
-    List<FrozenSupply> frozenList = getFrozenSupplyList();
-    final long[] frozenBalance = {0};
-    frozenList.forEach(frozen -> frozenBalance[0] = Long.sum(frozenBalance[0],
-        frozen.getFrozenAmount()));
-    return frozenBalance[0];
+  public long getCdedSupply() {
+    List<CdedSupply> cdedList = getCdedSupplyList();
+    final long[] cdedBalance = {0};
+    cdedList.forEach(cded -> cdedBalance[0] = Long.sum(cdedBalance[0],
+        cded.getCdedAmount()));
+    return cdedBalance[0];
   }
 
   public long getFreeAssetNetLimit() {

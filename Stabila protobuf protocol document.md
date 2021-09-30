@@ -36,11 +36,11 @@ enum AccountType {
 
 - message `Account` has multiple attributes and 2 nested messages: 
 
-  message `Frozen`:
+  message `Cded`:
 
   ```java
-  message Frozen {
-    int64 frozen_balance = 1; 
+  message Cded {
+    int64 cded_balance = 1; 
     int64 expire_time = 2; 
   }
   ```
@@ -49,11 +49,11 @@ enum AccountType {
 
   ```java
   message AccountResource {
-    int64 energy_usage = 1;
-    Frozen frozen_balance_for_energy = 2;
-    int64 latest_consume_time_for_energy = 3;
-    int64 acquired_delegated_frozen_balance_for_energy = 4;
-    int64 delegated_frozen_balance_for_energy = 5;
+    int64 ucr_usage = 1;
+    Cded cded_balance_for_ucr = 2;
+    int64 latest_consume_time_for_ucr = 3;
+    int64 acquired_delegated_cded_balance_for_ucr = 4;
+    int64 delegated_cded_balance_for_ucr = 5;
     int64 storage_limit = 6;
     int64 storage_usage = 7;
     int64 latest_exchange_storage_time = 8;
@@ -76,13 +76,13 @@ enum AccountType {
 
   `assetV2`: other assets except STB in this account – e.g. *{<“WishToken”,66666>,<”Dogie”,233>}*. (used after allowing same name of token87)
 
-  `frozen`: the freezed STB of this account for receiving bandwidth
+  `cded`: the cdd STB of this account for receiving bandwidth
 
   `net_usage`: the used bandwidth of this account
 
-  `acquired_delegated_fronzen_balance_for_bandwidth`: the freezed balance for receiving delegated bandwidth this account acquired.
+  `acquired_delegated_fronzen_balance_for_bandwidth`: the cdd balance for receiving delegated bandwidth this account acquired.
 
-  `delegated_frozen_balance_for_bandwidth`: the balance for delegated bandwidth this account freezed
+  `delegated_cded_balance_for_bandwidth`: the balance for delegated bandwidth this account cdd
 
   `create_time`: he create time of this account.
 
@@ -98,7 +98,7 @@ enum AccountType {
 
   `is_committee`: reserved
 
-  `frozen_supply`: 
+  `cded_supply`: 
 
   `asset_issued_name`: the name of asset issued by this account.
 
@@ -114,14 +114,14 @@ enum AccountType {
 
   `free_asset_net_usageV2`: the free bandwidth used when this account transferring asset (used after allowing same name of token)
 
-  `latest_consume_time`: the latest consume energy time of this account.
+  `latest_consume_time`: the latest consume ucr time of this account.
 
   `latest_consume_free_time`: the latest consume free bandwidth time of this account.
 
  ```java
 message Account {
-    message Frozen {
-    int64 frozen_balance = 1; 
+    message Cded {
+    int64 cded_balance = 1; 
       int64 expire_time = 2;
   }
     bytes account_name = 1;
@@ -131,10 +131,10 @@ message Account {
     repeated Vote votes = 5;
     map<string, int64> asset = 6;
     map<string, int64> assetV2 = 56;
-    repeated Frozen frozen = 7;
+    repeated Cded cded = 7;
     int64 net_usage = 8;
-    int64 acquired_delegated_frozen_balance_for_bandwidth = 41;
-    int64 delegated_frozen_balance_for_bandwidth = 42;
+    int64 acquired_delegated_cded_balance_for_bandwidth = 41;
+    int64 delegated_cded_balance_for_bandwidth = 42;
     int64 create_time = 0x09;
     int64 latest_opration_time = 10;
     int64 allowance = 0x0B;
@@ -142,7 +142,7 @@ message Account {
     bytes code = 13;
     bool is_witness = 14;
     bool is_committee = 15;
-    repeated Frozen frozen_supply = 16;
+    repeated Cded cded_supply = 16;
     bytes asset_issued_name = 17;
     bytes asset_issued_ID = 57;
     map<string, int64> latest_asset_operation_time = 18;
@@ -154,11 +154,11 @@ message Account {
     int64 latest_consume_free_time = 22;
     bytes account_id = 23;
     message AccountResource {
-      int64 energy_usage = 1;
-      Frozen frozen_balance_for_energy = 2;
-      int64 latest_consume_time_for_energy = 3;
-      int64 acquired_delegated_frozen_balance_for_energy = 4;
-      int64 delegated_frozen_balance_for_energy = 5;
+      int64 ucr_usage = 1;
+      Cded cded_balance_for_ucr = 2;
+      int64 latest_consume_time_for_ucr = 3;
+      int64 acquired_delegated_cded_balance_for_ucr = 4;
+      int64 delegated_cded_balance_for_ucr = 5;
       int64 storage_limit = 6;
       int64 storage_usage = 7;
       int64 latest_exchange_storage_time = 8;
@@ -318,7 +318,7 @@ message BlockHeader {
 
 Transaction and transaction-related messages.
 
-- Any behaviors which consume energy are regarded as transaction.
+- Any behaviors which consume ucr are regarded as transaction.
 
   
 
@@ -400,13 +400,13 @@ Transaction and transaction-related messages.
 
   - message `ResourceReceipt`
 
-    `energy_usage`: consume yourself account energy.
+    `ucr_usage`: consume yourself account ucr.
 
-    `energy_fee`: consume yourself account fee.
+    `ucr_fee`: consume yourself account fee.
 
-    `origin_energy_usage`: consume contract owner account energy.
+    `origin_ucr_usage`: consume contract owner account ucr.
 
-    `energy_usage_total`: consume total account fee.
+    `ucr_usage_total`: consume total account fee.
 
     `net_usage`: consume yourself net.
 
@@ -416,10 +416,10 @@ Transaction and transaction-related messages.
 
     ```java
     message ResourceReceipt {
-      int64 energy_usage = 1;
-      int64 energy_fee = 2;
-      int64 origin_energy_usage = 3;
-      int64 energy_usage_total = 4;
+      int64 ucr_usage = 1;
+      int64 ucr_fee = 2;
+      int64 origin_ucr_usage = 3;
+      int64 ucr_usage_total = 4;
       int64 net_usage = 5;
       int64 net_fee = 6;
       Transaction.Result.contractResult result = 7;
@@ -494,7 +494,7 @@ Transaction and transaction-related messages.
      
      `withdraw_amount`:
      
-     `unfreeze_amount`:
+     `uncd_amount`:
      
      `exchange_received_amount`:
      
@@ -523,7 +523,7 @@ Transaction and transaction-related messages.
              STACK_TOO_LARGE = 7;
              ILLEGAL_OPERATION = 8;
              STACK_OVERFLOW = 9;
-             OUT_OF_ENERGY = 10;
+             OUT_OF_UCR = 10;
              OUT_OF_TIME = 11;
              JVM_STACK_OVER_FLOW = 12;
              UNKNOWN = 13;
@@ -535,7 +535,7 @@ Transaction and transaction-related messages.
          
            string assetIssueID = 14;
            int64 withdraw_amount = 15;
-           int64 unfreeze_amount = 16;
+           int64 uncd_amount = 16;
            int64 exchange_received_amount = 18;
            int64 exchange_inject_another_amount = 19;
            int64 exchange_withdraw_another_amount = 20;
@@ -560,7 +560,7 @@ Transaction and transaction-related messages.
 
    `timestamp`: timestamp for transaction.
 
-   `fee_limit`: the cost limit for energy and fee when trigger and create contract.
+   `fee_limit`: the cost limit for ucr and fee when trigger and create contract.
    
    ```java
   message raw {
@@ -597,10 +597,10 @@ Transaction and transaction-related messages.
           WitnessUpdateContract = 8;
           ParticipateAssetIssueContract = 9;
           AccountUpdateContract = 10;
-          FreezeBalanceContract = 11;
-          UnfreezeBalanceContract = 12;
+          CdBalanceContract = 11;
+          UncdBalanceContract = 12;
           WithdrawBalanceContract = 13;
-          UnfreezeAssetContract = 14;
+          UncdAssetContract = 14;
           UpdateAssetContract = 15;
           ProposalCreateContract = 16;
           ProposalApproveContract = 17;
@@ -615,7 +615,7 @@ Transaction and transaction-related messages.
           ExchangeInjectContract = 42;
           ExchangeWithdrawContract = 43;
           ExchangeTransactionContract = 44;
-          UpdateEnergyLimitContract = 45;
+          UpdateUcrLimitContract = 45;
           AccountPermissionUpdateContract = 46;
           ClearABIContract = 48;
           UpdateBrokerageContract = 49;
@@ -644,7 +644,7 @@ Transaction and transaction-related messages.
           STACK_TOO_LARGE = 7;
           ILLEGAL_OPERATION = 8;
           STACK_OVERFLOW = 9;
-          OUT_OF_ENERGY = 10;
+          OUT_OF_UCR = 10;
           OUT_OF_TIME = 11;
           JVM_STACK_OVER_FLOW = 12;
           UNKNOWN = 13;
@@ -656,7 +656,7 @@ Transaction and transaction-related messages.
     
         string assetIssueID = 14;
         int64 withdraw_amount = 15;
-        int64 unfreeze_amount = 16;
+        int64 uncd_amount = 16;
         int64 exchange_received_amount = 18;
         int64 exchange_inject_another_amount = 19;
         int64 exchange_withdraw_another_amount = 20;
@@ -723,7 +723,7 @@ Transaction and transaction-related messages.
 
    `contract_address`: the address of call or create contract.
 
-   `receipt`: the receipt of fee and energy usage. 
+   `receipt`: the receipt of fee and ucr usage. 
    
    `log`: the log for triggering contract.
    
@@ -735,7 +735,7 @@ Transaction and transaction-related messages.
 
    `withdraw_amount`: the amount for witness withdraw.
 
-   `unfreeze_amount`: unfreeze stb amount.
+   `uncd_amount`: uncd stb amount.
 
    `internal_transactions`: internal transaction lists.
 
@@ -773,7 +773,7 @@ Transaction and transaction-related messages.
     
       string assetIssueID = 14;
       int64 withdraw_amount = 15;
-      int64 unfreeze_amount = 16;
+      int64 uncd_amount = 16;
       repeated InternalTransaction internal_transactions = 17;
       int64 exchange_received_amount = 18;
       int64 exchange_inject_another_amount = 19;
@@ -831,7 +831,7 @@ Contract and contract-related messages.
 
   `parameter`: binary data of the contract after serialization.
 
-  `provider`: reservedUpdateEnergyLimitContract.
+  `provider`: reservedUpdateUcrLimitContract.
 
   `ContractName`: reserved
 
@@ -850,10 +850,10 @@ Contract and contract-related messages.
       WitnessUpdateContract = 8;
       ParticipateAssetIssueContract = 9;
       AccountUpdateContract = 10;
-      FreezeBalanceContract = 11;
-      UnfreezeBalanceContract = 12;
+      CdBalanceContract = 11;
+      UncdBalanceContract = 12;
       WithdrawBalanceContract = 13;
-      UnfreezeAssetContract = 14;
+      UncdAssetContract = 14;
       UpdateAssetContract = 15;
       ProposalCreateContract = 16;
       ProposalApproveContract = 17;
@@ -868,7 +868,7 @@ Contract and contract-related messages.
       ExchangeInjectContract = 42;
       ExchangeWithdrawContract = 43;
       ExchangeTransactionContract = 44;
-      UpdateEnergyLimitContract = 45;
+      UpdateUcrLimitContract = 45;
       AccountPermissionUpdateContract = 46;
       ClearABIContract = 48;
       UpdateBrokerageContract = 49;
@@ -896,7 +896,7 @@ Contract and contract-related messages.
     STACK_TOO_LARGE = 7;
     ILLEGAL_OPERATION = 8;
     STACK_OVERFLOW = 9;
-    OUT_OF_ENERGY = 10;
+    OUT_OF_UCR = 10;
     OUT_OF_TIME = 11;
     JVM_STACK_OVER_FLOW = 12;
     UNKNOWN = 13;
@@ -1022,16 +1022,16 @@ Contract and contract-related messages.
 
       `id`: id.
 
-      message `FrozenSupply`:
+      message `CdedSupply`:
 
-      ​    `frozen_amount`: frozen amount of token.
+      ​    `cded_amount`: cded amount of token.
 
-      ​    `frozen_days`: frozen period of token.
+      ​    `cded_days`: cded period of token.
 
       ```java
-      message FrozenSupply {
-          int64 frozen_amount = 1;
-          int64 frozen_days = 2;
+      message CdedSupply {
+          int64 cded_amount = 1;
+          int64 cded_days = 2;
       }
       ```
 
@@ -1043,7 +1043,7 @@ Contract and contract-related messages.
 
       `total_supply`: maximum of asset.
 
-      `frozen_supply`: frozen supplt of asset.
+      `cded_supply`: cded supplt of asset.
 
       `stb_num`: stb num defines token price.
 
@@ -1073,15 +1073,15 @@ Contract and contract-related messages.
       message AssetIssueContract {
           string id = 41;
       
-          message FrozenSupply {
-              int64 frozen_amount = 1;
-              int64 frozen_days = 2;
+          message CdedSupply {
+              int64 cded_amount = 1;
+              int64 cded_days = 2;
           }
           bytes owner_address = 1;
           bytes name = 2;
           bytes abbr = 3;
           int64 total_supply = 4;
-          repeated FrozenSupply frozen_supply = 5;
+          repeated CdedSupply cded_supply = 5;
           int32 stb_num = 6;
           int32 precision = 7;
           int32 num = 8;
@@ -1143,39 +1143,39 @@ Contract and contract-related messages.
       }
       ```
 
-    - message `FreezeBalanceContract`
+    - message `CdBalanceContract`
 
       `owner_address`: address of owner.
 
-      `frozen_balance`: frozen amount of STB.
+      `cded_balance`: cded amount of STB.
 
-      `frozen_duration`: frozen duration of STB.
+      `cded_duration`: cded duration of STB.
 
       `resource`: type of resource gained from freezing STB.
 
       `receiver_address`: account address to receive resource.
 
       ```java
-      message FreezeBalanceContract {
+      message CdBalanceContract {
           bytes owner_address = 1;
-          int64 frozen_balance = 2;
-          int64 frozen_duration = 3;
+          int64 cded_balance = 2;
+          int64 cded_duration = 3;
       
           ResourceCode resource = 10;
           bytes receiver_address = 15;
       }
       ```
 
-    - message `UnfreezeBalanceContract`
+    - message `UncdBalanceContract`
 
       `owner_address`: address of owner.
 
-      `resource`: type of resource, BANDWIDTH / ENERGY. 
+      `resource`: type of resource, BANDWIDTH / UCR. 
 
       `receiver_address`: resource receiver address.
 
       ```java
-      message UnfreezeBalanceContract {
+      message UncdBalanceContract {
           bytes owner_address = 1;
           ResourceCode resource = 10;
           bytes receiver_address = 15;
@@ -1192,12 +1192,12 @@ Contract and contract-related messages.
       }
       ```
     
-     - message `UnfreezeAssetContract`
+     - message `UncdAssetContract`
     
        `owner_address`: owner address.
     
       ```java
-      message UnfreezeAssetContract {
+      message UncdAssetContract {
           bytes owner_address = 1;
       }
        ```
@@ -1333,7 +1333,7 @@ Contract and contract-related messages.
     
        `contract_address`: smart contract address.
     
-       `consume_user_resource_percent`: user energy payment percentage of whole energy payment includes contract deployer’s and user's energy payment.
+       `consume_user_resource_percent`: user ucr payment percentage of whole ucr payment includes contract deployer’s and user's ucr payment.
     
       ```java
       message UpdateSettingContract {
@@ -1425,19 +1425,19 @@ Contract and contract-related messages.
       }
       ```
     
-     - message `UpdateEnergyLimitContract`:
+     - message `UpdateUcrLimitContract`:
     
        `owner_address`: address of owner.
     
        `contract_address`: smart contract address.
     
-       `origin_energy_limit`: value of owner’s consume energy limit for each transaction.
+       `origin_ucr_limit`: value of owner’s consume ucr limit for each transaction.
     
       ```java
-      message UpdateEnergyLimitContract {
+      message UpdateUcrLimitContract {
           bytes owner_address = 1;
           bytes contract_address = 2;
-          int64 origin_energy_limit = 3;
+          int64 origin_ucr_limit = 3;
       }
       ```
     
@@ -1598,11 +1598,11 @@ message `SmartContract` has mutiple attributes and nested message `ABI`
   
   `call_value`: amount of STB that send to the smart contract.
   
-  `consume_user_resource_percent`: user energy payment percentage of the whole energy payment which includes both contract deployer’s payment and user energy payment.
+  `consume_user_resource_percent`: user ucr payment percentage of the whole ucr payment which includes both contract deployer’s payment and user ucr payment.
   
   `name`: the name of the smart contract.
   
-  `origin_energy_limit`: value of the owner’s consume energy limit for each transaction.
+  `origin_ucr_limit`: value of the owner’s consume ucr limit for each transaction.
   
   `code_hash`: hash of smart contract bytecode.
   
@@ -1651,7 +1651,7 @@ message `SmartContract` has mutiple attributes and nested message `ABI`
         int64 call_value = 5;
         int64 consume_user_resource_percent = 6;
         string name = 7;
-        int64 origin_energy_limit = 8;
+        int64 origin_ucr_limit = 8;
         bytes code_hash = 9;
         bytes stb_hash = 10;
     }
@@ -2256,7 +2256,7 @@ message `SmartContract` has mutiple attributes and nested message `ABI`
 
       `allowCreationOfContracts`:  permission of creating contracts.
 
-      `allowAdaptiveEnergy`: permission of turning on adaptive energy.
+      `allowAdaptiveUcr`: permission of turning on adaptive ucr.
 
       ```java
       message ConfigNodeInfo {
@@ -2278,7 +2278,7 @@ message `SmartContract` has mutiple attributes and nested message `ABI`
         double minTimeRatio = 16;
         double maxTimeRatio = 17;
         int64 allowCreationOfContracts = 18;
-        int64 allowAdaptiveEnergy = 19;
+        int64 allowAdaptiveUcr = 19;
       }
       ```
 

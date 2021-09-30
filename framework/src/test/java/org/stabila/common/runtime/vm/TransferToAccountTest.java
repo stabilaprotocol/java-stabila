@@ -13,7 +13,7 @@ import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.crypto.ECKey;
 import org.stabila.common.runtime.ProgramResult;
 import org.stabila.common.runtime.Runtime;
-import org.stabila.common.runtime.TvmTestUtils;
+import org.stabila.common.runtime.SvmTestUtils;
 import org.stabila.common.storage.DepositImpl;
 import org.stabila.common.utils.ByteArray;
 import org.stabila.common.utils.FileUtil;
@@ -36,7 +36,7 @@ import org.stabila.core.exception.ContractValidateException;
 import org.stabila.core.exception.ReceiptCheckErrException;
 import org.stabila.core.exception.VMIllegalException;
 import org.stabila.core.store.StoreFactory;
-import org.stabila.core.vm.EnergyCost;
+import org.stabila.core.vm.UcrCost;
 import org.stabila.protos.Protocol.AccountType;
 import org.stabila.protos.Protocol.Transaction;
 import org.stabila.protos.contract.AssetIssueContractOuterClass.AssetIssueContract;
@@ -101,9 +101,9 @@ public class TransferToAccountTest {
 
   private long createAsset(String tokenName) {
     chainBaseManager.getDynamicPropertiesStore().saveAllowSameTokenName(1);
-    chainBaseManager.getDynamicPropertiesStore().saveAllowTvmTransferTrc10(1);
-    chainBaseManager.getDynamicPropertiesStore().saveAllowTvmConstantinople(1);
-    chainBaseManager.getDynamicPropertiesStore().saveAllowTvmSolidity059(1);
+    chainBaseManager.getDynamicPropertiesStore().saveAllowSvmTransferTrc10(1);
+    chainBaseManager.getDynamicPropertiesStore().saveAllowSvmConstantinople(1);
+    chainBaseManager.getDynamicPropertiesStore().saveAllowSvmSolidity059(1);
 
     long id = chainBaseManager.getDynamicPropertiesStore().getTokenIdNum() + 1;
     chainBaseManager.getDynamicPropertiesStore().saveTokenIdNum(id);
@@ -162,11 +162,11 @@ public class TransferToAccountTest {
     long triggerCallValue = 100;
     long feeLimit = 100000000;
     long tokenValue = 8;
-    Transaction transaction = TvmTestUtils
+    Transaction transaction = SvmTestUtils
         .generateTriggerSmartContractAndGetTransaction(Hex.decode(OWNER_ADDRESS), contractAddress,
             input,
             triggerCallValue, feeLimit, tokenValue, id);
-    runtime = TvmTestUtils.processTransactionAndReturnRuntime(transaction, dbManager, null);
+    runtime = SvmTestUtils.processTransactionAndReturnRuntime(transaction, dbManager, null);
 
     Assert.assertNull(runtime.getRuntimeError());
     Assert.assertEquals(9,
@@ -175,18 +175,18 @@ public class TransferToAccountTest {
     Assert.assertEquals(100 + tokenValue - 9,
         chainBaseManager.getAccountStore().get(contractAddress)
             .getAssetMapV2().get(String.valueOf(id)).longValue());
-    long energyCostWhenExist = runtime.getResult().getEnergyUsed();
+    long ucrCostWhenExist = runtime.getResult().getUcrUsed();
 
     // 3.Test transferToken To Non-exist address
     ECKey ecKey = new ECKey(Utils.getRandom());
     input = Hex.decode(AbiUtil
         .parseMethod(selectorStr,
             "\"" + StringUtil.encode58Check(ecKey.getAddress()) + "\"" + "," + id + ",9"));
-    transaction = TvmTestUtils
+    transaction = SvmTestUtils
         .generateTriggerSmartContractAndGetTransaction(Hex.decode(OWNER_ADDRESS), contractAddress,
             input,
             triggerCallValue, feeLimit, tokenValue, id);
-    runtime = TvmTestUtils.processTransactionAndReturnRuntime(transaction, dbManager, null);
+    runtime = SvmTestUtils.processTransactionAndReturnRuntime(transaction, dbManager, null);
 
     Assert.assertNull(runtime.getRuntimeError());
     Assert.assertEquals(100 + tokenValue * 2 - 18,
@@ -195,25 +195,25 @@ public class TransferToAccountTest {
     Assert.assertEquals(9,
         chainBaseManager.getAccountStore().get(ecKey.getAddress()).getAssetMapV2()
             .get(String.valueOf(id)).longValue());
-    long energyCostWhenNonExist = runtime.getResult().getEnergyUsed();
-    //4.Test Energy
-    Assert.assertEquals(energyCostWhenNonExist - energyCostWhenExist,
-        EnergyCost.getInstance().getNewAcctCall());
+    long ucrCostWhenNonExist = runtime.getResult().getUcrUsed();
+    //4.Test Ucr
+    Assert.assertEquals(ucrCostWhenNonExist - ucrCostWhenExist,
+        UcrCost.getInstance().getNewAcctCall());
     //5. Test transfer Stb with exsit account
 
     selectorStr = "transferTo(address,uint256)";
     input = Hex.decode(AbiUtil
         .parseMethod(selectorStr,
             "\"" + StringUtil.encode58Check(Hex.decode(TRANSFER_TO)) + "\"" + ",9"));
-    transaction = TvmTestUtils
+    transaction = SvmTestUtils
         .generateTriggerSmartContractAndGetTransaction(Hex.decode(OWNER_ADDRESS), contractAddress,
             input,
             triggerCallValue, feeLimit, 0, 0);
-    runtime = TvmTestUtils.processTransactionAndReturnRuntime(transaction, dbManager, null);
+    runtime = SvmTestUtils.processTransactionAndReturnRuntime(transaction, dbManager, null);
     Assert.assertNull(runtime.getRuntimeError());
     Assert.assertEquals(19,
         chainBaseManager.getAccountStore().get(Hex.decode(TRANSFER_TO)).getBalance());
-    energyCostWhenExist = runtime.getResult().getEnergyUsed();
+    ucrCostWhenExist = runtime.getResult().getUcrUsed();
 
     //6. Test  transfer Stb with non-exsit account
     selectorStr = "transferTo(address,uint256)";
@@ -221,30 +221,30 @@ public class TransferToAccountTest {
     input = Hex.decode(AbiUtil
         .parseMethod(selectorStr,
             "\"" + StringUtil.encode58Check(ecKey.getAddress()) + "\"" + ",9"));
-    transaction = TvmTestUtils
+    transaction = SvmTestUtils
         .generateTriggerSmartContractAndGetTransaction(Hex.decode(OWNER_ADDRESS), contractAddress,
             input,
             triggerCallValue, feeLimit, 0, 0);
-    runtime = TvmTestUtils.processTransactionAndReturnRuntime(transaction, dbManager, null);
+    runtime = SvmTestUtils.processTransactionAndReturnRuntime(transaction, dbManager, null);
     Assert.assertNull(runtime.getRuntimeError());
     Assert.assertEquals(9,
         chainBaseManager.getAccountStore().get(ecKey.getAddress()).getBalance());
-    energyCostWhenNonExist = runtime.getResult().getEnergyUsed();
+    ucrCostWhenNonExist = runtime.getResult().getUcrUsed();
 
-    //7.test energy
-    Assert.assertEquals(energyCostWhenNonExist - energyCostWhenExist,
-        EnergyCost.getInstance().getNewAcctCall());
+    //7.test ucr
+    Assert.assertEquals(ucrCostWhenNonExist - ucrCostWhenExist,
+        UcrCost.getInstance().getNewAcctCall());
 
     //8.test transfer to itself
     selectorStr = "transferTo(address,uint256)";
     input = Hex.decode(AbiUtil
         .parseMethod(selectorStr,
             "\"" + StringUtil.encode58Check(contractAddress) + "\"" + ",9"));
-    transaction = TvmTestUtils
+    transaction = SvmTestUtils
         .generateTriggerSmartContractAndGetTransaction(Hex.decode(OWNER_ADDRESS), contractAddress,
             input,
             triggerCallValue, feeLimit, 0, 0);
-    runtime = TvmTestUtils.processTransactionAndReturnRuntime(transaction, dbManager, null);
+    runtime = SvmTestUtils.processTransactionAndReturnRuntime(transaction, dbManager, null);
     Assert.assertTrue(runtime.getRuntimeError().contains("failed"));
 
     // 9.Test transferToken Big Amount
@@ -254,13 +254,13 @@ public class TransferToAccountTest {
     String params = "000000000000000000000000548794500882809695a8a687866e76d4271a1abc"
         + Hex.toHexString(new DataWord(id).getData())
         + "0000000000000000000000000000000011111111111111111111111111111111";
-    byte[] triggerData = TvmTestUtils.parseAbi(selectorStr, params);
+    byte[] triggerData = SvmTestUtils.parseAbi(selectorStr, params);
 
-    transaction = TvmTestUtils
+    transaction = SvmTestUtils
         .generateTriggerSmartContractAndGetTransaction(Hex.decode(OWNER_ADDRESS), contractAddress,
             triggerData,
             triggerCallValue, feeLimit, tokenValue, id);
-    runtime = TvmTestUtils.processTransactionAndReturnRuntime(transaction, dbManager, null);
+    runtime = SvmTestUtils.processTransactionAndReturnRuntime(transaction, dbManager, null);
 
     Assert.assertEquals("endowment out of long range", runtime.getRuntimeError());
 
@@ -270,7 +270,7 @@ public class TransferToAccountTest {
     input = Hex.decode(AbiUtil
         .parseMethod(selectorStr,
             "\"" + StringUtil.encode58Check(ecKey.getAddress()) + "\"" + ",1"));
-    transaction = TvmTestUtils
+    transaction = SvmTestUtils
         .generateTriggerSmartContractAndGetTransaction(Hex.decode(OWNER_ADDRESS), contractAddress,
             input,
             0, feeLimit, 0, 0);
@@ -318,7 +318,7 @@ public class TransferToAccountTest {
     long tokenValue = 100;
     long tokenId = id;
 
-    byte[] contractAddress = TvmTestUtils
+    byte[] contractAddress = SvmTestUtils
         .deployContractWholeProcessReturnContractAddress(contractName, address, ABI, code, value,
             feeLimit, consumeUserResourcePercent, null, tokenValue, tokenId,
             deposit, null);

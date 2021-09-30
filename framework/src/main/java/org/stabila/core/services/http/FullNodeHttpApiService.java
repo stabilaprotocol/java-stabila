@@ -59,11 +59,11 @@ public class FullNodeHttpApiService implements Service {
   @Autowired
   private ParticipateAssetIssueServlet participateAssetIssueServlet;
   @Autowired
-  private FreezeBalanceServlet freezeBalanceServlet;
+  private CdBalanceServlet cdBalanceServlet;
   @Autowired
-  private UnFreezeBalanceServlet unFreezeBalanceServlet;
+  private UnCdBalanceServlet unCdBalanceServlet;
   @Autowired
-  private UnFreezeAssetServlet unFreezeAssetServlet;
+  private UnCdAssetServlet unCdAssetServlet;
   @Autowired
   private WithdrawBalanceServlet withdrawBalanceServlet;
   @Autowired
@@ -177,7 +177,7 @@ public class FullNodeHttpApiService implements Service {
   @Autowired
   private UpdateSettingServlet updateSettingServlet;
   @Autowired
-  private UpdateEnergyLimitServlet updateEnergyLimitServlet;
+  private UpdateUcrLimitServlet updateUcrLimitServlet;
   @Autowired
   private GetDelegatedResourceAccountIndexServlet getDelegatedResourceAccountIndexServlet;
   @Autowired
@@ -354,9 +354,9 @@ public class FullNodeHttpApiService implements Service {
       context.addServlet(new ServletHolder(transferAssetServlet), "/wallet/transferasset");
       context.addServlet(new ServletHolder(participateAssetIssueServlet),
           "/wallet/participateassetissue");
-      context.addServlet(new ServletHolder(freezeBalanceServlet), "/wallet/freezebalance");
-      context.addServlet(new ServletHolder(unFreezeBalanceServlet), "/wallet/unfreezebalance");
-      context.addServlet(new ServletHolder(unFreezeAssetServlet), "/wallet/unfreezeasset");
+      context.addServlet(new ServletHolder(cdBalanceServlet), "/wallet/cdbalance");
+      context.addServlet(new ServletHolder(unCdBalanceServlet), "/wallet/uncdbalance");
+      context.addServlet(new ServletHolder(unCdAssetServlet), "/wallet/uncdasset");
       context.addServlet(new ServletHolder(withdrawBalanceServlet), "/wallet/withdrawbalance");
       context.addServlet(new ServletHolder(updateAssetServlet), "/wallet/updateasset");
       context.addServlet(new ServletHolder(listNodesServlet), "/wallet/listnodes");
@@ -439,7 +439,7 @@ public class FullNodeHttpApiService implements Service {
           "/wallet/accountpermissionupdate");
       context.addServlet(new ServletHolder(getNodeInfoServlet), "/wallet/getnodeinfo");
       context.addServlet(new ServletHolder(updateSettingServlet), "/wallet/updatesetting");
-      context.addServlet(new ServletHolder(updateEnergyLimitServlet), "/wallet/updateenergylimit");
+      context.addServlet(new ServletHolder(updateUcrLimitServlet), "/wallet/updateucrlimit");
       context.addServlet(new ServletHolder(getDelegatedResourceServlet),
           "/wallet/getdelegatedresource");
       context.addServlet(

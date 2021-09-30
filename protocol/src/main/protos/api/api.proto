@@ -125,8 +125,8 @@ service Wallet {
   rpc UpdateSetting (UpdateSettingContract) returns (TransactionExtention) {
   };
 
-  //modify the energy_limit
-  rpc UpdateEnergyLimit (UpdateEnergyLimitContract) returns (TransactionExtention) {
+  //modify the ucr_limit
+  rpc UpdateUcrLimit (UpdateUcrLimitContract) returns (TransactionExtention) {
   };
 
   //Use this function instead of VoteWitnessAccount.
@@ -211,44 +211,44 @@ service Wallet {
   //Use this function instead of ParticipateAssetIssue.
   rpc ParticipateAssetIssue2 (ParticipateAssetIssueContract) returns (TransactionExtention) {
   }
-  //Please use FreezeBalance2 instead of this function.
-  rpc FreezeBalance (FreezeBalanceContract) returns (Transaction) {
+  //Please use CdBalance2 instead of this function.
+  rpc CdBalance (CdBalanceContract) returns (Transaction) {
     option (google.api.http) = {
-      post: "/wallet/freezebalance"
+      post: "/wallet/cdbalance"
       body: "*"
       additional_bindings {
-        get: "/wallet/freezebalance"
+        get: "/wallet/cdbalance"
       }
     };
   }
-  //Use this function instead of FreezeBalance.
-  rpc FreezeBalance2 (FreezeBalanceContract) returns (TransactionExtention) {
+  //Use this function instead of CdBalance.
+  rpc CdBalance2 (CdBalanceContract) returns (TransactionExtention) {
   }
-  //Please use UnfreezeBalance2 instead of this function.
-  rpc UnfreezeBalance (UnfreezeBalanceContract) returns (Transaction) {
+  //Please use UncdBalance2 instead of this function.
+  rpc UncdBalance (UncdBalanceContract) returns (Transaction) {
     option (google.api.http) = {
-      post: "/wallet/unfreezebalance"
+      post: "/wallet/uncdbalance"
       body: "*"
       additional_bindings {
-        get: "/wallet/unfreezebalance"
+        get: "/wallet/uncdbalance"
       }
     };
   }
-  //Use this function instead of UnfreezeBalance.
-  rpc UnfreezeBalance2 (UnfreezeBalanceContract) returns (TransactionExtention) {
+  //Use this function instead of UncdBalance.
+  rpc UncdBalance2 (UncdBalanceContract) returns (TransactionExtention) {
   }
-  //Please use UnfreezeAsset2 instead of this function.
-  rpc UnfreezeAsset (UnfreezeAssetContract) returns (Transaction) {
+  //Please use UncdAsset2 instead of this function.
+  rpc UncdAsset (UncdAssetContract) returns (Transaction) {
     option (google.api.http) = {
-      post: "/wallet/unfreezeasset"
+      post: "/wallet/uncdasset"
       body: "*"
       additional_bindings {
-        get: "/wallet/unfreezeasset"
+        get: "/wallet/uncdasset"
       }
     };
   }
-  //Use this function instead of UnfreezeAsset.
-  rpc UnfreezeAsset2 (UnfreezeAssetContract) returns (TransactionExtention) {
+  //Use this function instead of UncdAsset.
+  rpc UncdAsset2 (UncdAssetContract) returns (TransactionExtention) {
   }
   //Please use WithdrawBalance2 instead of this function.
   rpc WithdrawBalance (WithdrawBalanceContract) returns (Transaction) {
@@ -1165,10 +1165,10 @@ message AccountResourceMessage {
   int64 stabilaPowerUsed = 10;
   int64 stabilaPowerLimit = 11;
 
-  int64 EnergyUsed = 13;
-  int64 EnergyLimit = 14;
-  int64 TotalEnergyLimit = 15;
-  int64 TotalEnergyWeight = 16;
+  int64 UcrUsed = 13;
+  int64 UcrLimit = 14;
+  int64 TotalUcrLimit = 15;
+  int64 TotalUcrWeight = 16;
 
   int64 storageUsed = 21;
   int64 storageLimit = 22;
@@ -1221,7 +1221,7 @@ message TransactionExtention {
   bytes txid = 2; //transaction id =  sha256(transaction.rowdata)
   repeated bytes constant_result = 3;
   Return result = 4;
-  int64 energy_used = 5;
+  int64 ucr_used = 5;
 }
 
 message BlockExtention {

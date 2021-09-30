@@ -33,7 +33,7 @@ import org.stabila.core.capsule.utils.AssetUtil;
 import org.stabila.protos.Protocol.Account;
 import org.stabila.protos.Protocol.Account.AccountResource;
 import org.stabila.protos.Protocol.Account.Builder;
-import org.stabila.protos.Protocol.Account.Frozen;
+import org.stabila.protos.Protocol.Account.Cded;
 import org.stabila.protos.Protocol.AccountType;
 import org.stabila.protos.Protocol.Key;
 import org.stabila.protos.Protocol.Permission;
@@ -348,82 +348,82 @@ public class AccountCapsule implements ProtoCapsule<Account>, Comparable<Account
     this.account = this.account.toBuilder().setLatestConsumeFreeTime(latest_time).build();
   }
 
-  public void addDelegatedFrozenBalanceForBandwidth(long balance) {
-    this.account = this.account.toBuilder().setDelegatedFrozenBalanceForBandwidth(
-        this.account.getDelegatedFrozenBalanceForBandwidth() + balance).build();
+  public void addDelegatedCdedBalanceForBandwidth(long balance) {
+    this.account = this.account.toBuilder().setDelegatedCdedBalanceForBandwidth(
+        this.account.getDelegatedCdedBalanceForBandwidth() + balance).build();
   }
 
-  public long getAcquiredDelegatedFrozenBalanceForBandwidth() {
-    return this.account.getAcquiredDelegatedFrozenBalanceForBandwidth();
+  public long getAcquiredDelegatedCdedBalanceForBandwidth() {
+    return this.account.getAcquiredDelegatedCdedBalanceForBandwidth();
   }
 
-  public void setAcquiredDelegatedFrozenBalanceForBandwidth(long balance) {
-    this.account = this.account.toBuilder().setAcquiredDelegatedFrozenBalanceForBandwidth(balance)
+  public void setAcquiredDelegatedCdedBalanceForBandwidth(long balance) {
+    this.account = this.account.toBuilder().setAcquiredDelegatedCdedBalanceForBandwidth(balance)
         .build();
   }
 
-  public void addAcquiredDelegatedFrozenBalanceForBandwidth(long balance) {
-    this.account = this.account.toBuilder().setAcquiredDelegatedFrozenBalanceForBandwidth(
-        this.account.getAcquiredDelegatedFrozenBalanceForBandwidth() + balance)
+  public void addAcquiredDelegatedCdedBalanceForBandwidth(long balance) {
+    this.account = this.account.toBuilder().setAcquiredDelegatedCdedBalanceForBandwidth(
+        this.account.getAcquiredDelegatedCdedBalanceForBandwidth() + balance)
         .build();
   }
 
-  public void safeAddAcquiredDelegatedFrozenBalanceForBandwidth(long balance) {
-    this.account = this.account.toBuilder().setAcquiredDelegatedFrozenBalanceForBandwidth(
-        Math.max(0, this.account.getAcquiredDelegatedFrozenBalanceForBandwidth() + balance))
+  public void safeAddAcquiredDelegatedCdedBalanceForBandwidth(long balance) {
+    this.account = this.account.toBuilder().setAcquiredDelegatedCdedBalanceForBandwidth(
+        Math.max(0, this.account.getAcquiredDelegatedCdedBalanceForBandwidth() + balance))
         .build();
   }
 
-  public long getAcquiredDelegatedFrozenBalanceForEnergy() {
-    return getAccountResource().getAcquiredDelegatedFrozenBalanceForEnergy();
+  public long getAcquiredDelegatedCdedBalanceForUcr() {
+    return getAccountResource().getAcquiredDelegatedCdedBalanceForUcr();
   }
 
-  public void setAcquiredDelegatedFrozenBalanceForEnergy(long balance) {
+  public void setAcquiredDelegatedCdedBalanceForUcr(long balance) {
     AccountResource newAccountResource = getAccountResource().toBuilder()
-        .setAcquiredDelegatedFrozenBalanceForEnergy(balance).build();
+        .setAcquiredDelegatedCdedBalanceForUcr(balance).build();
 
     this.account = this.account.toBuilder()
         .setAccountResource(newAccountResource)
         .build();
   }
 
-  public long getDelegatedFrozenBalanceForEnergy() {
-    return getAccountResource().getDelegatedFrozenBalanceForEnergy();
+  public long getDelegatedCdedBalanceForUcr() {
+    return getAccountResource().getDelegatedCdedBalanceForUcr();
   }
 
-  public long getDelegatedFrozenBalanceForBandwidth() {
-    return this.account.getDelegatedFrozenBalanceForBandwidth();
+  public long getDelegatedCdedBalanceForBandwidth() {
+    return this.account.getDelegatedCdedBalanceForBandwidth();
   }
 
-  public void setDelegatedFrozenBalanceForBandwidth(long balance) {
+  public void setDelegatedCdedBalanceForBandwidth(long balance) {
     this.account = this.account.toBuilder()
-        .setDelegatedFrozenBalanceForBandwidth(balance)
+        .setDelegatedCdedBalanceForBandwidth(balance)
         .build();
   }
 
-  public void setDelegatedFrozenBalanceForEnergy(long balance){
+  public void setDelegatedCdedBalanceForUcr(long balance){
     AccountResource newAccountResource = getAccountResource().toBuilder()
-        .setDelegatedFrozenBalanceForEnergy(balance).build();
-
-    this.account = this.account.toBuilder()
-        .setAccountResource(newAccountResource)
-        .build();
-  }
-
-  public void addAcquiredDelegatedFrozenBalanceForEnergy(long balance) {
-    AccountResource newAccountResource = getAccountResource().toBuilder()
-        .setAcquiredDelegatedFrozenBalanceForEnergy(
-            getAccountResource().getAcquiredDelegatedFrozenBalanceForEnergy() + balance).build();
+        .setDelegatedCdedBalanceForUcr(balance).build();
 
     this.account = this.account.toBuilder()
         .setAccountResource(newAccountResource)
         .build();
   }
 
-  public void safeAddAcquiredDelegatedFrozenBalanceForEnergy(long balance) {
+  public void addAcquiredDelegatedCdedBalanceForUcr(long balance) {
     AccountResource newAccountResource = getAccountResource().toBuilder()
-        .setAcquiredDelegatedFrozenBalanceForEnergy(
-            Math.max(0, getAccountResource().getAcquiredDelegatedFrozenBalanceForEnergy() + balance))
+        .setAcquiredDelegatedCdedBalanceForUcr(
+            getAccountResource().getAcquiredDelegatedCdedBalanceForUcr() + balance).build();
+
+    this.account = this.account.toBuilder()
+        .setAccountResource(newAccountResource)
+        .build();
+  }
+
+  public void safeAddAcquiredDelegatedCdedBalanceForUcr(long balance) {
+    AccountResource newAccountResource = getAccountResource().toBuilder()
+        .setAcquiredDelegatedCdedBalanceForUcr(
+            Math.max(0, getAccountResource().getAcquiredDelegatedCdedBalanceForUcr() + balance))
         .build();
 
     this.account = this.account.toBuilder()
@@ -431,10 +431,10 @@ public class AccountCapsule implements ProtoCapsule<Account>, Comparable<Account
         .build();
   }
 
-  public void addDelegatedFrozenBalanceForEnergy(long balance) {
+  public void addDelegatedCdedBalanceForUcr(long balance) {
     AccountResource newAccountResource = getAccountResource().toBuilder()
-        .setDelegatedFrozenBalanceForEnergy(
-            getAccountResource().getDelegatedFrozenBalanceForEnergy() + balance).build();
+        .setDelegatedCdedBalanceForUcr(
+            getAccountResource().getDelegatedCdedBalanceForUcr() + balance).build();
 
     this.account = this.account.toBuilder()
         .setAccountResource(newAccountResource)
@@ -504,23 +504,23 @@ public class AccountCapsule implements ProtoCapsule<Account>, Comparable<Account
   //tp:Stabila_Power
   public long getStabilaPower() {
     long tp = 0;
-    for (int i = 0; i < account.getFrozenCount(); ++i) {
-      tp += account.getFrozen(i).getFrozenBalance();
+    for (int i = 0; i < account.getCdedCount(); ++i) {
+      tp += account.getCded(i).getCdedBalance();
     }
 
-    tp += account.getAccountResource().getFrozenBalanceForEnergy().getFrozenBalance();
-    tp += account.getDelegatedFrozenBalanceForBandwidth();
-    tp += account.getAccountResource().getDelegatedFrozenBalanceForEnergy();
+    tp += account.getAccountResource().getCdedBalanceForUcr().getCdedBalance();
+    tp += account.getDelegatedCdedBalanceForBandwidth();
+    tp += account.getAccountResource().getDelegatedCdedBalanceForUcr();
     return tp;
   }
 
   public long getAllStabilaPower() {
     if (account.getOldStabilaPower() == -1) {
-      return getStabilaPowerFrozenBalance();
+      return getStabilaPowerCdedBalance();
     } else if (account.getOldStabilaPower() == 0) {
-      return getStabilaPower() + getStabilaPowerFrozenBalance();
+      return getStabilaPower() + getStabilaPowerCdedBalance();
     } else {
-      return account.getOldStabilaPower() + getStabilaPowerFrozenBalance();
+      return account.getOldStabilaPower() + getStabilaPowerCdedBalance();
     }
   }
 
@@ -754,42 +754,42 @@ public class AccountCapsule implements ProtoCapsule<Account>, Comparable<Account
     this.account = this.account.toBuilder().putLatestAssetOperationTimeV2(key, value).build();
   }
 
-  public int getFrozenCount() {
-    return getInstance().getFrozenCount();
+  public int getCdedCount() {
+    return getInstance().getCdedCount();
   }
 
-  public List<Frozen> getFrozenList() {
-    return getInstance().getFrozenList();
+  public List<Cded> getCdedList() {
+    return getInstance().getCdedList();
   }
 
-  public long getFrozenBalance() {
-    List<Frozen> frozenList = getFrozenList();
-    final long[] frozenBalance = {0};
-    frozenList.forEach(frozen -> frozenBalance[0] = Long.sum(frozenBalance[0],
-        frozen.getFrozenBalance()));
-    return frozenBalance[0];
+  public long getCdedBalance() {
+    List<Cded> cdedList = getCdedList();
+    final long[] cdedBalance = {0};
+    cdedList.forEach(cded -> cdedBalance[0] = Long.sum(cdedBalance[0],
+        cded.getCdedBalance()));
+    return cdedBalance[0];
   }
 
-  public long getAllFrozenBalanceForBandwidth() {
-    return getFrozenBalance() + getAcquiredDelegatedFrozenBalanceForBandwidth();
+  public long getAllCdedBalanceForBandwidth() {
+    return getCdedBalance() + getAcquiredDelegatedCdedBalanceForBandwidth();
   }
 
-  public int getFrozenSupplyCount() {
+  public int getCdedSupplyCount() {
     importAsset();
-    return getInstance().getFrozenSupplyCount();
+    return getInstance().getCdedSupplyCount();
   }
 
-  public List<Frozen> getFrozenSupplyList() {
+  public List<Cded> getCdedSupplyList() {
     importAsset();
-    return getInstance().getFrozenSupplyList();
+    return getInstance().getCdedSupplyList();
   }
 
-  public long getFrozenSupplyBalance() {
-    List<Frozen> frozenSupplyList = getFrozenSupplyList();
-    final long[] frozenSupplyBalance = {0};
-    frozenSupplyList.forEach(frozen -> frozenSupplyBalance[0] = Long.sum(frozenSupplyBalance[0],
-        frozen.getFrozenBalance()));
-    return frozenSupplyBalance[0];
+  public long getCdedSupplyBalance() {
+    List<Cded> cdedSupplyList = getCdedSupplyList();
+    final long[] cdedSupplyBalance = {0};
+    cdedSupplyList.forEach(cded -> cdedSupplyBalance[0] = Long.sum(cdedSupplyBalance[0],
+        cded.getCdedBalance()));
+    return cdedSupplyBalance[0];
   }
 
   public ByteString getAssetIssuedName() {
@@ -849,35 +849,35 @@ public class AccountCapsule implements ProtoCapsule<Account>, Comparable<Account
     this.account = this.account.toBuilder().setIsCommittee(isCommittee).build();
   }
 
-  public void setFrozenForBandwidth(long frozenBalance, long expireTime) {
-    Frozen newFrozen = Frozen.newBuilder()
-        .setFrozenBalance(frozenBalance)
+  public void setCdedForBandwidth(long cdedBalance, long expireTime) {
+    Cded newCded = Cded.newBuilder()
+        .setCdedBalance(cdedBalance)
         .setExpireTime(expireTime)
         .build();
 
-    long frozenCount = getFrozenCount();
-    if (frozenCount == 0) {
+    long cdedCount = getCdedCount();
+    if (cdedCount == 0) {
       setInstance(getInstance().toBuilder()
-          .addFrozen(newFrozen)
+          .addCded(newCded)
           .build());
     } else {
       setInstance(getInstance().toBuilder()
-          .setFrozen(0, newFrozen)
+          .setCded(0, newCded)
           .build()
       );
     }
   }
 
-  //set FrozenBalanceForBandwidth
+  //set CdedBalanceForBandwidth
   //for test only
-  public void setFrozen(long frozenBalance, long expireTime) {
-    Frozen newFrozen = Frozen.newBuilder()
-        .setFrozenBalance(frozenBalance)
+  public void setCded(long cdedBalance, long expireTime) {
+    Cded newCded = Cded.newBuilder()
+        .setCdedBalance(cdedBalance)
         .setExpireTime(expireTime)
         .build();
 
     this.account = this.account.toBuilder()
-        .addFrozen(newFrozen)
+        .addCded(newCded)
         .build();
   }
 
@@ -894,22 +894,22 @@ public class AccountCapsule implements ProtoCapsule<Account>, Comparable<Account
     return this.account.getAccountResource();
   }
 
-  public void setFrozenForEnergy(long newFrozenBalanceForEnergy, long time) {
-    Frozen newFrozenForEnergy = Frozen.newBuilder()
-        .setFrozenBalance(newFrozenBalanceForEnergy)
+  public void setCdedForUcr(long newCdedBalanceForUcr, long time) {
+    Cded newCdedForUcr = Cded.newBuilder()
+        .setCdedBalance(newCdedBalanceForUcr)
         .setExpireTime(time)
         .build();
 
     AccountResource newAccountResource = getAccountResource().toBuilder()
-        .setFrozenBalanceForEnergy(newFrozenForEnergy).build();
+        .setCdedBalanceForUcr(newCdedForUcr).build();
 
     this.account = this.account.toBuilder()
         .setAccountResource(newAccountResource)
         .build();
   }
 
-  public long getEnergyFrozenBalance() {
-    return this.account.getAccountResource().getFrozenBalanceForEnergy().getFrozenBalance();
+  public long getUcrCdedBalance() {
+    return this.account.getAccountResource().getCdedBalanceForUcr().getCdedBalance();
   }
 
   public boolean oldStabilaPowerIsNotInitialized() {
@@ -943,44 +943,44 @@ public class AccountCapsule implements ProtoCapsule<Account>, Comparable<Account
         .build());
   }
 
-  public void setFrozenForStabilaPower(long frozenBalance, long expireTime) {
-    Frozen newFrozen = Frozen.newBuilder()
-        .setFrozenBalance(frozenBalance)
+  public void setCdedForStabilaPower(long cdedBalance, long expireTime) {
+    Cded newCded = Cded.newBuilder()
+        .setCdedBalance(cdedBalance)
         .setExpireTime(expireTime)
         .build();
 
     setInstance(getInstance().toBuilder()
-        .setStabilaPower(newFrozen)
+        .setStabilaPower(newCded)
         .build());
   }
 
-  public long getStabilaPowerFrozenBalance() {
-    return this.account.getStabilaPower().getFrozenBalance();
+  public long getStabilaPowerCdedBalance() {
+    return this.account.getStabilaPower().getCdedBalance();
   }
 
-  public long getEnergyUsage() {
-    return this.account.getAccountResource().getEnergyUsage();
+  public long getUcrUsage() {
+    return this.account.getAccountResource().getUcrUsage();
   }
 
-  public void setEnergyUsage(long energyUsage) {
+  public void setUcrUsage(long ucrUsage) {
     this.account = this.account.toBuilder()
         .setAccountResource(
-            this.account.getAccountResource().toBuilder().setEnergyUsage(energyUsage).build())
+            this.account.getAccountResource().toBuilder().setUcrUsage(ucrUsage).build())
         .build();
   }
 
-  public long getAllFrozenBalanceForEnergy() {
-    return getEnergyFrozenBalance() + getAcquiredDelegatedFrozenBalanceForEnergy();
+  public long getAllCdedBalanceForUcr() {
+    return getUcrCdedBalance() + getAcquiredDelegatedCdedBalanceForUcr();
   }
 
-  public long getLatestConsumeTimeForEnergy() {
-    return this.account.getAccountResource().getLatestConsumeTimeForEnergy();
+  public long getLatestConsumeTimeForUcr() {
+    return this.account.getAccountResource().getLatestConsumeTimeForUcr();
   }
 
-  public void setLatestConsumeTimeForEnergy(long latest_time) {
+  public void setLatestConsumeTimeForUcr(long latest_time) {
     this.account = this.account.toBuilder()
         .setAccountResource(
-            this.account.getAccountResource().toBuilder().setLatestConsumeTimeForEnergy(latest_time)
+            this.account.getAccountResource().toBuilder().setLatestConsumeTimeForUcr(latest_time)
                 .build()).build();
   }
 
@@ -1132,9 +1132,9 @@ public class AccountCapsule implements ProtoCapsule<Account>, Comparable<Account
   public void clearDelegatedResource() {
     Builder builder = account.toBuilder();
     AccountResource newAccountResource = getAccountResource().toBuilder()
-        .setAcquiredDelegatedFrozenBalanceForEnergy(0L).build();
+        .setAcquiredDelegatedCdedBalanceForUcr(0L).build();
     builder.setAccountResource(newAccountResource);
-    builder.setAcquiredDelegatedFrozenBalanceForBandwidth(0L);
+    builder.setAcquiredDelegatedCdedBalanceForBandwidth(0L);
     this.account = builder.build();
   }
 

@@ -81,9 +81,9 @@ public class HttpSelfFormatFieldName {
     //UpdateSettingContract
     AddressFieldNameMap.put("protocol.UpdateSettingContract.owner_address", 1);
     AddressFieldNameMap.put("protocol.UpdateSettingContract.contract_address", 1);
-    //UpdateEnergyLimitContract
-    AddressFieldNameMap.put("protocol.UpdateEnergyLimitContract.owner_address", 1);
-    AddressFieldNameMap.put("protocol.UpdateEnergyLimitContract.contract_address", 1);
+    //UpdateUcrLimitContract
+    AddressFieldNameMap.put("protocol.UpdateUcrLimitContract.owner_address", 1);
+    AddressFieldNameMap.put("protocol.UpdateUcrLimitContract.contract_address", 1);
     //ClearABIContract
     AddressFieldNameMap.put("protocol.ClearABIContract.owner_address", 1);
     AddressFieldNameMap.put("protocol.ClearABIContract.contract_address", 1);
@@ -96,14 +96,14 @@ public class HttpSelfFormatFieldName {
     //ParticipateAssetIssueContract
     AddressFieldNameMap.put("protocol.ParticipateAssetIssueContract.owner_address", 1);
     AddressFieldNameMap.put("protocol.ParticipateAssetIssueContract.to_address", 1);
-    //FreezeBalanceContract
-    AddressFieldNameMap.put("protocol.FreezeBalanceContract.owner_address", 1);
-    AddressFieldNameMap.put("protocol.FreezeBalanceContract.receiver_address", 1);
-    //UnfreezeBalanceContract
-    AddressFieldNameMap.put("protocol.UnfreezeBalanceContract.owner_address", 1);
-    AddressFieldNameMap.put("protocol.UnfreezeBalanceContract.receiver_address", 1);
-    //UnfreezeAssetContract
-    AddressFieldNameMap.put("protocol.UnfreezeAssetContract.owner_address", 1);
+    //CdBalanceContract
+    AddressFieldNameMap.put("protocol.CdBalanceContract.owner_address", 1);
+    AddressFieldNameMap.put("protocol.CdBalanceContract.receiver_address", 1);
+    //UncdBalanceContract
+    AddressFieldNameMap.put("protocol.UncdBalanceContract.owner_address", 1);
+    AddressFieldNameMap.put("protocol.UncdBalanceContract.receiver_address", 1);
+    //UncdAssetContract
+    AddressFieldNameMap.put("protocol.UncdAssetContract.owner_address", 1);
     //WithdrawBalanceContract
     AddressFieldNameMap.put("protocol.WithdrawBalanceContract.owner_address", 1);
     //UpdateAssetContract

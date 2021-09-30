@@ -15,7 +15,7 @@
 
 package org.stabila.core.actuator;
 
-import static org.stabila.core.config.Parameter.ChainConstant.FROZEN_PERIOD;
+import static org.stabila.core.config.Parameter.ChainConstant.CDED_PERIOD;
 
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
@@ -37,11 +37,11 @@ import org.stabila.core.store.AccountStore;
 import org.stabila.core.store.AssetIssueStore;
 import org.stabila.core.store.AssetIssueV2Store;
 import org.stabila.core.store.DynamicPropertiesStore;
-import org.stabila.protos.Protocol.Account.Frozen;
+import org.stabila.protos.Protocol.Account.Cded;
 import org.stabila.protos.Protocol.Transaction.Contract.ContractType;
 import org.stabila.protos.Protocol.Transaction.Result.code;
 import org.stabila.protos.contract.AssetIssueContractOuterClass.AssetIssueContract;
-import org.stabila.protos.contract.AssetIssueContractOuterClass.AssetIssueContract.FrozenSupply;
+import org.stabila.protos.contract.AssetIssueContractOuterClass.AssetIssueContract.CdedSupply;
 
 @Slf4j(topic = "actuator")
 public class AssetIssueActuator extends AbstractActuator {
@@ -91,21 +91,21 @@ public class AssetIssueActuator extends AbstractActuator {
         Commons.adjustBalance(accountStore, accountStore.getBlackhole(), fee);//send to blackhole
       }
       AccountCapsule accountCapsule = accountStore.get(ownerAddress);
-      List<FrozenSupply> frozenSupplyList = assetIssueContract.getFrozenSupplyList();
-      Iterator<FrozenSupply> iterator = frozenSupplyList.iterator();
+      List<CdedSupply> cdedSupplyList = assetIssueContract.getCdedSupplyList();
+      Iterator<CdedSupply> iterator = cdedSupplyList.iterator();
       long remainSupply = assetIssueContract.getTotalSupply();
-      List<Frozen> frozenList = new ArrayList<>();
+      List<Cded> cdedList = new ArrayList<>();
       long startTime = assetIssueContract.getStartTime();
 
       while (iterator.hasNext()) {
-        FrozenSupply next = iterator.next();
-        long expireTime = startTime + next.getFrozenDays() * FROZEN_PERIOD;
-        Frozen newFrozen = Frozen.newBuilder()
-            .setFrozenBalance(next.getFrozenAmount())
+        CdedSupply next = iterator.next();
+        long expireTime = startTime + next.getCdedDays() * CDED_PERIOD;
+        Cded newCded = Cded.newBuilder()
+            .setCdedBalance(next.getCdedAmount())
             .setExpireTime(expireTime)
             .build();
-        frozenList.add(newFrozen);
-        remainSupply -= next.getFrozenAmount();
+        cdedList.add(newCded);
+        remainSupply -= next.getCdedAmount();
       }
 
       if (dynamicStore.getAllowSameTokenName() == 0) {
@@ -115,7 +115,7 @@ public class AssetIssueActuator extends AbstractActuator {
       accountCapsule.setAssetIssuedID(assetIssueCapsule.createDbV2Key());
       accountCapsule.addAssetV2(assetIssueCapsuleV2.createDbV2Key(), remainSupply);
       accountCapsule.setInstance(accountCapsule.getInstance().toBuilder()
-          .addAllFrozenSupply(frozenList).build());
+          .addAllCdedSupply(cdedList).build());
 
       accountStore.put(ownerAddress, accountCapsule);
 
@@ -227,9 +227,9 @@ public class AssetIssueActuator extends AbstractActuator {
       throw new ContractValidateException("PublicFreeAssetNetUsage must be 0!");
     }
 
-    if (assetIssueContract.getFrozenSupplyCount()
-        > dynamicStore.getMaxFrozenSupplyNumber()) {
-      throw new ContractValidateException("Frozen supply list length is too long");
+    if (assetIssueContract.getCdedSupplyCount()
+        > dynamicStore.getMaxCdedSupplyNumber()) {
+      throw new ContractValidateException("Cded supply list length is too long");
     }
 
     if (assetIssueContract.getFreeAssetNetLimit() < 0
@@ -245,26 +245,26 @@ public class AssetIssueActuator extends AbstractActuator {
     }
 
     long remainSupply = assetIssueContract.getTotalSupply();
-    long minFrozenSupplyTime = dynamicStore.getMinFrozenSupplyTime();
-    long maxFrozenSupplyTime = dynamicStore.getMaxFrozenSupplyTime();
-    List<FrozenSupply> frozenList = assetIssueContract.getFrozenSupplyList();
-    Iterator<FrozenSupply> iterator = frozenList.iterator();
+    long minCdedSupplyTime = dynamicStore.getMinCdedSupplyTime();
+    long maxCdedSupplyTime = dynamicStore.getMaxCdedSupplyTime();
+    List<CdedSupply> cdedList = assetIssueContract.getCdedSupplyList();
+    Iterator<CdedSupply> iterator = cdedList.iterator();
 
     while (iterator.hasNext()) {
-      FrozenSupply next = iterator.next();
-      if (next.getFrozenAmount() <= 0) {
-        throw new ContractValidateException("Frozen supply must be greater than 0!");
+      CdedSupply next = iterator.next();
+      if (next.getCdedAmount() <= 0) {
+        throw new ContractValidateException("Cded supply must be greater than 0!");
       }
-      if (next.getFrozenAmount() > remainSupply) {
-        throw new ContractValidateException("Frozen supply cannot exceed total supply");
+      if (next.getCdedAmount() > remainSupply) {
+        throw new ContractValidateException("Cded supply cannot exceed total supply");
       }
-      if (!(next.getFrozenDays() >= minFrozenSupplyTime
-          && next.getFrozenDays() <= maxFrozenSupplyTime)) {
+      if (!(next.getCdedDays() >= minCdedSupplyTime
+          && next.getCdedDays() <= maxCdedSupplyTime)) {
         throw new ContractValidateException(
-            "frozenDuration must be less than " + maxFrozenSupplyTime + " days "
-                + "and more than " + minFrozenSupplyTime + " days");
+            "cdedDuration must be less than " + maxCdedSupplyTime + " days "
+                + "and more than " + minCdedSupplyTime + " days");
       }
-      remainSupply -= next.getFrozenAmount();
+      remainSupply -= next.getCdedAmount();
     }
 
     AccountCapsule accountCapsule = accountStore.get(ownerAddress);

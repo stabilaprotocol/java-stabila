@@ -86,7 +86,7 @@ public class ContractTrcToken076 {
     PublicMethed.waitProduceNextBlock(blockingStubFull);
     Optional<TransactionInfo> infoById = PublicMethed
         .getTransactionInfoById(txid, blockingStubFull);
-    logger.info("Deploy energytotal is " + infoById.get().getReceipt().getEnergyUsageTotal());
+    logger.info("Deploy ucrtotal is " + infoById.get().getReceipt().getUcrUsageTotal());
 
     contractAddress = infoById.get().getContractAddress().toByteArray();
 
@@ -101,7 +101,7 @@ public class ContractTrcToken076 {
     PublicMethed.waitProduceNextBlock(blockingStubFull);
 
     infoById = PublicMethed.getTransactionInfoById(txid, blockingStubFull);
-    logger.info("Deploy energytotal is " + infoById.get().getReceipt().getEnergyUsageTotal());
+    logger.info("Deploy ucrtotal is " + infoById.get().getReceipt().getUcrUsageTotal());
 
     logger.info("infoById:" + infoById);
     Long returnnumber = ByteArray.toLong(ByteArray.fromHexString(ByteArray.toHexString(
@@ -115,7 +115,7 @@ public class ContractTrcToken076 {
     PublicMethed.waitProduceNextBlock(blockingStubFull);
 
     infoById = PublicMethed.getTransactionInfoById(txid, blockingStubFull);
-    logger.info("Deploy energytotal is " + infoById.get().getReceipt().getEnergyUsageTotal());
+    logger.info("Deploy ucrtotal is " + infoById.get().getReceipt().getUcrUsageTotal());
 
     logger.info("-------------------------");
 

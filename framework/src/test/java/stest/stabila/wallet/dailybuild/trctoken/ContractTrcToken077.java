@@ -85,7 +85,7 @@ public class ContractTrcToken077 {
     Optional<TransactionInfo> deployInfo = PublicMethed
         .getTransactionInfoById(deployTxid, blockingStubFull);
     contractAddress = deployInfo.get().getContractAddress().toByteArray();
-    logger.info("Deploy energy is " + deployInfo.get().getReceipt().getEnergyUsageTotal());
+    logger.info("Deploy ucr is " + deployInfo.get().getReceipt().getUcrUsageTotal());
 
     String txid = "";
     txid = PublicMethed.triggerContract(contractAddress,
@@ -94,7 +94,7 @@ public class ContractTrcToken077 {
     Optional<TransactionInfo> infoById = null;
     infoById = PublicMethed.getTransactionInfoById(txid, blockingStubFull);
     logger.info("infoById:" + infoById);
-    logger.info("Trigger energy is " + infoById.get().getReceipt().getEnergyUsageTotal());
+    logger.info("Trigger ucr is " + infoById.get().getReceipt().getUcrUsageTotal());
 
   }
 

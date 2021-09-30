@@ -110,11 +110,11 @@ public class ContractTrcToken049 {
             fromAddress, testKey002, blockingStubFull));
     PublicMethed.waitProduceNextBlock(blockingStubFull);
 
-    // freeze balance
-    Assert.assertTrue(PublicMethed.freezeBalanceGetEnergy(dev001Address, 204800000,
+    // cd balance
+    Assert.assertTrue(PublicMethed.cdBalanceGetUcr(dev001Address, 204800000,
         0, 1, dev001Key, blockingStubFull));
 
-    Assert.assertTrue(PublicMethed.freezeBalanceGetEnergy(user001Address, 2048000000,
+    Assert.assertTrue(PublicMethed.cdBalanceGetUcr(user001Address, 2048000000,
         0, 1, user001Key, blockingStubFull));
     PublicMethed.waitProduceNextBlock(blockingStubFull);
 
@@ -140,7 +140,7 @@ public class ContractTrcToken049 {
     PublicMethed.waitProduceNextBlock(blockingStubFull);
     Optional<TransactionInfo> infoById = PublicMethed
         .getTransactionInfoById(txid, blockingStubFull);
-    logger.info("Deploy energytotal is " + infoById.get().getReceipt().getEnergyUsageTotal());
+    logger.info("Deploy ucrtotal is " + infoById.get().getReceipt().getUcrUsageTotal());
     byte[] transferTokenContractAddress = infoById.get().getContractAddress().toByteArray();
 
     AccountResourceMessage resourceInfo = PublicMethed.getAccountResource(user001Address,
@@ -148,7 +148,7 @@ public class ContractTrcToken049 {
 
     Long beforeBalance = PublicMethed
             .queryAccount(user001Address, blockingStubFull).getBalance();
-    Long beforeEnergyUsed = resourceInfo.getEnergyUsed();
+    Long beforeUcrUsed = resourceInfo.getUcrUsed();
     Long beforeNetUsed = resourceInfo.getNetUsed();
     Long beforeFreeNetUsed = resourceInfo.getFreeNetUsed();
     Long beforeAssetIssueCount =
@@ -158,7 +158,7 @@ public class ContractTrcToken049 {
     final Long beforeAssetIssueDev = PublicMethed.getAssetIssueValue(dev001Address, tokenId,
         blockingStubFull);
     logger.info("beforeBalance:" + beforeBalance);
-    logger.info("beforeEnergyUsed:" + beforeEnergyUsed);
+    logger.info("beforeUcrUsed:" + beforeUcrUsed);
     logger.info("beforeNetUsed:" + beforeNetUsed);
     logger.info("beforeFreeNetUsed:" + beforeFreeNetUsed);
     logger.info("beforeAssetIssueCount:" + beforeAssetIssueCount);
@@ -179,7 +179,7 @@ public class ContractTrcToken049 {
     AccountResourceMessage resourceInfoafter = PublicMethed.getAccountResource(user001Address,
         blockingStubFull);
     Long afterBalance = infoafter.getBalance();
-    Long afterEnergyUsed = resourceInfoafter.getEnergyUsed();
+    Long afterUcrUsed = resourceInfoafter.getUcrUsed();
     Long afterAssetIssueCount =
         PublicMethed.getAssetIssueValue(user001Address, tokenId, blockingStubFull);
     Long afterNetUsed = resourceInfoafter.getNetUsed();
@@ -189,7 +189,7 @@ public class ContractTrcToken049 {
     final Long afterAssetIssueDev = PublicMethed.getAssetIssueValue(dev001Address, tokenId,
         blockingStubFull);
     logger.info("afterBalance:" + afterBalance);
-    logger.info("afterEnergyUsed:" + afterEnergyUsed);
+    logger.info("afterUcrUsed:" + afterUcrUsed);
     logger.info("afterNetUsed:" + afterNetUsed);
     logger.info("afterFreeNetUsed:" + afterFreeNetUsed);
     logger.info("afterAssetIssueCount:" + afterAssetIssueCount);
@@ -197,7 +197,7 @@ public class ContractTrcToken049 {
 
     infoById = PublicMethed
         .getTransactionInfoById(triggerTxid, blockingStubFull);
-    logger.info("Trigger energytotal is " + infoById.get().getReceipt().getEnergyUsageTotal());
+    logger.info("Trigger ucrtotal is " + infoById.get().getReceipt().getUcrUsageTotal());
 
     Assert.assertTrue(infoById.get().getResultValue() == 1);
     Assert.assertEquals(beforeBalance, afterBalance);
@@ -205,9 +205,9 @@ public class ContractTrcToken049 {
     Assert.assertTrue(beforeAssetIssueContractAddress == afterAssetIssueContractAddress);
 
     Assert.assertTrue(beforeAssetIssueDev == afterAssetIssueDev);
-    PublicMethed.unFreezeBalance(dev001Address, dev001Key, 1,
+    PublicMethed.unCdBalance(dev001Address, dev001Key, 1,
         dev001Address, blockingStubFull);
-    PublicMethed.unFreezeBalance(user001Address, user001Key, 1,
+    PublicMethed.unCdBalance(user001Address, user001Key, 1,
         user001Address, blockingStubFull);
   }
 
@@ -219,8 +219,8 @@ public class ContractTrcToken049 {
   public void shutdown() throws InterruptedException {
     PublicMethed.freedResource(dev001Address, dev001Key, fromAddress, blockingStubFull);
     PublicMethed.freedResource(user001Address, user001Key, fromAddress, blockingStubFull);
-    PublicMethed.unFreezeBalance(fromAddress, testKey002, 0, dev001Address, blockingStubFull);
-    PublicMethed.unFreezeBalance(fromAddress, testKey002, 0, user001Address, blockingStubFull);
+    PublicMethed.unCdBalance(fromAddress, testKey002, 0, dev001Address, blockingStubFull);
+    PublicMethed.unCdBalance(fromAddress, testKey002, 0, user001Address, blockingStubFull);
     if (channelFull != null) {
       channelFull.shutdown().awaitTermination(5, TimeUnit.SECONDS);
     }

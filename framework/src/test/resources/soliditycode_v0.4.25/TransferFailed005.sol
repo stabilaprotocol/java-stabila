@@ -1,4 +1,4 @@
-contract EnergyOfTransferFailedTest {
+contract UcrOfTransferFailedTest {
     constructor() payable public {
 
     }

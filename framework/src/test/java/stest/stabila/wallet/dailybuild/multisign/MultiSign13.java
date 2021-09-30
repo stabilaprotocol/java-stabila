@@ -98,7 +98,7 @@ public class MultiSign13 {
         .sendcoin(ownerAddress, needCoin, fromAddress, testKey002, blockingStubFull);
 
     Assert.assertTrue(PublicMethed
-        .freezeBalanceForReceiver(fromAddress, 1000000000, 0, 0, ByteString.copyFrom(ownerAddress),
+        .cdBalanceForReceiver(fromAddress, 1000000000, 0, 0, ByteString.copyFrom(ownerAddress),
             testKey002, blockingStubFull));
 
     PublicMethed.waitProduceNextBlock(blockingStubFull);
@@ -168,7 +168,7 @@ public class MultiSign13 {
     Assert.assertEquals(balanceBefore - balanceAfter, needCoin);
 
     PublicMethed
-        .unFreezeBalance(fromAddress, testKey002, 0, ownerAddress, blockingStubFull);
+        .unCdBalance(fromAddress, testKey002, 0, ownerAddress, blockingStubFull);
   }
 
   @Test(enabled = true, description = "Witness permission_name is witness12")
@@ -179,7 +179,7 @@ public class MultiSign13 {
 
     PublicMethed.sendcoin(ownerAddress, needCoin, fromAddress, testKey002, blockingStubFull);
     Assert.assertTrue(PublicMethed
-        .freezeBalanceForReceiver(fromAddress, 1000000000L, 0, 0, ByteString.copyFrom(ownerAddress),
+        .cdBalanceForReceiver(fromAddress, 1000000000L, 0, 0, ByteString.copyFrom(ownerAddress),
             testKey002, blockingStubFull));
     PublicMethed.waitProduceNextBlock(blockingStubFull);
     Long balanceBefore = PublicMethed.queryAccount(ownerAddress, blockingStubFull)
@@ -247,7 +247,7 @@ public class MultiSign13 {
     Assert.assertEquals(balanceBefore - balanceAfter, needCoin);
 
     PublicMethed
-        .unFreezeBalance(fromAddress, testKey002, 0, ownerAddress, blockingStubFull);
+        .unCdBalance(fromAddress, testKey002, 0, ownerAddress, blockingStubFull);
   }
 
   @Test(enabled = true, description = "Witness permission_name is \"123\"")
@@ -259,7 +259,7 @@ public class MultiSign13 {
     PublicMethed.sendcoin(ownerAddress, needCoin, fromAddress, testKey002, blockingStubFull);
 
     Assert.assertTrue(PublicMethed
-        .freezeBalanceForReceiver(fromAddress, 1000000000, 0, 0, ByteString.copyFrom(ownerAddress),
+        .cdBalanceForReceiver(fromAddress, 1000000000, 0, 0, ByteString.copyFrom(ownerAddress),
             testKey002, blockingStubFull));
 
     PublicMethed.waitProduceNextBlock(blockingStubFull);
@@ -328,7 +328,7 @@ public class MultiSign13 {
     Assert.assertEquals(balanceBefore - balanceAfter, needCoin);
 
     PublicMethed
-        .unFreezeBalance(fromAddress, testKey002, 0, ownerAddress, blockingStubFull);
+        .unCdBalance(fromAddress, testKey002, 0, ownerAddress, blockingStubFull);
   }
 
   @Test(enabled = true, description = "Witness permission_name is \"\"")
@@ -340,7 +340,7 @@ public class MultiSign13 {
     PublicMethed.sendcoin(ownerAddress, needCoin, fromAddress, testKey002, blockingStubFull);
 
     Assert.assertTrue(PublicMethed
-        .freezeBalanceForReceiver(fromAddress, 1000000000, 0, 0, ByteString.copyFrom(ownerAddress),
+        .cdBalanceForReceiver(fromAddress, 1000000000, 0, 0, ByteString.copyFrom(ownerAddress),
             testKey002, blockingStubFull));
 
     PublicMethed.waitProduceNextBlock(blockingStubFull);
@@ -407,7 +407,7 @@ public class MultiSign13 {
     logger.info("balanceAfter: " + balanceAfter);
     Assert.assertEquals(balanceBefore - balanceAfter, needCoin);
     PublicMethed
-        .unFreezeBalance(fromAddress, testKey002, 0, ownerAddress, blockingStubFull);
+        .unCdBalance(fromAddress, testKey002, 0, ownerAddress, blockingStubFull);
 
   }
 
@@ -418,7 +418,7 @@ public class MultiSign13 {
     PublicMethed.sendcoin(ownerAddress, 1_000000, fromAddress, testKey002, blockingStubFull);
 
     Assert.assertTrue(PublicMethed
-        .freezeBalanceForReceiver(fromAddress, 1000000000, 0, 0, ByteString.copyFrom(ownerAddress),
+        .cdBalanceForReceiver(fromAddress, 1000000000, 0, 0, ByteString.copyFrom(ownerAddress),
             testKey002, blockingStubFull));
 
     PublicMethed.waitProduceNextBlock(blockingStubFull);
@@ -464,7 +464,7 @@ public class MultiSign13 {
     Assert.assertEquals(balanceBefore, balanceAfter);
 
     PublicMethed
-        .unFreezeBalance(fromAddress, testKey002, 0, ownerAddress, blockingStubFull);
+        .unCdBalance(fromAddress, testKey002, 0, ownerAddress, blockingStubFull);
 
   }
 
@@ -476,7 +476,7 @@ public class MultiSign13 {
 
     PublicMethed.sendcoin(ownerAddress, needCoin, fromAddress, testKey002, blockingStubFull);
     Assert.assertTrue(PublicMethed
-        .freezeBalanceForReceiver(fromAddress, 1000000000, 0, 0, ByteString.copyFrom(ownerAddress),
+        .cdBalanceForReceiver(fromAddress, 1000000000, 0, 0, ByteString.copyFrom(ownerAddress),
             testKey002, blockingStubFull));
     PublicMethed.waitProduceNextBlock(blockingStubFull);
     Long balanceBefore = PublicMethed.queryAccount(ownerAddress, blockingStubFull)
@@ -541,7 +541,7 @@ public class MultiSign13 {
     Assert.assertEquals(balanceBefore - balanceAfter, needCoin);
 
     PublicMethed
-        .unFreezeBalance(fromAddress, testKey002, 0, ownerAddress, blockingStubFull);
+        .unCdBalance(fromAddress, testKey002, 0, ownerAddress, blockingStubFull);
 
   }
 
@@ -553,7 +553,7 @@ public class MultiSign13 {
 
     PublicMethed.sendcoin(ownerAddress, needCoin, fromAddress, testKey002, blockingStubFull);
     Assert.assertTrue(PublicMethed
-        .freezeBalanceForReceiver(fromAddress, 1000000000, 0, 0, ByteString.copyFrom(ownerAddress),
+        .cdBalanceForReceiver(fromAddress, 1000000000, 0, 0, ByteString.copyFrom(ownerAddress),
             testKey002, blockingStubFull));
     PublicMethed.waitProduceNextBlock(blockingStubFull);
     Long balanceBefore = PublicMethed.queryAccount(ownerAddress, blockingStubFull)
@@ -620,7 +620,7 @@ public class MultiSign13 {
     logger.info("balanceAfter: " + balanceAfter);
     Assert.assertEquals(balanceBefore - balanceAfter, needCoin);
     PublicMethed
-        .unFreezeBalance(fromAddress, testKey002, 0, ownerAddress, blockingStubFull);
+        .unCdBalance(fromAddress, testKey002, 0, ownerAddress, blockingStubFull);
   }
 
   @Test(enabled = true, description = "Witness permission_name is 0.1")
@@ -631,7 +631,7 @@ public class MultiSign13 {
 
     PublicMethed.sendcoin(ownerAddress, needCoin, fromAddress, testKey002, blockingStubFull);
     Assert.assertTrue(PublicMethed
-        .freezeBalanceForReceiver(fromAddress, 1000000000, 0, 0, ByteString.copyFrom(ownerAddress),
+        .cdBalanceForReceiver(fromAddress, 1000000000, 0, 0, ByteString.copyFrom(ownerAddress),
             testKey002, blockingStubFull));
     PublicMethed.waitProduceNextBlock(blockingStubFull);
     Long balanceBefore = PublicMethed.queryAccount(ownerAddress, blockingStubFull)
@@ -697,7 +697,7 @@ public class MultiSign13 {
     Assert.assertEquals(balanceBefore - balanceAfter, needCoin);
 
     PublicMethed
-        .unFreezeBalance(fromAddress, testKey002, 0, ownerAddress, blockingStubFull);
+        .unCdBalance(fromAddress, testKey002, 0, ownerAddress, blockingStubFull);
   }
 
   @Test(enabled = true, description = "Witness permission_name length is 32")
@@ -710,7 +710,7 @@ public class MultiSign13 {
     Assert.assertTrue(PublicMethed.sendcoin(ownerAddress, needCoin + 1000000, fromAddress,
         testKey002, blockingStubFull));
     Assert.assertTrue(PublicMethed
-        .freezeBalanceForReceiver(fromAddress, 100000000L, 0, 0,
+        .cdBalanceForReceiver(fromAddress, 100000000L, 0, 0,
             ByteString.copyFrom(ownerAddress),
             testKey002, blockingStubFull));
     PublicMethed.waitProduceNextBlock(blockingStubFull);
@@ -775,7 +775,7 @@ public class MultiSign13 {
     Assert.assertEquals(balanceBefore - balanceAfter, needCoin);
 
     PublicMethed
-        .unFreezeBalance(fromAddress, testKey002, 0, ownerAddress, blockingStubFull);
+        .unCdBalance(fromAddress, testKey002, 0, ownerAddress, blockingStubFull);
 
   }
 
@@ -833,7 +833,7 @@ public class MultiSign13 {
   @AfterMethod
   public void aftertest() {
     PublicMethed.freedResource(ownerAddress, ownerKey, fromAddress, blockingStubFull);
-    PublicMethed.unFreezeBalance(fromAddress, testKey002, 0, ownerAddress, blockingStubFull);
+    PublicMethed.unCdBalance(fromAddress, testKey002, 0, ownerAddress, blockingStubFull);
   }
 
   /**

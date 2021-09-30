@@ -108,10 +108,10 @@ public class WalletTestAssetIssue002 {
 
     //Participate AssetIssue success
     logger.info(name);
-    //Freeze amount to get bandwitch.
+    //Cd amount to get bandwitch.
     logger.info("toaddress balance is "
         + PublicMethed.queryAccount(toAddress, blockingStubFull).getBalance());
-    Assert.assertTrue(PublicMethed.freezeBalance(toAddress, 10000000, 3, testKey003,
+    Assert.assertTrue(PublicMethed.cdBalance(toAddress, 10000000, 3, testKey003,
         blockingStubFull));
     PublicMethed.waitProduceNextBlock(blockingStubFull);
     Assert.assertTrue(PublicMethed.participateAssetIssue(participateAccountAddress,
@@ -197,7 +197,7 @@ public class WalletTestAssetIssue002 {
 
   public Boolean createAssetIssue(byte[] address, String name, Long totalSupply, Integer stbNum,
       Integer icoNum, Long startTime, Long endTime,
-      Integer voteScore, String description, String url, Long fronzenAmount, Long frozenDay,
+      Integer voteScore, String description, String url, Long fronzenAmount, Long cdedDay,
       String priKey) {
     ECKey temKey = null;
     try {
@@ -222,11 +222,11 @@ public class WalletTestAssetIssue002 {
       builder.setUrl(ByteString.copyFrom(url.getBytes()));
       builder.setFreeAssetNetLimit(20000);
       builder.setPublicFreeAssetNetLimit(20000);
-      AssetIssueContract.FrozenSupply.Builder frozenBuilder =
-          AssetIssueContract.FrozenSupply.newBuilder();
-      frozenBuilder.setFrozenAmount(fronzenAmount);
-      frozenBuilder.setFrozenDays(frozenDay);
-      builder.addFrozenSupply(0, frozenBuilder);
+      AssetIssueContract.CdedSupply.Builder cdedBuilder =
+          AssetIssueContract.CdedSupply.newBuilder();
+      cdedBuilder.setCdedAmount(fronzenAmount);
+      cdedBuilder.setCdedDays(cdedDay);
+      builder.addCdedSupply(0, cdedBuilder);
 
       Transaction transaction = blockingStubFull.createAssetIssue(builder.build());
       if (transaction == null || transaction.getRawData().getContractCount() == 0) {

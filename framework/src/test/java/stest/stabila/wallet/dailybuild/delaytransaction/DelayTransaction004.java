@@ -77,7 +77,7 @@ public class DelayTransaction004 {
 
     Assert.assertTrue(PublicMethed.sendcoin(smartContractOwnerAddress, 2048000000, fromAddress,
         testKey002, blockingStubFull));
-    //PublicMethed.freezeBalance(smartContractOwnerAddress,10000000L,3,
+    //PublicMethed.cdBalance(smartContractOwnerAddress,10000000L,3,
     //    smartContractOwnerKey,blockingStubFull);
     PublicMethed.waitProduceNextBlock(blockingStubFull);
     String contractName = "STABILATOKEN";

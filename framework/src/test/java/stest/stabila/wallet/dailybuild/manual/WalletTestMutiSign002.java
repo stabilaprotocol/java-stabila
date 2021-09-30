@@ -118,7 +118,7 @@ public class WalletTestMutiSign002 {
         testKey002, blockingStubFull));
     PublicMethed.waitProduceNextBlock(blockingStubFull);
     Assert.assertTrue(PublicMethed
-        .freezeBalanceForReceiver(fromAddress, 100000000000L, 0, 0,
+        .cdBalanceForReceiver(fromAddress, 100000000000L, 0, 0,
             ByteString.copyFrom(exchange001Address),
             testKey002, blockingStubFull));
     PublicMethed.waitProduceNextBlock(blockingStubFull);
@@ -437,7 +437,7 @@ public class WalletTestMutiSign002 {
     listExchange = PublicMethed.getExchangeList(blockingStubSolidity);
     Assert.assertTrue(listExchange.get().getExchangesCount() > 0);
     PublicMethed
-        .unFreezeBalance(fromAddress, testKey002, 0, exchange001Address, blockingStubFull);
+        .unCdBalance(fromAddress, testKey002, 0, exchange001Address, blockingStubFull);
   }
 
   /**
@@ -447,7 +447,7 @@ public class WalletTestMutiSign002 {
   @AfterClass
   public void shutdown() throws InterruptedException {
     PublicMethed
-        .unFreezeBalance(exchange001Address, exchange001Key, 0, fromAddress, blockingStubFull);
+        .unCdBalance(exchange001Address, exchange001Key, 0, fromAddress, blockingStubFull);
     PublicMethed.freedResource(exchange001Address, exchange001Key, fromAddress, blockingStubFull);
     PublicMethed.freedResource(secondExchange001Address, secondExchange001Key, fromAddress,
         blockingStubFull);

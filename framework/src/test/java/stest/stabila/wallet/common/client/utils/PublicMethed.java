@@ -101,12 +101,12 @@ import org.stabila.protos.contract.AccountContract.SetAccountIdContract;
 import org.stabila.protos.contract.AssetIssueContractOuterClass.AssetIssueContract;
 import org.stabila.protos.contract.AssetIssueContractOuterClass.ParticipateAssetIssueContract;
 import org.stabila.protos.contract.AssetIssueContractOuterClass.TransferAssetContract;
-import org.stabila.protos.contract.AssetIssueContractOuterClass.UnfreezeAssetContract;
+import org.stabila.protos.contract.AssetIssueContractOuterClass.UncdAssetContract;
 import org.stabila.protos.contract.AssetIssueContractOuterClass.UpdateAssetContract;
 import org.stabila.protos.contract.BalanceContract;
-import org.stabila.protos.contract.BalanceContract.FreezeBalanceContract;
+import org.stabila.protos.contract.BalanceContract.CdBalanceContract;
 import org.stabila.protos.contract.BalanceContract.TransferContract;
-import org.stabila.protos.contract.BalanceContract.UnfreezeBalanceContract;
+import org.stabila.protos.contract.BalanceContract.UncdBalanceContract;
 import org.stabila.protos.contract.ExchangeContract.ExchangeCreateContract;
 import org.stabila.protos.contract.ExchangeContract.ExchangeInjectContract;
 import org.stabila.protos.contract.ExchangeContract.ExchangeTransactionContract;
@@ -127,7 +127,7 @@ import org.stabila.protos.contract.SmartContractOuterClass.SmartContract;
 import org.stabila.protos.contract.SmartContractOuterClass.SmartContract.ABI;
 import org.stabila.protos.contract.SmartContractOuterClass.SmartContractDataWrapper;
 import org.stabila.protos.contract.SmartContractOuterClass.TriggerSmartContract;
-import org.stabila.protos.contract.SmartContractOuterClass.UpdateEnergyLimitContract;
+import org.stabila.protos.contract.SmartContractOuterClass.UpdateUcrLimitContract;
 import org.stabila.protos.contract.SmartContractOuterClass.UpdateSettingContract;
 import org.stabila.protos.contract.StorageContract.BuyStorageContract;
 import org.stabila.protos.contract.StorageContract.SellStorageContract;
@@ -157,7 +157,7 @@ public class PublicMethed {
   public static String createAssetIssueGetTxid(byte[] address, String name, String abbreviation,
       Long totalSupply, Integer stbNum, Integer icoNum, Long startTime, Long endTime,
       Integer voteScore, String description, String url, Long freeAssetNetLimit,
-      Long publicFreeAssetNetLimit, Long fronzenAmount, Long frozenDay, String priKey,
+      Long publicFreeAssetNetLimit, Long fronzenAmount, Long cdedDay, String priKey,
       WalletGrpc.WalletBlockingStub blockingStubFull) {
     Wallet.setAddressPreFixByte(CommonConstant.ADD_PRE_FIX_BYTE_MAINNET);
     ECKey temKey = null;
@@ -183,11 +183,11 @@ public class PublicMethed {
       builder.setUrl(ByteString.copyFrom(url.getBytes()));
       builder.setFreeAssetNetLimit(freeAssetNetLimit);
       builder.setPublicFreeAssetNetLimit(publicFreeAssetNetLimit);
-      AssetIssueContract.FrozenSupply.Builder frozenBuilder = AssetIssueContract.FrozenSupply
+      AssetIssueContract.CdedSupply.Builder cdedBuilder = AssetIssueContract.CdedSupply
           .newBuilder();
-      frozenBuilder.setFrozenAmount(fronzenAmount);
-      frozenBuilder.setFrozenDays(frozenDay);
-      builder.addFrozenSupply(0, frozenBuilder);
+      cdedBuilder.setCdedAmount(fronzenAmount);
+      cdedBuilder.setCdedDays(cdedDay);
+      builder.addCdedSupply(0, cdedBuilder);
 
       Protocol.Transaction transaction = blockingStubFull.createAssetIssue(builder.build());
       if (transaction == null || transaction.getRawData().getContractCount() == 0) {
@@ -214,7 +214,7 @@ public class PublicMethed {
   public static Boolean createAssetIssue(byte[] address, String name, Long totalSupply,
       Integer stbNum, Integer icoNum, Long startTime, Long endTime, Integer voteScore,
       String description, String url, Long freeAssetNetLimit, Long publicFreeAssetNetLimit,
-      Long fronzenAmount, Long frozenDay, String priKey,
+      Long fronzenAmount, Long cdedDay, String priKey,
       WalletGrpc.WalletBlockingStub blockingStubFull) {
     Wallet.setAddressPreFixByte(CommonConstant.ADD_PRE_FIX_BYTE_MAINNET);
     ECKey temKey = null;
@@ -239,11 +239,11 @@ public class PublicMethed {
       builder.setUrl(ByteString.copyFrom(url.getBytes()));
       builder.setFreeAssetNetLimit(freeAssetNetLimit);
       builder.setPublicFreeAssetNetLimit(publicFreeAssetNetLimit);
-      AssetIssueContract.FrozenSupply.Builder frozenBuilder = AssetIssueContract.FrozenSupply
+      AssetIssueContract.CdedSupply.Builder cdedBuilder = AssetIssueContract.CdedSupply
           .newBuilder();
-      frozenBuilder.setFrozenAmount(fronzenAmount);
-      frozenBuilder.setFrozenDays(frozenDay);
-      builder.addFrozenSupply(0, frozenBuilder);
+      cdedBuilder.setCdedAmount(fronzenAmount);
+      cdedBuilder.setCdedDays(cdedDay);
+      builder.addCdedSupply(0, cdedBuilder);
 
       Protocol.Transaction transaction = blockingStubFull.createAssetIssue(builder.build());
       if (transaction == null || transaction.getRawData().getContractCount() == 0) {
@@ -268,7 +268,7 @@ public class PublicMethed {
   public static Boolean createAssetIssue(byte[] address, String name, String abbreviation,
       Long totalSupply, Integer stbNum, Integer icoNum, Long startTime, Long endTime,
       Integer voteScore, String description, String url, Long freeAssetNetLimit,
-      Long publicFreeAssetNetLimit, Long fronzenAmount, Long frozenDay, String priKey,
+      Long publicFreeAssetNetLimit, Long fronzenAmount, Long cdedDay, String priKey,
       WalletGrpc.WalletBlockingStub blockingStubFull) {
     Wallet.setAddressPreFixByte(CommonConstant.ADD_PRE_FIX_BYTE_MAINNET);
     ECKey temKey = null;
@@ -294,11 +294,11 @@ public class PublicMethed {
       builder.setUrl(ByteString.copyFrom(url.getBytes()));
       builder.setFreeAssetNetLimit(freeAssetNetLimit);
       builder.setPublicFreeAssetNetLimit(publicFreeAssetNetLimit);
-      AssetIssueContract.FrozenSupply.Builder frozenBuilder = AssetIssueContract.FrozenSupply
+      AssetIssueContract.CdedSupply.Builder cdedBuilder = AssetIssueContract.CdedSupply
           .newBuilder();
-      frozenBuilder.setFrozenAmount(fronzenAmount);
-      frozenBuilder.setFrozenDays(frozenDay);
-      builder.addFrozenSupply(0, frozenBuilder);
+      cdedBuilder.setCdedAmount(fronzenAmount);
+      cdedBuilder.setCdedDays(cdedDay);
+      builder.addCdedSupply(0, cdedBuilder);
 
       Protocol.Transaction transaction = blockingStubFull.createAssetIssue(builder.build());
       if (transaction == null || transaction.getRawData().getContractCount() == 0) {
@@ -323,7 +323,7 @@ public class PublicMethed {
   public static Boolean createAssetIssue(byte[] address, String name, Long totalSupply,
       Integer stbNum, Integer icoNum, int precision, Long startTime, Long endTime,
       Integer voteScore, String description, String url, Long freeAssetNetLimit,
-      Long publicFreeAssetNetLimit, Long fronzenAmount, Long frozenDay, String priKey,
+      Long publicFreeAssetNetLimit, Long fronzenAmount, Long cdedDay, String priKey,
       WalletGrpc.WalletBlockingStub blockingStubFull) {
     Wallet.setAddressPreFixByte(CommonConstant.ADD_PRE_FIX_BYTE_MAINNET);
     ECKey temKey = null;
@@ -349,11 +349,11 @@ public class PublicMethed {
       builder.setUrl(ByteString.copyFrom(url.getBytes()));
       builder.setFreeAssetNetLimit(freeAssetNetLimit);
       builder.setPublicFreeAssetNetLimit(publicFreeAssetNetLimit);
-      AssetIssueContract.FrozenSupply.Builder frozenBuilder = AssetIssueContract.FrozenSupply
+      AssetIssueContract.CdedSupply.Builder cdedBuilder = AssetIssueContract.CdedSupply
           .newBuilder();
-      frozenBuilder.setFrozenAmount(fronzenAmount);
-      frozenBuilder.setFrozenDays(frozenDay);
-      builder.addFrozenSupply(0, frozenBuilder);
+      cdedBuilder.setCdedAmount(fronzenAmount);
+      cdedBuilder.setCdedDays(cdedDay);
+      builder.addCdedSupply(0, cdedBuilder);
 
       Protocol.Transaction transaction = blockingStubFull.createAssetIssue(builder.build());
       if (transaction == null || transaction.getRawData().getContractCount() == 0) {
@@ -378,7 +378,7 @@ public class PublicMethed {
   public static Return createAssetIssue2(byte[] address, String name, Long totalSupply,
       Integer stbNum, Integer icoNum, Long startTime, Long endTime, Integer voteScore,
       String description, String url, Long freeAssetNetLimit, Long publicFreeAssetNetLimit,
-      Long fronzenAmount, Long frozenDay, String priKey,
+      Long fronzenAmount, Long cdedDay, String priKey,
       WalletGrpc.WalletBlockingStub blockingStubFull) {
     Wallet.setAddressPreFixByte(CommonConstant.ADD_PRE_FIX_BYTE_MAINNET);
     ECKey temKey = null;
@@ -406,11 +406,11 @@ public class PublicMethed {
       builder.setPublicFreeAssetNetLimit(publicFreeAssetNetLimit);
       //builder.setPublicFreeAssetNetUsage();
       //builder.setPublicLatestFreeNetTime();
-      AssetIssueContract.FrozenSupply.Builder frozenBuilder = AssetIssueContract.FrozenSupply
+      AssetIssueContract.CdedSupply.Builder cdedBuilder = AssetIssueContract.CdedSupply
           .newBuilder();
-      frozenBuilder.setFrozenAmount(fronzenAmount);
-      frozenBuilder.setFrozenDays(frozenDay);
-      builder.addFrozenSupply(0, frozenBuilder);
+      cdedBuilder.setCdedAmount(fronzenAmount);
+      cdedBuilder.setCdedDays(cdedDay);
+      builder.addCdedSupply(0, cdedBuilder);
 
       TransactionExtention transactionExtention = blockingStubFull
           .createAssetIssue2(builder.build());
@@ -724,12 +724,12 @@ public class PublicMethed {
    * constructor.
    */
 
-  public static Boolean freezeBalance(byte[] addRess, long freezeBalance, long freezeDuration,
+  public static Boolean cdBalance(byte[] addRess, long cdBalance, long cdDuration,
       String priKey, WalletGrpc.WalletBlockingStub blockingStubFull) {
     Wallet.setAddressPreFixByte(CommonConstant.ADD_PRE_FIX_BYTE_MAINNET);
     byte[] address = addRess;
-    long frozenBalance = freezeBalance;
-    long frozenDuration = freezeDuration;
+    long cdedBalance = cdBalance;
+    long cdedDuration = cdDuration;
     //String priKey = testKey002;
     ECKey temKey = null;
     try {
@@ -743,23 +743,23 @@ public class PublicMethed {
         .getNowBlock(GrpcAPI.EmptyMessage.newBuilder().build());
     final Long beforeBlockNum = currentBlock.getBlockHeader().getRawData().getNumber();
     Protocol.Account beforeFronzen = queryAccount(priKey, blockingStubFull);
-    Long beforeFrozenBalance = 0L;
+    Long beforeCdedBalance = 0L;
     //Long beforeBandwidth     = beforeFronzen.getBandwidth();
-    if (beforeFronzen.getFrozenCount() != 0) {
-      beforeFrozenBalance = beforeFronzen.getFrozen(0).getFrozenBalance();
+    if (beforeFronzen.getCdedCount() != 0) {
+      beforeCdedBalance = beforeFronzen.getCded(0).getCdedBalance();
       //beforeBandwidth     = beforeFronzen.getBandwidth();
       //logger.info(Long.toString(beforeFronzen.getBandwidth()));
-      logger.info(Long.toString(beforeFronzen.getFrozen(0).getFrozenBalance()));
+      logger.info(Long.toString(beforeFronzen.getCded(0).getCdedBalance()));
     }
 
-    FreezeBalanceContract.Builder builder = FreezeBalanceContract.newBuilder();
+    CdBalanceContract.Builder builder = CdBalanceContract.newBuilder();
     ByteString byteAddreess = ByteString.copyFrom(address);
 
-    builder.setOwnerAddress(byteAddreess).setFrozenBalance(frozenBalance)
-        .setFrozenDuration(frozenDuration);
+    builder.setOwnerAddress(byteAddreess).setCdedBalance(cdedBalance)
+        .setCdedDuration(cdedDuration);
 
-    FreezeBalanceContract contract = builder.build();
-    Protocol.Transaction transaction = blockingStubFull.freezeBalance(contract);
+    CdBalanceContract contract = builder.build();
+    Protocol.Transaction transaction = blockingStubFull.cdBalance(contract);
 
     if (transaction == null || transaction.getRawData().getContractCount() == 0) {
       logger.info("transaction = null");
@@ -780,23 +780,23 @@ public class PublicMethed {
     }
 
     Protocol.Account afterFronzen = queryAccount(priKey, blockingStubFull);
-    Long afterFrozenBalance = afterFronzen.getFrozen(0).getFrozenBalance();
-    logger.info(Long.toString(afterFronzen.getFrozen(0).getFrozenBalance()));
-    logger.info("beforefronen" + beforeFrozenBalance.toString() + "    afterfronzen"
-        + afterFrozenBalance.toString());
-    Assert.assertTrue(afterFrozenBalance - beforeFrozenBalance == freezeBalance);*/
+    Long afterCdedBalance = afterFronzen.getCded(0).getCdedBalance();
+    logger.info(Long.toString(afterFronzen.getCded(0).getCdedBalance()));
+    logger.info("beforefronen" + beforeCdedBalance.toString() + "    afterfronzen"
+        + afterCdedBalance.toString());
+    Assert.assertTrue(afterCdedBalance - beforeCdedBalance == cdBalance);*/
   }
 
   /**
    * constructor.
    */
 
-  public static Return freezeBalance2(byte[] addRess, long freezeBalance, long freezeDuration,
+  public static Return cdBalance2(byte[] addRess, long cdBalance, long cdDuration,
       String priKey, WalletGrpc.WalletBlockingStub blockingStubFull) {
     Wallet.setAddressPreFixByte(CommonConstant.ADD_PRE_FIX_BYTE_MAINNET);
     byte[] address = addRess;
-    long frozenBalance = freezeBalance;
-    long frozenDuration = freezeDuration;
+    long cdedBalance = cdBalance;
+    long cdedDuration = cdDuration;
     //String priKey = testKey002;
     ECKey temKey = null;
     try {
@@ -810,24 +810,24 @@ public class PublicMethed {
         .getNowBlock(GrpcAPI.EmptyMessage.newBuilder().build());
     final Long beforeBlockNum = currentBlock.getBlockHeader().getRawData().getNumber();
     Protocol.Account beforeFronzen = queryAccount(priKey, blockingStubFull);
-    Long beforeFrozenBalance = 0L;
+    Long beforeCdedBalance = 0L;
     //Long beforeBandwidth     = beforeFronzen.getBandwidth();
-    if (beforeFronzen.getFrozenCount() != 0) {
-      beforeFrozenBalance = beforeFronzen.getFrozen(0).getFrozenBalance();
+    if (beforeFronzen.getCdedCount() != 0) {
+      beforeCdedBalance = beforeFronzen.getCded(0).getCdedBalance();
       //beforeBandwidth     = beforeFronzen.getBandwidth();
       //logger.info(Long.toString(beforeFronzen.getBandwidth()));
-      logger.info(Long.toString(beforeFronzen.getFrozen(0).getFrozenBalance()));
+      logger.info(Long.toString(beforeFronzen.getCded(0).getCdedBalance()));
     }
 
-    FreezeBalanceContract.Builder builder = FreezeBalanceContract.newBuilder();
+    CdBalanceContract.Builder builder = CdBalanceContract.newBuilder();
     ByteString byteAddreess = ByteString.copyFrom(address);
 
-    builder.setOwnerAddress(byteAddreess).setFrozenBalance(frozenBalance)
-        .setFrozenDuration(frozenDuration);
+    builder.setOwnerAddress(byteAddreess).setCdedBalance(cdedBalance)
+        .setCdedDuration(cdedDuration);
 
-    FreezeBalanceContract contract = builder.build();
+    CdBalanceContract contract = builder.build();
 
-    GrpcAPI.TransactionExtention transactionExtention = blockingStubFull.freezeBalance2(contract);
+    GrpcAPI.TransactionExtention transactionExtention = blockingStubFull.cdBalance2(contract);
     if (transactionExtention == null) {
       return transactionExtention.getResult();
     }
@@ -865,12 +865,12 @@ public class PublicMethed {
     }
 
     Protocol.Account afterFronzen = queryAccount(priKey, blockingStubFull);
-    Long afterFrozenBalance = afterFronzen.getFrozen(0).getFrozenBalance();
-    logger.info(Long.toString(afterFronzen.getFrozen(0).getFrozenBalance()));
+    Long afterCdedBalance = afterFronzen.getCded(0).getCdedBalance();
+    logger.info(Long.toString(afterFronzen.getCded(0).getCdedBalance()));
     logger.info(
-        "beforefronen" + beforeFrozenBalance.toString() + "    afterfronzen" + afterFrozenBalance
+        "beforefronen" + beforeCdedBalance.toString() + "    afterfronzen" + afterCdedBalance
             .toString());
-    Assert.assertTrue(afterFrozenBalance - beforeFrozenBalance == freezeBalance);
+    Assert.assertTrue(afterCdedBalance - beforeCdedBalance == cdBalance);
     return ret;
   }
 
@@ -878,7 +878,7 @@ public class PublicMethed {
    * constructor.
    */
 
-  public static Boolean unFreezeBalance(byte[] address, String priKey, int resourceCode,
+  public static Boolean unCdBalance(byte[] address, String priKey, int resourceCode,
       byte[] receiverAddress, WalletGrpc.WalletBlockingStub blockingStubFull) {
     Wallet.setAddressPreFixByte(CommonConstant.ADD_PRE_FIX_BYTE_MAINNET);
     ECKey temKey = null;
@@ -889,7 +889,7 @@ public class PublicMethed {
       ex.printStackTrace();
     }
     final ECKey ecKey = temKey;
-    UnfreezeBalanceContract.Builder builder = UnfreezeBalanceContract.newBuilder();
+    UncdBalanceContract.Builder builder = UncdBalanceContract.newBuilder();
     ByteString byteAddreess = ByteString.copyFrom(address);
     builder.setOwnerAddress(byteAddreess).setResourceValue(resourceCode);
     if (receiverAddress != null) {
@@ -897,8 +897,8 @@ public class PublicMethed {
       builder.setReceiverAddress(receiverAddressBytes);
     }
 
-    UnfreezeBalanceContract contract = builder.build();
-    Transaction transaction = blockingStubFull.unfreezeBalance(contract);
+    UncdBalanceContract contract = builder.build();
+    Transaction transaction = blockingStubFull.uncdBalance(contract);
     transaction = signTransaction(ecKey, transaction);
     GrpcAPI.Return response = broadcastTransaction(transaction, blockingStubFull);
 
@@ -1219,7 +1219,7 @@ public class PublicMethed {
    * constructor.
    */
 
-  public static String unfreezeAssetDelayGetTxid(byte[] address, Long delaySeconds, String priKey,
+  public static String uncdAssetDelayGetTxid(byte[] address, Long delaySeconds, String priKey,
       WalletGrpc.WalletBlockingStub blockingStubFull) {
     Wallet.setAddressPreFixByte(CommonConstant.ADD_PRE_FIX_BYTE_MAINNET);
     ECKey temKey = null;
@@ -1231,12 +1231,12 @@ public class PublicMethed {
     }
     final ECKey ecKey = temKey;
 
-    UnfreezeAssetContract.Builder builder = UnfreezeAssetContract.newBuilder();
+    UncdAssetContract.Builder builder = UncdAssetContract.newBuilder();
     ByteString byteAddreess = ByteString.copyFrom(address);
     builder.setOwnerAddress(byteAddreess);
 
-    UnfreezeAssetContract contract = builder.build();
-    Protocol.Transaction transaction = blockingStubFull.unfreezeAsset(contract);
+    UncdAssetContract contract = builder.build();
+    Protocol.Transaction transaction = blockingStubFull.uncdAsset(contract);
     //transaction = TransactionUtils.setDelaySeconds(transaction, delaySeconds);
     if (transaction == null || transaction.getRawData().getContractCount() == 0) {
       logger.info("Please check!!! transaction == null");
@@ -2298,24 +2298,24 @@ public class PublicMethed {
    * constructor.
    */
 
-  public static Boolean freezeBalanceGetStabilaPower(byte[] addRess, long freezeBalance,
-      long freezeDuration, int resourceCode, ByteString receiverAddress,String priKey,
+  public static Boolean cdBalanceGetStabilaPower(byte[] addRess, long cdBalance,
+      long cdDuration, int resourceCode, ByteString receiverAddress,String priKey,
       WalletGrpc.WalletBlockingStub blockingStubFull) {
-    return freezeBalanceForReceiver(addRess,freezeBalance,
-        freezeDuration,resourceCode,receiverAddress,priKey,blockingStubFull);
+    return cdBalanceForReceiver(addRess,cdBalance,
+        cdDuration,resourceCode,receiverAddress,priKey,blockingStubFull);
   }
 
   /**
    * constructor.
    */
 
-  public static Boolean freezeBalanceGetEnergy(byte[] addRess, long freezeBalance,
-      long freezeDuration, int resourceCode, String priKey,
+  public static Boolean cdBalanceGetUcr(byte[] addRess, long cdBalance,
+      long cdDuration, int resourceCode, String priKey,
       WalletGrpc.WalletBlockingStub blockingStubFull) {
     Wallet.setAddressPreFixByte(CommonConstant.ADD_PRE_FIX_BYTE_MAINNET);
     byte[] address = addRess;
-    long frozenBalance = freezeBalance;
-    long frozenDuration = freezeDuration;
+    long cdedBalance = cdBalance;
+    long cdedDuration = cdDuration;
     ECKey temKey = null;
     try {
       BigInteger priK = new BigInteger(priKey, 16);
@@ -2325,14 +2325,14 @@ public class PublicMethed {
     }
     final ECKey ecKey = temKey;
 
-    FreezeBalanceContract.Builder builder = FreezeBalanceContract.newBuilder();
+    CdBalanceContract.Builder builder = CdBalanceContract.newBuilder();
     ByteString byteAddreess = ByteString.copyFrom(address);
 
-    builder.setOwnerAddress(byteAddreess).setFrozenBalance(frozenBalance)
-        .setFrozenDuration(frozenDuration).setResourceValue(resourceCode);
+    builder.setOwnerAddress(byteAddreess).setCdedBalance(cdedBalance)
+        .setCdedDuration(cdedDuration).setResourceValue(resourceCode);
 
-    FreezeBalanceContract contract = builder.build();
-    Protocol.Transaction transaction = blockingStubFull.freezeBalance(contract);
+    CdBalanceContract contract = builder.build();
+    Protocol.Transaction transaction = blockingStubFull.cdBalance(contract);
 
     if (transaction == null || transaction.getRawData().getContractCount() == 0) {
       logger.info("transaction = null");
@@ -2444,7 +2444,7 @@ public class PublicMethed {
   public static byte[] deployContractFallbackReceive(String contractName, String abiString,
       String code,
       String data, Long feeLimit, long value, long consumeUserResourcePercent,
-      long originEnergyLimit, String tokenId, long tokenValue, String libraryAddress, String priKey,
+      long originUcrLimit, String tokenId, long tokenValue, String libraryAddress, String priKey,
       byte[] ownerAddress, WalletGrpc.WalletBlockingStub blockingStubFull) {
     Wallet.setAddressPreFixByte(CommonConstant.ADD_PRE_FIX_BYTE_MAINNET);
     ECKey temKey = null;
@@ -2468,7 +2468,7 @@ public class PublicMethed {
     builder.setOriginAddress(ByteString.copyFrom(owner));
     builder.setAbi(abi);
     builder.setConsumeUserResourcePercent(consumeUserResourcePercent);
-    builder.setOriginEnergyLimit(originEnergyLimit);
+    builder.setOriginUcrLimit(originUcrLimit);
 
     if (value != 0) {
 
@@ -2560,7 +2560,7 @@ public class PublicMethed {
    */
   public static byte[] deployContract(String contractName, String abiString, String code,
       String data, Long feeLimit, long value, long consumeUserResourcePercent,
-      long originEnergyLimit, String tokenId, long tokenValue, String libraryAddress, String priKey,
+      long originUcrLimit, String tokenId, long tokenValue, String libraryAddress, String priKey,
       byte[] ownerAddress, WalletGrpc.WalletBlockingStub blockingStubFull) {
     Wallet.setAddressPreFixByte(CommonConstant.ADD_PRE_FIX_BYTE_MAINNET);
     ECKey temKey = null;
@@ -2584,7 +2584,7 @@ public class PublicMethed {
     builder.setOriginAddress(ByteString.copyFrom(owner));
     builder.setAbi(abi);
     builder.setConsumeUserResourcePercent(consumeUserResourcePercent);
-    builder.setOriginEnergyLimit(originEnergyLimit);
+    builder.setOriginUcrLimit(originUcrLimit);
 
     if (value != 0) {
 
@@ -2725,7 +2725,7 @@ public class PublicMethed {
     builder.setOriginAddress(ByteString.copyFrom(owner));
     builder.setAbi(abi);
     builder.setConsumeUserResourcePercent(consumeUserResourcePercent);
-    builder.setOriginEnergyLimit(1000L);
+    builder.setOriginUcrLimit(1000L);
 
     if (value != 0) {
 
@@ -2838,7 +2838,7 @@ public class PublicMethed {
 
   public static String deployContractAndGetTransactionInfoById(String contractName,
       String abiString, String code, String data, Long feeLimit, long value,
-      long consumeUserResourcePercent, long originEnergyLimit, String tokenId, long tokenValue,
+      long consumeUserResourcePercent, long originUcrLimit, String tokenId, long tokenValue,
       String libraryAddress, String priKey, byte[] ownerAddress,
       WalletGrpc.WalletBlockingStub blockingStubFull) {
     Wallet.setAddressPreFixByte(CommonConstant.ADD_PRE_FIX_BYTE_MAINNET);
@@ -2863,7 +2863,7 @@ public class PublicMethed {
     builder.setOriginAddress(ByteString.copyFrom(owner));
     builder.setAbi(abi);
     builder.setConsumeUserResourcePercent(consumeUserResourcePercent);
-    builder.setOriginEnergyLimit(originEnergyLimit);
+    builder.setOriginUcrLimit(originUcrLimit);
 
     if (value != 0) {
 
@@ -3512,7 +3512,7 @@ public class PublicMethed {
   /**
    * constructor.
    */
-  public static String updateEnergyLimitDelayGetTxid(byte[] contractAddress, long originEnergyLimit,
+  public static String updateUcrLimitDelayGetTxid(byte[] contractAddress, long originUcrLimit,
       long delaySeconds, String priKey, byte[] ownerAddress,
       WalletGrpc.WalletBlockingStub blockingStubFull) {
     Wallet.setAddressPreFixByte(CommonConstant.ADD_PRE_FIX_BYTE_MAINNET);
@@ -3526,14 +3526,14 @@ public class PublicMethed {
     final ECKey ecKey = temKey;
 
     byte[] owner = ownerAddress;
-    UpdateEnergyLimitContract.Builder builder = UpdateEnergyLimitContract.newBuilder();
+    UpdateUcrLimitContract.Builder builder = UpdateUcrLimitContract.newBuilder();
     builder.setOwnerAddress(ByteString.copyFrom(owner));
     builder.setContractAddress(ByteString.copyFrom(contractAddress));
-    builder.setOriginEnergyLimit(originEnergyLimit);
+    builder.setOriginUcrLimit(originUcrLimit);
 
-    UpdateEnergyLimitContract updateEnergyLimitContract = builder.build();
+    UpdateUcrLimitContract updateUcrLimitContract = builder.build();
     TransactionExtention transactionExtention = blockingStubFull
-        .updateEnergyLimit(updateEnergyLimitContract);
+        .updateUcrLimit(updateUcrLimitContract);
     if (transactionExtention == null || !transactionExtention.getResult().getResult()) {
       System.out.println("RPC create stb failed!");
       if (transactionExtention != null) {
@@ -4199,7 +4199,7 @@ public class PublicMethed {
 
   public static String deployContractWithConstantParame(String contractName, String abiString,
       String code, String constructorStr, String argsStr, String data, Long feeLimit, long value,
-      long consumeUserResourcePercent, long originEnergyLimit, String tokenId, long tokenValue,
+      long consumeUserResourcePercent, long originUcrLimit, String tokenId, long tokenValue,
       String libraryAddress, String priKey, byte[] ownerAddress,
       WalletGrpc.WalletBlockingStub blockingStubFull) {
     Wallet.setAddressPreFixByte(CommonConstant.ADD_PRE_FIX_BYTE_MAINNET);
@@ -4225,7 +4225,7 @@ public class PublicMethed {
     builder.setOriginAddress(ByteString.copyFrom(owner));
     builder.setAbi(abi);
     builder.setConsumeUserResourcePercent(consumeUserResourcePercent);
-    builder.setOriginEnergyLimit(originEnergyLimit);
+    builder.setOriginUcrLimit(originUcrLimit);
 
     if (value != 0) {
 
@@ -4314,13 +4314,13 @@ public class PublicMethed {
    * constructor.
    */
 
-  public static Boolean freezeBalanceForReceiver(byte[] addRess, long freezeBalance,
-      long freezeDuration, int resourceCode, ByteString receiverAddressBytes, String priKey,
+  public static Boolean cdBalanceForReceiver(byte[] addRess, long cdBalance,
+      long cdDuration, int resourceCode, ByteString receiverAddressBytes, String priKey,
       WalletGrpc.WalletBlockingStub blockingStubFull) {
     Wallet.setAddressPreFixByte(CommonConstant.ADD_PRE_FIX_BYTE_MAINNET);
     byte[] address = addRess;
-    long frozenBalance = freezeBalance;
-    long frozenDuration = freezeDuration;
+    long cdedBalance = cdBalance;
+    long cdedDuration = cdDuration;
     ECKey temKey = null;
     try {
       BigInteger priK = new BigInteger(priKey, 16);
@@ -4330,16 +4330,16 @@ public class PublicMethed {
     }
     final ECKey ecKey = temKey;
 
-    FreezeBalanceContract.Builder builder = FreezeBalanceContract.newBuilder();
+    CdBalanceContract.Builder builder = CdBalanceContract.newBuilder();
     ByteString byteAddreess = ByteString.copyFrom(address);
 
-    builder.setOwnerAddress(byteAddreess).setFrozenBalance(frozenBalance)
-        .setFrozenDuration(frozenDuration).setResourceValue(resourceCode);
+    builder.setOwnerAddress(byteAddreess).setCdedBalance(cdedBalance)
+        .setCdedDuration(cdedDuration).setResourceValue(resourceCode);
     if (receiverAddressBytes != null) {
       builder.setReceiverAddress(receiverAddressBytes);
     }
-    FreezeBalanceContract contract = builder.build();
-    Protocol.Transaction transaction = blockingStubFull.freezeBalance(contract);
+    CdBalanceContract contract = builder.build();
+    Protocol.Transaction transaction = blockingStubFull.cdBalance(contract);
 
     if (transaction == null || transaction.getRawData().getContractCount() == 0) {
       logger.info("transaction = null");
@@ -4659,9 +4659,9 @@ public class PublicMethed {
   /**
    * constructor.
    */
-  public static long getFreezeBalanceCount(byte[] accountAddress, String ecKey, Long targetEnergy,
+  public static long getCdBalanceCount(byte[] accountAddress, String ecKey, Long targetUcr,
       WalletGrpc.WalletBlockingStub blockingStubFull) {
-    //Precision change as the entire network freezes
+    //Precision change as the entire network cds
     AccountResourceMessage resourceInfo = getAccountResource(accountAddress, blockingStubFull);
 
     Account info = queryAccount(accountAddress, blockingStubFull);
@@ -4669,31 +4669,31 @@ public class PublicMethed {
     Account getAccount = queryAccount(ecKey, blockingStubFull);
 
     long balance = info.getBalance();
-    long frozenBalance = info.getAccountResource().getFrozenBalanceForEnergy().getFrozenBalance();
-    long totalEnergyLimit = resourceInfo.getTotalEnergyLimit();
-    long totalEnergyWeight = resourceInfo.getTotalEnergyWeight();
-    long energyUsed = resourceInfo.getEnergyUsed();
-    long energyLimit = resourceInfo.getEnergyLimit();
+    long cdedBalance = info.getAccountResource().getCdedBalanceForUcr().getCdedBalance();
+    long totalUcrLimit = resourceInfo.getTotalUcrLimit();
+    long totalUcrWeight = resourceInfo.getTotalUcrWeight();
+    long ucrUsed = resourceInfo.getUcrUsed();
+    long ucrLimit = resourceInfo.getUcrLimit();
 
-    if (energyUsed > energyLimit) {
-      targetEnergy = energyUsed - energyLimit + targetEnergy;
+    if (ucrUsed > ucrLimit) {
+      targetUcr = ucrUsed - ucrLimit + targetUcr;
     }
 
-    if (totalEnergyWeight == 0) {
+    if (totalUcrWeight == 0) {
       return 1000_000L;
     }
 
-    // totalEnergyLimit / (totalEnergyWeight + needBalance) = needEnergy / needBalance
-    final BigInteger totalEnergyWeightBi = BigInteger.valueOf(totalEnergyWeight);
-    long needBalance = totalEnergyWeightBi.multiply(BigInteger.valueOf(1_000_000))
-        .multiply(BigInteger.valueOf(targetEnergy))
-        .divide(BigInteger.valueOf(totalEnergyLimit - targetEnergy)).longValue();
+    // totalUcrLimit / (totalUcrWeight + needBalance) = needUcr / needBalance
+    final BigInteger totalUcrWeightBi = BigInteger.valueOf(totalUcrWeight);
+    long needBalance = totalUcrWeightBi.multiply(BigInteger.valueOf(1_000_000))
+        .multiply(BigInteger.valueOf(targetUcr))
+        .divide(BigInteger.valueOf(totalUcrLimit - targetUcr)).longValue();
 
-    logger.info("getFreezeBalanceCount, needBalance: " + needBalance);
+    logger.info("getCdBalanceCount, needBalance: " + needBalance);
 
     if (needBalance < 1000000L) {
       needBalance = 1000000L;
-      logger.info("getFreezeBalanceCount, needBalance less than 1 STB, modify to: " + needBalance);
+      logger.info("getCdBalanceCount, needBalance less than 1 STB, modify to: " + needBalance);
     }
     return needBalance;
   }
@@ -4771,7 +4771,7 @@ public class PublicMethed {
    */
   public static GrpcAPI.Return deployContractAndGetResponse(String contractName, String abiString,
       String code, String data, Long feeLimit, long value, long consumeUserResourcePercent,
-      long originEnergyLimit, String tokenId, long tokenValue, String libraryAddress, String priKey,
+      long originUcrLimit, String tokenId, long tokenValue, String libraryAddress, String priKey,
       byte[] ownerAddress, WalletGrpc.WalletBlockingStub blockingStubFull) {
     Wallet.setAddressPreFixByte(CommonConstant.ADD_PRE_FIX_BYTE_MAINNET);
     ECKey temKey = null;
@@ -4795,7 +4795,7 @@ public class PublicMethed {
     builder.setOriginAddress(ByteString.copyFrom(owner));
     builder.setAbi(abi);
     builder.setConsumeUserResourcePercent(consumeUserResourcePercent);
-    builder.setOriginEnergyLimit(originEnergyLimit);
+    builder.setOriginUcrLimit(originUcrLimit);
 
     if (value != 0) {
 
@@ -4968,7 +4968,7 @@ public class PublicMethed {
   /**
    * constructor.
    */
-  public static boolean updateEnergyLimit(byte[] contractAddress, long originEnergyLimit,
+  public static boolean updateUcrLimit(byte[] contractAddress, long originUcrLimit,
       String priKey, byte[] ownerAddress, WalletGrpc.WalletBlockingStub blockingStubFull) {
     Wallet.setAddressPreFixByte(CommonConstant.ADD_PRE_FIX_BYTE_MAINNET);
     ECKey temKey = null;
@@ -4981,14 +4981,14 @@ public class PublicMethed {
     final ECKey ecKey = temKey;
 
     byte[] owner = ownerAddress;
-    UpdateEnergyLimitContract.Builder builder = UpdateEnergyLimitContract.newBuilder();
+    UpdateUcrLimitContract.Builder builder = UpdateUcrLimitContract.newBuilder();
     builder.setOwnerAddress(ByteString.copyFrom(owner));
     builder.setContractAddress(ByteString.copyFrom(contractAddress));
-    builder.setOriginEnergyLimit(originEnergyLimit);
+    builder.setOriginUcrLimit(originUcrLimit);
 
-    UpdateEnergyLimitContract updateEnergyLimitContract = builder.build();
+    UpdateUcrLimitContract updateUcrLimitContract = builder.build();
     TransactionExtention transactionExtention = blockingStubFull
-        .updateEnergyLimit(updateEnergyLimitContract);
+        .updateUcrLimit(updateUcrLimitContract);
     if (transactionExtention == null || !transactionExtention.getResult().getResult()) {
       System.out.println("RPC create stb failed!");
       if (transactionExtention != null) {
@@ -5092,9 +5092,9 @@ public class PublicMethed {
   /**
    * constructor.
    */
-  public static long getFreezeBalanceNetCount(byte[] accountAddress, String ecKey, Long targetNet,
+  public static long getCdBalanceNetCount(byte[] accountAddress, String ecKey, Long targetNet,
       WalletGrpc.WalletBlockingStub blockingStubFull) {
-    //Precision change as the entire network freezes
+    //Precision change as the entire network cds
     AccountResourceMessage resourceInfo = getAccountResource(accountAddress, blockingStubFull);
 
     Account info = queryAccount(accountAddress, blockingStubFull);
@@ -5121,12 +5121,12 @@ public class PublicMethed {
         .multiply(BigInteger.valueOf(targetNet))
         .divide(BigInteger.valueOf(totalNetLimit - targetNet)).longValue();
 
-    logger.info("getFreezeBalanceNetCount, needBalance: " + needBalance);
+    logger.info("getCdBalanceNetCount, needBalance: " + needBalance);
 
     if (needBalance < 1000000L) {
       needBalance = 1000000L;
       logger
-          .info("getFreezeBalanceNetCount, needBalance less than 1 STB, modify to: " + needBalance);
+          .info("getCdBalanceNetCount, needBalance less than 1 STB, modify to: " + needBalance);
     }
     return needBalance;
   }

@@ -62,15 +62,15 @@ public class ContractScenario004 {
   public void deployErc20StabilaTokenWithoutData() {
     Assert.assertTrue(PublicMethed.sendcoin(contract004Address, 200000000L, fromAddress,
         testKey002, blockingStubFull));
-    Assert.assertTrue(PublicMethed.freezeBalanceGetEnergy(contract004Address, 100000000L,
+    Assert.assertTrue(PublicMethed.cdBalanceGetUcr(contract004Address, 100000000L,
         3, 1, contract004Key, blockingStubFull));
     AccountResourceMessage accountResource = PublicMethed.getAccountResource(contract004Address,
         blockingStubFull);
-    Long energyLimit = accountResource.getEnergyLimit();
-    Long energyUsage = accountResource.getEnergyUsed();
+    Long ucrLimit = accountResource.getUcrLimit();
+    Long ucrUsage = accountResource.getUcrUsed();
 
-    logger.info("before energy limit is " + Long.toString(energyLimit));
-    logger.info("before energy usage is " + Long.toString(energyUsage));
+    logger.info("before ucr limit is " + Long.toString(ucrLimit));
+    logger.info("before ucr usage is " + Long.toString(ucrUsage));
 
     String filePath = "./src/test/resources/soliditycode//contractScenario004.sol";
     String contractName = "StabilaToken";
@@ -92,15 +92,15 @@ public class ContractScenario004 {
   public void deployErc20StabilaTokenWithData() {
     Assert.assertTrue(PublicMethed
         .sendcoin(contract004Address, 200000000L, fromAddress, testKey002, blockingStubFull));
-    Assert.assertTrue(PublicMethed.freezeBalanceGetEnergy(contract004Address, 100000000L,
+    Assert.assertTrue(PublicMethed.cdBalanceGetUcr(contract004Address, 100000000L,
         3, 1, contract004Key, blockingStubFull));
     AccountResourceMessage accountResource = PublicMethed.getAccountResource(contract004Address,
         blockingStubFull);
-    Long energyLimit = accountResource.getEnergyLimit();
-    Long energyUsage = accountResource.getEnergyUsed();
+    Long ucrLimit = accountResource.getUcrLimit();
+    Long ucrUsage = accountResource.getUcrUsed();
 
-    logger.info("before energy limit is " + Long.toString(energyLimit));
-    logger.info("before energy usage is " + Long.toString(energyUsage));
+    logger.info("before ucr limit is " + Long.toString(ucrLimit));
+    logger.info("before ucr usage is " + Long.toString(ucrUsage));
 
     String filePath = "./src/test/resources/soliditycode//contractScenario004.sol";
     String contractName = "StabilaToken";

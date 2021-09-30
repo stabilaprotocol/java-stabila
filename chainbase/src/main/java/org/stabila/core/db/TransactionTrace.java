@@ -60,7 +60,7 @@ public class TransactionTrace {
 
   private AbiStore abiStore;
 
-  private EnergyProcessor energyProcessor;
+  private UcrProcessor ucrProcessor;
 
   private StbType stbType;
 
@@ -102,7 +102,7 @@ public class TransactionTrace {
     this.accountStore = storeFactory.getChainBaseManager().getAccountStore();
 
     this.receipt = new ReceiptCapsule(Sha256Hash.ZERO_HASH);
-    this.energyProcessor = new EnergyProcessor(dynamicPropertiesStore, accountStore);
+    this.ucrProcessor = new UcrProcessor(dynamicPropertiesStore, accountStore);
     this.runtime = runtime;
     this.forkController = new ForkController();
     forkController.init(storeFactory.getChainBaseManager());
@@ -129,7 +129,7 @@ public class TransactionTrace {
   }
 
   public void checkIsConstant() throws ContractValidateException, VMIllegalException {
-    if (dynamicPropertiesStore.getAllowTvmConstantinople() == 1) {
+    if (dynamicPropertiesStore.getAllowSvmConstantinople() == 1) {
       return;
     }
     TriggerSmartContract triggerContractFromTransaction = ContractCapsule
@@ -152,11 +152,11 @@ public class TransactionTrace {
   }
 
   //set bill
-  public void setBill(long energyUsage) {
-    if (energyUsage < 0) {
-      energyUsage = 0L;
+  public void setBill(long ucrUsage) {
+    if (ucrUsage < 0) {
+      ucrUsage = 0L;
     }
-    receipt.setEnergyUsageTotal(energyUsage);
+    receipt.setUcrUsageTotal(ucrUsage);
   }
 
   //set net bill
@@ -179,7 +179,7 @@ public class TransactionTrace {
       throws ContractExeException, ContractValidateException, VMIllegalException {
     /*  VM execute  */
     runtime.execute(transactionContext);
-    setBill(transactionContext.getProgramResult().getEnergyUsed());
+    setBill(transactionContext.getProgramResult().getUcrUsed());
 
 //    if (StbType.STB_PRECOMPILED_TYPE != stbType) {
 //      if (contractResult.OUT_OF_TIME
@@ -193,12 +193,12 @@ public class TransactionTrace {
 //    }
   }
 
-  public void saveEnergyLeftOfOrigin(long energyLeft) {
-    receipt.setOriginEnergyLeft(energyLeft);
+  public void saveUcrLeftOfOrigin(long ucrLeft) {
+    receipt.setOriginUcrLeft(ucrLeft);
   }
 
-  public void saveEnergyLeftOfCaller(long energyLeft) {
-    receipt.setCallerEnergyLeft(energyLeft);
+  public void saveUcrLeftOfCaller(long ucrLeft) {
+    receipt.setCallerUcrLeft(ucrLeft);
   }
 
   public void finalization() throws ContractExeException {
@@ -215,13 +215,13 @@ public class TransactionTrace {
   }
 
   /**
-   * pay actually bill(include ENERGY and storage).
+   * pay actually bill(include UCR and storage).
    */
   public void pay() throws BalanceInsufficientException {
     byte[] originAccount;
     byte[] callerAccount;
     long percent = 0;
-    long originEnergyLimit = 0;
+    long originUcrLimit = 0;
     switch (stbType) {
       case STB_CONTRACT_CREATION_TYPE:
         callerAccount = TransactionCapsule.getOwner(stb.getInstance().getRawData().getContract(0));
@@ -238,7 +238,7 @@ public class TransactionTrace {
         percent = Math
             .max(Constant.ONE_HUNDRED - contractCapsule.getConsumeUserResourcePercent(), 0);
         percent = Math.min(percent, Constant.ONE_HUNDRED);
-        originEnergyLimit = contractCapsule.getOriginEnergyLimit();
+        originUcrLimit = contractCapsule.getOriginUcrLimit();
         break;
       default:
         return;
@@ -247,13 +247,13 @@ public class TransactionTrace {
     // originAccount Percent = 30%
     AccountCapsule origin = accountStore.get(originAccount);
     AccountCapsule caller = accountStore.get(callerAccount);
-    receipt.payEnergyBill(
+    receipt.payUcrBill(
         dynamicPropertiesStore, accountStore, forkController,
         origin,
         caller,
-        percent, originEnergyLimit,
-        energyProcessor,
-        EnergyProcessor.getHeadSlot(dynamicPropertiesStore));
+        percent, originUcrLimit,
+            ucrProcessor,
+        UcrProcessor.getHeadSlot(dynamicPropertiesStore));
   }
 
   public boolean checkNeedRetry() {

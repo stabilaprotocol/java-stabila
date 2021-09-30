@@ -5,7 +5,7 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import lombok.extern.slf4j.Slf4j;
 import org.stabila.protos.Protocol;
 import org.stabila.protos.Protocol.AccountAsset;
-import org.stabila.protos.Protocol.AccountAsset.Frozen;
+import org.stabila.protos.Protocol.AccountAsset.Cded;
 
 import java.util.List;
 import java.util.Map;
@@ -90,8 +90,8 @@ public class AccountAssetCapsule implements ProtoCapsule<AccountAsset> {
     return this.accountAsset.getLatestAssetOperationTimeV2Map();
   }
 
-  public List<Frozen> getFrozenSupplyList() {
-    return getInstance().getFrozenSupplyList();
+  public List<Cded> getCdedSupplyList() {
+    return getInstance().getCdedSupplyList();
   }
 
   @Override

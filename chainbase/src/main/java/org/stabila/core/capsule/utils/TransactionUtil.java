@@ -73,7 +73,7 @@ public class TransactionUtil {
     builder.setId(ByteString.copyFrom(stbCap.getTransactionId().getBytes()));
     ProgramResult programResult = trace.getRuntimeResult();
     long fee =
-        programResult.getRet().getFee() + traceReceipt.getEnergyFee()
+        programResult.getRet().getFee() + traceReceipt.getUcrFee()
             + traceReceipt.getNetFee() + traceReceipt.getMultiSignFee();
 
     boolean supportTransactionFeePool = trace.getTransactionContext().getStoreFactory()
@@ -84,7 +84,7 @@ public class TransactionUtil {
         packingFee += traceReceipt.getNetFee();
       }
       if (!traceReceipt.getResult().equals(Transaction.Result.contractResult.OUT_OF_TIME)) {
-        packingFee += traceReceipt.getEnergyFee();
+        packingFee += traceReceipt.getUcrFee();
       }
       builder.setPackingFee(packingFee);
     }
@@ -95,7 +95,7 @@ public class TransactionUtil {
     builder.setFee(fee);
     builder.addContractResult(contractResult);
     builder.setContractAddress(ContractAddress);
-    builder.setUnfreezeAmount(programResult.getRet().getUnfreezeAmount());
+    builder.setUncdAmount(programResult.getRet().getUncdAmount());
     builder.setAssetIssueID(programResult.getRet().getAssetIssueID());
     builder.setExchangeId(programResult.getRet().getExchangeId());
     builder.setWithdrawAmount(programResult.getRet().getWithdrawAmount());

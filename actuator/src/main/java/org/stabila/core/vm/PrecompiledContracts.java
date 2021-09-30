@@ -178,10 +178,10 @@ public class PrecompiledContracts {
     if (address.equals(altBN128PairingAddr)) {
       return altBN128Pairing;
     }
-    if (VMConfig.allowTvmSolidity059() && address.equals(batchValidateSignAddr)) {
+    if (VMConfig.allowSvmSolidity059() && address.equals(batchValidateSignAddr)) {
       return batchValidateSign;
     }
-    if (VMConfig.allowTvmSolidity059() && address.equals(validateMultiSignAddr)) {
+    if (VMConfig.allowSvmSolidity059() && address.equals(validateMultiSignAddr)) {
       return validateMultiSign;
     }
     if (VMConfig.allowShieldedTRC20Transaction() && address.equals(verifyMintProofAddr)) {
@@ -196,22 +196,22 @@ public class PrecompiledContracts {
     if (VMConfig.allowShieldedTRC20Transaction() && address.equals(merkleHashAddr)) {
       return merkleHash;
     }
-    if (VMConfig.allowTvmVote() && address.equals(rewardBalanceAddr)) {
+    if (VMConfig.allowSvmVote() && address.equals(rewardBalanceAddr)) {
       return rewardBalance;
     }
-    if (VMConfig.allowTvmVote() && address.equals(isSrCandidateAddr)) {
+    if (VMConfig.allowSvmVote() && address.equals(isSrCandidateAddr)) {
       return isSrCandidate;
     }
-    if (VMConfig.allowTvmVote() && address.equals(voteCountAddr)) {
+    if (VMConfig.allowSvmVote() && address.equals(voteCountAddr)) {
       return voteCount;
     }
-    if (VMConfig.allowTvmVote() && address.equals(usedVoteCountAddr)) {
+    if (VMConfig.allowSvmVote() && address.equals(usedVoteCountAddr)) {
       return usedVoteCount;
     }
-    if (VMConfig.allowTvmVote() && address.equals(receivedVoteCountAddr)) {
+    if (VMConfig.allowSvmVote() && address.equals(receivedVoteCountAddr)) {
       return receivedVoteCount;
     }
-    if (VMConfig.allowTvmVote() && address.equals(totalVoteCountAddr)) {
+    if (VMConfig.allowSvmVote() && address.equals(totalVoteCountAddr)) {
       return totalVoteCount;
     }
 
@@ -300,7 +300,7 @@ public class PrecompiledContracts {
     @Setter
     private long vmShouldEndInUs;
 
-    public abstract long getEnergyForData(byte[] data);
+    public abstract long getUcrForData(byte[] data);
 
     public abstract Pair<Boolean, byte[]> execute(byte[] data);
 
@@ -357,9 +357,9 @@ public class PrecompiledContracts {
     }
 
     @Override
-    public long getEnergyForData(byte[] data) {
+    public long getUcrForData(byte[] data) {
 
-      // energy charge for the execution:
+      // ucr charge for the execution:
       // minimum 1 and additional 1 for each 32 bytes word (round  up)
       if (data == null) {
         return 15;
@@ -377,9 +377,9 @@ public class PrecompiledContracts {
 
 
     @Override
-    public long getEnergyForData(byte[] data) {
+    public long getUcrForData(byte[] data) {
 
-      // energy charge for the execution:
+      // ucr charge for the execution:
       // minimum 50 and additional 50 for each 32 bytes word (round  up)
       if (data == null) {
         return 60;
@@ -403,10 +403,10 @@ public class PrecompiledContracts {
 
 
     @Override
-    public long getEnergyForData(byte[] data) {
+    public long getUcrForData(byte[] data) {
 
       // TODO #POC9 Replace magic numbers with constants
-      // energy charge for the execution:
+      // ucr charge for the execution:
       // minimum 50 and additional 50 for each 32 bytes word (round  up)
       if (data == null) {
         return 600;
@@ -441,7 +441,7 @@ public class PrecompiledContracts {
     }
 
     @Override
-    public long getEnergyForData(byte[] data) {
+    public long getUcrForData(byte[] data) {
       return 3000;
     }
 
@@ -496,7 +496,7 @@ public class PrecompiledContracts {
     private static final int ARGS_OFFSET = 32 * 3; // addresses length part
 
     @Override
-    public long getEnergyForData(byte[] data) {
+    public long getUcrForData(byte[] data) {
 
       if (data == null) {
         data = EMPTY_BYTE_ARRAY;
@@ -512,11 +512,11 @@ public class PrecompiledContracts {
       long adjExpLen = getAdjustedExponentLength(expHighBytes, expLen);
 
       // use big numbers to stay safe in case of overflow
-      BigInteger energy = BigInteger.valueOf(multComplexity)
+      BigInteger ucr = BigInteger.valueOf(multComplexity)
           .multiply(BigInteger.valueOf(Math.max(adjExpLen, 1)))
           .divide(GQUAD_DIVISOR);
 
-      return isLessThan(energy, BigInteger.valueOf(Long.MAX_VALUE)) ? energy.longValueExact()
+      return isLessThan(ucr, BigInteger.valueOf(Long.MAX_VALUE)) ? ucr.longValueExact()
           : Long.MAX_VALUE;
     }
 
@@ -610,14 +610,14 @@ public class PrecompiledContracts {
   public static class BN128Addition extends PrecompiledContract {
 
     @Override
-    public long getEnergyForData(byte[] data) {
-      if (VMConfig.allowTvmIstanbul()) {
-        return getEnergyForDataIstanbul(data);
+    public long getUcrForData(byte[] data) {
+      if (VMConfig.allowSvmIstanbul()) {
+        return getUcrForDataIstanbul(data);
       }
       return 500;
     }
 
-    private long getEnergyForDataIstanbul(byte[] data) {
+    private long getUcrForDataIstanbul(byte[] data) {
       return 150;
     }
 
@@ -664,14 +664,14 @@ public class PrecompiledContracts {
   public static class BN128Multiplication extends PrecompiledContract {
 
     @Override
-    public long getEnergyForData(byte[] data) {
-      if (VMConfig.allowTvmIstanbul()) {
-        return getEnergyForDataIstanbul(data);
+    public long getUcrForData(byte[] data) {
+      if (VMConfig.allowSvmIstanbul()) {
+        return getUcrForDataIstanbul(data);
       }
       return 40000;
     }
 
-    private long getEnergyForDataIstanbul(byte[] data) {
+    private long getUcrForDataIstanbul(byte[] data) {
       return 6000;
     }
 
@@ -717,9 +717,9 @@ public class PrecompiledContracts {
     private static final int PAIR_SIZE = 192;
 
     @Override
-    public long getEnergyForData(byte[] data) {
-      if (VMConfig.allowTvmIstanbul()) {
-        return getEnergyForDataIstanbul(data);
+    public long getUcrForData(byte[] data) {
+      if (VMConfig.allowSvmIstanbul()) {
+        return getUcrForDataIstanbul(data);
       }
       if (data == null) {
         return 100000;
@@ -727,7 +727,7 @@ public class PrecompiledContracts {
       return 80000L * (data.length / PAIR_SIZE) + 100000;
     }
 
-    private long getEnergyForDataIstanbul(byte[] data) {
+    private long getUcrForDataIstanbul(byte[] data) {
       if (data == null) {
         return 45000;
       }
@@ -805,7 +805,7 @@ public class PrecompiledContracts {
 
 
     @Override
-    public long getEnergyForData(byte[] data) {
+    public long getUcrForData(byte[] data) {
       long cnt = (data.length / WORD_SIZE - 5) / 5;
       // one sign 1500, half of ecrecover
       return cnt * ENGERYPERSIGN;
@@ -875,7 +875,7 @@ public class PrecompiledContracts {
     }
 
     @Override
-    public long getEnergyForData(byte[] data) {
+    public long getUcrForData(byte[] data) {
       long cnt = (data.length / WORD_SIZE - 5) / 6;
       // one sign 1500, half of ecrecover
       return cnt * ENGERYPERSIGN;
@@ -1105,7 +1105,7 @@ public class PrecompiledContracts {
     private static final int SIZE = 1504;
 
     @Override
-    public long getEnergyForData(byte[] data) {
+    public long getUcrForData(byte[] data) {
       return 150000;
     }
 
@@ -1181,7 +1181,7 @@ public class PrecompiledContracts {
     }
 
     @Override
-    public long getEnergyForData(byte[] data) {
+    public long getUcrForData(byte[] data) {
       return 200000;
     }
 
@@ -1458,7 +1458,7 @@ public class PrecompiledContracts {
     private static final int SIZE = 512;
 
     @Override
-    public long getEnergyForData(byte[] data) {
+    public long getUcrForData(byte[] data) {
       return 150000;
     }
 
@@ -1515,7 +1515,7 @@ public class PrecompiledContracts {
   public static class MerkleHash extends PrecompiledContract {
 
     @Override
-    public long getEnergyForData(byte[] data) {
+    public long getUcrForData(byte[] data) {
       return 500;
     }
 
@@ -1551,7 +1551,7 @@ public class PrecompiledContracts {
   public static class RewardBalance extends PrecompiledContract {
 
     @Override
-    public long getEnergyForData(byte[] data) {
+    public long getUcrForData(byte[] data) {
       return 500;
     }
 
@@ -1570,7 +1570,7 @@ public class PrecompiledContracts {
   public static class IsSrCandidate extends PrecompiledContract {
 
     @Override
-    public long getEnergyForData(byte[] data) {
+    public long getUcrForData(byte[] data) {
       return 20;
     }
 
@@ -1600,7 +1600,7 @@ public class PrecompiledContracts {
     private static final int SIZE = 64;
 
     @Override
-    public long getEnergyForData(byte[] data) {
+    public long getUcrForData(byte[] data) {
       return 500;
     }
 
@@ -1635,7 +1635,7 @@ public class PrecompiledContracts {
   public static class UsedVoteCount extends PrecompiledContract {
 
     @Override
-    public long getEnergyForData(byte[] data) {
+    public long getUcrForData(byte[] data) {
       return 20;
     }
 
@@ -1667,7 +1667,7 @@ public class PrecompiledContracts {
   public static class ReceivedVoteCount extends PrecompiledContract {
 
     @Override
-    public long getEnergyForData(byte[] data) {
+    public long getUcrForData(byte[] data) {
       return 20;
     }
 
@@ -1696,7 +1696,7 @@ public class PrecompiledContracts {
   public static class TotalVoteCount extends PrecompiledContract {
 
     @Override
-    public long getEnergyForData(byte[] data) {
+    public long getUcrForData(byte[] data) {
       return 20;
     }
 

@@ -22,7 +22,7 @@ import org.stabila.protos.Protocol.Transaction.Result.contractResult;
 
 public class ProgramResult {
 
-  private long energyUsed = 0;
+  private long ucrUsed = 0;
   private long futureRefund = 0;
 
   private byte[] hReturn = EMPTY_BYTE_ARRAY;
@@ -60,8 +60,8 @@ public class ProgramResult {
     return result;
   }
 
-  public void spendEnergy(long energy) {
-    energyUsed += energy;
+  public void spendUcr(long ucr) {
+    ucrUsed += ucr;
   }
 
   public void setRevert() {
@@ -72,8 +72,8 @@ public class ProgramResult {
     return revert;
   }
 
-  public void refundEnergy(long energy) {
-    energyUsed -= energy;
+  public void refundUcr(long ucr) {
+    ucrUsed -= ucr;
   }
 
   public byte[] getContractAddress() {
@@ -113,8 +113,8 @@ public class ProgramResult {
     this.exception = exception;
   }
 
-  public long getEnergyUsed() {
-    return energyUsed;
+  public long getUcrUsed() {
+    return ucrUsed;
   }
 
   public Set<DataWord> getDeleteAccounts() {
@@ -172,8 +172,8 @@ public class ProgramResult {
     return callCreateList;
   }
 
-  public void addCallCreate(byte[] data, byte[] destination, byte[] energyLimit, byte[] value) {
-    getCallCreateList().add(new CallCreate(data, destination, energyLimit, value));
+  public void addCallCreate(byte[] data, byte[] destination, byte[] ucrLimit, byte[] value) {
+    getCallCreateList().add(new CallCreate(data, destination, ucrLimit, value));
   }
 
   public List<InternalTransaction> getInternalTransactions() {
@@ -207,8 +207,8 @@ public class ProgramResult {
     }
   }
 
-  public void addFutureRefund(long energyValue) {
-    futureRefund += energyValue;
+  public void addFutureRefund(long ucrValue) {
+    futureRefund += ucrValue;
   }
 
   public long getFutureRefund() {

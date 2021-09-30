@@ -31,9 +31,9 @@ public class MessageCall {
   private final OpCode type;
 
   /**
-   * energy to pay for the call, remaining energy will be refunded to the caller
+   * ucr to pay for the call, remaining ucr will be refunded to the caller
    */
-  private final DataWord energy;
+  private final DataWord ucr;
   /**
    * address of account which code to call
    */
@@ -63,11 +63,11 @@ public class MessageCall {
 
   private boolean isTokenTransferMsg;
 
-  public MessageCall(OpCode type, DataWord energy, DataWord codeAddress,
+  public MessageCall(OpCode type, DataWord ucr, DataWord codeAddress,
       DataWord endowment, DataWord inDataOffs, DataWord inDataSize, DataWord tokenId,
       boolean isTokenTransferMsg) {
     this.type = type;
-    this.energy = energy;
+    this.ucr = ucr;
     this.codeAddress = codeAddress;
     this.endowment = endowment;
     this.inDataOffs = inDataOffs;
@@ -76,10 +76,10 @@ public class MessageCall {
     this.isTokenTransferMsg = isTokenTransferMsg;
   }
 
-  public MessageCall(OpCode type, DataWord energy, DataWord codeAddress,
+  public MessageCall(OpCode type, DataWord ucr, DataWord codeAddress,
       DataWord endowment, DataWord inDataOffs, DataWord inDataSize,
       DataWord outDataOffs, DataWord outDataSize, DataWord tokenId, boolean isTokenTransferMsg) {
-    this(type, energy, codeAddress, endowment, inDataOffs, inDataSize, tokenId, isTokenTransferMsg);
+    this(type, ucr, codeAddress, endowment, inDataOffs, inDataSize, tokenId, isTokenTransferMsg);
     this.outDataOffs = outDataOffs;
     this.outDataSize = outDataSize;
   }
@@ -88,8 +88,8 @@ public class MessageCall {
     return type;
   }
 
-  public DataWord getEnergy() {
-    return energy;
+  public DataWord getUcr() {
+    return ucr;
   }
 
   public DataWord getCodeAddress() {

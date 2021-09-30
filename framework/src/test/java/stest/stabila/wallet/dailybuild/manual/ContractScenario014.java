@@ -80,7 +80,7 @@ public class ContractScenario014 {
         testKey002, blockingStubFull));
     PublicMethed.waitProduceNextBlock(blockingStubFull);
     Assert.assertTrue(PublicMethed
-        .freezeBalanceGetEnergy(contract014Address, 10_000_000_000L, 0, 1, priKey014,
+        .cdBalanceGetUcr(contract014Address, 10_000_000_000L, 0, 1, priKey014,
             blockingStubFull));
 
     logger.info("contract014Address : == " + contract014Key);
@@ -154,7 +154,7 @@ public class ContractScenario014 {
     Assert.assertTrue(infoById.get().getResultValue() == 0);
     contract2AccountInfo = PublicMethed.queryAccount(contractAddress2, blockingStubFull);
     final Long contract2AfterBalance = contract2AccountInfo.getBalance();
-    //contract2AccountInfo.getAccountResource().getFrozenBalanceForEnergy();
+    //contract2AccountInfo.getAccountResource().getCdedBalanceForUcr();
     receiverAccountInfo = PublicMethed.queryAccount(receiverAddress, blockingStubFull);
     Long receiverAfterBalance = receiverAccountInfo.getBalance();
     contract1AccountInfo = PublicMethed.queryAccount(contractAddress1, blockingStubFull);
@@ -223,7 +223,7 @@ public class ContractScenario014 {
 
   @AfterClass
   public void shutdown() throws InterruptedException {
-    PublicMethed.unFreezeBalance(contract014Address, contract014Key, 1, contract014Address,
+    PublicMethed.unCdBalance(contract014Address, contract014Key, 1, contract014Address,
         blockingStubFull);
     PublicMethed.freedResource(contract014Address, contract014Key, fromAddress, blockingStubFull);
     if (channelFull != null) {

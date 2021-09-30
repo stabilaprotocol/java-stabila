@@ -78,7 +78,7 @@ public class WalletTestAccount006 {
     GrpcAPI.AssetIssueList assetIssueList1 = blockingStubFull
         .getAssetIssueByAccount(request1);
     Optional<GrpcAPI.AssetIssueList> queryAssetByAccount = Optional.ofNullable(assetIssueList1);
-    Assert.assertTrue(PublicMethed.freezeBalance(fromAddress, 100000000, 3, testKey002,
+    Assert.assertTrue(PublicMethed.cdBalance(fromAddress, 100000000, 3, testKey002,
         blockingStubFull));
     Assert.assertTrue(PublicMethed
         .sendcoin(account006Address, sendAmount, fromAddress, testKey002, blockingStubFull));
@@ -139,15 +139,15 @@ public class WalletTestAccount006 {
         blockingStubFull));
     queryAccount = PublicMethed.queryAccount(account006Key, blockingStubFull);
     Long afterSendBalance = queryAccount.getBalance();
-    //when the free net is not enough and no balance freeze, use money to do the transaction.
+    //when the free net is not enough and no balance cd, use money to do the transaction.
     Assert.assertTrue(beforeSendBalance - afterSendBalance > 1);
     logger.info("testUseMoneyToDoTransaction");
   }
 
   @Test(enabled = true)
   public void test4UseNet() {
-    //Freeze balance to own net.
-    Assert.assertTrue(PublicMethed.freezeBalance(account006Address, 10000000L,
+    //Cd balance to own net.
+    Assert.assertTrue(PublicMethed.cdBalance(account006Address, 10000000L,
         3, account006Key, blockingStubFull));
     Assert.assertTrue(PublicMethed.sendcoin(toAddress, 1L, account006Address,
         account006Key, blockingStubFull));
@@ -163,14 +163,14 @@ public class WalletTestAccount006 {
         account006Key, blockingStubFull));
     queryAccount = PublicMethed.queryAccount(account006Key, blockingStubFull);
     Long afterSendBalance = queryAccount.getBalance();
-    //when you freeze balance and has net,you didn't cost money.
+    //when you cd balance and has net,you didn't cost money.
     logger.info("before is " + Long.toString(beforeSendBalance) + " and after is "
         + Long.toString(afterSendBalance));
     Assert.assertTrue(beforeSendBalance - afterSendBalance == 1);
     addressBs = ByteString.copyFrom(account006Address);
     request = Account.newBuilder().setAddress(addressBs).build();
     accountNetMessage = blockingStubFull.getAccountNet(request);
-    //when you freeze balance and has net,you cost net.
+    //when you cd balance and has net,you cost net.
     logger.info(Long.toString(accountNetMessage.getNetUsed()));
     Assert.assertTrue(accountNetMessage.getNetUsed() > 350);
   }

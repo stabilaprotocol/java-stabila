@@ -11,8 +11,8 @@ import org.testng.Assert;
 import org.stabila.common.application.Application;
 import org.stabila.common.application.ApplicationFactory;
 import org.stabila.common.application.StabilaApplicationContext;
-import org.stabila.common.runtime.TVMTestResult;
-import org.stabila.common.runtime.TvmTestUtils;
+import org.stabila.common.runtime.SVMTestResult;
+import org.stabila.common.runtime.SvmTestUtils;
 import org.stabila.common.storage.DepositImpl;
 import org.stabila.common.utils.FileUtil;
 import org.stabila.core.Constant;
@@ -118,28 +118,28 @@ public class TimeBenchmarkTest {
         + "a165627a7a72305820637e163344c180cd57f4b3a01b07a5267ad54811a5a2858b5d67330a2724ee680029";
     String libraryAddressPair = null;
 
-    TVMTestResult result = TvmTestUtils
-        .deployContractAndReturnTvmTestResult(contractName, address, ABI, code, value, feeLimit,
+    SVMTestResult result = SvmTestUtils
+        .deployContractAndReturnSvmTestResult(contractName, address, ABI, code, value, feeLimit,
             consumeUserResourcePercent, libraryAddressPair, dbManager, null);
 
-    long expectEnergyUsageTotal = 88529;
-    Assert.assertEquals(result.getReceipt().getEnergyUsageTotal(), expectEnergyUsageTotal);
+    long expectUcrUsageTotal = 88529;
+    Assert.assertEquals(result.getReceipt().getUcrUsageTotal(), expectUcrUsageTotal);
     Assert.assertEquals(dbManager.getAccountStore().get(address).getBalance(),
-        totalBalance - expectEnergyUsageTotal * 100);
+        totalBalance - expectUcrUsageTotal * 100);
     byte[] contractAddress = result.getContractAddress();
 
     /* ====================================================================== */
-    byte[] triggerData = TvmTestUtils.parseAbi("fibonacciNotify(uint)", "");
-    result = TvmTestUtils
-        .triggerContractAndReturnTvmTestResult(Hex.decode(OWNER_ADDRESS), contractAddress,
+    byte[] triggerData = SvmTestUtils.parseAbi("fibonacciNotify(uint)", "");
+    result = SvmTestUtils
+        .triggerContractAndReturnSvmTestResult(Hex.decode(OWNER_ADDRESS), contractAddress,
             triggerData, 0, feeLimit, dbManager, null);
 
-    long expectEnergyUsageTotal2 = 110;
-    Assert.assertEquals(result.getReceipt().getEnergyUsageTotal(), expectEnergyUsageTotal2);
+    long expectUcrUsageTotal2 = 110;
+    Assert.assertEquals(result.getReceipt().getUcrUsageTotal(), expectUcrUsageTotal2);
     Assert.assertEquals(result.getRuntime().getResult().isRevert(), true);
     Assert.assertTrue(result.getRuntime().getResult().getException() == null);
     Assert.assertEquals(dbManager.getAccountStore().get(address).getBalance(),
-        totalBalance - (expectEnergyUsageTotal + expectEnergyUsageTotal2) * 100);
+        totalBalance - (expectUcrUsageTotal + expectUcrUsageTotal2) * 100);
   }
 
   /**

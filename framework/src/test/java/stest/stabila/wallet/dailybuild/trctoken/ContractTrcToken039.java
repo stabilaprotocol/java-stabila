@@ -88,11 +88,11 @@ public class ContractTrcToken039 {
     logger.info("user001Address:" + Base58.encode58Check(user001Address));
     PublicMethed.waitProduceNextBlock(blockingStubFull);
 
-    // freeze balance
-    Assert.assertTrue(PublicMethed.freezeBalanceGetEnergy(dev001Address, 204800000,
+    // cd balance
+    Assert.assertTrue(PublicMethed.cdBalanceGetUcr(dev001Address, 204800000,
         0, 1, dev001Key, blockingStubFull));
 
-    Assert.assertTrue(PublicMethed.freezeBalanceGetEnergy(user001Address, 2048000000,
+    Assert.assertTrue(PublicMethed.cdBalanceGetUcr(user001Address, 2048000000,
         0, 1, user001Key, blockingStubFull));
     PublicMethed.waitProduceNextBlock(blockingStubFull);
 
@@ -106,7 +106,7 @@ public class ContractTrcToken039 {
     assetAccountId = PublicMethed.queryAccount(dev001Address, blockingStubFull).getAssetIssuedID();
 
     // deploy transferTokenContract
-    int originEnergyLimit = 50000;
+    int originUcrLimit = 50000;
 
     String filePath = "src/test/resources/soliditycode/contractTrcToken039.sol";
     String contractName = "Proxy";
@@ -115,7 +115,7 @@ public class ContractTrcToken039 {
     String abi = retMap.get("abI").toString();
     proxyTestAddress = PublicMethed
         .deployContract(contractName, abi, code, "", maxFeeLimit,
-            1000L, 0, originEnergyLimit, assetAccountId.toStringUtf8(),
+            1000L, 0, originUcrLimit, assetAccountId.toStringUtf8(),
             1000, null, dev001Key, dev001Address,
             blockingStubFull);
 
@@ -125,7 +125,7 @@ public class ContractTrcToken039 {
     String abi1 = retMap1.get("abI").toString();
     atestAddress = PublicMethed
         .deployContract(contractName1, abi1, code1, "", maxFeeLimit,
-            0L, 0, originEnergyLimit, "0",
+            0L, 0, originUcrLimit, "0",
             0, null, dev001Key, dev001Address,
             blockingStubFull);
     PublicMethed.waitProduceNextBlock(blockingStubFull);
@@ -136,7 +136,7 @@ public class ContractTrcToken039 {
     String abi2 = retMap2.get("abI").toString();
     btestAddress = PublicMethed
         .deployContract(contractName2, abi2, code2, "", maxFeeLimit,
-            0L, 0, originEnergyLimit, "0",
+            0L, 0, originUcrLimit, "0",
             0, null, dev001Key, dev001Address,
             blockingStubFull);
     PublicMethed.waitProduceNextBlock(blockingStubFull);
@@ -324,9 +324,9 @@ public class ContractTrcToken039 {
     Assert.assertTrue(afterAssetIssueDevAddress1 == beforeAssetIssueDevAddress1 - 1);
     Assert.assertTrue(afterUserBalance1 == beforeUserBalance1 + 1);
     Assert.assertTrue(afterAssetIssueUserAddress1 == afterAssetIssueUserAddress1);
-    PublicMethed.unFreezeBalance(dev001Address, dev001Key, 1,
+    PublicMethed.unCdBalance(dev001Address, dev001Key, 1,
         dev001Address, blockingStubFull);
-    PublicMethed.unFreezeBalance(user001Address, user001Key, 1,
+    PublicMethed.unCdBalance(user001Address, user001Key, 1,
         user001Address, blockingStubFull);
   }
 

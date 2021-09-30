@@ -27,7 +27,7 @@ import org.stabila.protos.Protocol.Block;
 import org.stabila.protos.Protocol.Transaction;
 import org.stabila.protos.contract.AssetIssueContractOuterClass.AssetIssueContract;
 import org.stabila.protos.contract.AssetIssueContractOuterClass.TransferAssetContract;
-import org.stabila.protos.contract.AssetIssueContractOuterClass.UnfreezeAssetContract;
+import org.stabila.protos.contract.AssetIssueContractOuterClass.UncdAssetContract;
 import stest.stabila.wallet.common.client.Configuration;
 import stest.stabila.wallet.common.client.Parameter.CommonConstant;
 import stest.stabila.wallet.common.client.utils.PublicMethed;
@@ -139,12 +139,12 @@ public class TransferAsset2Test {
     Assert.assertEquals(ret1.getCode(), Return.response_code.SUCCESS);
     Assert.assertEquals(ret1.getMessage().toStringUtf8(), "");
 
-    //No freeze asset, try to unfreeze asset failed.
-    Assert.assertFalse(unFreezeAsset(noBandwitchAddress, noBandwitch));
-    logger.info("Test no asset frozen balance, try to unfreeze asset, no exception. Test OK!!!");
-    //Not create asset, try to unfreeze asset failed.No exception.
-    Assert.assertFalse(unFreezeAsset(toAddress, testKey003));
-    logger.info("Test not create asset issue, try to unfreeze asset, no exception. Test OK!!!");
+    //No cd asset, try to uncd asset failed.
+    Assert.assertFalse(unCdAsset(noBandwitchAddress, noBandwitch));
+    logger.info("Test no asset cded balance, try to uncd asset, no exception. Test OK!!!");
+    //Not create asset, try to uncd asset failed.No exception.
+    Assert.assertFalse(unCdAsset(toAddress, testKey003));
+    logger.info("Test not create asset issue, try to uncd asset, no exception. Test OK!!!");
   }
 
   /**
@@ -365,7 +365,7 @@ public class TransferAsset2Test {
    * constructor.
    */
 
-  public boolean unFreezeAsset(byte[] addRess, String priKey) {
+  public boolean unCdAsset(byte[] addRess, String priKey) {
     byte[] address = addRess;
 
     ECKey temKey = null;
@@ -377,15 +377,15 @@ public class TransferAsset2Test {
     }
     final ECKey ecKey = temKey;
 
-    UnfreezeAssetContract.Builder builder = UnfreezeAssetContract
+    UncdAssetContract.Builder builder = UncdAssetContract
         .newBuilder();
     ByteString byteAddreess = ByteString.copyFrom(address);
 
     builder.setOwnerAddress(byteAddreess);
 
-    UnfreezeAssetContract contract = builder.build();
+    UncdAssetContract contract = builder.build();
 
-    Transaction transaction = blockingStubFull.unfreezeAsset(contract);
+    Transaction transaction = blockingStubFull.uncdAsset(contract);
 
     if (transaction == null || transaction.getRawData().getContractCount() == 0) {
       return false;

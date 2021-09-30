@@ -9,15 +9,15 @@ option go_package = "github.com/stabilaprotocol/grpc-gateway/core";
 message AssetIssueContract {
   string id = 41;
 
-  message FrozenSupply {
-    int64 frozen_amount = 1;
-    int64 frozen_days = 2;
+  message CdedSupply {
+    int64 cded_amount = 1;
+    int64 cded_days = 2;
   }
   bytes owner_address = 1;
   bytes name = 2;
   bytes abbr = 3;
   int64 total_supply = 4;
-  repeated FrozenSupply frozen_supply = 5;
+  repeated CdedSupply cded_supply = 5;
   int32 stb_num = 6;
   int32 precision = 7;
   int32 num = 8;
@@ -40,7 +40,7 @@ message TransferAssetContract {
   int64 amount = 4;
 }
 
-message UnfreezeAssetContract {
+message UncdAssetContract {
   bytes owner_address = 1;
 }
 

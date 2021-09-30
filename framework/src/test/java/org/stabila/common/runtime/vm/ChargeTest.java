@@ -11,8 +11,8 @@ import org.testng.Assert;
 import org.stabila.common.application.Application;
 import org.stabila.common.application.ApplicationFactory;
 import org.stabila.common.application.StabilaApplicationContext;
-import org.stabila.common.runtime.TVMTestResult;
-import org.stabila.common.runtime.TvmTestUtils;
+import org.stabila.common.runtime.SVMTestResult;
+import org.stabila.common.runtime.SvmTestUtils;
 import org.stabila.common.storage.DepositImpl;
 import org.stabila.common.utils.FileUtil;
 import org.stabila.core.Constant;
@@ -89,29 +89,29 @@ public class ChargeTest {
         + "37ba70dfc460810603eba8500b050ed3cd01e66f55ec07d387ec1cd2750029";
     String libraryAddressPair = null;
 
-    TVMTestResult result = TvmTestUtils
-        .deployContractAndReturnTvmTestResult(contractName, address, ABI, code, value, feeLimit,
+    SVMTestResult result = SvmTestUtils
+        .deployContractAndReturnSvmTestResult(contractName, address, ABI, code, value, feeLimit,
             consumeUserResourcePercent, libraryAddressPair, dbManager, null);
 
-    long expectEnergyUsageTotal = 51293; // 200 * code.length() + 93
-    Assert.assertEquals(result.getReceipt().getEnergyUsageTotal(), expectEnergyUsageTotal);
+    long expectUcrUsageTotal = 51293; // 200 * code.length() + 93
+    Assert.assertEquals(result.getReceipt().getUcrUsageTotal(), expectUcrUsageTotal);
     Assert.assertEquals(dbManager.getAccountStore().get(address).getBalance(),
-        totalBalance - expectEnergyUsageTotal * 100);
+        totalBalance - expectUcrUsageTotal * 100);
     byte[] contractAddress = result.getContractAddress();
 
     /* ====================================================================== */
-    byte[] triggerData = TvmTestUtils.parseAbi("testOverflow()", "");
-    result = TvmTestUtils
-        .triggerContractAndReturnTvmTestResult(Hex.decode(OWNER_ADDRESS), contractAddress,
+    byte[] triggerData = SvmTestUtils.parseAbi("testOverflow()", "");
+    result = SvmTestUtils
+        .triggerContractAndReturnSvmTestResult(Hex.decode(OWNER_ADDRESS), contractAddress,
             triggerData, 20_000_000_000L, feeLimit, dbManager, null);
 
-    long expectEnergyUsageTotal2 = feeLimit / 100;
-    Assert.assertEquals(result.getReceipt().getEnergyUsageTotal(), expectEnergyUsageTotal2);
+    long expectUcrUsageTotal2 = feeLimit / 100;
+    Assert.assertEquals(result.getReceipt().getUcrUsageTotal(), expectUcrUsageTotal2);
     Assert.assertEquals(result.getRuntime().getResult().isRevert(), false);
     Assert
         .assertTrue(result.getRuntime().getResult().getException() instanceof ArithmeticException);
     Assert.assertEquals(dbManager.getAccountStore().get(address).getBalance(),
-        totalBalance - (expectEnergyUsageTotal + expectEnergyUsageTotal2) * 100);
+        totalBalance - (expectUcrUsageTotal + expectUcrUsageTotal2) * 100);
   }
 
   // pragma solidity ^0.4.16;
@@ -155,44 +155,44 @@ public class ChargeTest {
         + "640d0a6c26e9cb4523e98eb0de8fff26975c5bb4c7fda1c98d720029";
     String libraryAddressPair = null;
 
-    TVMTestResult result = TvmTestUtils
-        .deployContractAndReturnTvmTestResult(contractName, address, ABI, code, value, feeLimit,
+    SVMTestResult result = SvmTestUtils
+        .deployContractAndReturnSvmTestResult(contractName, address, ABI, code, value, feeLimit,
             consumeUserResourcePercent, libraryAddressPair, dbManager, null);
 
-    long expectEnergyUsageTotal = 68111;
-    Assert.assertEquals(result.getReceipt().getEnergyUsageTotal(), expectEnergyUsageTotal);
+    long expectUcrUsageTotal = 68111;
+    Assert.assertEquals(result.getReceipt().getUcrUsageTotal(), expectUcrUsageTotal);
     Assert.assertEquals(dbManager.getAccountStore().get(address).getBalance(),
-        totalBalance - expectEnergyUsageTotal * 100);
+        totalBalance - expectUcrUsageTotal * 100);
     byte[] contractAddress = result.getContractAddress();
 
     /* =================CALL testNegative() with 0 callvalue ================================ */
-    byte[] triggerData = TvmTestUtils.parseAbi("testNegative()", "");
-    result = TvmTestUtils
-        .triggerContractAndReturnTvmTestResult(Hex.decode(OWNER_ADDRESS), contractAddress,
+    byte[] triggerData = SvmTestUtils.parseAbi("testNegative()", "");
+    result = SvmTestUtils
+        .triggerContractAndReturnSvmTestResult(Hex.decode(OWNER_ADDRESS), contractAddress,
             triggerData, value, feeLimit, dbManager, null);
 
-    long expectEnergyUsageTotal2 = feeLimit / 100;
-    Assert.assertEquals(result.getReceipt().getEnergyUsageTotal(), expectEnergyUsageTotal2);
+    long expectUcrUsageTotal2 = feeLimit / 100;
+    Assert.assertEquals(result.getReceipt().getUcrUsageTotal(), expectUcrUsageTotal2);
     Assert.assertEquals(result.getRuntime().getResult().isRevert(), false);
     Assert
         .assertTrue(result.getRuntime().getResult().getException() instanceof ArithmeticException);
     Assert.assertEquals(dbManager.getAccountStore().get(address).getBalance(),
-        totalBalance - (expectEnergyUsageTotal + expectEnergyUsageTotal2) * 100);
+        totalBalance - (expectUcrUsageTotal + expectUcrUsageTotal2) * 100);
 
 
     /* ==================CALL testNegative() with -100 callvalue ================================ */
-    triggerData = TvmTestUtils.parseAbi("testNegative()", "");
-    result = TvmTestUtils
-        .triggerContractAndReturnTvmTestResult(Hex.decode(OWNER_ADDRESS), contractAddress,
+    triggerData = SvmTestUtils.parseAbi("testNegative()", "");
+    result = SvmTestUtils
+        .triggerContractAndReturnSvmTestResult(Hex.decode(OWNER_ADDRESS), contractAddress,
             triggerData, -100, feeLimit, dbManager, null);
 
-    long expectEnergyUsageTotal3 = feeLimit / 100;
-    Assert.assertEquals(result.getReceipt().getEnergyUsageTotal(), expectEnergyUsageTotal3);
+    long expectUcrUsageTotal3 = feeLimit / 100;
+    Assert.assertEquals(result.getReceipt().getUcrUsageTotal(), expectUcrUsageTotal3);
     Assert.assertEquals(result.getRuntime().getResult().isRevert(), false);
     Assert
         .assertTrue(result.getRuntime().getResult().getException() instanceof ArithmeticException);
     Assert.assertEquals(dbManager.getAccountStore().get(address).getBalance(), totalBalance
-        - (expectEnergyUsageTotal + expectEnergyUsageTotal2 + expectEnergyUsageTotal3) * 100);
+        - (expectUcrUsageTotal + expectUcrUsageTotal2 + expectUcrUsageTotal3) * 100);
 
   }
 
@@ -200,7 +200,7 @@ public class ChargeTest {
   @Ignore
   public void testFallback()
       throws ContractExeException, ContractValidateException, ReceiptCheckErrException {
-    // done in EnergyWhenSendAndTransferTest.java
+    // done in UcrWhenSendAndTransferTest.java
 
   }
 
@@ -244,30 +244,30 @@ public class ChargeTest {
         + "d72f0c369aa795a4dc49a7f90a3e90029";
     String libraryAddressPair = null;
 
-    TVMTestResult result = TvmTestUtils
-        .deployContractAndReturnTvmTestResult(contractName, address, ABI, code, value, feeLimit,
+    SVMTestResult result = SvmTestUtils
+        .deployContractAndReturnSvmTestResult(contractName, address, ABI, code, value, feeLimit,
             consumeUserResourcePercent, libraryAddressPair, dbManager, null);
 
-    long expectEnergyUsageTotal = 74517;
-    Assert.assertEquals(result.getReceipt().getEnergyUsageTotal(), expectEnergyUsageTotal);
+    long expectUcrUsageTotal = 74517;
+    Assert.assertEquals(result.getReceipt().getUcrUsageTotal(), expectUcrUsageTotal);
     Assert.assertEquals(dbManager.getAccountStore().get(address).getBalance(),
-        totalBalance - expectEnergyUsageTotal * 100);
+        totalBalance - expectUcrUsageTotal * 100);
     byte[] contractAddress = result.getContractAddress();
 
     /* ====================================================================== */
     String params = "0000000000000000000000000000000000000000000000000000000000002710";
-    // byte[] triggerData = TvmTestUtils.parseAbi("CallstackExploit(int)", params);
-    byte[] triggerData = TvmTestUtils.parseAbi("Call(int256)", params);
-    result = TvmTestUtils
-        .triggerContractAndReturnTvmTestResult(Hex.decode(OWNER_ADDRESS), contractAddress,
+    // byte[] triggerData = SvmTestUtils.parseAbi("CallstackExploit(int)", params);
+    byte[] triggerData = SvmTestUtils.parseAbi("Call(int256)", params);
+    result = SvmTestUtils
+        .triggerContractAndReturnSvmTestResult(Hex.decode(OWNER_ADDRESS), contractAddress,
             triggerData, value, feeLimit, dbManager, null);
 
-    long expectEnergyUsageTotal2 = 27743;
-    Assert.assertEquals(result.getReceipt().getEnergyUsageTotal(), expectEnergyUsageTotal2);
+    long expectUcrUsageTotal2 = 27743;
+    Assert.assertEquals(result.getReceipt().getUcrUsageTotal(), expectUcrUsageTotal2);
     Assert.assertEquals(result.getRuntime().getResult().isRevert(), true);
     Assert.assertEquals(result.getRuntime().getResult().getException(), null);
     Assert.assertEquals(dbManager.getAccountStore().get(address).getBalance(),
-        totalBalance - (expectEnergyUsageTotal + expectEnergyUsageTotal2) * 100);
+        totalBalance - (expectUcrUsageTotal + expectUcrUsageTotal2) * 100);
 
   }
 
@@ -361,30 +361,30 @@ public class ChargeTest {
 
     String libraryAddressPair = null;
 
-    TVMTestResult result = TvmTestUtils
-        .deployContractAndReturnTvmTestResult(contractName, address, ABI, code, value, feeLimit,
+    SVMTestResult result = SvmTestUtils
+        .deployContractAndReturnSvmTestResult(contractName, address, ABI, code, value, feeLimit,
             consumeUserResourcePercent, libraryAddressPair, dbManager, null);
 
-    long expectEnergyUsageTotal = 286450;
-    Assert.assertEquals(result.getReceipt().getEnergyUsageTotal(), expectEnergyUsageTotal);
+    long expectUcrUsageTotal = 286450;
+    Assert.assertEquals(result.getReceipt().getUcrUsageTotal(), expectUcrUsageTotal);
     Assert.assertEquals(dbManager.getAccountStore().get(address).getBalance(),
-        totalBalance - expectEnergyUsageTotal * 100);
+        totalBalance - expectUcrUsageTotal * 100);
     byte[] contractAddress = result.getContractAddress();
 
     /* ====================================================================== */
     String params = "000000000000000000000000000000000000000000000000000000000000000a";
-    // byte[] triggerData = TvmTestUtils.parseAbi("CallstackExploit(int)", params);
-    byte[] triggerData = TvmTestUtils.parseAbi("Call(uint256)", params);
-    result = TvmTestUtils
-        .triggerContractAndReturnTvmTestResult(Hex.decode(OWNER_ADDRESS), contractAddress,
+    // byte[] triggerData = SvmTestUtils.parseAbi("CallstackExploit(int)", params);
+    byte[] triggerData = SvmTestUtils.parseAbi("Call(uint256)", params);
+    result = SvmTestUtils
+        .triggerContractAndReturnSvmTestResult(Hex.decode(OWNER_ADDRESS), contractAddress,
             triggerData, value, feeLimit, dbManager, null);
 
-    long expectEnergyUsageTotal2 = 243698;
-    Assert.assertEquals(result.getReceipt().getEnergyUsageTotal(), expectEnergyUsageTotal2);
+    long expectUcrUsageTotal2 = 243698;
+    Assert.assertEquals(result.getReceipt().getUcrUsageTotal(), expectUcrUsageTotal2);
     Assert.assertEquals(result.getRuntime().getResult().isRevert(), false);
     Assert.assertEquals(result.getRuntime().getResult().getException(), null);
     Assert.assertEquals(dbManager.getAccountStore().get(address).getBalance(),
-        totalBalance - (expectEnergyUsageTotal + expectEnergyUsageTotal2) * 100);
+        totalBalance - (expectUcrUsageTotal + expectUcrUsageTotal2) * 100);
 
   }
 
@@ -429,30 +429,30 @@ public class ChargeTest {
 
     String libraryAddressPair = null;
 
-    TVMTestResult result = TvmTestUtils
-        .deployContractAndReturnTvmTestResult(contractName, address, ABI, code, value, feeLimit,
+    SVMTestResult result = SvmTestUtils
+        .deployContractAndReturnSvmTestResult(contractName, address, ABI, code, value, feeLimit,
             consumeUserResourcePercent, libraryAddressPair, dbManager, null);
 
-    long expectEnergyUsageTotal = 201839;
-    Assert.assertEquals(result.getReceipt().getEnergyUsageTotal(), expectEnergyUsageTotal);
+    long expectUcrUsageTotal = 201839;
+    Assert.assertEquals(result.getReceipt().getUcrUsageTotal(), expectUcrUsageTotal);
     Assert.assertEquals(dbManager.getAccountStore().get(address).getBalance(),
-        totalBalance - expectEnergyUsageTotal * 100);
+        totalBalance - expectUcrUsageTotal * 100);
     byte[] contractAddress = result.getContractAddress();
 
     /* ====================================================================== */
     String params = "0000000000000000000000000000000000000000000000000000000000000001";
-    // byte[] triggerData = TvmTestUtils.parseAbi("CallstackExploit(int)", params);
-    byte[] triggerData = TvmTestUtils.parseAbi("testCreate(uint256)", params);
-    result = TvmTestUtils
-        .triggerContractAndReturnTvmTestResult(Hex.decode(OWNER_ADDRESS), contractAddress,
+    // byte[] triggerData = SvmTestUtils.parseAbi("CallstackExploit(int)", params);
+    byte[] triggerData = SvmTestUtils.parseAbi("testCreate(uint256)", params);
+    result = SvmTestUtils
+        .triggerContractAndReturnSvmTestResult(Hex.decode(OWNER_ADDRESS), contractAddress,
             triggerData, value, feeLimit, dbManager, null);
 
-    long expectEnergyUsageTotal2 = 4481164;
-    Assert.assertEquals(result.getReceipt().getEnergyUsageTotal(), expectEnergyUsageTotal2);
+    long expectUcrUsageTotal2 = 4481164;
+    Assert.assertEquals(result.getReceipt().getUcrUsageTotal(), expectUcrUsageTotal2);
     Assert.assertEquals(result.getRuntime().getResult().isRevert(), false);
     Assert.assertEquals(result.getRuntime().getResult().getException(), null);
     Assert.assertEquals(dbManager.getAccountStore().get(address).getBalance(),
-        totalBalance - (expectEnergyUsageTotal + expectEnergyUsageTotal2) * 100);
+        totalBalance - (expectUcrUsageTotal + expectUcrUsageTotal2) * 100);
 
   }
 

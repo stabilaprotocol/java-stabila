@@ -41,17 +41,17 @@ public class DynamicPropertiesStore extends StabilaStoreWithRevoking<BytesCapsul
 
   private static final byte[] NEXT_MAINTENANCE_TIME = "NEXT_MAINTENANCE_TIME".getBytes();
 
-  private static final byte[] MAX_FROZEN_TIME = "MAX_FROZEN_TIME".getBytes();
+  private static final byte[] MAX_CDED_TIME = "MAX_CDED_TIME".getBytes();
 
-  private static final byte[] MIN_FROZEN_TIME = "MIN_FROZEN_TIME".getBytes();
+  private static final byte[] MIN_CDED_TIME = "MIN_CDED_TIME".getBytes();
 
-  private static final byte[] MAX_FROZEN_SUPPLY_NUMBER = "MAX_FROZEN_SUPPLY_NUMBER".getBytes();
+  private static final byte[] MAX_CDED_SUPPLY_NUMBER = "MAX_CDED_SUPPLY_NUMBER".getBytes();
 
-  private static final byte[] MAX_FROZEN_SUPPLY_TIME = "MAX_FROZEN_SUPPLY_TIME".getBytes();
+  private static final byte[] MAX_CDED_SUPPLY_TIME = "MAX_CDED_SUPPLY_TIME".getBytes();
 
-  private static final byte[] MIN_FROZEN_SUPPLY_TIME = "MIN_FROZEN_SUPPLY_TIME".getBytes();
+  private static final byte[] MIN_CDED_SUPPLY_TIME = "MIN_CDED_SUPPLY_TIME".getBytes();
 
-  private static final byte[] WITNESS_ALLOWANCE_FROZEN_TIME = "WITNESS_ALLOWANCE_FROZEN_TIME"
+  private static final byte[] WITNESS_ALLOWANCE_CDED_TIME = "WITNESS_ALLOWANCE_CDED_TIME"
       .getBytes();
 
   private static final byte[] MAINTENANCE_TIME_INTERVAL = "MAINTENANCE_TIME_INTERVAL".getBytes();
@@ -63,7 +63,7 @@ public class DynamicPropertiesStore extends StabilaStoreWithRevoking<BytesCapsul
   private static final byte[] WITNESS_127_PAY_PER_BLOCK = "WITNESS_127_PAY_PER_BLOCK".getBytes();
 
   private static final byte[] WITNESS_STANDBY_ALLOWANCE = "WITNESS_STANDBY_ALLOWANCE".getBytes();
-  private static final byte[] ENERGY_FEE = "ENERGY_FEE".getBytes();
+  private static final byte[] UCR_FEE = "UCR_FEE".getBytes();
   private static final byte[] MAX_CPU_TIME_OF_ONE_TX = "MAX_CPU_TIME_OF_ONE_TX".getBytes();
   //abandon
   private static final byte[] CREATE_ACCOUNT_FEE = "CREATE_ACCOUNT_FEE".getBytes();
@@ -99,7 +99,7 @@ public class DynamicPropertiesStore extends StabilaStoreWithRevoking<BytesCapsul
   //This value is only allowed to be 0, 1, -1
   private static final byte[] ALLOW_DELEGATE_RESOURCE = "ALLOW_DELEGATE_RESOURCE".getBytes();
   //This value is only allowed to be 0, 1, -1
-  private static final byte[] ALLOW_ADAPTIVE_ENERGY = "ALLOW_ADAPTIVE_ENERGY".getBytes();
+  private static final byte[] ALLOW_ADAPTIVE_UCR = "ALLOW_ADAPTIVE_UCR".getBytes();
   //This value is only allowed to be 0, 1, -1
   private static final byte[] ALLOW_UPDATE_ACCOUNT_NAME = "ALLOW_UPDATE_ACCOUNT_NAME".getBytes();
   //This value is only allowed to be 0, 1, -1
@@ -120,15 +120,15 @@ public class DynamicPropertiesStore extends StabilaStoreWithRevoking<BytesCapsul
   //Used only for abi moves, once，value is {0,1}
   private static final byte[] ABI_MOVE_DONE = "ABI_MOVE_DONE".getBytes();
   //This value is only allowed to be 0, 1, -1
-  private static final byte[] ALLOW_TVM_TRANSFER_TRC10 = "ALLOW_TVM_TRANSFER_TRC10".getBytes();
+  private static final byte[] ALLOW_SVM_TRANSFER_TRC10 = "ALLOW_SVM_TRANSFER_TRC10".getBytes();
   //If the parameter is larger than 0, allow ZKsnark Transaction
   private static final byte[] ALLOW_SHIELDED_TRANSACTION = "ALLOW_SHIELDED_TRANSACTION".getBytes();
   private static final byte[] ALLOW_SHIELDED_TRC20_TRANSACTION =
       "ALLOW_SHIELDED_TRC20_TRANSACTION"
           .getBytes();
-  private static final byte[] ALLOW_TVM_ISTANBUL = "ALLOW_TVM_ISTANBUL".getBytes();
-  private static final byte[] ALLOW_TVM_CONSTANTINOPLE = "ALLOW_TVM_CONSTANTINOPLE".getBytes();
-  private static final byte[] ALLOW_TVM_SOLIDITY_059 = "ALLOW_TVM_SOLIDITY_059".getBytes();
+  private static final byte[] ALLOW_SVM_ISTANBUL = "ALLOW_SVM_ISTANBUL".getBytes();
+  private static final byte[] ALLOW_SVM_CONSTANTINOPLE = "ALLOW_SVM_CONSTANTINOPLE".getBytes();
+  private static final byte[] ALLOW_SVM_SOLIDITY_059 = "ALLOW_SVM_SOLIDITY_059".getBytes();
   private static final byte[] FORBID_TRANSFER_TO_CONTRACT = "FORBID_TRANSFER_TO_CONTRACT"
       .getBytes();
   //Used only for protobuf data filter , once，value is 0,1
@@ -154,8 +154,8 @@ public class DynamicPropertiesStore extends StabilaStoreWithRevoking<BytesCapsul
   private static final byte[] BURN_STB_AMOUNT = "BURN_STB_AMOUNT".getBytes();
   private static final byte[] ALLOW_BLACKHOLE_OPTIMIZATION = "ALLOW_BLACKHOLE_OPTIMIZATION".getBytes();
   private static final byte[] ALLOW_NEW_RESOURCE_MODEL = "ALLOW_NEW_RESOURCE_MODEL".getBytes();
-  private static final byte[] ALLOW_TVM_FREEZE = "ALLOW_TVM_FREEZE".getBytes();
-  private static final byte[] ALLOW_TVM_VOTE = "ALLOW_TVM_VOTE".getBytes();
+  private static final byte[] ALLOW_SVM_CD = "ALLOW_SVM_CD".getBytes();
+  private static final byte[] ALLOW_SVM_VOTE = "ALLOW_SVM_VOTE".getBytes();
   private static final byte[] NEW_REWARD_ALGORITHM_EFFECTIVE_CYCLE =
       "NEW_REWARD_ALGORITHM_EFFECTIVE_CYCLE".getBytes();
   //This value is only allowed to be 1
@@ -246,39 +246,39 @@ public class DynamicPropertiesStore extends StabilaStoreWithRevoking<BytesCapsul
     }
 
     try {
-      this.getMaxFrozenTime();
+      this.getMaxCdedTime();
     } catch (IllegalArgumentException e) {
-      this.saveMaxFrozenTime(3);
+      this.saveMaxCdedTime(3);
     }
 
     try {
-      this.getMinFrozenTime();
+      this.getMinCdedTime();
     } catch (IllegalArgumentException e) {
-      this.saveMinFrozenTime(3);
+      this.saveMinCdedTime(3);
     }
 
     try {
-      this.getMaxFrozenSupplyNumber();
+      this.getMaxCdedSupplyNumber();
     } catch (IllegalArgumentException e) {
-      this.saveMaxFrozenSupplyNumber(10);
+      this.saveMaxCdedSupplyNumber(10);
     }
 
     try {
-      this.getMaxFrozenSupplyTime();
+      this.getMaxCdedSupplyTime();
     } catch (IllegalArgumentException e) {
-      this.saveMaxFrozenSupplyTime(3652);
+      this.saveMaxCdedSupplyTime(3652);
     }
 
     try {
-      this.getMinFrozenSupplyTime();
+      this.getMinCdedSupplyTime();
     } catch (IllegalArgumentException e) {
-      this.saveMinFrozenSupplyTime(1);
+      this.saveMinCdedSupplyTime(1);
     }
 
     try {
-      this.getWitnessAllowanceFrozenTime();
+      this.getWitnessAllowanceCdedTime();
     } catch (IllegalArgumentException e) {
-      this.saveWitnessAllowanceFrozenTime(1);
+      this.saveWitnessAllowanceCdedTime(1);
     }
 
     try {
@@ -349,9 +349,9 @@ public class DynamicPropertiesStore extends StabilaStoreWithRevoking<BytesCapsul
     }
 
     try {
-      this.getTotalEnergyWeight();
+      this.getTotalUcrWeight();
     } catch (IllegalArgumentException e) {
-      this.saveTotalEnergyWeight(0L);
+      this.saveTotalUcrWeight(0L);
     }
 
     try {
@@ -362,10 +362,10 @@ public class DynamicPropertiesStore extends StabilaStoreWithRevoking<BytesCapsul
 
 
     try {
-      this.getAllowAdaptiveEnergy();
+      this.getAllowAdaptiveUcr();
     } catch (IllegalArgumentException e) {
-      this.saveAllowAdaptiveEnergy(CommonParameter.getInstance()
-          .getAllowAdaptiveEnergy());
+      this.saveAllowAdaptiveUcr(CommonParameter.getInstance()
+          .getAllowAdaptiveUcr());
     }
 
     try {
@@ -375,15 +375,15 @@ public class DynamicPropertiesStore extends StabilaStoreWithRevoking<BytesCapsul
     }
 
     try {
-      this.getTotalEnergyLimit();
+      this.getTotalUcrLimit();
     } catch (IllegalArgumentException e) {
-      this.saveTotalEnergyLimit(50_000_000_000L);
+      this.saveTotalUcrLimit(50_000_000_000L);
     }
 
     try {
-      this.getEnergyFee();
+      this.getUcrFee();
     } catch (IllegalArgumentException e) {
-      this.saveEnergyFee(100L);// 100 unit per energy
+      this.saveUcrFee(100L);// 100 unit per ucr
     }
 
     try {
@@ -556,24 +556,24 @@ public class DynamicPropertiesStore extends StabilaStoreWithRevoking<BytesCapsul
     }
 
     try {
-      this.getAllowTvmTransferTrc10();
+      this.getAllowSvmTransferTrc10();
     } catch (IllegalArgumentException e) {
-      this.saveAllowTvmTransferTrc10(CommonParameter.getInstance()
-          .getAllowTvmTransferTrc10());
+      this.saveAllowSvmTransferTrc10(CommonParameter.getInstance()
+          .getAllowSvmTransferTrc10());
     }
 
     try {
-      this.getAllowTvmConstantinople();
+      this.getAllowSvmConstantinople();
     } catch (IllegalArgumentException e) {
-      this.saveAllowTvmConstantinople(CommonParameter.getInstance()
-          .getAllowTvmConstantinople());
+      this.saveAllowSvmConstantinople(CommonParameter.getInstance()
+          .getAllowSvmConstantinople());
     }
 
     try {
-      this.getAllowTvmSolidity059();
+      this.getAllowSvmSolidity059();
     } catch (IllegalArgumentException e) {
-      this.saveAllowTvmSolidity059(CommonParameter.getInstance()
-          .getAllowTvmSolidity059());
+      this.saveAllowSvmSolidity059(CommonParameter.getInstance()
+          .getAllowSvmSolidity059());
     }
 
     try {
@@ -633,10 +633,10 @@ public class DynamicPropertiesStore extends StabilaStoreWithRevoking<BytesCapsul
     }
 
     try {
-      this.getAllowTvmIstanbul();
+      this.getAllowSvmIstanbul();
     } catch (IllegalArgumentException e) {
-      this.saveAllowTvmIstanbul(
-          CommonParameter.getInstance().getAllowTvmIstanbul());
+      this.saveAllowSvmIstanbul(
+          CommonParameter.getInstance().getAllowSvmIstanbul());
     }
 
     try {
@@ -656,21 +656,21 @@ public class DynamicPropertiesStore extends StabilaStoreWithRevoking<BytesCapsul
     }
 
     try {
-      this.getTotalEnergyCurrentLimit();
+      this.getTotalUcrCurrentLimit();
     } catch (IllegalArgumentException e) {
-      this.saveTotalEnergyCurrentLimit(getTotalEnergyLimit());
+      this.saveTotalUcrCurrentLimit(getTotalUcrLimit());
     }
 
     try {
-      this.getTotalEnergyTargetLimit();
+      this.getTotalUcrTargetLimit();
     } catch (IllegalArgumentException e) {
-      this.saveTotalEnergyTargetLimit(getTotalEnergyLimit() / 14400);
+      this.saveTotalUcrTargetLimit(getTotalUcrLimit() / 14400);
     }
 
     try {
-      this.getTotalEnergyAverageUsage();
+      this.getTotalUcrAverageUsage();
     } catch (IllegalArgumentException e) {
-      this.saveTotalEnergyAverageUsage(0);
+      this.saveTotalUcrAverageUsage(0);
     }
 
     try {
@@ -680,15 +680,15 @@ public class DynamicPropertiesStore extends StabilaStoreWithRevoking<BytesCapsul
     }
 
     try {
-      this.getTotalEnergyAverageTime();
+      this.getTotalUcrAverageTime();
     } catch (IllegalArgumentException e) {
-      this.saveTotalEnergyAverageTime(0);
+      this.saveTotalUcrAverageTime(0);
     }
 
     try {
-      this.getBlockEnergyUsage();
+      this.getBlockUcrUsage();
     } catch (IllegalArgumentException e) {
-      this.saveBlockEnergyUsage(0);
+      this.saveBlockUcrUsage(0);
     }
 
     try {
@@ -743,16 +743,16 @@ public class DynamicPropertiesStore extends StabilaStoreWithRevoking<BytesCapsul
     }
 
     try {
-      this.getAllowTvmFreeze();
+      this.getAllowSvmCd();
     } catch (IllegalArgumentException e) {
-      this.saveAllowTvmFreeze(CommonParameter.getInstance().getAllowTvmFreeze());
+      this.saveAllowSvmCd(CommonParameter.getInstance().getAllowSvmCd());
     }
 
     try {
-      this.getAllowTvmVote();
+      this.getAllowSvmVote();
     } catch (IllegalArgumentException e) {
-      this.saveAllowTvmVote(CommonParameter.getInstance().getAllowTvmVote());
-      if (CommonParameter.getInstance().getAllowTvmVote() == 1) {
+      this.saveAllowSvmVote(CommonParameter.getInstance().getAllowSvmVote());
+      if (CommonParameter.getInstance().getAllowSvmVote() == 1) {
         this.put(NEW_REWARD_ALGORITHM_EFFECTIVE_CYCLE,
             new BytesCapsule(ByteArray.fromLong(getCurrentCycleNumber())));
       }
@@ -836,88 +836,88 @@ public class DynamicPropertiesStore extends StabilaStoreWithRevoking<BytesCapsul
             () -> new IllegalArgumentException("not found BLOCK_FILLED_SLOTS_INDEX"));
   }
 
-  public void saveMaxFrozenTime(int maxFrozenTime) {
-    logger.debug("MAX_FROZEN_NUMBER:" + maxFrozenTime);
-    this.put(MAX_FROZEN_TIME,
-        new BytesCapsule(ByteArray.fromInt(maxFrozenTime)));
+  public void saveMaxCdedTime(int maxCdedTime) {
+    logger.debug("MAX_CDED_NUMBER:" + maxCdedTime);
+    this.put(MAX_CDED_TIME,
+        new BytesCapsule(ByteArray.fromInt(maxCdedTime)));
   }
 
-  public int getMaxFrozenTime() {
-    return Optional.ofNullable(getUnchecked(MAX_FROZEN_TIME))
+  public int getMaxCdedTime() {
+    return Optional.ofNullable(getUnchecked(MAX_CDED_TIME))
         .map(BytesCapsule::getData)
         .map(ByteArray::toInt)
         .orElseThrow(
-            () -> new IllegalArgumentException("not found MAX_FROZEN_TIME"));
+            () -> new IllegalArgumentException("not found MAX_CDED_TIME"));
   }
 
-  public void saveMinFrozenTime(int minFrozenTime) {
-    logger.debug("MIN_FROZEN_NUMBER:" + minFrozenTime);
-    this.put(MIN_FROZEN_TIME,
-        new BytesCapsule(ByteArray.fromInt(minFrozenTime)));
+  public void saveMinCdedTime(int minCdedTime) {
+    logger.debug("MIN_CDED_NUMBER:" + minCdedTime);
+    this.put(MIN_CDED_TIME,
+        new BytesCapsule(ByteArray.fromInt(minCdedTime)));
   }
 
-  public int getMinFrozenTime() {
-    return Optional.ofNullable(getUnchecked(MIN_FROZEN_TIME))
+  public int getMinCdedTime() {
+    return Optional.ofNullable(getUnchecked(MIN_CDED_TIME))
         .map(BytesCapsule::getData)
         .map(ByteArray::toInt)
         .orElseThrow(
-            () -> new IllegalArgumentException("not found MIN_FROZEN_TIME"));
+            () -> new IllegalArgumentException("not found MIN_CDED_TIME"));
   }
 
-  public void saveMaxFrozenSupplyNumber(int maxFrozenSupplyNumber) {
-    logger.debug("MAX_FROZEN_SUPPLY_NUMBER:" + maxFrozenSupplyNumber);
-    this.put(MAX_FROZEN_SUPPLY_NUMBER,
-        new BytesCapsule(ByteArray.fromInt(maxFrozenSupplyNumber)));
+  public void saveMaxCdedSupplyNumber(int maxCdedSupplyNumber) {
+    logger.debug("MAX_CDED_SUPPLY_NUMBER:" + maxCdedSupplyNumber);
+    this.put(MAX_CDED_SUPPLY_NUMBER,
+        new BytesCapsule(ByteArray.fromInt(maxCdedSupplyNumber)));
   }
 
-  public int getMaxFrozenSupplyNumber() {
-    return Optional.ofNullable(getUnchecked(MAX_FROZEN_SUPPLY_NUMBER))
+  public int getMaxCdedSupplyNumber() {
+    return Optional.ofNullable(getUnchecked(MAX_CDED_SUPPLY_NUMBER))
         .map(BytesCapsule::getData)
         .map(ByteArray::toInt)
         .orElseThrow(
-            () -> new IllegalArgumentException("not found MAX_FROZEN_SUPPLY_NUMBER"));
+            () -> new IllegalArgumentException("not found MAX_CDED_SUPPLY_NUMBER"));
   }
 
-  public void saveMaxFrozenSupplyTime(int maxFrozenSupplyTime) {
-    logger.debug("MAX_FROZEN_SUPPLY_NUMBER:" + maxFrozenSupplyTime);
-    this.put(MAX_FROZEN_SUPPLY_TIME,
-        new BytesCapsule(ByteArray.fromInt(maxFrozenSupplyTime)));
+  public void saveMaxCdedSupplyTime(int maxCdedSupplyTime) {
+    logger.debug("MAX_CDED_SUPPLY_NUMBER:" + maxCdedSupplyTime);
+    this.put(MAX_CDED_SUPPLY_TIME,
+        new BytesCapsule(ByteArray.fromInt(maxCdedSupplyTime)));
   }
 
-  public int getMaxFrozenSupplyTime() {
-    return Optional.ofNullable(getUnchecked(MAX_FROZEN_SUPPLY_TIME))
+  public int getMaxCdedSupplyTime() {
+    return Optional.ofNullable(getUnchecked(MAX_CDED_SUPPLY_TIME))
         .map(BytesCapsule::getData)
         .map(ByteArray::toInt)
         .orElseThrow(
-            () -> new IllegalArgumentException("not found MAX_FROZEN_SUPPLY_TIME"));
+            () -> new IllegalArgumentException("not found MAX_CDED_SUPPLY_TIME"));
   }
 
-  public void saveMinFrozenSupplyTime(int minFrozenSupplyTime) {
-    logger.debug("MIN_FROZEN_SUPPLY_NUMBER:" + minFrozenSupplyTime);
-    this.put(MIN_FROZEN_SUPPLY_TIME,
-        new BytesCapsule(ByteArray.fromInt(minFrozenSupplyTime)));
+  public void saveMinCdedSupplyTime(int minCdedSupplyTime) {
+    logger.debug("MIN_CDED_SUPPLY_NUMBER:" + minCdedSupplyTime);
+    this.put(MIN_CDED_SUPPLY_TIME,
+        new BytesCapsule(ByteArray.fromInt(minCdedSupplyTime)));
   }
 
-  public int getMinFrozenSupplyTime() {
-    return Optional.ofNullable(getUnchecked(MIN_FROZEN_SUPPLY_TIME))
+  public int getMinCdedSupplyTime() {
+    return Optional.ofNullable(getUnchecked(MIN_CDED_SUPPLY_TIME))
         .map(BytesCapsule::getData)
         .map(ByteArray::toInt)
         .orElseThrow(
-            () -> new IllegalArgumentException("not found MIN_FROZEN_SUPPLY_TIME"));
+            () -> new IllegalArgumentException("not found MIN_CDED_SUPPLY_TIME"));
   }
 
-  public void saveWitnessAllowanceFrozenTime(int witnessAllowanceFrozenTime) {
-    logger.debug("WITNESS_ALLOWANCE_FROZEN_TIME:" + witnessAllowanceFrozenTime);
-    this.put(WITNESS_ALLOWANCE_FROZEN_TIME,
-        new BytesCapsule(ByteArray.fromInt(witnessAllowanceFrozenTime)));
+  public void saveWitnessAllowanceCdedTime(int witnessAllowanceCdedTime) {
+    logger.debug("WITNESS_ALLOWANCE_CDED_TIME:" + witnessAllowanceCdedTime);
+    this.put(WITNESS_ALLOWANCE_CDED_TIME,
+        new BytesCapsule(ByteArray.fromInt(witnessAllowanceCdedTime)));
   }
 
-  public int getWitnessAllowanceFrozenTime() {
-    return Optional.ofNullable(getUnchecked(WITNESS_ALLOWANCE_FROZEN_TIME))
+  public int getWitnessAllowanceCdedTime() {
+    return Optional.ofNullable(getUnchecked(WITNESS_ALLOWANCE_CDED_TIME))
         .map(BytesCapsule::getData)
         .map(ByteArray::toInt)
         .orElseThrow(
-            () -> new IllegalArgumentException("not found WITNESS_ALLOWANCE_FROZEN_TIME"));
+            () -> new IllegalArgumentException("not found WITNESS_ALLOWANCE_CDED_TIME"));
   }
 
   public void saveMaintenanceTimeInterval(long timeInterval) {
@@ -1067,22 +1067,22 @@ public class DynamicPropertiesStore extends StabilaStoreWithRevoking<BytesCapsul
             () -> new IllegalArgumentException("not found TOTAL_NET_WEIGHT"));
   }
 
-  public void saveTotalEnergyWeight(long totalEnergyWeight) {
-    this.put(DynamicResourceProperties.TOTAL_ENERGY_WEIGHT,
-        new BytesCapsule(ByteArray.fromLong(totalEnergyWeight)));
+  public void saveTotalUcrWeight(long totalUcrWeight) {
+    this.put(DynamicResourceProperties.TOTAL_UCR_WEIGHT,
+        new BytesCapsule(ByteArray.fromLong(totalUcrWeight)));
   }
 
-  public long getTotalEnergyWeight() {
-    return Optional.ofNullable(getUnchecked(DynamicResourceProperties.TOTAL_ENERGY_WEIGHT))
+  public long getTotalUcrWeight() {
+    return Optional.ofNullable(getUnchecked(DynamicResourceProperties.TOTAL_UCR_WEIGHT))
         .map(BytesCapsule::getData)
         .map(ByteArray::toLong)
         .orElseThrow(
-            () -> new IllegalArgumentException("not found TOTAL_ENERGY_WEIGHT"));
+            () -> new IllegalArgumentException("not found TOTAL_UCR_WEIGHT"));
   }
 
-  public void saveTotalStabilaPowerWeight(long totalEnergyWeight) {
+  public void saveTotalStabilaPowerWeight(long totalUcrWeight) {
     this.put(DynamicResourceProperties.TOTAL_STABILA_POWER_WEIGHT,
-        new BytesCapsule(ByteArray.fromLong(totalEnergyWeight)));
+        new BytesCapsule(ByteArray.fromLong(totalUcrWeight)));
   }
 
   public long getTotalStabilaPowerWeight() {
@@ -1107,70 +1107,70 @@ public class DynamicPropertiesStore extends StabilaStoreWithRevoking<BytesCapsul
   }
 
   @Deprecated
-  public void saveTotalEnergyLimit(long totalEnergyLimit) {
-    this.put(DynamicResourceProperties.TOTAL_ENERGY_LIMIT,
-        new BytesCapsule(ByteArray.fromLong(totalEnergyLimit)));
+  public void saveTotalUcrLimit(long totalUcrLimit) {
+    this.put(DynamicResourceProperties.TOTAL_UCR_LIMIT,
+        new BytesCapsule(ByteArray.fromLong(totalUcrLimit)));
 
     long ratio = getAdaptiveResourceLimitTargetRatio();
-    saveTotalEnergyTargetLimit(totalEnergyLimit / ratio);
+    saveTotalUcrTargetLimit(totalUcrLimit / ratio);
   }
 
-  public void saveTotalEnergyLimit2(long totalEnergyLimit) {
-    this.put(DynamicResourceProperties.TOTAL_ENERGY_LIMIT,
-        new BytesCapsule(ByteArray.fromLong(totalEnergyLimit)));
+  public void saveTotalUcrLimit2(long totalUcrLimit) {
+    this.put(DynamicResourceProperties.TOTAL_UCR_LIMIT,
+        new BytesCapsule(ByteArray.fromLong(totalUcrLimit)));
 
     long ratio = getAdaptiveResourceLimitTargetRatio();
-    saveTotalEnergyTargetLimit(totalEnergyLimit / ratio);
-    if (getAllowAdaptiveEnergy() == 0) {
-      saveTotalEnergyCurrentLimit(totalEnergyLimit);
+    saveTotalUcrTargetLimit(totalUcrLimit / ratio);
+    if (getAllowAdaptiveUcr() == 0) {
+      saveTotalUcrCurrentLimit(totalUcrLimit);
     }
   }
 
-  public long getTotalEnergyLimit() {
-    return Optional.ofNullable(getUnchecked(DynamicResourceProperties.TOTAL_ENERGY_LIMIT))
+  public long getTotalUcrLimit() {
+    return Optional.ofNullable(getUnchecked(DynamicResourceProperties.TOTAL_UCR_LIMIT))
         .map(BytesCapsule::getData)
         .map(ByteArray::toLong)
         .orElseThrow(
-            () -> new IllegalArgumentException("not found TOTAL_ENERGY_LIMIT"));
+            () -> new IllegalArgumentException("not found TOTAL_UCR_LIMIT"));
   }
 
-  public void saveTotalEnergyCurrentLimit(long totalEnergyCurrentLimit) {
-    this.put(DynamicResourceProperties.TOTAL_ENERGY_CURRENT_LIMIT,
-        new BytesCapsule(ByteArray.fromLong(totalEnergyCurrentLimit)));
+  public void saveTotalUcrCurrentLimit(long totalUcrCurrentLimit) {
+    this.put(DynamicResourceProperties.TOTAL_UCR_CURRENT_LIMIT,
+        new BytesCapsule(ByteArray.fromLong(totalUcrCurrentLimit)));
   }
 
-  public long getTotalEnergyCurrentLimit() {
-    return Optional.ofNullable(getUnchecked(DynamicResourceProperties.TOTAL_ENERGY_CURRENT_LIMIT))
+  public long getTotalUcrCurrentLimit() {
+    return Optional.ofNullable(getUnchecked(DynamicResourceProperties.TOTAL_UCR_CURRENT_LIMIT))
         .map(BytesCapsule::getData)
         .map(ByteArray::toLong)
         .orElseThrow(
-            () -> new IllegalArgumentException("not found TOTAL_ENERGY_CURRENT_LIMIT"));
+            () -> new IllegalArgumentException("not found TOTAL_UCR_CURRENT_LIMIT"));
   }
 
-  public void saveTotalEnergyTargetLimit(long targetTotalEnergyLimit) {
-    this.put(DynamicResourceProperties.TOTAL_ENERGY_TARGET_LIMIT,
-        new BytesCapsule(ByteArray.fromLong(targetTotalEnergyLimit)));
+  public void saveTotalUcrTargetLimit(long targetTotalUcrLimit) {
+    this.put(DynamicResourceProperties.TOTAL_UCR_TARGET_LIMIT,
+        new BytesCapsule(ByteArray.fromLong(targetTotalUcrLimit)));
   }
 
-  public long getTotalEnergyTargetLimit() {
-    return Optional.ofNullable(getUnchecked(DynamicResourceProperties.TOTAL_ENERGY_TARGET_LIMIT))
+  public long getTotalUcrTargetLimit() {
+    return Optional.ofNullable(getUnchecked(DynamicResourceProperties.TOTAL_UCR_TARGET_LIMIT))
         .map(BytesCapsule::getData)
         .map(ByteArray::toLong)
         .orElseThrow(
-            () -> new IllegalArgumentException("not found TOTAL_ENERGY_TARGET_LIMIT"));
+            () -> new IllegalArgumentException("not found TOTAL_UCR_TARGET_LIMIT"));
   }
 
-  public void saveTotalEnergyAverageUsage(long totalEnergyAverageUsage) {
-    this.put(DynamicResourceProperties.TOTAL_ENERGY_AVERAGE_USAGE,
-        new BytesCapsule(ByteArray.fromLong(totalEnergyAverageUsage)));
+  public void saveTotalUcrAverageUsage(long totalUcrAverageUsage) {
+    this.put(DynamicResourceProperties.TOTAL_UCR_AVERAGE_USAGE,
+        new BytesCapsule(ByteArray.fromLong(totalUcrAverageUsage)));
   }
 
-  public long getTotalEnergyAverageUsage() {
-    return Optional.ofNullable(getUnchecked(DynamicResourceProperties.TOTAL_ENERGY_AVERAGE_USAGE))
+  public long getTotalUcrAverageUsage() {
+    return Optional.ofNullable(getUnchecked(DynamicResourceProperties.TOTAL_UCR_AVERAGE_USAGE))
         .map(BytesCapsule::getData)
         .map(ByteArray::toLong)
         .orElseThrow(
-            () -> new IllegalArgumentException("not found TOTAL_ENERGY_AVERAGE_USAGE"));
+            () -> new IllegalArgumentException("not found TOTAL_UCR_AVERAGE_USAGE"));
   }
 
   public void saveAdaptiveResourceLimitMultiplier(long adaptiveResourceLimitMultiplier) {
@@ -1201,43 +1201,43 @@ public class DynamicPropertiesStore extends StabilaStoreWithRevoking<BytesCapsul
             () -> new IllegalArgumentException("not found ADAPTIVE_RESOURCE_LIMIT_TARGET_RATIO"));
   }
 
-  public void saveTotalEnergyAverageTime(long totalEnergyAverageTime) {
-    this.put(DynamicResourceProperties.TOTAL_ENERGY_AVERAGE_TIME,
-        new BytesCapsule(ByteArray.fromLong(totalEnergyAverageTime)));
+  public void saveTotalUcrAverageTime(long totalUcrAverageTime) {
+    this.put(DynamicResourceProperties.TOTAL_UCR_AVERAGE_TIME,
+        new BytesCapsule(ByteArray.fromLong(totalUcrAverageTime)));
   }
 
-  public long getTotalEnergyAverageTime() {
-    return Optional.ofNullable(getUnchecked(DynamicResourceProperties.TOTAL_ENERGY_AVERAGE_TIME))
+  public long getTotalUcrAverageTime() {
+    return Optional.ofNullable(getUnchecked(DynamicResourceProperties.TOTAL_UCR_AVERAGE_TIME))
         .map(BytesCapsule::getData)
         .map(ByteArray::toLong)
         .orElseThrow(
             () -> new IllegalArgumentException("not found TOTAL_NET_AVERAGE_TIME"));
   }
 
-  public void saveBlockEnergyUsage(long blockEnergyUsage) {
-    this.put(DynamicResourceProperties.BLOCK_ENERGY_USAGE,
-        new BytesCapsule(ByteArray.fromLong(blockEnergyUsage)));
+  public void saveBlockUcrUsage(long blockUcrUsage) {
+    this.put(DynamicResourceProperties.BLOCK_UCR_USAGE,
+        new BytesCapsule(ByteArray.fromLong(blockUcrUsage)));
   }
 
-  public long getBlockEnergyUsage() {
-    return Optional.ofNullable(getUnchecked(DynamicResourceProperties.BLOCK_ENERGY_USAGE))
+  public long getBlockUcrUsage() {
+    return Optional.ofNullable(getUnchecked(DynamicResourceProperties.BLOCK_UCR_USAGE))
         .map(BytesCapsule::getData)
         .map(ByteArray::toLong)
         .orElseThrow(
-            () -> new IllegalArgumentException("not found BLOCK_ENERGY_USAGE"));
+            () -> new IllegalArgumentException("not found BLOCK_UCR_USAGE"));
   }
 
-  public void saveEnergyFee(long totalEnergyFee) {
-    this.put(ENERGY_FEE,
-        new BytesCapsule(ByteArray.fromLong(totalEnergyFee)));
+  public void saveUcrFee(long totalUcrFee) {
+    this.put(UCR_FEE,
+        new BytesCapsule(ByteArray.fromLong(totalUcrFee)));
   }
 
-  public long getEnergyFee() {
-    return Optional.ofNullable(getUnchecked(ENERGY_FEE))
+  public long getUcrFee() {
+    return Optional.ofNullable(getUnchecked(UCR_FEE))
         .map(BytesCapsule::getData)
         .map(ByteArray::toLong)
         .orElseThrow(
-            () -> new IllegalArgumentException("not found ENERGY_FEE"));
+            () -> new IllegalArgumentException("not found UCR_FEE"));
   }
 
   public void saveMaxCpuTimeOfOneTx(long time) {
@@ -1624,55 +1624,55 @@ public class DynamicPropertiesStore extends StabilaStoreWithRevoking<BytesCapsul
             () -> new IllegalArgumentException("not found ALLOW_DELEGATE_RESOURCE"));
   }
 
-  public void saveAllowAdaptiveEnergy(long value) {
-    this.put(ALLOW_ADAPTIVE_ENERGY,
+  public void saveAllowAdaptiveUcr(long value) {
+    this.put(ALLOW_ADAPTIVE_UCR,
         new BytesCapsule(ByteArray.fromLong(value)));
   }
 
-  public long getAllowAdaptiveEnergy() {
-    return Optional.ofNullable(getUnchecked(ALLOW_ADAPTIVE_ENERGY))
+  public long getAllowAdaptiveUcr() {
+    return Optional.ofNullable(getUnchecked(ALLOW_ADAPTIVE_UCR))
         .map(BytesCapsule::getData)
         .map(ByteArray::toLong)
         .orElseThrow(
-            () -> new IllegalArgumentException("not found ALLOW_ADAPTIVE_ENERGY"));
+            () -> new IllegalArgumentException("not found ALLOW_ADAPTIVE_UCR"));
   }
 
-  public void saveAllowTvmTransferTrc10(long value) {
-    this.put(ALLOW_TVM_TRANSFER_TRC10,
+  public void saveAllowSvmTransferTrc10(long value) {
+    this.put(ALLOW_SVM_TRANSFER_TRC10,
         new BytesCapsule(ByteArray.fromLong(value)));
   }
 
-  public long getAllowTvmTransferTrc10() {
-    return Optional.ofNullable(getUnchecked(ALLOW_TVM_TRANSFER_TRC10))
+  public long getAllowSvmTransferTrc10() {
+    return Optional.ofNullable(getUnchecked(ALLOW_SVM_TRANSFER_TRC10))
         .map(BytesCapsule::getData)
         .map(ByteArray::toLong)
         .orElseThrow(
-            () -> new IllegalArgumentException("not found ALLOW_TVM_TRANSFER_TRC10"));
+            () -> new IllegalArgumentException("not found ALLOW_SVM_TRANSFER_TRC10"));
   }
 
-  public void saveAllowTvmConstantinople(long value) {
-    this.put(ALLOW_TVM_CONSTANTINOPLE,
+  public void saveAllowSvmConstantinople(long value) {
+    this.put(ALLOW_SVM_CONSTANTINOPLE,
         new BytesCapsule(ByteArray.fromLong(value)));
   }
 
-  public long getAllowTvmConstantinople() {
-    return Optional.ofNullable(getUnchecked(ALLOW_TVM_CONSTANTINOPLE))
+  public long getAllowSvmConstantinople() {
+    return Optional.ofNullable(getUnchecked(ALLOW_SVM_CONSTANTINOPLE))
         .map(BytesCapsule::getData)
         .map(ByteArray::toLong)
         .orElseThrow(
-            () -> new IllegalArgumentException("not found ALLOW_TVM_CONSTANTINOPLE"));
+            () -> new IllegalArgumentException("not found ALLOW_SVM_CONSTANTINOPLE"));
   }
 
-  public void saveAllowTvmSolidity059(long value) {
-    this.put(ALLOW_TVM_SOLIDITY_059,
+  public void saveAllowSvmSolidity059(long value) {
+    this.put(ALLOW_SVM_SOLIDITY_059,
         new BytesCapsule(ByteArray.fromLong(value)));
   }
 
-  public long getAllowTvmSolidity059() {
-    return Optional.ofNullable(getUnchecked(ALLOW_TVM_SOLIDITY_059))
+  public long getAllowSvmSolidity059() {
+    return Optional.ofNullable(getUnchecked(ALLOW_SVM_SOLIDITY_059))
         .map(BytesCapsule::getData)
         .map(ByteArray::toLong)
-        .orElseThrow(() -> new IllegalArgumentException("not found ALLOW_TVM_SOLIDITY_059"));
+        .orElseThrow(() -> new IllegalArgumentException("not found ALLOW_SVM_SOLIDITY_059"));
   }
 
   public void saveForbidTransferToContract(long value) {
@@ -1711,9 +1711,9 @@ public class DynamicPropertiesStore extends StabilaStoreWithRevoking<BytesCapsul
 
   public void updateDynamicStoreByConfig() {
     if (CommonParameter.getInstance()
-        .getAllowTvmConstantinople() != 0) {
-      saveAllowTvmConstantinople(CommonParameter.getInstance()
-          .getAllowTvmConstantinople());
+        .getAllowSvmConstantinople() != 0) {
+      saveAllowSvmConstantinople(CommonParameter.getInstance()
+          .getAllowSvmConstantinople());
       addSystemContractAndSetPermission(48);
     }
   }
@@ -1831,14 +1831,14 @@ public class DynamicPropertiesStore extends StabilaStoreWithRevoking<BytesCapsul
             () -> new IllegalArgumentException(msg));
   }
 
-  public void saveAllowTvmIstanbul(long allowTVMIstanbul) {
-    this.put(DynamicPropertiesStore.ALLOW_TVM_ISTANBUL,
-        new BytesCapsule(ByteArray.fromLong(allowTVMIstanbul)));
+  public void saveAllowSvmIstanbul(long allowSVMIstanbul) {
+    this.put(DynamicPropertiesStore.ALLOW_SVM_ISTANBUL,
+        new BytesCapsule(ByteArray.fromLong(allowSVMIstanbul)));
   }
 
-  public long getAllowTvmIstanbul() {
-    String msg = "not found ALLOW_TVM_ISTANBUL";
-    return Optional.ofNullable(getUnchecked(ALLOW_TVM_ISTANBUL))
+  public long getAllowSvmIstanbul() {
+    String msg = "not found ALLOW_SVM_ISTANBUL";
+    return Optional.ofNullable(getUnchecked(ALLOW_SVM_ISTANBUL))
         .map(BytesCapsule::getData)
         .map(ByteArray::toLong)
         .orElseThrow(
@@ -2032,10 +2032,10 @@ public class DynamicPropertiesStore extends StabilaStoreWithRevoking<BytesCapsul
   }
 
   //The unit is stb
-  public void addTotalEnergyWeight(long amount) {
-    long totalEnergyWeight = getTotalEnergyWeight();
-    totalEnergyWeight += amount;
-    saveTotalEnergyWeight(totalEnergyWeight);
+  public void addTotalUcrWeight(long amount) {
+    long totalUcrWeight = getTotalUcrWeight();
+    totalUcrWeight += amount;
+    saveTotalUcrWeight(totalUcrWeight);
   }
 
   //The unit is stb
@@ -2227,28 +2227,28 @@ public class DynamicPropertiesStore extends StabilaStoreWithRevoking<BytesCapsul
             () -> new IllegalArgumentException("not found ALLOW_NEW_RESOURCE_MODEL"));
   }
 
-  public void saveAllowTvmFreeze(long allowTvmFreeze) {
-    this.put(DynamicPropertiesStore.ALLOW_TVM_FREEZE,
-        new BytesCapsule(ByteArray.fromLong(allowTvmFreeze)));
+  public void saveAllowSvmCd(long allowSvmCd) {
+    this.put(DynamicPropertiesStore.ALLOW_SVM_CD,
+        new BytesCapsule(ByteArray.fromLong(allowSvmCd)));
   }
 
-  public long getAllowTvmFreeze() {
-    String msg = "not found ALLOW_TVM_FREEZE";
-    return Optional.ofNullable(getUnchecked(ALLOW_TVM_FREEZE))
+  public long getAllowSvmCd() {
+    String msg = "not found ALLOW_SVM_CD";
+    return Optional.ofNullable(getUnchecked(ALLOW_SVM_CD))
         .map(BytesCapsule::getData)
         .map(ByteArray::toLong)
         .orElseThrow(
             () -> new IllegalArgumentException(msg));
   }
 
-  public void saveAllowTvmVote(long allowTvmVote) {
-    this.put(DynamicPropertiesStore.ALLOW_TVM_VOTE,
-        new BytesCapsule(ByteArray.fromLong(allowTvmVote)));
+  public void saveAllowSvmVote(long allowSvmVote) {
+    this.put(DynamicPropertiesStore.ALLOW_SVM_VOTE,
+        new BytesCapsule(ByteArray.fromLong(allowSvmVote)));
   }
 
-  public long getAllowTvmVote() {
-    String msg = "not found ALLOW_TVM_VOTE";
-    return Optional.ofNullable(getUnchecked(ALLOW_TVM_VOTE))
+  public long getAllowSvmVote() {
+    String msg = "not found ALLOW_SVM_VOTE";
+    return Optional.ofNullable(getUnchecked(ALLOW_SVM_VOTE))
         .map(BytesCapsule::getData)
         .map(ByteArray::toLong)
         .orElseThrow(
@@ -2256,7 +2256,7 @@ public class DynamicPropertiesStore extends StabilaStoreWithRevoking<BytesCapsul
   }
 
   public boolean useNewRewardAlgorithm() {
-    return getAllowTvmVote() == 1;
+    return getAllowSvmVote() == 1;
   }
 
   public void saveNewRewardAlgorithmEffectiveCycle() {
@@ -2298,16 +2298,16 @@ public class DynamicPropertiesStore extends StabilaStoreWithRevoking<BytesCapsul
     private static final byte[] TOTAL_NET_WEIGHT = "TOTAL_NET_WEIGHT".getBytes();
     //ONE_DAY_NET_LIMIT - PUBLIC_NET_LIMIT，current TOTAL_NET_LIMIT
     private static final byte[] TOTAL_NET_LIMIT = "TOTAL_NET_LIMIT".getBytes();
-    private static final byte[] TOTAL_ENERGY_TARGET_LIMIT = "TOTAL_ENERGY_TARGET_LIMIT".getBytes();
-    private static final byte[] TOTAL_ENERGY_CURRENT_LIMIT = "TOTAL_ENERGY_CURRENT_LIMIT"
+    private static final byte[] TOTAL_UCR_TARGET_LIMIT = "TOTAL_UCR_TARGET_LIMIT".getBytes();
+    private static final byte[] TOTAL_UCR_CURRENT_LIMIT = "TOTAL_UCR_CURRENT_LIMIT"
         .getBytes();
-    private static final byte[] TOTAL_ENERGY_AVERAGE_USAGE = "TOTAL_ENERGY_AVERAGE_USAGE"
+    private static final byte[] TOTAL_UCR_AVERAGE_USAGE = "TOTAL_UCR_AVERAGE_USAGE"
         .getBytes();
-    private static final byte[] TOTAL_ENERGY_AVERAGE_TIME = "TOTAL_ENERGY_AVERAGE_TIME".getBytes();
-    private static final byte[] TOTAL_ENERGY_WEIGHT = "TOTAL_ENERGY_WEIGHT".getBytes();
+    private static final byte[] TOTAL_UCR_AVERAGE_TIME = "TOTAL_UCR_AVERAGE_TIME".getBytes();
+    private static final byte[] TOTAL_UCR_WEIGHT = "TOTAL_UCR_WEIGHT".getBytes();
     private static final byte[] TOTAL_STABILA_POWER_WEIGHT = "TOTAL_STABILA_POWER_WEIGHT".getBytes();
-    private static final byte[] TOTAL_ENERGY_LIMIT = "TOTAL_ENERGY_LIMIT".getBytes();
-    private static final byte[] BLOCK_ENERGY_USAGE = "BLOCK_ENERGY_USAGE".getBytes();
+    private static final byte[] TOTAL_UCR_LIMIT = "TOTAL_UCR_LIMIT".getBytes();
+    private static final byte[] BLOCK_UCR_USAGE = "BLOCK_UCR_USAGE".getBytes();
     private static final byte[] ADAPTIVE_RESOURCE_LIMIT_MULTIPLIER =
         "ADAPTIVE_RESOURCE_LIMIT_MULTIPLIER"
             .getBytes();

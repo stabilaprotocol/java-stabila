@@ -23,7 +23,7 @@ public class CommonParameter {
       "The localWitnessAccountAddress format is incorrect, ignored";
   public static CommonParameter PARAMETER = new CommonParameter();
   @Setter
-  public static boolean ENERGY_LIMIT_HARD_FORK = false;
+  public static boolean UCR_LIMIT_HARD_FORK = false;
   @Parameter(names = {"-c", "--config"}, description = "Config File")
   public String shellConfFileName = "";
   @Getter
@@ -212,13 +212,13 @@ public class CommonParameter {
   public long proposalExpireTime; // (ms)
   @Getter
   @Setter
-  public int checkFrozenTime; // for test only
+  public int checkCdedTime; // for test only
   @Getter
   @Setter
   public long allowCreationOfContracts; //committee parameter
   @Getter
   @Setter
-  public long allowAdaptiveEnergy; //committee parameter
+  public long allowAdaptiveUcr; //committee parameter
   @Getter
   @Setter
   public long allowDelegateResource; //committee parameter
@@ -227,13 +227,13 @@ public class CommonParameter {
   public long allowSameTokenName; //committee parameter
   @Getter
   @Setter
-  public long allowTvmTransferTrc10; //committee parameter
+  public long allowSvmTransferTrc10; //committee parameter
   @Getter
   @Setter
-  public long allowTvmConstantinople; //committee parameter
+  public long allowSvmConstantinople; //committee parameter
   @Getter
   @Setter
-  public long allowTvmSolidity059; //committee parameter
+  public long allowSvmSolidity059; //committee parameter
   @Getter
   @Setter
   public long forbidTransferToContract; //committee parameter
@@ -322,7 +322,7 @@ public class CommonParameter {
   public boolean fullNodeAllowShieldedTransactionArgs;
   @Getter
   @Setter
-  public long blockNumForEnergyLimit;
+  public long blockNumForUcrLimit;
   @Getter
   @Setter
   @Parameter(names = {"--es"})
@@ -442,15 +442,15 @@ public class CommonParameter {
 
   @Getter/**/
   @Setter
-  public long allowTvmIstanbul;
+  public long allowSvmIstanbul;
 
   @Getter
   @Setter
-  public long allowTvmFreeze;
+  public long allowSvmCd;
 
   @Getter
   @Setter
-  public long allowTvmVote;
+  public long allowSvmVote;
 
   @Getter
   @Setter

@@ -6,8 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.bouncycastle.util.encoders.Hex;
 import org.junit.Test;
 import org.testng.Assert;
-import org.stabila.common.runtime.TVMTestResult;
-import org.stabila.common.runtime.TvmTestUtils;
+import org.stabila.common.runtime.SVMTestResult;
+import org.stabila.common.runtime.SvmTestUtils;
 import org.stabila.common.utils.WalletUtil;
 import org.stabila.core.exception.ContractExeException;
 import org.stabila.core.exception.ContractValidateException;
@@ -23,7 +23,7 @@ public class ExtCodeHashTest extends VMTestBase {
   public void testExtCodeHash()
       throws ContractExeException, ReceiptCheckErrException, VMIllegalException,
       ContractValidateException {
-    manager.getDynamicPropertiesStore().saveAllowTvmConstantinople(1);
+    manager.getDynamicPropertiesStore().saveAllowSvmConstantinople(1);
     String contractName = "TestExtCodeHash";
     byte[] address = Hex.decode(OWNER_ADDRESS);
     String ABI = "[{\"constant\":true,\"inputs\":[{\"name\":\"_addr\",\"type\":\"uint256\"}],"
@@ -46,19 +46,19 @@ public class ExtCodeHashTest extends VMTestBase {
     long consumeUserResourcePercent = 0;
 
     // deploy contract
-    Transaction stb = TvmTestUtils.generateDeploySmartContractAndGetTransaction(
+    Transaction stb = SvmTestUtils.generateDeploySmartContractAndGetTransaction(
         contractName, address, ABI, factoryCode, value, fee, consumeUserResourcePercent,
         null);
     byte[] factoryAddress = WalletUtil.generateContractAddress(stb);
-    runtime = TvmTestUtils.processTransactionAndReturnRuntime(stb, rootDeposit, null);
+    runtime = SvmTestUtils.processTransactionAndReturnRuntime(stb, rootDeposit, null);
     Assert.assertNull(runtime.getRuntimeError());
 
     // Trigger contract method: getCodeHashByAddr(address)
     String methodByAddr = "getCodeHashByAddr(address)";
     String nonexistentAccount = "27k66nycZATHzBasFT9782nTsYWqVtxdtAc";
     String hexInput = AbiUtil.parseMethod(methodByAddr, Arrays.asList(nonexistentAccount));
-    TVMTestResult result = TvmTestUtils
-        .triggerContractAndReturnTvmTestResult(Hex.decode(OWNER_ADDRESS),
+    SVMTestResult result = SvmTestUtils
+        .triggerContractAndReturnSvmTestResult(Hex.decode(OWNER_ADDRESS),
             factoryAddress, Hex.decode(hexInput), 0, fee, manager, null);
     Assert.assertNull(result.getRuntime().getRuntimeError());
 
@@ -70,8 +70,8 @@ public class ExtCodeHashTest extends VMTestBase {
     // trigger deployed contract
     String existentAccount = "27WtBq2KoSy5v8VnVZBZHHJcDuWNiSgjbE3";
     hexInput = AbiUtil.parseMethod(methodByAddr, Arrays.asList(existentAccount));
-    result = TvmTestUtils
-        .triggerContractAndReturnTvmTestResult(Hex.decode(OWNER_ADDRESS),
+    result = SvmTestUtils
+        .triggerContractAndReturnSvmTestResult(Hex.decode(OWNER_ADDRESS),
             factoryAddress, Hex.decode(hexInput), 0, fee, manager, null);
     Assert.assertNull(result.getRuntime().getRuntimeError());
 
@@ -84,8 +84,8 @@ public class ExtCodeHashTest extends VMTestBase {
     String methodByUint = "getCodeHashByUint(uint256)";
     byte[] fullHexAddr = new DataWord(factoryAddress).getData();
     hexInput = AbiUtil.parseMethod(methodByUint, Hex.toHexString(fullHexAddr), true);
-    result = TvmTestUtils
-        .triggerContractAndReturnTvmTestResult(Hex.decode(OWNER_ADDRESS),
+    result = SvmTestUtils
+        .triggerContractAndReturnSvmTestResult(Hex.decode(OWNER_ADDRESS),
             factoryAddress, Hex.decode(hexInput), 0, fee, manager, null);
     Assert.assertNull(result.getRuntime().getRuntimeError());
 
@@ -99,8 +99,8 @@ public class ExtCodeHashTest extends VMTestBase {
     String bigIntAddrChange = BigInteger.valueOf(2).pow(160).add(bigIntAddr).toString(16);
     fullHexAddr = new DataWord(bigIntAddrChange).getData();
     hexInput = AbiUtil.parseMethod(methodByUint, Hex.toHexString(fullHexAddr), true);
-    result = TvmTestUtils
-        .triggerContractAndReturnTvmTestResult(Hex.decode(OWNER_ADDRESS),
+    result = SvmTestUtils
+        .triggerContractAndReturnSvmTestResult(Hex.decode(OWNER_ADDRESS),
             factoryAddress, Hex.decode(hexInput), 0, fee, manager, null);
     Assert.assertNull(result.getRuntime().getRuntimeError());
 

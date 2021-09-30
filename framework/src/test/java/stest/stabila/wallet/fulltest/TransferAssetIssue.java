@@ -193,8 +193,8 @@ public class TransferAssetIssue {
         fromAddress, testKey002, blockingStubFull));
     Assert.assertTrue(PublicMethed.sendcoin(participateAssetAddress,
         sendAmount, fromAddress, testKey002, blockingStubFull));
-    //Participate account freeze balance to get bandwidth.
-    Assert.assertTrue(PublicMethed.freezeBalance(participateAssetAddress, 10000000L, 3,
+    //Participate account cd balance to get bandwidth.
+    Assert.assertTrue(PublicMethed.cdBalance(participateAssetAddress, 10000000L, 3,
         testKeyForParticipate, blockingStubFull));
     //Create an asset issue.
     Long start = System.currentTimeMillis() + 2000;

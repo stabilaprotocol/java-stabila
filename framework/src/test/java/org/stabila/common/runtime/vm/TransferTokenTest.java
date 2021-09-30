@@ -11,7 +11,7 @@ import org.stabila.common.application.Application;
 import org.stabila.common.application.ApplicationFactory;
 import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.runtime.Runtime;
-import org.stabila.common.runtime.TvmTestUtils;
+import org.stabila.common.runtime.SvmTestUtils;
 import org.stabila.common.storage.DepositImpl;
 import org.stabila.common.utils.ByteArray;
 import org.stabila.common.utils.FileUtil;
@@ -88,7 +88,7 @@ public class TransferTokenTest {
 
   private long createAsset(String tokenName) {
     dbManager.getDynamicPropertiesStore().saveAllowSameTokenName(1);
-    dbManager.getDynamicPropertiesStore().saveAllowTvmTransferTrc10(1);
+    dbManager.getDynamicPropertiesStore().saveAllowSvmTransferTrc10(1);
     long id = dbManager.getDynamicPropertiesStore().getTokenIdNum() + 1;
     dbManager.getDynamicPropertiesStore().saveTokenIdNum(id);
     AssetIssueContract assetIssueContract =
@@ -142,18 +142,18 @@ public class TransferTokenTest {
         + Hex.toHexString(new DataWord(id).getData())
         //TRANSFER_TO, 100001, 9
         + "0000000000000000000000000000000000000000000000000000000000000009";
-    byte[] triggerData = TvmTestUtils.parseAbi(selectorStr, params);
+    byte[] triggerData = SvmTestUtils.parseAbi(selectorStr, params);
 
     /*  2. Test trigger with tokenValue and tokenId,
      also test internal transaction transferToken function */
     long triggerCallValue = 100;
     long feeLimit = 100000000;
     long tokenValue = 8;
-    Transaction transaction = TvmTestUtils
+    Transaction transaction = SvmTestUtils
         .generateTriggerSmartContractAndGetTransaction(Hex.decode(OWNER_ADDRESS), contractAddress,
             triggerData,
             triggerCallValue, feeLimit, tokenValue, id);
-    runtime = TvmTestUtils.processTransactionAndReturnRuntime(transaction, dbManager, null);
+    runtime = SvmTestUtils.processTransactionAndReturnRuntime(transaction, dbManager, null);
 
     org.testng.Assert.assertNull(runtime.getRuntimeError());
     Assert.assertEquals(100 + tokenValue - 9,
@@ -173,13 +173,13 @@ public class TransferTokenTest {
     String selectorStr2 = "suicide(address)";
     //TRANSFER_TO
     String params2 = "000000000000000000000000548794500882809695a8a687866e76d4271a1abc";
-    byte[] triggerData2 = TvmTestUtils.parseAbi(selectorStr2, params2);
+    byte[] triggerData2 = SvmTestUtils.parseAbi(selectorStr2, params2);
 
-    Transaction transaction2 = TvmTestUtils
+    Transaction transaction2 = SvmTestUtils
         .generateTriggerSmartContractAndGetTransaction(Hex.decode(OWNER_ADDRESS), contractAddress,
             triggerData2,
             triggerCallValue, feeLimit, 0, id);
-    runtime = TvmTestUtils.processTransactionAndReturnRuntime(transaction2, dbManager, null);
+    runtime = SvmTestUtils.processTransactionAndReturnRuntime(transaction2, dbManager, null);
     org.testng.Assert.assertNull(runtime.getRuntimeError());
     Assert.assertEquals(100 + tokenValue - 9 + 9,
         dbManager.getAccountStore().get(Hex.decode(TRANSFER_TO)).getAssetMapV2()
@@ -212,7 +212,7 @@ public class TransferTokenTest {
     long tokenValue = 100;
     long tokenId = id;
 
-    byte[] contractAddress = TvmTestUtils
+    byte[] contractAddress = SvmTestUtils
         .deployContractWholeProcessReturnContractAddress(contractName, address, ABI, code, value,
             feeLimit, consumeUserResourcePercent, null, tokenValue, tokenId,
             deposit, null);
@@ -238,14 +238,14 @@ public class TransferTokenTest {
         + Hex.toHexString(new DataWord(id).getData())
         + "0000000000000000000000000000000000000000000000000000000000000002";
     //TRANSFER_TO, 100001, 9
-    byte[] triggerData = TvmTestUtils.parseAbi(selectorStr, params);
-    Transaction transaction = TvmTestUtils
+    byte[] triggerData = SvmTestUtils.parseAbi(selectorStr, params);
+    Transaction transaction = SvmTestUtils
         .generateTriggerSmartContractAndGetTransaction(Hex.decode(OWNER_ADDRESS), contractAddress,
             triggerData,
             triggerCallValue, feeLimit, tokenValue, id);
     long start = System.nanoTime() / 1000;
 
-    runtime = TvmTestUtils.processTransactionAndReturnRuntime(transaction, dbManager, null);
+    runtime = SvmTestUtils.processTransactionAndReturnRuntime(transaction, dbManager, null);
     long end = System.nanoTime() / 1000;
     System.err.println("running time:" + (end - start));
     Assert.assertTrue((end - start) < 50_0000);
@@ -274,7 +274,7 @@ public class TransferTokenTest {
     long tokenValue = 1000_000;
     long tokenId = id;
 
-    byte[] contractAddress = TvmTestUtils
+    byte[] contractAddress = SvmTestUtils
         .deployContractWholeProcessReturnContractAddress(contractName, address, ABI, code, value,
             feeLimit, consumeUserResourcePercent, null, tokenValue, tokenId,
             deposit, null);

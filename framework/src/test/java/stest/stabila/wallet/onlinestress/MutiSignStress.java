@@ -116,17 +116,17 @@ public class MutiSignStress {
           blockingStubFull, permissionKeyString);
       PublicMethedForMutiSign.sendcoin(newAddress, 1000000L, ownerAddress, ownerKey,
           blockingStubFull, permissionKeyString);
-      PublicMethedForMutiSign.freezeBalance(ownerAddress, 1000000L, 0,
+      PublicMethedForMutiSign.cdBalance(ownerAddress, 1000000L, 0,
           ownerKey, blockingStubFull, permissionKeyString);
-      PublicMethedForMutiSign.freezeBalance(ownerAddress, 1000000L, 0,
+      PublicMethedForMutiSign.cdBalance(ownerAddress, 1000000L, 0,
           ownerKey, blockingStubFull, permissionKeyString);
-      PublicMethedForMutiSign.freezeBalance(ownerAddress, 1000000L, 0,
+      PublicMethedForMutiSign.cdBalance(ownerAddress, 1000000L, 0,
           ownerKey, blockingStubFull, permissionKeyString);
-      PublicMethedForMutiSign.unFreezeBalance(ownerAddress, ownerKey, 0, null,
+      PublicMethedForMutiSign.unCdBalance(ownerAddress, ownerKey, 0, null,
           blockingStubFull, permissionKeyString);
-      PublicMethedForMutiSign.unFreezeBalance(ownerAddress, ownerKey, 0, null,
+      PublicMethedForMutiSign.unCdBalance(ownerAddress, ownerKey, 0, null,
           blockingStubFull, permissionKeyString);
-      PublicMethedForMutiSign.unFreezeBalance(ownerAddress, ownerKey, 0, null,
+      PublicMethedForMutiSign.unCdBalance(ownerAddress, ownerKey, 0, null,
           blockingStubFull, permissionKeyString);
     }
 

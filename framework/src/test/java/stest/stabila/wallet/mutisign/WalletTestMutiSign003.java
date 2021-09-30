@@ -102,7 +102,7 @@ public class WalletTestMutiSign003 {
             blockingStubFull));
 
     Assert.assertTrue(PublicMethed
-        .freezeBalanceForReceiver(fromAddress, 1000000000, 0, 0, ByteString.copyFrom(ownerAddress),
+        .cdBalanceForReceiver(fromAddress, 1000000000, 0, 0, ByteString.copyFrom(ownerAddress),
             testKey002, blockingStubFull));
 
     PublicMethed.waitProduceNextBlock(blockingStubFull);
@@ -140,17 +140,17 @@ public class WalletTestMutiSign003 {
     Optional<TransactionInfo> infoById = PublicMethed
         .getTransactionInfoById(txid, blockingStubFull);
     long balanceAfter = PublicMethed.queryAccount(ownerAddress, blockingStubFull).getBalance();
-    long energyFee = infoById.get().getReceipt().getEnergyFee();
+    long ucrFee = infoById.get().getReceipt().getUcrFee();
     long netFee = infoById.get().getReceipt().getNetFee();
     long fee = infoById.get().getFee();
 
     logger.info("balanceAfter: " + balanceAfter);
-    logger.info("energyFee: " + energyFee);
+    logger.info("ucrFee: " + ucrFee);
     logger.info("netFee: " + netFee);
     logger.info("fee: " + fee);
 
     Assert.assertEquals(balanceBefore - balanceAfter, fee);
-    Assert.assertEquals(fee, energyFee + netFee + updateAccountPermissionFee);
+    Assert.assertEquals(fee, ucrFee + netFee + updateAccountPermissionFee);
 
     balanceBefore = balanceAfter;
 
@@ -159,16 +159,16 @@ public class WalletTestMutiSign003 {
 
     Assert.assertTrue(PublicMethedForMutiSign.sendcoinWithPermissionId(
         newAddress, 100L, ownerAddress, 2, ownerKey, blockingStubFull, permissionKeyString));
-    Assert.assertTrue(PublicMethedForMutiSign.freezeBalanceWithPermissionId(
+    Assert.assertTrue(PublicMethedForMutiSign.cdBalanceWithPermissionId(
         ownerAddress, 1000000L, 0, 0, ownerKey, blockingStubFull, ownerKeyString));
-    Assert.assertTrue(PublicMethedForMutiSign.freezeBalanceGetEnergy(
+    Assert.assertTrue(PublicMethedForMutiSign.cdBalanceGetUcr(
         ownerAddress, 1000000L, 0, 2, ownerKey, blockingStubFull, ownerKeyString));
-    Assert.assertTrue(PublicMethedForMutiSign.freezeBalanceForReceiver(
+    Assert.assertTrue(PublicMethedForMutiSign.cdBalanceForReceiver(
         ownerAddress, 1000000L, 0, 0, ByteString.copyFrom(newAddress),
         ownerKey, blockingStubFull, ownerKeyString));
-    Assert.assertTrue(PublicMethedForMutiSign.unFreezeBalance(
+    Assert.assertTrue(PublicMethedForMutiSign.unCdBalance(
         ownerAddress, ownerKey, 0, null, blockingStubFull, ownerKeyString));
-    Assert.assertTrue(PublicMethedForMutiSign.unFreezeBalanceWithPermissionId(
+    Assert.assertTrue(PublicMethedForMutiSign.unCdBalanceWithPermissionId(
         ownerAddress, ownerKey, 0, newAddress, 2, blockingStubFull, permissionKeyString));
     Assert.assertTrue(PublicMethedForMutiSign.updateAccount(
         ownerAddress, updateName.getBytes(), ownerKey, blockingStubFull, ownerKeyString));
@@ -186,7 +186,7 @@ public class WalletTestMutiSign003 {
     Assert.assertEquals(balanceBefore - balanceAfter, multiSignFee * 9 + 1000000 + 100);
 
     Assert.assertTrue(
-        PublicMethed.unFreezeBalance(fromAddress, testKey002, 0, ownerAddress, blockingStubFull));
+        PublicMethed.unCdBalance(fromAddress, testKey002, 0, ownerAddress, blockingStubFull));
 
   }
 

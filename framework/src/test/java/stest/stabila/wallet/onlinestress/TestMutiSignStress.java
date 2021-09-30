@@ -117,16 +117,16 @@ public class TestMutiSignStress {
 
       PublicMethedForMutiSign.sendcoin(
           newAddress, 4000000L, ownerAddress, ownerKey, blockingStubFull, ownerKeyString1);
-      PublicMethedForMutiSign.freezeBalance(
+      PublicMethedForMutiSign.cdBalance(
           ownerAddress, 1000000L, 0, ownerKey, blockingStubFull, ownerKeyString1);
-      PublicMethedForMutiSign.freezeBalanceGetEnergy(
+      PublicMethedForMutiSign.cdBalanceGetUcr(
           ownerAddress, 1000000L, 0, 1, ownerKey, blockingStubFull, ownerKeyString1);
-      PublicMethedForMutiSign.freezeBalanceForReceiver(
+      PublicMethedForMutiSign.cdBalanceForReceiver(
           ownerAddress, 1000000L, 0, 0, ByteString.copyFrom(newAddress),
           ownerKey, blockingStubFull, ownerKeyString1);
-      PublicMethedForMutiSign.unFreezeBalance(
+      PublicMethedForMutiSign.unCdBalance(
           ownerAddress, ownerKey, 0, null, blockingStubFull, ownerKeyString1);
-      PublicMethedForMutiSign.unFreezeBalance(
+      PublicMethedForMutiSign.unCdBalance(
           ownerAddress, ownerKey, 0, newAddress, blockingStubFull, ownerKeyString1);
       PublicMethedForMutiSign.updateAccount(
           ownerAddress, Long.toString(System.currentTimeMillis()).getBytes(), ownerKey,

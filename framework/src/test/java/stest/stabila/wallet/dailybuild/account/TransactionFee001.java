@@ -119,8 +119,8 @@ public class TransactionFee001 {
     blockingStubPbft = WalletSolidityGrpc.newBlockingStub(channelPbft);
   }
 
-  @Test(enabled = true, description = "Test deploy contract with energy fee to sr")
-  public void test01DeployContractEnergyFeeToSr() {
+  @Test(enabled = true, description = "Test deploy contract with ucr fee to sr")
+  public void test01DeployContractUcrFeeToSr() {
     Assert.assertTrue(PublicMethed.sendcoin(deployAddress, 20000000000L, fromAddress,
             testKey002, blockingStubFull));
     PublicMethed.waitProduceNextBlock(blockingStubFull);
@@ -364,8 +364,8 @@ public class TransactionFee001 {
   }
 
   @Test(enabled = true, description = "Test trigger result is \"OUT_OF_TIME\""
-          + " with energy fee to sr")
-  public void test03OutOfTimeEnergyFeeToBlackHole() {
+          + " with ucr fee to sr")
+  public void test03OutOfTimeUcrFeeToBlackHole() {
     Random rand = new Random();
     Integer randNum = rand.nextInt(4000);
 
@@ -487,8 +487,8 @@ public class TransactionFee001 {
     Assert.assertTrue(afterBurnStbAmount - beforeBurnStbAmount == 100000L);
   }
 
-  @Test(enabled = true, description = "Test trigger contract with netFee and energyFee to sr")
-  public void test05NetFeeAndEnergyFee2Sr() {
+  @Test(enabled = true, description = "Test trigger contract with netFee and ucrFee to sr")
+  public void test05NetFeeAndUcrFee2Sr() {
     Random rand = new Random();
     Integer randNum = rand.nextInt(30) + 1;
     randNum = rand.nextInt(4000);
@@ -655,7 +655,7 @@ public class TransactionFee001 {
 
   @AfterClass
   public void shutdown() throws InterruptedException {
-    PublicMethed.unFreezeBalance(deployAddress, deployKey, 1, deployAddress,
+    PublicMethed.unCdBalance(deployAddress, deployKey, 1, deployAddress,
             blockingStubFull);
     PublicMethed.freedResource(deployAddress, deployKey, fromAddress, blockingStubFull);
     if (channelFull != null) {

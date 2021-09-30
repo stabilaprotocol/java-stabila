@@ -26,7 +26,7 @@ import org.stabila.protos.Protocol.Block;
 import org.stabila.protos.Protocol.Transaction;
 import org.stabila.protos.contract.AssetIssueContractOuterClass.AssetIssueContract;
 import org.stabila.protos.contract.AssetIssueContractOuterClass.TransferAssetContract;
-import org.stabila.protos.contract.AssetIssueContractOuterClass.UnfreezeAssetContract;
+import org.stabila.protos.contract.AssetIssueContractOuterClass.UncdAssetContract;
 import stest.stabila.wallet.common.client.Configuration;
 import stest.stabila.wallet.common.client.Parameter.CommonConstant;
 import stest.stabila.wallet.common.client.utils.PublicMethed;
@@ -126,11 +126,11 @@ public class WalletTestAssetIssue001 {
     Assert.assertTrue(transferAsset(fromAddress, assetAccountId.toByteArray(), 1L,
         toAddress, testKey003));
 
-    //No freeze asset, try to unfreeze asset failed.
-    Assert.assertFalse(unFreezeAsset(noBandwitchAddress, noBandwitch));
+    //No cd asset, try to uncd asset failed.
+    Assert.assertFalse(unCdAsset(noBandwitchAddress, noBandwitch));
 
-    //Not create asset, try to unfreeze asset failed.No exception.
-    Assert.assertFalse(unFreezeAsset(toAddress, testKey003));
+    //Not create asset, try to uncd asset failed.No exception.
+    Assert.assertFalse(unCdAsset(toAddress, testKey003));
 
 
   }
@@ -300,7 +300,7 @@ public class WalletTestAssetIssue001 {
    * constructor.
    */
 
-  public boolean unFreezeAsset(byte[] addRess, String priKey) {
+  public boolean unCdAsset(byte[] addRess, String priKey) {
     byte[] address = addRess;
 
     ECKey temKey = null;
@@ -312,15 +312,15 @@ public class WalletTestAssetIssue001 {
     }
     final ECKey ecKey = temKey;
 
-    UnfreezeAssetContract.Builder builder = UnfreezeAssetContract
+    UncdAssetContract.Builder builder = UncdAssetContract
         .newBuilder();
     ByteString byteAddress = ByteString.copyFrom(address);
 
     builder.setOwnerAddress(byteAddress);
 
-    UnfreezeAssetContract contract = builder.build();
+    UncdAssetContract contract = builder.build();
 
-    Transaction transaction = blockingStubFull.unfreezeAsset(contract);
+    Transaction transaction = blockingStubFull.uncdAsset(contract);
 
     if (transaction == null || transaction.getRawData().getContractCount() == 0) {
       return false;

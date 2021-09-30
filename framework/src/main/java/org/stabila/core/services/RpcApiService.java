@@ -139,14 +139,14 @@ import org.stabila.protos.contract.AccountContract.SetAccountIdContract;
 import org.stabila.protos.contract.AssetIssueContractOuterClass.AssetIssueContract;
 import org.stabila.protos.contract.AssetIssueContractOuterClass.ParticipateAssetIssueContract;
 import org.stabila.protos.contract.AssetIssueContractOuterClass.TransferAssetContract;
-import org.stabila.protos.contract.AssetIssueContractOuterClass.UnfreezeAssetContract;
+import org.stabila.protos.contract.AssetIssueContractOuterClass.UncdAssetContract;
 import org.stabila.protos.contract.AssetIssueContractOuterClass.UpdateAssetContract;
 import org.stabila.protos.contract.BalanceContract.AccountBalanceRequest;
 import org.stabila.protos.contract.BalanceContract.AccountBalanceResponse;
 import org.stabila.protos.contract.BalanceContract.BlockBalanceTrace;
-import org.stabila.protos.contract.BalanceContract.FreezeBalanceContract;
+import org.stabila.protos.contract.BalanceContract.CdBalanceContract;
 import org.stabila.protos.contract.BalanceContract.TransferContract;
-import org.stabila.protos.contract.BalanceContract.UnfreezeBalanceContract;
+import org.stabila.protos.contract.BalanceContract.UncdBalanceContract;
 import org.stabila.protos.contract.BalanceContract.WithdrawBalanceContract;
 import org.stabila.protos.contract.ExchangeContract.ExchangeCreateContract;
 import org.stabila.protos.contract.ExchangeContract.ExchangeInjectContract;
@@ -164,7 +164,7 @@ import org.stabila.protos.contract.SmartContractOuterClass.CreateSmartContract;
 import org.stabila.protos.contract.SmartContractOuterClass.SmartContract;
 import org.stabila.protos.contract.SmartContractOuterClass.SmartContractDataWrapper;
 import org.stabila.protos.contract.SmartContractOuterClass.TriggerSmartContract;
-import org.stabila.protos.contract.SmartContractOuterClass.UpdateEnergyLimitContract;
+import org.stabila.protos.contract.SmartContractOuterClass.UpdateUcrLimitContract;
 import org.stabila.protos.contract.SmartContractOuterClass.UpdateSettingContract;
 import org.stabila.protos.contract.StorageContract.UpdateBrokerageContract;
 import org.stabila.protos.contract.WitnessContract.VoteWitnessContract;
@@ -1241,11 +1241,11 @@ public class RpcApiService implements Service {
     }
 
     @Override
-    public void unfreezeAsset(UnfreezeAssetContract request,
+    public void uncdAsset(UncdAssetContract request,
         StreamObserver<Transaction> responseObserver) {
       try {
         responseObserver.onNext(
-            createTransactionCapsule(request, ContractType.UnfreezeAssetContract).getInstance());
+            createTransactionCapsule(request, ContractType.UncdAssetContract).getInstance());
       } catch (ContractValidateException e) {
         responseObserver.onNext(null);
         logger.debug(CONTRACT_VALIDATE_EXCEPTION, e.getMessage());
@@ -1254,9 +1254,9 @@ public class RpcApiService implements Service {
     }
 
     @Override
-    public void unfreezeAsset2(UnfreezeAssetContract request,
+    public void uncdAsset2(UncdAssetContract request,
         StreamObserver<TransactionExtention> responseObserver) {
-      createTransactionExtention(request, ContractType.UnfreezeAssetContract, responseObserver);
+      createTransactionExtention(request, ContractType.UncdAssetContract, responseObserver);
     }
 
     //refactor、test later
@@ -1320,9 +1320,9 @@ public class RpcApiService implements Service {
     }
 
     @Override
-    public void updateEnergyLimit(UpdateEnergyLimitContract request,
+    public void updateUcrLimit(UpdateUcrLimitContract request,
         StreamObserver<TransactionExtention> responseObserver) {
-      createTransactionExtention(request, ContractType.UpdateEnergyLimitContract,
+      createTransactionExtention(request, ContractType.UpdateUcrLimitContract,
           responseObserver);
     }
 
@@ -1449,11 +1449,11 @@ public class RpcApiService implements Service {
     }
 
     @Override
-    public void freezeBalance(FreezeBalanceContract request,
+    public void cdBalance(CdBalanceContract request,
         StreamObserver<Transaction> responseObserver) {
       try {
         responseObserver.onNext(
-            createTransactionCapsule(request, ContractType.FreezeBalanceContract).getInstance());
+            createTransactionCapsule(request, ContractType.CdBalanceContract).getInstance());
       } catch (ContractValidateException e) {
         responseObserver
             .onNext(null);
@@ -1463,17 +1463,17 @@ public class RpcApiService implements Service {
     }
 
     @Override
-    public void freezeBalance2(FreezeBalanceContract request,
+    public void cdBalance2(CdBalanceContract request,
         StreamObserver<TransactionExtention> responseObserver) {
-      createTransactionExtention(request, ContractType.FreezeBalanceContract, responseObserver);
+      createTransactionExtention(request, ContractType.CdBalanceContract, responseObserver);
     }
 
     @Override
-    public void unfreezeBalance(UnfreezeBalanceContract request,
+    public void uncdBalance(UncdBalanceContract request,
         StreamObserver<Transaction> responseObserver) {
       try {
         responseObserver.onNext(
-            createTransactionCapsule(request, ContractType.UnfreezeBalanceContract)
+            createTransactionCapsule(request, ContractType.UncdBalanceContract)
                 .getInstance());
       } catch (ContractValidateException e) {
         responseObserver
@@ -1484,9 +1484,9 @@ public class RpcApiService implements Service {
     }
 
     @Override
-    public void unfreezeBalance2(UnfreezeBalanceContract request,
+    public void uncdBalance2(UncdBalanceContract request,
         StreamObserver<TransactionExtention> responseObserver) {
-      createTransactionExtention(request, ContractType.UnfreezeBalanceContract, responseObserver);
+      createTransactionExtention(request, ContractType.UncdBalanceContract, responseObserver);
     }
 
     @Override

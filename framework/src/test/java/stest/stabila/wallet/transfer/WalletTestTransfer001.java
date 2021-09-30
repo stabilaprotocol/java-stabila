@@ -150,11 +150,11 @@ public class WalletTestTransfer001 {
    * constructor.
    */
 
-  public Boolean freezeBalance(byte[] addRess, long freezeBalance, long freezeDuration,
+  public Boolean cdBalance(byte[] addRess, long cdBalance, long cdDuration,
       String priKey) {
     byte[] address = addRess;
-    long frozenBalance = freezeBalance;
-    long frozenDuration = freezeDuration;
+    long cdedBalance = cdBalance;
+    long cdedDuration = cdDuration;
 
     //String priKey = testKey002;
     ECKey temKey = null;
@@ -168,24 +168,24 @@ public class WalletTestTransfer001 {
     Block currentBlock = blockingStubFull.getNowBlock(GrpcAPI.EmptyMessage.newBuilder().build());
     final Long beforeBlockNum = currentBlock.getBlockHeader().getRawData().getNumber();
     Account beforeFronzen = queryAccount(ecKey, blockingStubFull);
-    Long beforeFrozenBalance = 0L;
+    Long beforeCdedBalance = 0L;
     //Long beforeBandwidth     = beforeFronzen.getBandwidth();
-    if (beforeFronzen.getFrozenCount() != 0) {
-      beforeFrozenBalance = beforeFronzen.getFrozen(0).getFrozenBalance();
+    if (beforeFronzen.getCdedCount() != 0) {
+      beforeCdedBalance = beforeFronzen.getCded(0).getCdedBalance();
       //beforeBandwidth     = beforeFronzen.getBandwidth();
       //logger.info(Long.toString(beforeFronzen.getBandwidth()));
-      logger.info(Long.toString(beforeFronzen.getFrozen(0).getFrozenBalance()));
+      logger.info(Long.toString(beforeFronzen.getCded(0).getCdedBalance()));
     }
 
-    BalanceContract.FreezeBalanceContract.Builder builder = BalanceContract.FreezeBalanceContract
+    BalanceContract.CdBalanceContract.Builder builder = BalanceContract.CdBalanceContract
         .newBuilder();
     ByteString byteAddreess = ByteString.copyFrom(address);
 
-    builder.setOwnerAddress(byteAddreess).setFrozenBalance(frozenBalance)
-        .setFrozenDuration(frozenDuration);
+    builder.setOwnerAddress(byteAddreess).setCdedBalance(cdedBalance)
+        .setCdedDuration(cdedDuration);
 
-    BalanceContract.FreezeBalanceContract contract = builder.build();
-    Transaction transaction = blockingStubFull.freezeBalance(contract);
+    BalanceContract.CdBalanceContract contract = builder.build();
+    Transaction transaction = blockingStubFull.cdBalance(contract);
 
     if (transaction == null || transaction.getRawData().getContractCount() == 0) {
       logger.info("transaction = null");
@@ -217,16 +217,16 @@ public class WalletTestTransfer001 {
     }
 
     Account afterFronzen = queryAccount(ecKey, searchBlockingStubFull);
-    Long afterFrozenBalance = afterFronzen.getFrozen(0).getFrozenBalance();
+    Long afterCdedBalance = afterFronzen.getCded(0).getCdedBalance();
     //Long afterBandwidth     = afterFronzen.getBandwidth();
     //logger.info(Long.toString(afterFronzen.getBandwidth()));
-    logger.info(Long.toString(afterFronzen.getFrozen(0).getFrozenBalance()));
-    //logger.info(Integer.toString(search.getFrozenCount()));
+    logger.info(Long.toString(afterFronzen.getCded(0).getCdedBalance()));
+    //logger.info(Integer.toString(search.getCdedCount()));
     logger.info(
-        "beforefronen" + beforeFrozenBalance.toString() + "    afterfronzen" + afterFrozenBalance
+        "beforefronen" + beforeCdedBalance.toString() + "    afterfronzen" + afterCdedBalance
             .toString());
-    Assert.assertTrue(afterFrozenBalance - beforeFrozenBalance == freezeBalance);
-    //Assert.assertTrue(afterBandwidth - beforeBandwidth == freezeBalance * frozen_duration);
+    Assert.assertTrue(afterCdedBalance - beforeCdedBalance == cdBalance);
+    //Assert.assertTrue(afterBandwidth - beforeBandwidth == cdBalance * cded_duration);
     return true;
 
 

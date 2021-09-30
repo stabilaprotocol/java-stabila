@@ -135,17 +135,17 @@ public class MutiSignAccountPermissionUpdateTest {
         .getTransactionInfoById(txid, blockingStubFull);
 
     long balanceAfter = PublicMethed.queryAccount(ownerAddress, blockingStubFull).getBalance();
-    long energyFee = infoById.get().getReceipt().getEnergyFee();
+    long ucrFee = infoById.get().getReceipt().getUcrFee();
     long netFee = infoById.get().getReceipt().getNetFee();
     long fee = infoById.get().getFee();
 
     logger.info("balanceAfter: " + balanceAfter);
-    logger.info("energyFee: " + energyFee);
+    logger.info("ucrFee: " + ucrFee);
     logger.info("netFee: " + netFee);
     logger.info("fee: " + fee);
 
     Assert.assertEquals(balanceBefore - balanceAfter, fee);
-    Assert.assertEquals(fee, energyFee + netFee + updateAccountPermissionFee);
+    Assert.assertEquals(fee, ucrFee + netFee + updateAccountPermissionFee);
 
     balanceBefore = balanceAfter;
     String accountPermissionJson1 =
@@ -169,12 +169,12 @@ public class MutiSignAccountPermissionUpdateTest {
     infoById = PublicMethed
         .getTransactionInfoById(txid, blockingStubFull);
     balanceAfter = PublicMethed.queryAccount(ownerAddress, blockingStubFull).getBalance();
-    energyFee = infoById.get().getReceipt().getEnergyFee();
+    ucrFee = infoById.get().getReceipt().getUcrFee();
     netFee = infoById.get().getReceipt().getNetFee();
     fee = infoById.get().getFee();
 
     logger.info("balanceAfter: " + balanceAfter);
-    logger.info("energyFee: " + energyFee);
+    logger.info("ucrFee: " + ucrFee);
     logger.info("netFee: " + netFee);
     logger.info("fee: " + fee);
 

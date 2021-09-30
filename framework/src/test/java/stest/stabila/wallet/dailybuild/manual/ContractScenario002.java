@@ -106,17 +106,17 @@ public class ContractScenario002 {
     Assert.assertTrue(PublicMethed.sendcoin(contract002Address, 500000000L, fromAddress,
         testKey002, blockingStubFull));
     PublicMethed.waitProduceNextBlock(blockingStubFull);
-    Assert.assertTrue(PublicMethed.freezeBalanceGetEnergy(contract002Address, 1000000L,
+    Assert.assertTrue(PublicMethed.cdBalanceGetUcr(contract002Address, 1000000L,
         0, 1, contract002Key, blockingStubFull));
     PublicMethed.waitProduceNextBlock(blockingStubFull);
     AccountResourceMessage accountResource = PublicMethed.getAccountResource(contract002Address,
         blockingStubFull);
-    Long energyLimit = accountResource.getEnergyLimit();
-    Long energyUsage = accountResource.getEnergyUsed();
+    Long ucrLimit = accountResource.getUcrLimit();
+    Long ucrUsage = accountResource.getUcrUsed();
     Long balanceBefore = PublicMethed.queryAccount(contract002Key, blockingStubFull).getBalance();
 
-    logger.info("before energy limit is " + Long.toString(energyLimit));
-    logger.info("before energy usage is " + Long.toString(energyUsage));
+    logger.info("before ucr limit is " + Long.toString(ucrLimit));
+    logger.info("before ucr usage is " + Long.toString(ucrUsage));
     logger.info("before balance is " + Long.toString(balanceBefore));
 
     String contractName = "StabilaNative";
@@ -140,19 +140,19 @@ public class ContractScenario002 {
     PublicMethed.waitProduceNextBlock(blockingStubFull1);
     PublicMethed.waitProduceNextBlock(blockingStubFull);
     accountResource = PublicMethed.getAccountResource(contract002Address, blockingStubFull1);
-    energyLimit = accountResource.getEnergyLimit();
-    energyUsage = accountResource.getEnergyUsed();
+    ucrLimit = accountResource.getUcrLimit();
+    ucrUsage = accountResource.getUcrUsed();
     Long balanceAfter = PublicMethed.queryAccount(contract002Address, blockingStubFull1)
         .getBalance();
 
-    logger.info("after energy limit is " + Long.toString(energyLimit));
-    logger.info("after energy usage is " + Long.toString(energyUsage));
+    logger.info("after ucr limit is " + Long.toString(ucrLimit));
+    logger.info("after ucr usage is " + Long.toString(ucrUsage));
     logger.info("after balance is " + Long.toString(balanceAfter));
     logger.info("transaction fee is " + Long.toString(infoById.get().getFee()));
 
-    Assert.assertTrue(energyUsage > 0);
+    Assert.assertTrue(ucrUsage > 0);
     Assert.assertTrue(balanceBefore == balanceAfter + infoById.get().getFee());
-    PublicMethed.unFreezeBalance(contract002Address, contract002Key, 1,
+    PublicMethed.unCdBalance(contract002Address, contract002Key, 1,
         contract002Address, blockingStubFull);
 
   }
@@ -211,12 +211,12 @@ public class ContractScenario002 {
    */
   @Test(enabled = true, description = "Get transaction by id from PBFT")
   public void test06GetTransactionInfoByIdFromPbft() {
-    long energyUsage = PublicMethed.getTransactionInfoById(txid, blockingStubFull).get()
+    long ucrUsage = PublicMethed.getTransactionInfoById(txid, blockingStubFull).get()
         .getReceipt()
-        .getEnergyUsage();
+        .getUcrUsage();
 
     Assert.assertEquals(PublicMethed.getTransactionInfoByIdFromSolidity(txid, blockingStubPbft)
-        .get().getReceipt().getEnergyUsage(), energyUsage);
+        .get().getReceipt().getUcrUsage(), ucrUsage);
   }
 
 

@@ -18,7 +18,7 @@
 package org.stabila.core.vm.config;
 
 
-import static org.stabila.common.parameter.CommonParameter.ENERGY_LIMIT_HARD_FORK;
+import static org.stabila.common.parameter.CommonParameter.UCR_LIMIT_HARD_FORK;
 
 import lombok.Setter;
 
@@ -35,21 +35,21 @@ public class VMConfig {
   @Setter
   private static boolean vmTrace = false;
 
-  private static boolean ALLOW_TVM_TRANSFER_TRC10 = false;
+  private static boolean ALLOW_SVM_TRANSFER_TRC10 = false;
 
-  private static boolean ALLOW_TVM_CONSTANTINOPLE = false;
+  private static boolean ALLOW_SVM_CONSTANTINOPLE = false;
 
   private static boolean ALLOW_MULTI_SIGN = false;
 
-  private static boolean ALLOW_TVM_SOLIDITY_059 = false;
+  private static boolean ALLOW_SVM_SOLIDITY_059 = false;
 
   private static boolean ALLOW_SHIELDED_TRC20_TRANSACTION = false;
 
-  private static boolean ALLOW_TVM_ISTANBUL = false;
+  private static boolean ALLOW_SVM_ISTANBUL = false;
 
-  private static boolean ALLOW_TVM_FREEZE = false;
+  private static boolean ALLOW_SVM_CD = false;
 
-  private static boolean ALLOW_TVM_VOTE = false;
+  private static boolean ALLOW_SVM_VOTE = false;
 
   private VMConfig() {
   }
@@ -67,73 +67,73 @@ public class VMConfig {
   }
 
   public static void initVmHardFork(boolean pass) {
-    ENERGY_LIMIT_HARD_FORK = pass;
+    UCR_LIMIT_HARD_FORK = pass;
   }
 
   public static void initAllowMultiSign(long allow) {
     ALLOW_MULTI_SIGN = allow == 1;
   }
 
-  public static void initAllowTvmTransferTrc10(long allow) {
-    ALLOW_TVM_TRANSFER_TRC10 = allow == 1;
+  public static void initAllowSvmTransferTrc10(long allow) {
+    ALLOW_SVM_TRANSFER_TRC10 = allow == 1;
   }
 
-  public static void initAllowTvmConstantinople(long allow) {
-    ALLOW_TVM_CONSTANTINOPLE = allow == 1;
+  public static void initAllowSvmConstantinople(long allow) {
+    ALLOW_SVM_CONSTANTINOPLE = allow == 1;
   }
 
-  public static void initAllowTvmSolidity059(long allow) {
-    ALLOW_TVM_SOLIDITY_059 = allow == 1;
+  public static void initAllowSvmSolidity059(long allow) {
+    ALLOW_SVM_SOLIDITY_059 = allow == 1;
   }
 
   public static void initAllowShieldedTRC20Transaction(long allow) {
     ALLOW_SHIELDED_TRC20_TRANSACTION = allow == 1;
   }
 
-  public static void initAllowTvmIstanbul(long allow) {
-    ALLOW_TVM_ISTANBUL = allow == 1;
+  public static void initAllowSvmIstanbul(long allow) {
+    ALLOW_SVM_ISTANBUL = allow == 1;
   }
 
-  public static void initAllowTvmFreeze(long allow) {
-    ALLOW_TVM_FREEZE = allow == 1;
+  public static void initAllowSvmCd(long allow) {
+    ALLOW_SVM_CD = allow == 1;
   }
 
-  public static void initAllowTvmVote(long allow) {
-    ALLOW_TVM_VOTE = allow == 1;
+  public static void initAllowSvmVote(long allow) {
+    ALLOW_SVM_VOTE = allow == 1;
   }
 
-  public static boolean getEnergyLimitHardFork() {
-    return ENERGY_LIMIT_HARD_FORK;
+  public static boolean getUcrLimitHardFork() {
+    return UCR_LIMIT_HARD_FORK;
   }
 
-  public static boolean allowTvmTransferTrc10() {
-    return ALLOW_TVM_TRANSFER_TRC10;
+  public static boolean allowSvmTransferTrc10() {
+    return ALLOW_SVM_TRANSFER_TRC10;
   }
 
-  public static boolean allowTvmConstantinople() {
-    return ALLOW_TVM_CONSTANTINOPLE;
+  public static boolean allowSvmConstantinople() {
+    return ALLOW_SVM_CONSTANTINOPLE;
   }
 
   public static boolean allowMultiSign() {
     return ALLOW_MULTI_SIGN;
   }
 
-  public static boolean allowTvmSolidity059() {
-    return ALLOW_TVM_SOLIDITY_059;
+  public static boolean allowSvmSolidity059() {
+    return ALLOW_SVM_SOLIDITY_059;
   }
 
   public static boolean allowShieldedTRC20Transaction() {
     return ALLOW_SHIELDED_TRC20_TRANSACTION;
   }
 
-  public static boolean allowTvmIstanbul() {return ALLOW_TVM_ISTANBUL; }
+  public static boolean allowSvmIstanbul() {return ALLOW_SVM_ISTANBUL; }
 
-  public static boolean allowTvmFreeze() {
-    return ALLOW_TVM_FREEZE;
+  public static boolean allowSvmCd() {
+    return ALLOW_SVM_CD;
   }
 
-  public static boolean allowTvmVote() {
-    return ALLOW_TVM_VOTE;
+  public static boolean allowSvmVote() {
+    return ALLOW_SVM_VOTE;
   }
 
   private static class SystemPropertiesInstance {

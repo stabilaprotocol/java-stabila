@@ -26,7 +26,7 @@ public class Op {
   private OpCode code;
   private int deep;
   private int pc;
-  private BigInteger energy;
+  private BigInteger ucr;
   private OpActions actions;
 
   public OpCode getCode() {
@@ -53,12 +53,12 @@ public class Op {
     this.pc = pc;
   }
 
-  public BigInteger getEnergy() {
-    return energy;
+  public BigInteger getUcr() {
+    return ucr;
   }
 
-  public void setEnergy(BigInteger energy) {
-    this.energy = energy;
+  public void setUcr(BigInteger ucr) {
+    this.ucr = ucr;
   }
 
   public OpActions getActions() {

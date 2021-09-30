@@ -52,8 +52,8 @@ public class ForkController {
   }
 
   private boolean passOld(int version) {
-    if (version == ForkBlockVersionConsts.ENERGY_LIMIT) {
-      return checkForEnergyLimit();
+    if (version == ForkBlockVersionConsts.UCR_LIMIT) {
+      return checkForUcrLimit();
     }
 
     byte[] stats = manager.getDynamicPropertiesStore().statsByVersion(version);
@@ -89,11 +89,11 @@ public class ForkController {
 
 
   // when block.version = 5,
-  // it make block use new energy to handle transaction when block number >= 4727890L.
+  // it make block use new ucr to handle transaction when block number >= 4727890L.
   // version !=5, skip this.
-  private boolean checkForEnergyLimit() {
+  private boolean checkForUcrLimit() {
     long blockNum = manager.getDynamicPropertiesStore().getLatestBlockHeaderNumber();
-    return blockNum >= CommonParameter.getInstance().getBlockNumForEnergyLimit();
+    return blockNum >= CommonParameter.getInstance().getBlockNumForUcrLimit();
   }
 
   private boolean check(byte[] stats) {
@@ -148,7 +148,7 @@ public class ForkController {
     }
 
     int version = blockCapsule.getInstance().getBlockHeader().getRawData().getVersion();
-    if (version < ForkBlockVersionConsts.ENERGY_LIMIT) {
+    if (version < ForkBlockVersionConsts.UCR_LIMIT) {
       return;
     }
 

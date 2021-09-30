@@ -22,8 +22,8 @@ import stest.stabila.wallet.common.client.utils.PublicMethed;
 @Slf4j
 public class WalletTestAccount012 {
   private static final long sendAmount = 10000000000L;
-  private static final long frozenAmountForStabilaPower = 3456789L;
-  private static final long frozenAmountForNet = 7000000L;
+  private static final long cdedAmountForStabilaPower = 3456789L;
+  private static final long cdedAmountForNet = 7000000L;
   private final String foundationKey = Configuration.getByPath("testng.conf")
       .getString("foundationAccount.key1");
   private final byte[] foundationAddress = PublicMethed.getFinalAddress(foundationKey);
@@ -33,8 +33,8 @@ public class WalletTestAccount012 {
   private final byte[] witnessAddress = PublicMethed.getFinalAddress(witnessKey);
 
   ECKey ecKey1 = new ECKey(Utils.getRandom());
-  byte[] frozenAddress = ecKey1.getAddress();
-  String frozenKey = ByteArray.toHexString(ecKey1.getPrivKeyBytes());
+  byte[] cdedAddress = ecKey1.getAddress();
+  String cdedKey = ByteArray.toHexString(ecKey1.getPrivKeyBytes());
 
   private ManagedChannel channelFull = null;
   private WalletGrpc.WalletBlockingStub blockingStubFull = null;
@@ -46,7 +46,7 @@ public class WalletTestAccount012 {
    */
   @BeforeClass(enabled = true)
   public void beforeClass() {
-    PublicMethed.printAddress(frozenKey);
+    PublicMethed.printAddress(cdedKey);
     channelFull = ManagedChannelBuilder.forTarget(fullnode)
         .usePlaintext(true)
         .build();
@@ -54,53 +54,53 @@ public class WalletTestAccount012 {
 
   }
 
-  @Test(enabled = true, description = "Freeze balance to get stabila power")
-  public void test01FreezeBalanceGetStabilaPower() {
+  @Test(enabled = true, description = "Cd balance to get stabila power")
+  public void test01CdBalanceGetStabilaPower() {
 
 
-    final Long beforeFrozenTime = System.currentTimeMillis();
-    Assert.assertTrue(PublicMethed.sendcoin(frozenAddress, sendAmount,
+    final Long beforeCdedTime = System.currentTimeMillis();
+    Assert.assertTrue(PublicMethed.sendcoin(cdedAddress, sendAmount,
         foundationAddress, foundationKey, blockingStubFull));
     PublicMethed.waitProduceNextBlock(blockingStubFull);
 
 
     AccountResourceMessage accountResource = PublicMethed
-        .getAccountResource(frozenAddress, blockingStubFull);
+        .getAccountResource(cdedAddress, blockingStubFull);
     final Long beforeTotalStabilaPowerWeight = accountResource.getTotalStabilaPowerWeight();
     final Long beforeStabilaPowerLimit = accountResource.getStabilaPowerLimit();
 
 
-    Assert.assertTrue(PublicMethed.freezeBalanceGetStabilaPower(frozenAddress,frozenAmountForStabilaPower,
-        0,2,null,frozenKey,blockingStubFull));
-    Assert.assertTrue(PublicMethed.freezeBalanceGetStabilaPower(frozenAddress,frozenAmountForNet,
-        0,0,null,frozenKey,blockingStubFull));
+    Assert.assertTrue(PublicMethed.cdBalanceGetStabilaPower(cdedAddress,cdedAmountForStabilaPower,
+        0,2,null,cdedKey,blockingStubFull));
+    Assert.assertTrue(PublicMethed.cdBalanceGetStabilaPower(cdedAddress,cdedAmountForNet,
+        0,0,null,cdedKey,blockingStubFull));
     PublicMethed.waitProduceNextBlock(blockingStubFull);
 
-    Long afterFrozenTime = System.currentTimeMillis();
-    Account account = PublicMethed.queryAccount(frozenAddress,blockingStubFull);
-    Assert.assertEquals(account.getStabilaPower().getFrozenBalance(),frozenAmountForStabilaPower);
-    Assert.assertTrue(account.getStabilaPower().getExpireTime() > beforeFrozenTime
-        && account.getStabilaPower().getExpireTime() < afterFrozenTime);
+    Long afterCdedTime = System.currentTimeMillis();
+    Account account = PublicMethed.queryAccount(cdedAddress,blockingStubFull);
+    Assert.assertEquals(account.getStabilaPower().getCdedBalance(),cdedAmountForStabilaPower);
+    Assert.assertTrue(account.getStabilaPower().getExpireTime() > beforeCdedTime
+        && account.getStabilaPower().getExpireTime() < afterCdedTime);
 
     accountResource = PublicMethed
-        .getAccountResource(frozenAddress, blockingStubFull);
+        .getAccountResource(cdedAddress, blockingStubFull);
     Long afterTotalStabilaPowerWeight = accountResource.getTotalStabilaPowerWeight();
     Long afterStabilaPowerLimit = accountResource.getStabilaPowerLimit();
     Long afterStabilaPowerUsed = accountResource.getStabilaPowerUsed();
     Assert.assertEquals(afterTotalStabilaPowerWeight - beforeTotalStabilaPowerWeight,
-        frozenAmountForStabilaPower / 1000000L);
+        cdedAmountForStabilaPower / 1000000L);
 
     Assert.assertEquals(afterStabilaPowerLimit - beforeStabilaPowerLimit,
-        frozenAmountForStabilaPower / 1000000L);
+        cdedAmountForStabilaPower / 1000000L);
 
 
 
-    Assert.assertTrue(PublicMethed.freezeBalanceGetStabilaPower(frozenAddress,
-        6000000 - frozenAmountForStabilaPower,
-        0,2,null,frozenKey,blockingStubFull));
+    Assert.assertTrue(PublicMethed.cdBalanceGetStabilaPower(cdedAddress,
+        6000000 - cdedAmountForStabilaPower,
+        0,2,null,cdedKey,blockingStubFull));
     PublicMethed.waitProduceNextBlock(blockingStubFull);
     accountResource = PublicMethed
-        .getAccountResource(frozenAddress, blockingStubFull);
+        .getAccountResource(cdedAddress, blockingStubFull);
     afterStabilaPowerLimit = accountResource.getStabilaPowerLimit();
 
     Assert.assertEquals(afterStabilaPowerLimit - beforeStabilaPowerLimit,
@@ -113,32 +113,32 @@ public class WalletTestAccount012 {
   @Test(enabled = true,description = "Vote witness by stabila power")
   public void test02VotePowerOnlyComeFromStabilaPower() {
     AccountResourceMessage accountResource = PublicMethed
-        .getAccountResource(frozenAddress, blockingStubFull);
+        .getAccountResource(cdedAddress, blockingStubFull);
     final Long beforeStabilaPowerUsed = accountResource.getStabilaPowerUsed();
 
 
     HashMap<byte[],Long> witnessMap = new HashMap<>();
-    witnessMap.put(witnessAddress,frozenAmountForNet / 1000000L);
-    Assert.assertFalse(PublicMethed.voteWitness(frozenAddress,frozenKey,witnessMap,
+    witnessMap.put(witnessAddress,cdedAmountForNet / 1000000L);
+    Assert.assertFalse(PublicMethed.voteWitness(cdedAddress,cdedKey,witnessMap,
         blockingStubFull));
-    witnessMap.put(witnessAddress,frozenAmountForStabilaPower / 1000000L);
-    Assert.assertTrue(PublicMethed.voteWitness(frozenAddress,frozenKey,witnessMap,
+    witnessMap.put(witnessAddress,cdedAmountForStabilaPower / 1000000L);
+    Assert.assertTrue(PublicMethed.voteWitness(cdedAddress,cdedKey,witnessMap,
         blockingStubFull));
     PublicMethed.waitProduceNextBlock(blockingStubFull);
 
     accountResource = PublicMethed
-        .getAccountResource(frozenAddress, blockingStubFull);
+        .getAccountResource(cdedAddress, blockingStubFull);
     Long afterStabilaPowerUsed = accountResource.getStabilaPowerUsed();
     Assert.assertEquals(afterStabilaPowerUsed - beforeStabilaPowerUsed,
-        frozenAmountForStabilaPower / 1000000L);
+        cdedAmountForStabilaPower / 1000000L);
 
     final Long secondBeforeStabilaPowerUsed = afterStabilaPowerUsed;
-    witnessMap.put(witnessAddress,(frozenAmountForStabilaPower / 1000000L) - 1);
-    Assert.assertTrue(PublicMethed.voteWitness(frozenAddress,frozenKey,witnessMap,
+    witnessMap.put(witnessAddress,(cdedAmountForStabilaPower / 1000000L) - 1);
+    Assert.assertTrue(PublicMethed.voteWitness(cdedAddress,cdedKey,witnessMap,
         blockingStubFull));
     PublicMethed.waitProduceNextBlock(blockingStubFull);
     accountResource = PublicMethed
-        .getAccountResource(frozenAddress, blockingStubFull);
+        .getAccountResource(cdedAddress, blockingStubFull);
     afterStabilaPowerUsed = accountResource.getStabilaPowerUsed();
     Assert.assertEquals(secondBeforeStabilaPowerUsed - afterStabilaPowerUsed,
         1);
@@ -148,25 +148,25 @@ public class WalletTestAccount012 {
 
   @Test(enabled = true,description = "Stabila power is not allow to others")
   public void test03StabilaPowerIsNotAllowToOthers() {
-    Assert.assertFalse(PublicMethed.freezeBalanceGetStabilaPower(frozenAddress,
-        frozenAmountForStabilaPower, 0,2,
-        ByteString.copyFrom(foundationAddress),frozenKey,blockingStubFull));
+    Assert.assertFalse(PublicMethed.cdBalanceGetStabilaPower(cdedAddress,
+        cdedAmountForStabilaPower, 0,2,
+        ByteString.copyFrom(foundationAddress),cdedKey,blockingStubFull));
   }
 
 
-  @Test(enabled = true,description = "Unfreeze balance for stabila power")
-  public void test04UnfreezeBalanceForStabilaPower() {
+  @Test(enabled = true,description = "Uncd balance for stabila power")
+  public void test04UncdBalanceForStabilaPower() {
     AccountResourceMessage accountResource = PublicMethed
         .getAccountResource(foundationAddress, blockingStubFull);
     final Long beforeTotalStabilaPowerWeight = accountResource.getTotalStabilaPowerWeight();
 
 
-    Assert.assertTrue(PublicMethed.unFreezeBalance(frozenAddress,frozenKey,2,
+    Assert.assertTrue(PublicMethed.unCdBalance(cdedAddress,cdedKey,2,
         null,blockingStubFull));
     PublicMethed.waitProduceNextBlock(blockingStubFull);
 
     accountResource = PublicMethed
-        .getAccountResource(frozenAddress, blockingStubFull);
+        .getAccountResource(cdedAddress, blockingStubFull);
     Long afterTotalStabilaPowerWeight = accountResource.getTotalStabilaPowerWeight();
     Assert.assertEquals(beforeTotalStabilaPowerWeight - afterTotalStabilaPowerWeight,
         6);
@@ -174,8 +174,8 @@ public class WalletTestAccount012 {
     Assert.assertEquals(accountResource.getStabilaPowerLimit(),0L);
     Assert.assertEquals(accountResource.getStabilaPowerUsed(),0L);
 
-    Account account = PublicMethed.queryAccount(frozenAddress,blockingStubFull);
-    Assert.assertEquals(account.getStabilaPower().getFrozenBalance(),0);
+    Account account = PublicMethed.queryAccount(cdedAddress,blockingStubFull);
+    Assert.assertEquals(account.getStabilaPower().getCdedBalance(),0);
 
 
   }
@@ -187,11 +187,11 @@ public class WalletTestAccount012 {
 
   @AfterClass(enabled = true)
   public void shutdown() throws InterruptedException {
-    PublicMethed.unFreezeBalance(frozenAddress, frozenKey, 2, null,
+    PublicMethed.unCdBalance(cdedAddress, cdedKey, 2, null,
         blockingStubFull);
-    PublicMethed.unFreezeBalance(frozenAddress, frozenKey, 0, null,
+    PublicMethed.unCdBalance(cdedAddress, cdedKey, 0, null,
         blockingStubFull);
-    PublicMethed.freedResource(frozenAddress, frozenKey, foundationAddress, blockingStubFull);
+    PublicMethed.freedResource(cdedAddress, cdedKey, foundationAddress, blockingStubFull);
     if (channelFull != null) {
       channelFull.shutdown().awaitTermination(5, TimeUnit.SECONDS);
     }

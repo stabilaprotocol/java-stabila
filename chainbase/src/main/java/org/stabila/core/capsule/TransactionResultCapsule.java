@@ -56,12 +56,12 @@ public class TransactionResultCapsule implements ProtoCapsule<Result> {
     this.transactionResult = this.transactionResult.toBuilder().setFee(fee).build();
   }
 
-  public long getUnfreezeAmount() {
-    return transactionResult.getUnfreezeAmount();
+  public long getUncdAmount() {
+    return transactionResult.getUncdAmount();
   }
 
-  public void setUnfreezeAmount(long amount) {
-    this.transactionResult = this.transactionResult.toBuilder().setUnfreezeAmount(amount).build();
+  public void setUncdAmount(long amount) {
+    this.transactionResult = this.transactionResult.toBuilder().setUncdAmount(amount).build();
   }
 
   public String getAssetIssueID() {

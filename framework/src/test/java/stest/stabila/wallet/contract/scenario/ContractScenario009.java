@@ -63,15 +63,15 @@ public class ContractScenario009 {
   public void deployContainLibraryContract() {
     Assert.assertTrue(PublicMethed.sendcoin(contract009Address, 20000000L, fromAddress,
         testKey002, blockingStubFull));
-    Assert.assertTrue(PublicMethed.freezeBalanceGetEnergy(contract009Address, 1000000L,
+    Assert.assertTrue(PublicMethed.cdBalanceGetUcr(contract009Address, 1000000L,
         3, 1, contract009Key, blockingStubFull));
     AccountResourceMessage accountResource = PublicMethed.getAccountResource(contract009Address,
         blockingStubFull);
-    Long energyLimit = accountResource.getEnergyLimit();
-    Long energyUsage = accountResource.getEnergyUsed();
+    Long ucrLimit = accountResource.getUcrLimit();
+    Long ucrUsage = accountResource.getUcrUsed();
 
-    logger.info("before energy limit is " + Long.toString(energyLimit));
-    logger.info("before energy usage is " + Long.toString(energyUsage));
+    logger.info("before ucr limit is " + Long.toString(ucrLimit));
+    logger.info("before ucr usage is " + Long.toString(ucrUsage));
     String filePath = "./src/test/resources/soliditycode/contractScenario009.sol";
     String contractName = "Set";
     HashMap retMap = PublicMethed.getBycodeAbi(filePath, contractName);
@@ -91,7 +91,7 @@ public class ContractScenario009 {
     String library = retMap.get("library").toString();
 
     //String libraryAddress =
-    //    "browser/TvmTest_p1_Grammar_002.sol:Set:" + Base58.encode58Check(libraryContractAddress);
+    //    "browser/SvmTest_p1_Grammar_002.sol:Set:" + Base58.encode58Check(libraryContractAddress);
     String libraryAddress;
     libraryAddress = library
         + Base58.encode58Check(libraryContractAddress);
@@ -106,13 +106,13 @@ public class ContractScenario009 {
     Assert.assertFalse(smartContract.getBytecode().toString().isEmpty());
     logger.info(ByteArray.toHexString(smartContract.getContractAddress().toByteArray()));
     accountResource = PublicMethed.getAccountResource(contract009Address, blockingStubFull);
-    energyLimit = accountResource.getEnergyLimit();
-    energyUsage = accountResource.getEnergyUsed();
-    Assert.assertTrue(energyLimit > 0);
-    Assert.assertTrue(energyUsage > 0);
+    ucrLimit = accountResource.getUcrLimit();
+    ucrUsage = accountResource.getUcrUsed();
+    Assert.assertTrue(ucrLimit > 0);
+    Assert.assertTrue(ucrUsage > 0);
 
-    logger.info("after energy limit is " + Long.toString(energyLimit));
-    logger.info("after energy usage is " + Long.toString(energyUsage));
+    logger.info("after ucr limit is " + Long.toString(ucrLimit));
+    logger.info("after ucr usage is " + Long.toString(ucrUsage));
   }
 
   /**

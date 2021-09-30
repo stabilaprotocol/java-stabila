@@ -86,7 +86,7 @@ public class WalletTestAssetIssue011 {
         .sendcoin(asset011Address, sendAmount, fromAddress, testKey002, blockingStubFull));
     PublicMethed.waitProduceNextBlock(blockingStubFull);
     Assert.assertTrue(PublicMethed
-        .freezeBalance(asset011Address, 100000000L, 3, testKeyForAssetIssue011,
+        .cdBalance(asset011Address, 100000000L, 3, testKeyForAssetIssue011,
             blockingStubFull));
     PublicMethed.waitProduceNextBlock(blockingStubFull);
     Long start = System.currentTimeMillis() + 2000;
@@ -117,7 +117,7 @@ public class WalletTestAssetIssue011 {
     Assert.assertFalse(queryTransferAssetAccount.getAccountName().isEmpty());
     PublicMethed
         .freedResource(asset011Address, testKeyForAssetIssue011, fromAddress, blockingStubFull);
-    PublicMethed.unFreezeBalance(asset011Address, testKeyForAssetIssue011, 0, asset011Address,
+    PublicMethed.unCdBalance(asset011Address, testKeyForAssetIssue011, 0, asset011Address,
         blockingStubFull);
 
   }

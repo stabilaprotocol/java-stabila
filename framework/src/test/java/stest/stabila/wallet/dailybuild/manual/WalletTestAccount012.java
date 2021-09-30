@@ -125,16 +125,16 @@ public class WalletTestAccount012 {
         blockingStubFull);
     accountResource = PublicMethed.getAccountResource(asset011Address,
         blockingStubFull);
-    Long beforeEnergyLimit = accountResource.getEnergyLimit();
-    Long afterEnergyLimit;
-    Long beforeTotalEnergyLimit = accountResource.getTotalEnergyLimit();
+    Long beforeUcrLimit = accountResource.getUcrLimit();
+    Long afterUcrLimit;
+    Long beforeTotalUcrLimit = accountResource.getTotalUcrLimit();
     Account account = PublicMethed.queryAccount(testKeyForAssetIssue011, blockingStubFull);
-    Long afterTotalEnergyLimit;
+    Long afterTotalUcrLimit;
     while (i++ < 20000) {
       accountResource = PublicMethed.getAccountResource(asset011Address,
           blockingStubFull);
-      beforeEnergyLimit = accountResource.getEnergyLimit();
-      beforeTotalEnergyLimit = accountResource.getTotalEnergyLimit();
+      beforeUcrLimit = accountResource.getUcrLimit();
+      beforeTotalUcrLimit = accountResource.getTotalUcrLimit();
       String initParmes = "\"" + "21" + "\"";
       /*      txid = PublicMethed.triggerContract(contractAddress,
           "storage8Char()", "", false,
@@ -146,18 +146,18 @@ public class WalletTestAccount012 {
           0, maxFeeLimit, asset011Address, testKeyForAssetIssue011, blockingStubFull);
       accountResource = PublicMethed.getAccountResource(asset011Address,
           blockingStubFull);
-      //logger.info("Current limit is " + accountResource.getTotalEnergyLimit());
-      //PublicMethed.freezeBalanceGetEnergy(asset011Address,1000000L,3,
+      //logger.info("Current limit is " + accountResource.getTotalUcrLimit());
+      //PublicMethed.cdBalanceGetUcr(asset011Address,1000000L,3,
       //    1,testKeyForAssetIssue011,blockingStubFull);
 
       accountResource = PublicMethed.getAccountResource(asset011Address,
           blockingStubFull);
-      afterEnergyLimit = accountResource.getEnergyLimit();
-      afterTotalEnergyLimit = accountResource.getTotalEnergyLimit();
+      afterUcrLimit = accountResource.getUcrLimit();
+      afterTotalUcrLimit = accountResource.getTotalUcrLimit();
 
-      logger.info("Total energy limit is " + (float) afterTotalEnergyLimit / 50000000000L);
+      logger.info("Total ucr limit is " + (float) afterTotalUcrLimit / 50000000000L);
       Float rate =
-          (float) (afterTotalEnergyLimit - beforeTotalEnergyLimit) / beforeTotalEnergyLimit;
+          (float) (afterTotalUcrLimit - beforeTotalUcrLimit) / beforeTotalUcrLimit;
       //logger.info("rate is " + rate);
       //Assert.assertTrue(rate >= 0.001001000 && rate <= 0.001001002);
       //txidList.add(txid);
@@ -167,11 +167,11 @@ public class WalletTestAccount012 {
         e.printStackTrace();
       }
       account = PublicMethed.queryAccount(testKeyForAssetIssue011, blockingStubFull);
-      Float energyrate = (float) (beforeEnergyLimit) / account.getAccountResource()
-          .getFrozenBalanceForEnergy().getFrozenBalance();
-      //logger.info("energy rate is " + energyrate);
+      Float ucrrate = (float) (beforeUcrLimit) / account.getAccountResource()
+          .getCdedBalanceForUcr().getCdedBalance();
+      //logger.info("ucr rate is " + ucrrate);
       if (i % 20 == 0) {
-        PublicMethed.freezeBalanceForReceiver(fromAddress, 1000000L, 3, 1,
+        PublicMethed.cdBalanceForReceiver(fromAddress, 1000000L, 3, 1,
             ByteString.copyFrom(asset011Address), testKey002, blockingStubFull);
       }
     }

@@ -91,8 +91,8 @@ public class ShieldTrc20Token002 extends ZenTrc20Base {
         .getTransactionInfoById(txid, blockingStubFull);
 
     logger.info(mint + ":" + txid);
-    logger.info(mint + infoById.get().getReceipt().getEnergyUsageTotal());
-    Assert.assertTrue(infoById.get().getReceipt().getEnergyUsageTotal() > 250000);
+    logger.info(mint + infoById.get().getReceipt().getUcrUsageTotal());
+    Assert.assertTrue(infoById.get().getReceipt().getUcrUsageTotal() > 250000);
     Assert.assertTrue(infoById.get().getReceipt().getResultValue() == 1);
 
     //Query account after mint balance

@@ -3,7 +3,7 @@ package org.stabila.core.capsule;
 import java.util.Objects;
 import lombok.Getter;
 import lombok.Setter;
-import org.stabila.core.db.EnergyProcessor;
+import org.stabila.core.db.UcrProcessor;
 import org.stabila.core.store.AccountStore;
 import org.stabila.core.store.DynamicPropertiesStore;
 import org.stabila.common.parameter.CommonParameter;
@@ -25,16 +25,16 @@ public class ReceiptCapsule {
   private long multiSignFee;
 
   /**
-   * Available energy of contract deployer before executing transaction
+   * Available ucr of contract deployer before executing transaction
    */
   @Setter
-  private long originEnergyLeft;
+  private long originUcrLeft;
 
   /**
-   * Available energy of caller before executing transaction
+   * Available ucr of caller before executing transaction
    */
   @Setter
-  private long callerEnergyLeft;
+  private long callerUcrLeft;
 
   private Sha256Hash receiptAddress;
 
@@ -52,10 +52,10 @@ public class ReceiptCapsule {
     return origin.getReceipt().toBuilder().build();
   }
 
-  public static boolean checkForEnergyLimit(DynamicPropertiesStore ds) {
+  public static boolean checkForUcrLimit(DynamicPropertiesStore ds) {
     long blockNum = ds.getLatestBlockHeaderNumber();
     return blockNum >= CommonParameter.getInstance()
-        .getBlockNumForEnergyLimit();
+        .getBlockNumForUcrLimit();
   }
 
   public ResourceReceipt getReceipt() {
@@ -74,36 +74,36 @@ public class ReceiptCapsule {
     this.receipt = this.receipt.toBuilder().setNetFee(getNetFee() + netFee).build();
   }
 
-  public long getEnergyUsage() {
-    return this.receipt.getEnergyUsage();
+  public long getUcrUsage() {
+    return this.receipt.getUcrUsage();
   }
 
-  public void setEnergyUsage(long energyUsage) {
-    this.receipt = this.receipt.toBuilder().setEnergyUsage(energyUsage).build();
+  public void setUcrUsage(long ucrUsage) {
+    this.receipt = this.receipt.toBuilder().setUcrUsage(ucrUsage).build();
   }
 
-  public long getEnergyFee() {
-    return this.receipt.getEnergyFee();
+  public long getUcrFee() {
+    return this.receipt.getUcrFee();
   }
 
-  public void setEnergyFee(long energyFee) {
-    this.receipt = this.receipt.toBuilder().setEnergyFee(energyFee).build();
+  public void setUcrFee(long ucrFee) {
+    this.receipt = this.receipt.toBuilder().setUcrFee(ucrFee).build();
   }
 
-  public long getOriginEnergyUsage() {
-    return this.receipt.getOriginEnergyUsage();
+  public long getOriginUcrUsage() {
+    return this.receipt.getOriginUcrUsage();
   }
 
-  public void setOriginEnergyUsage(long energyUsage) {
-    this.receipt = this.receipt.toBuilder().setOriginEnergyUsage(energyUsage).build();
+  public void setOriginUcrUsage(long ucrUsage) {
+    this.receipt = this.receipt.toBuilder().setOriginUcrUsage(ucrUsage).build();
   }
 
-  public long getEnergyUsageTotal() {
-    return this.receipt.getEnergyUsageTotal();
+  public long getUcrUsageTotal() {
+    return this.receipt.getUcrUsageTotal();
   }
 
-  public void setEnergyUsageTotal(long energyUsage) {
-    this.receipt = this.receipt.toBuilder().setEnergyUsageTotal(energyUsage).build();
+  public void setUcrUsageTotal(long ucrUsage) {
+    this.receipt = this.receipt.toBuilder().setUcrUsageTotal(ucrUsage).build();
   }
 
   public long getNetUsage() {
@@ -123,107 +123,107 @@ public class ReceiptCapsule {
   }
 
   /**
-   * payEnergyBill pay receipt energy bill by energy processor.
+   * payUcrBill pay receipt ucr bill by ucr processor.
    */
-  public void payEnergyBill(DynamicPropertiesStore dynamicPropertiesStore,
+  public void payUcrBill(DynamicPropertiesStore dynamicPropertiesStore,
                             AccountStore accountStore, ForkController forkController, AccountCapsule origin,
                             AccountCapsule caller,
-                            long percent, long originEnergyLimit, EnergyProcessor energyProcessor, long now)
+                            long percent, long originUcrLimit, UcrProcessor ucrProcessor, long now)
       throws BalanceInsufficientException {
-    if (receipt.getEnergyUsageTotal() <= 0) {
+    if (receipt.getUcrUsageTotal() <= 0) {
       return;
     }
 
-    if (Objects.isNull(origin) && dynamicPropertiesStore.getAllowTvmConstantinople() == 1) {
-      payEnergyBill(dynamicPropertiesStore, accountStore, forkController, caller,
-          receipt.getEnergyUsageTotal(), receipt.getResult(), energyProcessor, now);
+    if (Objects.isNull(origin) && dynamicPropertiesStore.getAllowSvmConstantinople() == 1) {
+      payUcrBill(dynamicPropertiesStore, accountStore, forkController, caller,
+          receipt.getUcrUsageTotal(), receipt.getResult(), ucrProcessor, now);
       return;
     }
 
     if ((!Objects.isNull(origin))&&caller.getAddress().equals(origin.getAddress())) {
-      payEnergyBill(dynamicPropertiesStore, accountStore, forkController, caller,
-          receipt.getEnergyUsageTotal(), receipt.getResult(), energyProcessor, now);
+      payUcrBill(dynamicPropertiesStore, accountStore, forkController, caller,
+          receipt.getUcrUsageTotal(), receipt.getResult(), ucrProcessor, now);
     } else {
-      long originUsage = Math.multiplyExact(receipt.getEnergyUsageTotal(), percent) / 100;
-      originUsage = getOriginUsage(dynamicPropertiesStore, origin, originEnergyLimit,
-          energyProcessor,
+      long originUsage = Math.multiplyExact(receipt.getUcrUsageTotal(), percent) / 100;
+      originUsage = getOriginUsage(dynamicPropertiesStore, origin, originUcrLimit,
+              ucrProcessor,
           originUsage);
 
-      long callerUsage = receipt.getEnergyUsageTotal() - originUsage;
-      energyProcessor.useEnergy(origin, originUsage, now);
-      this.setOriginEnergyUsage(originUsage);
-      payEnergyBill(dynamicPropertiesStore, accountStore, forkController,
-          caller, callerUsage, receipt.getResult(), energyProcessor, now);
+      long callerUsage = receipt.getUcrUsageTotal() - originUsage;
+      ucrProcessor.useUcr(origin, originUsage, now);
+      this.setOriginUcrUsage(originUsage);
+      payUcrBill(dynamicPropertiesStore, accountStore, forkController,
+          caller, callerUsage, receipt.getResult(), ucrProcessor, now);
     }
   }
 
   private long getOriginUsage(DynamicPropertiesStore dynamicPropertiesStore, AccountCapsule origin,
-      long originEnergyLimit,
-      EnergyProcessor energyProcessor, long originUsage) {
+                              long originUcrLimit,
+                              UcrProcessor ucrProcessor, long originUsage) {
 
-    if (dynamicPropertiesStore.getAllowTvmFreeze() == 1) {
-      return Math.min(originUsage, Math.min(originEnergyLeft, originEnergyLimit));
+    if (dynamicPropertiesStore.getAllowSvmCd() == 1) {
+      return Math.min(originUsage, Math.min(originUcrLeft, originUcrLimit));
     }
 
-    if (checkForEnergyLimit(dynamicPropertiesStore)) {
+    if (checkForUcrLimit(dynamicPropertiesStore)) {
       return Math.min(originUsage,
-          Math.min(energyProcessor.getAccountLeftEnergyFromFreeze(origin), originEnergyLimit));
+          Math.min(ucrProcessor.getAccountLeftUcrFromCd(origin), originUcrLimit));
     }
-    return Math.min(originUsage, energyProcessor.getAccountLeftEnergyFromFreeze(origin));
+    return Math.min(originUsage, ucrProcessor.getAccountLeftUcrFromCd(origin));
   }
 
-  private void payEnergyBill(
+  private void payUcrBill(
       DynamicPropertiesStore dynamicPropertiesStore, AccountStore accountStore,
       ForkController forkController,
       AccountCapsule account,
       long usage,
       contractResult contractResult,
-      EnergyProcessor energyProcessor,
+      UcrProcessor ucrProcessor,
       long now) throws BalanceInsufficientException {
-    long accountEnergyLeft;
-    if (dynamicPropertiesStore.getAllowTvmFreeze() == 1) {
-      accountEnergyLeft = callerEnergyLeft;
+    long accountUcrLeft;
+    if (dynamicPropertiesStore.getAllowSvmCd() == 1) {
+      accountUcrLeft = callerUcrLeft;
     } else {
-      accountEnergyLeft = energyProcessor.getAccountLeftEnergyFromFreeze(account);
+      accountUcrLeft = ucrProcessor.getAccountLeftUcrFromCd(account);
     }
-    if (accountEnergyLeft >= usage) {
-      energyProcessor.useEnergy(account, usage, now);
-      this.setEnergyUsage(usage);
+    if (accountUcrLeft >= usage) {
+      ucrProcessor.useUcr(account, usage, now);
+      this.setUcrUsage(usage);
     } else {
-      energyProcessor.useEnergy(account, accountEnergyLeft, now);
+      ucrProcessor.useUcr(account, accountUcrLeft, now);
 
       if (forkController.pass(ForkBlockVersionEnum.VERSION_3_6_5) &&
-          dynamicPropertiesStore.getAllowAdaptiveEnergy() == 1) {
-        long blockEnergyUsage =
-            dynamicPropertiesStore.getBlockEnergyUsage() + (usage - accountEnergyLeft);
-        dynamicPropertiesStore.saveBlockEnergyUsage(blockEnergyUsage);
+          dynamicPropertiesStore.getAllowAdaptiveUcr() == 1) {
+        long blockUcrUsage =
+            dynamicPropertiesStore.getBlockUcrUsage() + (usage - accountUcrLeft);
+        dynamicPropertiesStore.saveBlockUcrUsage(blockUcrUsage);
       }
 
-      long unitPerEnergy = Constant.UNIT_PER_ENERGY;
-      long dynamicEnergyFee = dynamicPropertiesStore.getEnergyFee();
-      if (dynamicEnergyFee > 0) {
-        unitPerEnergy = dynamicEnergyFee;
+      long unitPerUcr = Constant.UNIT_PER_UCR;
+      long dynamicUcrFee = dynamicPropertiesStore.getUcrFee();
+      if (dynamicUcrFee > 0) {
+        unitPerUcr = dynamicUcrFee;
       }
-      long energyFee =
-          (usage - accountEnergyLeft) * unitPerEnergy;
-      this.setEnergyUsage(accountEnergyLeft);
-      this.setEnergyFee(energyFee);
+      long ucrFee =
+          (usage - accountUcrLeft) * unitPerUcr;
+      this.setUcrUsage(accountUcrLeft);
+      this.setUcrFee(ucrFee);
       long balance = account.getBalance();
-      if (balance < energyFee) {
+      if (balance < ucrFee) {
         throw new BalanceInsufficientException(
             StringUtil.createReadableString(account.createDbKey()) + " insufficient balance");
       }
-      account.setBalance(balance - energyFee);
+      account.setBalance(balance - ucrFee);
 
       if (dynamicPropertiesStore.supportTransactionFeePool() &&
           !contractResult.equals(contractResult.OUT_OF_TIME)) {
-        dynamicPropertiesStore.addTransactionFeePool(energyFee);
+        dynamicPropertiesStore.addTransactionFeePool(ucrFee);
       } else if (dynamicPropertiesStore.supportBlackHoleOptimization()) {
-        dynamicPropertiesStore.burnStb(energyFee);
+        dynamicPropertiesStore.burnStb(ucrFee);
       } else {
         //send to blackHole
         Commons.adjustBalance(accountStore, accountStore.getBlackhole(),
-            energyFee);
+            ucrFee);
       }
 
     }

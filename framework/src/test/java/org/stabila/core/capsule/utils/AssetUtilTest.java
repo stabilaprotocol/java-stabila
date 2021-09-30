@@ -74,7 +74,7 @@ public class AssetUtilTest {
     AccountCapsule accountCapsule = new AccountCapsule(accountName, address, accountType);
     accountCapsule.addAssetV2(ByteArray.fromString(String.valueOf(1)), 1000L);
     Protocol.Account build = accountCapsule.getInstance().toBuilder()
-            .addAllFrozenSupply(getFrozenList())
+            .addAllCdedSupply(getCdedList())
             .build();
     accountCapsule.setInstance(build);
 
@@ -115,25 +115,25 @@ public class AssetUtilTest {
   }
 
   @Test
-  public void tetGetFrozen() {
+  public void tetGetCded() {
     AccountCapsule account = createAccount2();
     Protocol.Account build = account.getInstance().toBuilder()
-            .addAllFrozenSupply(getFrozenList())
+            .addAllCdedSupply(getCdedList())
             .build();
     account.setInstance(build);
-    Assert.assertNotNull(account.getFrozenSupplyList());
+    Assert.assertNotNull(account.getCdedSupplyList());
   }
 
-  private static List<Protocol.Account.Frozen> getFrozenList() {
-    List<Protocol.Account.Frozen> frozenList = Lists.newArrayList();
+  private static List<Protocol.Account.Cded> getCdedList() {
+    List<Protocol.Account.Cded> cdedList = Lists.newArrayList();
     for (int i = 0; i < 3; i++) {
-      Protocol.Account.Frozen newFrozen = Protocol.Account.Frozen.newBuilder()
-              .setFrozenBalance(i * 1000 + 1)
+      Protocol.Account.Cded newCded = Protocol.Account.Cded.newBuilder()
+              .setCdedBalance(i * 1000 + 1)
               .setExpireTime(1000)
               .build();
-      frozenList.add(newFrozen);
+      cdedList.add(newCded);
     }
-    return frozenList;
+    return cdedList;
   }
 
 }

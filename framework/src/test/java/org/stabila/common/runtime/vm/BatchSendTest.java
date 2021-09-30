@@ -14,7 +14,7 @@ import org.stabila.common.application.ApplicationFactory;
 import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.crypto.ECKey;
 import org.stabila.common.runtime.Runtime;
-import org.stabila.common.runtime.TvmTestUtils;
+import org.stabila.common.runtime.SvmTestUtils;
 import org.stabila.common.storage.DepositImpl;
 import org.stabila.common.utils.ByteArray;
 import org.stabila.common.utils.FileUtil;
@@ -76,9 +76,9 @@ public class BatchSendTest {
     dbManager.getAccountStore().put(ownerCapsule.getAddress().toByteArray(), ownerCapsule);
     dbManager.getDynamicPropertiesStore().saveAllowSameTokenName(1);
     dbManager.getDynamicPropertiesStore().saveAllowMultiSign(1);
-    dbManager.getDynamicPropertiesStore().saveAllowTvmTransferTrc10(1);
-    dbManager.getDynamicPropertiesStore().saveAllowTvmConstantinople(1);
-    dbManager.getDynamicPropertiesStore().saveAllowTvmSolidity059(1);
+    dbManager.getDynamicPropertiesStore().saveAllowSvmTransferTrc10(1);
+    dbManager.getDynamicPropertiesStore().saveAllowSvmConstantinople(1);
+    dbManager.getDynamicPropertiesStore().saveAllowSvmSolidity059(1);
 
   }
 
@@ -139,11 +139,11 @@ public class BatchSendTest {
     long triggerCallValue = 0;
     long feeLimit = 100000000;
     long tokenValue = 0;
-    Transaction transaction = TvmTestUtils
+    Transaction transaction = SvmTestUtils
         .generateTriggerSmartContractAndGetTransaction(Hex.decode(OWNER_ADDRESS), contractAddress,
             input,
             triggerCallValue, feeLimit, tokenValue, 0);
-    runtime = TvmTestUtils.processTransactionAndReturnRuntime(transaction, dbManager, null);
+    runtime = SvmTestUtils.processTransactionAndReturnRuntime(transaction, dbManager, null);
     Assert.assertNull(runtime.getRuntimeError());
     //send success, create account
     Assert.assertEquals(100,
@@ -180,7 +180,7 @@ public class BatchSendTest {
     long tokenValue = 0;
     long tokenId = 0;
 
-    byte[] contractAddress = TvmTestUtils
+    byte[] contractAddress = SvmTestUtils
         .deployContractWholeProcessReturnContractAddress(contractName, address, ABI, code, value,
             feeLimit, consumeUserResourcePercent, null, tokenValue, tokenId,
             deposit, null);

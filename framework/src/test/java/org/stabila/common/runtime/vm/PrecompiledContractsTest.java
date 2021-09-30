@@ -25,7 +25,7 @@ import org.stabila.common.utils.FileUtil;
 import org.stabila.common.utils.StringUtil;
 import org.stabila.core.Constant;
 import org.stabila.core.Wallet;
-import org.stabila.core.actuator.FreezeBalanceActuator;
+import org.stabila.core.actuator.CdBalanceActuator;
 import org.stabila.core.capsule.AccountCapsule;
 import org.stabila.core.capsule.ProposalCapsule;
 import org.stabila.core.capsule.TransactionResultCapsule;
@@ -43,7 +43,7 @@ import org.stabila.core.vm.repository.Repository;
 import org.stabila.core.vm.repository.RepositoryImpl;
 import org.stabila.protos.Protocol.AccountType;
 import org.stabila.protos.Protocol.Proposal.State;
-import org.stabila.protos.contract.BalanceContract.FreezeBalanceContract;
+import org.stabila.protos.contract.BalanceContract.CdBalanceContract;
 
 @Slf4j
 public class PrecompiledContractsTest {
@@ -146,12 +146,12 @@ public class PrecompiledContractsTest {
     dbManager.getDynamicPropertiesStore().saveNextMaintenanceTime(2000000);
   }
 
-  private Any getFreezeContract(String ownerAddress, long frozenBalance, long duration) {
+  private Any getCdContract(String ownerAddress, long cdedBalance, long duration) {
     return Any.pack(
-        FreezeBalanceContract.newBuilder()
+        CdBalanceContract.newBuilder()
             .setOwnerAddress(StringUtil.hexString2ByteString(ownerAddress))
-            .setFrozenBalance(frozenBalance)
-            .setFrozenDuration(duration)
+            .setCdedBalance(cdedBalance)
+            .setCdedDuration(duration)
             .build());
   }
 
@@ -184,19 +184,19 @@ public class PrecompiledContractsTest {
     System.arraycopy(voteCountBytes, 0, data, witnessAddressBytes.length,
         voteCountBytes.length);
 
-    long frozenBalance = 1_000_000_000_000L;
+    long cdedBalance = 1_000_000_000_000L;
     long duration = 3;
-    Any freezeContract = getFreezeContract(OWNER_ADDRESS, frozenBalance, duration);
-    Constructor<FreezeBalanceActuator> constructor =
-        FreezeBalanceActuator.class
+    Any cdContract = getCdContract(OWNER_ADDRESS, cdedBalance, duration);
+    Constructor<CdBalanceActuator> constructor =
+        CdBalanceActuator.class
             .getDeclaredConstructor(Any.class, dbManager.getClass());
     constructor.setAccessible(true);
-    FreezeBalanceActuator freezeBalanceActuator = constructor
-        .newInstance(freezeContract, dbManager);
+    CdBalanceActuator cdBalanceActuator = constructor
+        .newInstance(cdContract, dbManager);
 
     TransactionResultCapsule ret = new TransactionResultCapsule();
-    freezeBalanceActuator.validate();
-    freezeBalanceActuator.execute(ret);
+    cdBalanceActuator.validate();
+    cdBalanceActuator.execute(ret);
     contract.setRepository(deposit);
     Boolean result = contract.execute(data).getLeft();
     deposit.commit();

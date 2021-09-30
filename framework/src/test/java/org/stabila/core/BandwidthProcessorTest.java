@@ -250,11 +250,11 @@ public class BandwidthProcessorTest {
 
     chainBaseManager.getDynamicPropertiesStore().saveLatestBlockHeaderTimestamp(1526647838000L);
     chainBaseManager.getDynamicPropertiesStore()
-        .saveTotalNetWeight(10_000_000L);//only owner has frozen balance
+        .saveTotalNetWeight(10_000_000L);//only owner has cded balance
 
     AccountCapsule ownerCapsule = chainBaseManager.getAccountStore()
         .get(ByteArray.fromHexString(OWNER_ADDRESS));
-    ownerCapsule.setFrozen(10_000_000L, 0L);
+    ownerCapsule.setCded(10_000_000L, 0L);
 
     Assert.assertEquals(true, processor.contractCreateNewAccount(contract));
     long bytes = stb.getSerializedSize();
@@ -334,14 +334,14 @@ public class BandwidthProcessorTest {
     chainBaseManager.getDynamicPropertiesStore().saveAllowSameTokenName(0);
     chainBaseManager.getDynamicPropertiesStore().saveLatestBlockHeaderTimestamp(1526647838000L);
     chainBaseManager.getDynamicPropertiesStore()
-        .saveTotalNetWeight(10_000_000L);//only assetAccount has frozen balance
+        .saveTotalNetWeight(10_000_000L);//only assetAccount has cded balance
 
     TransferAssetContract contract = getTransferAssetContract();
     TransactionCapsule stb = new TransactionCapsule(contract);
 
     AccountCapsule assetCapsule = chainBaseManager.getAccountStore()
         .get(ByteArray.fromHexString(ASSET_ADDRESS));
-    assetCapsule.setFrozen(10_000_000L, 0L);
+    assetCapsule.setCded(10_000_000L, 0L);
     chainBaseManager.getAccountStore().put(assetCapsule.getAddress().toByteArray(), assetCapsule);
 
     TransactionResultCapsule ret = new TransactionResultCapsule();
@@ -408,15 +408,15 @@ public class BandwidthProcessorTest {
     chainBaseManager.getDynamicPropertiesStore().saveAllowSameTokenName(1);
     chainBaseManager.getDynamicPropertiesStore().saveLatestBlockHeaderTimestamp(1526647838000L);
     chainBaseManager.getDynamicPropertiesStore()
-        .saveTotalNetWeight(10_000_000L);//only assetAccount has frozen balance
+        .saveTotalNetWeight(10_000_000L);//only assetAccount has cded balance
 
     TransferAssetContract contract = getTransferAssetV2Contract();
     TransactionCapsule stb = new TransactionCapsule(contract);
 
-    // issuer freeze balance for bandwidth
+    // issuer cd balance for bandwidth
     AccountCapsule issuerCapsuleV2 = chainBaseManager.getAccountStore()
         .get(ByteArray.fromHexString(ASSET_ADDRESS_V2));
-    issuerCapsuleV2.setFrozen(10_000_000L, 0L);
+    issuerCapsuleV2.setCded(10_000_000L, 0L);
     chainBaseManager.getAccountStore().put(issuerCapsuleV2.getAddress().toByteArray(),
         issuerCapsuleV2);
 
@@ -477,14 +477,14 @@ public class BandwidthProcessorTest {
   public void testConsumeOwner() throws Exception {
     chainBaseManager.getDynamicPropertiesStore().saveLatestBlockHeaderTimestamp(1526647838000L);
     chainBaseManager.getDynamicPropertiesStore()
-        .saveTotalNetWeight(10_000_000L);//only owner has frozen balance
+        .saveTotalNetWeight(10_000_000L);//only owner has cded balance
 
     TransferAssetContract contract = getTransferAssetContract();
     TransactionCapsule stb = new TransactionCapsule(contract);
 
     AccountCapsule ownerCapsule = chainBaseManager.getAccountStore()
         .get(ByteArray.fromHexString(OWNER_ADDRESS));
-    ownerCapsule.setFrozen(10_000_000L, 0L);
+    ownerCapsule.setCded(10_000_000L, 0L);
 
     AccountAssetCapsule ownerAssetCapsule = chainBaseManager.getAccountAssetStore()
             .get(ByteArray.fromHexString(OWNER_ADDRESS));
@@ -620,7 +620,7 @@ public class BandwidthProcessorTest {
             chainBaseManager.getDynamicPropertiesStore().getAssetIssueFee());
     ownerCapsule.setBalance(10_000_000L);
     long expireTime = DateTime.now().getMillis() + 6 * 86_400_000;
-    ownerCapsule.setFrozenForBandwidth(2_000_000L, expireTime);
+    ownerCapsule.setCdedForBandwidth(2_000_000L, expireTime);
     chainBaseManager.getAccountStore().put(ownerCapsule.getAddress().toByteArray(), ownerCapsule);
 
     AccountCapsule toAddressCapsule =
@@ -631,7 +631,7 @@ public class BandwidthProcessorTest {
             chainBaseManager.getDynamicPropertiesStore().getAssetIssueFee());
     toAddressCapsule.setBalance(10_000_000L);
     long expireTime2 = DateTime.now().getMillis() + 6 * 86_400_000;
-    toAddressCapsule.setFrozenForBandwidth(2_000_000L, expireTime2);
+    toAddressCapsule.setCdedForBandwidth(2_000_000L, expireTime2);
     chainBaseManager.getAccountStore().put(toAddressCapsule.getAddress().toByteArray(),
         toAddressCapsule);
 
@@ -733,7 +733,7 @@ public class BandwidthProcessorTest {
             chainBaseManager.getDynamicPropertiesStore().getAssetIssueFee());
     ownerCapsule.setBalance(10_000_000L);
     long expireTime = DateTime.now().getMillis() + 6 * 86_400_000;
-    ownerCapsule.setFrozenForBandwidth(2_000_000L, expireTime);
+    ownerCapsule.setCdedForBandwidth(2_000_000L, expireTime);
     chainBaseManager.getAccountStore().put(ownerCapsule.getAddress().toByteArray(), ownerCapsule);
 
     AccountCapsule toAddressCapsule =
@@ -744,7 +744,7 @@ public class BandwidthProcessorTest {
             chainBaseManager.getDynamicPropertiesStore().getAssetIssueFee());
     toAddressCapsule.setBalance(10_000_000L);
     long expireTime2 = DateTime.now().getMillis() + 6 * 86_400_000;
-    toAddressCapsule.setFrozenForBandwidth(2_000_000L, expireTime2);
+    toAddressCapsule.setCdedForBandwidth(2_000_000L, expireTime2);
     chainBaseManager.getAccountStore().put(toAddressCapsule.getAddress().toByteArray(),
         toAddressCapsule);
 
@@ -816,7 +816,7 @@ public class BandwidthProcessorTest {
             chainBaseManager.getDynamicPropertiesStore().getAssetIssueFee());
     ownerCapsule.setBalance(10_000_000L);
     long expireTime = DateTime.now().getMillis() + 6 * 86_400_000;
-    ownerCapsule.setFrozenForBandwidth(2_000_000L, expireTime);
+    ownerCapsule.setCdedForBandwidth(2_000_000L, expireTime);
     chainBaseManager.getAccountStore().put(ownerCapsule.getAddress().toByteArray(), ownerCapsule);
 
     AccountCapsule toAddressCapsule =
@@ -827,7 +827,7 @@ public class BandwidthProcessorTest {
             chainBaseManager.getDynamicPropertiesStore().getAssetIssueFee());
     toAddressCapsule.setBalance(10_000_000L);
     long expireTime2 = DateTime.now().getMillis() + 6 * 86_400_000;
-    toAddressCapsule.setFrozenForBandwidth(2_000_000L, expireTime2);
+    toAddressCapsule.setCdedForBandwidth(2_000_000L, expireTime2);
     chainBaseManager.getAccountStore().delete(toAddressCapsule.getAddress().toByteArray());
 
     TransferContract contract = TransferContract.newBuilder()

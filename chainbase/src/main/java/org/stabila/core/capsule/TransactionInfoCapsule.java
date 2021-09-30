@@ -55,12 +55,12 @@ public class TransactionInfoCapsule implements ProtoCapsule<TransactionInfo> {
         .setId(ByteString.copyFrom(id)).build();
   }
 
-  public long getUnfreezeAmount() {
-    return transactionInfo.getUnfreezeAmount();
+  public long getUncdAmount() {
+    return transactionInfo.getUncdAmount();
   }
 
-  public void setUnfreezeAmount(long amount) {
-    this.transactionInfo = this.transactionInfo.toBuilder().setUnfreezeAmount(amount).build();
+  public void setUncdAmount(long amount) {
+    this.transactionInfo = this.transactionInfo.toBuilder().setUncdAmount(amount).build();
   }
 
   public long getWithdrawAmount() {

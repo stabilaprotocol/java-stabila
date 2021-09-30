@@ -1,7 +1,7 @@
 package org.stabila.common.runtime;
 
-import static org.stabila.common.runtime.TvmTestUtils.generateDeploySmartContractAndGetTransaction;
-import static org.stabila.common.runtime.TvmTestUtils.generateTriggerSmartContractAndGetTransaction;
+import static org.stabila.common.runtime.SvmTestUtils.generateDeploySmartContractAndGetTransaction;
+import static org.stabila.common.runtime.SvmTestUtils.generateTriggerSmartContractAndGetTransaction;
 
 import java.io.File;
 import lombok.extern.slf4j.Slf4j;
@@ -64,7 +64,7 @@ public class RuntimeImplTest {
         .decode(Wallet.getAddressPreFixString() + "abd4b9367799eaa3197fecb144eb71de1e049abd");
     dbManager = context.getBean(Manager.class);
     dbManager.getDynamicPropertiesStore().saveLatestBlockHeaderTimestamp(1526647838000L);
-    dbManager.getDynamicPropertiesStore().saveTotalEnergyWeight(5_000_000_000L); // unit is stb
+    dbManager.getDynamicPropertiesStore().saveTotalUcrWeight(5_000_000_000L); // unit is stb
     repository = RepositoryImpl.createRoot(StoreFactory.getInstance());
     repository.createAccount(callerAddress, AccountType.Normal);
     repository.addBalance(callerAddress, callerTotalBalance);
@@ -76,7 +76,7 @@ public class RuntimeImplTest {
   // // solidity src code
   // pragma solidity ^0.4.2;
   //
-  // contract TestEnergyLimit {
+  // contract TestUcrLimit {
   //
   //   function testNotConstant(uint256 count) {
   //     uint256 curCount = 0;
@@ -98,7 +98,7 @@ public class RuntimeImplTest {
 
 
   @Test
-  public void getCreatorEnergyLimit2Test() throws ContractValidateException, ContractExeException {
+  public void getCreatorUcrLimit2Test() throws ContractValidateException, ContractExeException {
 
     long value = 10L;
     long feeLimit = 1_000_000_000L;
@@ -131,68 +131,68 @@ public class RuntimeImplTest {
     repository = RepositoryImpl.createRoot(StoreFactory.getInstance());
     AccountCapsule creatorAccount = repository.getAccount(creatorAddress);
 
-    long expectEnergyLimit1 = 10_000_000L;
+    long expectUcrLimit1 = 10_000_000L;
     Assert.assertEquals(
         ((VMActuator) runtimeImpl.getActuator2())
-            .getAccountEnergyLimitWithFixRatio(creatorAccount, feeLimit, value),
-        expectEnergyLimit1);
+            .getAccountUcrLimitWithFixRatio(creatorAccount, feeLimit, value),
+        expectUcrLimit1);
 
     value = 2_500_000_000L;
-    long expectEnergyLimit2 = 5_000_000L;
+    long expectUcrLimit2 = 5_000_000L;
     Assert.assertEquals(
         ((VMActuator) runtimeImpl.getActuator2())
-            .getAccountEnergyLimitWithFixRatio(creatorAccount, feeLimit, value),
-        expectEnergyLimit2);
+            .getAccountUcrLimitWithFixRatio(creatorAccount, feeLimit, value),
+        expectUcrLimit2);
 
     value = 10L;
     feeLimit = 1_000_000L;
-    long expectEnergyLimit3 = 10_000L;
+    long expectUcrLimit3 = 10_000L;
     Assert.assertEquals(
         ((VMActuator) runtimeImpl.getActuator2())
-            .getAccountEnergyLimitWithFixRatio(creatorAccount, feeLimit, value),
-        expectEnergyLimit3);
+            .getAccountUcrLimitWithFixRatio(creatorAccount, feeLimit, value),
+        expectUcrLimit3);
 
-    long frozenBalance = 1_000_000_000L;
-    long newBalance = creatorAccount.getBalance() - frozenBalance;
-    creatorAccount.setFrozenForEnergy(frozenBalance, 0L);
+    long cdedBalance = 1_000_000_000L;
+    long newBalance = creatorAccount.getBalance() - cdedBalance;
+    creatorAccount.setCdedForUcr(cdedBalance, 0L);
     creatorAccount.setBalance(newBalance);
     repository.putAccountValue(creatorAddress, creatorAccount);
     repository.commit();
 
     feeLimit = 1_000_000_000L;
-    long expectEnergyLimit4 = 10_000_000L;
+    long expectUcrLimit4 = 10_000_000L;
     Assert.assertEquals(
         ((VMActuator) runtimeImpl.getActuator2())
-            .getAccountEnergyLimitWithFixRatio(creatorAccount, feeLimit, value),
-        expectEnergyLimit4);
+            .getAccountUcrLimitWithFixRatio(creatorAccount, feeLimit, value),
+        expectUcrLimit4);
 
     feeLimit = 3_000_000_000L;
     value = 10L;
-    long expectEnergyLimit5 = 20_009_999L;
+    long expectUcrLimit5 = 20_009_999L;
     Assert.assertEquals(
         ((VMActuator) runtimeImpl.getActuator2())
-            .getAccountEnergyLimitWithFixRatio(creatorAccount, feeLimit, value),
-        expectEnergyLimit5);
+            .getAccountUcrLimitWithFixRatio(creatorAccount, feeLimit, value),
+        expectUcrLimit5);
 
     feeLimit = 3_000L;
     value = 10L;
-    long expectEnergyLimit6 = 30L;
+    long expectUcrLimit6 = 30L;
     Assert.assertEquals(
         ((VMActuator) runtimeImpl.getActuator2())
-            .getAccountEnergyLimitWithFixRatio(creatorAccount, feeLimit, value),
-        expectEnergyLimit6);
+            .getAccountUcrLimitWithFixRatio(creatorAccount, feeLimit, value),
+        expectUcrLimit6);
 
   }
 
   @Test
-  public void getCallerAndCreatorEnergyLimit2With0PercentTest()
+  public void getCallerAndCreatorUcrLimit2With0PercentTest()
       throws ContractExeException, ReceiptCheckErrException, VMIllegalException,
       ContractValidateException {
 
     long value = 0;
     long feeLimit = 1_000_000_000L; // unit
     long consumeUserResourcePercent = 0L;
-    long creatorEnergyLimit = 5_000L;
+    long creatorUcrLimit = 5_000L;
     String contractName = "test";
     String ABI = "[{\"constant\":true,\"inputs\":[{\"name\":\"count\",\"type\":\"uint256\"}],"
         + "\"name\":\"testConstant\",\"outputs\":[],\"payable\":false,\"stateMutability\":\""
@@ -208,14 +208,14 @@ public class RuntimeImplTest {
         + "5b5050505600a165627a7a72305820267cf0ebf31051a92ff62bed7490045b8063be9f1e1a22d07dce25765"
         + "4c8c17b0029";
     String libraryAddressPair = null;
-    TVMTestResult result = TvmTestUtils
-        .deployContractWithCreatorEnergyLimitAndReturnTvmTestResult(contractName, creatorAddress,
+    SVMTestResult result = SvmTestUtils
+        .deployContractWithCreatorUcrLimitAndReturnSvmTestResult(contractName, creatorAddress,
             ABI, code, value,
             feeLimit, consumeUserResourcePercent, libraryAddressPair, dbManager, null,
-            creatorEnergyLimit);
+            creatorUcrLimit);
 
     byte[] contractAddress = result.getContractAddress();
-    byte[] triggerData = TvmTestUtils.parseAbi("testNotConstant()", null);
+    byte[] triggerData = SvmTestUtils.parseAbi("testNotConstant()", null);
     Transaction stb = generateTriggerSmartContractAndGetTransaction(callerAddress, contractAddress,
         triggerData, value, feeLimit);
 
@@ -231,72 +231,72 @@ public class RuntimeImplTest {
 
     feeLimit = 1_000_000_000L;
     value = 0L;
-    long expectEnergyLimit1 = 10_000_000L;
+    long expectUcrLimit1 = 10_000_000L;
     Assert.assertEquals(
         ((VMActuator) runtimeImpl.getActuator2())
-            .getTotalEnergyLimitWithFixRatio(creatorAccount, callerAccount, contract, feeLimit,
+            .getTotalUcrLimitWithFixRatio(creatorAccount, callerAccount, contract, feeLimit,
                 value),
-        expectEnergyLimit1);
+        expectUcrLimit1);
 
-    long creatorFrozenBalance = 1_000_000_000L;
-    long newBalance = creatorAccount.getBalance() - creatorFrozenBalance;
-    creatorAccount.setFrozenForEnergy(creatorFrozenBalance, 0L);
+    long creatorCdedBalance = 1_000_000_000L;
+    long newBalance = creatorAccount.getBalance() - creatorCdedBalance;
+    creatorAccount.setCdedForUcr(creatorCdedBalance, 0L);
     creatorAccount.setBalance(newBalance);
     repository.putAccountValue(creatorAddress, creatorAccount);
     repository.commit();
 
     feeLimit = 1_000_000_000L;
     value = 0L;
-    long expectEnergyLimit2 = 10_005_000L;
+    long expectUcrLimit2 = 10_005_000L;
     Assert.assertEquals(
         ((VMActuator) runtimeImpl.getActuator2())
-            .getTotalEnergyLimitWithFixRatio(creatorAccount, callerAccount, contract, feeLimit,
+            .getTotalUcrLimitWithFixRatio(creatorAccount, callerAccount, contract, feeLimit,
                 value),
-        expectEnergyLimit2);
+        expectUcrLimit2);
 
     value = 3_500_000_000L;
-    long expectEnergyLimit3 = 5_005_000L;
+    long expectUcrLimit3 = 5_005_000L;
     Assert.assertEquals(
         ((VMActuator) runtimeImpl.getActuator2())
-            .getTotalEnergyLimitWithFixRatio(creatorAccount, callerAccount, contract, feeLimit,
+            .getTotalUcrLimitWithFixRatio(creatorAccount, callerAccount, contract, feeLimit,
                 value),
-        expectEnergyLimit3);
+        expectUcrLimit3);
 
     value = 10L;
     feeLimit = 5_000_000_000L;
-    long expectEnergyLimit4 = 40_004_999L;
+    long expectUcrLimit4 = 40_004_999L;
     Assert.assertEquals(
         ((VMActuator) runtimeImpl.getActuator2())
-            .getTotalEnergyLimitWithFixRatio(creatorAccount, callerAccount, contract, feeLimit,
+            .getTotalUcrLimitWithFixRatio(creatorAccount, callerAccount, contract, feeLimit,
                 value),
-        expectEnergyLimit4);
+        expectUcrLimit4);
 
-    long callerFrozenBalance = 1_000_000_000L;
-    callerAccount.setFrozenForEnergy(callerFrozenBalance, 0L);
-    callerAccount.setBalance(callerAccount.getBalance() - callerFrozenBalance);
+    long callerCdedBalance = 1_000_000_000L;
+    callerAccount.setCdedForUcr(callerCdedBalance, 0L);
+    callerAccount.setBalance(callerAccount.getBalance() - callerCdedBalance);
     repository.putAccountValue(callerAddress, callerAccount);
     repository.commit();
 
     value = 10L;
     feeLimit = 5_000_000_000L;
-    long expectEnergyLimit5 = 30_014_999L;
+    long expectUcrLimit5 = 30_014_999L;
     Assert.assertEquals(
         ((VMActuator) runtimeImpl.getActuator2())
-            .getTotalEnergyLimitWithFixRatio(creatorAccount, callerAccount, contract, feeLimit,
+            .getTotalUcrLimitWithFixRatio(creatorAccount, callerAccount, contract, feeLimit,
                 value),
-        expectEnergyLimit5);
+        expectUcrLimit5);
 
   }
 
   @Test
-  public void getCallerAndCreatorEnergyLimit2With40PercentTest()
+  public void getCallerAndCreatorUcrLimit2With40PercentTest()
       throws ContractExeException, ReceiptCheckErrException, VMIllegalException,
       ContractValidateException {
 
     long value = 0;
     long feeLimit = 1_000_000_000L; // unit
     long consumeUserResourcePercent = 40L;
-    long creatorEnergyLimit = 5_000L;
+    long creatorUcrLimit = 5_000L;
     String contractName = "test";
     String ABI = "[{\"constant\":true,\"inputs\":[{\"name\":\"count\",\"type\":\"uint256\"}],\""
         + "name\":\"testConstant\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"view\""
@@ -312,14 +312,14 @@ public class RuntimeImplTest {
         + "65b5050505600a165627a7a72305820267cf0ebf31051a92ff62bed7490045b8063be9f1e1a22d07dce2576"
         + "54c8c17b0029";
     String libraryAddressPair = null;
-    TVMTestResult result = TvmTestUtils
-        .deployContractWithCreatorEnergyLimitAndReturnTvmTestResult(contractName, creatorAddress,
+    SVMTestResult result = SvmTestUtils
+        .deployContractWithCreatorUcrLimitAndReturnSvmTestResult(contractName, creatorAddress,
             ABI, code, value,
             feeLimit, consumeUserResourcePercent, libraryAddressPair, dbManager, null,
-            creatorEnergyLimit);
+            creatorUcrLimit);
 
     byte[] contractAddress = result.getContractAddress();
-    byte[] triggerData = TvmTestUtils.parseAbi("testNotConstant()", null);
+    byte[] triggerData = SvmTestUtils.parseAbi("testNotConstant()", null);
     Transaction stb = generateTriggerSmartContractAndGetTransaction(callerAddress, contractAddress,
         triggerData, value, feeLimit);
 
@@ -335,48 +335,48 @@ public class RuntimeImplTest {
 
     feeLimit = 1_000_000_000L;
     value = 0L;
-    long expectEnergyLimit1 = 10_000_000L;
+    long expectUcrLimit1 = 10_000_000L;
     Assert.assertEquals(
         ((VMActuator) runtimeImpl.getActuator2())
-            .getTotalEnergyLimitWithFixRatio(creatorAccount, callerAccount, contract, feeLimit,
+            .getTotalUcrLimitWithFixRatio(creatorAccount, callerAccount, contract, feeLimit,
                 value),
-        expectEnergyLimit1);
+        expectUcrLimit1);
 
-    long creatorFrozenBalance = 1_000_000_000L;
-    long newBalance = creatorAccount.getBalance() - creatorFrozenBalance;
-    creatorAccount.setFrozenForEnergy(creatorFrozenBalance, 0L);
+    long creatorCdedBalance = 1_000_000_000L;
+    long newBalance = creatorAccount.getBalance() - creatorCdedBalance;
+    creatorAccount.setCdedForUcr(creatorCdedBalance, 0L);
     creatorAccount.setBalance(newBalance);
     repository.putAccountValue(creatorAddress, creatorAccount);
     repository.commit();
 
     feeLimit = 1_000_000_000L;
     value = 0L;
-    long expectEnergyLimit2 = 10_005_000L;
+    long expectUcrLimit2 = 10_005_000L;
     Assert.assertEquals(
         ((VMActuator) runtimeImpl.getActuator2())
-            .getTotalEnergyLimitWithFixRatio(creatorAccount, callerAccount, contract, feeLimit,
+            .getTotalUcrLimitWithFixRatio(creatorAccount, callerAccount, contract, feeLimit,
                 value),
-        expectEnergyLimit2);
+        expectUcrLimit2);
 
     value = 3_999_950_000L;
-    long expectEnergyLimit3 = 1_250L;
+    long expectUcrLimit3 = 1_250L;
     Assert.assertEquals(
         ((VMActuator) runtimeImpl.getActuator2())
-            .getTotalEnergyLimitWithFixRatio(creatorAccount, callerAccount, contract, feeLimit,
+            .getTotalUcrLimitWithFixRatio(creatorAccount, callerAccount, contract, feeLimit,
                 value),
-        expectEnergyLimit3);
+        expectUcrLimit3);
 
   }
 
   @Test
-  public void getCallerAndCreatorEnergyLimit2With100PercentTest()
+  public void getCallerAndCreatorUcrLimit2With100PercentTest()
       throws ContractExeException, ReceiptCheckErrException, VMIllegalException,
       ContractValidateException {
 
     long value = 0;
     long feeLimit = 1_000_000_000L; // unit
     long consumeUserResourcePercent = 100L;
-    long creatorEnergyLimit = 5_000L;
+    long creatorUcrLimit = 5_000L;
     String contractName = "test";
     String ABI = "[{\"constant\":true,\"inputs\":[{\"name\":\"count\",\"type\":\"uint256\"}],"
         + "\"name\":\"testConstant\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"view\""
@@ -392,14 +392,14 @@ public class RuntimeImplTest {
         + "5b5050505600a165627a7a72305820267cf0ebf31051a92ff62bed7490045b8063be9f1e1a22d07dce25765"
         + "4c8c17b0029";
     String libraryAddressPair = null;
-    TVMTestResult result = TvmTestUtils
-        .deployContractWithCreatorEnergyLimitAndReturnTvmTestResult(contractName, creatorAddress,
+    SVMTestResult result = SvmTestUtils
+        .deployContractWithCreatorUcrLimitAndReturnSvmTestResult(contractName, creatorAddress,
             ABI, code, value,
             feeLimit, consumeUserResourcePercent, libraryAddressPair, dbManager, null,
-            creatorEnergyLimit);
+            creatorUcrLimit);
 
     byte[] contractAddress = result.getContractAddress();
-    byte[] triggerData = TvmTestUtils.parseAbi("testNotConstant()", null);
+    byte[] triggerData = SvmTestUtils.parseAbi("testNotConstant()", null);
     Transaction stb = generateTriggerSmartContractAndGetTransaction(callerAddress, contractAddress,
         triggerData, value, feeLimit);
 
@@ -415,36 +415,36 @@ public class RuntimeImplTest {
 
     feeLimit = 1_000_000_000L;
     value = 0L;
-    long expectEnergyLimit1 = 10_000_000L;
+    long expectUcrLimit1 = 10_000_000L;
     Assert.assertEquals(
         ((VMActuator) runtimeImpl.getActuator2())
-            .getTotalEnergyLimitWithFixRatio(creatorAccount, callerAccount, contract, feeLimit,
+            .getTotalUcrLimitWithFixRatio(creatorAccount, callerAccount, contract, feeLimit,
                 value),
-        expectEnergyLimit1);
+        expectUcrLimit1);
 
-    long creatorFrozenBalance = 1_000_000_000L;
-    long newBalance = creatorAccount.getBalance() - creatorFrozenBalance;
-    creatorAccount.setFrozenForEnergy(creatorFrozenBalance, 0L);
+    long creatorCdedBalance = 1_000_000_000L;
+    long newBalance = creatorAccount.getBalance() - creatorCdedBalance;
+    creatorAccount.setCdedForUcr(creatorCdedBalance, 0L);
     creatorAccount.setBalance(newBalance);
     repository.putAccountValue(creatorAddress, creatorAccount);
     repository.commit();
 
     feeLimit = 1_000_000_000L;
     value = 0L;
-    long expectEnergyLimit2 = 10_000_000L;
+    long expectUcrLimit2 = 10_000_000L;
     Assert.assertEquals(
         ((VMActuator) runtimeImpl.getActuator2())
-            .getTotalEnergyLimitWithFixRatio(creatorAccount, callerAccount, contract, feeLimit,
+            .getTotalUcrLimitWithFixRatio(creatorAccount, callerAccount, contract, feeLimit,
                 value),
-        expectEnergyLimit2);
+        expectUcrLimit2);
 
     value = 3_999_950_000L;
-    long expectEnergyLimit3 = 500L;
+    long expectUcrLimit3 = 500L;
     Assert.assertEquals(
         ((VMActuator) runtimeImpl.getActuator2())
-            .getTotalEnergyLimitWithFixRatio(creatorAccount, callerAccount, contract, feeLimit,
+            .getTotalUcrLimitWithFixRatio(creatorAccount, callerAccount, contract, feeLimit,
                 value),
-        expectEnergyLimit3);
+        expectUcrLimit3);
 
   }
 

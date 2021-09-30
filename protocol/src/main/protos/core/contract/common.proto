@@ -8,6 +8,6 @@ option go_package = "github.com/stabilaprotocol/grpc-gateway/core";
 
 enum ResourceCode {
   BANDWIDTH = 0x00;
-  ENERGY = 0x01;
+  UCR = 0x01;
   STABILA_POWER = 0x02;
 }

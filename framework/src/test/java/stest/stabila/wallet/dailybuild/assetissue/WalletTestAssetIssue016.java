@@ -159,7 +159,7 @@ public class WalletTestAssetIssue016 {
     Assert.assertTrue(assetIssueByName.getPublicLatestFreeNetTime() == 0);
     Assert.assertTrue(assetIssueByName.getPublicFreeAssetNetUsage() == 0);
 
-    Assert.assertTrue(PublicMethed.freezeBalance(asset016Address, 30000000L,
+    Assert.assertTrue(PublicMethed.cdBalance(asset016Address, 30000000L,
         3, testKeyForAssetIssue016, blockingStubFull));
     PublicMethed.waitProduceNextBlock(blockingStubFull);
     PublicMethed.transferAsset(toAddress, assetAccountId.toByteArray(), 100L,

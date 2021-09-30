@@ -114,7 +114,7 @@ public class ContractScenario016 {
     PublicMethed.waitProduceNextBlock(blockingStubFull);
     infoById = PublicMethed.getTransactionInfoById(txid, blockingStubFull);
     logger.info("Txid is " + txid);
-    logger.info("Trigger energytotal is " + infoById.get().getReceipt().getEnergyUsageTotal());
+    logger.info("Trigger ucrtotal is " + infoById.get().getReceipt().getUcrUsageTotal());
 
     Optional<Transaction> byId = PublicMethed.getTransactionById(txid, blockingStubFull);
     logger.info("getRet:" + byId.get().getRet(0));
@@ -140,7 +140,7 @@ public class ContractScenario016 {
   }
 
 
-  @Test(enabled = true, description = "ContractResult is OUT_OF_ENERGY")
+  @Test(enabled = true, description = "ContractResult is OUT_OF_UCR")
   public void test2Grammar002() {
 
     String filePath = "src/test/resources/soliditycode/contractUnknownException.sol";
@@ -156,7 +156,7 @@ public class ContractScenario016 {
     PublicMethed.waitProduceNextBlock(blockingStubFull);
     infoById = PublicMethed.getTransactionInfoById(txid, blockingStubFull);
     logger.info("Txid is " + txid);
-    logger.info("Trigger energytotal is " + infoById.get().getReceipt().getEnergyUsageTotal());
+    logger.info("Trigger ucrtotal is " + infoById.get().getReceipt().getUcrUsageTotal());
 
     Optional<Transaction> byId = PublicMethed.getTransactionById(txid, blockingStubFull);
     logger.info("getRet:" + byId.get().getRet(0));

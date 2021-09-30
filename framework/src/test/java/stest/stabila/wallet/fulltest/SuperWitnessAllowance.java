@@ -114,7 +114,7 @@ public class SuperWitnessAllowance {
       String lowBalTest = ByteArray.toHexString(ecKey.getPrivKeyBytes());
       logger.info(lowBalTest);
       Assert.assertTrue(sendcoin(lowBalAddress, costForCreateWitness, fromAddress, testKey002));
-      Assert.assertTrue(PublicMethed.freezeBalance(lowBalAddress, 1000000,
+      Assert.assertTrue(PublicMethed.cdBalance(lowBalAddress, 1000000,
           3, lowBalTest, blockingStubFull));
       Assert.assertTrue(createWitness(lowBalAddress, createUrl, lowBalTest));
       String voteStr = Base58.encode58Check(PublicMethed.getFinalAddress(lowBalTest));

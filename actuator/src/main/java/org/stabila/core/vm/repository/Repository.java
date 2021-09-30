@@ -109,9 +109,9 @@ public interface Repository {
 
   long getTokenBalance(byte[] address, byte[] tokenId);
 
-  long getAccountLeftEnergyFromFreeze(AccountCapsule accountCapsule);
+  long getAccountLeftUcrFromCd(AccountCapsule accountCapsule);
 
-  long calculateGlobalEnergyLimit(AccountCapsule accountCapsule);
+  long calculateGlobalUcrLimit(AccountCapsule accountCapsule);
 
   byte[] getBlackHoleAddress();
 
@@ -123,14 +123,14 @@ public interface Repository {
 
   void addTotalNetWeight(long amount);
 
-  void addTotalEnergyWeight(long amount);
+  void addTotalUcrWeight(long amount);
 
   void saveTotalNetWeight(long totalNetWeight);
 
-  void saveTotalEnergyWeight(long totalEnergyWeight);
+  void saveTotalUcrWeight(long totalUcrWeight);
 
   long getTotalNetWeight();
 
-  long getTotalEnergyWeight();
+  long getTotalUcrWeight();
 
 }

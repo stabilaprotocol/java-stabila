@@ -88,7 +88,7 @@ public class WalletTestAssetIssue013 {
         .sendcoin(asset013Address, sendAmount, fromAddress, testKey002, blockingStubFull));
     PublicMethed.waitProduceNextBlock(blockingStubFull);
     Assert.assertTrue(PublicMethed
-        .freezeBalance(asset013Address, 100000000L, 3, testKeyForAssetIssue013,
+        .cdBalance(asset013Address, 100000000L, 3, testKeyForAssetIssue013,
             blockingStubFull));
     PublicMethed.waitProduceNextBlock(blockingStubFull);
     Long start = System.currentTimeMillis() + 2000;
@@ -142,7 +142,7 @@ public class WalletTestAssetIssue013 {
 
     PublicMethed
         .freedResource(asset013Address, testKeyForAssetIssue013, fromAddress, blockingStubFull);
-    PublicMethed.unFreezeBalance(asset013Address, testKeyForAssetIssue013, 0, asset013Address,
+    PublicMethed.unCdBalance(asset013Address, testKeyForAssetIssue013, 0, asset013Address,
         blockingStubFull);
   }
 

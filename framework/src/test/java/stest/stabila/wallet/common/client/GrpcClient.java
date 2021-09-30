@@ -30,8 +30,8 @@ import org.stabila.protos.contract.AccountContract.AccountUpdateContract;
 import org.stabila.protos.contract.AssetIssueContractOuterClass;
 import org.stabila.protos.contract.AssetIssueContractOuterClass.AssetIssueContract;
 import org.stabila.protos.contract.BalanceContract;
-import org.stabila.protos.contract.BalanceContract.FreezeBalanceContract;
-import org.stabila.protos.contract.BalanceContract.UnfreezeBalanceContract;
+import org.stabila.protos.contract.BalanceContract.CdBalanceContract;
+import org.stabila.protos.contract.BalanceContract.UncdBalanceContract;
 import org.stabila.protos.contract.BalanceContract.WithdrawBalanceContract;
 import org.stabila.protos.contract.WitnessContract;
 
@@ -106,16 +106,16 @@ public class GrpcClient {
     return blockingStubFull.createTransaction(contract);
   }
 
-  public Transaction createTransaction(FreezeBalanceContract contract) {
-    return blockingStubFull.freezeBalance(contract);
+  public Transaction createTransaction(CdBalanceContract contract) {
+    return blockingStubFull.cdBalance(contract);
   }
 
   public Transaction createTransaction(WithdrawBalanceContract contract) {
     return blockingStubFull.withdrawBalance(contract);
   }
 
-  public Transaction createTransaction(UnfreezeBalanceContract contract) {
-    return blockingStubFull.unfreezeBalance(contract);
+  public Transaction createTransaction(UncdBalanceContract contract) {
+    return blockingStubFull.uncdBalance(contract);
   }
 
   public Transaction createTransferAssetTransaction(

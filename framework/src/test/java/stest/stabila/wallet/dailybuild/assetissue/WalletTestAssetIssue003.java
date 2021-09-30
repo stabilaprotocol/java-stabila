@@ -27,7 +27,7 @@ import org.stabila.protos.Protocol.Block;
 import org.stabila.protos.Protocol.Transaction;
 import org.stabila.protos.contract.AssetIssueContractOuterClass.ParticipateAssetIssueContract;
 import org.stabila.protos.contract.AssetIssueContractOuterClass.TransferAssetContract;
-import org.stabila.protos.contract.AssetIssueContractOuterClass.UnfreezeAssetContract;
+import org.stabila.protos.contract.AssetIssueContractOuterClass.UncdAssetContract;
 import stest.stabila.wallet.common.client.Configuration;
 import stest.stabila.wallet.common.client.Parameter.CommonConstant;
 import stest.stabila.wallet.common.client.utils.PublicMethed;
@@ -101,27 +101,27 @@ public class WalletTestAssetIssue003 {
     PublicMethed.waitProduceNextBlock(blockingStubFull);
     Long start = System.currentTimeMillis() + 100000;
     Long end = System.currentTimeMillis() + 1000000000;
-    //Freeze amount is large than total supply, create asset issue failed.
+    //Cd amount is large than total supply, create asset issue failed.
     Assert.assertFalse(PublicMethed.createAssetIssue(asset003Address, name, totalSupply, 1, 10,
         start, end, 2, description, url, 10000L, 10000L,
         9000000000000000000L, 1L, asset003Key, blockingStubFull));
-    //Freeze day is 0, create failed
+    //Cd day is 0, create failed
     Assert.assertFalse(PublicMethed.createAssetIssue(asset003Address, name, totalSupply, 1, 10,
         start, end, 2, description, url, 10000L, 10000L,
         100L, 0L, asset003Key, blockingStubFull));
-    //Freeze amount is 0, create failed
+    //Cd amount is 0, create failed
     Assert.assertFalse(PublicMethed.createAssetIssue(asset003Address, name, totalSupply, 1, 10,
         start, end, 2, description, url, 10000L, 10000L,
         0L, 1L, asset003Key, blockingStubFull));
-    //Freeze day is -1, create failed
+    //Cd day is -1, create failed
     Assert.assertFalse(PublicMethed.createAssetIssue(asset003Address, name, totalSupply, 1, 10,
         start, end, 2, description, url, 1000L, 1000L,
         1000L, -1L, asset003Key, blockingStubFull));
-    //Freeze amount is -1, create failed
+    //Cd amount is -1, create failed
     Assert.assertFalse(PublicMethed.createAssetIssue(asset003Address, name, totalSupply, 1, 10,
         start, end, 2, description, url, 10000L, 10000L,
         -1L, 1L, asset003Key, blockingStubFull));
-    //Freeze day is 3653(10 years + 1 day), create failed
+    //Cd day is 3653(10 years + 1 day), create failed
     Assert.assertFalse(PublicMethed.createAssetIssue(fromAddress, name, totalSupply, 1, 10,
         start, end, 2, description, url, 10000L, 10000L,
         1L, 3653L, asset003Key, blockingStubFull));
@@ -341,7 +341,7 @@ public class WalletTestAssetIssue003 {
    * constructor.
    */
 
-  public boolean unFreezeAsset(byte[] addRess, String priKey) {
+  public boolean unCdAsset(byte[] addRess, String priKey) {
     byte[] address = addRess;
 
     ECKey temKey = null;
@@ -353,15 +353,15 @@ public class WalletTestAssetIssue003 {
     }
     final ECKey ecKey = temKey;
 
-    UnfreezeAssetContract.Builder builder = UnfreezeAssetContract
+    UncdAssetContract.Builder builder = UncdAssetContract
         .newBuilder();
     ByteString byteAddreess = ByteString.copyFrom(address);
 
     builder.setOwnerAddress(byteAddreess);
 
-    UnfreezeAssetContract contract = builder.build();
+    UncdAssetContract contract = builder.build();
 
-    Transaction transaction = blockingStubFull.unfreezeAsset(contract);
+    Transaction transaction = blockingStubFull.uncdAsset(contract);
 
     if (transaction == null || transaction.getRawData().getContractCount() == 0) {
       return false;

@@ -220,7 +220,7 @@ public class CycleMultiSign {
    */
 
   public void addressPermission(String addKey, String accountPermissionJson) {
-    PublicMethed.freezeBalanceForReceiver(test001Address,
+    PublicMethed.cdBalanceForReceiver(test001Address,
         10000000L, 0, 0,
         com.google.protobuf.ByteString.copyFrom(fromAddress), testKey002, blockingStubFull);
 
@@ -230,7 +230,7 @@ public class CycleMultiSign {
         .accountPermissionUpdateWithPermissionId(accountPermissionJson, test001Address, dev001Key,
             blockingStubFull, 0,
             permissionKeyString);
-    PublicMethed.unFreezeBalance(fromAddress, testKey002, 0,
+    PublicMethed.unCdBalance(fromAddress, testKey002, 0,
         test001Address, blockingStubFull);
   }
 

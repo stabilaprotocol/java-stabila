@@ -15,7 +15,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.stabila.common.application.StabilaApplicationContext;
-import org.stabila.common.runtime.TvmTestUtils;
+import org.stabila.common.runtime.SvmTestUtils;
 import org.stabila.common.storage.DepositImpl;
 import org.stabila.common.utils.ByteArray;
 import org.stabila.common.utils.FileUtil;
@@ -527,7 +527,7 @@ public class TransferActuatorTest {
     long feeLimit = 100000000;
     long consumeUserResourcePercent = 0;
     DepositImpl deposit = DepositImpl.createRoot(dbManager);
-    byte[] contractAddress = TvmTestUtils
+    byte[] contractAddress = SvmTestUtils
         .deployContractWholeProcessReturnContractAddress(contractName, address, ABI, codes, value,
             feeLimit, consumeUserResourcePercent, null, 0, 0,
             deposit, null);

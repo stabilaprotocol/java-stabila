@@ -64,16 +64,16 @@ public class ContractScenario008 {
     PublicMethed.printAddress(contract008Key);
     Assert.assertTrue(PublicMethed.sendcoin(contract008Address, 5000000000L, fromAddress,
         testKey002, blockingStubFull));
-    Assert.assertTrue(PublicMethed.freezeBalanceGetEnergy(contract008Address, 1000000L,
+    Assert.assertTrue(PublicMethed.cdBalanceGetUcr(contract008Address, 1000000L,
         3, 1, contract008Key, blockingStubFull));
     AccountResourceMessage accountResource = PublicMethed.getAccountResource(contract008Address,
         blockingStubFull);
-    Long energyLimit = accountResource.getEnergyLimit();
-    Long energyUsage = accountResource.getEnergyUsed();
+    Long ucrLimit = accountResource.getUcrLimit();
+    Long ucrUsage = accountResource.getUcrUsed();
     Account account = PublicMethed.queryAccount(contract008Key, blockingStubFull);
     logger.info("before balance is " + Long.toString(account.getBalance()));
-    logger.info("before energy limit is " + Long.toString(energyLimit));
-    logger.info("before energy usage is " + Long.toString(energyUsage));
+    logger.info("before ucr limit is " + Long.toString(ucrLimit));
+    logger.info("before ucr usage is " + Long.toString(ucrUsage));
     Long shortFeeLimit = 900L;
 
     String filePath = "./src/test/resources/soliditycode/contractScenario008.sol";
@@ -90,14 +90,14 @@ public class ContractScenario008 {
 
     final SmartContract smartContract = PublicMethed.getContract(contractAddress, blockingStubFull);
     accountResource = PublicMethed.getAccountResource(contract008Address, blockingStubFull);
-    energyLimit = accountResource.getEnergyLimit();
-    energyUsage = accountResource.getEnergyUsed();
+    ucrLimit = accountResource.getUcrLimit();
+    ucrUsage = accountResource.getUcrUsed();
     account = PublicMethed.queryAccount(contract008Key, blockingStubFull);
     logger.info("after balance is " + Long.toString(account.getBalance()));
-    logger.info("after energy limit is " + Long.toString(energyLimit));
-    logger.info("after energy usage is " + Long.toString(energyUsage));
-    Assert.assertTrue(energyLimit > 0);
-    Assert.assertTrue(energyUsage > 0);
+    logger.info("after ucr limit is " + Long.toString(ucrLimit));
+    logger.info("after ucr usage is " + Long.toString(ucrUsage));
+    Assert.assertTrue(ucrLimit > 0);
+    Assert.assertTrue(ucrUsage > 0);
     Assert.assertFalse(smartContract.getAbi().toString().isEmpty());
     Assert.assertTrue(smartContract.getName().equalsIgnoreCase(contractName));
     Assert.assertFalse(smartContract.getBytecode().toString().isEmpty());

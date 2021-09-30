@@ -113,8 +113,8 @@ public class ProgramResultTest {
     byte[] calledContractAddress = deployCalledContractAndGetItsAddress();
     byte[] contractAAddress = deployContractAAndGetItsAddress(calledContractAddress);
     /* =================================== CALL create() =================================== */
-    byte[] triggerData1 = TvmTestUtils.parseAbi("create()", "");
-    runtime = TvmTestUtils
+    byte[] triggerData1 = SvmTestUtils.parseAbi("create()", "");
+    runtime = SvmTestUtils
         .triggerContractWholeProcessReturnContractAddress(Hex.decode(OWNER_ADDRESS),
             contractAAddress, triggerData1, 0, 100000000, deposit, null);
     List<InternalTransaction> internalTransactionsList = runtime.getResult()
@@ -151,7 +151,7 @@ public class ProgramResultTest {
     long feeLimit = 1000000000;
     long consumeUserResourcePercent = 0;
 
-    return TvmTestUtils
+    return SvmTestUtils
         .deployContractWholeProcessReturnContractAddress(contractName, address, ABI, code, value,
             feeLimit, consumeUserResourcePercent, null, deposit, null);
   }
@@ -260,7 +260,7 @@ public class ProgramResultTest {
     long feeLimit = 1000000000;
     long consumeUserResourcePercent = 0;
 
-    return TvmTestUtils
+    return SvmTestUtils
         .deployContractWholeProcessReturnContractAddress(contractName, address, ABI, code, value,
             feeLimit, consumeUserResourcePercent, null, deposit, null);
   }
@@ -290,11 +290,11 @@ public class ProgramResultTest {
             + "0000000000000000000000000000000000000000000000000000000000000000";
 
     // ======================================= Test Success =======================================
-    byte[] triggerData1 = TvmTestUtils.parseAbi("transfer(address,bool)", params);
-    Transaction stb1 = TvmTestUtils
+    byte[] triggerData1 = SvmTestUtils.parseAbi("transfer(address,bool)", params);
+    Transaction stb1 = SvmTestUtils
         .generateTriggerSmartContractAndGetTransaction(Hex.decode(OWNER_ADDRESS), aContract,
             triggerData1, 0, 100000000);
-    TransactionTrace traceSuccess = TvmTestUtils
+    TransactionTrace traceSuccess = SvmTestUtils
         .processTransactionAndReturnTrace(stb1, deposit, null);
     runtime = traceSuccess.getRuntime();
     byte[] bContract = runtime.getResult().getHReturn();
@@ -333,11 +333,11 @@ public class ProgramResultTest {
     // set revert == true
     params = Hex.toHexString(new DataWord(new DataWord(cContract).getLast20Bytes()).getData())
         + "0000000000000000000000000000000000000000000000000000000000000001";
-    byte[] triggerData2 = TvmTestUtils.parseAbi("transfer(address,bool)", params);
-    Transaction stb2 = TvmTestUtils
+    byte[] triggerData2 = SvmTestUtils.parseAbi("transfer(address,bool)", params);
+    Transaction stb2 = SvmTestUtils
         .generateTriggerSmartContractAndGetTransaction(Hex.decode(OWNER_ADDRESS), aContract,
             triggerData2, 0, 100000000);
-    TransactionTrace traceFailed = TvmTestUtils
+    TransactionTrace traceFailed = SvmTestUtils
         .processTransactionAndReturnTrace(stb2, deposit, null);
     runtime = traceFailed.getRuntime();
 
@@ -388,14 +388,14 @@ public class ProgramResultTest {
             + "0000000000000000000000000000000000000000000000000000000000000000";
 
     // ======================================= Test Success =======================================
-    byte[] triggerData1 = TvmTestUtils.parseAbi("transfer(address,bool)", params);
-    Transaction stb1 = TvmTestUtils
+    byte[] triggerData1 = SvmTestUtils.parseAbi("transfer(address,bool)", params);
+    Transaction stb1 = SvmTestUtils
         .generateTriggerSmartContractAndGetTransaction(Hex.decode(OWNER_ADDRESS), aContract,
             triggerData1, 0, 100000000);
-    TransactionTrace traceSuccess = TvmTestUtils
+    TransactionTrace traceSuccess = SvmTestUtils
         .processTransactionAndReturnTrace(stb1, deposit, null);
 
-    Assert.assertEquals(traceSuccess.getReceipt().getEnergyFee(), 12705900L);
+    Assert.assertEquals(traceSuccess.getReceipt().getUcrFee(), 12705900L);
 
     TransactionInfoCapsule stbInfoCapsule =
         buildTransactionInfoInstance(new TransactionCapsule(stb1), null, traceSuccess);
@@ -436,7 +436,7 @@ public class ProgramResultTest {
     long feeLimit = 1000000000;
     long consumeUserResourcePercent = 0;
 
-    return TvmTestUtils
+    return SvmTestUtils
         .deployContractWholeProcessReturnContractAddress(contractName, address, ABI, code, value,
             feeLimit, consumeUserResourcePercent, null, deposit, null);
   }
@@ -488,7 +488,7 @@ public class ProgramResultTest {
     long feeLimit = 1000000000;
     long consumeUserResourcePercent = 0;
 
-    return TvmTestUtils
+    return SvmTestUtils
         .deployContractWholeProcessReturnContractAddress(contractName, address, ABI, code, value,
             feeLimit, consumeUserResourcePercent, null, deposit, null);
   }
@@ -509,11 +509,11 @@ public class ProgramResultTest {
         .toHexString(new DataWord(new DataWord(TRANSFER_TO).getLast20Bytes()).getData());
 
     // ======================================= Test Suicide =======================================
-    byte[] triggerData1 = TvmTestUtils.parseAbi("suicide(address)", params);
-    Transaction stb = TvmTestUtils
+    byte[] triggerData1 = SvmTestUtils.parseAbi("suicide(address)", params);
+    Transaction stb = SvmTestUtils
         .generateTriggerSmartContractAndGetTransaction(Hex.decode(OWNER_ADDRESS), suicideContract,
             triggerData1, 0, 100000000);
-    TransactionTrace trace = TvmTestUtils.processTransactionAndReturnTrace(stb, deposit, null);
+    TransactionTrace trace = SvmTestUtils.processTransactionAndReturnTrace(stb, deposit, null);
     runtime = trace.getRuntime();
     List<InternalTransaction> internalTransactionsList = runtime.getResult()
         .getInternalTransactions();
@@ -552,7 +552,7 @@ public class ProgramResultTest {
     long feeLimit = 1000000000;
     long consumeUserResourcePercent = 0;
 
-    return TvmTestUtils
+    return SvmTestUtils
         .deployContractWholeProcessReturnContractAddress(contractName, address, ABI, code, value,
             feeLimit, consumeUserResourcePercent, null, deposit, null);
   }

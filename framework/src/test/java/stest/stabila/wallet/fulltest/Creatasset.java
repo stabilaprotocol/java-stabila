@@ -87,7 +87,7 @@ public class Creatasset {
     byte[] asset016Address = ecKey1.getAddress();
     String testKeyForAssetIssue016 = ByteArray.toHexString(ecKey1.getPrivKeyBytes());
     Account fromAccountInfo = PublicMethed.queryAccount(testKey002, blockingStubFull);
-    //Assert.assertTrue(PublicMethed.freezeBalance(fromAddress,100000000, 3, testKey002,
+    //Assert.assertTrue(PublicMethed.cdBalance(fromAddress,100000000, 3, testKey002,
     //  blockingStubFull));
 
     Integer i = 0;

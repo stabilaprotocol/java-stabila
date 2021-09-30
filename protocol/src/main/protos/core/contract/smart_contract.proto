@@ -52,7 +52,7 @@ message SmartContract {
   int64 call_value = 5;
   int64 consume_user_resource_percent = 6;
   string name = 7;
-  int64 origin_energy_limit = 8;
+  int64 origin_ucr_limit = 8;
   bytes code_hash = 9;
   bytes stb_hash = 10;
 }
@@ -84,10 +84,10 @@ message UpdateSettingContract {
   int64 consume_user_resource_percent = 3;
 }
 
-message UpdateEnergyLimitContract {
+message UpdateUcrLimitContract {
   bytes owner_address = 1;
   bytes contract_address = 2;
-  int64 origin_energy_limit = 3;
+  int64 origin_ucr_limit = 3;
 }
 
 message SmartContractDataWrapper {

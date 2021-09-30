@@ -59,7 +59,7 @@ public class DeployContractServlet extends RateLimiterServlet {
           .setCallValue(Util.getJsonLongValue(jsonObject, "call_value"))
           .setConsumeUserResourcePercent(Util.getJsonLongValue(jsonObject,
               "consume_user_resource_percent"))
-          .setOriginEnergyLimit(Util.getJsonLongValue(jsonObject, "origin_energy_limit"));
+          .setOriginUcrLimit(Util.getJsonLongValue(jsonObject, "origin_ucr_limit"));
       if (!ArrayUtils.isEmpty(ownerAddress)) {
         smartBuilder.setOriginAddress(ByteString.copyFrom(ownerAddress));
       }

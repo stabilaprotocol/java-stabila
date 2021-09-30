@@ -231,13 +231,13 @@ public class ContractState implements Repository, ProgramListenerAware {
   }
 
   @Override
-  public long getAccountLeftEnergyFromFreeze(AccountCapsule accountCapsule) {
-    return repository.getAccountLeftEnergyFromFreeze(accountCapsule);
+  public long getAccountLeftUcrFromCd(AccountCapsule accountCapsule) {
+    return repository.getAccountLeftUcrFromCd(accountCapsule);
   }
 
   @Override
-  public long calculateGlobalEnergyLimit(AccountCapsule accountCapsule) {
-    return repository.calculateGlobalEnergyLimit(accountCapsule);
+  public long calculateGlobalUcrLimit(AccountCapsule accountCapsule) {
+    return repository.calculateGlobalUcrLimit(accountCapsule);
   }
 
   @Override
@@ -336,8 +336,8 @@ public class ContractState implements Repository, ProgramListenerAware {
   }
 
   @Override
-  public void addTotalEnergyWeight(long amount) {
-    repository.addTotalEnergyWeight(amount);
+  public void addTotalUcrWeight(long amount) {
+    repository.addTotalUcrWeight(amount);
   }
 
   @Override
@@ -346,8 +346,8 @@ public class ContractState implements Repository, ProgramListenerAware {
   }
 
   @Override
-  public void saveTotalEnergyWeight(long totalEnergyWeight) {
-    repository.saveTotalEnergyWeight(totalEnergyWeight);
+  public void saveTotalUcrWeight(long totalUcrWeight) {
+    repository.saveTotalUcrWeight(totalUcrWeight);
   }
 
   @Override
@@ -356,8 +356,8 @@ public class ContractState implements Repository, ProgramListenerAware {
   }
 
   @Override
-  public long getTotalEnergyWeight() {
-    return repository.getTotalEnergyWeight();
+  public long getTotalUcrWeight() {
+    return repository.getTotalUcrWeight();
   }
 
 }

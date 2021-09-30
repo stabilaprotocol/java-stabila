@@ -23,7 +23,7 @@ import org.stabila.protos.Protocol.Block;
 import org.stabila.protos.Protocol.Transaction;
 import org.stabila.protos.contract.BalanceContract;
 import org.stabila.protos.contract.BalanceContract.TransferContract;
-import org.stabila.protos.contract.BalanceContract.UnfreezeBalanceContract;
+import org.stabila.protos.contract.BalanceContract.UncdBalanceContract;
 import stest.stabila.wallet.common.client.Configuration;
 import stest.stabila.wallet.common.client.Parameter.CommonConstant;
 import stest.stabila.wallet.common.client.utils.PublicMethed;
@@ -92,12 +92,12 @@ public class AttackSendcoin {
    * constructor.
    */
 
-  public static Boolean freezeBalance(byte[] addRess, long freezeBalance, long freezeDuration,
+  public static Boolean cdBalance(byte[] addRess, long cdBalance, long cdDuration,
       String priKey, WalletGrpc.WalletBlockingStub blockingStubFull) {
     Wallet.setAddressPreFixByte(CommonConstant.ADD_PRE_FIX_BYTE_MAINNET);
     byte[] address = addRess;
-    long frozenBalance = freezeBalance;
-    long frozenDuration = freezeDuration;
+    long cdedBalance = cdBalance;
+    long cdedDuration = cdDuration;
     //String priKey = testKey002;
     ECKey temKey = null;
     try {
@@ -110,18 +110,18 @@ public class AttackSendcoin {
     Protocol.Block currentBlock = blockingStubFull.getNowBlock(GrpcAPI
         .EmptyMessage.newBuilder().build());
     final Long beforeBlockNum = currentBlock.getBlockHeader().getRawData().getNumber();
-    Long beforeFrozenBalance = 0L;
+    Long beforeCdedBalance = 0L;
     //Long beforeBandwidth     = beforeFronzen.getBandwidth();
 
-    BalanceContract.FreezeBalanceContract.Builder builder = BalanceContract.FreezeBalanceContract
+    BalanceContract.CdBalanceContract.Builder builder = BalanceContract.CdBalanceContract
         .newBuilder();
     ByteString byteAddreess = ByteString.copyFrom(address);
 
-    builder.setOwnerAddress(byteAddreess).setFrozenBalance(frozenBalance)
-        .setFrozenDuration(frozenDuration);
+    builder.setOwnerAddress(byteAddreess).setCdedBalance(cdedBalance)
+        .setCdedDuration(cdedDuration);
 
-    BalanceContract.FreezeBalanceContract contract = builder.build();
-    Transaction transaction = blockingStubFull.freezeBalance(contract);
+    BalanceContract.CdBalanceContract contract = builder.build();
+    Transaction transaction = blockingStubFull.cdBalance(contract);
 
     if (transaction == null || transaction.getRawData().getContractCount() == 0) {
       logger.info("transaction = null");
@@ -180,7 +180,7 @@ public class AttackSendcoin {
 
   //@Test(enabled = true)
   @Test(enabled = false, threadPoolSize = 200, invocationCount = 200)
-  public void freezeAndSendcoin() throws InterruptedException {
+  public void cdAndSendcoin() throws InterruptedException {
 
     Integer i = 0;
     Random rand = new Random();
@@ -356,7 +356,7 @@ public class AttackSendcoin {
    * constructor.
    */
 
-  public boolean unFreezeBalance(byte[] addRess, String priKey) {
+  public boolean unCdBalance(byte[] addRess, String priKey) {
     byte[] address = addRess;
 
     ECKey temKey = null;
@@ -369,15 +369,15 @@ public class AttackSendcoin {
     final ECKey ecKey = temKey;
     // Account search = queryAccount(ecKey, blockingStubFull);
 
-    UnfreezeBalanceContract.Builder builder = UnfreezeBalanceContract
+    UncdBalanceContract.Builder builder = UncdBalanceContract
         .newBuilder();
     ByteString byteAddreess = ByteString.copyFrom(address);
 
     builder.setOwnerAddress(byteAddreess);
 
-    UnfreezeBalanceContract contract = builder.build();
+    UncdBalanceContract contract = builder.build();
 
-    Transaction transaction = blockingStubFull.unfreezeBalance(contract);
+    Transaction transaction = blockingStubFull.uncdBalance(contract);
 
     if (transaction == null || transaction.getRawData().getContractCount() == 0) {
       return false;

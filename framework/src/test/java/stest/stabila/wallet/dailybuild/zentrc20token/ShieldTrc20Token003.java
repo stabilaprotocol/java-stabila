@@ -121,7 +121,7 @@ public class ShieldTrc20Token003 extends ZenTrc20Base {
     Optional<TransactionInfo> infoById = PublicMethed
         .getTransactionInfoById(txid, blockingStubFull);
     Assert.assertTrue(infoById.get().getReceipt().getResultValue() == 1);
-    Assert.assertTrue(infoById.get().getReceipt().getEnergyUsageTotal() > 300000);
+    Assert.assertTrue(infoById.get().getReceipt().getUcrUsageTotal() > 300000);
 
     //Scan sender note
     receiverNote = scanShieldedTrc20NoteByIvk(receiverShieldAddressInfo.get(),
@@ -182,7 +182,7 @@ public class ShieldTrc20Token003 extends ZenTrc20Base {
     Optional<TransactionInfo> infoById = PublicMethed
         .getTransactionInfoById(txid, blockingStubFull);
     Assert.assertTrue(infoById.get().getReceipt().getResultValue() == 1);
-    Assert.assertTrue(infoById.get().getReceipt().getEnergyUsageTotal() > 300000);
+    Assert.assertTrue(infoById.get().getReceipt().getUcrUsageTotal() > 300000);
 
     senderNote = scanShieldedTrc20NoteByIvk(senderShieldAddressInfo.get(),
         blockingStubFull);

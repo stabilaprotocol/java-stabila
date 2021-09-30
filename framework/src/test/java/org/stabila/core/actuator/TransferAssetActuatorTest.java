@@ -29,7 +29,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.stabila.common.application.StabilaApplicationContext;
-import org.stabila.common.runtime.TvmTestUtils;
+import org.stabila.common.runtime.SvmTestUtils;
 import org.stabila.common.storage.DepositImpl;
 import org.stabila.common.utils.ByteArray;
 import org.stabila.common.utils.FileUtil;
@@ -1394,7 +1394,7 @@ public class TransferAssetActuatorTest {
   }
 
   /**
-   * transfer assert to smartcontract addresss after TvmSolidity059
+   * transfer assert to smartcontract addresss after SvmSolidity059
    */
   @Test
   public void transferToContractAddress()
@@ -1403,9 +1403,9 @@ public class TransferAssetActuatorTest {
     dbManager.getDynamicPropertiesStore().saveForbidTransferToContract(1);
     createAssertSameTokenNameActive();
     VMConfig.initAllowMultiSign(1);
-    VMConfig.initAllowTvmTransferTrc10(1);
-    VMConfig.initAllowTvmConstantinople(1);
-    VMConfig.initAllowTvmSolidity059(1);
+    VMConfig.initAllowSvmTransferTrc10(1);
+    VMConfig.initAllowSvmConstantinople(1);
+    VMConfig.initAllowSvmSolidity059(1);
     String contractName = "testContract";
     byte[] address = Hex.decode(OWNER_ADDRESS);
     adjustBalance(dbManager.getChainBaseManager().getAccountStore(), address, 1000000000L);
@@ -1427,7 +1427,7 @@ public class TransferAssetActuatorTest {
     long feeLimit = 1000000000L;
     long consumeUserResourcePercent = 0;
     DepositImpl deposit = DepositImpl.createRoot(dbManager);
-    byte[] contractAddress = TvmTestUtils
+    byte[] contractAddress = SvmTestUtils
         .deployContractWholeProcessReturnContractAddress(contractName, address, ABI, codes, value,
             feeLimit, consumeUserResourcePercent, null, 0, 0,
             deposit, null);

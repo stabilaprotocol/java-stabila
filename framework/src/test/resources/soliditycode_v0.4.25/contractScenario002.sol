@@ -2,8 +2,8 @@
 contract StabilaNative{
 
     address public voteContractAddress= address(0x10001);
-    address public freezeBalanceAddress = address(0x10002);
-    address public unFreezeBalanceAddress = address(0x10003);
+    address public cdBalanceAddress = address(0x10002);
+    address public unCdBalanceAddress = address(0x10003);
     address public withdrawBalanceAddress = address(0x10004);
     address public approveProposalAddress = address(0x10005);
     address public createProposalAddress = address(0x10006);
@@ -27,12 +27,12 @@ contract StabilaNative{
         }
     }
 
-    function freezeBalance(uint256 frozen_Balance,uint256 frozen_Duration) public {
-        freezeBalanceAddress.delegatecall(abi.encode(frozen_Balance,frozen_Duration));
+    function cdBalance(uint256 cded_Balance,uint256 cded_Duration) public {
+        cdBalanceAddress.delegatecall(abi.encode(cded_Balance,cded_Duration));
     }
 
-    function unFreezeBalance() public {
-        unFreezeBalanceAddress.delegatecall("");
+    function unCdBalance() public {
+        unCdBalanceAddress.delegatecall("");
     }
 
     function withdrawBalance() public {

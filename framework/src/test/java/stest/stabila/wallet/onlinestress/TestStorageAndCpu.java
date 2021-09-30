@@ -126,7 +126,7 @@ public class TestStorageAndCpu {
     String abi = Configuration.getByPath("testng.conf")
         .getString("abi.abi_TestStorageAndCpu_storageAndCpu");
     PublicMethed
-        .freezeBalanceGetEnergy(fromAddress, 1000000000000L, 3, 1, testKey002, blockingStubFull);
+        .cdBalanceGetUcr(fromAddress, 1000000000000L, 3, 1, testKey002, blockingStubFull);
     byte[] contractAddress = PublicMethed.deployContract(contractName, abi, code,
         "", maxFeeLimit,
         0L, 100, null, testKey002, fromAddress, blockingStubFull);
@@ -151,7 +151,7 @@ public class TestStorageAndCpu {
       txid = PublicMethed.triggerContract(contractAddress,
           "storage8Char()", "", false,
           0, maxFeeLimit, fromAddress, testKey002, blockingStubFull);
-      //storage 9 EnergyUsageTotal is  211533, 10 is 236674, 5 is 110969,21 is 500000
+      //storage 9 UcrUsageTotal is  211533, 10 is 236674, 5 is 110969,21 is 500000
       txid = PublicMethed.triggerContract(contractAddress,
           "testUseStorage(uint256)", "21", false,
           0, maxFeeLimit, fromAddress, testKey002, blockingStubFull);
@@ -194,7 +194,7 @@ public class TestStorageAndCpu {
     Integer txsNum = 0;
     Integer topNum = 0;
     Integer totalNum = 0;
-    Long energyTotal = 0L;
+    Long ucrTotal = 0L;
     String findOneTxid = "";
 
     NumberMessage.Builder builder = NumberMessage.newBuilder();
@@ -220,9 +220,9 @@ public class TestStorageAndCpu {
     logger.info("Average Tps is " + (totalNum / costTime));
 
     infoById = PublicMethed.getTransactionInfoById(findOneTxid, blockingStubFull1);
-    Long oneEnergyTotal = infoById.get().getReceipt().getEnergyUsageTotal();
-    logger.info("EnergyTotal is " + oneEnergyTotal);
-    logger.info("Average energy is " + oneEnergyTotal * (totalNum / costTime));
+    Long oneUcrTotal = infoById.get().getReceipt().getUcrUsageTotal();
+    logger.info("UcrTotal is " + oneUcrTotal);
+    logger.info("Average ucr is " + oneUcrTotal * (totalNum / costTime));
 */
 
     if (channelFull != null) {

@@ -102,12 +102,12 @@ public class ContractEvent001 {
 
     AccountResourceMessage accountResource = PublicMethed.getAccountResource(event001Address,
         blockingStubFull);
-    Long energyLimit = accountResource.getEnergyLimit();
-    Long energyUsage = accountResource.getEnergyUsed();
+    Long ucrLimit = accountResource.getUcrLimit();
+    Long ucrUsage = accountResource.getUcrUsed();
     Long balanceBefore = PublicMethed.queryAccount(event001Key, blockingStubFull).getBalance();
 
-    logger.info("before energy limit is " + Long.toString(energyLimit));
-    logger.info("before energy usage is " + Long.toString(energyUsage));
+    logger.info("before ucr limit is " + Long.toString(ucrLimit));
+    logger.info("before ucr usage is " + Long.toString(ucrUsage));
     logger.info("before balance is " + Long.toString(balanceBefore));
 
     String contractName = "addressDemo";
@@ -252,7 +252,7 @@ public class ContractEvent001 {
   }
 
   @Test(enabled = true, description = "Subscribe event client")
-  public void testEnergyCostDetail() {
+  public void testUcrCostDetail() {
     ZMQ.Context context = ZMQ.context(1);
     ZMQ.Socket req = context.socket(ZMQ.SUB);
 

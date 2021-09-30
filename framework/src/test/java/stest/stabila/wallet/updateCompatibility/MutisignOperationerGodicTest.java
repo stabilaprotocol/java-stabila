@@ -173,20 +173,20 @@ public class MutisignOperationerGodicTest {
     Assert.assertTrue(PublicMethedForMutiSign.sendcoinWithPermissionId(
         newAddress, 100L, mutisignAccountAddress, 2,
         mutisignAccountKey, blockingStubFull, permissionKeyString));
-    Assert.assertTrue(PublicMethedForMutiSign.freezeBalanceWithPermissionId(
+    Assert.assertTrue(PublicMethedForMutiSign.cdBalanceWithPermissionId(
         mutisignAccountAddress, 1000000L, 0, 2,
         mutisignAccountKey, blockingStubFull, permissionKeyString));
-    Assert.assertTrue(PublicMethedForMutiSign.freezeBalanceGetEnergyWithPermissionId(
+    Assert.assertTrue(PublicMethedForMutiSign.cdBalanceGetUcrWithPermissionId(
         mutisignAccountAddress, 1000000L, 0, 1,
         mutisignAccountKey, blockingStubFull, 2, permissionKeyString));
-    Assert.assertTrue(PublicMethedForMutiSign.freezeBalanceForReceiverWithPermissionId(
+    Assert.assertTrue(PublicMethedForMutiSign.cdBalanceForReceiverWithPermissionId(
         mutisignAccountAddress, 1000000L, 0, 0,
         ByteString.copyFrom(newAddress),
         mutisignAccountKey, blockingStubFull, 2, permissionKeyString));
-    Assert.assertTrue(PublicMethedForMutiSign.unFreezeBalanceWithPermissionId(
+    Assert.assertTrue(PublicMethedForMutiSign.unCdBalanceWithPermissionId(
         mutisignAccountAddress, mutisignAccountKey, 0, null,
         2, blockingStubFull, permissionKeyString));
-    Assert.assertTrue(PublicMethedForMutiSign.unFreezeBalanceWithPermissionId(
+    Assert.assertTrue(PublicMethedForMutiSign.unCdBalanceWithPermissionId(
         mutisignAccountAddress, mutisignAccountKey, 0, newAddress,
         2, blockingStubFull, permissionKeyString));
     Assert.assertTrue(PublicMethedForMutiSign.updateAccountWithPermissionId(
@@ -225,7 +225,7 @@ public class MutisignOperationerGodicTest {
             contractAddress, 50, mutisignAccountKey,
             mutisignAccountAddress, 2, blockingStubFull, permissionKeyString));
     Assert.assertTrue(
-        PublicMethedForMutiSign.updateEnergyLimitWithPermissionId(
+        PublicMethedForMutiSign.updateUcrLimitWithPermissionId(
             contractAddress, 50, mutisignAccountKey,
             mutisignAccountAddress, 2, blockingStubFull, permissionKeyString));
     PublicMethed.waitProduceNextBlock(blockingStubFull);
@@ -253,7 +253,7 @@ public class MutisignOperationerGodicTest {
             1L, 1L, mutisignAccountKey, blockingStubFull, 2, permissionKeyString));
     PublicMethed.waitProduceNextBlock(blockingStubFull);
 
-    //Assert.assertTrue(PublicMethedForMutiSign.unFreezeAsset(mutisignAccountAddress,
+    //Assert.assertTrue(PublicMethedForMutiSign.unCdAsset(mutisignAccountAddress,
     //    mutisignAccountKey,2,ownerKeyString,blockingStubFull));
 
     Account getAssetIdFromOwnerAccount;
@@ -292,7 +292,7 @@ public class MutisignOperationerGodicTest {
         .assertTrue(PublicMethed.sendcoin(secondExchange001Address, 10240000000L, fromAddress,
             testKey002, blockingStubFull));
     org.junit.Assert.assertTrue(PublicMethed
-        .freezeBalanceForReceiver(fromAddress, 100000000000L, 0, 0,
+        .cdBalanceForReceiver(fromAddress, 100000000000L, 0, 0,
             ByteString.copyFrom(secondExchange001Address),
             testKey002, blockingStubFull));
     PublicMethed.waitProduceNextBlock(blockingStubFull);

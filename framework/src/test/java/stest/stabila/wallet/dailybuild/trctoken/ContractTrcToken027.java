@@ -90,8 +90,8 @@ public class ContractTrcToken027 {
             fromAddress, testKey002, blockingStubFull));
 
 
-    // freeze balance
-    Assert.assertTrue(PublicMethed.freezeBalanceGetEnergy(dev001Address, 204800000,
+    // cd balance
+    Assert.assertTrue(PublicMethed.cdBalanceGetUcr(dev001Address, 204800000,
         0, 1, dev001Key, blockingStubFull));
     PublicMethed.waitProduceNextBlock(blockingStubFull);
 
@@ -107,7 +107,7 @@ public class ContractTrcToken027 {
     assetAccountId = PublicMethed.queryAccount(dev001Address, blockingStubFull).getAssetIssuedID();
 
     // deploy transferTokenContract
-    int originEnergyLimit = 50000;
+    int originUcrLimit = 50000;
     String filePath = "src/test/resources/soliditycode/contractTrcToken027.sol";
     String contractName = "B";
     HashMap retMap = PublicMethed.getBycodeAbi(filePath, contractName);
@@ -115,7 +115,7 @@ public class ContractTrcToken027 {
     String abi = retMap.get("abI").toString();
     btestAddress = PublicMethed
         .deployContract(contractName, abi, code, "", maxFeeLimit,
-            0L, 0, originEnergyLimit, assetAccountId.toStringUtf8(),
+            0L, 0, originUcrLimit, assetAccountId.toStringUtf8(),
             100, null, dev001Key, dev001Address, blockingStubFull);
 
     String contractName1 = "C";
@@ -124,7 +124,7 @@ public class ContractTrcToken027 {
     String abi1 = retMap1.get("abI").toString();
     ctestAddress = PublicMethed
         .deployContract(contractName1, abi1, code1, "", maxFeeLimit,
-            0L, 0, originEnergyLimit, assetAccountId.toStringUtf8(),
+            0L, 0, originUcrLimit, assetAccountId.toStringUtf8(),
             100, null, dev001Key, dev001Address,
             blockingStubFull);
 
@@ -136,7 +136,7 @@ public class ContractTrcToken027 {
     String abi2 = retMap2.get("abI").toString();
     transferTokenContractAddress = PublicMethed
         .deployContract(contractName2, abi2, code2, "", maxFeeLimit,
-            1000000000L, 0, originEnergyLimit, assetAccountId.toStringUtf8(),
+            1000000000L, 0, originUcrLimit, assetAccountId.toStringUtf8(),
             100, null, dev001Key, dev001Address,
             blockingStubFull);
     PublicMethed.waitProduceNextBlock(blockingStubFull);
@@ -185,7 +185,7 @@ public class ContractTrcToken027 {
     AccountResourceMessage resourceInfoafter = PublicMethed.getAccountResource(dev001Address,
         blockingStubFull);
     Long afterBalance = infoafter.getBalance();
-    Long afterEnergyUsed = resourceInfoafter.getEnergyUsed();
+    Long afterUcrUsed = resourceInfoafter.getUcrUsed();
     Long afterAssetIssueDevAddress = PublicMethed
         .getAssetIssueValue(dev001Address, assetAccountId, blockingStubFull);
     Long afterNetUsed = resourceInfoafter.getNetUsed();
@@ -201,7 +201,7 @@ public class ContractTrcToken027 {
         blockingStubFull).getBalance();
 
     logger.info("afterBalance:" + afterBalance);
-    logger.info("afterEnergyUsed:" + afterEnergyUsed);
+    logger.info("afterUcrUsed:" + afterUcrUsed);
     logger.info("afterNetUsed:" + afterNetUsed);
     logger.info("afterFreeNetUsed:" + afterFreeNetUsed);
     logger.info("afterAssetIssueCount:" + afterAssetIssueDevAddress);
@@ -480,8 +480,8 @@ public class ContractTrcToken027 {
   @AfterClass
   public void shutdown() throws InterruptedException {
     PublicMethed.freedResource(dev001Address, dev001Key, fromAddress, blockingStubFull);
-    PublicMethed.unFreezeBalance(fromAddress, testKey002, 0, dev001Address, blockingStubFull);
-    PublicMethed.unFreezeBalance(fromAddress, testKey002, 1, dev001Address, blockingStubFull);
+    PublicMethed.unCdBalance(fromAddress, testKey002, 0, dev001Address, blockingStubFull);
+    PublicMethed.unCdBalance(fromAddress, testKey002, 1, dev001Address, blockingStubFull);
     if (channelFull != null) {
       channelFull.shutdown().awaitTermination(5, TimeUnit.SECONDS);
     }

@@ -131,11 +131,11 @@ public class TestTransferTokenInContract {
         .assertTrue(PublicMethed.sendcoin(user001Address, 4048000000L, fromAddress,
             testKey002, blockingStubFull));
 
-    // freeze balance
-    Assert.assertTrue(PublicMethed.freezeBalanceGetEnergy(dev001Address, 204800000,
+    // cd balance
+    Assert.assertTrue(PublicMethed.cdBalanceGetUcr(dev001Address, 204800000,
         0, 1, dev001Key, blockingStubFull));
 
-    Assert.assertTrue(PublicMethed.freezeBalanceGetEnergy(user001Address, 2048000000,
+    Assert.assertTrue(PublicMethed.cdBalanceGetUcr(user001Address, 2048000000,
         0, 1, user001Key, blockingStubFull));
 
     String tokenName = "testAI_" + randomInt(10000, 90000);
@@ -218,11 +218,11 @@ public class TestTransferTokenInContract {
         logger.info("Count:" + count.get() + ", cost:" + cost
             + ", avg:" + count.get() / cost + ", errCount:" + errorCount);
       }
-      PublicMethed.freezeBalanceForReceiver(user001Address,
-          PublicMethed.getFreezeBalanceCount(user001Address,
+      PublicMethed.cdBalanceForReceiver(user001Address,
+          PublicMethed.getCdBalanceCount(user001Address,
               user001Key, 300000L, blockingStubFull), 0,
           1, ByteString.copyFrom(fromAddress), testKey002, blockingStubFull);
-      PublicMethed.freezeBalanceForReceiver(user001Address, 10_000_000L,
+      PublicMethed.cdBalanceForReceiver(user001Address, 10_000_000L,
           0, 0, ByteString.copyFrom(fromAddress), testKey002, blockingStubFull);
       try {
         Thread.sleep(3000);
@@ -306,9 +306,9 @@ public class TestTransferTokenInContract {
           "#", false, 0, 1000000000L, user001Address,
           user001Key, blockingStubFull);
 
-      PublicMethed.unFreezeBalance(fromAddress, user001Key, 1,
+      PublicMethed.unCdBalance(fromAddress, user001Key, 1,
           user001Address, blockingStubFull);
-      PublicMethed.unFreezeBalance(fromAddress, user001Key, 0,
+      PublicMethed.unCdBalance(fromAddress, user001Key, 0,
           user001Address, blockingStubFull);
     }
   }
