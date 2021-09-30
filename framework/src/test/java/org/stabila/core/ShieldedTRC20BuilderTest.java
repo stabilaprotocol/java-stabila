@@ -66,11 +66,11 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
   private static Manager dbManager;
   private static Wallet wallet;
   private String privateKey = "650950B193DDDDB35B6E48912DD28F7AB0E7140C1BFDEFD493348F02295BD812";
-  private String pubAddress = "TFsrP7YcSSRwHzLPwaCnXyTKagHs8rXKNJ";
-  private static final String SHIELDED_CONTRACT_ADDRESS_STR = "TGAmX5AqVUoXCf8MoHxbuhQPmhGfWTnEgA";
+  private String pubAddress = "Sa6HtzWWeXcb48aEsWaecaoGhoPXKLKcTH";
+  private static final String SHIELDED_CONTRACT_ADDRESS_STR = "SNCdkKizcJmV6KbtZwqNHxcZB5LzbNgG8Z";
   private static final byte[] SHIELDED_CONTRACT_ADDRESS;
   private static final byte[] DEFAULT_OVK;
-  private static final String PUBLIC_TO_ADDRESS_STR = "TBaBXpRAeBhs75TZT751LwyhrcR25XeUot";
+  private static final String PUBLIC_TO_ADDRESS_STR = "SQnRs2QYeWtvCZouGUWiqHVFfiaGeLr2UQ";
   private static final byte[] PUBLIC_TO_ADDRESS;
 
   static {

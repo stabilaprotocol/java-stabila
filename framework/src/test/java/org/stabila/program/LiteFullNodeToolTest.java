@@ -203,7 +203,7 @@ public class LiteFullNodeToolTest {
    * @return public addr
    */
   public static byte[] getFinalAddress(String priKey) {
-    Wallet.setAddressPreFixByte((byte) 0x41);
+    Wallet.setAddressPreFixByte((byte) 0x3F);
     ECKey key = ECKey.fromPrivate(new BigInteger(priKey, 16));
     return key.getAddress();
   }
@@ -219,7 +219,7 @@ public class LiteFullNodeToolTest {
    */
   public static Boolean sendcoin(byte[] to, long amount, byte[] owner, String priKey,
                                  WalletGrpc.WalletBlockingStub blockingStubFull) {
-    Wallet.setAddressPreFixByte((byte) 0x41);
+    Wallet.setAddressPreFixByte((byte) 0x3F);
     ECKey temKey = null;
     try {
       BigInteger priK = new BigInteger(priKey, 16);

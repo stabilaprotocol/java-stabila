@@ -309,7 +309,7 @@ public class VoteWitnessActuatorTest {
       maintenanceManager.doMaintenance();
       WitnessCapsule witnessCapsule = dbManager.getWitnessStore()
           .get(StringUtil.hexString2ByteString(WITNESS_ADDRESS).toByteArray());
-      Assert.assertEquals(10, witnessCapsule.getVoteCount());
+      Assert.assertEquals(11, witnessCapsule.getVoteCount());
     } catch (ContractExeException e) {
       Assert.assertFalse(e instanceof ContractExeException);
     }

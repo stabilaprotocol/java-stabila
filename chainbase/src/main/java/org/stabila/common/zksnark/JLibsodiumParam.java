@@ -155,6 +155,9 @@ public class JLibsodiumParam {
     @Setter
     @Getter
     private byte[] personal;
+    @Getter
+    @Setter
+    private int validPersonalLength;
 
 
     public Black2bSaltPersonalParams(byte[] out, int outLen, byte[] in, long inLen, byte[] key,
@@ -171,6 +174,20 @@ public class JLibsodiumParam {
       valid();
     }
 
+    public Black2bSaltPersonalParams(byte[] out, int outLen, byte[] in, long inLen, byte[] key,
+                                     int keyLen, byte[] salt, byte[] personal, int validPersonalLength) throws ZksnarkException {
+      this.out = out;
+      this.outLen = outLen;
+      this.in = in;
+      this.inLen = inLen;
+      this.key = key;
+      this.keyLen = keyLen;
+      this.salt = salt;
+      this.personal = personal;
+
+      valid(validPersonalLength);
+    }
+
     @Override
     public void valid() throws ZksnarkException {
       if (out.length != outLen || in.length != inLen) {
@@ -179,6 +196,15 @@ public class JLibsodiumParam {
       }
       validParamLength(out, 32);
       validParamLength(personal, 19);
+    }
+
+    public void valid(int validPersonalLength) throws ZksnarkException {
+      if (out.length != outLen || in.length != inLen) {
+        throw new ZksnarkException("out.length is not equal to outlen "
+                + "or in.length is not equal to inlen");
+      }
+      validParamLength(out, 32);
+      validParamLength(personal, validPersonalLength);
     }
   }
 

@@ -98,8 +98,8 @@ public class TransactionTraceTest {
    * 0205481565b6000818152602081905260409020555600a165627a7a72305820f9935f89890e51bcf3ea98fa4841c91
    * ac5957a197d99eeb7879a775b30ee9a2d0029   1000000000 40
    * */
-  private static String OwnerAddress = "TCWHANtDDdkZCTo2T2peyEq3Eg9c2XB7ut";
-  private static String TriggerOwnerAddress = "TCSgeWapPJhCqgWRxXCKb6jJ5AgNWSGjPA";
+  private static String OwnerAddress = "SYjonQPRppjDLgHhVNwXCv4oaheyyBn9Kp";
+  private static String TriggerOwnerAddress = "SREjt5iQufoQGkpGfFbkhcoyGwuiUTLSkz";
   /*
    * triggercontract TPMBUANrTwwQAPwShn7ZZjTJz1f3F8jknj addVoters(uint256) 113 false 1000000000 0
    * */

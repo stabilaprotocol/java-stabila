@@ -119,7 +119,7 @@ public class LibrustzcashTest {
         JLibsodium.cryptoGenerichashBlack2bSaltPersonal(
             new Black2bSaltPersonalParams(K, 32, block, 128, null, 0, // No key.
                 null,    // No salt.
-                personalization)) == 0);
+                personalization, 16)) == 0);
 
     byte[] cipher_nonce = new byte[CRYPTO_AEAD_CHACHA20POLY1305_IETF_NPUBBYTES];
     Assert.assertTrue(JLibsodium
