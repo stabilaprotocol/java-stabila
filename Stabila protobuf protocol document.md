@@ -1151,7 +1151,7 @@ Contract and contract-related messages.
 
       `cded_duration`: cded duration of STB.
 
-      `resource`: type of resource gained from freezing STB.
+      `resource`: type of resource gained from cding STB.
 
       `receiver_address`: account address to receive resource.
 
