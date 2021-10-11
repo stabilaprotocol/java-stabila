@@ -63,7 +63,7 @@ public class IstanbulTest extends VMTestBase {
         + "505060405180910390f35b600047905090565b600080469050809150509056fea265627a7a723158205b"
         + "011448e0d2a2dcb83ada305318c9858627a91eac024a1d1cac6ed0efbfbd0164736f6c634300050e0032";
     long value = 123456;
-    long fee = 100000000;
+    long fee = 10000000;
     long consumeUserResourcePercent = 0;
 
     // deploy contract
@@ -209,7 +209,7 @@ public class IstanbulTest extends VMTestBase {
         + "3430005110032";
 
     long value = 0;
-    long fee = 100000000;
+    long fee = 10000000;
     long consumeUserResourcePercent = 0;
 
     // deploy contract
@@ -439,7 +439,7 @@ public class IstanbulTest extends VMTestBase {
         + "65627a7a72305820b51062a49e0cc84c2e1cf6d19841ccff0280902a2b46a251c52251505ca283380029";
 
     long value = 0;
-    long fee = 1000000000;
+    long fee = 10000000;
     long consumeUserResourcePercent = 0;
 
     // deploy contract

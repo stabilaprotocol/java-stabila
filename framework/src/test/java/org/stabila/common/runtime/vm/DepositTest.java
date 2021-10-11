@@ -171,7 +171,7 @@ public class DepositTest {
         + "8310029";
 
     long value = 0;
-    long fee = 100000000;
+    long fee = 10000000;
     long consumeUserResourcePercent = 0;
     long engeryLiimt = 100000000;
 
@@ -328,7 +328,7 @@ public class DepositTest {
         + "8310029";
 
     long value = 0;
-    long fee = 100000000;
+    long fee = 10000000;
     long consumeUserResourcePercent = 0;
 
     Transaction aStb = SvmTestUtils.generateDeploySmartContractAndGetTransaction(

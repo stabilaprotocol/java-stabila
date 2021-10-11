@@ -143,7 +143,7 @@ public class MutiSignClearContractAbiTest {
     PublicMethedForMutiSign.accountPermissionUpdate(accountPermissionJson, ownerAddress, ownerKey,
         blockingStubFull, ownerKeyString);
 
-    Long maxFeeLimit = 1000000000L;
+    Long maxFeeLimit  = 15000000L;
     String filePath = "src/test/resources/soliditycode/TriggerConstant004.sol";
     String contractName = "testConstantContract";
     HashMap retMap = PublicMethed.getBycodeAbi(filePath, contractName);
@@ -220,7 +220,7 @@ public class MutiSignClearContractAbiTest {
     PublicMethedForMutiSign.accountPermissionUpdate(accountPermissionJson, ownerAddress, ownerKey,
         blockingStubFull, ownerKeyString);
 
-    Long maxFeeLimit = 1000000000L;
+    Long maxFeeLimit  = 15000000L;
     String filePath = "src/test/resources/soliditycode/TriggerConstant004.sol";
     String contractName = "testConstantContract";
     HashMap retMap = PublicMethed.getBycodeAbi(filePath, contractName);
@@ -275,7 +275,7 @@ public class MutiSignClearContractAbiTest {
     activeDefaultKeyString[0] = ownerKey;
     PublicMethed.waitProduceNextBlock(blockingStubFull);
 
-    Long maxFeeLimit = 1000000000L;
+    Long maxFeeLimit  = 15000000L;
     String filePath = "src/test/resources/soliditycode/TriggerConstant004.sol";
     String contractName = "testConstantContract";
     HashMap retMap = PublicMethed.getBycodeAbi(filePath, contractName);

@@ -139,7 +139,7 @@ public class InternalTransactionComplexTest {
             + "5092509091925600a165627a"
             + "7a72305820040808e22827b01e497bf99a0ddd72084c95a3fa9bc8737fb022594c7656f00a0029";
     long value = 0;
-    long feeLimit = 1000000000;
+    long feeLimit = 15000000;
     long consumeUserResourcePercent = 0;
 
     return SvmTestUtils
@@ -187,7 +187,7 @@ public class InternalTransactionComplexTest {
             + "5188a2329cea5d678a10b01436ab68941b47259fc16ae84985c1abce0029" + Hex
             .toHexString(new DataWord(calledContractAddress).getData());
     long value = 0;
-    long feeLimit = 1000000000;
+    long feeLimit = 15000000;
     long consumeUserResourcePercent = 0;
 
     return SvmTestUtils

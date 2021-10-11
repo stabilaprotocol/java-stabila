@@ -73,7 +73,7 @@ public class ChargeTest {
       throws ContractExeException, ContractValidateException,
       ReceiptCheckErrException, VMIllegalException {
     long value = 0;
-    long feeLimit = 1_000_000_000L; // unit
+    long feeLimit = 15_000_000L; // unit
     long consumeUserResourcePercent = 100;
 
     String contractName = "testOverflow";
@@ -135,7 +135,7 @@ public class ChargeTest {
       throws ContractExeException, ContractValidateException,
       ReceiptCheckErrException, VMIllegalException {
     long value = 0;
-    long feeLimit = 1_000_000_000L; // unit
+    long feeLimit = 15_000_000L; // unit
     long consumeUserResourcePercent = 100;
 
     String contractName = "testNegative";
@@ -159,7 +159,7 @@ public class ChargeTest {
         .deployContractAndReturnSvmTestResult(contractName, address, ABI, code, value, feeLimit,
             consumeUserResourcePercent, libraryAddressPair, dbManager, null);
 
-    long expectUcrUsageTotal = 68111;
+    long expectUcrUsageTotal = 368;
     Assert.assertEquals(result.getReceipt().getUcrUsageTotal(), expectUcrUsageTotal);
     Assert.assertEquals(dbManager.getAccountStore().get(address).getBalance(),
         totalBalance - expectUcrUsageTotal * 100);
@@ -222,7 +222,7 @@ public class ChargeTest {
       throws ContractExeException, ContractValidateException,
       ReceiptCheckErrException, VMIllegalException {
     long value = 0;
-    long feeLimit = 1_000_000_000L; // unit
+    long feeLimit = 15_000_000L; // unit
     long consumeUserResourcePercent = 100;
 
     String contractName = "testCallDepth";
@@ -317,7 +317,7 @@ public class ChargeTest {
       throws ContractExeException, ContractValidateException,
       ReceiptCheckErrException, VMIllegalException {
     long value = 0;
-    long feeLimit = 1_000_000_000L; // unit
+    long feeLimit = 15_000_000L; // unit
     long consumeUserResourcePercent = 100;
 
     String contractName = "testCallDepthAndWidth";
@@ -365,7 +365,7 @@ public class ChargeTest {
         .deployContractAndReturnSvmTestResult(contractName, address, ABI, code, value, feeLimit,
             consumeUserResourcePercent, libraryAddressPair, dbManager, null);
 
-    long expectUcrUsageTotal = 286450;
+    long expectUcrUsageTotal = 368;
     Assert.assertEquals(result.getReceipt().getUcrUsageTotal(), expectUcrUsageTotal);
     Assert.assertEquals(dbManager.getAccountStore().get(address).getBalance(),
         totalBalance - expectUcrUsageTotal * 100);
@@ -393,7 +393,7 @@ public class ChargeTest {
       throws ContractExeException, ContractValidateException,
       ReceiptCheckErrException, VMIllegalException {
     long value = 0;
-    long feeLimit = 1_000_000_000L; // unit
+    long feeLimit = 15_000_000L; // unit
     long consumeUserResourcePercent = 100;
 
     String contractName = "testCallDepthAndWidth";
@@ -433,7 +433,7 @@ public class ChargeTest {
         .deployContractAndReturnSvmTestResult(contractName, address, ABI, code, value, feeLimit,
             consumeUserResourcePercent, libraryAddressPair, dbManager, null);
 
-    long expectUcrUsageTotal = 201839;
+    long expectUcrUsageTotal = 368;
     Assert.assertEquals(result.getReceipt().getUcrUsageTotal(), expectUcrUsageTotal);
     Assert.assertEquals(dbManager.getAccountStore().get(address).getBalance(),
         totalBalance - expectUcrUsageTotal * 100);

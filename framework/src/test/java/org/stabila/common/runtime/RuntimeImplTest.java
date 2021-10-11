@@ -101,7 +101,7 @@ public class RuntimeImplTest {
   public void getCreatorUcrLimit2Test() throws ContractValidateException, ContractExeException {
 
     long value = 10L;
-    long feeLimit = 1_000_000_000L;
+    long feeLimit = 15_000_000L;
     long consumeUserResourcePercent = 0L;
     String contractName = "test";
     String ABI = "[{\"constant\":true,\"inputs\":[{\"name\":\"count\",\"type\":\"uint256\"}],\""
@@ -159,7 +159,7 @@ public class RuntimeImplTest {
     repository.putAccountValue(creatorAddress, creatorAccount);
     repository.commit();
 
-    feeLimit = 1_000_000_000L;
+    feeLimit = 15_000_000L;
     long expectUcrLimit4 = 10_000_000L;
     Assert.assertEquals(
         ((VMActuator) runtimeImpl.getActuator2())
@@ -190,7 +190,7 @@ public class RuntimeImplTest {
       ContractValidateException {
 
     long value = 0;
-    long feeLimit = 1_000_000_000L; // unit
+    long feeLimit = 15_000_000L; // unit
     long consumeUserResourcePercent = 0L;
     long creatorUcrLimit = 5_000L;
     String contractName = "test";
@@ -229,7 +229,7 @@ public class RuntimeImplTest {
     AccountCapsule callerAccount = repository.getAccount(callerAddress);
     TriggerSmartContract contract = ContractCapsule.getTriggerContractFromTransaction(stb);
 
-    feeLimit = 1_000_000_000L;
+    feeLimit = 15_000_000L;
     value = 0L;
     long expectUcrLimit1 = 10_000_000L;
     Assert.assertEquals(
@@ -245,7 +245,7 @@ public class RuntimeImplTest {
     repository.putAccountValue(creatorAddress, creatorAccount);
     repository.commit();
 
-    feeLimit = 1_000_000_000L;
+    feeLimit = 15_000_000L;
     value = 0L;
     long expectUcrLimit2 = 10_005_000L;
     Assert.assertEquals(
@@ -294,7 +294,7 @@ public class RuntimeImplTest {
       ContractValidateException {
 
     long value = 0;
-    long feeLimit = 1_000_000_000L; // unit
+    long feeLimit = 15_000_000L; // unit
     long consumeUserResourcePercent = 40L;
     long creatorUcrLimit = 5_000L;
     String contractName = "test";
@@ -333,7 +333,7 @@ public class RuntimeImplTest {
     AccountCapsule callerAccount = repository.getAccount(callerAddress);
     TriggerSmartContract contract = ContractCapsule.getTriggerContractFromTransaction(stb);
 
-    feeLimit = 1_000_000_000L;
+    feeLimit = 15_000_000L;
     value = 0L;
     long expectUcrLimit1 = 10_000_000L;
     Assert.assertEquals(
@@ -349,7 +349,7 @@ public class RuntimeImplTest {
     repository.putAccountValue(creatorAddress, creatorAccount);
     repository.commit();
 
-    feeLimit = 1_000_000_000L;
+    feeLimit = 15_000_000L;
     value = 0L;
     long expectUcrLimit2 = 10_005_000L;
     Assert.assertEquals(
@@ -374,7 +374,7 @@ public class RuntimeImplTest {
       ContractValidateException {
 
     long value = 0;
-    long feeLimit = 1_000_000_000L; // unit
+    long feeLimit = 15_000_000L; // unit
     long consumeUserResourcePercent = 100L;
     long creatorUcrLimit = 5_000L;
     String contractName = "test";
@@ -413,7 +413,7 @@ public class RuntimeImplTest {
     AccountCapsule callerAccount = repository.getAccount(callerAddress);
     TriggerSmartContract contract = ContractCapsule.getTriggerContractFromTransaction(stb);
 
-    feeLimit = 1_000_000_000L;
+    feeLimit = 15_000_000L;
     value = 0L;
     long expectUcrLimit1 = 10_000_000L;
     Assert.assertEquals(
@@ -429,7 +429,7 @@ public class RuntimeImplTest {
     repository.putAccountValue(creatorAddress, creatorAccount);
     repository.commit();
 
-    feeLimit = 1_000_000_000L;
+    feeLimit = 15_000_000L;
     value = 0L;
     long expectUcrLimit2 = 10_000_000L;
     Assert.assertEquals(

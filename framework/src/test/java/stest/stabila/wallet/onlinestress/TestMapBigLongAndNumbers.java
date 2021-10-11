@@ -77,7 +77,7 @@ public class TestMapBigLongAndNumbers {
   @Test(enabled = true, threadPoolSize = 10, invocationCount = 10)
   public void deployErc721KittyCore() {
 
-    Long maxFeeLimit = 1000000000L;
+    Long maxFeeLimit = 15000000L;
 
     String contractName = "MappingExample";
     String code = Configuration.getByPath("testng.conf")

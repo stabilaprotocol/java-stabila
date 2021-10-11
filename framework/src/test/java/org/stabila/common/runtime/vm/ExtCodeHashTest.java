@@ -42,7 +42,7 @@ public class ExtCodeHashTest extends VMTestBase {
         + "6fea165627a7a723058200f30933f006db4e1adeee12c030b87e720dad3cb169769159fc56ec25d9af66f00"
         + "29";
     long value = 0;
-    long fee = 100000000;
+    long fee = 10000000;
     long consumeUserResourcePercent = 0;
 
     // deploy contract

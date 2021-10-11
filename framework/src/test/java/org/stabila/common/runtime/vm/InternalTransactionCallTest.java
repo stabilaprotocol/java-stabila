@@ -300,7 +300,7 @@ public class InternalTransactionCallTest {
             + "054815600a165627a7a723058206d36ef7c6f6d387ad915f299e715c9b360f3719843a1113badb28b65"
             + "95e66c1e0029";
     long value = 0;
-    long feeLimit = 1000000000;
+    long feeLimit = 15000000;
     long consumeUserResourcePercent = 0;
     String libraryAddressPair = null;
 
@@ -337,7 +337,7 @@ public class InternalTransactionCallTest {
             + "fffffffffffffffffffffffffffffffffff1681565b600054815600a165627a7a72305820e2c513cf46"
             + "bb32018879ec48f8fe264c985b6d2c7a853a578f4f56583fe1ffb80029";
     long value = 0;
-    long feeLimit = 1000000000;
+    long feeLimit = 15000000;
     long consumeUserResourcePercent = 0;
     String libraryAddressPair = null;
 

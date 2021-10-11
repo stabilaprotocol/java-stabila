@@ -135,7 +135,7 @@ public class IsSRCandidateTest extends VMTestBase {
             + "afab2d7a84ca331e2eb33393a62310b1a53e77c37a287407"
             + "53ae0a3a99980ba64736f6c634300050d0031";
     long value = 0;
-    long fee = 100000000;
+    long fee = 10000000;
     long consumeUserResourcePercent = 0;
 
     Repository repository;

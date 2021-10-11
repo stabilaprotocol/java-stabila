@@ -134,7 +134,7 @@ public class TestNetFomo3D {
     logger.info("before balance is " + Long.toString(account.getBalance()));
     logger.info("before cpu limit is " + Long.toString(cpuLimit));
     logger.info("before cpu usage is " + Long.toString(cpuUsage));
-    Long maxFeeLimit = 100000000000000000L;
+    Long maxFeeLimit = 15000000L;
     String contractName = "tooLargeStorage";
     String code = Configuration.getByPath("testng.conf")
         .getString("code.code_TestNetFomo3D_tooLargeStorage");
