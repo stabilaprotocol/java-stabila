@@ -4,38 +4,38 @@ package org.stabila.core.vm;
 public class UcrCost {
 
   private static UcrCost instance = null;
-  private final int BALANCE = 20;
-  private final int SHA3 = 30;
-  private final int SHA3_WORD = 6;
-  private final int SLOAD = 50;
+  private final int BALANCE = 6;
+  private final int SHA3 = 10;
+  private final int SHA3_WORD = 2;
+  private final int SLOAD = 16;
   private final int STOP = 0;
   private final int SUICIDE = 0;
-  private final int CLEAR_SSTORE = 5000;
-  private final int SET_SSTORE = 20000;
-  private final int RESET_SSTORE = 5000;
-  private final int REFUND_SSTORE = 15000;
-  private final int CREATE = 32000;
-  private final int CALL = 40;
-  private final int STIPEND_CALL = 2300;
-  private final int VT_CALL = 9000;  // value transfer call
-  private final int NEW_ACCT_CALL = 25000;  // new account call
-  private final int MEMORY = 3;
-  private final int CREATE_DATA = 200;
-  private final int LOG_UCR = 375;
-  private final int LOG_DATA_UCR = 8;
-  private final int LOG_TOPIC_UCR = 375;
-  private final int COPY_UCR = 3;
-  private final int EXP_UCR = 10;
-  private final int EXP_BYTE_UCR = 10;
-  private final int EXT_CODE_SIZE = 20;
-  private final int EXT_CODE_COPY = 20;
-  private final int EXT_CODE_HASH = 400;
+  private final int CLEAR_SSTORE = 1666;
+  private final int SET_SSTORE = 6666;
+  private final int RESET_SSTORE = 1666;
+  private final int REFUND_SSTORE = 5000;
+  private final int CREATE = 1666;
+  private final int CALL = 13;
+  private final int STIPEND_CALL = 766;
+  private final int VT_CALL = 3000;  // value transfer call
+  private final int NEW_ACCT_CALL = 8333;  // new account call
+  private final int MEMORY = 1;
+  private final int CREATE_DATA = 66;
+  private final int LOG_UCR = 125;
+  private final int LOG_DATA_UCR = 2;
+  private final int LOG_TOPIC_UCR = 125;
+  private final int COPY_UCR = 1;
+  private final int EXP_UCR = 3;
+  private final int EXP_BYTE_UCR = 3;
+  private final int EXT_CODE_SIZE = 6;
+  private final int EXT_CODE_COPY = 6;
+  private final int EXT_CODE_HASH = 133;
   private final int NEW_ACCT_SUICIDE = 0;
-  private final int CD = 20000;
-  private final int UNCD = 20000;
-  private final int CD_EXPIRE_TIME = 50;
-  private final int VOTE_WITNESS = 30000;
-  private final int WITHDRAW_REWARD = 20000;
+  private final int CD = 6666;
+  private final int UNCD = 6666;
+  private final int CD_EXPIRE_TIME = 16;
+  private final int VOTE_WITNESS = 10000;
+  private final int WITHDRAW_REWARD = 6666;
 
   public static UcrCost getInstance() {
     if (instance == null) {

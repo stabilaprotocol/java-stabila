@@ -377,13 +377,13 @@ public class DynamicPropertiesStore extends StabilaStoreWithRevoking<BytesCapsul
     try {
       this.getTotalUcrLimit();
     } catch (IllegalArgumentException e) {
-      this.saveTotalUcrLimit(30000000L);
+      this.saveTotalUcrLimit(30000000000L);
     }
 
     try {
       this.getUcrFee();
     } catch (IllegalArgumentException e) {
-      this.saveUcrFee(40740L);// 40740 unit per ucr
+      this.saveUcrFee(40L);// 40 unit per ucr
     }
 
     try {
