@@ -336,7 +336,7 @@ public class ProgramResultTest {
     byte[] triggerData2 = SvmTestUtils.parseAbi("transfer(address,bool)", params);
     Transaction stb2 = SvmTestUtils
         .generateTriggerSmartContractAndGetTransaction(Hex.decode(OWNER_ADDRESS), aContract,
-            triggerData2, 0, 100000000);
+            triggerData2, 0, 10000000);
     TransactionTrace traceFailed = SvmTestUtils
         .processTransactionAndReturnTrace(stb2, deposit, null);
     runtime = traceFailed.getRuntime();
@@ -395,11 +395,11 @@ public class ProgramResultTest {
     TransactionTrace traceSuccess = SvmTestUtils
         .processTransactionAndReturnTrace(stb1, deposit, null);
 
-    Assert.assertEquals(traceSuccess.getReceipt().getUcrFee(), 12705900L);
+    Assert.assertEquals(traceSuccess.getReceipt().getUcrFee(), 1348800L);
 
     TransactionInfoCapsule stbInfoCapsule =
         buildTransactionInfoInstance(new TransactionCapsule(stb1), null, traceSuccess);
-    Assert.assertEquals(stbInfoCapsule.getFee(), 12705900L);
+    Assert.assertEquals(stbInfoCapsule.getFee(), 1348800L);
     Assert.assertEquals(stbInfoCapsule.getPackingFee(), 0L);
 
     DynamicPropertiesStore dynamicPropertiesStore = traceSuccess.getTransactionContext()
@@ -408,15 +408,15 @@ public class ProgramResultTest {
 
     stbInfoCapsule =
         buildTransactionInfoInstance(new TransactionCapsule(stb1), null, traceSuccess);
-    Assert.assertEquals(stbInfoCapsule.getFee(), 12705900L);
-    Assert.assertEquals(stbInfoCapsule.getPackingFee(), 12705900L);
+    Assert.assertEquals(stbInfoCapsule.getFee(), 1348800L);
+    Assert.assertEquals(stbInfoCapsule.getPackingFee(), 1348800L);
 
 
     traceSuccess.getReceipt().setResult(contractResult.OUT_OF_TIME);
 
     stbInfoCapsule =
         buildTransactionInfoInstance(new TransactionCapsule(stb1), null, traceSuccess);
-    Assert.assertEquals(stbInfoCapsule.getFee(), 12705900L);
+    Assert.assertEquals(stbInfoCapsule.getFee(), 1348800L);
     Assert.assertEquals(stbInfoCapsule.getPackingFee(), 0L);
 
 
@@ -512,7 +512,7 @@ public class ProgramResultTest {
     byte[] triggerData1 = SvmTestUtils.parseAbi("suicide(address)", params);
     Transaction stb = SvmTestUtils
         .generateTriggerSmartContractAndGetTransaction(Hex.decode(OWNER_ADDRESS), suicideContract,
-            triggerData1, 0, 100000000);
+            triggerData1, 0, 10000000);
     TransactionTrace trace = SvmTestUtils.processTransactionAndReturnTrace(stb, deposit, null);
     runtime = trace.getRuntime();
     List<InternalTransaction> internalTransactionsList = runtime.getResult()

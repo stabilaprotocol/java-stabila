@@ -472,7 +472,7 @@ public class RuntimeTransferComplexTest {
             + "ed10029a165627a7a723058209824f9789a24b669fe58f76f188fd083dce266b61ab11d43e69215492a"
             + "1bffa50029" + Hex.toHexString((new DataWord(calledAddress)).getData());
     long value = 1000;
-    long feeLimit = 100000000;
+    long feeLimit = 10000000;
     long consumeUserResourcePercent = 0;
     byte[] contractAddress = SvmTestUtils
         .deployContractWholeProcessReturnContractAddress(contractName, callerAddress, callerABI,

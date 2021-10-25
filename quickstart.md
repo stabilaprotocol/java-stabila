@@ -1,10 +1,15 @@
+<h1 align="center">
+  <br>
+  <img width=15% src="https://cdn.rawgit.com/stabilaprotocol/wiki/master/images/s2icon-w.svg">
+  <br>
+</h1>
 # How to quick start
 
 ## Introduction
 
 This guide provides two ways for STABILA quickstart:
 - Set up a FullNode using the official tools: providing a wealth of configurable parameters to startup a FullNode
-- Set up a complete private network for Stabila development using a third-party tool: [docker-stabila-quickstart](https://github.com/STABILA-US/docker-stabila-quickstart)
+- (Under Construction) Set up a complete private network for Stabila development using a third-party tool: [docker-stabila-quickstart](https://github.com/stabilaprotocol/docker-stabila-quickstart)
 
 ## Dependencies
 
@@ -65,15 +70,15 @@ Note: The directory `/Users/stabila/docker/conf` must contain the file `config-l
 ## Quickstart for using docker-stabila-quickstart
 
 The image exposes a Full Node, Solidity Node, and Event Server. Through STABILA Quickstart, users can deploy DApps, smart contracts, and interact with the StabilaWeb library.
-Check more information at [Quickstart:](https://github.com/STABILA-US/docker-stabila-quickstart)
+Check more information at [Quickstart:](https://github.com/stabilaprotocol/docker-stabila-quickstart)
 
 ### Node.JS Console
-  Node.JS is used to interact with the Full and Solidity Nodes via Stabila-Web.  
+  Node.JS is used to interact with the Full and Solidity Nodes via webstabila.  
   [Node.JS](https://nodejs.org/en/) Console Download
   
 ### Clone STABILA Quickstart  
 ```shell
-git clone https://github.com/STABILA-US/docker-stabila-quickstart.git
+git clone https://github.com/stabilaprotocol/docker-stabila-quickstart.git
 ```  
 
 ### Pull the image using docker:
@@ -104,12 +109,12 @@ If everything goes well, your terminal console output will look like following :
 
     [PM2] Spawning PM2 daemon with pm2_home=/root/.pm2
     [PM2] PM2 Successfully daemonized
-    [PM2][WARN] Applications evenstabila not running, starting...
-    [PM2] App [evenstabila] launched (1 instances)
+    [PM2][WARN] Applications eventstabila not running, starting...
+    [PM2] App [eventstabila] launched (1 instances)
     ┌──────────┬────┬─────────┬──────┬─────┬────────┬─────────┬────────┬─────┬───────────┬──────┬──────────┐
     │ App name │ id │ version │ mode │ pid │ status │ restart │ uptime │ cpu │ mem       │ user │ watching │
     ├──────────┼────┼─────────┼──────┼─────┼────────┼─────────┼────────┼─────┼───────────┼──────┼──────────┤
-    │ evenstabila │ 0  │ N/A     │ fork │ 60  │ online │ 0       │ 0s     │ 0%  │ 25.4 MB   │ root │ disabled │
+    │ eventstabila │ 0  │ N/A     │ fork │ 60  │ online │ 0       │ 0s     │ 0%  │ 25.4 MB   │ root │ disabled │
     └──────────┴────┴─────────┴──────┴─────┴────────┴─────────┴────────┴─────┴───────────┴──────┴──────────┘
     Use `pm2 show <id|name>` to get more details about an app
     Start the http proxy for dApps...

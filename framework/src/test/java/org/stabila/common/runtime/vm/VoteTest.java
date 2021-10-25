@@ -197,7 +197,7 @@ public class VoteTest {
       + "\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"}]";
 
   private static final long value = 100_000_000_000_000_000L;
-  private static final long fee = 1_000_000_000L;
+  private static final long fee = 10_000_000L;
   private static final long cdUnit = 1_000_000_000_000L;
   private static final long stb_precision = 1_000_000L;
   private static final String userAStr = "27k66nycZATHzBasFT9782nTsYWqVtxdtAc";

@@ -105,7 +105,7 @@ public class UcrWhenRequireStyleTest {
         .deployContractAndReturnSvmTestResult(contractName, address, ABI, code, value, feeLimit,
             consumeUserResourcePercent, libraryAddressPair, dbManager, null);
 
-    long expectUcrUsageTotal = 26275;
+    long expectUcrUsageTotal = 8701;
     Assert.assertEquals(result.getReceipt().getUcrUsageTotal(), expectUcrUsageTotal);
     Assert.assertEquals(dbManager.getAccountStore().get(address).getBalance(),
         totalBalance - expectUcrUsageTotal * 100);
@@ -158,7 +158,7 @@ public class UcrWhenRequireStyleTest {
         .deployContractAndReturnSvmTestResult(contractName, address, ABI, code, value, feeLimit,
             consumeUserResourcePercent, libraryAddressPair, dbManager, null);
 
-    long expectUcrUsageTotal = 368;
+    long expectUcrUsageTotal = 8701;
     Assert.assertEquals(result.getReceipt().getUcrUsageTotal(), expectUcrUsageTotal);
     Assert.assertEquals(dbManager.getAccountStore().get(address).getBalance(),
         totalBalance - expectUcrUsageTotal * 100);
@@ -222,7 +222,7 @@ public class UcrWhenRequireStyleTest {
         .deployContractAndReturnSvmTestResult(contractName, address, ABI, code, value, feeLimit,
             consumeUserResourcePercent, libraryAddressPair, dbManager, null);
 
-    long expectUcrUsageTotal = 368;
+    long expectUcrUsageTotal = 19139;
     Assert.assertEquals(result.getReceipt().getUcrUsageTotal(), expectUcrUsageTotal);
     Assert.assertEquals(dbManager.getAccountStore().get(address).getBalance(),
         totalBalance - expectUcrUsageTotal * 100);
@@ -299,7 +299,7 @@ public class UcrWhenRequireStyleTest {
         .deployContractAndReturnSvmTestResult(contractName, address, ABI, code, value, feeLimit,
             consumeUserResourcePercent, libraryAddressPair, dbManager, null);
 
-    long expectUcrUsageTotal = 368;
+    long expectUcrUsageTotal = 32153;
     Assert.assertEquals(result.getReceipt().getUcrUsageTotal(), expectUcrUsageTotal);
     Assert.assertEquals(dbManager.getAccountStore().get(address).getBalance(),
         totalBalance - expectUcrUsageTotal * 100);
@@ -361,7 +361,7 @@ public class UcrWhenRequireStyleTest {
         .deployContractAndReturnSvmTestResult(contractName, address, ABI, code, value, feeLimit,
             consumeUserResourcePercent, libraryAddressPair, dbManager, null);
 
-    long expectUcrUsageTotal = 368;
+    long expectUcrUsageTotal = 14117;
     Assert.assertEquals(result.getReceipt().getUcrUsageTotal(), expectUcrUsageTotal);
     Assert.assertEquals(dbManager.getAccountStore().get(address).getBalance(),
         totalBalance - expectUcrUsageTotal * 100);
@@ -438,7 +438,7 @@ public class UcrWhenRequireStyleTest {
         .deployContractAndReturnSvmTestResult(contractName, address, ABI, code, value, feeLimit,
             consumeUserResourcePercent, libraryAddressPair, dbManager, null);
 
-    long expectUcrUsageTotal = 42;
+    long expectUcrUsageTotal = 36;
     Assert.assertEquals(result.getReceipt().getUcrUsageTotal(), expectUcrUsageTotal);
     Assert.assertEquals(result.getRuntime().getResult().isRevert(), true);
     Assert.assertTrue(result.getRuntime().getResult().getException() == null);
@@ -517,7 +517,7 @@ public class UcrWhenRequireStyleTest {
         .deployContractAndReturnSvmTestResult(contractName, address, ABI, code, value, feeLimit,
             consumeUserResourcePercent, libraryAddressPair, dbManager, null);
 
-    long expectUcrUsageTotal = 368;
+    long expectUcrUsageTotal = 12069;
     Assert.assertEquals(result.getReceipt().getUcrUsageTotal(), expectUcrUsageTotal);
     Assert.assertEquals(dbManager.getAccountStore().get(address).getBalance(),
         totalBalance - expectUcrUsageTotal * 100);
