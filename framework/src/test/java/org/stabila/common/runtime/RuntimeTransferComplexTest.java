@@ -92,7 +92,7 @@ public class RuntimeTransferComplexTest {
     String code = "608060405260358060116000396000f3006080604052600080fd00a165627a7a72305820d3b0de5"
         + "bdc00ebe85619d50b72b29d30bd00dd233e8849402671979de0e9e73b0029";
     long value = 100;
-    long fee = 100000000;
+    long fee = 10000000;
     long consumeUserResourcePercent = 0;
 
     Transaction stb = SvmTestUtils
@@ -123,7 +123,7 @@ public class RuntimeTransferComplexTest {
         "6080604052348015600f57600080fd5b50603580601d6000396000f3006080604052600080fd00a165627a7a"
             + "72305820f5dc348e1c7dc90f9996a05c69dc9d060b6d356a1ed570ce3cd89570dc4ce6440029";
     long value = 100;
-    long fee = 100000000;
+    long fee = 10000000;
     long consumeUserResourcePercent = 0;
 
     Transaction stb = SvmTestUtils
@@ -161,7 +161,7 @@ public class RuntimeTransferComplexTest {
             + "e573d6000803e3d6000fd5b50505600a165627a7a723058209b248b5be19bae77660cdc92b0a141f279"
             + "dc4746d858d9d7d270a22d014eb97a0029";
     long value = 0;
-    long feeLimit = 100000000;
+    long feeLimit = 10000000;
     long consumeUserResourcePercent = 0;
     long transferToInitBalance = dbManager.getAccountStore().get(Hex.decode(TRANSFER_TO))
         .getBalance();
@@ -232,7 +232,7 @@ public class RuntimeTransferComplexTest {
     byte[] calledAddress = deployCalledContract();
     byte[] callerAddress = deployCallerContract(calledAddress);
     long triggerCallValue = 0;
-    long feeLimit = 100000000;
+    long feeLimit = 10000000;
 
     //======================0. check initial status ===================================
     Assert.assertEquals(dbManager.getAccountStore().get(calledAddress).getBalance(), 1000);
@@ -390,7 +390,7 @@ public class RuntimeTransferComplexTest {
             + "3f1935050505015801560d5573d6000803e3d6000fd5b50505600a165627a7a72305820b6a"
             + "1478817a43ce2d6d3e26b8c8a89b35b4b49abe5b33849faedc32a602ed0850029";
     long value = 1000;
-    long feeLimit = 100000000;
+    long feeLimit = 10000000;
     long consumeUserResourcePercent = 0;
 
     byte[] contractAddress = SvmTestUtils
@@ -472,7 +472,7 @@ public class RuntimeTransferComplexTest {
             + "ed10029a165627a7a723058209824f9789a24b669fe58f76f188fd083dce266b61ab11d43e69215492a"
             + "1bffa50029" + Hex.toHexString((new DataWord(calledAddress)).getData());
     long value = 1000;
-    long feeLimit = 100000000;
+    long feeLimit = 10000000;
     long consumeUserResourcePercent = 0;
     byte[] contractAddress = SvmTestUtils
         .deployContractWholeProcessReturnContractAddress(contractName, callerAddress, callerABI,

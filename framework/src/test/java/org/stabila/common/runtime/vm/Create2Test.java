@@ -134,7 +134,7 @@ public class Create2Test extends VMTestBase {
         + "01019081905590565b6000548156fea165627a7a72305820c637cddbfa24b6530000f2e54d90e0f6c1590783"
         + "5674109287f64303446f9afb0029";
     long value = 0;
-    long fee = 100000000;
+    long fee = 10000000;
     long consumeUserResourcePercent = 0;
     String methodSign = "deploy(bytes,uint256)";
 
@@ -249,7 +249,7 @@ contract A {
         + "5674109287f64303446f9afb0029";
 
     long value = 0;
-    long fee = 1000000000;
+    long fee = 100000000;
     long consumeUserResourcePercent = 0;
     String methodDeploy = "deploy(bytes,uint256)";
 

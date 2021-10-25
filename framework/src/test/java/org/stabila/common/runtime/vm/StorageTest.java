@@ -121,7 +121,7 @@ public class StorageTest extends VMTestBase {
         + "5b5090565b61031291905b808211156102f457600081556001016102fe565b905600a165627a7a72305820c9"
         + "8643943ea978505f9cca68bdf61681462daeee9f71a6aa4414609e48dbb46b0029";
     long value = 0;
-    long fee = 100000000;
+    long fee = 10000000;
     long consumeUserResourcePercent = 0;
 
     // deploy contract

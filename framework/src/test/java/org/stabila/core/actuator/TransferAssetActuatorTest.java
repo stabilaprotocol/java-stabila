@@ -1424,7 +1424,7 @@ public class TransferAssetActuatorTest {
         + "7a7a72305820cc2d598d1b3f968bbdc7825ce83d22dad48192f4bf95bda7f9e4ddf61669ba830029";
 
     long value = 1;
-    long feeLimit = 1000000000L;
+    long feeLimit = 15000000L;
     long consumeUserResourcePercent = 0;
     DepositImpl deposit = DepositImpl.createRoot(dbManager);
     byte[] contractAddress = SvmTestUtils

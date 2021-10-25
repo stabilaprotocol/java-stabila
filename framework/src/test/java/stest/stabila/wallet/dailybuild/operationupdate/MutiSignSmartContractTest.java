@@ -146,7 +146,7 @@ public class MutiSignSmartContractTest {
     Integer randNum = rand.nextInt(30) + 1;
     randNum = rand.nextInt(4000);
 
-    Long maxFeeLimit = 1000000000L;
+    Long maxFeeLimit  = 15000000L;
     String contractName = "StorageAndCpu" + Integer.toString(randNum);
     String code = Configuration.getByPath("testng.conf")
         .getString("code.code_TestStorageAndCpu_storageAndCpu");

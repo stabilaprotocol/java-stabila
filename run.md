@@ -1,9 +1,5 @@
 # How to Running
 
-### Running multi-nodes
-
-https://github.com/stabilaprotocol/Documentation/blob/master/STB/Solidity_and_Full_Node_Deployment_EN.md
-
 ## Running a local node and connecting to the public testnet 
 
 Use the [Testnet Config](https://github.com/stabilaprotocol/StabilaDeployment/blob/master/test_net_config.conf) or use the [Stabila Deployment Scripts](https://github.com/stabilaprotocol/StabilaDeployment).
@@ -14,9 +10,9 @@ Use the [Testnet Config](https://github.com/stabilaprotocol/StabilaDeployment/bl
 **Use the executable JAR(Recommended way):**
 
 ```bash
-java -jar FullNode.jar -p your private key --witness -c your config.conf(Example：/data/java-stabila/config.conf)
+java -jar FullNode.jar -p your private key --witness -c your config.conf
 Example:
-java -jar FullNode.jar -p 650950B193DDDDB35B6E48912DD28F7AB0E7140C1BFDEFD493348F02295BD812 --witness -c /data/java-stabila/config.conf
+java -jar FullNode.jar -p 650950B193DDDDB35B6E48912DD28F7AB0E7140C1BFDEFD493348F02295BD812 --witness -c config.conf
 
 ```
 
@@ -65,9 +61,9 @@ Then observe whether block synchronization success，If synchronization successf
 
 ```bash
 cd build/libs
-java -jar FullNode.jar -p your private key --witness -c your config.conf (Example：/data/java-stabila/config.conf)
+java -jar FullNode.jar -p your private key --witness -c your config.conf 
 Example:
-java -jar FullNode.jar -p 650950B193DDDDB35B6E48912DD28F7AB0E7140C1BFDEFD493348F02295BD812 --witness -c /data/java-stabila/config.conf
+java -jar FullNode.jar -p 650950B193DDDDB35B6E48912DD28F7AB0E7140C1BFDEFD493348F02295BD812 --witness -c config.conf
 
 ```
   

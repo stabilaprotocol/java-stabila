@@ -161,7 +161,7 @@ contract isTestCtr {
         + "be28970cd78b0d35de5d77570e139d9b760664736f6c637827302e352e392d646576656c6f702e3230313"
         + "92e372e31322b636f6d6d69742e36316637333630660057";
     long value = 0;
-    long fee = 100000000;
+    long fee = 10000000;
     long consumeUserResourcePercent = 0;
 
     // deploy contract

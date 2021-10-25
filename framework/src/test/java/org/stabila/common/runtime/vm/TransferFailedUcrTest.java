@@ -273,7 +273,7 @@ public class TransferFailedUcrTest extends VMTestBase {
         + "d5faea925dd9c04abcecf002617d6ec1440f1349c90029a165627a7a723058201f0cab76b7df6e1900e752"
         + "4fd40e9257a915692888b74c2e2e68df9d9a4a5a910029";
     long value = 100000;
-    long fee = 100000000;
+    long fee = 10000000;
     long consumeUserResourcePercent = 0;
 
     // deploy contract
@@ -345,7 +345,7 @@ public class TransferFailedUcrTest extends VMTestBase {
         + "029a165627a7a723058207a028d240821b50b5b91c64afed0a997bd46f353f5e8f374ee4823c19d0ed0130"
         + "029";
     long value = 100000;
-    long fee = 100000000;
+    long fee = 10000000;
     long consumeUserResourcePercent = 0;
 
     // deploy contract
@@ -376,7 +376,7 @@ public class TransferFailedUcrTest extends VMTestBase {
       throws ContractExeException, ReceiptCheckErrException, VMIllegalException,
       ContractValidateException {
     String hexInput = AbiUtil.parseMethod(testCase.getMethod(), testCase.getParams());
-    long fee = 100000000;
+    long fee = 10000000;
     long allUcr = 1000000;
     SVMTestResult result = SvmTestUtils
         .triggerContractAndReturnSvmTestResult(Hex.decode(OWNER_ADDRESS),

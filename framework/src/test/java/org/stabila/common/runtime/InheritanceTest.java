@@ -108,7 +108,7 @@ public class InheritanceTest {
             + "000000000000000815250905090565b60008054905090565b60005481565b600060649050905600a165"
             + "627a7a72305820dfe79cf7f4a8a342b754cad8895b13f85de7daa11803925cf392263397653e7f0029";
     long value = 0;
-    long fee = 100000000;
+    long fee = 10000000;
     long consumeUserResourcePercent = 0;
 
     byte[] contractAddress = SvmTestUtils

@@ -30,7 +30,7 @@ public class StabilaDice {
       .getString("foundationAccount.key1");
   private final byte[] fromAddress = PublicMethed.getFinalAddress(testKey002);
   byte[] contractAddress;
-  Long maxFeeLimit = 1000000000L;
+  Long maxFeeLimit  = 15000000L;
   Optional<TransactionInfo> infoById = null;
   ECKey ecKey1 = new ECKey(Utils.getRandom());
   byte[] contract008Address = ecKey1.getAddress();
@@ -76,7 +76,7 @@ public class StabilaDice {
     String abi = Configuration.getByPath("testng.conf")
         .getString("abi.abi_StabilaDice_stabilaDice");
     byte[] contractAddress = PublicMethed.deployContract(contractName, abi, code, "",
-        maxFeeLimit, 1000000000L, 100, null, stabilaDiceKey, stabilaDiceAddress, blockingStubFull);
+        maxFeeLimit , 10000000L, 100, null, stabilaDiceKey, stabilaDiceAddress, blockingStubFull);
     SmartContract smartContract = PublicMethed.getContract(contractAddress, blockingStubFull);
     try {
       Thread.sleep(10000);
@@ -92,7 +92,7 @@ public class StabilaDice {
       String initParmes = "\"" + "10" + "\"";
       txid = PublicMethed.triggerContract(contractAddress,
           "rollDice(uint256)", initParmes, false,
-          1000000, maxFeeLimit, stabilaDiceAddress, stabilaDiceKey, blockingStubFull);
+          1000000, maxFeeLimit , stabilaDiceAddress, stabilaDiceKey, blockingStubFull);
       logger.info(txid);
       txidList.add(txid);
 

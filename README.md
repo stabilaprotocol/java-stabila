@@ -1,20 +1,15 @@
 <h1 align="center">
   <br>
-  <img width=20% src="https://github.com/stabilaprotocol/wiki/blob/master/images/java-stabila.jpg?raw=true">
-  <br>
-  java-stabila
+  <img width=15% src="https://cdn.rawgit.com/stabilaprotocol/wiki/master/images/s2icon-w.svg">
   <br>
 </h1>
 
 <h4 align="center">
-  Java implementation of the <a href="https://stabila.network">Stabila Protocol</a>
+  Java implementation of the <a href="https://stabilascan.org">Stabila Blockchain</a>
 </h4>
 
 
 <p align="center">
-  <a href="https://gitter.im/stabilaprotocol/allcoredev">
-    <img src="https://camo.githubusercontent.com/da2edb525cde1455a622c58c0effc3a90b9a181c/68747470733a2f2f6261646765732e6769747465722e696d2f4a6f696e253230436861742e737667">
-  </a>
 
   <a href="https://travis-ci.com/stabilaprotocol/java-stabila">
     <img src="https://travis-ci.com/stabilaprotocol/java-stabila.svg?branch=develop">
@@ -52,17 +47,29 @@
 
 ## What's STABILA?
 
-STABILA is a project dedicated to building the infrastructure for a truly decentralized Internet.
+STABILA is a project dedicated to building the infrastructure for a truly decentralized financial system.
 
-* Stabila Protocol, one of the largest blockchain-based operating systems in the world, offers scalable, high-availability and high-throughput support that underlies all the decentralized applications in the STABILA ecosystem.
+* Stabila Protocol offers scalable, high-availability and high-throughput support that underlies all the decentralized applications in the STABILA ecosystem.
 
-* Stabila Virtual Machine (SVM) allows anyone to develop decentralized applications (DAPPs) for themselves or their communities with smart contracts thereby making decentralized crowdfunding and token issuance easier than ever.
+* Stabila Virtual Machine (SVM) allows anyone to develop decentralized applications (DAPPs) for themselves with smart contracts thereby making decentralized crowdfunding and token issuance easier than ever.
 
-STABILA enables large-scale development and engagement. With over 2000 transactions per second (TPS), high concurrency, low latency, and massive data transmission. It is ideal for building decentralized entertainment applications. Free features and incentive systems allow developers to create premium app experiences for users.
+* STABILA enables large-scale development and engagement.
 
-# Quick Start
-This guide walks the user through the STABILA Quickstart (v2.0.0) image setup.
-[STABILA Quick Start](./quickstart.md)
+* Speed: over 2000 transactions per second (TPS)
+
+* High concurrency, low latency, and massive data transmission.
+
+* It is ideal for building decentralized financial applications.
+
+* Free features and incentive systems allow developers to create premium app experiences for users.
+
+# Quick Start 
+/Under Construction. Please do not use this method/. 
+
+This guide walks the user through the STABILA Quickstart image setup.
+[STABILA Quick Start](./quickstart.md) 
+
+/Under Construction Please do not use this method/
 
 # Deploy
 * [Build](./build.md) Please build java-stabila after cloning the project
@@ -70,7 +77,7 @@ This guide walks the user through the STABILA Quickstart (v2.0.0) image setup.
 
 # Deployment
 [Deployment Guide](https://stabilaprotocol.github.io/documentation-en/developers/deployment/)
- walks the user through how to deploy a FullNode and an SR node.
+walks the user through how to deploy a FullNode and an SR node.
 
 # Channel
 [Stabila Developers & SRs](https://discord.gg/hqKvyAM) is Stabila's official Discord channel. Feel free to join this channel if you have any questions.

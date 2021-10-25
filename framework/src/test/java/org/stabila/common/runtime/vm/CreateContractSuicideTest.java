@@ -119,7 +119,7 @@ contract D {
 
 
   long value = 100;
-  long fee = 1000000000;
+  long fee = 100000000;
   long consumeUserResourcePercent = 0;
   long engeryLimit = 1000000000;
 

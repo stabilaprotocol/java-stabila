@@ -88,7 +88,7 @@ public class UcrWhenRequireStyleTest {
       VMIllegalException {
 
     long value = 0;
-    long feeLimit = 1_000_000_000L; // unit
+    long feeLimit = 15_000_000L; // unit
     long consumeUserResourcePercent = 100;
 
     String contractName = "test";
@@ -105,7 +105,7 @@ public class UcrWhenRequireStyleTest {
         .deployContractAndReturnSvmTestResult(contractName, address, ABI, code, value, feeLimit,
             consumeUserResourcePercent, libraryAddressPair, dbManager, null);
 
-    long expectUcrUsageTotal = 26275;
+    long expectUcrUsageTotal = 8701;
     Assert.assertEquals(result.getReceipt().getUcrUsageTotal(), expectUcrUsageTotal);
     Assert.assertEquals(dbManager.getAccountStore().get(address).getBalance(),
         totalBalance - expectUcrUsageTotal * 100);
@@ -141,7 +141,7 @@ public class UcrWhenRequireStyleTest {
       VMIllegalException {
 
     long value = 0;
-    long feeLimit = 1_000_000_000L; // unit
+    long feeLimit = 15_000_000L; // unit
     long consumeUserResourcePercent = 100;
 
     String contractName = "test";
@@ -158,7 +158,7 @@ public class UcrWhenRequireStyleTest {
         .deployContractAndReturnSvmTestResult(contractName, address, ABI, code, value, feeLimit,
             consumeUserResourcePercent, libraryAddressPair, dbManager, null);
 
-    long expectUcrUsageTotal = 26275;
+    long expectUcrUsageTotal = 8701;
     Assert.assertEquals(result.getReceipt().getUcrUsageTotal(), expectUcrUsageTotal);
     Assert.assertEquals(dbManager.getAccountStore().get(address).getBalance(),
         totalBalance - expectUcrUsageTotal * 100);
@@ -199,7 +199,7 @@ public class UcrWhenRequireStyleTest {
       VMIllegalException {
 
     long value = 0;
-    long feeLimit = 1_000_000_000L; // unit
+    long feeLimit = 15_000_000L; // unit
     long consumeUserResourcePercent = 100;
 
     String contractName = "test";
@@ -222,7 +222,7 @@ public class UcrWhenRequireStyleTest {
         .deployContractAndReturnSvmTestResult(contractName, address, ABI, code, value, feeLimit,
             consumeUserResourcePercent, libraryAddressPair, dbManager, null);
 
-    long expectUcrUsageTotal = 57905;
+    long expectUcrUsageTotal = 19139;
     Assert.assertEquals(result.getReceipt().getUcrUsageTotal(), expectUcrUsageTotal);
     Assert.assertEquals(dbManager.getAccountStore().get(address).getBalance(),
         totalBalance - expectUcrUsageTotal * 100);
@@ -273,7 +273,7 @@ public class UcrWhenRequireStyleTest {
       VMIllegalException {
 
     long value = 0;
-    long feeLimit = 1_000_000_000L; // unit
+    long feeLimit = 15_000_000L; // unit
     long consumeUserResourcePercent = 100;
 
     String contractName = "test";
@@ -299,7 +299,7 @@ public class UcrWhenRequireStyleTest {
         .deployContractAndReturnSvmTestResult(contractName, address, ABI, code, value, feeLimit,
             consumeUserResourcePercent, libraryAddressPair, dbManager, null);
 
-    long expectUcrUsageTotal = 97341;
+    long expectUcrUsageTotal = 32153;
     Assert.assertEquals(result.getReceipt().getUcrUsageTotal(), expectUcrUsageTotal);
     Assert.assertEquals(dbManager.getAccountStore().get(address).getBalance(),
         totalBalance - expectUcrUsageTotal * 100);
@@ -342,7 +342,7 @@ public class UcrWhenRequireStyleTest {
       VMIllegalException {
 
     long value = 0;
-    long feeLimit = 1_000_000_000L; // unit
+    long feeLimit = 15_000_000L; // unit
     long consumeUserResourcePercent = 100;
 
     String contractName = "test";
@@ -361,7 +361,7 @@ public class UcrWhenRequireStyleTest {
         .deployContractAndReturnSvmTestResult(contractName, address, ABI, code, value, feeLimit,
             consumeUserResourcePercent, libraryAddressPair, dbManager, null);
 
-    long expectUcrUsageTotal = 42687;
+    long expectUcrUsageTotal = 14117;
     Assert.assertEquals(result.getReceipt().getUcrUsageTotal(), expectUcrUsageTotal);
     Assert.assertEquals(dbManager.getAccountStore().get(address).getBalance(),
         totalBalance - expectUcrUsageTotal * 100);
@@ -411,7 +411,7 @@ public class UcrWhenRequireStyleTest {
       VMIllegalException {
 
     long value = 10;
-    long feeLimit = 1_000_000_000L; // unit
+    long feeLimit = 15_000_000L; // unit
     long consumeUserResourcePercent = 100;
 
     String contractName = "test";
@@ -438,7 +438,7 @@ public class UcrWhenRequireStyleTest {
         .deployContractAndReturnSvmTestResult(contractName, address, ABI, code, value, feeLimit,
             consumeUserResourcePercent, libraryAddressPair, dbManager, null);
 
-    long expectUcrUsageTotal = 42;
+    long expectUcrUsageTotal = 36;
     Assert.assertEquals(result.getReceipt().getUcrUsageTotal(), expectUcrUsageTotal);
     Assert.assertEquals(result.getRuntime().getResult().isRevert(), true);
     Assert.assertTrue(result.getRuntime().getResult().getException() == null);
@@ -496,7 +496,7 @@ public class UcrWhenRequireStyleTest {
       VMIllegalException {
 
     long value = 0;
-    long feeLimit = 1_000_000_000L; // unit
+    long feeLimit = 15_000_000L; // unit
     long consumeUserResourcePercent = 100;
 
     String contractName = "test";
@@ -517,7 +517,7 @@ public class UcrWhenRequireStyleTest {
         .deployContractAndReturnSvmTestResult(contractName, address, ABI, code, value, feeLimit,
             consumeUserResourcePercent, libraryAddressPair, dbManager, null);
 
-    long expectUcrUsageTotal = 36481;
+    long expectUcrUsageTotal = 12069;
     Assert.assertEquals(result.getReceipt().getUcrUsageTotal(), expectUcrUsageTotal);
     Assert.assertEquals(dbManager.getAccountStore().get(address).getBalance(),
         totalBalance - expectUcrUsageTotal * 100);

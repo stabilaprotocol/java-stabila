@@ -85,7 +85,7 @@ public class UcrWhenTimeoutStyleTest {
       VMIllegalException {
 
     long value = 0;
-    long feeLimit = 1000_000_000L;
+    long feeLimit = 15_000_000L;
     byte[] address = Hex.decode(OWNER_ADDRESS);
     long consumeUserResourcePercent = 0;
     SVMTestResult result = deployEndlessLoopContract(value, feeLimit,

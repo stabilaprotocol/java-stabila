@@ -1,9 +1,15 @@
+<h1 align="center">
+  <br>
+  <img width=15% src="https://cdn.rawgit.com/stabilaprotocol/wiki/master/images/s2icon-w.svg">
+  <br>
+</h1>
+
 # How to Build
 
 ## Prepare dependencies
 
 * JDK 1.8 (JDK 1.9+ are not supported yet)
-* On Linux Ubuntu system (e.g. Ubuntu 16.04.4 LTS), ensure that the machine has [__Oracle JDK 8__](https://www.digitalocean.com/community/tutorials/how-to-install-java-with-apt-get-on-ubuntu-16-04), instead of having __Open JDK 8__ in the system. If you are building the source code by using __Open JDK 8__, you will get [__Build Failed__](https://github.com/stabilaprotocol/java-stabila/issues/337) result.
+* On Linux Ubuntu system (e.g. Ubuntu 16.04.4 LTS), ensure that the machine has [__Oracle JDK 8__](https://www.digitalocean.com/community/tutorials/how-to-install-java-with-apt-get-on-ubuntu-16-04), instead of having __Open JDK 8__ in the system. If you are building the source code by using __Open JDK 8__, you will get Build Failed.
 * Open **UDP** ports for connection to the network
 * **MINIMUM** 2 CPU Cores
 

@@ -313,7 +313,7 @@ public class TransferToAccountTest {
         + "0029";
 
     long value = 1000;
-    long feeLimit = 100000000;
+    long feeLimit = 10000000;
     long consumeUserResourcePercent = 0;
     long tokenValue = 100;
     long tokenId = id;

@@ -92,12 +92,12 @@ public class UcrWhenSendAndTransferTest {
       VMIllegalException {
 
     long value = 10000000L;
-    long feeLimit = 1000_000_000L; // unit
+    long feeLimit = 15_000_000L; // unit
     long consumeUserResourcePercent = 100;
     byte[] address = Hex.decode(OWNER_ADDRESS);
     SVMTestResult result = deployCallValueTestContract(value, feeLimit, consumeUserResourcePercent);
 
-    long expectUcrUsageTotal = 174639;
+    long expectUcrUsageTotal = 368;
     Assert.assertEquals(result.getReceipt().getUcrUsageTotal(), expectUcrUsageTotal);
     byte[] contractAddress = result.getContractAddress();
     Assert.assertEquals(deposit.getAccount(contractAddress).getBalance(), value);
@@ -167,13 +167,13 @@ public class UcrWhenSendAndTransferTest {
       VMIllegalException {
 
     long value = 1000L;
-    long feeLimit = 1000_000_000L; // unit
+    long feeLimit = 15_000_000L; // unit
     long consumeUserResourcePercent = 100;
     byte[] address = Hex.decode(OWNER_ADDRESS);
     SVMTestResult result = deploySendAndTransferTestContract(value, feeLimit,
         consumeUserResourcePercent);
 
-    long expectUcrUsageTotal = 140194;
+    long expectUcrUsageTotal = 368;
     Assert.assertEquals(result.getReceipt().getUcrUsageTotal(), expectUcrUsageTotal);
     byte[] contractAddress = result.getContractAddress();
     Assert.assertEquals(deposit.getAccount(contractAddress).getBalance(), value);
@@ -202,7 +202,7 @@ public class UcrWhenSendAndTransferTest {
 
     long value = 1000L;
     // long value = 10000000L;
-    long feeLimit = 1000_000_000L; // unit
+    long feeLimit = 15_000_000L; // unit
     long consumeUserResourcePercent = 100;
     byte[] address = Hex.decode(OWNER_ADDRESS);
     SVMTestResult result = deploySendAndTransferTestContract(value, feeLimit,

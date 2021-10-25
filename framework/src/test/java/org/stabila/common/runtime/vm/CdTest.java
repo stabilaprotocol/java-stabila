@@ -112,7 +112,7 @@ public class CdTest {
       + "4736f6c63430005100031";
 
   private static final long value = 100_000_000_000_000_000L;
-  private static final long fee = 1_000_000_000;
+  private static final long fee = 10_000_000;
   private static final String userAStr = "27k66nycZATHzBasFT9782nTsYWqVtxdtAc";
   private static final byte[] userA = Commons.decode58Check(userAStr);
   private static final String userBStr = "27jzp7nVEkH4Hf3H1PHPp4VDY7DxTy5eydL";
