@@ -121,7 +121,7 @@ public class ExchangeCreateActuator extends AbstractActuator {
       if (dynamicStore.supportBlackHoleOptimization()) {
         dynamicStore.burnStb(fee);
       } else {
-        Commons.adjustBalance(accountStore, accountStore.getBlackhole(), fee);
+        Commons.adjustBalance(accountStore, accountStore.getUnit(), fee);
       }
       ret.setExchangeId(id);
       ret.setStatus(fee, code.SUCESS);

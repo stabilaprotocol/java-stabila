@@ -126,7 +126,7 @@ public class MarketSellAssetActuator extends AbstractActuator {
       if (dynamicStore.supportBlackHoleOptimization()) {
         dynamicStore.burnStb(fee);
       } else {
-        Commons.adjustBalance(accountStore, accountStore.getBlackhole(), fee);
+        Commons.adjustBalance(accountStore, accountStore.getUnit(), fee);
       }
       // 1. transfer of balance
       transferBalanceOrToken(accountCapsule);
