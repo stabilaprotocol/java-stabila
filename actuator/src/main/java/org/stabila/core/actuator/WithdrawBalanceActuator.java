@@ -15,7 +15,6 @@ import org.stabila.common.utils.DecodeUtil;
 import org.stabila.common.utils.StringUtil;
 import org.stabila.core.capsule.AccountCapsule;
 import org.stabila.core.capsule.TransactionResultCapsule;
-import org.stabila.core.capsule.WitnessCapsule;
 import org.stabila.core.exception.ContractExeException;
 import org.stabila.core.exception.ContractValidateException;
 import org.stabila.core.service.MortgageService;
@@ -110,10 +109,9 @@ public class WithdrawBalanceActuator extends AbstractActuator {
 
     String readableOwnerAddress = StringUtil.createReadableString(ownerAddress);
 
-    //boolean isGP = CommonParameter.getInstance()
-    //    .getGenesisBlock().getWitnesses().stream().anyMatch(witness ->
-    //        Arrays.equals(ownerAddress, witness.getAddress()));
-    boolean isGP = chainBaseManager.getWitnessStore().getAllWitnesses().stream().anyMatch(WitnessCapsule::getIsJobs);
+    boolean isGP = CommonParameter.getInstance()
+        .getGenesisBlock().getWitnesses().stream().anyMatch(witness ->
+            Arrays.equals(ownerAddress, witness.getAddress()));
     if (isGP) {
       throw new ContractValidateException(
           ACCOUNT_EXCEPTION_STR + readableOwnerAddress

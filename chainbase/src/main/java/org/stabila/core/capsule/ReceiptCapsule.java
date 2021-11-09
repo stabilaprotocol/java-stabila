@@ -222,7 +222,7 @@ public class ReceiptCapsule {
         dynamicPropertiesStore.burnStb(ucrFee);
       } else {
         //send to blackHole
-        Commons.adjustBalance(accountStore, accountStore.getUnit(),
+        Commons.adjustBalance(accountStore, accountStore.getBlackhole(),
             ucrFee);
       }
 

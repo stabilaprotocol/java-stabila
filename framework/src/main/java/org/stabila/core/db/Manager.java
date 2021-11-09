@@ -743,7 +743,7 @@ public class Manager {
             if (getDynamicPropertiesStore().supportBlackHoleOptimization()) {
               getDynamicPropertiesStore().burnStb(fee);
             } else {
-              adjustBalance(getAccountStore(), this.getAccountStore().getUnit(), +fee);
+              adjustBalance(getAccountStore(), this.getAccountStore().getBlackhole(), +fee);
             }
           }
         } catch (BalanceInsufficientException e) {

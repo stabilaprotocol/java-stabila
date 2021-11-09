@@ -9,7 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.stabila.common.parameter.CommonParameter;
 import org.stabila.common.utils.StringUtil;
 import org.stabila.core.capsule.AccountCapsule;
-import org.stabila.core.capsule.WitnessCapsule;
 import org.stabila.core.exception.ContractExeException;
 import org.stabila.core.exception.ContractValidateException;
 import org.stabila.core.vm.nativecontract.param.WithdrawRewardParam;
@@ -26,10 +25,9 @@ public class WithdrawRewardProcessor {
 
     byte[] ownerAddress = param.getOwnerAddress();
 
-    //boolean isGP = CommonParameter.getInstance()
-    //    .getGenesisBlock().getWitnesses().stream().anyMatch(witness ->
-    //        Arrays.equals(ownerAddress, witness.getAddress()));
-    boolean isGP = repo.getWitnessStore().getAllWitnesses().stream().anyMatch(WitnessCapsule::getIsJobs);
+    boolean isGP = CommonParameter.getInstance()
+        .getGenesisBlock().getWitnesses().stream().anyMatch(witness ->
+            Arrays.equals(ownerAddress, witness.getAddress()));
     if (isGP) {
       throw new ContractValidateException(
           ACCOUNT_EXCEPTION_STR + StringUtil.encode58Check(ownerAddress)

@@ -145,7 +145,7 @@ public class WitnessCreateActuator extends AbstractActuator {
     if (dynamicStore.supportBlackHoleOptimization()) {
       dynamicStore.burnStb(cost);
     } else {
-      Commons.adjustBalance(accountStore, accountStore.getUnit(), +cost);
+      Commons.adjustBalance(accountStore, accountStore.getBlackhole(), +cost);
     }
     dynamicStore.addTotalCreateWitnessCost(cost);
   }
