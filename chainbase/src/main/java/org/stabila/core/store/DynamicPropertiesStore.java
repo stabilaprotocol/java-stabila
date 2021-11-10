@@ -972,7 +972,7 @@ public class DynamicPropertiesStore extends StabilaStoreWithRevoking<BytesCapsul
     return Optional.ofNullable(getUnchecked(WITNESS_127_PAY_PER_BLOCK))
         .map(BytesCapsule::getData)
         .map(ByteArray::toLong)
-        .orElse(2217142L);
+        .orElse(2000L);
   }
 
   public void saveWitnessStandbyAllowance(long allowance) {

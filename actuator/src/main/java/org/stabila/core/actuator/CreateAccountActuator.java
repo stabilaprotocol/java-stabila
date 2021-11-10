@@ -52,7 +52,7 @@ public class CreateAccountActuator extends AbstractActuator {
       if (dynamicStore.supportBlackHoleOptimization()) {
         dynamicStore.burnStb(fee);
       } else {
-        Commons.adjustBalance(accountStore, accountStore.getUnit(), fee);
+        Commons.adjustBalance(accountStore, accountStore.getBlackhole(), fee);
       }
       ret.setStatus(fee, code.SUCESS);
     } catch (BalanceInsufficientException | InvalidProtocolBufferException e) {
