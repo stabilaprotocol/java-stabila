@@ -65,7 +65,7 @@ public class MortgageService {
       witnessAddressList = witnessAddressList.subList(0, ChainConstant.WITNESS_STANDBY_LENGTH);
     }
     long voteSum = 0;
-    long totalPay = dynamicPropertiesStore.getWitness127PayPerBlock();
+    long totalPay = dynamicPropertiesStore.getWitness100PayPerBlock();
     for (ByteString b : witnessAddressList) {
       voteSum += witnessCapsuleMap.get(b).getVoteCount();
     }

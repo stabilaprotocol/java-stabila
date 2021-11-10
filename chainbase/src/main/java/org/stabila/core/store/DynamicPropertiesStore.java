@@ -60,7 +60,7 @@ public class DynamicPropertiesStore extends StabilaStoreWithRevoking<BytesCapsul
 
   private static final byte[] WITNESS_PAY_PER_BLOCK = "WITNESS_PAY_PER_BLOCK".getBytes();
 
-  private static final byte[] WITNESS_127_PAY_PER_BLOCK = "WITNESS_127_PAY_PER_BLOCK".getBytes();
+  private static final byte[] WITNESS_100_PAY_PER_BLOCK = "WITNESS_100_PAY_PER_BLOCK".getBytes();
 
   private static final byte[] WITNESS_STANDBY_ALLOWANCE = "WITNESS_STANDBY_ALLOWANCE".getBytes();
   private static final byte[] UCR_FEE = "UCR_FEE".getBytes();
@@ -962,17 +962,17 @@ public class DynamicPropertiesStore extends StabilaStoreWithRevoking<BytesCapsul
             () -> new IllegalArgumentException("not found WITNESS_PAY_PER_BLOCK"));
   }
 
-  public void saveWitness127PayPerBlock(long pay) {
-    logger.debug("WITNESS_127_PAY_PER_BLOCK:" + pay);
-    this.put(WITNESS_127_PAY_PER_BLOCK,
+  public void saveWitness100PayPerBlock(long pay) {
+    logger.debug("WITNESS_100_PAY_PER_BLOCK:" + pay);
+    this.put(WITNESS_100_PAY_PER_BLOCK,
         new BytesCapsule(ByteArray.fromLong(pay)));
   }
 
-  public long getWitness127PayPerBlock() {
-    return Optional.ofNullable(getUnchecked(WITNESS_127_PAY_PER_BLOCK))
+  public long getWitness100PayPerBlock() {
+    return Optional.ofNullable(getUnchecked(WITNESS_100_PAY_PER_BLOCK))
         .map(BytesCapsule::getData)
         .map(ByteArray::toLong)
-        .orElse(2000L);
+        .orElse(100000L);
   }
 
   public void saveWitnessStandbyAllowance(long allowance) {
