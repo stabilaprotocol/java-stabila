@@ -7,7 +7,7 @@ import org.stabila.core.store.DelegationStore;
 import org.stabila.core.store.DynamicPropertiesStore;
 import org.stabila.common.runtime.vm.DataWord;
 import org.stabila.core.capsule.*;
-import org.stabila.core.store.WitnessStore;
+import org.stabila.core.store.*;
 import org.stabila.core.vm.program.Storage;
 import org.stabila.protos.Protocol;
 
