@@ -29,7 +29,7 @@ public class WithdrawRewardProcessor {
     //boolean isGP = CommonParameter.getInstance()
     //    .getGenesisBlock().getWitnesses().stream().anyMatch(witness ->
     //        Arrays.equals(ownerAddress, witness.getAddress()));
-    boolean isGP = repo.getWitnessStore().getAllWitnesses().stream().anyMatch(WitnessCapsule::getIsJobs);
+    boolean isGP = repo.getWitnessStore().getAllWitnesses().stream().filter(WitnessCapsule::getIsJobs).anyMatch(wc -> Arrays.equals(wc.getAddress().toByteArray(), ownerAddress));
     if (isGP) {
       throw new ContractValidateException(
           ACCOUNT_EXCEPTION_STR + StringUtil.encode58Check(ownerAddress)

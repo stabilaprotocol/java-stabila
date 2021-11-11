@@ -113,7 +113,7 @@ public class WithdrawBalanceActuator extends AbstractActuator {
     //boolean isGP = CommonParameter.getInstance()
     //    .getGenesisBlock().getWitnesses().stream().anyMatch(witness ->
     //        Arrays.equals(ownerAddress, witness.getAddress()));
-    boolean isGP = chainBaseManager.getWitnessStore().getAllWitnesses().stream().anyMatch(WitnessCapsule::getIsJobs);
+    boolean isGP = chainBaseManager.getWitnessStore().getAllWitnesses().stream().filter(WitnessCapsule::getIsJobs).anyMatch(wc -> Arrays.equals(wc.getAddress().toByteArray(), ownerAddress));
     if (isGP) {
       throw new ContractValidateException(
           ACCOUNT_EXCEPTION_STR + readableOwnerAddress
