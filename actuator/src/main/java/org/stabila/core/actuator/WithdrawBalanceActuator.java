@@ -11,11 +11,13 @@ import java.util.Arrays;
 import java.util.Objects;
 import lombok.extern.slf4j.Slf4j;
 import org.stabila.common.parameter.CommonParameter;
+import org.stabila.common.utils.Commons;
 import org.stabila.common.utils.DecodeUtil;
 import org.stabila.common.utils.StringUtil;
 import org.stabila.core.capsule.AccountCapsule;
 import org.stabila.core.capsule.TransactionResultCapsule;
 import org.stabila.core.capsule.WitnessCapsule;
+import org.stabila.core.exception.BalanceInsufficientException;
 import org.stabila.core.exception.ContractExeException;
 import org.stabila.core.exception.ContractValidateException;
 import org.stabila.core.service.MortgageService;
@@ -61,6 +63,12 @@ public class WithdrawBalanceActuator extends AbstractActuator {
     long allowance = accountCapsule.getAllowance();
 
     long now = dynamicStore.getLatestBlockHeaderTimestamp();
+    try {
+      Commons.adjustBalance(accountStore, accountStore.getStabila(), -allowance);
+    } catch (BalanceInsufficientException e) {
+      throw new ContractExeException(
+              "Adjusting genesis account balance failed");
+    }
     accountCapsule.setInstance(accountCapsule.getInstance().toBuilder()
         .setBalance(oldBalance + allowance)
         .setAllowance(0L)

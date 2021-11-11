@@ -266,6 +266,11 @@ public class ContractState implements Repository, ProgramListenerAware {
   }
 
   @Override
+  public AccountStore getAccountStore() {
+    return repository.getAccountStore();
+  }
+
+  @Override
   public VotesCapsule getVotes(byte[] address) {
     return repository.getVotes(address);
   }

@@ -146,8 +146,8 @@ public class AccountStore extends StabilaStoreWithRevoking<AccountCapsule> {
   /**
    * Get foundation account info.
    */
-  public AccountCapsule getZion() {
-    return getUnchecked(assertsAddress.get("Zion"));
+  public AccountCapsule getStabila() {
+    return getUnchecked(assertsAddress.get("Stabila"));
   }
 
 

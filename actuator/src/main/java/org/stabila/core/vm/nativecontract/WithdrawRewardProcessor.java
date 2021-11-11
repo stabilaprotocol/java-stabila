@@ -7,9 +7,11 @@ import com.google.common.math.LongMath;
 import java.util.Arrays;
 import lombok.extern.slf4j.Slf4j;
 import org.stabila.common.parameter.CommonParameter;
+import org.stabila.common.utils.Commons;
 import org.stabila.common.utils.StringUtil;
 import org.stabila.core.capsule.AccountCapsule;
 import org.stabila.core.capsule.WitnessCapsule;
+import org.stabila.core.exception.BalanceInsufficientException;
 import org.stabila.core.exception.ContractExeException;
 import org.stabila.core.exception.ContractValidateException;
 import org.stabila.core.vm.nativecontract.param.WithdrawRewardParam;
@@ -46,6 +48,13 @@ public class WithdrawRewardProcessor {
     long oldBalance = accountCapsule.getBalance();
     long allowance = accountCapsule.getAllowance();
     long newBalance = 0;
+
+    try {
+      Commons.adjustBalance(repo.getAccountStore(), repo.getAccountStore().getStabila(), -allowance);
+    } catch (BalanceInsufficientException e) {
+      throw new ContractExeException(
+              "Adjusting genesis account balance failed");
+    }
 
     try {
       newBalance = LongMath.checkedAdd(oldBalance, allowance);

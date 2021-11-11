@@ -25,6 +25,8 @@ public interface Repository {
 
   WitnessStore getWitnessStore();
 
+  AccountStore getAccountStore();
+
   AccountCapsule createAccount(byte[] address, Protocol.AccountType type);
 
   AccountCapsule createAccount(byte[] address, String accountName, Protocol.AccountType type);
