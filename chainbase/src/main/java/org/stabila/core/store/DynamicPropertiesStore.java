@@ -290,7 +290,7 @@ public class DynamicPropertiesStore extends StabilaStoreWithRevoking<BytesCapsul
     try {
       this.getWitnessStandbyAllowance();
     } catch (IllegalArgumentException e) {
-      this.saveWitnessStandbyAllowance(1_596_000_000L);
+      this.saveWitnessStandbyAllowance(0L);
     }
 
     try {
@@ -303,7 +303,7 @@ public class DynamicPropertiesStore extends StabilaStoreWithRevoking<BytesCapsul
     try {
       this.getAccountUpgradeCost();
     } catch (IllegalArgumentException e) {
-      this.saveAccountUpgradeCost(138_000_000L);
+      this.saveAccountUpgradeCost(1000_000_000L);
     }
 
     try {
@@ -333,7 +333,7 @@ public class DynamicPropertiesStore extends StabilaStoreWithRevoking<BytesCapsul
     try {
       this.getFreeNetLimit();
     } catch (IllegalArgumentException e) {
-      this.saveFreeNetLimit(1L);
+      this.saveFreeNetLimit(500L);
     }
 
     try {
@@ -431,13 +431,13 @@ public class DynamicPropertiesStore extends StabilaStoreWithRevoking<BytesCapsul
     try {
       this.getTransactionFee();
     } catch (IllegalArgumentException e) {
-      this.saveTransactionFee(20785L); // 10unit/byte
+      this.saveTransactionFee(40L); // 10unit/byte
     }
 
     try {
       this.getAssetIssueFee();
     } catch (IllegalArgumentException e) {
-      this.saveAssetIssueFee(14000000L);
+      this.saveAssetIssueFee(1000000000L);
     }
 
     try {
@@ -972,7 +972,7 @@ public class DynamicPropertiesStore extends StabilaStoreWithRevoking<BytesCapsul
     return Optional.ofNullable(getUnchecked(WITNESS_100_PAY_PER_BLOCK))
         .map(BytesCapsule::getData)
         .map(ByteArray::toLong)
-        .orElse(100000L);
+        .orElse(10972L);
   }
 
   public void saveWitnessStandbyAllowance(long allowance) {
