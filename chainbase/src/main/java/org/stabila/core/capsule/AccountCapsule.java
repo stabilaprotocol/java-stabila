@@ -218,15 +218,15 @@ public class AccountCapsule implements ProtoCapsule<Account>, Comparable<Account
     return active.build();
   }
 
-  public static Permission createDefaultWitnessPermission(ByteString address) {
+  public static Permission createDefaultExecutivePermission(ByteString address) {
     Key.Builder key = Key.newBuilder();
     key.setAddress(address);
     key.setWeight(1);
 
     Permission.Builder active = Permission.newBuilder();
-    active.setType(PermissionType.Witness);
+    active.setType(PermissionType.Executive);
     active.setId(1);
-    active.setPermissionName("witness");
+    active.setPermissionName("executive");
     active.setThreshold(1);
     active.setParentId(0);
     active.addKeys(key);
@@ -294,9 +294,9 @@ public class AccountCapsule implements ProtoCapsule<Account>, Comparable<Account
     this.account = this.account.toBuilder().setAccountId(ByteString.copyFrom(id)).build();
   }
 
-  public void setDefaultWitnessPermission(DynamicPropertiesStore dynamicPropertiesStore) {
+  public void setDefaultExecutivePermission(DynamicPropertiesStore dynamicPropertiesStore) {
     Builder builder = this.account.toBuilder();
-    Permission witness = createDefaultWitnessPermission(this.getAddress());
+    Permission executive = createDefaultExecutivePermission(this.getAddress());
     if (!this.account.hasOwnerPermission()) {
       Permission owner = createDefaultOwnerPermission(this.getAddress());
       builder.setOwnerPermission(owner);
@@ -305,14 +305,14 @@ public class AccountCapsule implements ProtoCapsule<Account>, Comparable<Account
       Permission active = createDefaultActivePermission(this.getAddress(), dynamicPropertiesStore);
       builder.addActivePermission(active);
     }
-    this.account = builder.setWitnessPermission(witness).build();
+    this.account = builder.setExecutivePermission(executive).build();
   }
 
-  public byte[] getWitnessPermissionAddress() {
-    if (this.account.getWitnessPermission().getKeysCount() == 0) {
+  public byte[] getExecutivePermissionAddress() {
+    if (this.account.getExecutivePermission().getKeysCount() == 0) {
       return getAddress().toByteArray();
     } else {
-      return this.account.getWitnessPermission().getKeys(0).getAddress().toByteArray();
+      return this.account.getExecutivePermission().getKeys(0).getAddress().toByteArray();
     }
   }
 
@@ -833,12 +833,12 @@ public class AccountCapsule implements ProtoCapsule<Account>, Comparable<Account
         .build();
   }
 
-  public boolean getIsWitness() {
-    return getInstance().getIsWitness();
+  public boolean getIsExecutive() {
+    return getInstance().getIsExecutive();
   }
 
-  public void setIsWitness(boolean isWitness) {
-    this.account = this.account.toBuilder().setIsWitness(isWitness).build();
+  public void setIsExecutive(boolean isExecutive) {
+    this.account = this.account.toBuilder().setIsExecutive(isExecutive).build();
   }
 
   public boolean getIsCommittee() {
@@ -1095,8 +1095,8 @@ public class AccountCapsule implements ProtoCapsule<Account>, Comparable<Account
       return getDefaultPermission(this.account.getAddress());
     }
     if (id == 1) {
-      if (this.account.hasWitnessPermission()) {
-        return this.account.getWitnessPermission();
+      if (this.account.hasExecutivePermission()) {
+        return this.account.getExecutivePermission();
       }
       return null;
     }
@@ -1108,13 +1108,13 @@ public class AccountCapsule implements ProtoCapsule<Account>, Comparable<Account
     return null;
   }
 
-  public void updatePermissions(Permission owner, Permission witness, List<Permission> actives) {
+  public void updatePermissions(Permission owner, Permission executive, List<Permission> actives) {
     Builder builder = this.account.toBuilder();
     owner = owner.toBuilder().setId(0).build();
     builder.setOwnerPermission(owner);
-    if (builder.getIsWitness()) {
-      witness = witness.toBuilder().setId(1).build();
-      builder.setWitnessPermission(witness);
+    if (builder.getIsExecutive()) {
+      executive = executive.toBuilder().setId(1).build();
+      builder.setExecutivePermission(executive);
     }
     builder.clearActivePermission();
     for (int i = 0; i < actives.size(); i++) {

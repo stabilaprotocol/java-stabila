@@ -23,7 +23,7 @@ import org.junit.Test;
 import org.stabila.core.Wallet;
 import org.stabila.common.args.Account;
 import org.stabila.common.args.GenesisBlock;
-import org.stabila.common.args.Witness;
+import org.stabila.common.args.Executive;
 import org.stabila.common.utils.ByteArray;
 
 public class GenesisBlockTest {
@@ -49,19 +49,19 @@ public class GenesisBlockTest {
 
     genesisBlock.setAssets(assets);
 
-    Witness witness = new Witness();
+    Executive executive = new Executive();
 
-    witness
+    executive
         .setAddress(ByteArray.fromHexString(
             Wallet.getAddressPreFixString() + "448d53b2df0cd78158f6f0aecdf60c1c10b15413"));
-    witness.setUrl("http://Uranus.org");
-    witness.setVoteCount(1000L);
+    executive.setUrl("http://Uranus.org");
+    executive.setVoteCount(1000L);
 
-    List<Witness> witnesses = new ArrayList<>();
+    List<Executive> executives = new ArrayList<>();
 
-    witnesses.add(witness);
+    executives.add(executive);
 
-    genesisBlock.setWitnesses(witnesses);
+    genesisBlock.setExecutives(executives);
 
     genesisBlock.setTimestamp("1");
     genesisBlock
@@ -73,7 +73,7 @@ public class GenesisBlockTest {
   public void getDefaultGenesisBlock() {
     GenesisBlock defaultGenesisBlock = GenesisBlock.getDefault();
     Assert.assertEquals(0, defaultGenesisBlock.getAssets().size());
-    Assert.assertEquals(0, defaultGenesisBlock.getWitnesses().size());
+    Assert.assertEquals(0, defaultGenesisBlock.getExecutives().size());
     Assert.assertEquals(GenesisBlock.DEFAULT_NUMBER, defaultGenesisBlock.getNumber());
     Assert.assertEquals(GenesisBlock.DEFAULT_TIMESTAMP, defaultGenesisBlock.getTimestamp());
     Assert.assertEquals(GenesisBlock.DEFAULT_PARENT_HASH, defaultGenesisBlock.getParentHash());
@@ -95,18 +95,18 @@ public class GenesisBlockTest {
   }
 
   @Test
-  public void setNullWitnesses() {
-    genesisBlock.setWitnesses(null);
-    Assert.assertEquals(0, genesisBlock.getWitnesses().size());
+  public void setNullExecutives() {
+    genesisBlock.setExecutives(null);
+    Assert.assertEquals(0, genesisBlock.getExecutives().size());
   }
 
   @Test
-  public void setWitnesses() {
-    List<Witness> witnesses = new ArrayList<>();
-    Witness witness = new Witness();
-    witnesses.add(witness);
-    genesisBlock.setWitnesses(witnesses);
-    Assert.assertEquals(1, genesisBlock.getWitnesses().size());
+  public void setExecutives() {
+    List<Executive> executives = new ArrayList<>();
+    Executive executive = new Executive();
+    executives.add(executive);
+    genesisBlock.setExecutives(executives);
+    Assert.assertEquals(1, genesisBlock.getExecutives().size());
   }
 
   @Test

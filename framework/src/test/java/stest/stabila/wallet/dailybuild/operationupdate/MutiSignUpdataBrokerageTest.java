@@ -28,9 +28,9 @@ public class MutiSignUpdataBrokerageTest {
   private final String testKey002 = Configuration.getByPath("testng.conf")
       .getString("foundationAccount.key1");
   private final byte[] fromAddress = PublicMethed.getFinalAddress(testKey002);
-  private final String witnessKey001 = Configuration.getByPath("testng.conf")
-      .getString("witness.key2");
-  private final byte[] witness001Address = PublicMethed.getFinalAddress(witnessKey001);
+  private final String executiveKey001 = Configuration.getByPath("testng.conf")
+      .getString("executive.key2");
+  private final byte[] executive001Address = PublicMethed.getFinalAddress(executiveKey001);
   private final String operations = Configuration.getByPath("testng.conf")
       .getString("defaultParameter.operations");
   String[] permissionKeyString = new String[2];
@@ -78,7 +78,7 @@ public class MutiSignUpdataBrokerageTest {
   public void testMutiSignForUpdateBrokerage() {
     long needcoin = updateAccountPermissionFee * 2 + multiSignFee * 5;
     Assert.assertTrue(PublicMethed
-        .sendcoin(witness001Address, needcoin + 1000000L, fromAddress, testKey002,
+        .sendcoin(executive001Address, needcoin + 1000000L, fromAddress, testKey002,
             blockingStubFull));
 
     ecKey1 = new ECKey(Utils.getRandom());
@@ -91,22 +91,22 @@ public class MutiSignUpdataBrokerageTest {
 
     PublicMethed.waitProduceNextBlock(blockingStubFull);
 
-    Long balanceBefore = PublicMethed.queryAccount(witness001Address, blockingStubFull)
+    Long balanceBefore = PublicMethed.queryAccount(executive001Address, blockingStubFull)
         .getBalance();
     logger.info("balanceBefore: " + balanceBefore);
 
     permissionKeyString[0] = manager1Key;
     permissionKeyString[1] = manager2Key;
     PublicMethed.waitProduceNextBlock(blockingStubFull);
-    ownerKeyString[0] = witnessKey001;
+    ownerKeyString[0] = executiveKey001;
     ownerKeyString[1] = testKey002;
 
     accountPermissionJson = "{\"owner_permission\":{\"type\":0,\"permission_name\":\"owner\""
         + ",\"threshold\":2,\"keys\":[{\"address\":\"" + PublicMethed
-        .getAddressString(witnessKey001) + "\"," + "\"weight\":1},{\"address\":\"" + PublicMethed
+        .getAddressString(executiveKey001) + "\"," + "\"weight\":1},{\"address\":\"" + PublicMethed
         .getAddressString(testKey002) + "\",\"weight\":1}]},"
-        + "\"witness_permission\":{\"type\":1,\"permission_name\":\"owner\",\"threshold\":1,"
-        + "\"keys\":[{\"address\":\"" + PublicMethed.getAddressString(witnessKey001)
+        + "\"executive_permission\":{\"type\":1,\"permission_name\":\"owner\",\"threshold\":1,"
+        + "\"keys\":[{\"address\":\"" + PublicMethed.getAddressString(executiveKey001)
         + "\",\"weight\":1}]},"
         + "\"active_permissions\":[{\"type\":2,\"permission_name\":\"active0\",\"threshold\":2,"
         + "\"operations\":\"7fff1fc0033e0300000000000000000000000000000000000000000000000000\","
@@ -115,7 +115,7 @@ public class MutiSignUpdataBrokerageTest {
         + "\",\"weight\":1}]}]} ";
     logger.info(accountPermissionJson);
     PublicMethedForMutiSign
-        .accountPermissionUpdate(accountPermissionJson, witness001Address, witnessKey001,
+        .accountPermissionUpdate(accountPermissionJson, executive001Address, executiveKey001,
             blockingStubFull, ownerKeyString);
 
     //Update brokerage
@@ -123,7 +123,7 @@ public class MutiSignUpdataBrokerageTest {
     PublicMethed.waitProduceNextBlock(blockingStubFull);
     PublicMethed.waitProduceNextBlock(blockingStubFull);
     Assert.assertTrue(PublicMethedForMutiSign
-        .updateBrokerage(witness001Address, 70, witnessKey001, 2, permissionKeyString,
+        .updateBrokerage(executive001Address, 70, executiveKey001, 2, permissionKeyString,
             blockingStubFull));
     PublicMethed.waitProduceNextBlock(blockingStubFull);
     PublicMethed.waitProduceNextBlock(blockingStubFull);
@@ -131,20 +131,20 @@ public class MutiSignUpdataBrokerageTest {
     // wait a MaintenanceTimeInterval
     accountPermissionJson = "{\"owner_permission\":{\"type\":0,\"permission_name\":\"owner\""
         + ",\"threshold\":1,\"keys\":[{\"address\":\"" + PublicMethed
-        .getAddressString(witnessKey001) + "\"," + "\"weight\":1}]},"
-        + "\"witness_permission\":{\"type\":1,\"permission_name\":\"owner\",\"threshold\":1,"
-        + "\"keys\":[{\"address\":\"" + PublicMethed.getAddressString(witnessKey001)
+        .getAddressString(executiveKey001) + "\"," + "\"weight\":1}]},"
+        + "\"executive_permission\":{\"type\":1,\"permission_name\":\"owner\",\"threshold\":1,"
+        + "\"keys\":[{\"address\":\"" + PublicMethed.getAddressString(executiveKey001)
         + "\",\"weight\":1}]},"
         + "\"active_permissions\":[{\"type\":2,\"permission_name\":\"active0\",\"threshold\":1,"
         + "\"operations\":\"7fff1fc0033e0300000000000000000000000000000000000000000000000000\","
-        + "\"keys\":[" + "{\"address\":\"" + PublicMethed.getAddressString(witnessKey001)
+        + "\"keys\":[" + "{\"address\":\"" + PublicMethed.getAddressString(executiveKey001)
         + "\",\"weight\":1}]}]} ";
     logger.info(accountPermissionJson);
     PublicMethedForMutiSign
-        .accountPermissionUpdate(accountPermissionJson, witness001Address, witnessKey001,
+        .accountPermissionUpdate(accountPermissionJson, executive001Address, executiveKey001,
             blockingStubFull, ownerKeyString);
 
-    Long balanceAfter = PublicMethed.queryAccount(witness001Address, blockingStubFull).getBalance();
+    Long balanceAfter = PublicMethed.queryAccount(executive001Address, blockingStubFull).getBalance();
     logger.info("balanceAfter: " + balanceAfter);
 
   }

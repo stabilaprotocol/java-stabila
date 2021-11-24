@@ -23,7 +23,7 @@ import org.stabila.protos.Protocol.Account;
 import org.stabila.protos.Protocol.Block;
 import org.stabila.protos.Protocol.Transaction;
 import org.stabila.protos.contract.BalanceContract;
-import org.stabila.protos.contract.WitnessContract;
+import org.stabila.protos.contract.ExecutiveContract;
 import stest.stabila.wallet.common.client.Configuration;
 import stest.stabila.wallet.common.client.Parameter.CommonConstant;
 import stest.stabila.wallet.common.client.WalletClient;
@@ -39,10 +39,10 @@ public class WalletTestAccount005 {
   private final String testKey003 = Configuration.getByPath("testng.conf")
       .getString("foundationAccount.key2");
   private final byte[] toAddress = PublicMethed.getFinalAddress(testKey003);
-  private final String notWitnessTestKey =
+  private final String notExecutiveTestKey =
       "8CB4480194192F30907E14B52498F594BD046E21D7C4D8FE866563A6760AC891";
 
-  private final byte[] notWitness = PublicMethed.getFinalAddress(notWitnessTestKey);
+  private final byte[] notExecutive = PublicMethed.getFinalAddress(notExecutiveTestKey);
 
   private ManagedChannel channelFull = null;
   private ManagedChannel searchChannelFull = null;
@@ -86,8 +86,8 @@ public class WalletTestAccount005 {
 
   @Test
   public void testWithdrawBalance() {
-    //Withdraw failed when you are not witness
-    Assert.assertFalse(withdrawBalance(notWitness, notWitnessTestKey));
+    //Withdraw failed when you are not executive
+    Assert.assertFalse(withdrawBalance(notExecutive, notExecutiveTestKey));
     //Due to it's hard to automation, withdraw balance success case is not automation,
     // please test by manual
     //Assert.assertTrue(WithdrawBalance(fromAddress,testKey002));
@@ -155,7 +155,7 @@ public class WalletTestAccount005 {
    * constructor.
    */
 
-  public Boolean voteWitness(HashMap<String, String> witness, byte[] address, String priKey) {
+  public Boolean voteExecutive(HashMap<String, String> executive, byte[] address, String priKey) {
 
     ECKey temKey = null;
     try {
@@ -171,14 +171,14 @@ public class WalletTestAccount005 {
       beforeVoteNum = beforeVote.getVotes(0).getVoteCount();
     }
 
-    WitnessContract.VoteWitnessContract.Builder builder = WitnessContract.VoteWitnessContract
+    ExecutiveContract.VoteExecutiveContract.Builder builder = ExecutiveContract.VoteExecutiveContract
         .newBuilder();
     builder.setOwnerAddress(ByteString.copyFrom(address));
-    for (String addressBase58 : witness.keySet()) {
-      String value = witness.get(addressBase58);
+    for (String addressBase58 : executive.keySet()) {
+      String value = executive.get(addressBase58);
       long count = Long.parseLong(value);
-      WitnessContract.VoteWitnessContract.Vote.Builder voteBuilder =
-          WitnessContract.VoteWitnessContract.Vote.newBuilder();
+      ExecutiveContract.VoteExecutiveContract.Vote.Builder voteBuilder =
+          ExecutiveContract.VoteExecutiveContract.Vote.newBuilder();
       byte[] addRess = WalletClient.decodeFromBase58Check(addressBase58);
       if (addRess == null) {
         continue;
@@ -188,9 +188,9 @@ public class WalletTestAccount005 {
       builder.addVotes(voteBuilder.build());
     }
 
-    WitnessContract.VoteWitnessContract contract = builder.build();
+    ExecutiveContract.VoteExecutiveContract contract = builder.build();
 
-    Transaction transaction = blockingStubFull.voteWitnessAccount(contract);
+    Transaction transaction = blockingStubFull.voteExecutiveAccount(contract);
     if (transaction == null || transaction.getRawData().getContractCount() == 0) {
       return false;
     }
@@ -202,10 +202,10 @@ public class WalletTestAccount005 {
     }
     Account afterVote = queryAccount(ecKey, searchBlockingStubFull);
     //Long afterVoteNum = afterVote.getVotes(0).getVoteCount();
-    for (String key : witness.keySet()) {
+    for (String key : executive.keySet()) {
       for (int j = 0; j < afterVote.getVotesCount(); j++) {
         if (key.equals(afterVote.getVotes(j).getVoteAddress())) {
-          Long afterVoteNum = Long.parseLong(witness.get(key));
+          Long afterVoteNum = Long.parseLong(executive.get(key));
           Assert.assertTrue(afterVoteNum == afterVote.getVotes(j).getVoteCount());
           logger.info("test equal vote");
         }

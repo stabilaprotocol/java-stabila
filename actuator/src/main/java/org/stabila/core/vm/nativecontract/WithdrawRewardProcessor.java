@@ -6,11 +6,10 @@ import static org.stabila.core.actuator.ActuatorConstant.STORE_NOT_EXIST;
 import com.google.common.math.LongMath;
 import java.util.Arrays;
 import lombok.extern.slf4j.Slf4j;
-import org.stabila.common.parameter.CommonParameter;
 import org.stabila.common.utils.Commons;
 import org.stabila.common.utils.StringUtil;
 import org.stabila.core.capsule.AccountCapsule;
-import org.stabila.core.capsule.WitnessCapsule;
+import org.stabila.core.capsule.ExecutiveCapsule;
 import org.stabila.core.exception.BalanceInsufficientException;
 import org.stabila.core.exception.ContractExeException;
 import org.stabila.core.exception.ContractValidateException;
@@ -29,9 +28,9 @@ public class WithdrawRewardProcessor {
     byte[] ownerAddress = param.getOwnerAddress();
 
     //boolean isGP = CommonParameter.getInstance()
-    //    .getGenesisBlock().getWitnesses().stream().anyMatch(witness ->
-    //        Arrays.equals(ownerAddress, witness.getAddress()));
-    boolean isGP = repo.getWitnessStore().getAllWitnesses().stream().filter(WitnessCapsule::getIsJobs).anyMatch(wc -> Arrays.equals(wc.getAddress().toByteArray(), ownerAddress));
+    //    .getGenesisBlock().getExecutives().stream().anyMatch(executive ->
+    //        Arrays.equals(ownerAddress, executive.getAddress()));
+    boolean isGP = repo.getExecutiveStore().getAllExecutives().stream().filter(ExecutiveCapsule::getIsJobs).anyMatch(wc -> Arrays.equals(wc.getAddress().toByteArray(), ownerAddress));
     if (isGP) {
       throw new ContractValidateException(
           ACCOUNT_EXCEPTION_STR + StringUtil.encode58Check(ownerAddress)

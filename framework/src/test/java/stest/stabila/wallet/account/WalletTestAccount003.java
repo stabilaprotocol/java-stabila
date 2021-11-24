@@ -26,7 +26,7 @@ import org.stabila.protos.Protocol.Account;
 import org.stabila.protos.Protocol.Block;
 import org.stabila.protos.contract.AssetIssueContractOuterClass;
 import org.stabila.protos.contract.BalanceContract;
-import org.stabila.protos.contract.WitnessContract;
+import org.stabila.protos.contract.ExecutiveContract;
 import stest.stabila.wallet.common.client.Configuration;
 import stest.stabila.wallet.common.client.Parameter.CommonConstant;
 import stest.stabila.wallet.common.client.WalletClient;
@@ -165,9 +165,9 @@ public class WalletTestAccount003 {
   }
 
   @Test(enabled = true)
-  public void test5NoBalanceCreateWitness() {
-    //Apply to be super witness failed when no enough balance.
-    Assert.assertFalse(createWitness(lowBalAddress, fromAddress, lowBalTest));
+  public void test5NoBalanceCreateExecutive() {
+    //Apply to be super executive failed when no enough balance.
+    Assert.assertFalse(createExecutive(lowBalAddress, fromAddress, lowBalTest));
   }
 
   @Test(enabled = true)
@@ -196,7 +196,7 @@ public class WalletTestAccount003 {
    * constructor.
    */
 
-  public Boolean createWitness(byte[] owner, byte[] url, String priKey) {
+  public Boolean createExecutive(byte[] owner, byte[] url, String priKey) {
     ECKey temKey = null;
     try {
       BigInteger priK = new BigInteger(priKey, 16);
@@ -206,12 +206,12 @@ public class WalletTestAccount003 {
     }
     final ECKey ecKey = temKey;
 
-    WitnessContract.WitnessCreateContract.Builder builder = WitnessContract.WitnessCreateContract
+    ExecutiveContract.ExecutiveCreateContract.Builder builder = ExecutiveContract.ExecutiveCreateContract
         .newBuilder();
     builder.setOwnerAddress(ByteString.copyFrom(owner));
     builder.setUrl(ByteString.copyFrom(url));
-    WitnessContract.WitnessCreateContract contract = builder.build();
-    Protocol.Transaction transaction = blockingStubFull.createWitness(contract);
+    ExecutiveContract.ExecutiveCreateContract contract = builder.build();
+    Protocol.Transaction transaction = blockingStubFull.createExecutive(contract);
     if (transaction == null || transaction.getRawData().getContractCount() == 0) {
       return false;
     }
@@ -386,7 +386,7 @@ public class WalletTestAccount003 {
    * constructor.
    */
 
-  public Boolean voteWitness(HashMap<String, String> witness, byte[] address, String priKey) {
+  public Boolean voteExecutive(HashMap<String, String> executive, byte[] address, String priKey) {
 
     ECKey temKey = null;
     try {
@@ -396,14 +396,14 @@ public class WalletTestAccount003 {
       ex.printStackTrace();
     }
     final ECKey ecKey = temKey;
-    WitnessContract.VoteWitnessContract.Builder builder = WitnessContract.VoteWitnessContract
+    ExecutiveContract.VoteExecutiveContract.Builder builder = ExecutiveContract.VoteExecutiveContract
         .newBuilder();
     builder.setOwnerAddress(ByteString.copyFrom(address));
-    for (String addressBase58 : witness.keySet()) {
-      String value = witness.get(addressBase58);
+    for (String addressBase58 : executive.keySet()) {
+      String value = executive.get(addressBase58);
       long count = Long.parseLong(value);
-      WitnessContract.VoteWitnessContract.Vote.Builder voteBuilder
-          = WitnessContract.VoteWitnessContract.Vote.newBuilder();
+      ExecutiveContract.VoteExecutiveContract.Vote.Builder voteBuilder
+          = ExecutiveContract.VoteExecutiveContract.Vote.newBuilder();
       byte[] addRess = WalletClient.decodeFromBase58Check(addressBase58);
       if (addRess == null) {
         return false;
@@ -413,9 +413,9 @@ public class WalletTestAccount003 {
       builder.addVotes(voteBuilder.build());
     }
 
-    WitnessContract.VoteWitnessContract contract = builder.build();
+    ExecutiveContract.VoteExecutiveContract contract = builder.build();
 
-    Protocol.Transaction transaction = blockingStubFull.voteWitnessAccount(contract);
+    Protocol.Transaction transaction = blockingStubFull.voteExecutiveAccount(contract);
     if (transaction == null || transaction.getRawData().getContractCount() == 0) {
       logger.info("transaction == null");
       return false;

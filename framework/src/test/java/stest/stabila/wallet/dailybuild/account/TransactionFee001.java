@@ -43,12 +43,12 @@ public class TransactionFee001 {
           .getString("foundationAccount.key1");
   private final byte[] fromAddress = PublicMethed.getFinalAddress(testKey002);
 
-  private final String witnessKey01 = Configuration.getByPath("testng.conf")
-          .getString("witness.key1");
-  private final byte[] witnessAddress01 = PublicMethed.getFinalAddress(witnessKey01);
-  private final String witnessKey02 = Configuration.getByPath("testng.conf")
-          .getString("witness.key2");
-  private final byte[] witnessAddress02 = PublicMethed.getFinalAddress(witnessKey02);
+  private final String executiveKey01 = Configuration.getByPath("testng.conf")
+          .getString("executive.key1");
+  private final byte[] executiveAddress01 = PublicMethed.getFinalAddress(executiveKey01);
+  private final String executiveKey02 = Configuration.getByPath("testng.conf")
+          .getString("executive.key2");
+  private final byte[] executiveAddress02 = PublicMethed.getFinalAddress(executiveKey02);
   private long multiSignFee = Configuration.getByPath("testng.conf")
           .getLong("defaultParameter.multiSignFee");
   private long updateAccountPermissionFee = Configuration.getByPath("testng.conf")
@@ -79,14 +79,14 @@ public class TransactionFee001 {
 
   Long startNum = 0L;
   Long endNum = 0L;
-  Long witness01Allowance1 = 0L;
-  Long witness02Allowance1 = 0L;
+  Long executive01Allowance1 = 0L;
+  Long executive02Allowance1 = 0L;
   Long blackHoleBalance1 = 0L;
-  Long witness01Allowance2 = 0L;
-  Long witness02Allowance2 = 0L;
+  Long executive01Allowance2 = 0L;
+  Long executive02Allowance2 = 0L;
   Long blackHoleBalance2 = 0L;
-  Long witness01Increase = 0L;
-  Long witness02Increase = 0L;
+  Long executive01Increase = 0L;
+  Long executive02Increase = 0L;
   Long beforeBurnStbAmount = 0L;
   Long afterBurnStbAmount = 0L;
   String txid = null;
@@ -135,9 +135,9 @@ public class TransactionFee001 {
 
     startNum = blockingStubFull.getNowBlock(GrpcAPI.EmptyMessage.newBuilder().build())
        .getBlockHeader().getRawData().getNumber();
-    witness01Allowance1 = PublicMethed.queryAccount(witnessAddress01, blockingStubFull)
+    executive01Allowance1 = PublicMethed.queryAccount(executiveAddress01, blockingStubFull)
        .getAllowance();
-    witness02Allowance1 = PublicMethed.queryAccount(witnessAddress02, blockingStubFull)
+    executive02Allowance1 = PublicMethed.queryAccount(executiveAddress02, blockingStubFull)
        .getAllowance();
     blackHoleBalance1 = PublicMethed.queryAccount(Commons.decode58Check(blackHoleAdd),
             blockingStubFull).getBalance();
@@ -151,28 +151,28 @@ public class TransactionFee001 {
 
     endNum = blockingStubFull.getNowBlock(GrpcAPI.EmptyMessage.newBuilder().build())
        .getBlockHeader().getRawData().getNumber();
-    witness01Allowance2 = PublicMethed.queryAccount(witnessAddress01, blockingStubFull)
+    executive01Allowance2 = PublicMethed.queryAccount(executiveAddress01, blockingStubFull)
        .getAllowance();
-    witness02Allowance2 = PublicMethed.queryAccount(witnessAddress02, blockingStubFull)
+    executive02Allowance2 = PublicMethed.queryAccount(executiveAddress02, blockingStubFull)
        .getAllowance();
     blackHoleBalance2 = PublicMethed.queryAccount(Commons.decode58Check(blackHoleAdd),
             blockingStubFull).getBalance();
-    witness02Increase = witness02Allowance2 - witness02Allowance1;
-    witness01Increase = witness01Allowance2 - witness01Allowance1;
+    executive02Increase = executive02Allowance2 - executive02Allowance1;
+    executive01Increase = executive01Allowance2 - executive01Allowance1;
     //blackHoleIncrease = blackHoleBalance2 - blackHoleBalance1;
     logger.info("----startNum:" + startNum + " endNum:" + endNum);
-    logger.info("====== witness02Allowance1 :" + witness02Allowance1 + "   witness02Allowance2 :"
-            + witness02Allowance2 + "increase :" + witness02Increase);
-    logger.info("====== witness01Allowance1 :" + witness01Allowance1 + "  witness01Allowance2 :"
-            + witness01Allowance2 + "  increase :" + witness01Increase);
+    logger.info("====== executive02Allowance1 :" + executive02Allowance1 + "   executive02Allowance2 :"
+            + executive02Allowance2 + "increase :" + executive02Increase);
+    logger.info("====== executive01Allowance1 :" + executive01Allowance1 + "  executive01Allowance2 :"
+            + executive01Allowance2 + "  increase :" + executive01Increase);
 
-    Map<String, Long> witnessAllowance = PublicMethed.getAllowance2(startNum, endNum,
+    Map<String, Long> executiveAllowance = PublicMethed.getAllowance2(startNum, endNum,
             blockingStubFull);
 
-    Assert.assertTrue((Math.abs(witnessAllowance.get(ByteArray.toHexString(witnessAddress01))
-            - witness01Increase)) <= 2);
-    Assert.assertTrue((Math.abs(witnessAllowance.get(ByteArray.toHexString(witnessAddress02))
-            - witness02Increase)) <= 2);
+    Assert.assertTrue((Math.abs(executiveAllowance.get(ByteArray.toHexString(executiveAddress01))
+            - executive01Increase)) <= 2);
+    Assert.assertTrue((Math.abs(executiveAllowance.get(ByteArray.toHexString(executiveAddress02))
+            - executive02Increase)) <= 2);
     Assert.assertEquals(blackHoleBalance1, blackHoleBalance2);
     Optional<Protocol.TransactionInfo> infoById =
         PublicMethed.getTransactionInfoById(txid, blockingStubFull);
@@ -207,16 +207,16 @@ public class TransactionFee001 {
     List<String> ownerPermissionKeys = new ArrayList<>();
     List<String> activePermissionKeys = new ArrayList<>();
     ownerPermissionKeys.add(ownerKey);
-    activePermissionKeys.add(witnessKey01);
+    activePermissionKeys.add(executiveKey01);
     activePermissionKeys.add(tmpKey02);
 
     logger.info("** update owner and active permission to two address");
     startNum = blockingStubFull.getNowBlock(GrpcAPI.EmptyMessage.newBuilder().build())
             .getBlockHeader().getRawData().getNumber();
-    witness01Allowance1 =
-            PublicMethed.queryAccount(witnessAddress01, blockingStubFull).getAllowance();
-    witness02Allowance1 =
-            PublicMethed.queryAccount(witnessAddress02, blockingStubFull).getAllowance();
+    executive01Allowance1 =
+            PublicMethed.queryAccount(executiveAddress01, blockingStubFull).getAllowance();
+    executive02Allowance1 =
+            PublicMethed.queryAccount(executiveAddress02, blockingStubFull).getAllowance();
     blackHoleBalance1 = PublicMethed.queryAccount(Commons.decode58Check(blackHoleAdd),
             blockingStubFull).getBalance();
     beforeBurnStbAmount = blockingStubFull
@@ -231,7 +231,7 @@ public class TransactionFee001 {
                     + "\"operations\""
                     + ":\"7fff1fc0033e0000000000000000000000000000000000000000000000000000\","
                     + "\"keys\":["
-                    + "{\"address\":\"" + PublicMethed.getAddressString(witnessKey01)
+                    + "{\"address\":\"" + PublicMethed.getAddressString(executiveKey01)
                     + "\",\"weight\":1},"
                     + "{\"address\":\"" + PublicMethed.getAddressString(tmpKey02)
                     + "\",\"weight\":1}"
@@ -249,28 +249,28 @@ public class TransactionFee001 {
 
     endNum = blockingStubFull.getNowBlock(GrpcAPI.EmptyMessage.newBuilder().build())
        .getBlockHeader().getRawData().getNumber();
-    witness01Allowance2 =
-            PublicMethed.queryAccount(witnessAddress01, blockingStubFull).getAllowance();
-    witness02Allowance2 =
-            PublicMethed.queryAccount(witnessAddress02, blockingStubFull).getAllowance();
+    executive01Allowance2 =
+            PublicMethed.queryAccount(executiveAddress01, blockingStubFull).getAllowance();
+    executive02Allowance2 =
+            PublicMethed.queryAccount(executiveAddress02, blockingStubFull).getAllowance();
     blackHoleBalance2 = PublicMethed.queryAccount(Commons.decode58Check(blackHoleAdd),
        blockingStubFull).getBalance();
-    witness02Increase = witness02Allowance2 - witness02Allowance1;
-    witness01Increase = witness01Allowance2 - witness01Allowance1;
+    executive02Increase = executive02Allowance2 - executive02Allowance1;
+    executive01Increase = executive01Allowance2 - executive01Allowance1;
     //blackHoleIncrease = blackHoleBalance2 - blackHoleBalance1;
     logger.info("----startNum:" + startNum + " endNum:" + endNum);
-    logger.info("====== witness02Allowance1 :" + witness02Allowance1 + "   witness02Allowance2 :"
-            + witness02Allowance2 + "increase :" + witness02Increase);
-    logger.info("====== witness01Allowance1 :" + witness01Allowance1 + "  witness01Allowance2 :"
-            + witness01Allowance2 + "  increase :" + witness01Increase);
+    logger.info("====== executive02Allowance1 :" + executive02Allowance1 + "   executive02Allowance2 :"
+            + executive02Allowance2 + "increase :" + executive02Increase);
+    logger.info("====== executive01Allowance1 :" + executive01Allowance1 + "  executive01Allowance2 :"
+            + executive01Allowance2 + "  increase :" + executive01Increase);
 
-    Map<String, Long> witnessAllowance =
+    Map<String, Long> executiveAllowance =
             PublicMethed.getAllowance2(startNum, endNum, blockingStubFull);
 
-    Assert.assertTrue((Math.abs(witnessAllowance.get(ByteArray.toHexString(witnessAddress01))
-            - witness01Increase)) <= 2);
-    Assert.assertTrue((Math.abs(witnessAllowance.get(ByteArray.toHexString(witnessAddress02))
-            - witness02Increase)) <= 2);
+    Assert.assertTrue((Math.abs(executiveAllowance.get(ByteArray.toHexString(executiveAddress01))
+            - executive01Increase)) <= 2);
+    Assert.assertTrue((Math.abs(executiveAllowance.get(ByteArray.toHexString(executiveAddress02))
+            - executive02Increase)) <= 2);
     Assert.assertEquals(blackHoleBalance2, blackHoleBalance1);
 
     ownerPermissionKeys.clear();
@@ -291,10 +291,10 @@ public class TransactionFee001 {
 
     startNum = blockingStubFull.getNowBlock(GrpcAPI.EmptyMessage.newBuilder().build())
             .getBlockHeader().getRawData().getNumber();
-    witness01Allowance1 =
-            PublicMethed.queryAccount(witnessAddress01, blockingStubFull).getAllowance();
-    witness02Allowance1 =
-            PublicMethed.queryAccount(witnessAddress02, blockingStubFull).getAllowance();
+    executive01Allowance1 =
+            PublicMethed.queryAccount(executiveAddress01, blockingStubFull).getAllowance();
+    executive02Allowance1 =
+            PublicMethed.queryAccount(executiveAddress02, blockingStubFull).getAllowance();
     blackHoleBalance1 = PublicMethed.queryAccount(Commons.decode58Check(blackHoleAdd),
             blockingStubFull).getBalance();
 
@@ -321,7 +321,7 @@ public class TransactionFee001 {
     logger.info("-----transaction1: " + txid);
 
     Protocol.Transaction transaction2 = PublicMethedForMutiSign.addTransactionSignWithPermissionId(
-            transaction1, witnessKey01, 2, blockingStubFull);
+            transaction1, executiveKey01, 2, blockingStubFull);
 
     logger.info("transaction hex string is " + ByteArray.toHexString(transaction2.toByteArray()));
 
@@ -334,26 +334,26 @@ public class TransactionFee001 {
 
     endNum = blockingStubFull.getNowBlock(GrpcAPI.EmptyMessage.newBuilder().build())
             .getBlockHeader().getRawData().getNumber();
-    witness01Allowance2 =
-            PublicMethed.queryAccount(witnessAddress01, blockingStubFull).getAllowance();
-    witness02Allowance2 =
-            PublicMethed.queryAccount(witnessAddress02, blockingStubFull).getAllowance();
+    executive01Allowance2 =
+            PublicMethed.queryAccount(executiveAddress01, blockingStubFull).getAllowance();
+    executive02Allowance2 =
+            PublicMethed.queryAccount(executiveAddress02, blockingStubFull).getAllowance();
     blackHoleBalance2 = PublicMethed.queryAccount(Commons.decode58Check(blackHoleAdd),
             blockingStubFull).getBalance();
-    witness02Increase = witness02Allowance2 - witness02Allowance1;
-    witness01Increase = witness01Allowance2 - witness01Allowance1;
+    executive02Increase = executive02Allowance2 - executive02Allowance1;
+    executive01Increase = executive01Allowance2 - executive01Allowance1;
     logger.info("----startNum:" + startNum + " endNum:" + endNum);
-    logger.info("====== witness02Allowance1 :" + witness02Allowance1 + "   witness02Allowance2 :"
-            + witness02Allowance2 + "increase :" + witness02Increase);
-    logger.info("====== witness01Allowance1 :" + witness01Allowance1 + "  witness01Allowance2 :"
-            + witness01Allowance2 + "  increase :" + witness01Increase);
+    logger.info("====== executive02Allowance1 :" + executive02Allowance1 + "   executive02Allowance2 :"
+            + executive02Allowance2 + "increase :" + executive02Increase);
+    logger.info("====== executive01Allowance1 :" + executive01Allowance1 + "  executive01Allowance2 :"
+            + executive01Allowance2 + "  increase :" + executive01Increase);
 
-    witnessAllowance = PublicMethed.getAllowance2(startNum, endNum, blockingStubFull);
+    executiveAllowance = PublicMethed.getAllowance2(startNum, endNum, blockingStubFull);
 
-    Assert.assertTrue((Math.abs(witnessAllowance.get(ByteArray.toHexString(witnessAddress01))
-            - witness01Increase)) <= 2);
-    Assert.assertTrue((Math.abs(witnessAllowance.get(ByteArray.toHexString(witnessAddress02))
-            - witness02Increase)) <= 2);
+    Assert.assertTrue((Math.abs(executiveAllowance.get(ByteArray.toHexString(executiveAddress01))
+            - executive01Increase)) <= 2);
+    Assert.assertTrue((Math.abs(executiveAllowance.get(ByteArray.toHexString(executiveAddress02))
+            - executive02Increase)) <= 2);
     Assert.assertEquals(blackHoleBalance2, blackHoleBalance1);
     infoById = PublicMethed.getTransactionInfoById(txid, blockingStubFull);
     Assert.assertEquals(infoById.get().getPackingFee(),0);
@@ -386,10 +386,10 @@ public class TransactionFee001 {
 
     startNum = blockingStubFull.getNowBlock(GrpcAPI.EmptyMessage.newBuilder().build())
             .getBlockHeader().getRawData().getNumber();
-    witness01Allowance1 =
-            PublicMethed.queryAccount(witnessAddress01, blockingStubFull).getAllowance();
-    witness02Allowance1 =
-            PublicMethed.queryAccount(witnessAddress02, blockingStubFull).getAllowance();
+    executive01Allowance1 =
+            PublicMethed.queryAccount(executiveAddress01, blockingStubFull).getAllowance();
+    executive02Allowance1 =
+            PublicMethed.queryAccount(executiveAddress02, blockingStubFull).getAllowance();
     blackHoleBalance1 = PublicMethed.queryAccount(Commons.decode58Check(blackHoleAdd),
        blockingStubFull).getBalance();
     beforeBurnStbAmount = blockingStubFull
@@ -400,31 +400,31 @@ public class TransactionFee001 {
     PublicMethed.waitProduceNextBlock(blockingStubFull);
     endNum = blockingStubFull.getNowBlock(GrpcAPI.EmptyMessage.newBuilder().build())
        .getBlockHeader().getRawData().getNumber();
-    witness01Allowance2 =
-            PublicMethed.queryAccount(witnessAddress01, blockingStubFull).getAllowance();
-    witness02Allowance2 =
-            PublicMethed.queryAccount(witnessAddress02, blockingStubFull).getAllowance();
+    executive01Allowance2 =
+            PublicMethed.queryAccount(executiveAddress01, blockingStubFull).getAllowance();
+    executive02Allowance2 =
+            PublicMethed.queryAccount(executiveAddress02, blockingStubFull).getAllowance();
     blackHoleBalance2 = PublicMethed.queryAccount(Commons.decode58Check(blackHoleAdd),
        blockingStubFull).getBalance();
-    witness02Increase = witness02Allowance2 - witness02Allowance1;
-    witness01Increase = witness01Allowance2 - witness01Allowance1;
+    executive02Increase = executive02Allowance2 - executive02Allowance1;
+    executive01Increase = executive01Allowance2 - executive01Allowance1;
 
     logger.info("----startNum:" + startNum + " endNum:" + endNum);
-    logger.info("====== witness02Allowance1 :" + witness02Allowance1 + "   witness02Allowance2 :"
-            + witness02Allowance2 + "increase :" + witness02Increase);
-    logger.info("====== witness01Allowance1 :" + witness01Allowance1 + "  witness01Allowance2 :"
-            + witness01Allowance2 + "  increase :" + witness01Increase);
+    logger.info("====== executive02Allowance1 :" + executive02Allowance1 + "   executive02Allowance2 :"
+            + executive02Allowance2 + "increase :" + executive02Increase);
+    logger.info("====== executive01Allowance1 :" + executive01Allowance1 + "  executive01Allowance2 :"
+            + executive01Allowance2 + "  increase :" + executive01Increase);
     Optional<Protocol.TransactionInfo> infoById =
             PublicMethed.getTransactionInfoById(txid, blockingStubFull);
 
     logger.info("InfoById:" + infoById);
 
-    Map<String, Long> witnessAllowance =
+    Map<String, Long> executiveAllowance =
             PublicMethed.getAllowance2(startNum, endNum, blockingStubFull);
-    Assert.assertTrue((Math.abs(witnessAllowance.get(ByteArray.toHexString(witnessAddress01))
-            - witness01Increase)) <= 2);
-    Assert.assertTrue((Math.abs(witnessAllowance.get(ByteArray.toHexString(witnessAddress02))
-            - witness02Increase)) <= 2);
+    Assert.assertTrue((Math.abs(executiveAllowance.get(ByteArray.toHexString(executiveAddress01))
+            - executive01Increase)) <= 2);
+    Assert.assertTrue((Math.abs(executiveAllowance.get(ByteArray.toHexString(executiveAddress02))
+            - executive02Increase)) <= 2);
     Assert.assertEquals(blackHoleBalance2, blackHoleBalance1);
     Long packingFee = infoById.get().getPackingFee();
     logger.info("receipt:" + infoById.get().getReceipt());
@@ -439,10 +439,10 @@ public class TransactionFee001 {
   public void test04AccountCreate() {
     startNum = blockingStubFull.getNowBlock(GrpcAPI.EmptyMessage.newBuilder().build())
             .getBlockHeader().getRawData().getNumber();
-    witness01Allowance1 =
-            PublicMethed.queryAccount(witnessAddress01, blockingStubFull).getAllowance();
-    witness02Allowance1 =
-            PublicMethed.queryAccount(witnessAddress02, blockingStubFull).getAllowance();
+    executive01Allowance1 =
+            PublicMethed.queryAccount(executiveAddress01, blockingStubFull).getAllowance();
+    executive02Allowance1 =
+            PublicMethed.queryAccount(executiveAddress02, blockingStubFull).getAllowance();
     blackHoleBalance1 = PublicMethed.queryAccount(Commons.decode58Check(blackHoleAdd),
             blockingStubFull).getBalance();
     beforeBurnStbAmount = blockingStubFull
@@ -456,27 +456,27 @@ public class TransactionFee001 {
     PublicMethed.waitProduceNextBlock(blockingStubFull);
     endNum = blockingStubFull.getNowBlock(GrpcAPI.EmptyMessage.newBuilder().build())
        .getBlockHeader().getRawData().getNumber();
-    witness01Allowance2 =
-            PublicMethed.queryAccount(witnessAddress01, blockingStubFull).getAllowance();
-    witness02Allowance2 =
-            PublicMethed.queryAccount(witnessAddress02, blockingStubFull).getAllowance();
+    executive01Allowance2 =
+            PublicMethed.queryAccount(executiveAddress01, blockingStubFull).getAllowance();
+    executive02Allowance2 =
+            PublicMethed.queryAccount(executiveAddress02, blockingStubFull).getAllowance();
     blackHoleBalance2 = PublicMethed.queryAccount(Commons.decode58Check(blackHoleAdd),
             blockingStubFull).getBalance();
 
-    witness02Increase = witness02Allowance2 - witness02Allowance1;
-    witness01Increase = witness01Allowance2 - witness01Allowance1;
+    executive02Increase = executive02Allowance2 - executive02Allowance1;
+    executive01Increase = executive01Allowance2 - executive01Allowance1;
     logger.info("----startNum:" + startNum + " endNum:" + endNum);
-    logger.info("====== witness01Allowance1 :" + witness01Allowance1 + "  witness01Allowance2 :"
-        + witness01Allowance2 + "  increase :" + witness01Increase);
-    logger.info("====== witness02Allowance1 :" + witness02Allowance1 + "  witness02Allowance2 :"
-            + witness02Allowance2 + "  increase :" + witness02Increase);
+    logger.info("====== executive01Allowance1 :" + executive01Allowance1 + "  executive01Allowance2 :"
+        + executive01Allowance2 + "  increase :" + executive01Increase);
+    logger.info("====== executive02Allowance1 :" + executive02Allowance1 + "  executive02Allowance2 :"
+            + executive02Allowance2 + "  increase :" + executive02Increase);
 
-    Map<String, Long> witnessAllowance =
+    Map<String, Long> executiveAllowance =
             PublicMethed.getAllowance2(startNum, endNum, blockingStubFull);
-    Assert.assertTrue((Math.abs(witnessAllowance.get(ByteArray.toHexString(witnessAddress01))
-            - witness01Increase)) <= 2);
-    Assert.assertTrue((Math.abs(witnessAllowance.get(ByteArray.toHexString(witnessAddress02))
-            - witness02Increase)) <= 2);
+    Assert.assertTrue((Math.abs(executiveAllowance.get(ByteArray.toHexString(executiveAddress01))
+            - executive01Increase)) <= 2);
+    Assert.assertTrue((Math.abs(executiveAllowance.get(ByteArray.toHexString(executiveAddress02))
+            - executive02Increase)) <= 2);
     Assert.assertEquals(blackHoleBalance1,blackHoleBalance2);
     Optional<Protocol.TransactionInfo> infoById =
         PublicMethed.getTransactionInfoById(txid, blockingStubFull);
@@ -516,10 +516,10 @@ public class TransactionFee001 {
 
     startNum = blockingStubFull.getNowBlock(GrpcAPI.EmptyMessage.newBuilder().build())
             .getBlockHeader().getRawData().getNumber();
-    witness01Allowance1 =
-            PublicMethed.queryAccount(witnessAddress01, blockingStubFull).getAllowance();
-    witness02Allowance1 =
-            PublicMethed.queryAccount(witnessAddress02, blockingStubFull).getAllowance();
+    executive01Allowance1 =
+            PublicMethed.queryAccount(executiveAddress01, blockingStubFull).getAllowance();
+    executive02Allowance1 =
+            PublicMethed.queryAccount(executiveAddress02, blockingStubFull).getAllowance();
     blackHoleBalance1 = PublicMethed.queryAccount(Commons.decode58Check(blackHoleAdd),
             blockingStubFull).getBalance();
     beforeBurnStbAmount = blockingStubFull
@@ -531,29 +531,29 @@ public class TransactionFee001 {
     PublicMethed.waitProduceNextBlock(blockingStubFull);
     endNum = blockingStubFull.getNowBlock(GrpcAPI.EmptyMessage.newBuilder().build())
             .getBlockHeader().getRawData().getNumber();
-    witness01Allowance2 =
-            PublicMethed.queryAccount(witnessAddress01, blockingStubFull).getAllowance();
-    witness02Allowance2 =
-            PublicMethed.queryAccount(witnessAddress02, blockingStubFull).getAllowance();
+    executive01Allowance2 =
+            PublicMethed.queryAccount(executiveAddress01, blockingStubFull).getAllowance();
+    executive02Allowance2 =
+            PublicMethed.queryAccount(executiveAddress02, blockingStubFull).getAllowance();
     blackHoleBalance2 = PublicMethed.queryAccount(Commons.decode58Check(blackHoleAdd),
             blockingStubFull).getBalance();
-    witness02Increase = witness02Allowance2 - witness02Allowance1;
-    witness01Increase = witness01Allowance2 - witness01Allowance1;
+    executive02Increase = executive02Allowance2 - executive02Allowance1;
+    executive01Increase = executive01Allowance2 - executive01Allowance1;
 
     logger.info("----startNum:" + startNum + " endNum:" + endNum);
-    logger.info("====== witness02Allowance1 :" + witness02Allowance1 + "   witness02Allowance2 :"
-            + witness02Allowance2 + "increase :" + witness02Increase);
-    logger.info("====== witness01Allowance1 :" + witness01Allowance1 + "  witness01Allowance2 :"
-            + witness01Allowance2 + "  increase :" + witness01Increase);
+    logger.info("====== executive02Allowance1 :" + executive02Allowance1 + "   executive02Allowance2 :"
+            + executive02Allowance2 + "increase :" + executive02Increase);
+    logger.info("====== executive01Allowance1 :" + executive01Allowance1 + "  executive01Allowance2 :"
+            + executive01Allowance2 + "  increase :" + executive01Increase);
     Optional<Protocol.TransactionInfo> infoById =
             PublicMethed.getTransactionInfoById(txid, blockingStubFull);
     logger.info("InfoById:" + infoById);
-    Map<String, Long> witnessAllowance =
+    Map<String, Long> executiveAllowance =
             PublicMethed.getAllowance2(startNum, endNum, blockingStubFull);
-    Assert.assertTrue((Math.abs(witnessAllowance.get(ByteArray.toHexString(witnessAddress01))
-            - witness01Increase)) <= 2);
-    Assert.assertTrue((Math.abs(witnessAllowance.get(ByteArray.toHexString(witnessAddress02))
-            - witness02Increase)) <= 2);
+    Assert.assertTrue((Math.abs(executiveAllowance.get(ByteArray.toHexString(executiveAddress01))
+            - executive01Increase)) <= 2);
+    Assert.assertTrue((Math.abs(executiveAllowance.get(ByteArray.toHexString(executiveAddress02))
+            - executive02Increase)) <= 2);
     Assert.assertEquals(blackHoleBalance1,blackHoleBalance2);
     afterBurnStbAmount = blockingStubFull
         .getBurnStb(EmptyMessage.newBuilder().build()).getNum();
@@ -579,10 +579,10 @@ public class TransactionFee001 {
     PublicMethed.waitProduceNextBlock(blockingStubFull);
     startNum = blockingStubFull.getNowBlock(GrpcAPI.EmptyMessage.newBuilder().build())
         .getBlockHeader().getRawData().getNumber();
-    witness01Allowance1 =
-        PublicMethed.queryAccount(witnessAddress01, blockingStubFull).getAllowance();
-    witness02Allowance1 =
-        PublicMethed.queryAccount(witnessAddress02, blockingStubFull).getAllowance();
+    executive01Allowance1 =
+        PublicMethed.queryAccount(executiveAddress01, blockingStubFull).getAllowance();
+    executive02Allowance1 =
+        PublicMethed.queryAccount(executiveAddress02, blockingStubFull).getAllowance();
     blackHoleBalance1 = PublicMethed.queryAccount(Commons.decode58Check(blackHoleAdd),
         blockingStubFull).getBalance();
     beforeBurnStbAmount = blockingStubFull
@@ -602,27 +602,27 @@ public class TransactionFee001 {
 
     endNum = blockingStubFull.getNowBlock(GrpcAPI.EmptyMessage.newBuilder().build())
         .getBlockHeader().getRawData().getNumber();
-    witness01Allowance2 =
-        PublicMethed.queryAccount(witnessAddress01, blockingStubFull).getAllowance();
-    witness02Allowance2 =
-        PublicMethed.queryAccount(witnessAddress02, blockingStubFull).getAllowance();
+    executive01Allowance2 =
+        PublicMethed.queryAccount(executiveAddress01, blockingStubFull).getAllowance();
+    executive02Allowance2 =
+        PublicMethed.queryAccount(executiveAddress02, blockingStubFull).getAllowance();
     blackHoleBalance2 = PublicMethed.queryAccount(Commons.decode58Check(blackHoleAdd),
         blockingStubFull).getBalance();
 
-    witness02Increase = witness02Allowance2 - witness02Allowance1;
-    witness01Increase = witness01Allowance2 - witness01Allowance1;
+    executive02Increase = executive02Allowance2 - executive02Allowance1;
+    executive01Increase = executive01Allowance2 - executive01Allowance1;
     logger.info("----startNum:" + startNum + " endNum:" + endNum);
-    logger.info("====== witness01Allowance1 :" + witness01Allowance1 + "  witness01Allowance2 :"
-        + witness01Allowance2 + "  increase :" + witness01Increase);
-    logger.info("====== witness02Allowance1 :" + witness02Allowance1 + "  witness02Allowance2 :"
-        + witness02Allowance2 + "  increase :" + witness02Increase);
+    logger.info("====== executive01Allowance1 :" + executive01Allowance1 + "  executive01Allowance2 :"
+        + executive01Allowance2 + "  increase :" + executive01Increase);
+    logger.info("====== executive02Allowance1 :" + executive02Allowance1 + "  executive02Allowance2 :"
+        + executive02Allowance2 + "  increase :" + executive02Increase);
 
-    Map<String, Long> witnessAllowance =
+    Map<String, Long> executiveAllowance =
         PublicMethed.getAllowance2(startNum, endNum, blockingStubFull);
-    Assert.assertTrue((Math.abs(witnessAllowance.get(ByteArray.toHexString(witnessAddress01))
-        - witness01Increase)) <= 2);
-    Assert.assertTrue((Math.abs(witnessAllowance.get(ByteArray.toHexString(witnessAddress02))
-        - witness02Increase)) <= 2);
+    Assert.assertTrue((Math.abs(executiveAllowance.get(ByteArray.toHexString(executiveAddress01))
+        - executive01Increase)) <= 2);
+    Assert.assertTrue((Math.abs(executiveAllowance.get(ByteArray.toHexString(executiveAddress02))
+        - executive02Increase)) <= 2);
     Assert.assertEquals(blackHoleBalance1,blackHoleBalance2);
     Optional<Protocol.TransactionInfo> infoById =
         PublicMethed.getTransactionInfoById(txid, blockingStubFull);

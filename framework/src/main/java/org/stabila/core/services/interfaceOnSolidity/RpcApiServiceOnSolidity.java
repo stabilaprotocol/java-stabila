@@ -29,7 +29,7 @@ import org.stabila.api.GrpcAPI.Return.response_code;
 import org.stabila.api.GrpcAPI.SpendResult;
 import org.stabila.api.GrpcAPI.TransactionExtention;
 import org.stabila.api.GrpcAPI.TransactionInfoList;
-import org.stabila.api.GrpcAPI.WitnessList;
+import org.stabila.api.GrpcAPI.ExecutiveList;
 import org.stabila.api.WalletSolidityGrpc.WalletSolidityImplBase;
 import org.stabila.common.application.Service;
 import org.stabila.common.crypto.SignInterface;
@@ -218,9 +218,9 @@ public class RpcApiServiceOnSolidity implements Service {
     }
 
     @Override
-    public void listWitnesses(EmptyMessage request, StreamObserver<WitnessList> responseObserver) {
+    public void listExecutives(EmptyMessage request, StreamObserver<ExecutiveList> responseObserver) {
       walletOnSolidity.futureGet(
-          () -> rpcApiService.getWalletSolidityApi().listWitnesses(request, responseObserver));
+          () -> rpcApiService.getWalletSolidityApi().listExecutives(request, responseObserver));
     }
 
     @Override

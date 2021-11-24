@@ -32,25 +32,25 @@ public class TestApproveProposal {
   private final String testKey003 = Configuration.getByPath("testng.conf")
       .getString("foundationAccount.key2");
   private final byte[] toAddress = PublicMethed.getFinalAddress(testKey003);
-  private final String witnessKey001 = Configuration.getByPath("testng.conf")
-      .getString("witness.key1");
-  //Witness 47.93.33.201
-  private final String witnessKey002 = Configuration.getByPath("testng.conf")
-      .getString("witness.key2");
-  //Witness 123.56.10.6
-  private final String witnessKey003 = Configuration.getByPath("testng.conf")
-      .getString("witness.key3");
+  private final String executiveKey001 = Configuration.getByPath("testng.conf")
+      .getString("executive.key1");
+  //Executive 47.93.33.201
+  private final String executiveKey002 = Configuration.getByPath("testng.conf")
+      .getString("executive.key2");
+  //Executive 123.56.10.6
+  private final String executiveKey003 = Configuration.getByPath("testng.conf")
+      .getString("executive.key3");
   //Wtiness 39.107.80.135
-  private final String witnessKey004 = Configuration.getByPath("testng.conf")
-      .getString("witness.key4");
-  //Witness 47.93.184.2
-  private final String witnessKey005 = Configuration.getByPath("testng.conf")
-      .getString("witness.key5");
-  private final byte[] witness001Address = PublicMethed.getFinalAddress(witnessKey001);
-  private final byte[] witness002Address = PublicMethed.getFinalAddress(witnessKey002);
-  private final byte[] witness003Address = PublicMethed.getFinalAddress(witnessKey003);
-  private final byte[] witness004Address = PublicMethed.getFinalAddress(witnessKey004);
-  private final byte[] witness005Address = PublicMethed.getFinalAddress(witnessKey005);
+  private final String executiveKey004 = Configuration.getByPath("testng.conf")
+      .getString("executive.key4");
+  //Executive 47.93.184.2
+  private final String executiveKey005 = Configuration.getByPath("testng.conf")
+      .getString("executive.key5");
+  private final byte[] executive001Address = PublicMethed.getFinalAddress(executiveKey001);
+  private final byte[] executive002Address = PublicMethed.getFinalAddress(executiveKey002);
+  private final byte[] executive003Address = PublicMethed.getFinalAddress(executiveKey003);
+  private final byte[] executive004Address = PublicMethed.getFinalAddress(executiveKey004);
+  private final byte[] executive005Address = PublicMethed.getFinalAddress(executiveKey005);
   private ManagedChannel channelFull = null;
   private ManagedChannel channelSolidity = null;
   private WalletGrpc.WalletBlockingStub blockingStubFull = null;
@@ -89,7 +89,7 @@ public class TestApproveProposal {
     //proposalMap.put(25L, 1L);
     proposalMap.put(27L, 0L);
     //proposalMap.put(28L, 1L);
-    Assert.assertTrue(PublicMethed.createProposal(witness001Address, witnessKey001,
+    Assert.assertTrue(PublicMethed.createProposal(executive001Address, executiveKey001,
         proposalMap, blockingStubFull));
     try {
       Thread.sleep(20000);
@@ -107,16 +107,16 @@ public class TestApproveProposal {
     listProposals = Optional.ofNullable(proposalList);
     //logger.info(Integer.toString(listProposals.get().getProposals(0).getApprovalsCount()));
 
-    String[] witnessKey = {
+    String[] executiveKey = {
 
         "369F095838EB6EED45D4F6312AF962D5B9DE52927DA9F04174EE49F9AF54BC77",
         "9FD8E129DE181EA44C6129F727A6871440169568ADE002943EAD0E7A16D8EDAC",
 
     };
-    byte[] witnessAddress;
-    for (String key : witnessKey) {
-      witnessAddress = PublicMethed.getFinalAddress(key);
-      PublicMethed.approveProposal(witnessAddress, key, proposalId,
+    byte[] executiveAddress;
+    for (String key : executiveKey) {
+      executiveAddress = PublicMethed.getFinalAddress(key);
+      PublicMethed.approveProposal(executiveAddress, key, proposalId,
           true, blockingStubFull);
       try {
         Thread.sleep(1000);
@@ -135,8 +135,8 @@ public class TestApproveProposal {
     defaultCommitteeMap.put("CREATE_ACCOUNT_FEE", 100000L);
     defaultCommitteeMap.put("TRANSACTION_FEE", 10L);
     defaultCommitteeMap.put("ASSET_ISSUE_FEE", 1024000000L);
-    defaultCommitteeMap.put("WITNESS_PAY_PER_BLOCK", 32000000L);
-    defaultCommitteeMap.put("WITNESS_STANDBY_ALLOWANCE", 115200000000L);
+    defaultCommitteeMap.put("EXECUTIVE_PAY_PER_BLOCK", 32000000L);
+    defaultCommitteeMap.put("EXECUTIVE_STANDBY_ALLOWANCE", 115200000000L);
     defaultCommitteeMap.put("CREATE_NEW_ACCOUNT_FEE_IN_SYSTEM_CONTRACT", 0L);
     defaultCommitteeMap.put("CREATE_NEW_ACCOUNT_BANDWIDTH_RATE", 1L);
 

@@ -23,7 +23,7 @@ import org.stabila.core.capsule.ContractCapsule;
 import org.stabila.core.capsule.ProposalCapsule;
 import org.stabila.core.capsule.TransactionCapsule;
 import org.stabila.core.capsule.VotesCapsule;
-import org.stabila.core.capsule.WitnessCapsule;
+import org.stabila.core.capsule.ExecutiveCapsule;
 import org.stabila.core.db.BlockStore;
 import org.stabila.core.db.Manager;
 import org.stabila.core.db.TransactionStore;
@@ -36,7 +36,7 @@ import org.stabila.core.store.DelegatedResourceStore;
 import org.stabila.core.store.DynamicPropertiesStore;
 import org.stabila.core.store.ProposalStore;
 import org.stabila.core.store.VotesStore;
-import org.stabila.core.store.WitnessStore;
+import org.stabila.core.store.ExecutiveStore;
 import org.stabila.core.vm.config.VMConfig;
 import org.stabila.core.vm.program.Storage;
 import org.stabila.core.vm.repository.Key;
@@ -49,7 +49,7 @@ import org.stabila.protos.Protocol.AccountType;
 public class DepositImpl implements Deposit {
 
   private static final byte[] LATEST_PROPOSAL_NUM = "LATEST_PROPOSAL_NUM".getBytes();
-  private static final byte[] WITNESS_ALLOWANCE_CDED_TIME = "WITNESS_ALLOWANCE_CDED_TIME"
+  private static final byte[] EXECUTIVE_ALLOWANCE_CDED_TIME = "EXECUTIVE_ALLOWANCE_CDED_TIME"
       .getBytes();
   private static final byte[] MAINTENANCE_TIME_INTERVAL = "MAINTENANCE_TIME_INTERVAL".getBytes();
   private static final byte[] NEXT_MAINTENANCE_TIME = "NEXT_MAINTENANCE_TIME".getBytes();
@@ -60,7 +60,7 @@ public class DepositImpl implements Deposit {
   private HashMap<Key, Value> accountCache = new HashMap<>();
   private HashMap<Key, Value> transactionCache = new HashMap<>();
   private HashMap<Key, Value> blockCache = new HashMap<>();
-  private HashMap<Key, Value> witnessCache = new HashMap<>();
+  private HashMap<Key, Value> executiveCache = new HashMap<>();
   private HashMap<Key, Value> codeCache = new HashMap<>();
   private HashMap<Key, Value> contractCache = new HashMap<>();
 
@@ -100,8 +100,8 @@ public class DepositImpl implements Deposit {
     return dbManager.getContractStore();
   }
 
-  private WitnessStore getWitnessStore() {
-    return dbManager.getWitnessStore();
+  private ExecutiveStore getExecutiveStore() {
+    return dbManager.getExecutiveStore();
   }
 
   private VotesStore getVotesStore() {
@@ -180,23 +180,23 @@ public class DepositImpl implements Deposit {
   }
 
   @Override
-  public WitnessCapsule getWitness(byte[] address) {
+  public ExecutiveCapsule getExecutive(byte[] address) {
     Key key = new Key(address);
-    if (witnessCache.containsKey(key)) {
-      return witnessCache.get(key).getWitness();
+    if (executiveCache.containsKey(key)) {
+      return executiveCache.get(key).getExecutive();
     }
 
-    WitnessCapsule witnessCapsule;
+    ExecutiveCapsule executiveCapsule;
     if (parent != null) {
-      witnessCapsule = parent.getWitness(address);
+      executiveCapsule = parent.getExecutive(address);
     } else {
-      witnessCapsule = getWitnessStore().get(address);
+      executiveCapsule = getExecutiveStore().get(address);
     }
 
-    if (witnessCapsule != null) {
-      witnessCache.put(key, Value.create(witnessCapsule.getData()));
+    if (executiveCapsule != null) {
+      executiveCache.put(key, Value.create(executiveCapsule.getData()));
     }
-    return witnessCapsule;
+    return executiveCapsule;
   }
 
   @Override
@@ -555,8 +555,8 @@ public class DepositImpl implements Deposit {
   }
 
   @Override
-  public void putWitness(Key key, Value value) {
-    witnessCache.put(key, value);
+  public void putExecutive(Key key, Value value) {
+    executiveCache.put(key, value);
   }
 
   @Override
@@ -595,10 +595,10 @@ public class DepositImpl implements Deposit {
   }
 
   @Override
-  public long getWitnessAllowanceCdedTime() {
-    byte[] cdedTime = getDynamic(WITNESS_ALLOWANCE_CDED_TIME).getData();
+  public long getExecutiveAllowanceCdedTime() {
+    byte[] cdedTime = getDynamic(EXECUTIVE_ALLOWANCE_CDED_TIME).getData();
     if (cdedTime.length >= 8) {
-      return Longs.fromByteArray(getDynamic(WITNESS_ALLOWANCE_CDED_TIME).getData());
+      return Longs.fromByteArray(getDynamic(EXECUTIVE_ALLOWANCE_CDED_TIME).getData());
     }
 
     byte[] result = new byte[8];
@@ -677,13 +677,13 @@ public class DepositImpl implements Deposit {
     }));
   }
 
-  private void commitWitnessCache(Deposit deposit) {
-    witnessCache.forEach(((key, value) -> {
+  private void commitExecutiveCache(Deposit deposit) {
+    executiveCache.forEach(((key, value) -> {
       if (value.getType().isDirty() || value.getType().isCreate()) {
         if (deposit != null) {
-          deposit.putWitness(key, value);
+          deposit.putExecutive(key, value);
         } else {
-          getWitnessStore().put(key.getData(), value.getWitness());
+          getExecutiveStore().put(key.getData(), value.getExecutive());
         }
       }
     }));
@@ -797,7 +797,7 @@ public class DepositImpl implements Deposit {
     commitAccountCache(deposit);
     commitTransactionCache(deposit);
     commitBlockCache(deposit);
-    commitWitnessCache(deposit);
+    commitExecutiveCache(deposit);
     commitCodeCache(deposit);
     commitContractCache(deposit);
     commitStorageCache(deposit);

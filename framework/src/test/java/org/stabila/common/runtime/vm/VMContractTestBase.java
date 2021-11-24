@@ -19,7 +19,7 @@ import org.stabila.core.consensus.ConsensusService;
 import org.stabila.core.db.Manager;
 import org.stabila.core.service.MortgageService;
 import org.stabila.core.store.StoreFactory;
-import org.stabila.core.store.WitnessStore;
+import org.stabila.core.store.ExecutiveStore;
 import org.stabila.core.vm.repository.Repository;
 import org.stabila.core.vm.repository.RepositoryImpl;
 import org.stabila.protos.Protocol;
@@ -38,14 +38,14 @@ public class VMContractTestBase {
   protected DposSlot dposSlot;
 
   protected static String OWNER_ADDRESS;
-  protected static String WITNESS_SR1_ADDRESS;
+  protected static String EXECUTIVE_SR1_ADDRESS;
 
-  WitnessStore witnessStore;
+  ExecutiveStore executiveStore;
   MortgageService mortgageService;
 
   static {
     // 27Ssb1WE8FArwJVRRb8Dwy3ssVGuLY8L3S1 (test.config)
-    WITNESS_SR1_ADDRESS =
+    EXECUTIVE_SR1_ADDRESS =
         Constant.ADD_PRE_FIX_STRING_TESTNET + "299F3DB80A24B20A254B89CE639D59132F157F13";
   }
 
@@ -66,7 +66,7 @@ public class VMContractTestBase {
     manager = context.getBean(Manager.class);
     dposSlot = context.getBean(DposSlot.class);
     chainBaseManager = manager.getChainBaseManager();
-    witnessStore = context.getBean(WitnessStore.class);
+    executiveStore = context.getBean(ExecutiveStore.class);
     consensusService = context.getBean(ConsensusService.class);
     maintenanceManager = context.getBean(MaintenanceManager.class);
     mortgageService = context.getBean(MortgageService.class);

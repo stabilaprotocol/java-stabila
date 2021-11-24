@@ -24,7 +24,7 @@ public class BlockGenerate {
     chainBaseManager = dbManager.getChainBaseManager();
   }
 
-  public Block getSignedBlock(ByteString witness, long time, byte[] privateKey) {
+  public Block getSignedBlock(ByteString executive, long time, byte[] privateKey) {
     long blockTime = System.currentTimeMillis() / 3000 * 3000;
     if (time != 0) {
       blockTime = time;
@@ -34,7 +34,7 @@ public class BlockGenerate {
       }
     }
     Param param = Param.getInstance();
-    Miner miner = param.new Miner(privateKey, witness, witness);
+    Miner miner = param.new Miner(privateKey, executive, executive);
     BlockCapsule blockCapsule = manager
         .generateBlock(miner, time, System.currentTimeMillis() + 1000);
     Block block = blockCapsule.getInstance();
@@ -45,7 +45,7 @@ public class BlockGenerate {
                 .getLatestBlockHeaderHash().getBytes()))
         .setNumber(chainBaseManager.getDynamicPropertiesStore().getLatestBlockHeaderNumber() + 1)
         .setTimestamp(blockTime)
-        .setWitnessAddress(witness)
+        .setExecutiveAddress(executive)
         .build();
 
     ECKey ecKey = ECKey.fromPrivate(privateKey);
@@ -55,7 +55,7 @@ public class BlockGenerate {
 
     BlockHeader blockHeader = block.getBlockHeader().toBuilder()
         .setRawData(raw)
-        .setWitnessSignature(sign)
+        .setExecutiveSignature(sign)
         .build();
 
     Block signedBlock = block.toBuilder().setBlockHeader(blockHeader).build();

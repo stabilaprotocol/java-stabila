@@ -315,7 +315,7 @@ public class AccountCapsuleTest {
   }
 
   @Test
-  public void witnessPermissionTest() {
+  public void executivePermissionTest() {
     AccountCapsule accountCapsule =
         new AccountCapsule(
             ByteString.copyFromUtf8("owner"),
@@ -325,18 +325,18 @@ public class AccountCapsuleTest {
 
     Assert.assertTrue(
         Arrays.equals(ByteArray.fromHexString(OWNER_ADDRESS),
-            accountCapsule.getWitnessPermissionAddress()));
+            accountCapsule.getExecutivePermissionAddress()));
 
-    String witnessPermissionAddress =
+    String executivePermissionAddress =
         Wallet.getAddressPreFixString() + "cc6a17a49648a8ad32055c06f60fa14ae46df912cc";
     accountCapsule = new AccountCapsule(accountCapsule.getInstance().toBuilder()
-        .setWitnessPermission(Permission.newBuilder().addKeys(Key.newBuilder()
-            .setAddress(ByteString.copyFrom(ByteArray.fromHexString(witnessPermissionAddress)))
+        .setExecutivePermission(Permission.newBuilder().addKeys(Key.newBuilder()
+            .setAddress(ByteString.copyFrom(ByteArray.fromHexString(executivePermissionAddress)))
             .build()).build()).build());
 
     Assert.assertTrue(
-        Arrays.equals(ByteArray.fromHexString(witnessPermissionAddress),
-            accountCapsule.getWitnessPermissionAddress()));
+        Arrays.equals(ByteArray.fromHexString(executivePermissionAddress),
+            accountCapsule.getExecutivePermissionAddress()));
   }
 
   @Test

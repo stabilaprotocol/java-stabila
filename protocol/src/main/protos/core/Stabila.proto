@@ -165,13 +165,13 @@ message Account {
   int64 create_time = 0x09;
   // this last operation time, including transfer, voting and so on. //FIXME fix grammar
   int64 latest_opration_time = 10;
-  // witness block producing allowance
+  // executive block producing allowance
   int64 allowance = 0x0B;
   // last withdraw time
   int64 latest_withdraw_time = 0x0C;
   // not used so far
   bytes code = 13;
-  bool is_witness = 14;
+  bool is_executive = 14;
   bool is_committee = 15;
   // cded asset(for asset issuer)
   repeated Cded cded_supply = 16;
@@ -210,7 +210,7 @@ message Account {
   AccountResource account_resource = 26;
   bytes codeHash = 30;
   Permission owner_permission = 31;
-  Permission witness_permission = 32;
+  Permission executive_permission = 32;
   repeated Permission active_permission = 33;
 }
 
@@ -268,11 +268,11 @@ message authority {
 message Permission {
   enum PermissionType {
     Owner = 0;
-    Witness = 1;
+    Executive = 1;
     Active = 2;
   }
   PermissionType type = 1;
-  int32 id = 2; //Owner id=0, Witness id=1, Active id start by 2
+  int32 id = 2; //Owner id=0, Executive id=1, Active id start by 2
   string permission_name = 3;
   int64 threshold = 4;
   int32 parent_id = 5;
@@ -280,8 +280,8 @@ message Permission {
   repeated Key keys = 7;
 }
 
-// Witness
-message Witness {
+// Executive
+message Executive {
   bytes address = 1;
   int64 voteCount = 2;
   bytes pubKey = 3;
@@ -345,10 +345,10 @@ message Transaction {
       TransferContract = 1;
       TransferAssetContract = 2;
       VoteAssetContract = 3;
-      VoteWitnessContract = 4;
-      WitnessCreateContract = 5;
+      VoteExecutiveContract = 4;
+      ExecutiveCreateContract = 5;
       AssetIssueContract = 6;
-      WitnessUpdateContract = 8;
+      ExecutiveUpdateContract = 8;
       ParticipateAssetIssueContract = 9;
       AccountUpdateContract = 10;
       CdBalanceContract = 11;
@@ -506,13 +506,13 @@ message BlockHeader {
     //bytes nonce = 5;
     //bytes difficulty = 6;
     int64 number = 7;
-    int64 witness_id = 8;
-    bytes witness_address = 9;
+    int64 executive_id = 8;
+    bytes executive_address = 9;
     int32 version = 10;
     bytes accountStateRoot = 11;
   }
   raw raw_data = 1;
-  bytes witness_signature = 2;
+  bytes executive_signature = 2;
 }
 
 // block
@@ -659,7 +659,7 @@ message NodeInfo {
   repeated PeerInfo peerInfoList = 8;
   ConfigNodeInfo configNodeInfo = 9;
   MachineInfo machineInfo = 10;
-  map<string, string> cheatWitnessInfoMap = 11;
+  map<string, string> cheatExecutiveInfoMap = 11;
 
   message PeerInfo {
     string lastSyncBlock = 1;
@@ -769,17 +769,17 @@ message MetricsInfo {
     RateInfo tps = 7;
     int32 transactionCacheSize = 8;
     RateInfo missedTransaction = 9;
-    repeated Witness witnesses = 10;
+    repeated Executive executives = 10;
     int64 failProcessBlockNum = 11;
     string failProcessBlockReason = 12;
-    repeated DupWitness dupWitness = 13;
+    repeated DupExecutive dupExecutive = 13;
 
-    message Witness {
+    message Executive {
       string address = 1;
       int32 version = 2;
     }
 
-    message DupWitness {
+    message DupExecutive {
       string address = 1;
       int64 blockNum = 2;
       int32 count = 3;
@@ -837,7 +837,7 @@ message MetricsInfo {
       repeated LatencyDetailInfo detail = 8;
 
       message LatencyDetailInfo {
-        string witness = 1;
+        string executive = 1;
         int32 top99 = 2;
         int32 top95 = 3;
         int32 top75 = 4;

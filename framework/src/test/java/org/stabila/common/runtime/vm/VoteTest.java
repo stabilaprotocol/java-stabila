@@ -62,7 +62,7 @@ public class VoteTest {
    *     function uncd(address payable receiver, uint res) external {
    *       receiver.uncd(res);
    *     }
-   *     function voteWitness(address[] calldata srList,
+   *     function voteExecutive(address[] calldata srList,
    *         uint[] calldata tpList) external returns(bool) {
    *       return vote(srList, tpList);
    *     }
@@ -72,7 +72,7 @@ public class VoteTest {
    *     function queryRewardBalance() external view returns(uint) {
    *       return rewardBalance();
    *     }
-   *     function isWitness(address sr) external view returns(bool) {
+   *     function isExecutive(address sr) external view returns(bool) {
    *       return isSrCandidate(sr);
    *     }
    *     function queryVoteCount(address from, address to) external view returns(uint) {
@@ -156,7 +156,7 @@ public class VoteTest {
       + "\"type\":\"uint256\"}],\"name\":\"cd\",\"outputs\":[],\"payable\":false,"
       + "\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,"
       + "\"inputs\":[{\"internalType\":\"address\",\"name\":\"sr\",\"type\":\"address\"}],"
-      + "\"name\":\"isWitness\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\","
+      + "\"name\":\"isExecutive\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\","
       + "\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\","
       + "\"type\":\"function\"},"
       + "{\"constant\":false,\"inputs\":[{\"internalType\":\"address payable\","
@@ -189,7 +189,7 @@ public class VoteTest {
       + "\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},"
       + "{\"constant\":false,\"inputs\":[{\"internalType\":\"address[]\",\"name\":\"srList\","
       + "\"type\":\"address[]\"},{\"internalType\":\"uint256[]\",\"name\":\"tpList\","
-      + "\"type\":\"uint256[]\"}],\"name\":\"voteWitness\","
+      + "\"type\":\"uint256[]\"}],\"name\":\"voteExecutive\","
       + "\"outputs\":[{\"internalType\":\"bool\","
       + "\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\","
       + "\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"withdrawReward\","
@@ -206,18 +206,18 @@ public class VoteTest {
   private static final byte[] userB = Commons.decode58Check(userBStr);
   private static final String userCStr = "27juXSbMvL6pb8VgmKRgW6ByCfw5RqZjUuo";
   private static final byte[] userC = Commons.decode58Check(userCStr);
-  private static final String witnessAStr = "27Ssb1WE8FArwJVRRb8Dwy3ssVGuLY8L3S1";
-  private static final byte[] witnessA = Commons.decode58Check(witnessAStr);
-  private static final String witnessBStr = "27anh4TDZJGYpsn4BjXzb7uEArNALxwiZZW";
-  private static final byte[] witnessB = Commons.decode58Check(witnessBStr);
-  private static final String witnessCStr = "27Wkfa5iEJtsKAKdDzSmF1b2gDm5s49kvdZ";
-  private static final byte[] witnessC = Commons.decode58Check(witnessCStr);
+  private static final String executiveAStr = "27Ssb1WE8FArwJVRRb8Dwy3ssVGuLY8L3S1";
+  private static final byte[] executiveA = Commons.decode58Check(executiveAStr);
+  private static final String executiveBStr = "27anh4TDZJGYpsn4BjXzb7uEArNALxwiZZW";
+  private static final byte[] executiveB = Commons.decode58Check(executiveBStr);
+  private static final String executiveCStr = "27Wkfa5iEJtsKAKdDzSmF1b2gDm5s49kvdZ";
+  private static final byte[] executiveC = Commons.decode58Check(executiveCStr);
   private static final String cdMethod = "cd(address,uint256,uint256)";
   private static final String uncdMethod = "uncd(address,uint256)";
-  private static final String voteMethod = "voteWitness(address[],uint256[])";
+  private static final String voteMethod = "voteExecutive(address[],uint256[])";
   private static final String withdrawRewardMethod = "withdrawReward()";
   private static final String queryRewardBalanceMethod = "queryRewardBalance()";
-  private static final String isWitnessMethod = "isWitness(address)";
+  private static final String isExecutiveMethod = "isExecutive(address)";
   private static final String queryVoteCountMethod = "queryVoteCount(address,address)";
   private static final String queryTotalVoteCountMethod = "queryTotalVoteCount(address)";
   private static final String queryReceivedVoteCountMethod = "queryReceivedVoteCount(address)";
@@ -387,45 +387,45 @@ public class VoteTest {
       triggerContract(voteContract, SUCCESS, getEqualConsumer(totalStabilaPower),
           queryTotalVoteCountMethod, voteContractStr);
 
-      // check witness: true
+      // check executive: true
       triggerContract(voteContract, SUCCESS, getEqualConsumer(1),
-          isWitnessMethod, witnessAStr);
+          isExecutiveMethod, executiveAStr);
 
-      // check witness: false
+      // check executive: false
       triggerContract(voteContract, SUCCESS, getEqualConsumer(0),
-          isWitnessMethod, userAStr);
+          isExecutiveMethod, userAStr);
 
-      // query witness received vote
-      oldReceivedVoteCount = manager.getWitnessStore().get(witnessA).getVoteCount();
+      // query executive received vote
+      oldReceivedVoteCount = manager.getExecutiveStore().get(executiveA).getVoteCount();
       triggerContract(voteContract, SUCCESS, getEqualConsumer(oldReceivedVoteCount),
-          queryReceivedVoteCountMethod, witnessAStr);
+          queryReceivedVoteCountMethod, executiveAStr);
 
       // do vote
-      voteWitness(voteContract,
-          Arrays.asList(witnessAStr, witnessBStr),
+      voteExecutive(voteContract,
+          Arrays.asList(executiveAStr, executiveBStr),
           Arrays.asList(1000L, 1000L));
 
-      // query witness received vote: not changed
+      // query executive received vote: not changed
       triggerContract(voteContract, SUCCESS, getEqualConsumer(oldReceivedVoteCount),
-          queryReceivedVoteCountMethod, witnessAStr);
+          queryReceivedVoteCountMethod, executiveAStr);
 
       payRewardAndDoMaintenance(1);
     }
 
     // cycle-2
     {
-      // query witness received vote: increased
+      // query executive received vote: increased
       newVoteReceivedCount = oldReceivedVoteCount + 1000;
       triggerContract(voteContract, SUCCESS, getEqualConsumer(newVoteReceivedCount),
-          queryReceivedVoteCountMethod, witnessAStr);
+          queryReceivedVoteCountMethod, executiveAStr);
 
       // query contract used vote
       triggerContract(voteContract, SUCCESS, getEqualConsumer(2000),
           queryUsedVoteCountMethod, voteContractStr);
 
-      // query contract vote to special witness
+      // query contract vote to special executive
       triggerContract(voteContract, SUCCESS, getEqualConsumer(1000),
-          queryVoteCountMethod, StringUtil.encode58Check(voteContract), witnessAStr);
+          queryVoteCountMethod, StringUtil.encode58Check(voteContract), executiveAStr);
 
       // query reward
       triggerContract(voteContract, SUCCESS, getEqualConsumer(0),
@@ -480,15 +480,15 @@ public class VoteTest {
 
     // Not enough stabila power
     triggerContract(voteContractAddr, REVERT, null, voteMethod,
-        Arrays.asList(witnessAStr, witnessBStr), Arrays.asList(1000, 1000));
+        Arrays.asList(executiveAStr, executiveBStr), Arrays.asList(1000, 1000));
 
-    // Not witness
+    // Not executive
     triggerContract(voteContractAddr, REVERT, null, voteMethod,
-        Arrays.asList(userAStr, witnessBStr), Arrays.asList(1000, 1000));
+        Arrays.asList(userAStr, executiveBStr), Arrays.asList(1000, 1000));
 
     // List size not match
     triggerContract(voteContractAddr, REVERT, null, voteMethod,
-        Arrays.asList(userAStr, witnessBStr), Arrays.asList(1000));
+        Arrays.asList(userAStr, executiveBStr), Arrays.asList(1000));
   }
 
   /**
@@ -515,11 +515,11 @@ public class VoteTest {
       cdBalance(voteContractB);
 
       // vote through smart contract
-      voteWitness(voteContractA,
-          Arrays.asList(witnessAStr, witnessBStr),
+      voteExecutive(voteContractA,
+          Arrays.asList(executiveAStr, executiveBStr),
           Arrays.asList(1234L, 4321L));
-      voteWitness(voteContractB,
-          Arrays.asList(witnessAStr, witnessBStr),
+      voteExecutive(voteContractB,
+          Arrays.asList(executiveAStr, executiveBStr),
           Arrays.asList(12L, 21L));
 
       // no reward yet
@@ -582,11 +582,11 @@ public class VoteTest {
       cdBalance(voteContractB);
 
       // vote through smart contract
-      voteWitness(voteContractA,
-          Arrays.asList(witnessAStr, witnessBStr),
+      voteExecutive(voteContractA,
+          Arrays.asList(executiveAStr, executiveBStr),
           Arrays.asList(1234L, 4321L));
-      voteWitness(voteContractB,
-          Arrays.asList(witnessAStr, witnessBStr),
+      voteExecutive(voteContractB,
+          Arrays.asList(executiveAStr, executiveBStr),
           Arrays.asList(12L, 21L));
 
       // no reward yet
@@ -598,8 +598,8 @@ public class VoteTest {
     // cycle-2
     {
       // change vote through smart contract
-      voteWitness(voteContractA,
-          Collections.singletonList(witnessCStr),
+      voteExecutive(voteContractA,
+          Collections.singletonList(executiveCStr),
           Collections.singletonList(2333L));
       payRewardAndDoMaintenance(1);
     }
@@ -610,11 +610,11 @@ public class VoteTest {
       checkRewardAndWithdraw(voteContractB, false);
 
       // change vote through smart contract
-      voteWitness(voteContractA,
-          Arrays.asList(witnessAStr, witnessBStr),
+      voteExecutive(voteContractA,
+          Arrays.asList(executiveAStr, executiveBStr),
           Arrays.asList(4321L, 1234L));
-      voteWitness(voteContractB,
-          Arrays.asList(witnessAStr, witnessBStr),
+      voteExecutive(voteContractB,
+          Arrays.asList(executiveAStr, executiveBStr),
           Arrays.asList(21L, 12L));
 
       // no reward yet
@@ -626,19 +626,19 @@ public class VoteTest {
     // cycle-4
     {
       // change vote through smart contract
-      voteWitness(voteContractA,
-          Arrays.asList(witnessAStr, witnessBStr),
+      voteExecutive(voteContractA,
+          Arrays.asList(executiveAStr, executiveBStr),
           Arrays.asList(12L, 21L));
-      voteWitness(voteContractB,
-          Arrays.asList(witnessAStr, witnessBStr),
+      voteExecutive(voteContractB,
+          Arrays.asList(executiveAStr, executiveBStr),
           Arrays.asList(1234L, 4321L));
 
       // change vote through smart contract
-      voteWitness(voteContractA,
-          Collections.singletonList(witnessCStr),
+      voteExecutive(voteContractA,
+          Collections.singletonList(executiveCStr),
           Collections.singletonList(12L));
-      voteWitness(voteContractB,
-          Collections.singletonList(witnessCStr),
+      voteExecutive(voteContractB,
+          Collections.singletonList(executiveCStr),
           Collections.singletonList(1234L));
 
       payRewardAndDoMaintenance(1);
@@ -660,11 +660,11 @@ public class VoteTest {
     // cycle-7
     {
       // vote through smart contract
-      voteWitness(voteContractA,
-          Arrays.asList(witnessAStr, witnessBStr),
+      voteExecutive(voteContractA,
+          Arrays.asList(executiveAStr, executiveBStr),
           Arrays.asList(1234L, 4321L));
-      voteWitness(voteContractB,
-          Arrays.asList(witnessAStr, witnessBStr),
+      voteExecutive(voteContractB,
+          Arrays.asList(executiveAStr, executiveBStr),
           Arrays.asList(12L, 21L));
 
       payRewardAndDoMaintenance(1);
@@ -695,11 +695,11 @@ public class VoteTest {
       cdBalance(voteContractB);
 
       // vote through smart contract
-      voteWitness(voteContractA,
-          Arrays.asList(witnessAStr, witnessBStr),
+      voteExecutive(voteContractA,
+          Arrays.asList(executiveAStr, executiveBStr),
           Arrays.asList(1234L, 4321L));
-      voteWitness(voteContractB,
-          Arrays.asList(witnessAStr, witnessBStr),
+      voteExecutive(voteContractB,
+          Arrays.asList(executiveAStr, executiveBStr),
           Arrays.asList(12L, 21L));
 
       payRewardAndDoMaintenance(1);
@@ -740,11 +740,11 @@ public class VoteTest {
       checkRewardAndWithdraw(voteContractB, true);
 
       // vote through smart contract
-      voteWitness(voteContractA,
-          Arrays.asList(witnessAStr, witnessBStr),
+      voteExecutive(voteContractA,
+          Arrays.asList(executiveAStr, executiveBStr),
           Arrays.asList(1234L, 4321L));
-      voteWitness(voteContractB,
-          Arrays.asList(witnessAStr, witnessBStr),
+      voteExecutive(voteContractB,
+          Arrays.asList(executiveAStr, executiveBStr),
           Arrays.asList(12L, 21L));
 
       payRewardAndDoMaintenance(1);
@@ -799,11 +799,11 @@ public class VoteTest {
       cdBalance(voteContractB);
 
       // vote through smart contract
-      voteWitness(voteContractA,
-          Arrays.asList(witnessAStr, witnessBStr),
+      voteExecutive(voteContractA,
+          Arrays.asList(executiveAStr, executiveBStr),
           Arrays.asList(1234L, 4321L));
-      voteWitness(voteContractB,
-          Arrays.asList(witnessAStr, witnessBStr),
+      voteExecutive(voteContractB,
+          Arrays.asList(executiveAStr, executiveBStr),
           Arrays.asList(12L, 21L));
 
       payRewardAndDoMaintenance(1);
@@ -843,19 +843,19 @@ public class VoteTest {
         cdMethod, StringUtil.encode58Check(contract), cdUnit, 1);
   }
 
-  private void voteWitness(byte[] contract,
-                           List<String> witnessList,
+  private void voteExecutive(byte[] contract,
+                           List<String> executiveList,
                            List<Long> stabilaPowerList) throws Exception {
     triggerContract(contract, SUCCESS, getEqualConsumer(1),
-        voteMethod, witnessList, stabilaPowerList);
+        voteMethod, executiveList, stabilaPowerList);
   }
 
   private void clearVote(byte[] contract) throws Exception {
-    voteWitness(contract, new ArrayList<>(), new ArrayList<>());
+    voteExecutive(contract, new ArrayList<>(), new ArrayList<>());
   }
 
   private void checkVote(byte[] contract,
-                         List<String> witnessList,
+                         List<String> executiveList,
                          List<Long> stabilaPowerList) {
 
   }
@@ -883,11 +883,11 @@ public class VoteTest {
   private void payRewardAndDoMaintenance(int cycle) {
     while (cycle-- > 0) {
       manager.getDelegationStore().addReward(
-          manager.getDynamicPropertiesStore().getCurrentCycleNumber(), witnessA, 1000_000_000);
+          manager.getDynamicPropertiesStore().getCurrentCycleNumber(), executiveA, 1000_000_000);
       manager.getDelegationStore().addReward(
-          manager.getDynamicPropertiesStore().getCurrentCycleNumber(), witnessB, 1000_000_000);
+          manager.getDynamicPropertiesStore().getCurrentCycleNumber(), executiveB, 1000_000_000);
       manager.getDelegationStore().addReward(
-          manager.getDynamicPropertiesStore().getCurrentCycleNumber(), witnessC, 1000_000_000);
+          manager.getDynamicPropertiesStore().getCurrentCycleNumber(), executiveC, 1000_000_000);
 
       maintenanceManager.doMaintenance();
     }

@@ -10,13 +10,12 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import java.util.Arrays;
 import java.util.Objects;
 import lombok.extern.slf4j.Slf4j;
-import org.stabila.common.parameter.CommonParameter;
 import org.stabila.common.utils.Commons;
 import org.stabila.common.utils.DecodeUtil;
 import org.stabila.common.utils.StringUtil;
 import org.stabila.core.capsule.AccountCapsule;
 import org.stabila.core.capsule.TransactionResultCapsule;
-import org.stabila.core.capsule.WitnessCapsule;
+import org.stabila.core.capsule.ExecutiveCapsule;
 import org.stabila.core.exception.BalanceInsufficientException;
 import org.stabila.core.exception.ContractExeException;
 import org.stabila.core.exception.ContractValidateException;
@@ -119,9 +118,9 @@ public class WithdrawBalanceActuator extends AbstractActuator {
     String readableOwnerAddress = StringUtil.createReadableString(ownerAddress);
 
     //boolean isGP = CommonParameter.getInstance()
-    //    .getGenesisBlock().getWitnesses().stream().anyMatch(witness ->
-    //        Arrays.equals(ownerAddress, witness.getAddress()));
-    boolean isGP = chainBaseManager.getWitnessStore().getAllWitnesses().stream().filter(WitnessCapsule::getIsJobs).anyMatch(wc -> Arrays.equals(wc.getAddress().toByteArray(), ownerAddress));
+    //    .getGenesisBlock().getExecutives().stream().anyMatch(executive ->
+    //        Arrays.equals(ownerAddress, executive.getAddress()));
+    boolean isGP = chainBaseManager.getExecutiveStore().getAllExecutives().stream().filter(ExecutiveCapsule::getIsJobs).anyMatch(wc -> Arrays.equals(wc.getAddress().toByteArray(), ownerAddress));
     if (isGP) {
       throw new ContractValidateException(
           ACCOUNT_EXCEPTION_STR + readableOwnerAddress
@@ -130,16 +129,16 @@ public class WithdrawBalanceActuator extends AbstractActuator {
 
     long latestWithdrawTime = accountCapsule.getLatestWithdrawTime();
     long now = dynamicStore.getLatestBlockHeaderTimestamp();
-    long witnessAllowanceCdedTime = dynamicStore.getWitnessAllowanceCdedTime() * CDED_PERIOD;
+    long executiveAllowanceCdedTime = dynamicStore.getExecutiveAllowanceCdedTime() * CDED_PERIOD;
 
-    if (now - latestWithdrawTime < witnessAllowanceCdedTime) {
+    if (now - latestWithdrawTime < executiveAllowanceCdedTime) {
       throw new ContractValidateException("The last withdraw time is "
           + latestWithdrawTime + ", less than 24 hours");
     }
 
     if (accountCapsule.getAllowance() <= 0 &&
         mortgageService.queryReward(ownerAddress) <= 0) {
-      throw new ContractValidateException("witnessAccount does not have any reward");
+      throw new ContractValidateException("executiveAccount does not have any reward");
     }
     try {
       LongMath.checkedAdd(accountCapsule.getBalance(), accountCapsule.getAllowance());

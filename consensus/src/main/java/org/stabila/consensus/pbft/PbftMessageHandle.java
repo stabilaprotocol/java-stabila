@@ -81,7 +81,7 @@ public class PbftMessageHandle {
 
   public List<Miner> getSrMinerList() {
     return Param.getInstance().getMiners().stream()
-        .filter(miner -> chainBaseManager.getWitnesses().contains(miner.getWitnessAddress()))
+        .filter(miner -> chainBaseManager.getExecutives().contains(miner.getExecutiveAddress()))
         .collect(Collectors.toList());
   }
 
@@ -228,16 +228,16 @@ public class PbftMessageHandle {
   }
 
   public boolean checkIsCanSendMsg(PbftMessage msg) {
-    if (!Param.getInstance().isEnable()) {//is witness
+    if (!Param.getInstance().isEnable()) {//is executive
       return false;
     }
     ByteString publicKey = Param.getInstance().getMiner().getPrivateKeyAddress();
     List<ByteString> compareList;
     long epoch = msg.getPbftMessage().getRawData().getEpoch();
     if (epoch > maintenanceManager.getBeforeMaintenanceTime()) {
-      compareList = maintenanceManager.getCurrentWitness();
+      compareList = maintenanceManager.getCurrentExecutive();
     } else {
-      compareList = maintenanceManager.getBeforeWitness();
+      compareList = maintenanceManager.getBeforeExecutive();
     }
     if (!compareList.contains(publicKey)) {
       return false;

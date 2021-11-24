@@ -44,9 +44,9 @@ public class MultiSign23 {
   private final String testKey002 = Configuration.getByPath("testng.conf")
       .getString("foundationAccount.key1");
   private final byte[] fromAddress = PublicMethed.getFinalAddress(testKey002);
-  private final String witnessKey001 = Configuration.getByPath("testng.conf")
-      .getString("witness.key1");
-  private final byte[] witnessAddress001 = PublicMethed.getFinalAddress(witnessKey001);
+  private final String executiveKey001 = Configuration.getByPath("testng.conf")
+      .getString("executive.key1");
+  private final byte[] executiveAddress001 = PublicMethed.getFinalAddress(executiveKey001);
   private long multiSignFee = Configuration.getByPath("testng.conf")
       .getLong("defaultParameter.multiSignFee");
   private long updateAccountPermissionFee = Configuration.getByPath("testng.conf")
@@ -112,7 +112,7 @@ public class MultiSign23 {
     List<String> ownerPermissionKeys = new ArrayList<>();
     List<String> activePermissionKeys = new ArrayList<>();
     ownerPermissionKeys.add(ownerKey);
-    activePermissionKeys.add(witnessKey001);
+    activePermissionKeys.add(executiveKey001);
     activePermissionKeys.add(tmpKey02);
 
     logger.info("** update owner and active permission to two address");
@@ -123,7 +123,7 @@ public class MultiSign23 {
             + "\"active_permissions\":[{\"type\":2,\"permission_name\":\"active0\",\"threshold\":2,"
             + "\"operations\":\"7fff1fc0033e0000000000000000000000000000000000000000000000000000\","
             + "\"keys\":["
-            + "{\"address\":\"" + PublicMethed.getAddressString(witnessKey001) + "\",\"weight\":1},"
+            + "{\"address\":\"" + PublicMethed.getAddressString(executiveKey001) + "\",\"weight\":1},"
             + "{\"address\":\"" + PublicMethed.getAddressString(tmpKey02) + "\",\"weight\":1}"
             + "]}]}";
 
@@ -158,7 +158,7 @@ public class MultiSign23 {
         transaction, tmpKey02, 2, blockingStubFull);
 
     Transaction transaction2 = PublicMethedForMutiSign.addTransactionSignWithPermissionId(
-        transaction1, witnessKey001, 2, blockingStubFull);
+        transaction1, executiveKey001, 2, blockingStubFull);
 
     logger.info("transaction hex string is " + ByteArray.toHexString(transaction2.toByteArray()));
 
@@ -710,7 +710,7 @@ public class MultiSign23 {
             + "{\"address\":\"" + PublicMethed.getAddressString(testKey002) + "\",\"weight\":3}]},"
             + "\"active_permissions\":[{\"type\":2,\"permission_name\":\"active0\",\"threshold\":3,"
             + "\"operations\":\"" + DEFAULT_OPERATION + "\",\"keys\":["
-            + "{\"address\":\"" + PublicMethed.getAddressString(witnessKey001) + "\",\"weight\":1},"
+            + "{\"address\":\"" + PublicMethed.getAddressString(executiveKey001) + "\",\"weight\":1},"
             + "{\"address\":\"" + PublicMethed.getAddressString(ownerKey) + "\",\"weight\":1},"
             + "{\"address\":\"" + PublicMethed.getAddressString(tmpKey02) + "\",\"weight\":1}"
             + "]}]}";
@@ -767,7 +767,7 @@ public class MultiSign23 {
     Assert.assertEquals(2, txWeight.getCurrentWeight());
 
     Transaction transaction3 = PublicMethedForMutiSign
-        .addTransactionSignWithPermissionId(transaction2, witnessKey001, 2, blockingStubFull);
+        .addTransactionSignWithPermissionId(transaction2, executiveKey001, 2, blockingStubFull);
 
     logger.info("transaction hex string is " + ByteArray.toHexString(transaction3.toByteArray()));
     txWeight = PublicMethedForMutiSign.getTransactionSignWeight(transaction3, blockingStubFull);
@@ -811,7 +811,7 @@ public class MultiSign23 {
             + "{\"address\":\"" + PublicMethed.getAddressString(testKey002) + "\",\"weight\":3}]},"
             + "\"active_permissions\":[{\"type\":2,\"permission_name\":\"active0\",\"threshold\":3,"
             + "\"operations\":\"" + DEFAULT_OPERATION + "\",\"keys\":["
-            + "{\"address\":\"" + PublicMethed.getAddressString(witnessKey001) + "\",\"weight\":1},"
+            + "{\"address\":\"" + PublicMethed.getAddressString(executiveKey001) + "\",\"weight\":1},"
             + "{\"address\":\"" + PublicMethed.getAddressString(ownerKey) + "\",\"weight\":1},"
             + "{\"address\":\"" + PublicMethed.getAddressString(tmpKey02) + "\",\"weight\":1}"
             + "]}]}";
@@ -915,7 +915,7 @@ public class MultiSign23 {
             + "{\"address\":\"" + PublicMethed.getAddressString(testKey002) + "\",\"weight\":3}]},"
             + "\"active_permissions\":[{\"type\":2,\"permission_name\":\"active0\",\"threshold\":3,"
             + "\"operations\":\"" + DEFAULT_OPERATION + "\",\"keys\":["
-            + "{\"address\":\"" + PublicMethed.getAddressString(witnessKey001) + "\",\"weight\":1},"
+            + "{\"address\":\"" + PublicMethed.getAddressString(executiveKey001) + "\",\"weight\":1},"
             + "{\"address\":\"" + PublicMethed.getAddressString(ownerKey) + "\",\"weight\":1},"
             + "{\"address\":\"" + PublicMethed.getAddressString(tmpKey02) + "\",\"weight\":1}"
             + "]}]}";

@@ -28,7 +28,7 @@ import org.stabila.protos.Protocol.Block;
 import org.stabila.protos.Protocol.Transaction;
 import org.stabila.protos.contract.BalanceContract.CdBalanceContract;
 import org.stabila.protos.contract.BalanceContract.UncdBalanceContract;
-import org.stabila.protos.contract.WitnessContract;
+import org.stabila.protos.contract.ExecutiveContract;
 import stest.stabila.wallet.common.client.Configuration;
 import stest.stabila.wallet.common.client.Parameter.CommonConstant;
 import stest.stabila.wallet.common.client.WalletClient;
@@ -92,7 +92,7 @@ public class ContinueVote {
   }
 
   @Test(enabled = false, threadPoolSize = 30, invocationCount = 30)
-  public void testVoteWitness() {
+  public void testVoteExecutive() {
     ByteString addressBs = ByteString.copyFrom(fromAddress);
     Account request = Account.newBuilder().setAddress(addressBs).build();
     AccountNetMessage accountNetMessage = blockingStubFull.getAccountNet(request);
@@ -115,7 +115,7 @@ public class ContinueVote {
       if (fromInfo.getCded(0).getCdedBalance() < 10000000) {
         PublicMethed.cdBalance(fromAddress, 10000000000L, 3, testKey002, blockingStubFull);
       }
-      ret = voteWitness(smallVoteMap, fromAddress, testKey002);
+      ret = voteExecutive(smallVoteMap, fromAddress, testKey002);
       if (ret) {
         logger.info("This vote num is " + Integer.toString(randNum));
         logger.info("Now the fromaddress vote is " + Long.toString(fromInfo
@@ -148,7 +148,7 @@ public class ContinueVote {
    * constructor.
    */
 
-  public Boolean voteWitness(HashMap<String, String> witness, byte[] addRess, String priKey) {
+  public Boolean voteExecutive(HashMap<String, String> executive, byte[] addRess, String priKey) {
 
     ECKey temKey = null;
     try {
@@ -164,14 +164,14 @@ public class ContinueVote {
       beforeVoteNum = beforeVote.getVotes(0).getVoteCount();
     }
 
-    WitnessContract.VoteWitnessContract.Builder builder = WitnessContract.VoteWitnessContract
+    ExecutiveContract.VoteExecutiveContract.Builder builder = ExecutiveContract.VoteExecutiveContract
         .newBuilder();
     builder.setOwnerAddress(ByteString.copyFrom(addRess));
-    for (String addressBase58 : witness.keySet()) {
-      String value = witness.get(addressBase58);
+    for (String addressBase58 : executive.keySet()) {
+      String value = executive.get(addressBase58);
       final long count = Long.parseLong(value);
-      WitnessContract.VoteWitnessContract.Vote.Builder voteBuilder =
-          WitnessContract.VoteWitnessContract.Vote
+      ExecutiveContract.VoteExecutiveContract.Vote.Builder voteBuilder =
+          ExecutiveContract.VoteExecutiveContract.Vote
               .newBuilder();
       byte[] address = WalletClient.decodeFromBase58Check(addressBase58);
       logger.info("address ====== " + ByteArray.toHexString(address));
@@ -183,9 +183,9 @@ public class ContinueVote {
       builder.addVotes(voteBuilder.build());
     }
 
-    WitnessContract.VoteWitnessContract contract = builder.build();
+    ExecutiveContract.VoteExecutiveContract contract = builder.build();
 
-    Transaction transaction = blockingStubFull.voteWitnessAccount(contract);
+    Transaction transaction = blockingStubFull.voteExecutiveAccount(contract);
     if (transaction == null || transaction.getRawData().getContractCount() == 0) {
       logger.info("transaction == null");
       return false;
@@ -204,16 +204,16 @@ public class ContinueVote {
     }
     Account afterVote = queryAccount(ecKey, searchBlockingStubFull);
     //Long afterVoteNum = afterVote.getVotes(0).getVoteCount();
-    for (String key : witness.keySet()) {
+    for (String key : executive.keySet()) {
       for (int j = 0; j < afterVote.getVotesCount(); j++) {
-        logger.info(Long.toString(Long.parseLong(witness.get(key))));
+        logger.info(Long.toString(Long.parseLong(executive.get(key))));
         logger.info(key);
         if (key.equals("TB4B1RMhoPeivkj4Hebm6tttHjRY9yQFes")) {
           logger.info("catch it");
           logger.info(Long.toString(afterVote.getVotes(j).getVoteCount()));
-          logger.info(Long.toString(Long.parseLong(witness.get(key))));
+          logger.info(Long.toString(Long.parseLong(executive.get(key))));
           //Assert.assertTrue(afterVote.getVotes(j).getVoteCount() == Long
-          // .parseLong(witness.get(key)));
+          // .parseLong(executive.get(key)));
         }
 
       }

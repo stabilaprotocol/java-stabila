@@ -120,12 +120,12 @@ public class BlockCapsuleTest {
   }
 
   @Test
-  public void testHasWitnessSignature() {
+  public void testHasExecutiveSignature() {
 
-    Assert.assertFalse(blockCapsule0.hasWitnessSignature());
+    Assert.assertFalse(blockCapsule0.hasExecutiveSignature());
     blockCapsule0
-        .sign(ByteArray.fromHexString(Args.getLocalWitnesses().getPrivateKey()));
-    Assert.assertTrue(blockCapsule0.hasWitnessSignature());
+        .sign(ByteArray.fromHexString(Args.getLocalExecutives().getPrivateKey()));
+    Assert.assertTrue(blockCapsule0.hasExecutiveSignature());
   }
 
   @Test

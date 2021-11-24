@@ -39,7 +39,7 @@ case "${1}" in
 
         nohup java ${JVM_OPTIONS} \
             -jar ${JAR_FILE_PATH} \
-            -p ${PRIVATE_KEY} --witness \
+            -p ${PRIVATE_KEY} --executive \
             -c ${CONF_FILE_PATH} \
             > ${LOG_FILE_PATH} 2>&1 \
             & echo $! > ${PID_FILE_PATH}

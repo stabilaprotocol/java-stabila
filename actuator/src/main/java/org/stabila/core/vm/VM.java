@@ -98,7 +98,7 @@ public class VM {
           || (!VMConfig.allowSvmCd()
               && (op == OpCode.CD || op == OpCode.UNCD || op == OpCode.CDEXPIRETIME))
           || (!VMConfig.allowSvmVote()
-              && (op == OpCode.VOTEWITNESS || op == OpCode.WITHDRAWREWARD))
+              && (op == OpCode.VOTEEXECUTIVE || op == OpCode.WITHDRAWREWARD))
       ) {
         throw Program.Exception.invalidOpCode(program.getCurrentOp());
       }
@@ -166,24 +166,24 @@ public class VM {
         case CDEXPIRETIME:
           ucrCost = ucrCosts.getCdExpireTime();
           break;
-        case VOTEWITNESS:
-          ucrCost = ucrCosts.getVoteWitness();
+        case VOTEEXECUTIVE:
+          ucrCost = ucrCosts.getVoteExecutive();
           DataWord amountArrayLength = stack.get(stack.size() - 1).clone();
           DataWord amountArrayOffset = stack.get(stack.size() - 2);
-          DataWord witnessArrayLength = stack.get(stack.size() - 3).clone();
-          DataWord witnessArrayOffset = stack.get(stack.size() - 4);
+          DataWord executiveArrayLength = stack.get(stack.size() - 3).clone();
+          DataWord executiveArrayOffset = stack.get(stack.size() - 4);
 
           DataWord wordSize = new DataWord(DataWord.WORD_SIZE);
 
           amountArrayLength.mul(wordSize);
           BigInteger amountArrayMemoryNeeded = memNeeded(amountArrayOffset, amountArrayLength);
 
-          witnessArrayLength.mul(wordSize);
-          BigInteger witnessArrayMemoryNeeded = memNeeded(witnessArrayOffset, witnessArrayLength);
+          executiveArrayLength.mul(wordSize);
+          BigInteger executiveArrayMemoryNeeded = memNeeded(executiveArrayOffset, executiveArrayLength);
 
           ucrCost += calcMemUcr(ucrCosts, oldMemSize,
-              (amountArrayMemoryNeeded.compareTo(witnessArrayMemoryNeeded) > 0 ?
-                  amountArrayMemoryNeeded : witnessArrayMemoryNeeded), 0, op);
+              (amountArrayMemoryNeeded.compareTo(executiveArrayMemoryNeeded) > 0 ?
+                  amountArrayMemoryNeeded : executiveArrayMemoryNeeded), 0, op);
           break;
         case WITHDRAWREWARD:
           ucrCost = ucrCosts.getWithdrawReward();
@@ -1171,17 +1171,17 @@ public class VM {
           program.step();
         }
         break;
-        case VOTEWITNESS: {
+        case VOTEEXECUTIVE: {
           if (program.isStaticCall()) {
             throw new Program.StaticCallModificationException();
           }
 
           int amountArrayLength = program.stackPop().intValueSafe();
           int amountArrayOffset = program.stackPop().intValueSafe();
-          int witnessArrayLength = program.stackPop().intValueSafe();
-          int witnessArrayOffset = program.stackPop().intValueSafe();
+          int executiveArrayLength = program.stackPop().intValueSafe();
+          int executiveArrayOffset = program.stackPop().intValueSafe();
 
-          boolean result = program.voteWitness(witnessArrayOffset, witnessArrayLength,
+          boolean result = program.voteExecutive(executiveArrayOffset, executiveArrayLength,
               amountArrayOffset, amountArrayLength);
           program.stackPush(result ? DataWord.ONE() : DataWord.ZERO());
           program.step();

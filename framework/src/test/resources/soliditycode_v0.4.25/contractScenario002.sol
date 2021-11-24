@@ -10,15 +10,15 @@ contract StabilaNative{
     address public deleteProposalAddress = address(0x10007);
     constructor () payable public {}
 
-    function voteForSingleWitness (address witnessAddr, uint256 voteValue) public{
+    function voteForSingleExecutive (address executiveAddr, uint256 voteValue) public{
         // method 1:
-        voteContractAddress.delegatecall(abi.encode(witnessAddr,voteValue));
+        voteContractAddress.delegatecall(abi.encode(executiveAddr,voteValue));
     }
 
-    function voteUsingAssembly (address witnessAddr, uint256 voteValue) public{
+    function voteUsingAssembly (address executiveAddr, uint256 voteValue) public{
         // method 2:
         assembly{
-            mstore(0x80,witnessAddr)
+            mstore(0x80,executiveAddr)
             mstore(0xa0,voteValue)
             // gas, address, in, size, out, size
             if iszero(delegatecall(0, 0x10001, 0x80, 0x40, 0x80, 0x0)) {

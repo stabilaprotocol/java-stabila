@@ -30,10 +30,10 @@ public class BlockChainMetricManager {
   @Autowired
   private ChainBaseManager chainBaseManager;
 
-  private Map<String, BlockCapsule> witnessInfo = new ConcurrentHashMap<String, BlockCapsule>();
+  private Map<String, BlockCapsule> executiveInfo = new ConcurrentHashMap<String, BlockCapsule>();
 
   @Getter
-  private Map<String, Long> dupWitnessBlockNum = new ConcurrentHashMap<String, Long>();
+  private Map<String, Long> dupExecutiveBlockNum = new ConcurrentHashMap<String, Long>();
   @Setter
   private long failProcessBlockNum = 0;
   @Setter
@@ -64,14 +64,14 @@ public class BlockChainMetricManager {
     RateInfo tpsInfo = MetricsUtil.getRateInfo(MetricsKey.BLOCKCHAIN_TPS);
     blockChain.setTps(tpsInfo);
 
-    List<WitnessInfo> witnesses = getSrList();
+    List<ExecutiveInfo> executives = getSrList();
 
-    blockChain.setWitnesses(witnesses);
+    blockChain.setExecutives(executives);
 
     blockChain.setFailProcessBlockNum(failProcessBlockNum);
     blockChain.setFailProcessBlockReason(failProcessBlockReason);
-    List<DupWitnessInfo> dupWitness = getDupWitness();
-    blockChain.setDupWitness(dupWitness);
+    List<DupExecutiveInfo> dupExecutive = getDupExecutive();
+    blockChain.setDupExecutive(dupExecutive);
   }
 
   public Protocol.MetricsInfo.BlockChainInfo getBlockChainProtoInfo() {
@@ -100,20 +100,20 @@ public class BlockChainMetricManager {
     Protocol.MetricsInfo.RateInfo tpsInfo = tps.toProtoEntity();
 
     blockChainInfo.setTps(tpsInfo);
-    for (WitnessInfo witness : blockChain.getWitnesses()) {
-      Protocol.MetricsInfo.BlockChainInfo.Witness.Builder witnessInfo =
-          Protocol.MetricsInfo.BlockChainInfo.Witness.newBuilder();
-      witnessInfo.setAddress(witness.getAddress());
-      witnessInfo.setVersion(witness.getVersion());
-      blockChainInfo.addWitnesses(witnessInfo.build());
+    for (ExecutiveInfo executive : blockChain.getExecutives()) {
+      Protocol.MetricsInfo.BlockChainInfo.Executive.Builder executiveInfo =
+          Protocol.MetricsInfo.BlockChainInfo.Executive.newBuilder();
+      executiveInfo.setAddress(executive.getAddress());
+      executiveInfo.setVersion(executive.getVersion());
+      blockChainInfo.addExecutives(executiveInfo.build());
     }
-    for (DupWitnessInfo dupWitness : blockChain.getDupWitness()) {
-      Protocol.MetricsInfo.BlockChainInfo.DupWitness.Builder dupWitnessInfo =
-          Protocol.MetricsInfo.BlockChainInfo.DupWitness.newBuilder();
-      dupWitnessInfo.setAddress(dupWitness.getAddress());
-      dupWitnessInfo.setBlockNum(dupWitness.getBlockNum());
-      dupWitnessInfo.setCount(dupWitness.getCount());
-      blockChainInfo.addDupWitness(dupWitnessInfo.build());
+    for (DupExecutiveInfo dupExecutive : blockChain.getDupExecutive()) {
+      Protocol.MetricsInfo.BlockChainInfo.DupExecutive.Builder dupExecutiveInfo =
+          Protocol.MetricsInfo.BlockChainInfo.DupExecutive.newBuilder();
+      dupExecutiveInfo.setAddress(dupExecutive.getAddress());
+      dupExecutiveInfo.setBlockNum(dupExecutive.getBlockNum());
+      dupExecutiveInfo.setCount(dupExecutive.getCount());
+      blockChainInfo.addDupExecutive(dupExecutiveInfo.build());
     }
     return blockChainInfo.build();
 
@@ -126,32 +126,32 @@ public class BlockChainMetricManager {
    */
   public void applyBlock(BlockCapsule block) {
     long nowTime = System.currentTimeMillis();
-    String witnessAddress = Hex.toHexString(block.getWitnessAddress().toByteArray());
+    String executiveAddress = Hex.toHexString(block.getExecutiveAddress().toByteArray());
 
-    //witness info
-    if (witnessInfo.containsKey(witnessAddress)) {
-      BlockCapsule oldBlock = witnessInfo.get(witnessAddress);
+    //executive info
+    if (executiveInfo.containsKey(executiveAddress)) {
+      BlockCapsule oldBlock = executiveInfo.get(executiveAddress);
       if ((!oldBlock.getBlockId().equals(block.getBlockId()))
           && oldBlock.getTimeStamp() == block.getTimeStamp()) {
-        MetricsUtil.counterInc(MetricsKey.BLOCKCHAIN_DUP_WITNESS + witnessAddress);
-        dupWitnessBlockNum.put(witnessAddress, block.getNum());
+        MetricsUtil.counterInc(MetricsKey.BLOCKCHAIN_DUP_EXECUTIVE + executiveAddress);
+        dupExecutiveBlockNum.put(executiveAddress, block.getNum());
       }
     }
-    witnessInfo.put(witnessAddress, block);
+    executiveInfo.put(executiveAddress, block);
 
     //latency
     long netTime = nowTime - block.getTimeStamp();
     MetricsUtil.histogramUpdate(MetricsKey.NET_LATENCY, netTime);
-    MetricsUtil.histogramUpdate(MetricsKey.NET_LATENCY_WITNESS + witnessAddress, netTime);
+    MetricsUtil.histogramUpdate(MetricsKey.NET_LATENCY_EXECUTIVE + executiveAddress, netTime);
     if (netTime >= 3000) {
       MetricsUtil.counterInc(MetricsKey.NET_LATENCY + ".3S");
-      MetricsUtil.counterInc(MetricsKey.NET_LATENCY_WITNESS + witnessAddress + ".3S");
+      MetricsUtil.counterInc(MetricsKey.NET_LATENCY_EXECUTIVE + executiveAddress + ".3S");
     } else if (netTime >= 2000) {
       MetricsUtil.counterInc(MetricsKey.NET_LATENCY + ".2S");
-      MetricsUtil.counterInc(MetricsKey.NET_LATENCY_WITNESS + witnessAddress + ".2S");
+      MetricsUtil.counterInc(MetricsKey.NET_LATENCY_EXECUTIVE + executiveAddress + ".2S");
     } else if (netTime >= 1000) {
       MetricsUtil.counterInc(MetricsKey.NET_LATENCY + ".1S");
-      MetricsUtil.counterInc(MetricsKey.NET_LATENCY_WITNESS + witnessAddress + ".1S");
+      MetricsUtil.counterInc(MetricsKey.NET_LATENCY_EXECUTIVE + executiveAddress + ".1S");
     }
 
     //TPS
@@ -160,20 +160,20 @@ public class BlockChainMetricManager {
     }
   }
 
-  private List<WitnessInfo> getSrList() {
-    List<WitnessInfo> witnessInfos = new ArrayList<>();
+  private List<ExecutiveInfo> getSrList() {
+    List<ExecutiveInfo> executiveInfos = new ArrayList<>();
 
-    List<ByteString> witnessList = chainBaseManager.getWitnessScheduleStore().getActiveWitnesses();
-    for (ByteString witnessAddress : witnessList) {
-      String address = Hex.toHexString(witnessAddress.toByteArray());
-      if (witnessInfo.containsKey(address)) {
-        BlockCapsule block = witnessInfo.get(address);
-        WitnessInfo witness = new WitnessInfo(address,
+    List<ByteString> executiveList = chainBaseManager.getExecutiveScheduleStore().getActiveExecutives();
+    for (ByteString executiveAddress : executiveList) {
+      String address = Hex.toHexString(executiveAddress.toByteArray());
+      if (executiveInfo.containsKey(address)) {
+        BlockCapsule block = executiveInfo.get(address);
+        ExecutiveInfo executive = new ExecutiveInfo(address,
             block.getInstance().getBlockHeader().getRawData().getVersion());
-        witnessInfos.add(witness);
+        executiveInfos.add(executive);
       }
     }
-    return witnessInfos;
+    return executiveInfos;
   }
 
 
@@ -185,19 +185,19 @@ public class BlockChainMetricManager {
     return (int) MetricsUtil.getMeter(MetricsKey.BLOCKCHAIN_FAIL_FORK_COUNT).getCount();
   }
 
-  private List<DupWitnessInfo> getDupWitness() {
-    List<DupWitnessInfo> dupWitnesses = new ArrayList<>();
-    SortedMap<String, Counter> dupWitnessMap =
-        MetricsUtil.getCounters(MetricsKey.BLOCKCHAIN_DUP_WITNESS);
-    for (Map.Entry<String, Counter> entry : dupWitnessMap.entrySet()) {
-      DupWitnessInfo dupWitness = new DupWitnessInfo();
-      String witness = entry.getKey().substring(MetricsKey.BLOCKCHAIN_DUP_WITNESS.length());
-      long blockNum = dupWitnessBlockNum.get(witness);
-      dupWitness.setAddress(witness);
-      dupWitness.setBlockNum(blockNum);
-      dupWitness.setCount((int) entry.getValue().getCount());
-      dupWitnesses.add(dupWitness);
+  private List<DupExecutiveInfo> getDupExecutive() {
+    List<DupExecutiveInfo> dupExecutives = new ArrayList<>();
+    SortedMap<String, Counter> dupExecutiveMap =
+        MetricsUtil.getCounters(MetricsKey.BLOCKCHAIN_DUP_EXECUTIVE);
+    for (Map.Entry<String, Counter> entry : dupExecutiveMap.entrySet()) {
+      DupExecutiveInfo dupExecutive = new DupExecutiveInfo();
+      String executive = entry.getKey().substring(MetricsKey.BLOCKCHAIN_DUP_EXECUTIVE.length());
+      long blockNum = dupExecutiveBlockNum.get(executive);
+      dupExecutive.setAddress(executive);
+      dupExecutive.setBlockNum(blockNum);
+      dupExecutive.setCount((int) entry.getValue().getCount());
+      dupExecutives.add(dupExecutive);
     }
-    return dupWitnesses;
+    return dupExecutives;
   }
 }

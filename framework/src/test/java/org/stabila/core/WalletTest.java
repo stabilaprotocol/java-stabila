@@ -89,11 +89,11 @@ public class WalletTest {
   public static final long BLOCK_TIMESTAMP_THREE = DateTime.now().minusDays(2).getMillis();
   public static final long BLOCK_TIMESTAMP_FOUR = DateTime.now().minusDays(1).getMillis();
   public static final long BLOCK_TIMESTAMP_FIVE = DateTime.now().getMillis();
-  public static final long BLOCK_WITNESS_ONE = 12;
-  public static final long BLOCK_WITNESS_TWO = 13;
-  public static final long BLOCK_WITNESS_THREE = 14;
-  public static final long BLOCK_WITNESS_FOUR = 15;
-  public static final long BLOCK_WITNESS_FIVE = 16;
+  public static final long BLOCK_EXECUTIVE_ONE = 12;
+  public static final long BLOCK_EXECUTIVE_TWO = 13;
+  public static final long BLOCK_EXECUTIVE_THREE = 14;
+  public static final long BLOCK_EXECUTIVE_FOUR = 15;
+  public static final long BLOCK_EXECUTIVE_FIVE = 16;
   //private static DeferredTransaction deferredTransaction;
   public static final long TRANSACTION_TIMESTAMP_ONE = DateTime.now().minusDays(4).getMillis();
   public static final long TRANSACTION_TIMESTAMP_TWO = DateTime.now().minusDays(3).getMillis();
@@ -202,27 +202,27 @@ public class WalletTest {
    */
   private static void initBlock() {
 
-    block1 = getBuildBlock(BLOCK_TIMESTAMP_ONE, BLOCK_NUM_ONE, BLOCK_WITNESS_ONE,
+    block1 = getBuildBlock(BLOCK_TIMESTAMP_ONE, BLOCK_NUM_ONE, BLOCK_EXECUTIVE_ONE,
         ACCOUNT_ADDRESS_ONE, transaction1, transaction2);
     addBlockToStore(block1);
     addTransactionInfoToStore(transaction1);
 
-    block2 = getBuildBlock(BLOCK_TIMESTAMP_TWO, BLOCK_NUM_TWO, BLOCK_WITNESS_TWO,
+    block2 = getBuildBlock(BLOCK_TIMESTAMP_TWO, BLOCK_NUM_TWO, BLOCK_EXECUTIVE_TWO,
         ACCOUNT_ADDRESS_TWO, transaction2, transaction3);
     addBlockToStore(block2);
     addTransactionInfoToStore(transaction2);
 
-    block3 = getBuildBlock(BLOCK_TIMESTAMP_THREE, BLOCK_NUM_THREE, BLOCK_WITNESS_THREE,
+    block3 = getBuildBlock(BLOCK_TIMESTAMP_THREE, BLOCK_NUM_THREE, BLOCK_EXECUTIVE_THREE,
         ACCOUNT_ADDRESS_THREE, transaction2, transaction4);
     addBlockToStore(block3);
     addTransactionInfoToStore(transaction3);
 
-    block4 = getBuildBlock(BLOCK_TIMESTAMP_FOUR, BLOCK_NUM_FOUR, BLOCK_WITNESS_FOUR,
+    block4 = getBuildBlock(BLOCK_TIMESTAMP_FOUR, BLOCK_NUM_FOUR, BLOCK_EXECUTIVE_FOUR,
         ACCOUNT_ADDRESS_FOUR, transaction4, transaction5);
     addBlockToStore(block4);
     addTransactionInfoToStore(transaction4);
 
-    block5 = getBuildBlock(BLOCK_TIMESTAMP_FIVE, BLOCK_NUM_FIVE, BLOCK_WITNESS_FIVE,
+    block5 = getBuildBlock(BLOCK_TIMESTAMP_FIVE, BLOCK_NUM_FIVE, BLOCK_EXECUTIVE_FIVE,
         ACCOUNT_ADDRESS_FIVE, transaction5, transaction3);
     addBlockToStore(block5);
     addTransactionInfoToStore(transaction5);
@@ -233,11 +233,11 @@ public class WalletTest {
     chainBaseManager.getBlockStore().put(blockCapsule.getBlockId().getBytes(), blockCapsule);
   }
 
-  private static Block getBuildBlock(long timestamp, long num, long witnessId,
-      String witnessAddress, Transaction transaction, Transaction transactionNext) {
+  private static Block getBuildBlock(long timestamp, long num, long executiveId,
+      String executiveAddress, Transaction transaction, Transaction transactionNext) {
     return Block.newBuilder().setBlockHeader(BlockHeader.newBuilder().setRawData(
-        raw.newBuilder().setTimestamp(timestamp).setNumber(num).setWitnessId(witnessId)
-            .setWitnessAddress(ByteString.copyFrom(ByteArray.fromHexString(witnessAddress)))
+        raw.newBuilder().setTimestamp(timestamp).setNumber(num).setExecutiveId(executiveId)
+            .setExecutiveAddress(ByteString.copyFrom(ByteArray.fromHexString(executiveAddress)))
             .build()).build()).addTransactions(transaction).addTransactions(transactionNext)
         .build();
   }

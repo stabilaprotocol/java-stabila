@@ -9,7 +9,7 @@ import org.stabila.core.capsule.ContractCapsule;
 import org.stabila.core.capsule.ProposalCapsule;
 import org.stabila.core.capsule.TransactionCapsule;
 import org.stabila.core.capsule.VotesCapsule;
-import org.stabila.core.capsule.WitnessCapsule;
+import org.stabila.core.capsule.ExecutiveCapsule;
 import org.stabila.core.db.Manager;
 import org.stabila.core.vm.program.Storage;
 import org.stabila.core.vm.repository.Key;
@@ -26,7 +26,7 @@ public interface Deposit {
 
   AccountCapsule getAccount(byte[] address);
 
-  WitnessCapsule getWitness(byte[] address);
+  ExecutiveCapsule getExecutive(byte[] address);
 
   VotesCapsule getVotesCapsule(byte[] address);
 
@@ -70,7 +70,7 @@ public interface Deposit {
 
   void putBlock(Key key, Value value);
 
-  void putWitness(Key key, Value value);
+  void putExecutive(Key key, Value value);
 
   void putCode(Key key, Value value);
 
@@ -94,7 +94,7 @@ public interface Deposit {
 
   long getLatestProposalNum();
 
-  long getWitnessAllowanceCdedTime();
+  long getExecutiveAllowanceCdedTime();
 
   long getMaintenanceTimeInterval();
 

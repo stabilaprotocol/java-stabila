@@ -32,26 +32,26 @@ public class WalletTestCommittee001 {
   private final String testKey003 = Configuration.getByPath("testng.conf")
       .getString("foundationAccount.key2");
   private final byte[] toAddress = PublicMethed.getFinalAddress(testKey003);
-  //Witness 47.93.9.236
-  private final String witnessKey001 = Configuration.getByPath("testng.conf")
-      .getString("witness.key1");
-  //Witness 47.93.33.201
-  private final String witnessKey002 = Configuration.getByPath("testng.conf")
-      .getString("witness.key2");
-  //Witness 123.56.10.6
-  private final String witnessKey003 = Configuration.getByPath("testng.conf")
-      .getString("witness.key3");
+  //Executive 47.93.9.236
+  private final String executiveKey001 = Configuration.getByPath("testng.conf")
+      .getString("executive.key1");
+  //Executive 47.93.33.201
+  private final String executiveKey002 = Configuration.getByPath("testng.conf")
+      .getString("executive.key2");
+  //Executive 123.56.10.6
+  private final String executiveKey003 = Configuration.getByPath("testng.conf")
+      .getString("executive.key3");
   //Wtiness 39.107.80.135
-  private final String witnessKey004 = Configuration.getByPath("testng.conf")
-      .getString("witness.key4");
-  //Witness 47.93.184.2
-  private final String witnessKey005 = Configuration.getByPath("testng.conf")
-      .getString("witness.key5");
-  private final byte[] witness001Address = PublicMethed.getFinalAddress(witnessKey001);
-  private final byte[] witness002Address = PublicMethed.getFinalAddress(witnessKey002);
-  private final byte[] witness003Address = PublicMethed.getFinalAddress(witnessKey003);
-  private final byte[] witness004Address = PublicMethed.getFinalAddress(witnessKey004);
-  private final byte[] witness005Address = PublicMethed.getFinalAddress(witnessKey005);
+  private final String executiveKey004 = Configuration.getByPath("testng.conf")
+      .getString("executive.key4");
+  //Executive 47.93.184.2
+  private final String executiveKey005 = Configuration.getByPath("testng.conf")
+      .getString("executive.key5");
+  private final byte[] executive001Address = PublicMethed.getFinalAddress(executiveKey001);
+  private final byte[] executive002Address = PublicMethed.getFinalAddress(executiveKey002);
+  private final byte[] executive003Address = PublicMethed.getFinalAddress(executiveKey003);
+  private final byte[] executive004Address = PublicMethed.getFinalAddress(executiveKey004);
+  private final byte[] executive005Address = PublicMethed.getFinalAddress(executiveKey005);
   private ManagedChannel channelFull = null;
   private ManagedChannel channelSolidity = null;
   private WalletGrpc.WalletBlockingStub blockingStubFull = null;
@@ -96,7 +96,7 @@ public class WalletTestCommittee001 {
     final long now = System.currentTimeMillis();
     HashMap<Long, Long> proposalMap = new HashMap<Long, Long>();
     proposalMap.put(0L, 1000000L);
-    PublicMethed.createProposal(witness001Address, witnessKey001, proposalMap, blockingStubFull);
+    PublicMethed.createProposal(executive001Address, executiveKey001, proposalMap, blockingStubFull);
 
     //List proposals
     proposalList = blockingStubFull.listProposals(EmptyMessage.newBuilder().build());

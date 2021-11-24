@@ -45,7 +45,7 @@ public class BlockUtil {
     BlockCapsule blockCapsule = new BlockCapsule(timestamp, parentHash, number, transactionList);
 
     blockCapsule.setMerkleRoot();
-    blockCapsule.setWitness(
+    blockCapsule.setExecutive(
         "A new system must allow existing systems to be linked together without "
             + "requiring any central control or coordination");
     blockCapsule.generatedByMyself = true;

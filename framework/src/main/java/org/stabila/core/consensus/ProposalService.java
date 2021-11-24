@@ -46,12 +46,12 @@ public class ProposalService extends ProposalUtil {
           manager.getDynamicPropertiesStore().saveAssetIssueFee(entry.getValue());
           break;
         }
-        case WITNESS_PAY_PER_BLOCK: {
-          manager.getDynamicPropertiesStore().saveWitnessPayPerBlock(entry.getValue());
+        case EXECUTIVE_PAY_PER_BLOCK: {
+          manager.getDynamicPropertiesStore().saveExecutivePayPerBlock(entry.getValue());
           break;
         }
-        case WITNESS_STANDBY_ALLOWANCE: {
-          manager.getDynamicPropertiesStore().saveWitnessStandbyAllowance(entry.getValue());
+        case EXECUTIVE_STANDBY_ALLOWANCE: {
+          manager.getDynamicPropertiesStore().saveExecutiveStandbyAllowance(entry.getValue());
           break;
         }
         case CREATE_NEW_ACCOUNT_FEE_IN_SYSTEM_CONTRACT: {
@@ -170,8 +170,8 @@ public class ProposalService extends ProposalUtil {
           manager.getDynamicPropertiesStore().addSystemContractAndSetPermission(49);
           break;
         }
-        case WITNESS_100_PAY_PER_BLOCK: {
-          manager.getDynamicPropertiesStore().saveWitness100PayPerBlock(entry.getValue());
+        case EXECUTIVE_100_PAY_PER_BLOCK: {
+          manager.getDynamicPropertiesStore().saveExecutive100PayPerBlock(entry.getValue());
           break;
         }
         //case ALLOW_SHIELDED_TRANSACTION: {

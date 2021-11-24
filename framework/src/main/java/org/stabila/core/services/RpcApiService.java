@@ -80,7 +80,7 @@ import org.stabila.api.GrpcAPI.TransactionList;
 import org.stabila.api.GrpcAPI.TransactionListExtention;
 import org.stabila.api.GrpcAPI.TransactionSignWeight;
 import org.stabila.api.GrpcAPI.ViewingKeyMessage;
-import org.stabila.api.GrpcAPI.WitnessList;
+import org.stabila.api.GrpcAPI.ExecutiveList;
 import org.stabila.api.MonitorGrpc;
 import org.stabila.api.WalletExtensionGrpc;
 import org.stabila.api.WalletGrpc.WalletImplBase;
@@ -100,7 +100,7 @@ import org.stabila.core.Wallet;
 import org.stabila.core.capsule.AccountCapsule;
 import org.stabila.core.capsule.BlockCapsule;
 import org.stabila.core.capsule.TransactionCapsule;
-import org.stabila.core.capsule.WitnessCapsule;
+import org.stabila.core.capsule.ExecutiveCapsule;
 import org.stabila.core.config.args.Args;
 import org.stabila.core.db.Manager;
 import org.stabila.core.exception.BadItemException;
@@ -167,9 +167,9 @@ import org.stabila.protos.contract.SmartContractOuterClass.TriggerSmartContract;
 import org.stabila.protos.contract.SmartContractOuterClass.UpdateUcrLimitContract;
 import org.stabila.protos.contract.SmartContractOuterClass.UpdateSettingContract;
 import org.stabila.protos.contract.StorageContract.UpdateBrokerageContract;
-import org.stabila.protos.contract.WitnessContract.VoteWitnessContract;
-import org.stabila.protos.contract.WitnessContract.WitnessCreateContract;
-import org.stabila.protos.contract.WitnessContract.WitnessUpdateContract;
+import org.stabila.protos.contract.ExecutiveContract.VoteExecutiveContract;
+import org.stabila.protos.contract.ExecutiveContract.ExecutiveCreateContract;
+import org.stabila.protos.contract.ExecutiveContract.ExecutiveUpdateContract;
 
 @Component
 @Slf4j(topic = "API")
@@ -481,8 +481,8 @@ public class RpcApiService implements Service {
     }
 
     @Override
-    public void listWitnesses(EmptyMessage request, StreamObserver<WitnessList> responseObserver) {
-      responseObserver.onNext(wallet.getWitnessList());
+    public void listExecutives(EmptyMessage request, StreamObserver<ExecutiveList> responseObserver) {
+      responseObserver.onNext(wallet.getExecutiveList());
       responseObserver.onCompleted();
     }
 
@@ -682,9 +682,9 @@ public class RpcApiService implements Service {
       try {
         checkSupportShieldedTransaction();
 
-        IncrementalMerkleVoucherInfo witnessInfo = wallet
+        IncrementalMerkleVoucherInfo executiveInfo = wallet
             .getMerkleTreeVoucherInfo(request);
-        responseObserver.onNext(witnessInfo);
+        responseObserver.onNext(executiveInfo);
       } catch (Exception ex) {
         responseObserver.onError(getRunTimeException(ex));
       }
@@ -1260,7 +1260,7 @@ public class RpcApiService implements Service {
     }
 
     //refactor、test later
-    private void checkVoteWitnessAccount(VoteWitnessContract req) {
+    private void checkVoteExecutiveAccount(VoteExecutiveContract req) {
       //send back to cli
       ByteString ownerAddress = req.getOwnerAddress();
       Preconditions.checkNotNull(ownerAddress, "OwnerAddress is null");
@@ -1281,23 +1281,23 @@ public class RpcApiService implements Service {
 
       req.getVotesList().forEach(vote -> {
         ByteString voteAddress = vote.getVoteAddress();
-        WitnessCapsule witness = dbManager.getWitnessStore()
+        ExecutiveCapsule executive = dbManager.getExecutiveStore()
             .get(voteAddress.toByteArray());
-        String readableWitnessAddress = StringUtil.createReadableString(voteAddress);
+        String readableExecutiveAddress = StringUtil.createReadableString(voteAddress);
 
-        Preconditions.checkNotNull(witness, "witness[" + readableWitnessAddress + "] not exists");
+        Preconditions.checkNotNull(executive, "executive[" + readableExecutiveAddress + "] not exists");
         Preconditions.checkArgument(vote.getVoteCount() <= 0,
-            "VoteAddress[" + readableWitnessAddress + "], VotesCount[" + vote
+            "VoteAddress[" + readableExecutiveAddress + "], VotesCount[" + vote
                 .getVoteCount() + "] <= 0");
       });
     }
 
     @Override
-    public void voteWitnessAccount(VoteWitnessContract request,
+    public void voteExecutiveAccount(VoteExecutiveContract request,
         StreamObserver<Transaction> responseObserver) {
       try {
         responseObserver.onNext(
-            createTransactionCapsule(request, ContractType.VoteWitnessContract).getInstance());
+            createTransactionCapsule(request, ContractType.VoteExecutiveContract).getInstance());
       } catch (ContractValidateException e) {
         responseObserver
             .onNext(null);
@@ -1307,9 +1307,9 @@ public class RpcApiService implements Service {
     }
 
     @Override
-    public void voteWitnessAccount2(VoteWitnessContract request,
+    public void voteExecutiveAccount2(VoteExecutiveContract request,
         StreamObserver<TransactionExtention> responseObserver) {
-      createTransactionExtention(request, ContractType.VoteWitnessContract, responseObserver);
+      createTransactionExtention(request, ContractType.VoteExecutiveContract, responseObserver);
     }
 
     @Override
@@ -1334,11 +1334,11 @@ public class RpcApiService implements Service {
     }
 
     @Override
-    public void createWitness(WitnessCreateContract request,
+    public void createExecutive(ExecutiveCreateContract request,
         StreamObserver<Transaction> responseObserver) {
       try {
         responseObserver.onNext(
-            createTransactionCapsule(request, ContractType.WitnessCreateContract).getInstance());
+            createTransactionCapsule(request, ContractType.ExecutiveCreateContract).getInstance());
       } catch (ContractValidateException e) {
         responseObserver
             .onNext(null);
@@ -1348,9 +1348,9 @@ public class RpcApiService implements Service {
     }
 
     @Override
-    public void createWitness2(WitnessCreateContract request,
+    public void createExecutive2(ExecutiveCreateContract request,
         StreamObserver<TransactionExtention> responseObserver) {
-      createTransactionExtention(request, ContractType.WitnessCreateContract, responseObserver);
+      createTransactionExtention(request, ContractType.ExecutiveCreateContract, responseObserver);
     }
 
     @Override
@@ -1374,11 +1374,11 @@ public class RpcApiService implements Service {
     }
 
     @Override
-    public void updateWitness(WitnessUpdateContract request,
+    public void updateExecutive(ExecutiveUpdateContract request,
         StreamObserver<Transaction> responseObserver) {
       try {
         responseObserver.onNext(
-            createTransactionCapsule(request, ContractType.WitnessUpdateContract).getInstance());
+            createTransactionCapsule(request, ContractType.ExecutiveUpdateContract).getInstance());
       } catch (ContractValidateException e) {
         responseObserver
             .onNext(null);
@@ -1388,9 +1388,9 @@ public class RpcApiService implements Service {
     }
 
     @Override
-    public void updateWitness2(WitnessUpdateContract request,
+    public void updateExecutive2(ExecutiveUpdateContract request,
         StreamObserver<TransactionExtention> responseObserver) {
-      createTransactionExtention(request, ContractType.WitnessUpdateContract, responseObserver);
+      createTransactionExtention(request, ContractType.ExecutiveUpdateContract, responseObserver);
     }
 
     @Override
@@ -1945,9 +1945,9 @@ public class RpcApiService implements Service {
       responseObserver.onCompleted();
     }
 
-    public void listWitnesses(EmptyMessage request,
-        StreamObserver<WitnessList> responseObserver) {
-      responseObserver.onNext(wallet.getWitnessList());
+    public void listExecutives(EmptyMessage request,
+        StreamObserver<ExecutiveList> responseObserver) {
+      responseObserver.onNext(wallet.getExecutiveList());
       responseObserver.onCompleted();
     }
 
@@ -2050,9 +2050,9 @@ public class RpcApiService implements Service {
       try {
         checkSupportShieldedTransaction();
 
-        IncrementalMerkleVoucherInfo witnessInfo = wallet
+        IncrementalMerkleVoucherInfo executiveInfo = wallet
             .getMerkleTreeVoucherInfo(request);
-        responseObserver.onNext(witnessInfo);
+        responseObserver.onNext(executiveInfo);
       } catch (Exception ex) {
         responseObserver.onError(getRunTimeException(ex));
         return;

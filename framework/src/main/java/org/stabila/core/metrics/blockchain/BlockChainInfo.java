@@ -15,8 +15,8 @@ public class BlockChainInfo {
   private RateInfo tps;
   private int transactionCacheSize;
   private RateInfo missedTransaction;
-  private List<WitnessInfo> witnesses;
+  private List<ExecutiveInfo> executives;
   private long failProcessBlockNum;
   private String failProcessBlockReason;
-  private List<DupWitnessInfo> dupWitness;
+  private List<DupExecutiveInfo> dupExecutive;
 }

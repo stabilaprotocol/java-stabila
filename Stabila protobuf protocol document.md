@@ -8,7 +8,7 @@ This is the description of  Google Protobuf implementation of Stabila's protocol
 
 #### [1. Account](#account)
 
-#### [2. Witness](#witness)
+#### [2. Executive](#executive)
 
 #### [3. Block](#block)
 
@@ -94,7 +94,7 @@ enum AccountType {
 
   `code`: reserved
 
-  `is_witness`:  identifies whether the account is a witness node.
+  `is_executive`:  identifies whether the account is a executive node.
 
   `is_committee`: reserved
 
@@ -140,7 +140,7 @@ message Account {
     int64 allowance = 0x0B;
     int64 latest_withdraw_time = 0x0C;
     bytes code = 13;
-    bool is_witness = 14;
+    bool is_executive = 14;
     bool is_committee = 15;
     repeated Cded cded_supply = 16;
     bytes asset_issued_name = 17;
@@ -166,7 +166,7 @@ message Account {
     AccountResource account_resource = 26;
     bytes codeHash = 30;
     Permission owner_permission = 31;
-    Permission witness_permission = 32;
+    Permission executive_permission = 32;
     repeated Permission active_permission = 33;
   }
   ```
@@ -202,19 +202,19 @@ message Account {
     
   
 
-### <span id="witness"> 2. Witness</span>
+### <span id="executive"> 2. Executive</span>
 
-Witness and witness-related messages.
+Executive and executive-related messages.
 
-- message `Witness`
+- message `Executive`
 
-  `address`: the address of this witness.
+  `address`: the address of this executive.
 
   `voteCount`: total votes received.
 
-  `pubkey`: the public key of this witness.
+  `pubkey`: the public key of this executive.
 
-  `url`: witness information related to url.
+  `url`: executive information related to url.
 
   `totalProduce`: total number of blocks produced.
 
@@ -227,7 +227,7 @@ Witness and witness-related messages.
   `isJobs`: whether it can produce blocks.
 
   ```java
-  message Witness {
+  message Executive {
     bytes address = 1;
     int64 voteCount = 2;
     bytes pubKey = 3;
@@ -270,9 +270,9 @@ Witness and witness-related messages.
 
   ​    `number`: the height of this block.
 
-  ​    `witness_id`: the id of witness which packed this block.
+  ​    `executive_id`: the id of executive which packed this block.
 
-  ​    `witness_address`: the address of witness which packed this block.
+  ​    `executive_address`: the address of executive which packed this block.
 
   ​    `version`: the version of this block.
 
@@ -284,8 +284,8 @@ Witness and witness-related messages.
     bytes txTrieRoot = 2;
     bytes parentHash = 3;
     int64 number = 7;
-    int64 witness_id = 8;
-    bytes witness_address = 9;
+    int64 executive_id = 8;
+    bytes executive_address = 9;
     int32 version = 10;
     bytes accountStateRoot = 11;
   }
@@ -293,7 +293,7 @@ Witness and witness-related messages.
   
   `raw_data`: 
 
-  `witness_signature`: signature for this block header from witness node.
+  `executive_signature`: signature for this block header from executive node.
 
  ```java
 message BlockHeader {
@@ -302,13 +302,13 @@ message BlockHeader {
       bytes txTrieRoot = 2;
       bytes parentHash = 3;
       int64 number = 7;
-      int64 witness_id = 8;
-      bytes witness_address = 9;
+      int64 executive_id = 8;
+      bytes executive_address = 9;
       int32 version = 10;
       bytes accountStateRoot = 11;
     }
     raw raw_data = 1;
-    bytes witness_signature = 2;
+    bytes executive_signature = 2;
   }
   ```
   
@@ -591,10 +591,10 @@ Transaction and transaction-related messages.
           TransferContract = 1;
           TransferAssetContract = 2;
           VoteAssetContract = 3;
-          VoteWitnessContract = 4;
-          WitnessCreateContract = 5;
+          VoteExecutiveContract = 4;
+          ExecutiveCreateContract = 5;
           AssetIssueContract = 6;
-          WitnessUpdateContract = 8;
+          ExecutiveUpdateContract = 8;
           ParticipateAssetIssueContract = 9;
           AccountUpdateContract = 10;
           CdBalanceContract = 11;
@@ -733,7 +733,7 @@ Transaction and transaction-related messages.
 
    `assetIssueID`: the ID for issue an asset.
 
-   `withdraw_amount`: the amount for witness withdraw.
+   `withdraw_amount`: the amount for executive withdraw.
 
    `uncd_amount`: uncd stb amount.
 
@@ -835,7 +835,7 @@ Contract and contract-related messages.
 
   `ContractName`: reserved
 
-  `Permission_id`: for multisign, the value is in [0, 9], 0 is owner，1 is witness, 2-9 is active.
+  `Permission_id`: for multisign, the value is in [0, 9], 0 is owner，1 is executive, 2-9 is active.
 
   ```java
   message Contract {
@@ -844,10 +844,10 @@ Contract and contract-related messages.
       TransferContract = 1;
       TransferAssetContract = 2;
       VoteAssetContract = 3;
-      VoteWitnessContract = 4;
-      WitnessCreateContract = 5;
+      VoteExecutiveContract = 4;
+      ExecutiveCreateContract = 5;
       AssetIssueContract = 6;
-      WitnessUpdateContract = 8;
+      ExecutiveUpdateContract = 8;
       ParticipateAssetIssueContract = 9;
       AccountUpdateContract = 10;
       CdBalanceContract = 11;
@@ -976,7 +976,7 @@ Contract and contract-related messages.
     }
     ```
 
-  - message `VoteWitnessContract`
+  - message `VoteExecutiveContract`
 
     message `Vote`:  
 
@@ -994,7 +994,7 @@ Contract and contract-related messages.
     `support`: votes supportive or not.
 
     ```java
-    message VoteWitnessContract {
+    message VoteExecutiveContract {
         message Vote {
             bytes vote_address = 1;
             int64 vote_count = 2;
@@ -1005,14 +1005,14 @@ Contract and contract-related messages.
     }
     ```
 
-    - message `WitnessCreateContract`
+    - message `ExecutiveCreateContract`
 
       `owner_address`: address of the owner.
 
-      `url`: url of witness.
+      `url`: url of executive.
 
       ```java
-      message WitnessCreateContract {
+      message ExecutiveCreateContract {
           bytes owner_address = 1;
           bytes url = 2;
       }
@@ -1098,14 +1098,14 @@ Contract and contract-related messages.
       }
       ```
 
-    - message `WitnessUpdateContract`
+    - message `ExecutiveUpdateContract`
 
       `owner_address`: address of owner.
 
-      `update_url`: witness url.
+      `update_url`: executive url.
 
       ```java
-      message WitnessUpdateContract {
+      message ExecutiveUpdateContract {
           bytes owner_address = 1;
           bytes update_url = 12;
       }
@@ -1447,7 +1447,7 @@ Contract and contract-related messages.
     
        `owner`: autuority to execute all contracts.
     
-       `witness`: used by SR for generating blocks.
+       `executive`: used by SR for generating blocks.
     
        `actives`: custom a combination of contracts permission sets.
     
@@ -1455,7 +1455,7 @@ Contract and contract-related messages.
       message AccountPermissionUpdateContract {
         bytes owner_address = 1;
         Permission owner = 2; 
-        Permission witness = 3; 
+        Permission executive = 3; 
         repeated Permission actives = 4;
       }
       ```
@@ -2134,7 +2134,7 @@ message `SmartContract` has mutiple attributes and nested message `ABI`
 
     `machineInfo`: machine information.
 
-    `cheatWitnessInfoMap`: cheating witness information map.
+    `cheatExecutiveInfoMap`: cheating executive information map.
 
     - message `PeerInfo`:
 

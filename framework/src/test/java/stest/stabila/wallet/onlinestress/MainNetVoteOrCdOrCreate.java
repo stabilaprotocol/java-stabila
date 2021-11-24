@@ -18,7 +18,7 @@ import org.testng.annotations.Test;
 import org.stabila.api.GrpcAPI;
 import org.stabila.api.GrpcAPI.NumberMessage;
 import org.stabila.api.GrpcAPI.Return;
-import org.stabila.api.GrpcAPI.WitnessList;
+import org.stabila.api.GrpcAPI.ExecutiveList;
 import org.stabila.api.WalletGrpc;
 import org.stabila.common.crypto.ECKey;
 import org.stabila.common.utils.ByteArray;
@@ -29,7 +29,7 @@ import org.stabila.protos.Protocol.Account;
 import org.stabila.protos.Protocol.Block;
 import org.stabila.protos.Protocol.Transaction;
 import org.stabila.protos.contract.BalanceContract;
-import org.stabila.protos.contract.WitnessContract;
+import org.stabila.protos.contract.ExecutiveContract;
 import stest.stabila.wallet.common.client.Configuration;
 import stest.stabila.wallet.common.client.Parameter.CommonConstant;
 import stest.stabila.wallet.common.client.WalletClient;
@@ -161,9 +161,9 @@ public class MainNetVoteOrCdOrCreate {
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
-    GrpcAPI.WitnessList witnesslist = blockingStubFull
-        .listWitnesses(GrpcAPI.EmptyMessage.newBuilder().build());
-    Optional<WitnessList> result = Optional.ofNullable(witnesslist);
+    GrpcAPI.ExecutiveList executivelist = blockingStubFull
+        .listExecutives(GrpcAPI.EmptyMessage.newBuilder().build());
+    Optional<ExecutiveList> result = Optional.ofNullable(executivelist);
     Integer i = 0;
     while (i++ < 3) {
       ret = false;
@@ -218,11 +218,11 @@ public class MainNetVoteOrCdOrCreate {
       ret = false;
       while (!ret) {
         String voteStr = Base58
-            .encode58Check(result.get().getWitnesses(i % 5).getAddress().toByteArray());
+            .encode58Check(result.get().getExecutives(i % 5).getAddress().toByteArray());
         HashMap<String, String> smallVoteMap = new HashMap<String, String>();
         smallVoteMap.put(voteStr, "1");
-        ret = voteWitness(smallVoteMap, accountAddress, testKeyAccount);
-        logger.info("voteWitness");
+        ret = voteExecutive(smallVoteMap, accountAddress, testKeyAccount);
+        logger.info("voteExecutive");
       }
     }
   }
@@ -247,7 +247,7 @@ public class MainNetVoteOrCdOrCreate {
    * constructor.
    */
 
-  public Boolean voteWitness(HashMap<String, String> witness, byte[] addRess, String priKey) {
+  public Boolean voteExecutive(HashMap<String, String> executive, byte[] addRess, String priKey) {
 
     ECKey temKey = null;
     try {
@@ -263,14 +263,14 @@ public class MainNetVoteOrCdOrCreate {
       beforeVoteNum = beforeVote.getVotes(0).getVoteCount();
     }
 
-    WitnessContract.VoteWitnessContract.Builder builder = WitnessContract.VoteWitnessContract
+    ExecutiveContract.VoteExecutiveContract.Builder builder = ExecutiveContract.VoteExecutiveContract
         .newBuilder();
     builder.setOwnerAddress(ByteString.copyFrom(addRess));
-    for (String addressBase58 : witness.keySet()) {
-      String value = witness.get(addressBase58);
+    for (String addressBase58 : executive.keySet()) {
+      String value = executive.get(addressBase58);
       final long count = Long.parseLong(value);
-      WitnessContract.VoteWitnessContract.Vote.Builder voteBuilder = WitnessContract
-          .VoteWitnessContract.Vote
+      ExecutiveContract.VoteExecutiveContract.Vote.Builder voteBuilder = ExecutiveContract
+          .VoteExecutiveContract.Vote
           .newBuilder();
       byte[] address = WalletClient.decodeFromBase58Check(addressBase58);
       logger.info("address = " + ByteArray.toHexString(address));
@@ -282,9 +282,9 @@ public class MainNetVoteOrCdOrCreate {
       builder.addVotes(voteBuilder.build());
     }
 
-    WitnessContract.VoteWitnessContract contract = builder.build();
+    ExecutiveContract.VoteExecutiveContract contract = builder.build();
 
-    Transaction transaction = blockingStubFull.voteWitnessAccount(contract);
+    Transaction transaction = blockingStubFull.voteExecutiveAccount(contract);
     if (transaction == null || transaction.getRawData().getContractCount() == 0) {
       //logger.info("transaction == null,\n contract:{},\n transaction:{}" , contract.toString(),
       // transaction.toString());

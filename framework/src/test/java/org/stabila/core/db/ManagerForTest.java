@@ -10,7 +10,7 @@ import java.util.stream.IntStream;
 import org.stabila.core.ChainBaseManager;
 import org.stabila.core.capsule.AccountCapsule;
 import org.stabila.core.capsule.BlockCapsule;
-import org.stabila.core.capsule.WitnessCapsule;
+import org.stabila.core.capsule.ExecutiveCapsule;
 import org.stabila.common.crypto.ECKey;
 import org.stabila.common.utils.ByteArray;
 import org.stabila.common.utils.Sha256Hash;
@@ -30,8 +30,8 @@ public class ManagerForTest {
     this.dposSlot = dposSlot;
   }
 
-  private Map<ByteString, String> addTestWitnessAndAccount() {
-    chainBaseManager.getWitnesses().clear();
+  private Map<ByteString, String> addTestExecutiveAndAccount() {
+    chainBaseManager.getExecutives().clear();
     return IntStream.range(0, 2)
         .mapToObj(
             i -> {
@@ -39,9 +39,9 @@ public class ManagerForTest {
               String privateKey = ByteArray.toHexString(ecKey.getPrivKey().toByteArray());
               ByteString address = ByteString.copyFrom(ecKey.getAddress());
 
-              WitnessCapsule witnessCapsule = new WitnessCapsule(address);
-              chainBaseManager.getWitnessStore().put(address.toByteArray(), witnessCapsule);
-              chainBaseManager.addWitness(address);
+              ExecutiveCapsule executiveCapsule = new ExecutiveCapsule(address);
+              chainBaseManager.getExecutiveStore().put(address.toByteArray(), executiveCapsule);
+              chainBaseManager.addExecutive(address);
 
               AccountCapsule accountCapsule =
                   new AccountCapsule(Account.newBuilder().setAddress(address).build());
@@ -52,21 +52,21 @@ public class ManagerForTest {
         .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
   }
 
-  private ByteString getWitnessAddress(long time) {
-    return dposSlot.getScheduledWitness(dposSlot.getSlot(time));
+  private ByteString getExecutiveAddress(long time) {
+    return dposSlot.getScheduledExecutive(dposSlot.getSlot(time));
   }
 
   public BlockCapsule createTestBlockCapsule(long time,
                                              long number, ByteString hash) {
 
-    Map<ByteString, String> addressToProvateKeys = addTestWitnessAndAccount();
-    ByteString witnessAddress = getWitnessAddress(time);
+    Map<ByteString, String> addressToProvateKeys = addTestExecutiveAndAccount();
+    ByteString executiveAddress = getExecutiveAddress(time);
 
     BlockCapsule blockCapsule = new BlockCapsule(number, Sha256Hash.wrap(hash), time,
-        witnessAddress);
+        executiveAddress);
     blockCapsule.generatedByMyself = true;
     blockCapsule.setMerkleRoot();
-    blockCapsule.sign(ByteArray.fromHexString(addressToProvateKeys.get(witnessAddress)));
+    blockCapsule.sign(ByteArray.fromHexString(addressToProvateKeys.get(executiveAddress)));
     return blockCapsule;
   }
 
@@ -79,7 +79,7 @@ public class ManagerForTest {
             chainBaseManager.getDynamicPropertiesStore().getLatestBlockHeaderTimestamp() + 3000L;
         long number =
             chainBaseManager.getDynamicPropertiesStore().getLatestBlockHeaderNumber() + 1;
-        chainBaseManager.getWitnessScheduleStore().saveActiveWitnesses(new ArrayList<>());
+        chainBaseManager.getExecutiveScheduleStore().saveActiveExecutives(new ArrayList<>());
         BlockCapsule blockCapsule = createTestBlockCapsule(time, number, hash);
         dbManager.pushBlock(blockCapsule);
       }

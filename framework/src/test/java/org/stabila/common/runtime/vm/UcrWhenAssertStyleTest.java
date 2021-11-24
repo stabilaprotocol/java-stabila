@@ -461,8 +461,8 @@ public class UcrWhenAssertStyleTest {
   //
   //   address public voteContractAddress= 0x10001;
   //
-  //   function voteForSingleWitness (address witnessAddr, uint256 voteValue) public{
-  //     if (!voteContractAddress.delegatecall(witnessAddr,voteValue)){
+  //   function voteForSingleExecutive (address executiveAddr, uint256 voteValue) public{
+  //     if (!voteContractAddress.delegatecall(executiveAddr,voteValue)){
   //       revert();
   //     }
   //   }
@@ -482,9 +482,9 @@ public class UcrWhenAssertStyleTest {
     byte[] address = Hex.decode(OWNER_ADDRESS);
     String ABI = "[{\"constant\":true,\"inputs\":[],\"name\":\"voteContractAddress\",\"outputs\":"
         + "[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\","
-        + "\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"witnessAddr\",\""
+        + "\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"executiveAddr\",\""
         + "type\":\"address\"},{\"name\":\"voteValue\",\"type\":\"uint256\"}],\"name\":\""
-        + "voteForSingleWitness\",\"outputs\":[],\"payable\":false,\"stateMutability\":\""
+        + "voteForSingleExecutive\",\"outputs\":[],\"payable\":false,\"stateMutability\":\""
         + "nonpayable\",\"type\":\"function\"}]";
     String code = "608060405260008054600160a060020a0319166201000117905534801561002557600080fd5b506"
         + "10159806100356000396000f30060806040526004361061004b5763ffffffff7c0100000000000000000000"
@@ -512,7 +512,7 @@ public class UcrWhenAssertStyleTest {
         Hex.toHexString(new DataWord(new DataWord(contractAddress).getLast20Bytes()).getData())
             + "0000000000000000000000000000000000000000000000000000000000000003";
 
-    byte[] triggerData = SvmTestUtils.parseAbi("voteForSingleWitness(address,uint256)", params);
+    byte[] triggerData = SvmTestUtils.parseAbi("voteForSingleExecutive(address,uint256)", params);
     result = SvmTestUtils
         .triggerContractAndReturnSvmTestResult(Hex.decode(OWNER_ADDRESS), contractAddress,
             triggerData, 0, feeLimit, dbManager, null);

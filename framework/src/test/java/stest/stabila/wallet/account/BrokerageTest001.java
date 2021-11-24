@@ -21,9 +21,9 @@ import stest.stabila.wallet.common.client.utils.PublicMethed;
 @Slf4j
 public class BrokerageTest001 {
 
-  private String witnessKey001 = Configuration.getByPath("testng.conf")
-      .getString("witness.key1");
-  private byte[] witnessAddress001 = PublicMethed.getFinalAddress(witnessKey001);
+  private String executiveKey001 = Configuration.getByPath("testng.conf")
+      .getString("executive.key1");
+  private byte[] executiveAddress001 = PublicMethed.getFinalAddress(executiveKey001);
 
   private ManagedChannel channelFull = null;
   private ManagedChannel channelSolidity = null;
@@ -77,14 +77,14 @@ public class BrokerageTest001 {
 
   @Test
   public void updateBrokerageTest001() {
-    // witness updateBrokerage
-    Assert.assertTrue(updateBrokerage(witnessAddress001, 55, blockingStubFull));
+    // executive updateBrokerage
+    Assert.assertTrue(updateBrokerage(executiveAddress001, 55, blockingStubFull));
 
-    Assert.assertTrue(updateBrokerage(witnessAddress001, 0, blockingStubFull));
+    Assert.assertTrue(updateBrokerage(executiveAddress001, 0, blockingStubFull));
 
-    Assert.assertTrue(updateBrokerage(witnessAddress001, 100, blockingStubFull));
+    Assert.assertTrue(updateBrokerage(executiveAddress001, 100, blockingStubFull));
 
-    Assert.assertFalse(updateBrokerage(witnessAddress001, -55, blockingStubFull));
+    Assert.assertFalse(updateBrokerage(executiveAddress001, -55, blockingStubFull));
 
     // normal account updateBrokerage fail
     Assert.assertFalse(updateBrokerage(dev001Address, 55, blockingStubFull));
@@ -93,7 +93,7 @@ public class BrokerageTest001 {
   @Test
   public void getBrokerageTest001() {
     BytesMessage bytesMessage = BytesMessage.newBuilder().setValue(ByteString
-        .copyFrom(witnessAddress001))
+        .copyFrom(executiveAddress001))
         .build();
 
     Assert.assertEquals(20, blockingStubFull.getBrokerageInfo(bytesMessage).getNum());
@@ -107,7 +107,7 @@ public class BrokerageTest001 {
   @Test
   public void getRewardTest002() {
     BytesMessage bytesMessage = BytesMessage.newBuilder().setValue(ByteString
-        .copyFrom(witnessAddress001))
+        .copyFrom(executiveAddress001))
         .build();
     Assert.assertTrue(blockingStubFull.getRewardInfo(bytesMessage) != null);
 

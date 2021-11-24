@@ -49,11 +49,11 @@ import org.stabila.core.exception.StabilaException;
 import org.stabila.core.utils.TransactionUtil;
 import org.stabila.core.vm.nativecontract.CdBalanceProcessor;
 import org.stabila.core.vm.nativecontract.UncdBalanceProcessor;
-import org.stabila.core.vm.nativecontract.VoteWitnessProcessor;
+import org.stabila.core.vm.nativecontract.VoteExecutiveProcessor;
 import org.stabila.core.vm.nativecontract.WithdrawRewardProcessor;
 import org.stabila.core.vm.nativecontract.param.CdBalanceParam;
 import org.stabila.core.vm.nativecontract.param.UncdBalanceParam;
-import org.stabila.core.vm.nativecontract.param.VoteWitnessParam;
+import org.stabila.core.vm.nativecontract.param.VoteExecutiveParam;
 import org.stabila.core.vm.nativecontract.param.WithdrawRewardParam;
 import org.stabila.core.vm.repository.Repository;
 import org.stabila.core.vm.trace.ProgramTrace;
@@ -75,7 +75,7 @@ import org.stabila.core.capsule.BlockCapsule;
 import org.stabila.core.capsule.ContractCapsule;
 import org.stabila.core.capsule.DelegatedResourceCapsule;
 import org.stabila.core.capsule.VotesCapsule;
-import org.stabila.core.capsule.WitnessCapsule;
+import org.stabila.core.capsule.ExecutiveCapsule;
 import org.stabila.core.vm.UcrCost;
 import org.stabila.core.vm.MessageCall;
 import org.stabila.core.vm.OpCode;
@@ -1200,9 +1200,9 @@ public class Program {
   }
 
   public DataWord isSRCandidate(DataWord address) {
-    WitnessCapsule witnessCapsule = getContractState()
-            .getWitness(TransactionTrace.convertToStabilaAddress(address.getLast20Bytes()));
-    return witnessCapsule != null ? new DataWord(1) : new DataWord(0);
+    ExecutiveCapsule executiveCapsule = getContractState()
+            .getExecutive(TransactionTrace.convertToStabilaAddress(address.getLast20Bytes()));
+    return executiveCapsule != null ? new DataWord(1) : new DataWord(0);
   }
 
   public DataWord getOriginAddress() {
@@ -1858,60 +1858,60 @@ public class Program {
     }
   }
 
-  public boolean voteWitness(int witnessArrayOffset, int witnessArrayLength,
+  public boolean voteExecutive(int executiveArrayOffset, int executiveArrayLength,
                              int amountArrayOffset, int amountArrayLength) {
     Repository repository = getContractState().newRepositoryChild();
     byte[] owner = TransactionTrace.convertToStabilaAddress(getContractAddress().getLast20Bytes());
 
     increaseNonce();
     InternalTransaction internalTx = addInternalTx(null, owner, null, 0, null,
-        "voteWitness", nonce, null);
+        "voteExecutive", nonce, null);
 
-    if (memoryLoad(witnessArrayOffset).intValueSafe() != witnessArrayLength ||
+    if (memoryLoad(executiveArrayOffset).intValueSafe() != executiveArrayLength ||
         memoryLoad(amountArrayOffset).intValueSafe() != amountArrayLength) {
-      logger.warn("SVM VoteWitness: memory array length do not match length parameter!");
+      logger.warn("SVM VoteExecutive: memory array length do not match length parameter!");
       throw new BytecodeExecutionException(
-          "SVM VoteWitness: memory array length do not match length parameter!");
+          "SVM VoteExecutive: memory array length do not match length parameter!");
     }
 
-    if (witnessArrayLength != amountArrayLength) {
-      logger.warn("SVM VoteWitness: witness array length {} does not match amount array length {}",
-          witnessArrayLength, amountArrayLength);
+    if (executiveArrayLength != amountArrayLength) {
+      logger.warn("SVM VoteExecutive: executive array length {} does not match amount array length {}",
+          executiveArrayLength, amountArrayLength);
       return false;
     }
 
     try {
-      VoteWitnessParam param = new VoteWitnessParam();
+      VoteExecutiveParam param = new VoteExecutiveParam();
       param.setVoterAddress(owner);
 
-      byte[] witnessArrayData = memoryChunk(Math.addExact(witnessArrayOffset, DataWord.WORD_SIZE),
-          Math.multiplyExact(witnessArrayLength, DataWord.WORD_SIZE));
+      byte[] executiveArrayData = memoryChunk(Math.addExact(executiveArrayOffset, DataWord.WORD_SIZE),
+          Math.multiplyExact(executiveArrayLength, DataWord.WORD_SIZE));
       byte[] amountArrayData = memoryChunk(Math.addExact(amountArrayOffset, DataWord.WORD_SIZE),
           Math.multiplyExact(amountArrayLength, DataWord.WORD_SIZE));
 
-      for (int i = 0; i < witnessArrayLength; i++) {
-        DataWord witness = new DataWord(Arrays.copyOfRange(witnessArrayData,
+      for (int i = 0; i < executiveArrayLength; i++) {
+        DataWord executive = new DataWord(Arrays.copyOfRange(executiveArrayData,
             i * DataWord.WORD_SIZE, (i + 1) * DataWord.WORD_SIZE));
         DataWord amount = new DataWord(Arrays.copyOfRange(amountArrayData,
             i * DataWord.WORD_SIZE, (i + 1) * DataWord.WORD_SIZE));
-        param.addVote(TransactionTrace.convertToStabilaAddress(witness.getLast20Bytes()),
+        param.addVote(TransactionTrace.convertToStabilaAddress(executive.getLast20Bytes()),
             amount.sValue().longValueExact());
       }
       if (internalTx != null) {
         internalTx.setExtra(param.toJsonStr());
       }
 
-      VoteWitnessProcessor processor = new VoteWitnessProcessor();
+      VoteExecutiveProcessor processor = new VoteExecutiveProcessor();
       processor.validate(param, repository);
       processor.execute(param, repository);
       repository.commit();
       return true;
     } catch (ContractValidateException e) {
-      logger.error("SVM VoteWitness: validate failure. Reason: {}", e.getMessage());
+      logger.error("SVM VoteExecutive: validate failure. Reason: {}", e.getMessage());
     } catch (ContractExeException e) {
-      logger.error("SVM VoteWitness: execute failure. Reason: {}", e.getMessage());
+      logger.error("SVM VoteExecutive: execute failure. Reason: {}", e.getMessage());
     } catch (ArithmeticException e) {
-      logger.error("SVM VoteWitness: int or long out of range. caused by: {}", e.getMessage());
+      logger.error("SVM VoteExecutive: int or long out of range. caused by: {}", e.getMessage());
     }
     if (internalTx != null) {
       internalTx.reject();

@@ -27,9 +27,9 @@ public class StakeSuicideTest002 {
   private String testFoundationKey = Configuration.getByPath("testng.conf")
       .getString("foundationAccount.key2");
   private byte[] testFoundationAddress = PublicMethed.getFinalAddress(testFoundationKey);
-  private String testWitnessKey = Configuration.getByPath("testng.conf")
-      .getString("witness.key1");
-  private String testWitnessAddress = PublicMethed.getAddressString(testWitnessKey);
+  private String testExecutiveKey = Configuration.getByPath("testng.conf")
+      .getString("executive.key1");
+  private String testExecutiveAddress = PublicMethed.getAddressString(testExecutiveKey);
 
   private Long maxFeeLimit = Configuration.getByPath("testng.conf")
       .getLong("defaultParameter.maxFeeLimit");
@@ -89,7 +89,7 @@ public class StakeSuicideTest002 {
     byte[] ownerAddress = ByteArray.fromHexString(hex);
 
     methedStr = "Stake(address,uint256)";
-    argStr = "\"" + testWitnessAddress + "\"," + 10_000_000;
+    argStr = "\"" + testExecutiveAddress + "\"," + 10_000_000;
     txid = PublicMethed.triggerContract(ownerAddress,methedStr,
         argStr,false,10_000_000,maxFeeLimit,
         testFoundationAddress, testFoundationKey,blockingStubFull);
@@ -145,7 +145,7 @@ public class StakeSuicideTest002 {
     byte[] ownerAddress = ByteArray.fromHexString(hex);
 
     methedStr = "Stake(address,uint256)";
-    argStr = "\"" + testWitnessAddress + "\"," + 10_000_000;
+    argStr = "\"" + testExecutiveAddress + "\"," + 10_000_000;
     txid = PublicMethed.triggerContract(ownerAddress,methedStr,
         argStr,false,10_000_000,maxFeeLimit,
         testFoundationAddress, testFoundationKey,blockingStubFull);

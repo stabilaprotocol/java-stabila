@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.stabila.consensus.ConsensusDelegate;
 import org.stabila.core.capsule.BlockCapsule;
-import org.stabila.core.capsule.WitnessCapsule;
+import org.stabila.core.capsule.ExecutiveCapsule;
 
 @Slf4j(topic = "consensus")
 @Component
@@ -18,26 +18,26 @@ public class StatisticManager {
   private DposSlot dposSlot;
 
   public void applyBlock(BlockCapsule blockCapsule) {
-    WitnessCapsule wc;
+    ExecutiveCapsule wc;
     long blockNum = blockCapsule.getNum();
     long blockTime = blockCapsule.getTimeStamp();
-    byte[] blockWitness = blockCapsule.getWitnessAddress().toByteArray();
-    wc = consensusDelegate.getWitness(blockWitness);
+    byte[] blockExecutive = blockCapsule.getExecutiveAddress().toByteArray();
+    wc = consensusDelegate.getExecutive(blockExecutive);
     wc.setTotalProduced(wc.getTotalProduced() + 1);
     wc.setLatestBlockNum(blockNum);
     wc.setLatestSlotNum(dposSlot.getAbSlot(blockTime));
-    consensusDelegate.saveWitness(wc);
+    consensusDelegate.saveExecutive(wc);
 
     long slot = 1;
     if (blockNum != 1) {
       slot = dposSlot.getSlot(blockTime);
     }
     for (int i = 1; i < slot; ++i) {
-      byte[] witness = dposSlot.getScheduledWitness(i).toByteArray();
-      wc = consensusDelegate.getWitness(witness);
+      byte[] executive = dposSlot.getScheduledExecutive(i).toByteArray();
+      wc = consensusDelegate.getExecutive(executive);
       wc.setTotalMissed(wc.getTotalMissed() + 1);
-      consensusDelegate.saveWitness(wc);
-      logger.info("Current block: {}, witness: {} totalMissed: {}",
+      consensusDelegate.saveExecutive(wc);
+      logger.info("Current block: {}, executive: {} totalMissed: {}",
           blockNum, wc.createReadableString(), wc.getTotalMissed());
       consensusDelegate.applyBlock(false);
     }

@@ -110,13 +110,13 @@ public class HttpMethed {
   /**
    * constructor.
    */
-  public static HttpResponse updateWitness(String httpNode, byte[] witnessAddress, String updateUrl,
+  public static HttpResponse updateExecutive(String httpNode, byte[] executiveAddress, String updateUrl,
       String fromKey) {
     try {
-      final String requestUrl = "http://" + httpNode + "/wallet/updatewitness";
+      final String requestUrl = "http://" + httpNode + "/wallet/updateexecutive";
       JsonObject userBaseObj2 = new JsonObject();
       userBaseObj2.addProperty("update_url", str2hex(updateUrl));
-      userBaseObj2.addProperty("owner_address", ByteArray.toHexString(witnessAddress));
+      userBaseObj2.addProperty("owner_address", ByteArray.toHexString(executiveAddress));
       response = createConnect(requestUrl, userBaseObj2);
       transactionString = EntityUtils.toString(response.getEntity());
       transactionSignString = gettransactionsign(httpNode, transactionString, fromKey);
@@ -135,10 +135,10 @@ public class HttpMethed {
   /**
    * constructor.
    */
-  public static HttpResponse voteWitnessAccount(String httpNode, byte[] ownerAddress,
+  public static HttpResponse voteExecutiveAccount(String httpNode, byte[] ownerAddress,
       JsonArray voteArray, String fromKey) {
     try {
-      final String requestUrl = "http://" + httpNode + "/wallet/votewitnessaccount";
+      final String requestUrl = "http://" + httpNode + "/wallet/voteexecutiveaccount";
       JsonObject userBaseObj2 = new JsonObject();
       userBaseObj2.addProperty("owner_address", ByteArray.toHexString(ownerAddress));
       userBaseObj2.add("votes", voteArray);
@@ -182,9 +182,9 @@ public class HttpMethed {
   /**
    * constructor.
    */
-  public static HttpResponse createWitness(String httpNode, byte[] ownerAddress, String url) {
+  public static HttpResponse createExecutive(String httpNode, byte[] ownerAddress, String url) {
     try {
-      final String requestUrl = "http://" + httpNode + "/wallet/createwitness";
+      final String requestUrl = "http://" + httpNode + "/wallet/createexecutive";
       JsonObject userBaseObj2 = new JsonObject();
       userBaseObj2.addProperty("url", str2hex(url));
       userBaseObj2.addProperty("owner_address", ByteArray.toHexString(ownerAddress));
@@ -204,11 +204,11 @@ public class HttpMethed {
   /**
    * constructor.
    */
-  public static HttpResponse withdrawBalance(String httpNode, byte[] witnessAddress) {
+  public static HttpResponse withdrawBalance(String httpNode, byte[] executiveAddress) {
     try {
       final String requestUrl = "http://" + httpNode + "/wallet/withdrawbalance";
       JsonObject userBaseObj2 = new JsonObject();
-      userBaseObj2.addProperty("owner_address", ByteArray.toHexString(witnessAddress));
+      userBaseObj2.addProperty("owner_address", ByteArray.toHexString(executiveAddress));
       response = createConnect(requestUrl, userBaseObj2);
       logger.info(userBaseObj2.toString());
       //transactionString = EntityUtils.toString(response.getEntity());
@@ -434,13 +434,13 @@ public class HttpMethed {
    * constructor.
    */
   public static HttpResponse accountPermissionUpdate(String httpNode, byte[] ownerAddress,
-      JsonObject ownerObject, JsonObject witnessObject, JsonObject activesObject, String fromKey) {
+      JsonObject ownerObject, JsonObject executiveObject, JsonObject activesObject, String fromKey) {
     try {
       final String requestUrl = "http://" + httpNode + "/wallet/accountpermissionupdate";
       JsonObject userBaseObj2 = new JsonObject();
       userBaseObj2.addProperty("owner_address", ByteArray.toHexString(ownerAddress));
       userBaseObj2.add("owner", ownerObject);
-      //userBaseObj2.add("witness", witnessObject);
+      //userBaseObj2.add("executive", executiveObject);
       userBaseObj2.add("actives", activesObject);
       logger.info(userBaseObj2.toString());
       response = createConnect(requestUrl, userBaseObj2);
@@ -1463,9 +1463,9 @@ public class HttpMethed {
   /**
    * constructor.
    */
-  public static HttpResponse listwitnesses(String httpNode) {
+  public static HttpResponse listexecutives(String httpNode) {
     try {
-      String requestUrl = "http://" + httpNode + "/wallet/listwitnesses";
+      String requestUrl = "http://" + httpNode + "/wallet/listexecutives";
       response = createConnect(requestUrl);
     } catch (Exception e) {
       e.printStackTrace();
@@ -1478,9 +1478,9 @@ public class HttpMethed {
   /**
    * constructor.
    */
-  public static HttpResponse listwitnessesFromSolidity(String httpSolidityNode) {
+  public static HttpResponse listexecutivesFromSolidity(String httpSolidityNode) {
     try {
-      String requestUrl = "http://" + httpSolidityNode + "/walletsolidity/listwitnesses";
+      String requestUrl = "http://" + httpSolidityNode + "/walletsolidity/listexecutives";
       response = createConnect(requestUrl);
     } catch (Exception e) {
       e.printStackTrace();
@@ -1493,9 +1493,9 @@ public class HttpMethed {
   /**
    * constructor.
    */
-  public static HttpResponse listwitnessesFromPbft(String httpSolidityNode) {
+  public static HttpResponse listexecutivesFromPbft(String httpSolidityNode) {
     try {
-      String requestUrl = "http://" + httpSolidityNode + "/walletpbft/listwitnesses";
+      String requestUrl = "http://" + httpSolidityNode + "/walletpbft/listexecutives";
       response = createConnect(requestUrl);
     } catch (Exception e) {
       e.printStackTrace();

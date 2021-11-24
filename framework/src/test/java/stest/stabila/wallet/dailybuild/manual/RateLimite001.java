@@ -62,12 +62,12 @@ public class RateLimite001 {
   /**
    * constructor.
    */
-  @Test(enabled = true, description = "Rate limit IpQpsStrategy for ListWitness interface")
-  public void test1QpsStrategyForListWitnessInterface() {
+  @Test(enabled = true, description = "Rate limit IpQpsStrategy for ListExecutive interface")
+  public void test1QpsStrategyForListExecutiveInterface() {
     Long startTimeStamp = System.currentTimeMillis();
     Integer repeatTimes = 0;
     while (repeatTimes++ < 20) {
-      blockingStubFull.listWitnesses(EmptyMessage.newBuilder().build());
+      blockingStubFull.listExecutives(EmptyMessage.newBuilder().build());
     }
     Long endTimesStap = System.currentTimeMillis();
     logger.info("startTimeStamp - endTimesStap:" + (endTimesStap - startTimeStamp));

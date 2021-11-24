@@ -26,9 +26,9 @@ public class TestMutiSignStress {
   private final String testKey002 = Configuration.getByPath("testng.conf")
       .getString("foundationAccount.key2");
   private final byte[] fromAddress = PublicMethed.getFinalAddress(testKey002);
-  private final String witnessKey001 = Configuration.getByPath("testng.conf")
-      .getString("witness.key1");
-  private final byte[] witnessAddress = PublicMethed.getFinalAddress(witnessKey001);
+  private final String executiveKey001 = Configuration.getByPath("testng.conf")
+      .getString("executive.key1");
+  private final byte[] executiveAddress = PublicMethed.getFinalAddress(executiveKey001);
   ByteString assetAccountId1;
   String[] ownerKeyString = new String[1];
   String accountPermissionJson = "";

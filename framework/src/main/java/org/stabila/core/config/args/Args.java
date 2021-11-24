@@ -4,7 +4,7 @@ import static java.lang.Math.max;
 import static java.lang.System.exit;
 import static org.stabila.core.Constant.ADD_PRE_FIX_BYTE_MAINNET;
 import static org.stabila.core.config.Parameter.ChainConstant.BLOCK_PRODUCE_TIMEOUT_PERCENT;
-import static org.stabila.core.config.Parameter.ChainConstant.MAX_ACTIVE_WITNESS_NUM;
+import static org.stabila.core.config.Parameter.ChainConstant.MAX_ACTIVE_EXECUTIVE_NUM;
 
 import com.beust.jcommander.JCommander;
 import com.typesafe.config.Config;
@@ -38,7 +38,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.stabila.common.args.Account;
 import org.stabila.common.args.GenesisBlock;
-import org.stabila.common.args.Witness;
+import org.stabila.common.args.Executive;
 import org.stabila.common.config.DbBackupConfig;
 import org.stabila.common.crypto.SignInterface;
 import org.stabila.common.logsfilter.EventPluginConfig;
@@ -53,7 +53,7 @@ import org.stabila.common.setting.RocksDbSettings;
 import org.stabila.common.utils.ByteArray;
 import org.stabila.common.utils.Commons;
 import org.stabila.common.utils.FileUtil;
-import org.stabila.common.utils.LocalWitnesses;
+import org.stabila.common.utils.LocalExecutives;
 import org.stabila.common.utils.PropUtil;
 import org.stabila.core.Constant;
 import org.stabila.core.Wallet;
@@ -73,7 +73,7 @@ public class Args extends CommonParameter {
 
   @Getter
   @Setter
-  private static LocalWitnesses localWitnesses = new LocalWitnesses();
+  private static LocalExecutives localExecutives = new LocalExecutives();
 
   @Autowired(required = false)
   @Getter
@@ -88,10 +88,10 @@ public class Args extends CommonParameter {
   public static void clearParam() {
     PARAMETER.outputDirectory = "output-directory";
     PARAMETER.help = false;
-    PARAMETER.witness = false;
+    PARAMETER.executive = false;
     PARAMETER.seedNodes = new ArrayList<>();
     PARAMETER.privateKey = "";
-    PARAMETER.witnessAddress = "";
+    PARAMETER.executiveAddress = "";
     PARAMETER.storageDbDirectory = "";
     PARAMETER.storageIndexDirectory = "";
     PARAMETER.storageIndexSwitch = "";
@@ -107,7 +107,7 @@ public class Args extends CommonParameter {
     PARAMETER.seedNode = null;
     PARAMETER.genesisBlock = null;
     PARAMETER.chainId = null;
-    localWitnesses = null;
+    localExecutives = null;
     PARAMETER.needSyncCheck = false;
     PARAMETER.nodeDiscoveryEnable = false;
     PARAMETER.nodeDiscoveryPersist = false;
@@ -175,7 +175,7 @@ public class Args extends CommonParameter {
     PARAMETER.solidityNodeHttpEnable = true;
     PARAMETER.nodeMetricsEnable = false;
     PARAMETER.metricsStorageEnable = false;
-    PARAMETER.agreeNodeCount = MAX_ACTIVE_WITNESS_NUM * 2 / 3 + 1;
+    PARAMETER.agreeNodeCount = MAX_ACTIVE_EXECUTIVE_NUM * 2 / 3 + 1;
     PARAMETER.allowPBFT = 0;
     PARAMETER.allowShieldedTRC20Transaction = 0;
     PARAMETER.allowMarketTransaction = 0;
@@ -218,33 +218,33 @@ public class Args extends CommonParameter {
         .getString(Constant.CRYPTO_ENGINE) : Constant.ECKey_ENGINE;
 
     if (StringUtils.isNoneBlank(PARAMETER.privateKey)) {
-      localWitnesses = (new LocalWitnesses(PARAMETER.privateKey));
-      if (StringUtils.isNoneBlank(PARAMETER.witnessAddress)) {
-        byte[] bytes = Commons.decodeFromBase58Check(PARAMETER.witnessAddress);
+      localExecutives = (new LocalExecutives(PARAMETER.privateKey));
+      if (StringUtils.isNoneBlank(PARAMETER.executiveAddress)) {
+        byte[] bytes = Commons.decodeFromBase58Check(PARAMETER.executiveAddress);
         if (bytes != null) {
-          localWitnesses.setWitnessAccountAddress(bytes);
-          logger.debug("Got localWitnessAccountAddress from cmd");
+          localExecutives.setExecutiveAccountAddress(bytes);
+          logger.debug("Got localExecutiveAccountAddress from cmd");
         } else {
-          PARAMETER.witnessAddress = "";
-          logger.warn(IGNORE_WRONG_WITNESS_ADDRESS_FORMAT);
+          PARAMETER.executiveAddress = "";
+          logger.warn(IGNORE_WRONG_EXECUTIVE_ADDRESS_FORMAT);
         }
       }
-      localWitnesses.initWitnessAccountAddress(PARAMETER.isECKeyCryptoEngine());
+      localExecutives.initExecutiveAccountAddress(PARAMETER.isECKeyCryptoEngine());
       logger.debug("Got privateKey from cmd");
-    } else if (config.hasPath(Constant.LOCAL_WITNESS)) {
-      localWitnesses = new LocalWitnesses();
-      List<String> localwitness = config.getStringList(Constant.LOCAL_WITNESS);
-      localWitnesses.setPrivateKeys(localwitness);
-      witnessAddressCheck(config);
-      localWitnesses.initWitnessAccountAddress(PARAMETER.isECKeyCryptoEngine());
+    } else if (config.hasPath(Constant.LOCAL_EXECUTIVE)) {
+      localExecutives = new LocalExecutives();
+      List<String> localexecutive = config.getStringList(Constant.LOCAL_EXECUTIVE);
+      localExecutives.setPrivateKeys(localexecutive);
+      executiveAddressCheck(config);
+      localExecutives.initExecutiveAccountAddress(PARAMETER.isECKeyCryptoEngine());
       logger.debug("Got privateKey from config.conf");
-    } else if (config.hasPath(Constant.LOCAL_WITNESS_KEYSTORE)) {
-      localWitnesses = new LocalWitnesses();
+    } else if (config.hasPath(Constant.LOCAL_EXECUTIVE_KEYSTORE)) {
+      localExecutives = new LocalExecutives();
       List<String> privateKeys = new ArrayList<String>();
-      if (PARAMETER.isWitness()) {
-        List<String> localwitness = config.getStringList(Constant.LOCAL_WITNESS_KEYSTORE);
-        if (localwitness.size() > 0) {
-          String fileName = System.getProperty("user.dir") + "/" + localwitness.get(0);
+      if (PARAMETER.isExecutive()) {
+        List<String> localexecutive = config.getStringList(Constant.LOCAL_EXECUTIVE_KEYSTORE);
+        if (localexecutive.size() > 0) {
+          String fileName = System.getProperty("user.dir") + "/" + localexecutive.get(0);
           String password;
           if (StringUtils.isEmpty(PARAMETER.password)) {
             System.out.println("Please input your password.");
@@ -262,20 +262,20 @@ public class Args extends CommonParameter {
             privateKeys.add(prikey);
           } catch (IOException | CipherException e) {
             logger.error(e.getMessage());
-            logger.error("Witness node start failed!");
+            logger.error("Executive node start failed!");
             exit(-1);
           }
         }
       }
-      localWitnesses.setPrivateKeys(privateKeys);
-      witnessAddressCheck(config);
-      localWitnesses.initWitnessAccountAddress(PARAMETER.isECKeyCryptoEngine());
+      localExecutives.setPrivateKeys(privateKeys);
+      executiveAddressCheck(config);
+      localExecutives.initExecutiveAccountAddress(PARAMETER.isECKeyCryptoEngine());
       logger.debug("Got privateKey from keystore");
     }
 
-    if (PARAMETER.isWitness()
-        && CollectionUtils.isEmpty(localWitnesses.getPrivateKeys())) {
-      logger.warn("This is a witness node, but localWitnesses is null");
+    if (PARAMETER.isExecutive()
+        && CollectionUtils.isEmpty(localExecutives.getPrivateKeys())) {
+      logger.warn("This is a executive node, but localExecutives is null");
     }
 
     if (config.hasPath(Constant.VM_SUPPORT_CONSTANT)) {
@@ -362,8 +362,8 @@ public class Args extends CommonParameter {
         PARAMETER.genesisBlock.setAssets(getAccountsFromConfig(config));
         AccountStore.setAccount(config);
       }
-      if (config.hasPath(Constant.GENESIS_BLOCK_WITNESSES)) {
-        PARAMETER.genesisBlock.setWitnesses(getWitnessesFromConfig(config));
+      if (config.hasPath(Constant.GENESIS_BLOCK_EXECUTIVES)) {
+        PARAMETER.genesisBlock.setExecutives(getExecutivesFromConfig(config));
       }
     } else {
       PARAMETER.genesisBlock = GenesisBlock.getDefault();
@@ -685,7 +685,7 @@ public class Args extends CommonParameter {
         config.hasPath(Constant.NODE_SHIELDED_TRANS_IN_PENDING_MAX_COUNTS) ? config
             .getInt(Constant.NODE_SHIELDED_TRANS_IN_PENDING_MAX_COUNTS) : 10;
 
-    if (PARAMETER.isWitness()) {
+    if (PARAMETER.isExecutive()) {
       PARAMETER.fullNodeAllowShieldedTransactionArgs = true;
     }
 
@@ -702,11 +702,11 @@ public class Args extends CommonParameter {
             .getLong(Constant.COMMITTEE_ALLOW_PBFT) : 0;
 
     PARAMETER.agreeNodeCount = config.hasPath(Constant.NODE_AGREE_NODE_COUNT) ? config
-        .getInt(Constant.NODE_AGREE_NODE_COUNT) : MAX_ACTIVE_WITNESS_NUM * 2 / 3 + 1;
-    PARAMETER.agreeNodeCount = PARAMETER.agreeNodeCount > MAX_ACTIVE_WITNESS_NUM
-        ? MAX_ACTIVE_WITNESS_NUM : PARAMETER.agreeNodeCount;
-    if (PARAMETER.isWitness()) {
-      //  INSTANCE.agreeNodeCount = MAX_ACTIVE_WITNESS_NUM * 2 / 3 + 1;
+        .getInt(Constant.NODE_AGREE_NODE_COUNT) : MAX_ACTIVE_EXECUTIVE_NUM * 2 / 3 + 1;
+    PARAMETER.agreeNodeCount = PARAMETER.agreeNodeCount > MAX_ACTIVE_EXECUTIVE_NUM
+        ? MAX_ACTIVE_EXECUTIVE_NUM : PARAMETER.agreeNodeCount;
+    if (PARAMETER.isExecutive()) {
+      //  INSTANCE.agreeNodeCount = MAX_ACTIVE_EXECUTIVE_NUM * 2 / 3 + 1;
     }
 
     PARAMETER.allowSvmCd =
@@ -765,19 +765,19 @@ public class Args extends CommonParameter {
     logConfig();
   }
 
-  private static List<Witness> getWitnessesFromConfig(final Config config) {
-    return config.getObjectList(Constant.GENESIS_BLOCK_WITNESSES).stream()
-        .map(Args::createWitness)
+  private static List<Executive> getExecutivesFromConfig(final Config config) {
+    return config.getObjectList(Constant.GENESIS_BLOCK_EXECUTIVES).stream()
+        .map(Args::createExecutive)
         .collect(Collectors.toCollection(ArrayList::new));
   }
 
-  private static Witness createWitness(final ConfigObject witnessAccount) {
-    final Witness witness = new Witness();
-    witness.setAddress(
-        Commons.decodeFromBase58Check(witnessAccount.get("address").unwrapped().toString()));
-    witness.setUrl(witnessAccount.get("url").unwrapped().toString());
-    witness.setVoteCount(witnessAccount.toConfig().getLong("voteCount"));
-    return witness;
+  private static Executive createExecutive(final ConfigObject executiveAccount) {
+    final Executive executive = new Executive();
+    executive.setAddress(
+        Commons.decodeFromBase58Check(executiveAccount.get("address").unwrapped().toString()));
+    executive.setUrl(executiveAccount.get("url").unwrapped().toString());
+    executive.setVoteCount(executiveAccount.toConfig().getLong("voteCount"));
+    return executive;
   }
 
   private static List<Account> getAccountsFromConfig(final Config config) {
@@ -1121,15 +1121,15 @@ public class Args extends CommonParameter {
     return this.outputDirectory;
   }
   
-  private static void witnessAddressCheck(Config config) {
-    if (config.hasPath(Constant.LOCAL_WITNESS_ACCOUNT_ADDRESS)) {
+  private static void executiveAddressCheck(Config config) {
+    if (config.hasPath(Constant.LOCAL_EXECUTIVE_ACCOUNT_ADDRESS)) {
       byte[] bytes = Commons
-              .decodeFromBase58Check(config.getString(Constant.LOCAL_WITNESS_ACCOUNT_ADDRESS));
+              .decodeFromBase58Check(config.getString(Constant.LOCAL_EXECUTIVE_ACCOUNT_ADDRESS));
       if (bytes != null) {
-        localWitnesses.setWitnessAccountAddress(bytes);
-        logger.debug("Got localWitnessAccountAddress from config.conf");
+        localExecutives.setExecutiveAccountAddress(bytes);
+        logger.debug("Got localExecutiveAccountAddress from config.conf");
       } else {
-        logger.warn(IGNORE_WRONG_WITNESS_ADDRESS_FORMAT);
+        logger.warn(IGNORE_WRONG_EXECUTIVE_ADDRESS_FORMAT);
       }
     }
   }

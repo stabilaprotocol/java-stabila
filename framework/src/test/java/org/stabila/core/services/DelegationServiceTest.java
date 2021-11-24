@@ -56,7 +56,7 @@ public class DelegationServiceTest {
     } else if (cycle == 1) {
       rate = 0.2;
     }
-    mortgageService.payStandbyWitness();
+    mortgageService.payStandbyExecutive();
     Wallet.setAddressPreFixByte(ADD_PRE_FIX_BYTE_MAINNET);
     byte[] sr1 = decodeFromBase58Check("SUYdwyRWvFZcnZuM1BuD841aHsfAbnuNs3");
     long value = manager.getDelegationStore().getReward(cycle, sr1);
@@ -110,9 +110,9 @@ public class DelegationServiceTest {
     byte[] sr27 = decodeFromBase58Check("SXd6AiV8xuojCWzoJQvwZfG3yJW3ibKMkt");
     manager.getDelegationStore().setBrokerage(0, sr27, 10);
     manager.getDelegationStore().setBrokerage(1, sr27, 20);
-    manager.getDelegationStore().setWitnessVote(0, sr27, 100000000);
-    manager.getDelegationStore().setWitnessVote(1, sr27, 100000000);
-    manager.getDelegationStore().setWitnessVote(2, sr27, 100000000);
+    manager.getDelegationStore().setExecutiveVote(0, sr27, 100000000);
+    manager.getDelegationStore().setExecutiveVote(1, sr27, 100000000);
+    manager.getDelegationStore().setExecutiveVote(2, sr27, 100000000);
     testPay(0);
     testWithdraw();
   }

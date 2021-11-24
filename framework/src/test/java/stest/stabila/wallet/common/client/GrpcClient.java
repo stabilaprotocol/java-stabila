@@ -17,7 +17,7 @@ import org.stabila.api.GrpcAPI.NodeList;
 import org.stabila.api.GrpcAPI.NumberMessage;
 import org.stabila.api.GrpcAPI.PaginatedMessage;
 import org.stabila.api.GrpcAPI.TransactionList;
-import org.stabila.api.GrpcAPI.WitnessList;
+import org.stabila.api.GrpcAPI.ExecutiveList;
 import org.stabila.api.WalletExtensionGrpc;
 import org.stabila.api.WalletGrpc;
 import org.stabila.api.WalletSolidityGrpc;
@@ -33,7 +33,7 @@ import org.stabila.protos.contract.BalanceContract;
 import org.stabila.protos.contract.BalanceContract.CdBalanceContract;
 import org.stabila.protos.contract.BalanceContract.UncdBalanceContract;
 import org.stabila.protos.contract.BalanceContract.WithdrawBalanceContract;
-import org.stabila.protos.contract.WitnessContract;
+import org.stabila.protos.contract.ExecutiveContract;
 
 
 public class GrpcClient {
@@ -136,12 +136,12 @@ public class GrpcClient {
     return blockingStubFull.createAssetIssue(contract);
   }
 
-  public Transaction voteWitnessAccount(WitnessContract.VoteWitnessContract contract) {
-    return blockingStubFull.voteWitnessAccount(contract);
+  public Transaction voteExecutiveAccount(ExecutiveContract.VoteExecutiveContract contract) {
+    return blockingStubFull.voteExecutiveAccount(contract);
   }
 
-  public Transaction createWitness(WitnessContract.WitnessCreateContract contract) {
-    return blockingStubFull.createWitness(contract);
+  public Transaction createExecutive(ExecutiveContract.ExecutiveCreateContract contract) {
+    return blockingStubFull.createExecutive(contract);
   }
 
   public boolean broadcastTransaction(Transaction signaturedTransaction) {
@@ -195,15 +195,15 @@ public class GrpcClient {
   /**
    * constructor.
    */
-  public Optional<WitnessList> listWitnesses() {
+  public Optional<ExecutiveList> listExecutives() {
     if (blockingStubSolidity != null) {
-      WitnessList witnessList = blockingStubSolidity.listWitnesses(
+      ExecutiveList executiveList = blockingStubSolidity.listExecutives(
           EmptyMessage.newBuilder().build());
-      return Optional.ofNullable(witnessList);
+      return Optional.ofNullable(executiveList);
     } else {
-      WitnessList witnessList = blockingStubFull.listWitnesses(
+      ExecutiveList executiveList = blockingStubFull.listExecutives(
           EmptyMessage.newBuilder().build());
-      return Optional.ofNullable(witnessList);
+      return Optional.ofNullable(executiveList);
     }
   }
 

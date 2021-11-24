@@ -29,7 +29,7 @@ import org.stabila.core.capsule.BytesCapsule;
 import org.stabila.core.capsule.ContractCapsule;
 import org.stabila.core.capsule.DelegatedResourceCapsule;
 import org.stabila.core.capsule.VotesCapsule;
-import org.stabila.core.capsule.WitnessCapsule;
+import org.stabila.core.capsule.ExecutiveCapsule;
 import org.stabila.core.config.Parameter;
 import org.stabila.core.db.BlockIndexStore;
 import org.stabila.core.db.BlockStore;
@@ -50,7 +50,7 @@ import org.stabila.core.store.DynamicPropertiesStore;
 import org.stabila.core.store.StorageRowStore;
 import org.stabila.core.store.StoreFactory;
 import org.stabila.core.store.VotesStore;
-import org.stabila.core.store.WitnessStore;
+import org.stabila.core.store.ExecutiveStore;
 import org.stabila.core.vm.config.VMConfig;
 import org.stabila.core.vm.program.Program.IllegalOperationException;
 import org.stabila.core.vm.program.Storage;
@@ -91,7 +91,7 @@ public class RepositoryImpl implements Repository {
   @Getter
   private BlockIndexStore blockIndexStore;
   @Getter
-  private WitnessStore witnessStore;
+  private ExecutiveStore executiveStore;
   @Getter
   private DelegatedResourceStore delegatedResourceStore;
   @Getter
@@ -135,7 +135,7 @@ public class RepositoryImpl implements Repository {
       blockStore = manager.getBlockStore();
       khaosDb = manager.getKhaosDb();
       blockIndexStore = manager.getBlockIndexStore();
-      witnessStore = manager.getWitnessStore();
+      executiveStore = manager.getExecutiveStore();
       delegatedResourceStore = manager.getDelegatedResourceStore();
       votesStore = manager.getVotesStore();
       delegationStore = manager.getDelegationStore();
@@ -289,8 +289,8 @@ public class RepositoryImpl implements Repository {
   }
 
   @Override
-  public WitnessCapsule getWitness(byte[] address) {
-    return witnessStore.get(address);
+  public ExecutiveCapsule getExecutive(byte[] address) {
+    return executiveStore.get(address);
   }
 
   @Override

@@ -7,9 +7,9 @@ public class MetricsKey {
   public static final String BLOCKCHAIN_FORK_COUNT = "blockchain.forkCount";
   public static final String BLOCKCHAIN_FAIL_FORK_COUNT = "blockchain.failForkCount";
   public static final String BLOCKCHAIN_MISSED_TRANSACTION = "blockchain.missedTransaction";
-  public static final String BLOCKCHAIN_DUP_WITNESS = "blockchain.dupWitness.";
+  public static final String BLOCKCHAIN_DUP_EXECUTIVE = "blockchain.dupExecutive.";
   public static final String NET_LATENCY = "net.latency";
-  public static final String NET_LATENCY_WITNESS = "net.latency.witness.";
+  public static final String NET_LATENCY_EXECUTIVE = "net.latency.executive.";
   public static final String NET_DISCONNECTION_COUNT = "net.disconnectionCount";
   public static final String NET_DISCONNECTION_DETAIL = "net.disconnectionDetail.";
   public static final String NET_ERROR_PROTO_COUNT = "net.errorProtoCount";

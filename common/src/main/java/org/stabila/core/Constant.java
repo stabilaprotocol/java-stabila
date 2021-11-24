@@ -55,9 +55,9 @@ public class Constant {
   // Configuration items
   public static final String NET_TYPE = "net.type";
   public static final String TESTNET = "testnet";
-  public static final String LOCAL_WITNESS = "localwitness";
-  public static final String LOCAL_WITNESS_ACCOUNT_ADDRESS = "localWitnessAccountAddress";
-  public static final String LOCAL_WITNESS_KEYSTORE = "localwitnesskeystore";
+  public static final String LOCAL_EXECUTIVE = "localexecutive";
+  public static final String LOCAL_EXECUTIVE_ACCOUNT_ADDRESS = "localExecutiveAccountAddress";
+  public static final String LOCAL_EXECUTIVE_KEYSTORE = "localexecutivekeystore";
   public static final String VM_SUPPORT_CONSTANT = "vm.supportConstant";
   public static final String VM_MIN_TIME_RATIO = "vm.minTimeRatio";
   public static final String VM_MAX_TIME_RATIO = "vm.maxTimeRatio";
@@ -69,7 +69,7 @@ public class Constant {
   public static final String GENESIS_BLOCK_TIMESTAMP = "genesis.block.timestamp";
   public static final String GENESIS_BLOCK_PARENTHASH = "genesis.block.parentHash";
   public static final String GENESIS_BLOCK_ASSETS = "genesis.block.assets";
-  public static final String GENESIS_BLOCK_WITNESSES = "genesis.block.witnesses";
+  public static final String GENESIS_BLOCK_EXECUTIVES = "genesis.block.executives";
 
   public static final String BLOCK_NEED_SYNC_CHECK = "block.needSyncCheck";
   public static final String NODE_DISCOVERY_ENABLE = "node.discovery.enable";

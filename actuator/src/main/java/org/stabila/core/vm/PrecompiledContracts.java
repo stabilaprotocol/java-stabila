@@ -46,7 +46,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.stabila.core.capsule.AccountCapsule;
 import org.stabila.core.capsule.TransactionCapsule;
-import org.stabila.core.capsule.WitnessCapsule;
+import org.stabila.core.capsule.ExecutiveCapsule;
 import org.stabila.core.config.Parameter;
 import org.stabila.core.db.TransactionTrace;
 import org.stabila.core.exception.ZksnarkException;
@@ -1584,9 +1584,9 @@ public class PrecompiledContracts {
       DataWord[] words = DataWord.parseArray(data);
       byte[] addr = words[0].getLast20Bytes();
 
-      WitnessCapsule witnessCapsule = this.getDeposit()
-          .getWitness(TransactionTrace.convertToStabilaAddress(addr));
-      if (witnessCapsule != null) {
+      ExecutiveCapsule executiveCapsule = this.getDeposit()
+          .getExecutive(TransactionTrace.convertToStabilaAddress(addr));
+      if (executiveCapsule != null) {
         return Pair.of(true, dataBoolean(true));
       } else {
         return Pair.of(true, dataBoolean(false));
@@ -1682,10 +1682,10 @@ public class PrecompiledContracts {
       byte[] targetStabilaAddr = TransactionTrace.convertToStabilaAddress(words[0].getLast20Bytes());
 
       long voteCount = 0;
-      WitnessCapsule witnessCapsule =
-          this.getDeposit().getWitness(targetStabilaAddr);
-      if (witnessCapsule != null) {
-        voteCount = witnessCapsule.getVoteCount();
+      ExecutiveCapsule executiveCapsule =
+          this.getDeposit().getExecutive(targetStabilaAddr);
+      if (executiveCapsule != null) {
+        voteCount = executiveCapsule.getVoteCount();
       }
 
       return Pair.of(true, longTo32Bytes(voteCount));

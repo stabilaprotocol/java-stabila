@@ -58,7 +58,7 @@
   <logger level="INFO" name="utils"/>
   <logger level="INFO" name="actuator"/>
   <logger level="INFO" name="API"/>
-  <logger level="INFO" name="witness"/>
+  <logger level="INFO" name="executive"/>
   <logger level="INFO" name="DB"/>
   <logger level="INFO" name="capsule"/>
   <logger level="INFO" name="VM"/>

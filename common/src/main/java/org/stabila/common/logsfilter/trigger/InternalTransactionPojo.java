@@ -47,7 +47,7 @@ public class InternalTransactionPojo {
   private String note;
 
   /*
-   * extra data field for recording parameters of vote witness opcode
+   * extra data field for recording parameters of vote executive opcode
    */
   @Getter
   @Setter

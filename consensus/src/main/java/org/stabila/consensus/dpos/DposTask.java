@@ -91,9 +91,9 @@ public class DposTask {
         return State.NOT_TIME_YET;
       }
 
-      ByteString pWitness = dposSlot.getScheduledWitness(slot);
+      ByteString pExecutive = dposSlot.getScheduledExecutive(slot);
 
-      Miner miner = dposService.getMiners().get(pWitness);
+      Miner miner = dposService.getMiners().get(pExecutive);
       if (miner == null) {
         return State.NOT_MY_TURN;
       }
@@ -107,10 +107,10 @@ public class DposTask {
       }
 
       BlockHeader.raw raw = blockCapsule.getInstance().getBlockHeader().getRawData();
-      logger.info("Produce block successfully, num: {}, time: {}, witness: {}, ID:{}, parentID:{}",
+      logger.info("Produce block successfully, num: {}, time: {}, executive: {}, ID:{}, parentID:{}",
           raw.getNumber(),
           new DateTime(raw.getTimestamp()),
-          ByteArray.toHexString(raw.getWitnessAddress().toByteArray()),
+          ByteArray.toHexString(raw.getExecutiveAddress().toByteArray()),
           new Sha256Hash(raw.getNumber(), Sha256Hash.of(CommonParameter
               .getInstance().isECKeyCryptoEngine(), raw.toByteArray())),
           ByteArray.toHexString(raw.getParentHash().toByteArray()));

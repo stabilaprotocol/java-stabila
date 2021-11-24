@@ -8,13 +8,13 @@ import org.bouncycastle.util.encoders.Hex;
 import org.stabila.common.utils.DecodeUtil;
 import org.stabila.core.capsule.AccountCapsule;
 import org.stabila.core.capsule.TransactionResultCapsule;
-import org.stabila.core.capsule.WitnessCapsule;
+import org.stabila.core.capsule.ExecutiveCapsule;
 import org.stabila.core.exception.ContractExeException;
 import org.stabila.core.exception.ContractValidateException;
 import org.stabila.core.store.AccountStore;
 import org.stabila.core.store.DelegationStore;
 import org.stabila.core.store.DynamicPropertiesStore;
-import org.stabila.core.store.WitnessStore;
+import org.stabila.core.store.ExecutiveStore;
 import org.stabila.protos.Protocol.Transaction.Contract.ContractType;
 import org.stabila.protos.Protocol.Transaction.Result.code;
 import org.stabila.protos.contract.StorageContract.UpdateBrokerageContract;
@@ -65,7 +65,7 @@ public class UpdateBrokerageActuator extends AbstractActuator {
     }
     DynamicPropertiesStore dynamicStore = chainBaseManager.getDynamicPropertiesStore();
     AccountStore accountStore = chainBaseManager.getAccountStore();
-    WitnessStore witnessStore = chainBaseManager.getWitnessStore();
+    ExecutiveStore executiveStore = chainBaseManager.getExecutiveStore();
     if (!dynamicStore.allowChangeDelegation()) {
       throw new ContractValidateException(
           "contract type error, unexpected type [UpdateBrokerageContract]");
@@ -94,9 +94,9 @@ public class UpdateBrokerageActuator extends AbstractActuator {
       throw new ContractValidateException("Invalid brokerage");
     }
 
-    WitnessCapsule witnessCapsule = witnessStore.get(ownerAddress);
-    if (witnessCapsule == null) {
-      throw new ContractValidateException("Not existed witness:" + Hex.toHexString(ownerAddress));
+    ExecutiveCapsule executiveCapsule = executiveStore.get(ownerAddress);
+    if (executiveCapsule == null) {
+      throw new ContractValidateException("Not existed executive:" + Hex.toHexString(ownerAddress));
     }
 
     AccountCapsule account = accountStore.get(ownerAddress);

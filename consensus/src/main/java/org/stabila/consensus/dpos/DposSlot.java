@@ -49,18 +49,18 @@ public class DposSlot {
     return time + interval * slot;
   }
 
-  public ByteString getScheduledWitness(long slot) {
+  public ByteString getScheduledExecutive(long slot) {
     final long currentSlot = getAbSlot(consensusDelegate.getLatestBlockHeaderTimestamp()) + slot;
     if (currentSlot < 0) {
       throw new RuntimeException("current slot should be positive.");
     }
-    int size = consensusDelegate.getActiveWitnesses().size();
+    int size = consensusDelegate.getActiveExecutives().size();
     if (size <= 0) {
-      throw new RuntimeException("active witnesses is null.");
+      throw new RuntimeException("active executives is null.");
     }
-    int witnessIndex = (int) currentSlot % (size * SINGLE_REPEAT);
-    witnessIndex /= SINGLE_REPEAT;
-    return consensusDelegate.getActiveWitnesses().get(witnessIndex);
+    int executiveIndex = (int) currentSlot % (size * SINGLE_REPEAT);
+    executiveIndex /= SINGLE_REPEAT;
+    return consensusDelegate.getActiveExecutives().get(executiveIndex);
   }
 
 }

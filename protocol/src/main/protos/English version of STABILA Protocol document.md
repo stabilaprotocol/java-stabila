@@ -36,18 +36,18 @@
         int64 latest_operation_time = 10; 
        }
        
-     A `Witness` contains 8 parameters:  
-      `address`: the address of this witness – e.g. “_0xu82h…7237_”.  
-     `voteCount`: number of received votes on this witness – e.g. _234234_.  
-     `pubKey`: the public key for this witness – e.g. “_0xu82h…7237_”.  
-     `url`: the url for this witness – e.g. “_https://www.noonetrust.com_”.  
-     `totalProduced`: the number of blocks this witness produced – e.g. _2434_.  
-     `totalMissed`: the number of blocks this witness missed – e.g. _7_.  
+     A `Executive` contains 8 parameters:  
+      `address`: the address of this executive – e.g. “_0xu82h…7237_”.  
+     `voteCount`: number of received votes on this executive – e.g. _234234_.  
+     `pubKey`: the public key for this executive – e.g. “_0xu82h…7237_”.  
+     `url`: the url for this executive – e.g. “_https://www.noonetrust.com_”.  
+     `totalProduced`: the number of blocks this executive produced – e.g. _2434_.  
+     `totalMissed`: the number of blocks this executive missed – e.g. _7_.  
      `latestBlockNum`: the latest height of block – e.g. _4522_.
      `isjobs`: a bool flag.
      
-      // Witness 
-      message Witness{   
+      // Executive 
+      message Executive{   
         bytes address = 1;   
         int64 voteCount = 2;   
         bytes pubKey = 3;   
@@ -70,17 +70,17 @@
            BlockHeader block_header = 2; 
           }
 
-     A `BlockHeader` contains `raw_data` and `witness_signature`.  
+     A `BlockHeader` contains `raw_data` and `executive_signature`.  
      `raw_data`: a `raw` message.  
-     `witness_signature`: signature for this block header from witness node.
+     `executive_signature`: signature for this block header from executive node.
 
      A message `raw` contains 6 parameters:  
      `timestamp`: timestamp of this message – e.g. _14356325_.  
      `txTrieRoot`: the root of Merkle Tree in this block – e.g. “_7dacsa…3ed_.”  
      `parentHash`: the hash of last block – e.g. “_7dacsa…3ed_.”  
      `number`: the height of this block – e.g. _13534657_.  
-     `witness_id`: the id of witness which packed this block – e.g. “_0xu82h…7237_”.  
-     `witness_address`: the adresss of the witness packed this block – e.g. “_0xu82h…7237_”.
+     `executive_id`: the id of executive which packed this block – e.g. “_0xu82h…7237_”.  
+     `executive_address`: the adresss of the executive packed this block – e.g. “_0xu82h…7237_”.
 
          message BlockHeader {   
            message raw {     
@@ -90,11 +90,11 @@
              //bytes nonce = 5;     
              //bytes difficulty = 6;     
              uint64 number = 7;     
-             uint64 witness_id = 8;     
-             bytes witness_address = 9;   
+             uint64 executive_id = 8;     
+             bytes executive_address = 9;   
           }   
           raw raw_data = 1;   
-          bytes witness_signature = 2; 
+          bytes executive_signature = 2; 
           }
 
      message `ChainInventory` contains `BlockId` and `remain_num`.  
@@ -114,7 +114,7 @@
              int64 remain_num = 2;
           }
           
-+	Transaction contracts mainly includes account create contract, account update contract transfer contract, transfer asset contract, vote asset contract, vote witness contract, witness creation contract, witness update contract, asset issue contract, participate asset issue contract and deploy contract.
++	Transaction contracts mainly includes account create contract, account update contract transfer contract, transfer asset contract, vote asset contract, vote executive contract, executive creation contract, executive update contract, asset issue contract, participate asset issue contract and deploy contract.
 
      An `AccountCreateContract` contains 3 parameters:                                                                                                                                                       
      `type`: What type this account is – e.g. _0_ stands for `Normal`.  
@@ -173,35 +173,35 @@
            int32 count = 5; 
           }
 
-     A `VoteWitnessContract` contains 4 parameters:  
+     A `VoteExecutiveContract` contains 4 parameters:  
      `vote_address`: the addresses of those who voted.  
      `support`: is the votes supportive or not - e.g. _true_.  
      `owner_address`: the address of contract owner – e.g. “_0xu82h…7237_”.  
      `count`: - e.g. the count number of vote – e.g. _32632_.
 
-         message VoteWitnessContract {   
+         message VoteExecutiveContract {   
            bytes owner_address = 1;   
            repeated bytes vote_address = 2;   
            bool support = 3;   
            int32 count = 5;
            }
 
-     A `WitnessCreateContract` contains 3 parameters:  
+     A `ExecutiveCreateContract` contains 3 parameters:  
      `private_key`: the private key of contract– e.g. “_0xu82h…7237_”.  
      `owner_address`: the address of contract owner – e.g. “_0xu82h…7237_”.  
-     `url`: the url for the witness – e.g. “_https://www.noonetrust.com_”.
+     `url`: the url for the executive – e.g. “_https://www.noonetrust.com_”.
 
-         message WitnessCreateContract {   
+         message ExecutiveCreateContract {   
            bytes owner_address = 1;   
            bytes private_key = 2;   
            bytes url = 12; 
           }
      
-     A `WitnessUpdateContract` contains 2 parameters:  
+     A `ExecutiveUpdateContract` contains 2 parameters:  
      `owner_address`: the address of contract owner – e.g. “_0xu82h…7237_”.  
-     `update_url`: the url for the witness – e.g. “_https://www.noonetrust.com_”. 
+     `update_url`: the url for the executive – e.g. “_https://www.noonetrust.com_”. 
      
-         message WitnessUpdateContract {
+         message ExecutiveUpdateContract {
             bytes owner_address = 1;
             bytes update_url = 12;
           }
@@ -274,7 +274,7 @@ Input, transaction and head block all require signature.
     `type`: what type of the message contract.  
     `parameter`: It can be any form.
 
-    There are 8 different of contract types: `AccountCreateContract`, `TransferContract`, `TransferAssetContract`, `VoteAssetContract`, `VoteWitnessContract`,`WitnessCreateContract`, `AssetIssueContract` and `DeployContract`.  
+    There are 8 different of contract types: `AccountCreateContract`, `TransferContract`, `TransferAssetContract`, `VoteAssetContract`, `VoteExecutiveContract`,`ExecutiveCreateContract`, `AssetIssueContract` and `DeployContract`.  
     `TransactionType` have two types: `UtxoType` and `ContractType`.
 
         message Transaction {   
@@ -288,11 +288,11 @@ Input, transaction and head block all require signature.
                TransferContract = 1;       
                TransferAssetContract = 2;       
                VoteAssetContract = 3;       
-               VoteWitnessContract = 4;       
-               WitnessCreateContract = 5;       
+               VoteExecutiveContract = 4;       
+               ExecutiveCreateContract = 5;       
                AssetIssueContract = 6;       
                DeployContract = 7; 
-               WitnessUpdateContract = 8;
+               ExecutiveUpdateContract = 8;
                ParticipateAssetIssueContract = 9    
               }     
               ContractType type = 1;     
@@ -511,14 +511,14 @@ Input, transaction and head block all require signature.
     Check out the list of accounts by giving a `ListAccounts`.  
     __`UpdateAccount`__:  
     Issue an asset by giving a `UpdateAccountContract`.  
-    __`VoteWitnessAccount`__:  
-    Issue an asset by giving a `VoteWitnessContract`.  
-    __`WitnessList`__:  
-    Check out the list of witnesses by giving a `WitnessList`.  
-    __`UpdateWitness`__:  
-    Issue an asset by giving a `WitnessUpdateContract`.  
-    __`CreateWitness`__:  
-    Issue an asset by giving a `WitnessCreateContract`.  
+    __`VoteExecutiveAccount`__:  
+    Issue an asset by giving a `VoteExecutiveContract`.  
+    __`ExecutiveList`__:  
+    Check out the list of executives by giving a `ExecutiveList`.  
+    __`UpdateExecutive`__:  
+    Issue an asset by giving a `ExecutiveUpdateContract`.  
+    __`CreateExecutive`__:  
+    Issue an asset by giving a `ExecutiveCreateContract`.  
     __`TransferAsset`__:  
     Issue an asset by giving a `TransferAssetContract`.  
     __`ParticipateAssetIssue`__:  
@@ -564,7 +564,7 @@ Input, transaction and head block all require signature.
       
         };
       
-        rpc VoteWitnessAccount (VoteWitnessContract) returns (Transaction) {
+        rpc VoteExecutiveAccount (VoteExecutiveContract) returns (Transaction) {
       
         };
       
@@ -572,15 +572,15 @@ Input, transaction and head block all require signature.
       
         };
       
-        rpc ListWitnesses (EmptyMessage) returns (WitnessList) {
+        rpc ListExecutives (EmptyMessage) returns (ExecutiveList) {
       
         };
       
-        rpc UpdateWitness (WitnessUpdateContract) returns (Transaction) {
+        rpc UpdateExecutive (ExecutiveUpdateContract) returns (Transaction) {
       
         };
       
-        rpc CreateWitness (WitnessCreateContract) returns (Transaction) {
+        rpc CreateExecutive (ExecutiveCreateContract) returns (Transaction) {
       
         };
       
@@ -623,12 +623,12 @@ Input, transaction and head block all require signature.
          repeated Account accounts = 1;
        }
        
-   `WitnessList`: the list of witnesses in the blockchain explorer.  
-   message `WitnessList` contains one parameter:  
-   `witnesses`:
+   `ExecutiveList`: the list of executives in the blockchain explorer.  
+   message `ExecutiveList` contains one parameter:  
+   `executives`:
    
-        message WitnessList {
-          repeated Witness witnesses = 1;
+        message ExecutiveList {
+          repeated Executive executives = 1;
         }
         
    `AssetIssueList`: the list of issue asset in the blockchain explorer.  

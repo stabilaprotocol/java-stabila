@@ -37,10 +37,10 @@ public class HttpTestMutiSign001 {
       .getString("foundationAccount.key2");
   private final byte[] manager2Address = PublicMethed.getFinalAddress(manager2Key);
   private final String manager3Key = Configuration.getByPath("testng.conf")
-      .getString("witness.key1");
+      .getString("executive.key1");
   private final byte[] manager3Address = PublicMethed.getFinalAddress(manager3Key);
   private final String manager4Key = Configuration.getByPath("testng.conf")
-      .getString("witness.key2");
+      .getString("executive.key2");
   private final byte[] manager4Address = PublicMethed.getFinalAddress(manager4Key);
   ECKey ecKey1 = new ECKey(Utils.getRandom());
   byte[] ownerAddress = ecKey1.getAddress();
@@ -57,7 +57,7 @@ public class HttpTestMutiSign001 {
   JsonObject manager3Wight = new JsonObject();
   JsonObject manager4Wight = new JsonObject();
   JsonObject ownerObject = new JsonObject();
-  JsonObject witnessObject = new JsonObject();
+  JsonObject executiveObject = new JsonObject();
   JsonObject activeObject = new JsonObject();
   private JSONObject responseContent;
   private HttpResponse response;
@@ -130,7 +130,7 @@ public class HttpTestMutiSign001 {
     activeObject.add("keys", activeKeys);
 
     response = HttpMethed
-        .accountPermissionUpdate(httpnode, ownerAddress, ownerObject, witnessObject, activeObject,
+        .accountPermissionUpdate(httpnode, ownerAddress, ownerObject, executiveObject, activeObject,
             ownerKey);
     Assert.assertTrue(HttpMethed.verificationResult(response));
   }

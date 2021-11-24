@@ -42,7 +42,7 @@ import org.stabila.core.services.interfaceOnPBFT.http.GetTransactionCountByBlock
 import org.stabila.core.services.interfaceOnPBFT.http.IsShieldedTRC20ContractNoteSpentOnPBFTServlet;
 import org.stabila.core.services.interfaceOnPBFT.http.IsSpendOnPBFTServlet;
 import org.stabila.core.services.interfaceOnPBFT.http.ListExchangesOnPBFTServlet;
-import org.stabila.core.services.interfaceOnPBFT.http.ListWitnessesOnPBFTServlet;
+import org.stabila.core.services.interfaceOnPBFT.http.ListExecutivesOnPBFTServlet;
 import org.stabila.core.services.interfaceOnPBFT.http.ScanAndMarkNoteByIvkOnPBFTServlet;
 import org.stabila.core.services.interfaceOnPBFT.http.ScanNoteByIvkOnPBFTServlet;
 import org.stabila.core.services.interfaceOnPBFT.http.ScanNoteByOvkOnPBFTServlet;
@@ -65,7 +65,7 @@ public class HttpApiOnPBFTService implements Service {
   @Autowired
   private GetTransactionInfoByIdOnPBFTServlet getTransactionInfoByIdOnPBFTServlet;
   @Autowired
-  private ListWitnessesOnPBFTServlet listWitnessesOnPBFTServlet;
+  private ListExecutivesOnPBFTServlet listExecutivesOnPBFTServlet;
   @Autowired
   private GetAssetIssueListOnPBFTServlet getAssetIssueListOnPBFTServlet;
   @Autowired
@@ -165,7 +165,7 @@ public class HttpApiOnPBFTService implements Service {
 
       // same as FullNode
       context.addServlet(new ServletHolder(accountOnPBFTServlet), "/getaccount");
-      context.addServlet(new ServletHolder(listWitnessesOnPBFTServlet), "/listwitnesses");
+      context.addServlet(new ServletHolder(listExecutivesOnPBFTServlet), "/listexecutives");
       context.addServlet(new ServletHolder(getAssetIssueListOnPBFTServlet), "/getassetissuelist");
       context.addServlet(new ServletHolder(getPaginatedAssetIssueListOnPBFTServlet),
           "/getpaginatedassetissuelist");

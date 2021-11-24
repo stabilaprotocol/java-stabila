@@ -19,8 +19,8 @@ import org.stabila.protos.contract.AssetIssueContractOuterClass.AssetIssueContra
 import org.stabila.protos.contract.AssetIssueContractOuterClass.ParticipateAssetIssueContract;
 import org.stabila.protos.contract.AssetIssueContractOuterClass.TransferAssetContract;
 import org.stabila.protos.contract.BalanceContract.TransferContract;
-import org.stabila.protos.contract.WitnessContract.VoteWitnessContract;
-import org.stabila.protos.contract.WitnessContract.WitnessCreateContract;
+import org.stabila.protos.contract.ExecutiveContract.VoteExecutiveContract;
+import org.stabila.protos.contract.ExecutiveContract.ExecutiveCreateContract;
 
 public class WalletGrpcClient {
 
@@ -68,12 +68,12 @@ public class WalletGrpcClient {
     return walletBlockingStub.createAssetIssue(contract);
   }
 
-  public Transaction voteWitnessAccount(VoteWitnessContract contract) {
-    return walletBlockingStub.voteWitnessAccount(contract);
+  public Transaction voteExecutiveAccount(VoteExecutiveContract contract) {
+    return walletBlockingStub.voteExecutiveAccount(contract);
   }
 
-  public Transaction createWitness(WitnessCreateContract contract) {
-    return walletBlockingStub.createWitness(contract);
+  public Transaction createExecutive(ExecutiveCreateContract contract) {
+    return walletBlockingStub.createExecutive(contract);
   }
 
   public boolean broadcastTransaction(Transaction signedTransaction) {

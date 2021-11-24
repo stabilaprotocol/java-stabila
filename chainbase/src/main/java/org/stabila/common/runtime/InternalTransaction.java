@@ -67,7 +67,7 @@ public class InternalTransaction {
   private byte[] protoEncoded;
 
   /*
-   * extra data field for recording parameters of vote witness opcode
+   * extra data field for recording parameters of vote executive opcode
    */
   private String extra;
 

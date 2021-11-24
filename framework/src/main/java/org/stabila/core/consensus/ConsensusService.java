@@ -14,9 +14,9 @@ import org.stabila.common.parameter.CommonParameter;
 import org.stabila.consensus.Consensus;
 import org.stabila.consensus.base.Param;
 import org.stabila.consensus.base.Param.Miner;
-import org.stabila.core.capsule.WitnessCapsule;
+import org.stabila.core.capsule.ExecutiveCapsule;
 import org.stabila.core.config.args.Args;
-import org.stabila.core.store.WitnessStore;
+import org.stabila.core.store.ExecutiveStore;
 
 @Slf4j(topic = "consensus")
 @Component
@@ -26,7 +26,7 @@ public class ConsensusService {
   private Consensus consensus;
 
   @Autowired
-  private WitnessStore witnessStore;
+  private ExecutiveStore executiveStore;
 
   @Autowired
   private BlockHandleImpl blockHandle;
@@ -38,42 +38,42 @@ public class ConsensusService {
 
   public void start() {
     Param param = Param.getInstance();
-    param.setEnable(parameter.isWitness());
+    param.setEnable(parameter.isExecutive());
     param.setGenesisBlock(parameter.getGenesisBlock());
     param.setMinParticipationRate(parameter.getMinParticipationRate());
     param.setBlockProduceTimeoutPercent(Args.getInstance().getBlockProducedTimeOut());
     param.setNeedSyncCheck(parameter.isNeedSyncCheck());
     param.setAgreeNodeCount(parameter.getAgreeNodeCount());
     List<Miner> miners = new ArrayList<>();
-    List<String> privateKeys = Args.getLocalWitnesses().getPrivateKeys();
+    List<String> privateKeys = Args.getLocalExecutives().getPrivateKeys();
     if (privateKeys.size() > 1) {
       for (String key : privateKeys) {
         byte[] privateKey = fromHexString(key);
         byte[] privateKeyAddress = SignUtils
             .fromPrivate(privateKey, Args.getInstance().isECKeyCryptoEngine()).getAddress();
-        WitnessCapsule witnessCapsule = witnessStore.get(privateKeyAddress);
-        if (null == witnessCapsule) {
-          logger.warn("Witness {} is not in witnessStore.", Hex.toHexString(privateKeyAddress));
+        ExecutiveCapsule executiveCapsule = executiveStore.get(privateKeyAddress);
+        if (null == executiveCapsule) {
+          logger.warn("Executive {} is not in executiveStore.", Hex.toHexString(privateKeyAddress));
         }
         Miner miner = param.new Miner(privateKey, ByteString.copyFrom(privateKeyAddress),
             ByteString.copyFrom(privateKeyAddress));
         miners.add(miner);
-        logger.info("Add witness: {}, size: {}",
+        logger.info("Add executive: {}, size: {}",
             Hex.toHexString(privateKeyAddress), miners.size());
       }
     } else {
       byte[] privateKey =
-          fromHexString(Args.getLocalWitnesses().getPrivateKey());
+          fromHexString(Args.getLocalExecutives().getPrivateKey());
       byte[] privateKeyAddress = SignUtils.fromPrivate(privateKey,
           Args.getInstance().isECKeyCryptoEngine()).getAddress();
-      byte[] witnessAddress = Args.getLocalWitnesses().getWitnessAccountAddress(
+      byte[] executiveAddress = Args.getLocalExecutives().getExecutiveAccountAddress(
           Args.getInstance().isECKeyCryptoEngine());
-      WitnessCapsule witnessCapsule = witnessStore.get(witnessAddress);
-      if (null == witnessCapsule) {
-        logger.warn("Witness {} is not in witnessStore.", Hex.toHexString(witnessAddress));
+      ExecutiveCapsule executiveCapsule = executiveStore.get(executiveAddress);
+      if (null == executiveCapsule) {
+        logger.warn("Executive {} is not in executiveStore.", Hex.toHexString(executiveAddress));
       }
       Miner miner = param.new Miner(privateKey, ByteString.copyFrom(privateKeyAddress),
-          ByteString.copyFrom(witnessAddress));
+          ByteString.copyFrom(executiveAddress));
       miners.add(miner);
     }
 

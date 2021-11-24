@@ -30,15 +30,15 @@ import stest.stabila.wallet.common.client.utils.PublicMethed;
 public class TestStorageAndCpu {
 
   private final String testKey002 = Configuration.getByPath("testng.conf")
-      .getString("witness.key5");
+      .getString("executive.key5");
   private final byte[] fromAddress = PublicMethed.getFinalAddress(testKey002);
 
   private final String testKey003 = Configuration.getByPath("testng.conf")
-      .getString("witness.key4");
+      .getString("executive.key4");
   private final byte[] testAddress003 = PublicMethed.getFinalAddress(testKey003);
 
   private final String testKey004 = Configuration.getByPath("testng.conf")
-      .getString("witness.key3");
+      .getString("executive.key3");
   private final byte[] testAddress004 = PublicMethed.getFinalAddress(testKey004);
   ArrayList<String> txidList = new ArrayList<String>();
   Optional<TransactionInfo> infoById = null;

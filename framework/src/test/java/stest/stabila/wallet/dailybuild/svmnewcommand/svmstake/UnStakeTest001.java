@@ -32,9 +32,9 @@ public class UnStakeTest001 {
   private String testFoundationKey = Configuration.getByPath("testng.conf")
       .getString("foundationAccount.key2");
   private byte[] testFoundationAddress = PublicMethed.getFinalAddress(testFoundationKey);
-  private String testWitnessKey = Configuration.getByPath("testng.conf")
-      .getString("witness.key4");
-  private byte[] testWitnessAddress = PublicMethed.getFinalAddress(testWitnessKey);
+  private String testExecutiveKey = Configuration.getByPath("testng.conf")
+      .getString("executive.key4");
+  private byte[] testExecutiveAddress = PublicMethed.getFinalAddress(testExecutiveKey);
 
 
   private Long maxFeeLimit = Configuration.getByPath("testng.conf")
@@ -86,7 +86,7 @@ public class UnStakeTest001 {
     PublicMethed.waitProduceNextBlock(blockingStubFull);
 
     String methodStr = "Stake(address,uint256)";
-    String argsStr = "\"" + Base58.encode58Check(testWitnessAddress) + "\"," + 10000000;
+    String argsStr = "\"" + Base58.encode58Check(testExecutiveAddress) + "\"," + 10000000;
     long balanceBefore = PublicMethed.queryAccount(contractAddress, blockingStubFull).getBalance();
     String txid = PublicMethed
         .triggerContract(contractAddress, methodStr, argsStr,
@@ -103,7 +103,7 @@ public class UnStakeTest001 {
     byte[] voteAddress = account.getVotes(0).getVoteAddress().toByteArray();
     long voteCount = account.getVotes(0).getVoteCount();
     Assert.assertEquals(voteCount, 10);
-    Assert.assertEquals(voteAddress, testWitnessAddress);
+    Assert.assertEquals(voteAddress, testExecutiveAddress);
     Assert.assertEquals(cdedBalance, 10000000);
 
     methodStr = "unStake()";
@@ -177,7 +177,7 @@ public class UnStakeTest001 {
     PublicMethed.waitProduceNextBlock(blockingStubFull);
 
     String methodStr = "Stake(address,uint256)";
-    String argsStr = "\"" + Base58.encode58Check(testWitnessAddress) + "\"," + 10000000;
+    String argsStr = "\"" + Base58.encode58Check(testExecutiveAddress) + "\"," + 10000000;
     long balanceBefore = PublicMethed.queryAccount(contractAddress, blockingStubFull).getBalance();
     String txid = PublicMethed
         .triggerContract(contractAddress, methodStr, argsStr,
@@ -194,7 +194,7 @@ public class UnStakeTest001 {
     byte[] voteAddress = account.getVotes(0).getVoteAddress().toByteArray();
     long voteCount = account.getVotes(0).getVoteCount();
     Assert.assertEquals(voteCount, 10);
-    Assert.assertEquals(voteAddress, testWitnessAddress);
+    Assert.assertEquals(voteAddress, testExecutiveAddress);
     Assert.assertEquals(cdedBalance, 10000000);
 
     methodStr = "unStake2()";
@@ -233,7 +233,7 @@ public class UnStakeTest001 {
     PublicMethed.waitProduceNextBlock(blockingStubFull);
 
     String methodStr = "Stake(address,uint256)";
-    String argsStr = "\"" + Base58.encode58Check(testWitnessAddress) + "\"," + 10000000;
+    String argsStr = "\"" + Base58.encode58Check(testExecutiveAddress) + "\"," + 10000000;
     long balanceBefore = PublicMethed.queryAccount(contractAddress, blockingStubFull).getBalance();
     String txid = PublicMethed
         .triggerContract(contractAddress, methodStr, argsStr,
@@ -250,7 +250,7 @@ public class UnStakeTest001 {
     byte[] voteAddress = account.getVotes(0).getVoteAddress().toByteArray();
     long voteCount = account.getVotes(0).getVoteCount();
     Assert.assertEquals(voteCount, 10);
-    Assert.assertEquals(voteAddress, testWitnessAddress);
+    Assert.assertEquals(voteAddress, testExecutiveAddress);
     Assert.assertEquals(cdedBalance, 10000000);
 
     methodStr = "revertTest2(address)";
@@ -310,7 +310,7 @@ public class UnStakeTest001 {
     Assert.assertEquals(callvalue, contractAddressBBalance);
 
     String methodStr = "BStake(address,uint256)";
-    String argsStr = "\"" + Base58.encode58Check(testWitnessAddress) + "\"," + 10000000;
+    String argsStr = "\"" + Base58.encode58Check(testExecutiveAddress) + "\"," + 10000000;
     txid = PublicMethed
         .triggerContract(contractAddress, methodStr, argsStr,
             false, 0, maxFeeLimit,
@@ -325,7 +325,7 @@ public class UnStakeTest001 {
     long voteCount = account.getVotes(0).getVoteCount();
     long balanceAfter = account.getBalance();
     Assert.assertEquals(voteCount, 10);
-    Assert.assertEquals(voteAddress, testWitnessAddress);
+    Assert.assertEquals(voteAddress, testExecutiveAddress);
     Assert.assertEquals(cdedBalance, 10000000);
     Assert.assertEquals(balanceAfter, contractAddressBBalance - 10000000);
     long contractAddressBalance = PublicMethed.queryAccount(contractAddress, blockingStubFull)
@@ -371,7 +371,7 @@ public class UnStakeTest001 {
     PublicMethed.waitProduceNextBlock(blockingStubFull);
 
     String methodStr = "Stake(address,uint256)";
-    String argsStr = "\"" + Base58.encode58Check(testWitnessAddress) + "\"," + 10000000;
+    String argsStr = "\"" + Base58.encode58Check(testExecutiveAddress) + "\"," + 10000000;
     long balanceBefore = PublicMethed.queryAccount(contractAddress, blockingStubFull).getBalance();
     String txid = PublicMethed
         .triggerContract(contractAddress, methodStr, argsStr,
@@ -388,7 +388,7 @@ public class UnStakeTest001 {
     byte[] voteAddress = account.getVotes(0).getVoteAddress().toByteArray();
     long voteCount = account.getVotes(0).getVoteCount();
     Assert.assertEquals(voteCount, 10);
-    Assert.assertEquals(voteAddress, testWitnessAddress);
+    Assert.assertEquals(voteAddress, testExecutiveAddress);
     Assert.assertEquals(cdedBalance, 10000000);
     PublicMethed.waitProduceNextBlock(blockingStubFull);
     PublicMethed.waitProduceNextBlock(blockingStubFull);

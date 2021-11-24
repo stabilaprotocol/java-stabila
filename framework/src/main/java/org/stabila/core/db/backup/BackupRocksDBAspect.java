@@ -30,7 +30,7 @@ public class BackupRocksDBAspect {
   @Before("pointPushBlock(block)")
   public void backupDb(BlockCapsule block) {
     //SR-Master Node do not backup db;
-    if (Args.getInstance().isWitness() && backupManager.getStatus() != BackupStatusEnum.SLAVER) {
+    if (Args.getInstance().isExecutive() && backupManager.getStatus() != BackupStatusEnum.SLAVER) {
       return;
     }
 

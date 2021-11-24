@@ -58,7 +58,7 @@ import org.stabila.core.capsule.ReceiveDescriptionCapsule;
 import org.stabila.core.capsule.SpendDescriptionCapsule;
 import org.stabila.core.capsule.TransactionCapsule;
 import org.stabila.core.capsule.TransactionResultCapsule;
-import org.stabila.core.capsule.WitnessCapsule;
+import org.stabila.core.capsule.ExecutiveCapsule;
 import org.stabila.core.exception.AccountResourceInsufficientException;
 import org.stabila.core.exception.BadItemException;
 import org.stabila.core.exception.ContractExeException;
@@ -2399,13 +2399,13 @@ public class ShieldedReceiveTest extends BlockGenerate {
     byte[] privateKey = ByteArray
         .fromHexString("3fe9a3c391e949dd888d1aada6c9a869216c6a0745");
     final ECKey ecKey = ECKey.fromPrivate(privateKey);
-    byte[] witnessAddress = ecKey.getAddress();
-    WitnessCapsule witnessCapsule = new WitnessCapsule(ByteString.copyFrom(witnessAddress));
-    chainBaseManager.addWitness(ByteString.copyFrom(witnessAddress));
+    byte[] executiveAddress = ecKey.getAddress();
+    ExecutiveCapsule executiveCapsule = new ExecutiveCapsule(ByteString.copyFrom(executiveAddress));
+    chainBaseManager.addExecutive(ByteString.copyFrom(executiveAddress));
 
     //sometimes generate block failed, try several times.
 
-    Block block = getSignedBlock(witnessCapsule.getAddress(), 0, privateKey);
+    Block block = getSignedBlock(executiveCapsule.getAddress(), 0, privateKey);
     dbManager.pushBlock(new BlockCapsule(block));
 
     //create transactions
@@ -2453,7 +2453,7 @@ public class ShieldedReceiveTest extends BlockGenerate {
 
     Thread.sleep(500);
     //package transaction to block
-    block = getSignedBlock(witnessCapsule.getAddress(), 0, privateKey);
+    block = getSignedBlock(executiveCapsule.getAddress(), 0, privateKey);
     dbManager.pushBlock(new BlockCapsule(block));
 
     BlockCapsule blockCapsule3 = new BlockCapsule(wallet.getNowBlock());

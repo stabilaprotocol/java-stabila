@@ -3,7 +3,6 @@ package org.stabila.core.vm.repository;
 import java.util.Arrays;
 import org.apache.commons.lang3.ArrayUtils;
 import org.stabila.core.capsule.*;
-import org.stabila.core.capsule.*;
 import org.stabila.core.exception.BadItemException;
 import org.stabila.core.vm.config.VMConfig;
 
@@ -155,11 +154,11 @@ public class Value {
   /**
    * @return
    */
-  public WitnessCapsule getWitness() {
+  public ExecutiveCapsule getExecutive() {
     if (ArrayUtils.isEmpty(any)) {
       return null;
     }
-    return new WitnessCapsule(any);
+    return new ExecutiveCapsule(any);
 
   }
 

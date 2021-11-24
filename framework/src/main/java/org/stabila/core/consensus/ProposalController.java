@@ -9,7 +9,7 @@ import org.stabila.core.capsule.ProposalCapsule;
 import org.stabila.core.db.Manager;
 import org.stabila.protos.Protocol.Proposal.State;
 
-@Slf4j(topic = "witness")
+@Slf4j(topic = "executive")
 public class ProposalController {
 
   @Setter
@@ -72,8 +72,8 @@ public class ProposalController {
 
   public void processProposal(ProposalCapsule proposalCapsule) {
 
-    List<ByteString> activeWitnesses = this.manager.getWitnessScheduleStore().getActiveWitnesses();
-    if (proposalCapsule.hasMostApprovals(activeWitnesses)) {
+    List<ByteString> activeExecutives = this.manager.getExecutiveScheduleStore().getActiveExecutives();
+    if (proposalCapsule.hasMostApprovals(activeExecutives)) {
       logger.info(
           "Processing proposal,id:{},it has received most approvals, "
               + "begin to set dynamic parameter:{}, "

@@ -41,7 +41,7 @@ import org.stabila.core.services.http.GetTransactionInfoByBlockNumServlet;
 import org.stabila.core.services.http.IsShieldedTRC20ContractNoteSpentServlet;
 import org.stabila.core.services.http.IsSpendServlet;
 import org.stabila.core.services.http.ListExchangesServlet;
-import org.stabila.core.services.http.ListWitnessesServlet;
+import org.stabila.core.services.http.ListExecutivesServlet;
 import org.stabila.core.services.http.ScanAndMarkNoteByIvkServlet;
 import org.stabila.core.services.http.ScanNoteByIvkServlet;
 import org.stabila.core.services.http.ScanNoteByOvkServlet;
@@ -77,7 +77,7 @@ public class SolidityNodeHttpApiService implements Service {
   private ListExchangesServlet listExchangesServlet;
 
   @Autowired
-  private ListWitnessesServlet listWitnessesServlet;
+  private ListExecutivesServlet listExecutivesServlet;
   @Autowired
   private GetAssetIssueListServlet getAssetIssueListServlet;
   @Autowired
@@ -159,7 +159,7 @@ public class SolidityNodeHttpApiService implements Service {
 
       // same as FullNode
       context.addServlet(new ServletHolder(getAccountServlet), "/walletsolidity/getaccount");
-      context.addServlet(new ServletHolder(listWitnessesServlet), "/walletsolidity/listwitnesses");
+      context.addServlet(new ServletHolder(listExecutivesServlet), "/walletsolidity/listexecutives");
       context.addServlet(new ServletHolder(getAssetIssueListServlet),
           "/walletsolidity/getassetissuelist");
       context.addServlet(new ServletHolder(getPaginatedAssetIssueListServlet),

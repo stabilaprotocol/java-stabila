@@ -393,7 +393,7 @@ public class MutisignOperationerGodicTest {
   }
 
   @Test(enabled = true)
-  public void test006MutiSignGodicWitnessTransaction() {
+  public void test006MutiSignGodicExecutiveTransaction() {
     permissionKeyString[0] = manager1Key;
     permissionKeyString[1] = manager2Key;
     ownerKeyString[0] = manager1Key;
@@ -421,18 +421,18 @@ public class MutisignOperationerGodicTest {
 
     long now = System.currentTimeMillis();
     String url = "MutiSign001_" + Long.toString(now) + ".com";
-    Assert.assertTrue(PublicMethedForMutiSign.createWitness(url, newAddress,
+    Assert.assertTrue(PublicMethedForMutiSign.createExecutive(url, newAddress,
         newKey, 2, permissionKeyString, blockingStubFull));
     PublicMethed.waitProduceNextBlock(blockingStubFull);
     Assert
-        .assertTrue(PublicMethedForMutiSign.updateWitness2(newAddress, "newWitness.com".getBytes(),
+        .assertTrue(PublicMethedForMutiSign.updateExecutive2(newAddress, "newExecutive.com".getBytes(),
             newKey, 2, permissionKeyString, blockingStubFull));
     PublicMethed.waitProduceNextBlock(blockingStubFull);
 
     String voteStr = Base58.encode58Check(newAddress);
     HashMap<String, String> smallVoteMap = new HashMap<String, String>();
     smallVoteMap.put(voteStr, "1");
-    Assert.assertTrue(PublicMethedForMutiSign.voteWitnessWithPermissionId(
+    Assert.assertTrue(PublicMethedForMutiSign.voteExecutiveWithPermissionId(
         smallVoteMap, mutisignAccountAddress, mutisignAccountKey, blockingStubFull,
         2, permissionKeyString));
 

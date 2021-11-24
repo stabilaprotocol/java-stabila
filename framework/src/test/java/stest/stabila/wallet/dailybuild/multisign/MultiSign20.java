@@ -34,9 +34,9 @@ public class MultiSign20 {
       .getString("foundationAccount.key1");
   private final byte[] fromAddress = PublicMethed.getFinalAddress(testKey002);
 
-  private final String witnessKey001 = Configuration.getByPath("testng.conf")
-      .getString("witness.key1");
-  private final byte[] witnessAddress001 = PublicMethed.getFinalAddress(witnessKey001);
+  private final String executiveKey001 = Configuration.getByPath("testng.conf")
+      .getString("executive.key1");
+  private final byte[] executiveAddress001 = PublicMethed.getFinalAddress(executiveKey001);
   private final String contractStabilaDiceAddr = "TMYcx6eoRXnePKT1jVn25ZNeMNJ6828HWk";
   private long multiSignFee = Configuration.getByPath("testng.conf")
       .getLong("defaultParameter.multiSignFee");
@@ -87,10 +87,10 @@ public class MultiSign20 {
     blockingStubFull = WalletGrpc.newBlockingStub(channelFull);
   }
 
-  @Test(enabled = true, description = "Owner address is witness")
+  @Test(enabled = true, description = "Owner address is executive")
   public void testOwnerAddress01() {
-    // address = witness
-    ownerKey = witnessKey001;
+    // address = executive
+    ownerKey = executiveKey001;
     ownerAddress = new WalletClient(ownerKey).getAddress();
     long needCoin = updateAccountPermissionFee * 2;
 
@@ -113,7 +113,7 @@ public class MultiSign20 {
     String accountPermissionJson =
         "{\"owner_permission\":{\"type\":0,\"permission_name\":\"owner\",\"threshold\":1,\"keys\":["
             + "{\"address\":\"" + PublicMethed.getAddressString(testKey002) + "\",\"weight\":1}]},"
-            + "\"witness_permission\":{\"type\":1,\"permission_name\":\"owner\","
+            + "\"executive_permission\":{\"type\":1,\"permission_name\":\"owner\","
             + "\"threshold\":1,\"keys\":[" + "{\"address\":\"" + PublicMethed
             .getAddressString(testKey002) + "\",\"weight\":1}]},"
             + "\"active_permissions\":[{\"type\":2,\"permission_name\":\"active0\",\"threshold\":1,"
@@ -138,7 +138,7 @@ public class MultiSign20 {
             .getKeysCount());
 
     Assert.assertEquals(1,
-        PublicMethed.queryAccount(ownerAddress, blockingStubFull).getWitnessPermission()
+        PublicMethed.queryAccount(ownerAddress, blockingStubFull).getExecutivePermission()
             .getKeysCount());
 
     PublicMethedForMutiSign.printPermissionList(
@@ -148,13 +148,13 @@ public class MultiSign20 {
         PublicMethed.queryAccount(ownerAddress, blockingStubFull).getOwnerPermission()));
 
     System.out.printf(PublicMethedForMutiSign.printPermission(
-        PublicMethed.queryAccount(ownerAddress, blockingStubFull).getWitnessPermission()));
+        PublicMethed.queryAccount(ownerAddress, blockingStubFull).getExecutivePermission()));
 
     logger.info("** trigger a permission transaction");
     accountPermissionJson =
         "{\"owner_permission\":{\"type\":0,\"permission_name\":\"owner\",\"threshold\":1,\"keys\":["
             + "{\"address\":\"" + PublicMethed.getAddressString(ownerKey) + "\",\"weight\":1}]},"
-            + "\"witness_permission\":{\"type\":1,\"permission_name\":\"witness\","
+            + "\"executive_permission\":{\"type\":1,\"permission_name\":\"executive\","
             + "\"threshold\":1,\"keys\":[" + "{\"address\":\"" + PublicMethed
             .getAddressString(ownerKey) + "\",\"weight\":1}]},"
             + "\"active_permissions\":[{\"type\":2,\"permission_name\":\"active0\",\"threshold\":1,"
@@ -174,10 +174,10 @@ public class MultiSign20 {
 
   }
 
-  @Test(enabled = true, description = "Owner address is witness with exception condition")
+  @Test(enabled = true, description = "Owner address is executive with exception condition")
   public void testOwnerAddress02() {
-    // address = witness, without witness permission
-    ownerKey = witnessKey001;
+    // address = executive, without executive permission
+    ownerKey = executiveKey001;
     ownerAddress = new WalletClient(ownerKey).getAddress();
     PublicMethed.sendcoin(ownerAddress, 1_000000, fromAddress, testKey002, blockingStubFull);
     Assert.assertTrue(PublicMethed.cdBalanceForReceiver(fromAddress, 100000000000L, 0, 0,
@@ -205,14 +205,14 @@ public class MultiSign20 {
 
     Assert.assertFalse(response.getResult());
     Assert.assertEquals(CONTRACT_VALIDATE_ERROR, response.getCode());
-    Assert.assertEquals("contract validate error : witness permission is missed",
+    Assert.assertEquals("contract validate error : executive permission is missed",
         response.getMessage().toStringUtf8());
 
-    // address = witness, without active permission
+    // address = executive, without active permission
     accountPermissionJson =
         "{\"owner_permission\":{\"type\":0,\"permission_name\":\"owner\",\"threshold\":1,\"keys\":["
             + "{\"address\":\"" + PublicMethed.getAddressString(ownerKey) + "\",\"weight\":1}]},"
-            + "\"witness_permission\":{\"type\":1,\"permission_name\":\"witness\","
+            + "\"executive_permission\":{\"type\":1,\"permission_name\":\"executive\","
             + "\"threshold\":1,\"keys\":[" + "{\"address\":\"" + PublicMethed
             .getAddressString(ownerKey) + "\",\"weight\":1}]}}";
     response = PublicMethed
@@ -224,8 +224,8 @@ public class MultiSign20 {
     Assert.assertEquals("contract validate error : active permission is missed",
         response.getMessage().toStringUtf8());
 
-    // address = witness, without owner permission
-    accountPermissionJson = "{\"witness_permission\":{\"type\":1,\"permission_name\":\"witness\","
+    // address = executive, without owner permission
+    accountPermissionJson = "{\"executive_permission\":{\"type\":1,\"permission_name\":\"executive\","
         + "\"threshold\":1,\"keys\":[" + "{\"address\":\"" + PublicMethed.getAddressString(ownerKey)
         + "\",\"weight\":1}]},"
         + "\"active_permissions\":[{\"type\":2,\"permission_name\":\"active0\",\"threshold\":1,"
@@ -264,11 +264,11 @@ public class MultiSign20 {
 
     ownerPermissionKeys.add(ownerKey);
 
-    // address = normal address, with witness permission
+    // address = normal address, with executive permission
     String accountPermissionJson =
         "{\"owner_permission\":{\"type\":0,\"permission_name\":\"owner\",\"threshold\":1,\"keys\":["
             + "{\"address\":\"" + PublicMethed.getAddressString(ownerKey) + "\",\"weight\":1}]},"
-            + "\"witness_permission\":{\"type\":1,\"permission_name\":\"witness\","
+            + "\"executive_permission\":{\"type\":1,\"permission_name\":\"executive\","
             + "\"threshold\":1,\"keys\":[" + "{\"address\":\"" + PublicMethed
             .getAddressString(ownerKey) + "\",\"weight\":1}]},"
             + "\"active_permissions\":[{\"type\":2,\"permission_name\":\"active0\",\"threshold\":1,"
@@ -283,7 +283,7 @@ public class MultiSign20 {
     Assert.assertFalse(response.getResult());
     Assert.assertEquals(CONTRACT_VALIDATE_ERROR, response.getCode());
     Assert.assertEquals(
-        "contract validate error : account isn't witness can't set" + " witness permission",
+        "contract validate error : account isn't executive can't set" + " executive permission",
         response.getMessage().toStringUtf8());
 
     // address = normal address, without owner permission
@@ -320,11 +320,11 @@ public class MultiSign20 {
     byte[] ownerAddress02 = contractStabilaDiceAddr.getBytes();
     accountPermissionJson =
         "{\"owner_permission\":{\"type\":0,\"permission_name\":\"owner\",\"threshold\":2,\"keys\":["
-            + "{\"address\":\"" + PublicMethed.getAddressString(witnessKey001) + "\",\"weight\":1},"
+            + "{\"address\":\"" + PublicMethed.getAddressString(executiveKey001) + "\",\"weight\":1},"
             + "{\"address\":\"" + PublicMethed.getAddressString(ownerKey) + "\",\"weight\":1}]},"
             + "\"active_permissions\":[{\"type\":2,\"permission_name\":\"active0\",\"threshold\":1,"
             + "\"operations\":\"7fff1fc0033e0000000000000000000000000000000000000000000000000000\","
-            + "\"keys\":[" + "{\"address\":\"" + PublicMethed.getAddressString(witnessKey001)
+            + "\"keys\":[" + "{\"address\":\"" + PublicMethed.getAddressString(executiveKey001)
             + "\",\"weight\":1}," + "{\"address\":\"" + PublicMethed.getAddressString(tmpKey02)
             + "\",\"weight\":1}" + "]}]}";
     response = PublicMethed
@@ -349,11 +349,11 @@ public class MultiSign20 {
 
     accountPermissionJson =
         "{\"owner_permission\":{\"type\":0,\"permission_name\":\"owner\",\"threshold\":2,\"keys\":["
-            + "{\"address\":\"" + PublicMethed.getAddressString(witnessKey001) + "\",\"weight\":1},"
+            + "{\"address\":\"" + PublicMethed.getAddressString(executiveKey001) + "\",\"weight\":1},"
             + "{\"address\":\"" + PublicMethed.getAddressString(ownerKey) + "\",\"weight\":1}]},"
             + "\"active_permissions\":[{\"type\":2,\"permission_name\":\"active0\",\"threshold\":1,"
             + "\"operations\":\"7fff1fc0033e0000000000000000000000000000000000000000000000000000\","
-            + "\"keys\":[" + "{\"address\":\"" + PublicMethed.getAddressString(witnessKey001)
+            + "\"keys\":[" + "{\"address\":\"" + PublicMethed.getAddressString(executiveKey001)
             + "\",\"weight\":1}," + "{\"address\":\"" + PublicMethed.getAddressString(tmpKey02)
             + "\",\"weight\":1}" + "]}]}";
 
@@ -369,11 +369,11 @@ public class MultiSign20 {
     String fakeAddress = "THph9K2M2nLvkianrMGswRhz5hjSA9fuH1";
     accountPermissionJson =
         "{\"owner_permission\":{\"type\":0,\"permission_name\":\"owner\",\"threshold\":2,\"keys\":["
-            + "{\"address\":\"" + PublicMethed.getAddressString(witnessKey001) + "\",\"weight\":1},"
+            + "{\"address\":\"" + PublicMethed.getAddressString(executiveKey001) + "\",\"weight\":1},"
             + "{\"address\":\"" + PublicMethed.getAddressString(ownerKey) + "\",\"weight\":1}]},"
             + "\"active_permissions\":[{\"type\":2,\"permission_name\":\"active0\",\"threshold\":1,"
             + "\"operations\":\"7fff1fc0033e0000000000000000000000000000000000000000000000000000\","
-            + "\"keys\":[" + "{\"address\":\"" + PublicMethed.getAddressString(witnessKey001)
+            + "\"keys\":[" + "{\"address\":\"" + PublicMethed.getAddressString(executiveKey001)
             + "\",\"weight\":1}," + "{\"address\":\"" + PublicMethed.getAddressString(tmpKey02)
             + "\",\"weight\":1}" + "]}]}";
 
@@ -391,11 +391,11 @@ public class MultiSign20 {
 
     accountPermissionJson =
         "{\"owner_permission\":{\"type\":0,\"permission_name\":\"owner\",\"threshold\":2,\"keys\":["
-            + "{\"address\":\"" + PublicMethed.getAddressString(witnessKey001) + "\",\"weight\":1},"
+            + "{\"address\":\"" + PublicMethed.getAddressString(executiveKey001) + "\",\"weight\":1},"
             + "{\"address\":\"" + PublicMethed.getAddressString(ownerKey) + "\",\"weight\":1}]},"
             + "\"active_permissions\":[{\"type\":2,\"permission_name\":\"active0\",\"threshold\":1,"
             + "\"operations\":\"7fff1fc0033e0000000000000000000000000000000000000000000000000000\","
-            + "\"keys\":[" + "{\"address\":\"" + PublicMethed.getAddressString(witnessKey001)
+            + "\"keys\":[" + "{\"address\":\"" + PublicMethed.getAddressString(executiveKey001)
             + "\",\"weight\":1}," + "{\"address\":\"" + PublicMethed.getAddressString(tmpKey02)
             + "\",\"weight\":1}" + "]}]}";
 
@@ -414,11 +414,11 @@ public class MultiSign20 {
 
     accountPermissionJson =
         "{\"owner_permission\":{\"type\":0,\"permission_name\":\"owner\",\"threshold\":2,\"keys\":["
-            + "{\"address\":\"" + PublicMethed.getAddressString(witnessKey001) + "\",\"weight\":1},"
+            + "{\"address\":\"" + PublicMethed.getAddressString(executiveKey001) + "\",\"weight\":1},"
             + "{\"address\":\"" + PublicMethed.getAddressString(ownerKey) + "\",\"weight\":1}]},"
             + "\"active_permissions\":[{\"type\":2,\"permission_name\":\"active0\",\"threshold\":1,"
             + "\"operations\":\"7fff1fc0033e0000000000000000000000000000000000000000000000000000\","
-            + "\"keys\":[" + "{\"address\":\"" + PublicMethed.getAddressString(witnessKey001)
+            + "\"keys\":[" + "{\"address\":\"" + PublicMethed.getAddressString(executiveKey001)
             + "\",\"weight\":1}," + "{\"address\":\"" + PublicMethed.getAddressString(tmpKey02)
             + "\",\"weight\":1}" + "]}]}";
 
@@ -435,11 +435,11 @@ public class MultiSign20 {
     fakeAddress = "";
     accountPermissionJson =
         "{\"owner_permission\":{\"type\":0,\"permission_name\":\"owner\",\"threshold\":2,\"keys\":["
-            + "{\"address\":\"" + PublicMethed.getAddressString(witnessKey001) + "\",\"weight\":1},"
+            + "{\"address\":\"" + PublicMethed.getAddressString(executiveKey001) + "\",\"weight\":1},"
             + "{\"address\":\"" + PublicMethed.getAddressString(ownerKey) + "\",\"weight\":1}]},"
             + "\"active_permissions\":[{\"type\":2,\"permission_name\":\"active0\",\"threshold\":1,"
             + "\"operations\":\"7fff1fc0033e0000000000000000000000000000000000000000000000000000\","
-            + "\"keys\":[" + "{\"address\":\"" + PublicMethed.getAddressString(witnessKey001)
+            + "\"keys\":[" + "{\"address\":\"" + PublicMethed.getAddressString(executiveKey001)
             + "\",\"weight\":1}," + "{\"address\":\"" + PublicMethed.getAddressString(tmpKey02)
             + "\",\"weight\":1}" + "]}]}";
 
@@ -457,11 +457,11 @@ public class MultiSign20 {
 
     accountPermissionJson =
         "{\"owner_permission\":{\"type\":0,\"permission_name\":\"owner\",\"threshold\":2,\"keys\":["
-            + "{\"address\":\"" + PublicMethed.getAddressString(witnessKey001) + "\",\"weight\":1},"
+            + "{\"address\":\"" + PublicMethed.getAddressString(executiveKey001) + "\",\"weight\":1},"
             + "{\"address\":\"" + PublicMethed.getAddressString(ownerKey) + "\",\"weight\":1}]},"
             + "\"active_permissions\":[{\"type\":2,\"permission_name\":\"active0\",\"threshold\":1,"
             + "\"operations\":\"7fff1fc0033e0000000000000000000000000000000000000000000000000000\","
-            + "\"keys\":[" + "{\"address\":\"" + PublicMethed.getAddressString(witnessKey001)
+            + "\"keys\":[" + "{\"address\":\"" + PublicMethed.getAddressString(executiveKey001)
             + "\",\"weight\":1}," + "{\"address\":\"" + PublicMethed.getAddressString(tmpKey02)
             + "\",\"weight\":1}" + "]}]}";
 
@@ -479,11 +479,11 @@ public class MultiSign20 {
     fakeAddress = "1ab(*c";
     accountPermissionJson =
         "{\"owner_permission\":{\"type\":0,\"permission_name\":\"owner\",\"threshold\":2,\"keys\":["
-            + "{\"address\":\"" + PublicMethed.getAddressString(witnessKey001) + "\",\"weight\":1},"
+            + "{\"address\":\"" + PublicMethed.getAddressString(executiveKey001) + "\",\"weight\":1},"
             + "{\"address\":\"" + PublicMethed.getAddressString(ownerKey) + "\",\"weight\":1}]},"
             + "\"active_permissions\":[{\"type\":2,\"permission_name\":\"active0\",\"threshold\":1,"
             + "\"operations\":\"7fff1fc0033e0000000000000000000000000000000000000000000000000000\","
-            + "\"keys\":[" + "{\"address\":\"" + PublicMethed.getAddressString(witnessKey001)
+            + "\"keys\":[" + "{\"address\":\"" + PublicMethed.getAddressString(executiveKey001)
             + "\",\"weight\":1}," + "{\"address\":\"" + PublicMethed.getAddressString(tmpKey02)
             + "\",\"weight\":1}" + "]}]}";
 

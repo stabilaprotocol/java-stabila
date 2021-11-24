@@ -162,7 +162,7 @@ public class VMActuator implements Actuator2 {
     ProgramResult result = context.getProgramResult();
     try {
       if (vm != null) {
-        if (null != blockCap && blockCap.generatedByMyself && blockCap.hasWitnessSignature()
+        if (null != blockCap && blockCap.generatedByMyself && blockCap.hasExecutiveSignature()
             && null != TransactionUtil.getContractRet(stb)
             && contractResult.OUT_OF_TIME == TransactionUtil.getContractRet(stb)) {
           result = program.getResult();
@@ -611,12 +611,12 @@ public class VMActuator implements Actuator2 {
     double cpuLimitRatio;
 
     if (ExecutorType.ET_NORMAL_TYPE == executorType) {
-      // self witness generates block
+      // self executive generates block
       if (this.blockCap != null && blockCap.generatedByMyself &&
-          !this.blockCap.hasWitnessSignature()) {
+          !this.blockCap.hasExecutiveSignature()) {
         cpuLimitRatio = 1.0;
       } else {
-        // self witness or other witness or fullnode verifies block
+        // self executive or other executive or fullnode verifies block
         if (stb.getRet(0).getContractRet() == contractResult.OUT_OF_TIME) {
           cpuLimitRatio = CommonParameter.getInstance().getMinTimeRatio();
         } else {
@@ -624,7 +624,7 @@ public class VMActuator implements Actuator2 {
         }
       }
     } else {
-      // self witness or other witness or fullnode receives tx
+      // self executive or other executive or fullnode receives tx
       cpuLimitRatio = 1.0;
     }
 
@@ -703,7 +703,7 @@ public class VMActuator implements Actuator2 {
 
   private boolean isCheckTransaction() {
     return this.blockCap != null && !this.blockCap.getInstance().getBlockHeader()
-        .getWitnessSignature().isEmpty();
+        .getExecutiveSignature().isEmpty();
   }
 
 

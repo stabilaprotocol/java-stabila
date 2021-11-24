@@ -96,8 +96,8 @@ public class VoteRewardUtil {
     long reward = 0;
     for (Protocol.Vote vote : accountCapsule.getVotesList()) {
       byte[] srAddress = vote.getVoteAddress().toByteArray();
-      BigInteger beginVi = repository.getDelegationStore().getWitnessVi(beginCycle - 1, srAddress);
-      BigInteger endVi = repository.getDelegationStore().getWitnessVi(endCycle - 1, srAddress);
+      BigInteger beginVi = repository.getDelegationStore().getExecutiveVi(beginCycle - 1, srAddress);
+      BigInteger endVi = repository.getDelegationStore().getExecutiveVi(endCycle - 1, srAddress);
       BigInteger deltaVi = endVi.subtract(beginVi);
       if (deltaVi.signum() <= 0) {
         continue;

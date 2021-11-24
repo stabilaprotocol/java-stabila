@@ -24,7 +24,7 @@ public class SolidityNodeTest {
 
   private static RpcApiService rpcApiService;
   private static Application appT;
-  private static String dbPath = "output_witness_test";
+  private static String dbPath = "output_executive_test";
 
   static {
     Args.setParam(new String[]{"-d", dbPath}, Constant.TEST_CONF);

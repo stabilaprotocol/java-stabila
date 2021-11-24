@@ -50,7 +50,7 @@ import org.stabila.core.net.message.BlockMessage;
 import org.stabila.core.net.message.MessageTypes;
 import org.stabila.core.net.message.TransactionMessage;
 import org.stabila.core.net.peer.PeerConnection;
-import org.stabila.core.store.WitnessScheduleStore;
+import org.stabila.core.store.ExecutiveScheduleStore;
 import org.stabila.protos.Protocol.Inventory.InventoryType;
 
 @Slf4j(topic = "net")
@@ -70,7 +70,7 @@ public class StabilaNetDelegate {
   private ChainBaseManager chainBaseManager;
 
   @Autowired
-  private WitnessScheduleStore witnessScheduleStore;
+  private ExecutiveScheduleStore executiveScheduleStore;
 
   @Getter
   private Object blockLock = new Object();
@@ -198,9 +198,9 @@ public class StabilaNetDelegate {
       try {
         if (!freshBlockId.contains(blockId)) {
           if (block.getNum() <= getHeadBlockId().getNum()) {
-            logger.warn("Receive a fork block {} witness {}, head {}",
+            logger.warn("Receive a fork block {} executive {}, head {}",
                 block.getBlockId().getString(),
-                Hex.toHexString(block.getWitnessAddress().toByteArray()),
+                Hex.toHexString(block.getExecutiveAddress().toByteArray()),
                 getHeadBlockId().getString());
           }
           if (!isSync) {
@@ -263,7 +263,7 @@ public class StabilaNetDelegate {
 
   public boolean validBlock(BlockCapsule block) throws P2pException {
     try {
-      return witnessScheduleStore.getActiveWitnesses().contains(block.getWitnessAddress())
+      return executiveScheduleStore.getActiveExecutives().contains(block.getExecutiveAddress())
           && block
           .validateSignature(dbManager.getDynamicPropertiesStore(), dbManager.getAccountStore());
     } catch (ValidateSignatureException e) {

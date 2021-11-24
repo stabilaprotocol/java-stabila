@@ -51,18 +51,18 @@ public class DynamicPropertiesStore extends StabilaStoreWithRevoking<BytesCapsul
 
   private static final byte[] MIN_CDED_SUPPLY_TIME = "MIN_CDED_SUPPLY_TIME".getBytes();
 
-  private static final byte[] WITNESS_ALLOWANCE_CDED_TIME = "WITNESS_ALLOWANCE_CDED_TIME"
+  private static final byte[] EXECUTIVE_ALLOWANCE_CDED_TIME = "EXECUTIVE_ALLOWANCE_CDED_TIME"
       .getBytes();
 
   private static final byte[] MAINTENANCE_TIME_INTERVAL = "MAINTENANCE_TIME_INTERVAL".getBytes();
 
   private static final byte[] ACCOUNT_UPGRADE_COST = "ACCOUNT_UPGRADE_COST".getBytes();
 
-  private static final byte[] WITNESS_PAY_PER_BLOCK = "WITNESS_PAY_PER_BLOCK".getBytes();
+  private static final byte[] EXECUTIVE_PAY_PER_BLOCK = "EXECUTIVE_PAY_PER_BLOCK".getBytes();
 
-  private static final byte[] WITNESS_100_PAY_PER_BLOCK = "WITNESS_100_PAY_PER_BLOCK".getBytes();
+  private static final byte[] EXECUTIVE_100_PAY_PER_BLOCK = "EXECUTIVE_100_PAY_PER_BLOCK".getBytes();
 
-  private static final byte[] WITNESS_STANDBY_ALLOWANCE = "WITNESS_STANDBY_ALLOWANCE".getBytes();
+  private static final byte[] EXECUTIVE_STANDBY_ALLOWANCE = "EXECUTIVE_STANDBY_ALLOWANCE".getBytes();
   private static final byte[] UCR_FEE = "UCR_FEE".getBytes();
   private static final byte[] MAX_CPU_TIME_OF_ONE_TX = "MAX_CPU_TIME_OF_ONE_TX".getBytes();
   //abandon
@@ -87,7 +87,7 @@ public class DynamicPropertiesStore extends StabilaStoreWithRevoking<BytesCapsul
   private static final byte[] EXCHANGE_BALANCE_LIMIT = "EXCHANGE_BALANCE_LIMIT".getBytes();
   private static final byte[] TOTAL_TRANSACTION_COST = "TOTAL_TRANSACTION_COST".getBytes();
   private static final byte[] TOTAL_CREATE_ACCOUNT_COST = "TOTAL_CREATE_ACCOUNT_COST".getBytes();
-  private static final byte[] TOTAL_CREATE_WITNESS_COST = "TOTAL_CREATE_WITNESS_FEE".getBytes();
+  private static final byte[] TOTAL_CREATE_EXECUTIVE_COST = "TOTAL_CREATE_EXECUTIVE_FEE".getBytes();
   private static final byte[] TOTAL_STORAGE_POOL = "TOTAL_STORAGE_POOL".getBytes();
   private static final byte[] TOTAL_STORAGE_TAX = "TOTAL_STORAGE_TAX".getBytes();
   private static final byte[] TOTAL_STORAGE_RESERVED = "TOTAL_STORAGE_RESERVED".getBytes();
@@ -276,21 +276,21 @@ public class DynamicPropertiesStore extends StabilaStoreWithRevoking<BytesCapsul
     }
 
     try {
-      this.getWitnessAllowanceCdedTime();
+      this.getExecutiveAllowanceCdedTime();
     } catch (IllegalArgumentException e) {
-      this.saveWitnessAllowanceCdedTime(1);
+      this.saveExecutiveAllowanceCdedTime(1);
     }
 
     try {
-      this.getWitnessPayPerBlock();
+      this.getExecutivePayPerBlock();
     } catch (IllegalArgumentException e) {
-      this.saveWitnessPayPerBlock(221714L);
+      this.saveExecutivePayPerBlock(221714L);
     }
 
     try {
-      this.getWitnessStandbyAllowance();
+      this.getExecutiveStandbyAllowance();
     } catch (IllegalArgumentException e) {
-      this.saveWitnessStandbyAllowance(0L);
+      this.saveExecutiveStandbyAllowance(0L);
     }
 
     try {
@@ -507,9 +507,9 @@ public class DynamicPropertiesStore extends StabilaStoreWithRevoking<BytesCapsul
     }
 
     try {
-      this.getTotalCreateWitnessCost();
+      this.getTotalCreateExecutiveCost();
     } catch (IllegalArgumentException e) {
-      this.saveTotalCreateWitnessFee(0L);
+      this.saveTotalCreateExecutiveFee(0L);
     }
 
     try {
@@ -906,18 +906,18 @@ public class DynamicPropertiesStore extends StabilaStoreWithRevoking<BytesCapsul
             () -> new IllegalArgumentException("not found MIN_CDED_SUPPLY_TIME"));
   }
 
-  public void saveWitnessAllowanceCdedTime(int witnessAllowanceCdedTime) {
-    logger.debug("WITNESS_ALLOWANCE_CDED_TIME:" + witnessAllowanceCdedTime);
-    this.put(WITNESS_ALLOWANCE_CDED_TIME,
-        new BytesCapsule(ByteArray.fromInt(witnessAllowanceCdedTime)));
+  public void saveExecutiveAllowanceCdedTime(int executiveAllowanceCdedTime) {
+    logger.debug("EXECUTIVE_ALLOWANCE_CDED_TIME:" + executiveAllowanceCdedTime);
+    this.put(EXECUTIVE_ALLOWANCE_CDED_TIME,
+        new BytesCapsule(ByteArray.fromInt(executiveAllowanceCdedTime)));
   }
 
-  public int getWitnessAllowanceCdedTime() {
-    return Optional.ofNullable(getUnchecked(WITNESS_ALLOWANCE_CDED_TIME))
+  public int getExecutiveAllowanceCdedTime() {
+    return Optional.ofNullable(getUnchecked(EXECUTIVE_ALLOWANCE_CDED_TIME))
         .map(BytesCapsule::getData)
         .map(ByteArray::toInt)
         .orElseThrow(
-            () -> new IllegalArgumentException("not found WITNESS_ALLOWANCE_CDED_TIME"));
+            () -> new IllegalArgumentException("not found EXECUTIVE_ALLOWANCE_CDED_TIME"));
   }
 
   public void saveMaintenanceTimeInterval(long timeInterval) {
@@ -948,45 +948,45 @@ public class DynamicPropertiesStore extends StabilaStoreWithRevoking<BytesCapsul
             () -> new IllegalArgumentException("not found ACCOUNT_UPGRADE_COST"));
   }
 
-  public void saveWitnessPayPerBlock(long pay) {
-    logger.debug("WITNESS_PAY_PER_BLOCK:" + pay);
-    this.put(WITNESS_PAY_PER_BLOCK,
+  public void saveExecutivePayPerBlock(long pay) {
+    logger.debug("EXECUTIVE_PAY_PER_BLOCK:" + pay);
+    this.put(EXECUTIVE_PAY_PER_BLOCK,
         new BytesCapsule(ByteArray.fromLong(pay)));
   }
 
-  public long getWitnessPayPerBlock() {
-    return Optional.ofNullable(getUnchecked(WITNESS_PAY_PER_BLOCK))
+  public long getExecutivePayPerBlock() {
+    return Optional.ofNullable(getUnchecked(EXECUTIVE_PAY_PER_BLOCK))
         .map(BytesCapsule::getData)
         .map(ByteArray::toLong)
         .orElseThrow(
-            () -> new IllegalArgumentException("not found WITNESS_PAY_PER_BLOCK"));
+            () -> new IllegalArgumentException("not found EXECUTIVE_PAY_PER_BLOCK"));
   }
 
-  public void saveWitness100PayPerBlock(long pay) {
-    logger.debug("WITNESS_100_PAY_PER_BLOCK:" + pay);
-    this.put(WITNESS_100_PAY_PER_BLOCK,
+  public void saveExecutive100PayPerBlock(long pay) {
+    logger.debug("EXECUTIVE_100_PAY_PER_BLOCK:" + pay);
+    this.put(EXECUTIVE_100_PAY_PER_BLOCK,
         new BytesCapsule(ByteArray.fromLong(pay)));
   }
 
-  public long getWitness100PayPerBlock() {
-    return Optional.ofNullable(getUnchecked(WITNESS_100_PAY_PER_BLOCK))
+  public long getExecutive100PayPerBlock() {
+    return Optional.ofNullable(getUnchecked(EXECUTIVE_100_PAY_PER_BLOCK))
         .map(BytesCapsule::getData)
         .map(ByteArray::toLong)
         .orElse(10972L);
   }
 
-  public void saveWitnessStandbyAllowance(long allowance) {
-    logger.debug("WITNESS_STANDBY_ALLOWANCE:" + allowance);
-    this.put(WITNESS_STANDBY_ALLOWANCE,
+  public void saveExecutiveStandbyAllowance(long allowance) {
+    logger.debug("EXECUTIVE_STANDBY_ALLOWANCE:" + allowance);
+    this.put(EXECUTIVE_STANDBY_ALLOWANCE,
         new BytesCapsule(ByteArray.fromLong(allowance)));
   }
 
-  public long getWitnessStandbyAllowance() {
-    return Optional.ofNullable(getUnchecked(WITNESS_STANDBY_ALLOWANCE))
+  public long getExecutiveStandbyAllowance() {
+    return Optional.ofNullable(getUnchecked(EXECUTIVE_STANDBY_ALLOWANCE))
         .map(BytesCapsule::getData)
         .map(ByteArray::toLong)
         .orElseThrow(
-            () -> new IllegalArgumentException("not found WITNESS_STANDBY_ALLOWANCE"));
+            () -> new IllegalArgumentException("not found EXECUTIVE_STANDBY_ALLOWANCE"));
   }
 
   public void saveOneDayNetLimit(long oneDayNetLimit) {
@@ -1533,17 +1533,17 @@ public class DynamicPropertiesStore extends StabilaStoreWithRevoking<BytesCapsul
             () -> new IllegalArgumentException("not found TOTAL_CREATE_ACCOUNT_COST"));
   }
 
-  public void saveTotalCreateWitnessFee(long value) {
-    this.put(TOTAL_CREATE_WITNESS_COST,
+  public void saveTotalCreateExecutiveFee(long value) {
+    this.put(TOTAL_CREATE_EXECUTIVE_COST,
         new BytesCapsule(ByteArray.fromLong(value)));
   }
 
-  public long getTotalCreateWitnessCost() {
-    return Optional.ofNullable(getUnchecked(TOTAL_CREATE_WITNESS_COST))
+  public long getTotalCreateExecutiveCost() {
+    return Optional.ofNullable(getUnchecked(TOTAL_CREATE_EXECUTIVE_COST))
         .map(BytesCapsule::getData)
         .map(ByteArray::toLong)
         .orElseThrow(
-            () -> new IllegalArgumentException("not found TOTAL_CREATE_WITNESS_COST"));
+            () -> new IllegalArgumentException("not found TOTAL_CREATE_EXECUTIVE_COST"));
   }
 
   public void saveTotalStoragePool(long stb) {
@@ -2050,9 +2050,9 @@ public class DynamicPropertiesStore extends StabilaStoreWithRevoking<BytesCapsul
     saveTotalCreateAccountFee(newValue);
   }
 
-  public void addTotalCreateWitnessCost(long fee) {
-    long newValue = getTotalCreateWitnessCost() + fee;
-    saveTotalCreateWitnessFee(newValue);
+  public void addTotalCreateExecutiveCost(long fee) {
+    long newValue = getTotalCreateExecutiveCost() + fee;
+    saveTotalCreateExecutiveFee(newValue);
   }
 
   public void addTotalTransactionCost(long fee) {

@@ -17,7 +17,7 @@ import org.stabila.core.Wallet;
 import org.stabila.core.capsule.AccountCapsule;
 import org.stabila.core.capsule.ProposalCapsule;
 import org.stabila.core.capsule.TransactionResultCapsule;
-import org.stabila.core.capsule.WitnessCapsule;
+import org.stabila.core.capsule.ExecutiveCapsule;
 import org.stabila.core.config.DefaultConfig;
 import org.stabila.core.config.args.Args;
 import org.stabila.core.db.Manager;
@@ -88,8 +88,8 @@ public class ProposalCreateActuatorTest {
    */
   @Before
   public void initTest() {
-    WitnessCapsule ownerWitnessFirstCapsule =
-        new WitnessCapsule(
+    ExecutiveCapsule ownerExecutiveFirstCapsule =
+        new ExecutiveCapsule(
             ByteString.copyFrom(ByteArray.fromHexString(OWNER_ADDRESS_FIRST)),
             10_000_000L,
             URL);
@@ -111,8 +111,8 @@ public class ProposalCreateActuatorTest {
     dbManager.getAccountStore()
         .put(ownerAccountSecondCapsule.getAddress().toByteArray(), ownerAccountSecondCapsule);
 
-    dbManager.getWitnessStore().put(ownerWitnessFirstCapsule.getAddress().toByteArray(),
-        ownerWitnessFirstCapsule);
+    dbManager.getExecutiveStore().put(ownerExecutiveFirstCapsule.getAddress().toByteArray(),
+        ownerExecutiveFirstCapsule);
 
     dbManager.getDynamicPropertiesStore().saveLatestBlockHeaderTimestamp(1000000);
     dbManager.getDynamicPropertiesStore().saveLatestBlockHeaderNumber(10);
@@ -213,10 +213,10 @@ public class ProposalCreateActuatorTest {
   }
 
   /**
-   * use WitnessStore not exists Address,result is failed,exception is "witness not exists".
+   * use ExecutiveStore not exists Address,result is failed,exception is "executive not exists".
    */
   @Test
-  public void noWitness() {
+  public void noExecutive() {
     HashMap<Long, Long> paras = new HashMap<>();
     paras.put(0L, 10000L);
     ProposalCreateActuator actuator = new ProposalCreateActuator();
@@ -228,10 +228,10 @@ public class ProposalCreateActuatorTest {
     try {
       actuator.validate();
       actuator.execute(ret);
-      fail("witness[+OWNER_ADDRESS_NOWITNESS+] not exists");
+      fail("executive[+OWNER_ADDRESS_NOEXECUTIVE+] not exists");
     } catch (ContractValidateException e) {
       Assert.assertTrue(e instanceof ContractValidateException);
-      Assert.assertEquals("Witness[" + OWNER_ADDRESS_SECOND + "] not exists",
+      Assert.assertEquals("Executive[" + OWNER_ADDRESS_SECOND + "] not exists",
           e.getMessage());
     } catch (ContractExeException e) {
       Assert.assertFalse(e instanceof ContractExeException);

@@ -117,14 +117,14 @@ public class MerkleTreeTest {
     // The tree is empty.
     Assert.assertEquals(0, tree.size());
 
-    // We need to witness at every single point in the tree, so
+    // We need to executive at every single point in the tree, so
     // that the consistency of the tree and the merkle paths can
     // be checked.
-    List<IncrementalMerkleVoucherCapsule> witnesses = Lists.newArrayList();
+    List<IncrementalMerkleVoucherCapsule> executives = Lists.newArrayList();
 
     for (int i = 0; i < 16; i++) {
-      // Witness here
-      witnesses.add(tree.toVoucher().getVoucherCapsule());
+      // Executive here
+      executives.add(tree.toVoucher().getVoucherCapsule());
 
       System.out.println("i=" + i + ", depth is: " + IncrementalMerkleVoucherContainer.getDEPTH());
 
@@ -144,20 +144,20 @@ public class MerkleTreeTest {
       Assert.assertEquals(root_tests.getString(i),
           PedersenHash2String(tree.root()));
 
-      boolean first = true; // The first witness can never form a path
-      for (IncrementalMerkleVoucherCapsule wit : witnesses) {
-        // Append the same commitment to all the witnesses
+      boolean first = true; // The first executive can never form a path
+      for (IncrementalMerkleVoucherCapsule wit : executives) {
+        // Append the same commitment to all the executives
         wit.toMerkleVoucherContainer().append(test_commitment.getInstance());
         if (first) {
           try {
             wit.toMerkleVoucherContainer().path();
-            Assert.fail("The first witness can never form a path");
+            Assert.fail("The first executive can never form a path");
           } catch (Exception ex) {
             System.out.println(ex.getMessage());
           }
           try {
             wit.toMerkleVoucherContainer().element();
-            Assert.fail("The first witness can never form a path");
+            Assert.fail("The first executive can never form a path");
           } catch (Exception ex) {
             System.out.println(ex.getMessage());
           }
@@ -177,7 +177,7 @@ public class MerkleTreeTest {
     } catch (Exception ex) {
       System.out.println(ex.getMessage());
     }
-    for (IncrementalMerkleVoucherCapsule wit : witnesses) {
+    for (IncrementalMerkleVoucherCapsule wit : executives) {
       try {
         wit.toMerkleVoucherContainer().append(new PedersenHashCapsule().getInstance());
         Assert.fail("Tree should be full now");

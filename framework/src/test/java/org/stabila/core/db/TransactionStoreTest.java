@@ -28,9 +28,9 @@ import org.stabila.protos.Protocol.AccountType;
 import org.stabila.protos.Protocol.Transaction.Contract.ContractType;
 import org.stabila.protos.contract.AccountContract.AccountCreateContract;
 import org.stabila.protos.contract.BalanceContract.TransferContract;
-import org.stabila.protos.contract.WitnessContract.VoteWitnessContract;
-import org.stabila.protos.contract.WitnessContract.VoteWitnessContract.Vote;
-import org.stabila.protos.contract.WitnessContract.WitnessCreateContract;
+import org.stabila.protos.contract.ExecutiveContract.VoteExecutiveContract;
+import org.stabila.protos.contract.ExecutiveContract.VoteExecutiveContract.Vote;
+import org.stabila.protos.contract.ExecutiveContract.ExecutiveCreateContract;
 
 public class TransactionStoreTest {
 
@@ -43,7 +43,7 @@ public class TransactionStoreTest {
   private static final String TO_ADDRESS =
       Wallet.getAddressPreFixString() + "abd4b9367799eaa3197fecb144eb71de1e049abc";
   private static final long AMOUNT = 100;
-  private static final String WITNESS_ADDRESS =
+  private static final String EXECUTIVE_ADDRESS =
       Wallet.getAddressPreFixString() + "548794500882809695a8a687866e76d4271a1abc";
   private static String dbPath = "output_TransactionStore_test";
   private static String dbDirectory = "db_TransactionStore_test";
@@ -108,22 +108,22 @@ public class TransactionStoreTest {
   }
 
   /**
-   * get WitnessCreateContract.
+   * get ExecutiveCreateContract.
    */
-  private WitnessCreateContract getWitnessContract(String address, String url) {
-    return WitnessCreateContract.newBuilder()
+  private ExecutiveCreateContract getExecutiveContract(String address, String url) {
+    return ExecutiveCreateContract.newBuilder()
         .setOwnerAddress(ByteString.copyFrom(ByteArray.fromHexString(address)))
         .setUrl(ByteString.copyFrom(ByteArray.fromString(url)))
         .build();
   }
 
   /**
-   * get VoteWitnessContract.
+   * get VoteExecutiveContract.
    */
-  private VoteWitnessContract getVoteWitnessContract(String address, String voteaddress,
+  private VoteExecutiveContract getVoteExecutiveContract(String address, String voteaddress,
       Long value) {
     return
-        VoteWitnessContract.newBuilder()
+        VoteExecutiveContract.newBuilder()
             .setOwnerAddress(ByteString.copyFrom(ByteArray.fromHexString(address)))
             .addVotes(Vote.newBuilder()
                 .setVoteAddress(ByteString.copyFrom(ByteArray.fromHexString(voteaddress)))
@@ -254,14 +254,14 @@ public class TransactionStoreTest {
   }
 
   /**
-   * put and get CreateWitnessTransaction.
+   * put and get CreateExecutiveTransaction.
    */
   @Test
-  public void createWitnessTransactionStoreTest() throws BadItemException {
-    WitnessCreateContract witnessContract = getWitnessContract(OWNER_ADDRESS, URL);
-    TransactionCapsule transactionCapsule = new TransactionCapsule(witnessContract);
+  public void createExecutiveTransactionStoreTest() throws BadItemException {
+    ExecutiveCreateContract executiveContract = getExecutiveContract(OWNER_ADDRESS, URL);
+    TransactionCapsule transactionCapsule = new TransactionCapsule(executiveContract);
     transactionStore.put(key1, transactionCapsule);
-    Assert.assertEquals("Store CreateWitnessTransaction is error",
+    Assert.assertEquals("Store CreateExecutiveTransaction is error",
         transactionStore.get(key1).getInstance(),
         transactionCapsule.getInstance());
   }
@@ -289,11 +289,11 @@ public class TransactionStoreTest {
   }
 
   /**
-   * put and get VoteWitnessTransaction.
+   * put and get VoteExecutiveTransaction.
    */
 
   @Test
-  public void voteWitnessTransactionTest() throws BadItemException {
+  public void voteExecutiveTransactionTest() throws BadItemException {
 
     AccountCapsule ownerAccountFirstCapsule =
         new AccountCapsule(
@@ -306,10 +306,10 @@ public class TransactionStoreTest {
     ownerAccountFirstCapsule.setCded(cdedBalance, duration);
     chainBaseManager.getAccountStore()
         .put(ownerAccountFirstCapsule.getAddress().toByteArray(), ownerAccountFirstCapsule);
-    VoteWitnessContract actuator = getVoteWitnessContract(OWNER_ADDRESS, WITNESS_ADDRESS, 1L);
+    VoteExecutiveContract actuator = getVoteExecutiveContract(OWNER_ADDRESS, EXECUTIVE_ADDRESS, 1L);
     TransactionCapsule transactionCapsule = new TransactionCapsule(actuator);
     transactionStore.put(key1, transactionCapsule);
-    Assert.assertEquals("Store VoteWitnessTransaction is error",
+    Assert.assertEquals("Store VoteExecutiveTransaction is error",
         transactionStore.get(key1).getInstance(),
         transactionCapsule.getInstance());
   }

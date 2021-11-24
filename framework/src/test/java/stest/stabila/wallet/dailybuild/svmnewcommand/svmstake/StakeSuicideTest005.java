@@ -26,12 +26,12 @@ public class StakeSuicideTest005 {
   private String testFoundationKey = Configuration.getByPath("testng.conf")
       .getString("foundationAccount.key1");
   private byte[] testFoundationAddress = PublicMethed.getFinalAddress(testFoundationKey);
-  private String testWitnessKey = Configuration.getByPath("testng.conf")
-      .getString("witness.key1");
-  private String testWitnessKey2 = Configuration.getByPath("testng.conf")
-      .getString("witness.key3");
-  private byte[] testWitnessAddress = PublicMethed.getFinalAddress(testWitnessKey);
-  private byte[] testWitnessAddress2 = PublicMethed.getFinalAddress(testWitnessKey2);
+  private String testExecutiveKey = Configuration.getByPath("testng.conf")
+      .getString("executive.key1");
+  private String testExecutiveKey2 = Configuration.getByPath("testng.conf")
+      .getString("executive.key3");
+  private byte[] testExecutiveAddress = PublicMethed.getFinalAddress(testExecutiveKey);
+  private byte[] testExecutiveAddress2 = PublicMethed.getFinalAddress(testExecutiveKey2);
 
 
 

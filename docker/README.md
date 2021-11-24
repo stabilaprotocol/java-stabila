@@ -13,5 +13,5 @@
 
 ```shell
 > docker container run -p 18888:18888 -p 50051:50051 -it stabilaprotocol/stabila-node /bin/bash
-> ./gradlew run -Pwitness
+> ./gradlew run -Pexecutive
 ```

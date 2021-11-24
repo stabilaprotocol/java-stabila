@@ -76,9 +76,9 @@ import org.stabila.protos.contract.ShieldContract.ShieldedTransferContract;
 import org.stabila.protos.contract.ShieldContract.SpendDescription;
 import org.stabila.protos.contract.SmartContractOuterClass.CreateSmartContract;
 import org.stabila.protos.contract.SmartContractOuterClass.TriggerSmartContract;
-import org.stabila.protos.contract.WitnessContract.VoteWitnessContract;
-import org.stabila.protos.contract.WitnessContract.WitnessCreateContract;
-import org.stabila.protos.contract.WitnessContract.WitnessUpdateContract;
+import org.stabila.protos.contract.ExecutiveContract.VoteExecutiveContract;
+import org.stabila.protos.contract.ExecutiveContract.ExecutiveCreateContract;
+import org.stabila.protos.contract.ExecutiveContract.ExecutiveUpdateContract;
 
 @Slf4j(topic = "capsule")
 public class TransactionCapsule implements ProtoCapsule<Transaction> {
@@ -151,16 +151,16 @@ public class TransactionCapsule implements ProtoCapsule<Transaction> {
     createTransaction(contract, ContractType.TransferContract);
   }
 
-  public TransactionCapsule(VoteWitnessContract voteWitnessContract) {
-    createTransaction(voteWitnessContract, ContractType.VoteWitnessContract);
+  public TransactionCapsule(VoteExecutiveContract voteExecutiveContract) {
+    createTransaction(voteExecutiveContract, ContractType.VoteExecutiveContract);
   }
 
-  public TransactionCapsule(WitnessCreateContract witnessCreateContract) {
-    createTransaction(witnessCreateContract, ContractType.WitnessCreateContract);
+  public TransactionCapsule(ExecutiveCreateContract executiveCreateContract) {
+    createTransaction(executiveCreateContract, ContractType.ExecutiveCreateContract);
   }
 
-  public TransactionCapsule(WitnessUpdateContract witnessUpdateContract) {
-    createTransaction(witnessUpdateContract, ContractType.WitnessUpdateContract);
+  public TransactionCapsule(ExecutiveUpdateContract executiveUpdateContract) {
+    createTransaction(executiveUpdateContract, ContractType.ExecutiveUpdateContract);
   }
 
   public TransactionCapsule(TransferAssetContract transferAssetContract) {

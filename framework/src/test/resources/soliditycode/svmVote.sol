@@ -23,10 +23,10 @@ contract TestVote {
   }
 
   /**
-       * @dev Vote witness in `srList` array and every witness will get correspond
+       * @dev Vote executive in `srList` array and every executive will get correspond
        * stabila power in `tpList` array.
        */
-      function voteWitness(address[] calldata srList, uint[] calldata tpList) external {
+      function voteExecutive(address[] calldata srList, uint[] calldata tpList) external {
           vote(srList, tpList);
       }
 
@@ -48,7 +48,7 @@ contract TestVote {
    * @dev Judge whether the address is a candidate address.If the address is a candidate address,
    * return `true`, or return `false`.
    */
-  function isWitness(address sr) external view returns(bool) {
+  function isExecutive(address sr) external view returns(bool) {
     return isSrCandidate(sr);
   }
 

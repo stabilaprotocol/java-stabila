@@ -27,12 +27,12 @@ public class StakeSuicideTest004 {
   private String testFoundationKey = Configuration.getByPath("testng.conf")
       .getString("foundationAccount.key1");
   private byte[] testFoundationAddress = PublicMethed.getFinalAddress(testFoundationKey);
-  private String testWitnessKey = Configuration.getByPath("testng.conf")
-      .getString("witness.key1");
-  private String testWitnessKey2 = Configuration.getByPath("testng.conf")
-      .getString("witness.key3");
-  private byte[] testWitnessAddress = PublicMethed.getFinalAddress(testWitnessKey);
-  private byte[] testWitnessAddress2 = PublicMethed.getFinalAddress(testWitnessKey2);
+  private String testExecutiveKey = Configuration.getByPath("testng.conf")
+      .getString("executive.key1");
+  private String testExecutiveKey2 = Configuration.getByPath("testng.conf")
+      .getString("executive.key3");
+  private byte[] testExecutiveAddress = PublicMethed.getFinalAddress(testExecutiveKey);
+  private byte[] testExecutiveAddress2 = PublicMethed.getFinalAddress(testExecutiveKey2);
 
 
 
@@ -109,7 +109,7 @@ public class StakeSuicideTest004 {
     PublicMethed.waitProduceNextBlock(blockingStubFull);
 
     String methodStr = "Stake(address,uint256)";
-    String argsStr = "\"" + Base58.encode58Check(testWitnessAddress) + "\","  + 1000000;
+    String argsStr = "\"" + Base58.encode58Check(testExecutiveAddress) + "\","  + 1000000;
     String txid  = PublicMethed
         .triggerContract(contractAddress, methodStr, argsStr,
             false, 0, maxFeeLimit,
@@ -172,7 +172,7 @@ public class StakeSuicideTest004 {
     PublicMethed.waitProduceNextBlock(blockingStubFull);
 
     String methodStr = "Stake(address,uint256)";
-    String argsStr = "\"" + Base58.encode58Check(testWitnessAddress) + "\","  + 100_000000L;
+    String argsStr = "\"" + Base58.encode58Check(testExecutiveAddress) + "\","  + 100_000000L;
     String txid  = PublicMethed
         .triggerContract(contractAddress, methodStr, argsStr,
             false, 0, maxFeeLimit,
@@ -239,7 +239,7 @@ public class StakeSuicideTest004 {
     PublicMethed.waitProduceNextBlock(blockingStubFull);
 
     String methodStr = "Stake(address,uint256)";
-    String argsStr = "\"" + Base58.encode58Check(testWitnessAddress) + "\","  + 100_000000L;
+    String argsStr = "\"" + Base58.encode58Check(testExecutiveAddress) + "\","  + 100_000000L;
     String txid  = PublicMethed
         .triggerContract(contractAddress, methodStr, argsStr,
             false, 0, maxFeeLimit,
@@ -293,7 +293,7 @@ public class StakeSuicideTest004 {
     PublicMethed.waitProduceNextBlock(blockingStubFull);
 
     String methodStr = "Stake(address,uint256)";
-    String argsStr = "\"" + Base58.encode58Check(testWitnessAddress) + "\","  + 100_000000L;
+    String argsStr = "\"" + Base58.encode58Check(testExecutiveAddress) + "\","  + 100_000000L;
     String txid  = PublicMethed
         .triggerContract(contractAddress, methodStr, argsStr,
             false, 0, maxFeeLimit,
@@ -352,7 +352,7 @@ public class StakeSuicideTest004 {
     PublicMethed.waitProduceNextBlock(blockingStubFull);
 
     String methodStr = "Stake(address,uint256)";
-    String argsStr = "\"" + Base58.encode58Check(testWitnessAddress) + "\","  + 100_000000L;
+    String argsStr = "\"" + Base58.encode58Check(testExecutiveAddress) + "\","  + 100_000000L;
     String txid  = PublicMethed
         .triggerContract(contractAddress, methodStr, argsStr,
             false, 0, maxFeeLimit,

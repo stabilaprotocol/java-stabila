@@ -212,9 +212,9 @@ public class IsSRCandidateTest extends VMTestBase {
     repository.commit();
 
     // trigger deployed contract
-    String witnessAccount = "27Ssb1WE8FArwJVRRb8Dwy3ssVGuLY8L3S1";
-    byte[] witnessAddr = Hex.decode("a0299f3db80a24b20a254b89ce639d59132f157f13");
-    hexInput = AbiUtil.parseMethod(methodByAddr, Collections.singletonList(witnessAccount));
+    String executiveAccount = "27Ssb1WE8FArwJVRRb8Dwy3ssVGuLY8L3S1";
+    byte[] executiveAddr = Hex.decode("a0299f3db80a24b20a254b89ce639d59132f157f13");
+    hexInput = AbiUtil.parseMethod(methodByAddr, Collections.singletonList(executiveAccount));
     stb =
         SvmTestUtils.generateTriggerSmartContractAndGetTransaction(
             Hex.decode(OWNER_ADDRESS), factoryAddress, Hex.decode(hexInput), 0, fee);
@@ -234,7 +234,7 @@ public class IsSRCandidateTest extends VMTestBase {
             System.nanoTime() / 1000 + 50000,
             3_000_000L);
     program = new Program(null, programInvoke, rootInternalTransaction, vmConfig);
-    programResult = program.isSRCandidate(new DataWord(witnessAddr)).getData();
+    programResult = program.isSRCandidate(new DataWord(executiveAddr)).getData();
     Assert.assertEquals(
         Hex.toHexString(programResult),
         "0000000000000000000000000000000000000000000000000000000000000001");
