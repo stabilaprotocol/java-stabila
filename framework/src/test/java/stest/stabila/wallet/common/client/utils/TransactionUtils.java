@@ -32,7 +32,7 @@ import org.stabila.protos.contract.AssetIssueContractOuterClass;
 import org.stabila.protos.contract.BalanceContract;
 import org.stabila.protos.contract.SmartContractOuterClass;
 import org.stabila.protos.contract.VoteAssetContractOuterClass;
-import org.stabila.protos.contract.WitnessContract;
+import org.stabila.protos.contract.ExecutiveContract;
 
 public class TransactionUtils {
 
@@ -78,13 +78,13 @@ public class TransactionUtils {
               .unpack(VoteAssetContractOuterClass.VoteAssetContract.class)
               .getOwnerAddress();
           break;
-        case VoteWitnessContract:
-          owner = contract.getParameter().unpack(WitnessContract.VoteWitnessContract.class)
+        case VoteExecutiveContract:
+          owner = contract.getParameter().unpack(ExecutiveContract.VoteExecutiveContract.class)
               .getOwnerAddress();
           break;
-        case WitnessCreateContract:
+        case ExecutiveCreateContract:
           owner = contract.getParameter()
-              .unpack(WitnessContract.WitnessCreateContract.class).getOwnerAddress();
+              .unpack(ExecutiveContract.ExecutiveCreateContract.class).getOwnerAddress();
           break;
         case AssetIssueContract:
           owner = contract.getParameter()

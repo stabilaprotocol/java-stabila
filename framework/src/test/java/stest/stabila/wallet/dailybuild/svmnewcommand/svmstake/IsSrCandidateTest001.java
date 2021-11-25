@@ -22,8 +22,8 @@ public class IsSrCandidateTest001 {
   private String testFoundationKey = Configuration.getByPath("testng.conf")
       .getString("foundationAccount.key2");
   private byte[] testFoundationAddress = PublicMethed.getFinalAddress(testFoundationKey);
-  private String testWitnessKey = Configuration.getByPath("testng.conf")
-      .getString("witness.key1");
+  private String testExecutiveKey = Configuration.getByPath("testng.conf")
+      .getString("executive.key1");
 
   private Long maxFeeLimit = Configuration.getByPath("testng.conf")
       .getLong("defaultParameter.maxFeeLimit");
@@ -67,10 +67,10 @@ public class IsSrCandidateTest001 {
             testAddress001, blockingStubFull);
   }
 
-  @Test(enabled = false, description = "Witness Address should be true")
+  @Test(enabled = false, description = "Executive Address should be true")
   void svmStakeTest001() {
     String methodStr = "isSRCandidateTest(address)";
-    String argsStr = "\"" + PublicMethed.getAddressString(testWitnessKey) + "\"";
+    String argsStr = "\"" + PublicMethed.getAddressString(testExecutiveKey) + "\"";
     TransactionExtention returns = PublicMethed
         .triggerConstantContractForExtention(contractAddress, methodStr, argsStr,
             false, 0, maxFeeLimit, "", 0, testAddress001, testKey001, blockingStubFull);

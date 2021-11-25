@@ -48,7 +48,7 @@ public class AccountPermissionUpdateActuator extends AbstractActuator {
       byte[] ownerAddress = accountPermissionUpdateContract.getOwnerAddress().toByteArray();
       AccountCapsule account = accountStore.get(ownerAddress);
       account.updatePermissions(accountPermissionUpdateContract.getOwner(),
-          accountPermissionUpdateContract.getWitness(),
+          accountPermissionUpdateContract.getExecutive(),
           accountPermissionUpdateContract.getActivesList());
       accountStore.put(ownerAddress, account);
 
@@ -56,7 +56,7 @@ public class AccountPermissionUpdateActuator extends AbstractActuator {
       if (chainBaseManager.getDynamicPropertiesStore().supportBlackHoleOptimization()) {
         chainBaseManager.getDynamicPropertiesStore().burnStb(fee);
       } else {
-        Commons.adjustBalance(accountStore, accountStore.getBlackhole(), fee);
+        Commons.adjustBalance(accountStore, accountStore.getUnit(), fee);
       }
 
       result.setStatus(fee, code.SUCESS);
@@ -78,8 +78,8 @@ public class AccountPermissionUpdateActuator extends AbstractActuator {
     if (permission.getKeysCount() == 0) {
       throw new ContractValidateException("key's count should be greater than 0");
     }
-    if (permission.getType() == PermissionType.Witness && permission.getKeysCount() != 1) {
-      throw new ContractValidateException("Witness permission's key count should be 1");
+    if (permission.getType() == PermissionType.Executive && permission.getKeysCount() != 1) {
+      throw new ContractValidateException("Executive permission's key count should be 1");
     }
     if (permission.getThreshold() <= 0) {
       throw new ContractValidateException("permission's threshold should be greater than 0");
@@ -189,13 +189,13 @@ public class AccountPermissionUpdateActuator extends AbstractActuator {
       throw new ContractValidateException("owner permission is missed");
     }
 
-    if (accountCapsule.getIsWitness()) {
-      if (!accountPermissionUpdateContract.hasWitness()) {
-        throw new ContractValidateException("witness permission is missed");
+    if (accountCapsule.getIsExecutive()) {
+      if (!accountPermissionUpdateContract.hasExecutive()) {
+        throw new ContractValidateException("executive permission is missed");
       }
     } else {
-      if (accountPermissionUpdateContract.hasWitness()) {
-        throw new ContractValidateException("account isn't witness can't set witness permission");
+      if (accountPermissionUpdateContract.hasExecutive()) {
+        throw new ContractValidateException("account isn't executive can't set executive permission");
       }
     }
 
@@ -207,18 +207,18 @@ public class AccountPermissionUpdateActuator extends AbstractActuator {
     }
 
     Permission owner = accountPermissionUpdateContract.getOwner();
-    Permission witness = accountPermissionUpdateContract.getWitness();
+    Permission executive = accountPermissionUpdateContract.getExecutive();
     List<Permission> actives = accountPermissionUpdateContract.getActivesList();
 
     if (owner.getType() != PermissionType.Owner) {
       throw new ContractValidateException("owner permission type is error");
     }
     checkPermission(owner);
-    if (accountCapsule.getIsWitness()) {
-      if (witness.getType() != PermissionType.Witness) {
-        throw new ContractValidateException("witness permission type is error");
+    if (accountCapsule.getIsExecutive()) {
+      if (executive.getType() != PermissionType.Executive) {
+        throw new ContractValidateException("executive permission type is error");
       }
-      checkPermission(witness);
+      checkPermission(executive);
     }
     for (Permission permission : actives) {
       if (permission.getType() != PermissionType.Active) {

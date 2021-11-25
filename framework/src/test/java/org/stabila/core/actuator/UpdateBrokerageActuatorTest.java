@@ -19,7 +19,7 @@ import org.stabila.core.Constant;
 import org.stabila.core.Wallet;
 import org.stabila.core.capsule.AccountCapsule;
 import org.stabila.core.capsule.TransactionResultCapsule;
-import org.stabila.core.capsule.WitnessCapsule;
+import org.stabila.core.capsule.ExecutiveCapsule;
 import org.stabila.core.config.DefaultConfig;
 import org.stabila.core.config.args.Args;
 import org.stabila.core.db.Manager;
@@ -78,15 +78,15 @@ public class UpdateBrokerageActuatorTest {
 
   @Before
   /**
-   * set witness store, account store, dynamic store
+   * set executive store, account store, dynamic store
    */
   public void initDB() {
     // allow dynamic store
     dbManager.getDynamicPropertiesStore().saveChangeDelegation(1);
-    // set witness store
-    WitnessCapsule witness =
-        new WitnessCapsule(ByteString.copyFrom(ByteArray.fromHexString(OWNER_ADDRESS)));
-    dbManager.getWitnessStore().put(ByteArray.fromHexString(OWNER_ADDRESS), witness);
+    // set executive store
+    ExecutiveCapsule executive =
+        new ExecutiveCapsule(ByteString.copyFrom(ByteArray.fromHexString(OWNER_ADDRESS)));
+    dbManager.getExecutiveStore().put(ByteArray.fromHexString(OWNER_ADDRESS), executive);
     // set account store
     AccountCapsule account = new AccountCapsule(ByteString.copyFromUtf8("owner"),
         ByteString.copyFrom(ByteArray.fromHexString(OWNER_ADDRESS)), AccountType.Normal);
@@ -200,10 +200,10 @@ public class UpdateBrokerageActuatorTest {
   }
 
   /**
-   * witness not exit in witnessStore
+   * executive not exit in executiveStore
    */
   @Test
-  public void noExistWitness() {
+  public void noExistExecutive() {
 
     UpdateBrokerageActuator actuator = new UpdateBrokerageActuator();
     Any contract = getContract(OWNER_ADDRESS_NOTEXIST, BROKEN_AGE);
@@ -214,19 +214,19 @@ public class UpdateBrokerageActuatorTest {
     try {
       actuator.validate();
       actuator.execute(ret);
-      fail("Not existed witness:");
+      fail("Not existed executive:");
     } catch (ContractValidateException e) {
       Assert.assertTrue(e instanceof ContractValidateException);
-      Assert.assertEquals("Not existed witness:" + Hex.toHexString(ownerAddressNoExitDB),
+      Assert.assertEquals("Not existed executive:" + Hex.toHexString(ownerAddressNoExitDB),
           e.getMessage());
     } catch (ContractExeException e) {
       Assert.assertFalse(e instanceof ContractExeException);
     } finally {
       logger.info("final test execute ");
-      // set witness store and make sure next test case will not throw this error again
-      WitnessCapsule witness =
-          new WitnessCapsule(ByteString.copyFrom(ByteArray.fromHexString(OWNER_ADDRESS_NOTEXIST)));
-      dbManager.getWitnessStore().put(ByteArray.fromHexString(OWNER_ADDRESS_NOTEXIST), witness);
+      // set executive store and make sure next test case will not throw this error again
+      ExecutiveCapsule executive =
+          new ExecutiveCapsule(ByteString.copyFrom(ByteArray.fromHexString(OWNER_ADDRESS_NOTEXIST)));
+      dbManager.getExecutiveStore().put(ByteArray.fromHexString(OWNER_ADDRESS_NOTEXIST), executive);
       logger.info("after final test execute ");
     }
 

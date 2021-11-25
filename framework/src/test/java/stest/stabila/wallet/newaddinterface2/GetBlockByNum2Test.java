@@ -87,12 +87,12 @@ public class GetBlockByNum2Test {
     builder2.setNum(1);
     GrpcAPI.BlockExtention firstBlock = blockingStubFull.getBlockByNum2(builder2.build());
     Assert.assertTrue(firstBlock.hasBlockHeader());
-    Assert.assertFalse(firstBlock.getBlockHeader().getWitnessSignature().isEmpty());
+    Assert.assertFalse(firstBlock.getBlockHeader().getExecutiveSignature().isEmpty());
     Assert.assertTrue(firstBlock.getBlockHeader().getRawData().getTimestamp() > 0);
-    Assert.assertFalse(firstBlock.getBlockHeader().getRawData().getWitnessAddress().isEmpty());
+    Assert.assertFalse(firstBlock.getBlockHeader().getRawData().getExecutiveAddress().isEmpty());
     Assert.assertTrue(firstBlock.getBlockHeader().getRawData().getNumber() == 1);
     Assert.assertFalse(firstBlock.getBlockHeader().getRawData().getParentHash().isEmpty());
-    Assert.assertTrue(firstBlock.getBlockHeader().getRawData().getWitnessId() >= 0);
+    Assert.assertTrue(firstBlock.getBlockHeader().getRawData().getExecutiveId() >= 0);
     Assert.assertFalse(firstBlock.getBlockid().isEmpty());
 
     //Query the zero block
@@ -100,12 +100,12 @@ public class GetBlockByNum2Test {
     builder2.setNum(0);
     GrpcAPI.BlockExtention zeroBlock = blockingStubFull.getBlockByNum2(builder21.build());
     Assert.assertTrue(zeroBlock.hasBlockHeader());
-    Assert.assertTrue(zeroBlock.getBlockHeader().getWitnessSignature().isEmpty());
+    Assert.assertTrue(zeroBlock.getBlockHeader().getExecutiveSignature().isEmpty());
     Assert.assertFalse(zeroBlock.getBlockHeader().getRawData().getTimestamp() > 0);
-    Assert.assertFalse(zeroBlock.getBlockHeader().getRawData().getWitnessAddress().isEmpty());
+    Assert.assertFalse(zeroBlock.getBlockHeader().getRawData().getExecutiveAddress().isEmpty());
     Assert.assertFalse(zeroBlock.getBlockHeader().getRawData().getNumber() == 1);
     Assert.assertFalse(zeroBlock.getBlockHeader().getRawData().getParentHash().isEmpty());
-    Assert.assertTrue(zeroBlock.getBlockHeader().getRawData().getWitnessId() >= 0);
+    Assert.assertTrue(zeroBlock.getBlockHeader().getRawData().getExecutiveId() >= 0);
     Assert.assertFalse(zeroBlock.getBlockid().isEmpty());
 
     //Query the -1 block
@@ -113,12 +113,12 @@ public class GetBlockByNum2Test {
     builder2.setNum(-1);
     GrpcAPI.BlockExtention nagtiveBlock = blockingStubFull.getBlockByNum2(builder22.build());
     Assert.assertTrue(nagtiveBlock.hasBlockHeader());
-    Assert.assertTrue(nagtiveBlock.getBlockHeader().getWitnessSignature().isEmpty());
+    Assert.assertTrue(nagtiveBlock.getBlockHeader().getExecutiveSignature().isEmpty());
     Assert.assertFalse(nagtiveBlock.getBlockHeader().getRawData().getTimestamp() > 0);
-    Assert.assertFalse(nagtiveBlock.getBlockHeader().getRawData().getWitnessAddress().isEmpty());
+    Assert.assertFalse(nagtiveBlock.getBlockHeader().getRawData().getExecutiveAddress().isEmpty());
     Assert.assertFalse(nagtiveBlock.getBlockHeader().getRawData().getNumber() == 1);
     Assert.assertFalse(nagtiveBlock.getBlockHeader().getRawData().getParentHash().isEmpty());
-    Assert.assertTrue(nagtiveBlock.getBlockHeader().getRawData().getWitnessId() >= 0);
+    Assert.assertTrue(nagtiveBlock.getBlockHeader().getRawData().getExecutiveId() >= 0);
     Assert.assertFalse(nagtiveBlock.getBlockid().isEmpty());
 
     //Query the second latest block.
@@ -126,13 +126,13 @@ public class GetBlockByNum2Test {
     builder3.setNum(currentBlockNum - 1);
     GrpcAPI.BlockExtention lastSecondBlock = blockingStubFull.getBlockByNum2(builder3.build());
     Assert.assertTrue(lastSecondBlock.hasBlockHeader());
-    Assert.assertFalse(lastSecondBlock.getBlockHeader().getWitnessSignature().isEmpty());
+    Assert.assertFalse(lastSecondBlock.getBlockHeader().getExecutiveSignature().isEmpty());
     Assert.assertTrue(lastSecondBlock.getBlockHeader().getRawData().getTimestamp() > 0);
-    Assert.assertFalse(lastSecondBlock.getBlockHeader().getRawData().getWitnessAddress().isEmpty());
+    Assert.assertFalse(lastSecondBlock.getBlockHeader().getRawData().getExecutiveAddress().isEmpty());
     Assert.assertTrue(
         lastSecondBlock.getBlockHeader().getRawData().getNumber() + 1 == currentBlockNum);
     Assert.assertFalse(lastSecondBlock.getBlockHeader().getRawData().getParentHash().isEmpty());
-    Assert.assertTrue(lastSecondBlock.getBlockHeader().getRawData().getWitnessId() >= 0);
+    Assert.assertTrue(lastSecondBlock.getBlockHeader().getRawData().getExecutiveId() >= 0);
     Assert.assertFalse(lastSecondBlock.getBlockid().isEmpty());
   }
 
@@ -152,12 +152,12 @@ public class GetBlockByNum2Test {
     builder2.setNum(1);
     GrpcAPI.BlockExtention firstBlock = blockingStubSolidity.getBlockByNum2(builder2.build());
     Assert.assertTrue(firstBlock.hasBlockHeader());
-    Assert.assertFalse(firstBlock.getBlockHeader().getWitnessSignature().isEmpty());
+    Assert.assertFalse(firstBlock.getBlockHeader().getExecutiveSignature().isEmpty());
     Assert.assertTrue(firstBlock.getBlockHeader().getRawData().getTimestamp() > 0);
-    Assert.assertFalse(firstBlock.getBlockHeader().getRawData().getWitnessAddress().isEmpty());
+    Assert.assertFalse(firstBlock.getBlockHeader().getRawData().getExecutiveAddress().isEmpty());
     Assert.assertTrue(firstBlock.getBlockHeader().getRawData().getNumber() == 1);
     Assert.assertFalse(firstBlock.getBlockHeader().getRawData().getParentHash().isEmpty());
-    Assert.assertTrue(firstBlock.getBlockHeader().getRawData().getWitnessId() >= 0);
+    Assert.assertTrue(firstBlock.getBlockHeader().getRawData().getExecutiveId() >= 0);
     logger.info("firstblock test from solidity succesfully");
     Assert.assertFalse(firstBlock.getBlockid().isEmpty());
 
@@ -166,13 +166,13 @@ public class GetBlockByNum2Test {
     builder3.setNum(currentBlockNum - 1);
     GrpcAPI.BlockExtention lastSecondBlock = blockingStubSolidity.getBlockByNum2(builder3.build());
     Assert.assertTrue(lastSecondBlock.hasBlockHeader());
-    Assert.assertFalse(lastSecondBlock.getBlockHeader().getWitnessSignature().isEmpty());
+    Assert.assertFalse(lastSecondBlock.getBlockHeader().getExecutiveSignature().isEmpty());
     Assert.assertTrue(lastSecondBlock.getBlockHeader().getRawData().getTimestamp() > 0);
-    Assert.assertFalse(lastSecondBlock.getBlockHeader().getRawData().getWitnessAddress().isEmpty());
+    Assert.assertFalse(lastSecondBlock.getBlockHeader().getRawData().getExecutiveAddress().isEmpty());
     Assert.assertTrue(
         lastSecondBlock.getBlockHeader().getRawData().getNumber() + 1 == currentBlockNum);
     Assert.assertFalse(lastSecondBlock.getBlockHeader().getRawData().getParentHash().isEmpty());
-    Assert.assertTrue(lastSecondBlock.getBlockHeader().getRawData().getWitnessId() >= 0);
+    Assert.assertTrue(lastSecondBlock.getBlockHeader().getRawData().getExecutiveId() >= 0);
     logger.info("Last second test from solidity succesfully");
     Assert.assertFalse(lastSecondBlock.getBlockid().isEmpty());
   }
@@ -185,16 +185,16 @@ public class GetBlockByNum2Test {
     GrpcAPI.BytesMessage request = GrpcAPI.BytesMessage.newBuilder().setValue(currentHash).build();
     Block setIdOfBlock = blockingStubFull.getBlockById(request);
     Assert.assertTrue(setIdOfBlock.hasBlockHeader());
-    Assert.assertFalse(setIdOfBlock.getBlockHeader().getWitnessSignature().isEmpty());
+    Assert.assertFalse(setIdOfBlock.getBlockHeader().getExecutiveSignature().isEmpty());
     Assert.assertTrue(setIdOfBlock.getBlockHeader().getRawData().getTimestamp() > 0);
-    Assert.assertFalse(setIdOfBlock.getBlockHeader().getRawData().getWitnessAddress().isEmpty());
+    Assert.assertFalse(setIdOfBlock.getBlockHeader().getRawData().getExecutiveAddress().isEmpty());
     logger.info(Long.toString(setIdOfBlock.getBlockHeader().getRawData().getNumber()));
     logger.info(Long.toString(currentBlock.getBlockHeader().getRawData().getNumber()));
     Assert.assertTrue(
         setIdOfBlock.getBlockHeader().getRawData().getNumber() + 1 == currentBlock.getBlockHeader()
             .getRawData().getNumber());
     Assert.assertFalse(setIdOfBlock.getBlockHeader().getRawData().getParentHash().isEmpty());
-    Assert.assertTrue(setIdOfBlock.getBlockHeader().getRawData().getWitnessId() >= 0);
+    Assert.assertTrue(setIdOfBlock.getBlockHeader().getRawData().getExecutiveId() >= 0);
     logger.info("By ID test succesfully");
   }
 

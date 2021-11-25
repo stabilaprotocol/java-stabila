@@ -45,15 +45,15 @@ public class FullNodeHttpApiService implements Service {
   @Autowired
   private UpdateAccountServlet updateAccountServlet;
   @Autowired
-  private VoteWitnessAccountServlet voteWitnessAccountServlet;
+  private VoteExecutiveAccountServlet voteExecutiveAccountServlet;
   @Autowired
   private CreateAssetIssueServlet createAssetIssueServlet;
   @Autowired
-  private UpdateWitnessServlet updateWitnessServlet;
+  private UpdateExecutiveServlet updateExecutiveServlet;
   @Autowired
   private CreateAccountServlet createAccountServlet;
   @Autowired
-  private CreateWitnessServlet createWitnessServlet;
+  private CreateExecutiveServlet createExecutiveServlet;
   @Autowired
   private TransferAssetServlet transferAssetServlet;
   @Autowired
@@ -99,7 +99,7 @@ public class FullNodeHttpApiService implements Service {
   @Autowired
   private GetTransactionCountByBlockNumServlet getTransactionCountByBlockNumServlet;
   @Autowired
-  private ListWitnessesServlet listWitnessesServlet;
+  private ListExecutivesServlet listExecutivesServlet;
   @Autowired
   private GetAssetIssueListServlet getAssetIssueListServlet;
   @Autowired
@@ -345,12 +345,12 @@ public class FullNodeHttpApiService implements Service {
       context.addServlet(new ServletHolder(broadcastServlet), "/wallet/broadcasttransaction");
       context.addServlet(new ServletHolder(transactionSignServlet), "/wallet/gettransactionsign");
       context.addServlet(new ServletHolder(updateAccountServlet), "/wallet/updateaccount");
-      context.addServlet(new ServletHolder(voteWitnessAccountServlet),
-          "/wallet/votewitnessaccount");
+      context.addServlet(new ServletHolder(voteExecutiveAccountServlet),
+          "/wallet/voteexecutiveaccount");
       context.addServlet(new ServletHolder(createAssetIssueServlet), "/wallet/createassetissue");
-      context.addServlet(new ServletHolder(updateWitnessServlet), "/wallet/updatewitness");
+      context.addServlet(new ServletHolder(updateExecutiveServlet), "/wallet/updateexecutive");
       context.addServlet(new ServletHolder(createAccountServlet), "/wallet/createaccount");
-      context.addServlet(new ServletHolder(createWitnessServlet), "/wallet/createwitness");
+      context.addServlet(new ServletHolder(createExecutiveServlet), "/wallet/createexecutive");
       context.addServlet(new ServletHolder(transferAssetServlet), "/wallet/transferasset");
       context.addServlet(new ServletHolder(participateAssetIssueServlet),
           "/wallet/participateassetissue");
@@ -384,7 +384,7 @@ public class FullNodeHttpApiService implements Service {
       context.addServlet(
           new ServletHolder(getTransactionCountByBlockNumServlet),
           "/wallet/gettransactioncountbyblocknum");
-      context.addServlet(new ServletHolder(listWitnessesServlet), "/wallet/listwitnesses");
+      context.addServlet(new ServletHolder(listExecutivesServlet), "/wallet/listexecutives");
       context.addServlet(new ServletHolder(getAssetIssueListServlet), "/wallet/getassetissuelist");
       context.addServlet(
           new ServletHolder(getPaginatedAssetIssueListServlet),

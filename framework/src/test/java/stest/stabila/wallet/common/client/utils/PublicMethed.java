@@ -132,7 +132,7 @@ import org.stabila.protos.contract.SmartContractOuterClass.UpdateSettingContract
 import org.stabila.protos.contract.StorageContract.BuyStorageContract;
 import org.stabila.protos.contract.StorageContract.SellStorageContract;
 import org.stabila.protos.contract.StorageContract.UpdateBrokerageContract;
-import org.stabila.protos.contract.WitnessContract.VoteWitnessContract;
+import org.stabila.protos.contract.ExecutiveContract.VoteExecutiveContract;
 import stest.stabila.wallet.common.client.Configuration;
 import stest.stabila.wallet.common.client.Parameter.CommonConstant;
 import stest.stabila.wallet.common.client.WalletClient;
@@ -2046,8 +2046,8 @@ public class PublicMethed {
    * constructor.
    */
 
-  public static boolean voteWitness(byte[] ownerAddress, String priKey,
-      HashMap<byte[], Long> witnessMap, WalletGrpc.WalletBlockingStub blockingStubFull) {
+  public static boolean voteExecutive(byte[] ownerAddress, String priKey,
+      HashMap<byte[], Long> executiveMap, WalletGrpc.WalletBlockingStub blockingStubFull) {
     Wallet.setAddressPreFixByte(CommonConstant.ADD_PRE_FIX_BYTE_MAINNET);
     ECKey temKey = null;
     try {
@@ -2060,17 +2060,17 @@ public class PublicMethed {
 
 
     byte[] owner = ownerAddress;
-    VoteWitnessContract.Builder builder = VoteWitnessContract.newBuilder();
+    VoteExecutiveContract.Builder builder = VoteExecutiveContract.newBuilder();
     builder.setOwnerAddress(ByteString.copyFrom(owner));
-    for (byte[] address : witnessMap.keySet()) {
-      VoteWitnessContract.Vote.Builder voteBuilder = VoteWitnessContract.Vote.newBuilder();
+    for (byte[] address : executiveMap.keySet()) {
+      VoteExecutiveContract.Vote.Builder voteBuilder = VoteExecutiveContract.Vote.newBuilder();
       voteBuilder.setVoteAddress(ByteString.copyFrom(address));
-      voteBuilder.setVoteCount(witnessMap.get(address));
+      voteBuilder.setVoteCount(executiveMap.get(address));
       builder.addVotes(voteBuilder.build());
     }
 
-    VoteWitnessContract contract = builder.build();
-    TransactionExtention transactionExtention = blockingStubFull.voteWitnessAccount2(contract);
+    VoteExecutiveContract contract = builder.build();
+    TransactionExtention transactionExtention = blockingStubFull.voteExecutiveAccount2(contract);
     if (transactionExtention == null) {
       return false;
     }
@@ -4496,21 +4496,21 @@ public class PublicMethed {
   /**
    * constructor.
    */
-  public static Optional<GrpcAPI.WitnessList> listWitnesses(
+  public static Optional<GrpcAPI.ExecutiveList> listExecutives(
       WalletGrpc.WalletBlockingStub blockingStubFull) {
-    GrpcAPI.WitnessList witnessList = blockingStubFull
-        .listWitnesses(EmptyMessage.newBuilder().build());
-    return Optional.ofNullable(witnessList);
+    GrpcAPI.ExecutiveList executiveList = blockingStubFull
+        .listExecutives(EmptyMessage.newBuilder().build());
+    return Optional.ofNullable(executiveList);
   }
 
   /**
    * constructor.
    */
-  public static Optional<GrpcAPI.WitnessList> listWitnessesFromSolidity(
+  public static Optional<GrpcAPI.ExecutiveList> listExecutivesFromSolidity(
       WalletSolidityGrpc.WalletSolidityBlockingStub blockingStubFull) {
-    GrpcAPI.WitnessList witnessList = blockingStubFull
-        .listWitnesses(EmptyMessage.newBuilder().build());
-    return Optional.ofNullable(witnessList);
+    GrpcAPI.ExecutiveList executiveList = blockingStubFull
+        .listExecutives(EmptyMessage.newBuilder().build());
+    return Optional.ofNullable(executiveList);
   }
 
 
@@ -4610,16 +4610,16 @@ public class PublicMethed {
 
     JSONObject permissions = JSONObject.parseObject(permissionJson);
     JSONObject ownerpermission = permissions.getJSONObject("owner_permission");
-    JSONObject witnesspermission = permissions.getJSONObject("witness_permission");
+    JSONObject executivepermission = permissions.getJSONObject("executive_permission");
     JSONArray activepermissions = permissions.getJSONArray("active_permissions");
 
     if (ownerpermission != null) {
       Permission ownerPermission = json2Permission(ownerpermission);
       builder.setOwner(ownerPermission);
     }
-    if (witnesspermission != null) {
-      Permission witnessPermission = json2Permission(witnesspermission);
-      builder.setWitness(witnessPermission);
+    if (executivepermission != null) {
+      Permission executivePermission = json2Permission(executivepermission);
+      builder.setExecutive(executivePermission);
     }
     if (activepermissions != null) {
       List<Permission> activePermissionList = new ArrayList<>();
@@ -5038,16 +5038,16 @@ public class PublicMethed {
 
     JSONObject permissions = JSONObject.parseObject(permissionJson);
     JSONObject ownerpermission = permissions.getJSONObject("owner_permission");
-    JSONObject witnesspermission = permissions.getJSONObject("witness_permission");
+    JSONObject executivepermission = permissions.getJSONObject("executive_permission");
     JSONArray activepermissions = permissions.getJSONArray("active_permissions");
 
     if (ownerpermission != null) {
       Permission ownerPermission = json2Permission(ownerpermission);
       builder.setOwner(ownerPermission);
     }
-    if (witnesspermission != null) {
-      Permission witnessPermission = json2Permission(witnesspermission);
-      builder.setWitness(witnessPermission);
+    if (executivepermission != null) {
+      Permission executivePermission = json2Permission(executivepermission);
+      builder.setExecutive(executivePermission);
     }
     if (activepermissions != null) {
       List<Permission> activePermissionList = new ArrayList<>();
@@ -7105,26 +7105,26 @@ public class PublicMethed {
     final String blackHole = Configuration.getByPath("testng.conf")
         .getString("defaultParameter.blackHoleAddress");
     Long totalCount = 0L;
-    Map<String, Integer> witnessBlockCount = new HashMap<>();
-    Map<String, Long> witnessBrokerage = new HashMap<>();
-    Map<String, Long> witnessVoteCount = new HashMap<>();
-    Map<String, Long> witnessAllowance = new HashMap<>();
-    List<Protocol.Witness> witnessList = PublicMethed.listWitnesses(blockingStubFull)
-        .get().getWitnessesList();
-    for (Protocol.Witness witness : witnessList) {
-      witnessVoteCount.put(ByteArray.toHexString(witness.getAddress().toByteArray()),
-          witness.getVoteCount());
+    Map<String, Integer> executiveBlockCount = new HashMap<>();
+    Map<String, Long> executiveBrokerage = new HashMap<>();
+    Map<String, Long> executiveVoteCount = new HashMap<>();
+    Map<String, Long> executiveAllowance = new HashMap<>();
+    List<Protocol.Executive> executiveList = PublicMethed.listExecutives(blockingStubFull)
+        .get().getExecutivesList();
+    for (Protocol.Executive executive : executiveList) {
+      executiveVoteCount.put(ByteArray.toHexString(executive.getAddress().toByteArray()),
+          executive.getVoteCount());
       GrpcAPI.BytesMessage bytesMessage = GrpcAPI.BytesMessage.newBuilder()
-          .setValue(witness.getAddress()).build();
+          .setValue(executive.getAddress()).build();
       Long brokerager = blockingStubFull.getBrokerageInfo(bytesMessage).getNum();
-      witnessBrokerage.put(ByteArray.toHexString(witness.getAddress().toByteArray()), brokerager);
-      totalCount += witness.getVoteCount();
+      executiveBrokerage.put(ByteArray.toHexString(executive.getAddress().toByteArray()), brokerager);
+      totalCount += executive.getVoteCount();
     }
     Optional<Protocol.TransactionInfo> infoById = null;
     for (Long k = startNum; k < endNum; k++) {
-      String witnessAdd = ByteArray.toHexString(PublicMethed.getBlock(k, blockingStubFull)
-          .getBlockHeader().getRawData().getWitnessAddress().toByteArray());
-      witnessBlockCount.put(witnessAdd, witnessBlockCount.getOrDefault(witnessAdd, 0) + 1);
+      String executiveAdd = ByteArray.toHexString(PublicMethed.getBlock(k, blockingStubFull)
+          .getBlockHeader().getRawData().getExecutiveAddress().toByteArray());
+      executiveBlockCount.put(executiveAdd, executiveBlockCount.getOrDefault(executiveAdd, 0) + 1);
       List<Transaction> transList = PublicMethed.getBlock(k,
           blockingStubFull).getTransactionsList();
       for (Transaction tem : transList) {
@@ -7135,7 +7135,7 @@ public class PublicMethed {
         infoById = PublicMethed.getTransactionInfoById(txid, blockingStubFull);
         Long packingFee = infoById.get().getPackingFee();
 
-        witnessAllowance.put(witnessAdd, witnessAllowance.getOrDefault(witnessAdd, 0L)
+        executiveAllowance.put(executiveAdd, executiveAllowance.getOrDefault(executiveAdd, 0L)
             + packingFee);
       }
     }
@@ -7144,43 +7144,43 @@ public class PublicMethed {
     List<Protocol.ChainParameters.ChainParameter> chainParaList =
         blockingStubFull.getChainParameters(EmptyMessage.newBuilder().build())
             .getChainParameterList();
-    Long witness127PayPerBlock = 0L;
-    Long witnessPayPerBlock = 0L;
+    Long executive127PayPerBlock = 0L;
+    Long executivePayPerBlock = 0L;
     for (Protocol.ChainParameters.ChainParameter para : chainParaList) {
-      if ("getWitness127PayPerBlock".equals(para.getKey())) {
-        witness127PayPerBlock = para.getValue();
+      if ("getExecutive127PayPerBlock".equals(para.getKey())) {
+        executive127PayPerBlock = para.getValue();
       }
-      if ("getWitnessPayPerBlock".equals(para.getKey())) {
-        witnessPayPerBlock = para.getValue();
+      if ("getExecutivePayPerBlock".equals(para.getKey())) {
+        executivePayPerBlock = para.getValue();
       }
     }
-    logger.info("witness127PayPerBlock:" + witness127PayPerBlock
-        + "\n witnessPayPerBlock:" + witnessPayPerBlock);
+    logger.info("executive127PayPerBlock:" + executive127PayPerBlock
+        + "\n executivePayPerBlock:" + executivePayPerBlock);
 
-    for (Map.Entry<String, Long> entry : witnessBrokerage.entrySet()) {
-      logger.info("-----witnessBrokerage   " + entry.getKey() + " : " + entry.getValue());
+    for (Map.Entry<String, Long> entry : executiveBrokerage.entrySet()) {
+      logger.info("-----executiveBrokerage   " + entry.getKey() + " : " + entry.getValue());
     }
-    for (Map.Entry<String, Long> entry : witnessVoteCount.entrySet()) {
-      logger.info("-----witnessVoteCount   " + entry.getKey() + " : " + entry.getValue());
+    for (Map.Entry<String, Long> entry : executiveVoteCount.entrySet()) {
+      logger.info("-----executiveVoteCount   " + entry.getKey() + " : " + entry.getValue());
     }
-    for (Map.Entry<String, Integer> entry : witnessBlockCount.entrySet()) {
-      logger.info("-----witnessBlockCount   " + entry.getKey() + " : " + entry.getValue());
+    for (Map.Entry<String, Integer> entry : executiveBlockCount.entrySet()) {
+      logger.info("-----executiveBlockCount   " + entry.getKey() + " : " + entry.getValue());
     }
 
-    for (Map.Entry<String, Long> entry : witnessVoteCount.entrySet()) {
-      String witnessAdd = entry.getKey();
-      logger.info("----witnessAdd:" + witnessAdd + " block count:"
-          + witnessBlockCount.get(witnessAdd)
-          + "    all: " + witnessAllowance.getOrDefault(witnessAdd, 0L));
-      Long pay = (witnessBlockCount.get(witnessAdd) * witnessPayPerBlock
-          + (endNum - startNum) * witness127PayPerBlock * entry.getValue() / totalCount
-          + witnessAllowance.getOrDefault(witnessAdd, 0L))
-          * witnessBrokerage.get(witnessAdd) / 100;
+    for (Map.Entry<String, Long> entry : executiveVoteCount.entrySet()) {
+      String executiveAdd = entry.getKey();
+      logger.info("----executiveAdd:" + executiveAdd + " block count:"
+          + executiveBlockCount.get(executiveAdd)
+          + "    all: " + executiveAllowance.getOrDefault(executiveAdd, 0L));
+      Long pay = (executiveBlockCount.get(executiveAdd) * executivePayPerBlock
+          + (endNum - startNum) * executive127PayPerBlock * entry.getValue() / totalCount
+          + executiveAllowance.getOrDefault(executiveAdd, 0L))
+          * executiveBrokerage.get(executiveAdd) / 100;
 
-      witnessAllowance.put(witnessAdd, pay);
-      logger.info("******  " + witnessAdd + " : " + pay);
+      executiveAllowance.put(executiveAdd, pay);
+      logger.info("******  " + executiveAdd + " : " + pay);
     }
-    return witnessAllowance;
+    return executiveAllowance;
   }
 
   public static String getContractStringMsg(byte[] contractMsgArray) {

@@ -21,7 +21,7 @@ import org.stabila.consensus.pbft.PbftManager;
 import org.stabila.core.capsule.AccountCapsule;
 import org.stabila.core.capsule.BlockCapsule;
 import org.stabila.core.capsule.VotesCapsule;
-import org.stabila.core.capsule.WitnessCapsule;
+import org.stabila.core.capsule.ExecutiveCapsule;
 import org.stabila.core.store.DelegationStore;
 import org.stabila.core.store.DynamicPropertiesStore;
 import org.stabila.core.store.VotesStore;
@@ -43,14 +43,14 @@ public class MaintenanceManager {
   private PbftManager pbftManager;
 
   @Getter
-  private final List<ByteString> beforeWitness = new ArrayList<>();
+  private final List<ByteString> beforeExecutive = new ArrayList<>();
   @Getter
-  private final List<ByteString> currentWitness = new ArrayList<>();
+  private final List<ByteString> currentExecutive = new ArrayList<>();
   @Getter
   private long beforeMaintenanceTime;
 
   public void init() {
-    currentWitness.addAll(consensusDelegate.getActiveWitnesses());
+    currentExecutive.addAll(consensusDelegate.getActiveExecutives());
   }
 
   public void applyBlock(BlockCapsule blockCapsule) {
@@ -60,15 +60,15 @@ public class MaintenanceManager {
     boolean flag = consensusDelegate.getNextMaintenanceTime() <= blockTime;
     if (flag) {
       if (blockNum != 1) {
-        updateWitnessValue(beforeWitness);
+        updateExecutiveValue(beforeExecutive);
         beforeMaintenanceTime = nextMaintenanceTime;
         doMaintenance();
-        updateWitnessValue(currentWitness);
+        updateExecutiveValue(currentExecutive);
       }
       consensusDelegate.updateNextMaintenanceTime(blockTime);
       if (blockNum != 1) {
         //pbft sr msg
-        pbftManager.srPrePrepare(blockCapsule, currentWitness,
+        pbftManager.srPrePrepare(blockCapsule, currentExecutive,
             consensusDelegate.getNextMaintenanceTime());
       }
     }
@@ -80,9 +80,9 @@ public class MaintenanceManager {
     pbftManager.blockPrePrepare(blockCapsule, nextMaintenanceTime);
   }
 
-  private void updateWitnessValue(List<ByteString> srList) {
+  private void updateExecutiveValue(List<ByteString> srList) {
     srList.clear();
-    srList.addAll(consensusDelegate.getActiveWitnesses());
+    srList.addAll(consensusDelegate.getActiveExecutives());
   }
 
   public void doMaintenance() {
@@ -94,56 +94,56 @@ public class MaintenanceManager {
     DelegationStore delegationStore = consensusDelegate.getDelegationStore();
     if (dynamicPropertiesStore.useNewRewardAlgorithm()) {
       long curCycle = dynamicPropertiesStore.getCurrentCycleNumber();
-      consensusDelegate.getAllWitnesses().forEach(witness -> {
-        delegationStore.accumulateWitnessVi(curCycle, witness.createDbKey(), witness.getVoteCount());
+      consensusDelegate.getAllExecutives().forEach(executive -> {
+        delegationStore.accumulateExecutiveVi(curCycle, executive.createDbKey(), executive.getVoteCount());
       });
     }
 
-    Map<ByteString, Long> countWitness = countVote(votesStore);
-    if (!countWitness.isEmpty()) {
-      List<ByteString> currentWits = consensusDelegate.getActiveWitnesses();
+    Map<ByteString, Long> countExecutive = countVote(votesStore);
+    if (!countExecutive.isEmpty()) {
+      List<ByteString> currentWits = consensusDelegate.getActiveExecutives();
 
-      List<ByteString> newWitnessAddressList = new ArrayList<>();
-      consensusDelegate.getAllWitnesses()
-          .forEach(witnessCapsule -> newWitnessAddressList.add(witnessCapsule.getAddress()));
+      List<ByteString> newExecutiveAddressList = new ArrayList<>();
+      consensusDelegate.getAllExecutives()
+          .forEach(executiveCapsule -> newExecutiveAddressList.add(executiveCapsule.getAddress()));
 
-      countWitness.forEach((address, voteCount) -> {
-        byte[] witnessAddress = address.toByteArray();
-        WitnessCapsule witnessCapsule = consensusDelegate.getWitness(witnessAddress);
-        if (witnessCapsule == null) {
-          logger.warn("Witness capsule is null. address is {}", Hex.toHexString(witnessAddress));
+      countExecutive.forEach((address, voteCount) -> {
+        byte[] executiveAddress = address.toByteArray();
+        ExecutiveCapsule executiveCapsule = consensusDelegate.getExecutive(executiveAddress);
+        if (executiveCapsule == null) {
+          logger.warn("Executive capsule is null. address is {}", Hex.toHexString(executiveAddress));
           return;
         }
-        AccountCapsule account = consensusDelegate.getAccount(witnessAddress);
+        AccountCapsule account = consensusDelegate.getAccount(executiveAddress);
         if (account == null) {
-          logger.warn("Witness account is null. address is {}", Hex.toHexString(witnessAddress));
+          logger.warn("Executive account is null. address is {}", Hex.toHexString(executiveAddress));
           return;
         }
-        witnessCapsule.setVoteCount(witnessCapsule.getVoteCount() + voteCount);
-        consensusDelegate.saveWitness(witnessCapsule);
-        logger.info("address is {} , countVote is {}", witnessCapsule.createReadableString(),
-            witnessCapsule.getVoteCount());
+        executiveCapsule.setVoteCount(executiveCapsule.getVoteCount() + voteCount);
+        consensusDelegate.saveExecutive(executiveCapsule);
+        logger.info("address is {} , countVote is {}", executiveCapsule.createReadableString(),
+            executiveCapsule.getVoteCount());
       });
 
-      dposService.updateWitness(newWitnessAddressList);
+      dposService.updateExecutive(newExecutiveAddressList);
 
-      incentiveManager.reward(newWitnessAddressList);
+      incentiveManager.reward(newExecutiveAddressList);
 
-      List<ByteString> newWits = consensusDelegate.getActiveWitnesses();
+      List<ByteString> newWits = consensusDelegate.getActiveExecutives();
       if (!CollectionUtils.isEqualCollection(currentWits, newWits)) {
         currentWits.forEach(address -> {
-          WitnessCapsule witnessCapsule = consensusDelegate.getWitness(address.toByteArray());
-          witnessCapsule.setIsJobs(false);
-          consensusDelegate.saveWitness(witnessCapsule);
+          ExecutiveCapsule executiveCapsule = consensusDelegate.getExecutive(address.toByteArray());
+          executiveCapsule.setIsJobs(false);
+          consensusDelegate.saveExecutive(executiveCapsule);
         });
         newWits.forEach(address -> {
-          WitnessCapsule witnessCapsule = consensusDelegate.getWitness(address.toByteArray());
-          witnessCapsule.setIsJobs(true);
-          consensusDelegate.saveWitness(witnessCapsule);
+          ExecutiveCapsule executiveCapsule = consensusDelegate.getExecutive(address.toByteArray());
+          executiveCapsule.setIsJobs(true);
+          consensusDelegate.saveExecutive(executiveCapsule);
         });
       }
 
-      logger.info("Update witness success. \nbefore: {} \nafter: {}",
+      logger.info("Update executive success. \nbefore: {} \nafter: {}",
           getAddressStringList(currentWits),
           getAddressStringList(newWits));
     }
@@ -151,16 +151,16 @@ public class MaintenanceManager {
     if (dynamicPropertiesStore.allowChangeDelegation()) {
       long nextCycle = dynamicPropertiesStore.getCurrentCycleNumber() + 1;
       dynamicPropertiesStore.saveCurrentCycleNumber(nextCycle);
-      consensusDelegate.getAllWitnesses().forEach(witness -> {
-        delegationStore.setBrokerage(nextCycle, witness.createDbKey(),
-            delegationStore.getBrokerage(witness.createDbKey()));
-        delegationStore.setWitnessVote(nextCycle, witness.createDbKey(), witness.getVoteCount());
+      consensusDelegate.getAllExecutives().forEach(executive -> {
+        delegationStore.setBrokerage(nextCycle, executive.createDbKey(),
+            delegationStore.getBrokerage(executive.createDbKey()));
+        delegationStore.setExecutiveVote(nextCycle, executive.createDbKey(), executive.getVoteCount());
       });
     }
   }
 
   private Map<ByteString, Long> countVote(VotesStore votesStore) {
-    final Map<ByteString, Long> countWitness = Maps.newHashMap();
+    final Map<ByteString, Long> countExecutive = Maps.newHashMap();
     Iterator<Entry<byte[], VotesCapsule>> dbIterator = votesStore.iterator();
     long sizeCount = 0;
     while (dbIterator.hasNext()) {
@@ -169,36 +169,36 @@ public class MaintenanceManager {
       votes.getOldVotes().forEach(vote -> {
         ByteString voteAddress = vote.getVoteAddress();
         long voteCount = vote.getVoteCount();
-        if (countWitness.containsKey(voteAddress)) {
-          countWitness.put(voteAddress, countWitness.get(voteAddress) - voteCount);
+        if (countExecutive.containsKey(voteAddress)) {
+          countExecutive.put(voteAddress, countExecutive.get(voteAddress) - voteCount);
         } else {
-          countWitness.put(voteAddress, -voteCount);
+          countExecutive.put(voteAddress, -voteCount);
         }
       });
       votes.getNewVotes().forEach(vote -> {
         ByteString voteAddress = vote.getVoteAddress();
         long voteCount = vote.getVoteCount();
-        if (countWitness.containsKey(voteAddress)) {
-          countWitness.put(voteAddress, countWitness.get(voteAddress) + voteCount);
+        if (countExecutive.containsKey(voteAddress)) {
+          countExecutive.put(voteAddress, countExecutive.get(voteAddress) + voteCount);
         } else {
-          countWitness.put(voteAddress, voteCount);
+          countExecutive.put(voteAddress, voteCount);
         }
       });
       sizeCount++;
       votesStore.delete(next.getKey());
     }
     logger.info("There is {} new votes in this epoch", sizeCount);
-    return countWitness;
+    return countExecutive;
   }
 
   private void tryRemoveThePowerOfTheGr() {
     if (consensusDelegate.getRemoveThePowerOfTheGr() != 1) {
       return;
     }
-    dposService.getGenesisBlock().getWitnesses().forEach(witness -> {
-      WitnessCapsule witnessCapsule = consensusDelegate.getWitness(witness.getAddress());
-      witnessCapsule.setVoteCount(witnessCapsule.getVoteCount() - witness.getVoteCount());
-      consensusDelegate.saveWitness(witnessCapsule);
+    dposService.getGenesisBlock().getExecutives().forEach(executive -> {
+      ExecutiveCapsule executiveCapsule = consensusDelegate.getExecutive(executive.getAddress());
+      executiveCapsule.setVoteCount(executiveCapsule.getVoteCount() - executive.getVoteCount());
+      consensusDelegate.saveExecutive(executiveCapsule);
     });
     consensusDelegate.saveRemoveThePowerOfTheGr(-1);
   }

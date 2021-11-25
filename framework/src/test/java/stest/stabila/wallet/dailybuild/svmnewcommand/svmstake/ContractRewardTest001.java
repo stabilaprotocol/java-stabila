@@ -32,8 +32,8 @@ public class ContractRewardTest001 {
       .getLong("defaultParameter.maxFeeLimit");
   private String fullnode = Configuration.getByPath("testng.conf").getStringList("fullnode.ip.list")
       .get(0);
-  private String witnessKey = Configuration.getByPath("testng.conf").getString("witness.key1");
-  private String witnessAddress = PublicMethed.getAddressString(witnessKey);
+  private String executiveKey = Configuration.getByPath("testng.conf").getString("executive.key1");
+  private String executiveAddress = PublicMethed.getAddressString(executiveKey);
 
   private ManagedChannel channelFull = null;
   private WalletGrpc.WalletBlockingStub blockingStubFull = null;
@@ -68,19 +68,19 @@ public class ContractRewardTest001 {
     PublicMethed.waitProduceNextBlock(blockingStubFull);
 
     PublicMethed.triggerContract(contractAddress,"Stake(address,uint256)",
-        "\"" + witnessAddress + "\",10000000",false,0,maxFeeLimit,
+        "\"" + executiveAddress + "\",10000000",false,0,maxFeeLimit,
         testFoundationAddress, testFoundationKey,blockingStubFull);
   }
 
   @Test(enabled = false,description = "querry SR account, reward should equal to gerRewardInfo")
   void rewardbalanceTest001() {
     BytesMessage bytesMessage = BytesMessage.newBuilder().setValue(ByteString
-        .copyFrom(PublicMethed.getFinalAddress(witnessKey)))
+        .copyFrom(PublicMethed.getFinalAddress(executiveKey)))
         .build();
     long reward = blockingStubFull.getRewardInfo(bytesMessage).getNum();
 
     String methedStr = "rewardBalance(address)";
-    String argStr = "\"" + witnessAddress + "\"";
+    String argStr = "\"" + executiveAddress + "\"";
     TransactionExtention txen = PublicMethed.triggerConstantContractForExtention(contractAddress,
         methedStr,argStr,false,0,maxFeeLimit,"0",0,testAddress001,testKey001,blockingStubFull);
     System.out.println(txen);

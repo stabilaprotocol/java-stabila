@@ -95,7 +95,7 @@ import org.stabila.api.GrpcAPI.TransactionApprovedList;
 import org.stabila.api.GrpcAPI.TransactionExtention;
 import org.stabila.api.GrpcAPI.TransactionExtention.Builder;
 import org.stabila.api.GrpcAPI.TransactionInfoList;
-import org.stabila.api.GrpcAPI.WitnessList;
+import org.stabila.api.GrpcAPI.ExecutiveList;
 import org.stabila.common.crypto.Hash;
 import org.stabila.common.crypto.SignInterface;
 import org.stabila.common.crypto.SignUtils;
@@ -144,7 +144,7 @@ import org.stabila.core.capsule.TransactionCapsule;
 import org.stabila.core.capsule.TransactionInfoCapsule;
 import org.stabila.core.capsule.TransactionResultCapsule;
 import org.stabila.core.capsule.TransactionRetCapsule;
-import org.stabila.core.capsule.WitnessCapsule;
+import org.stabila.core.capsule.ExecutiveCapsule;
 import org.stabila.core.capsule.utils.MarketUtils;
 import org.stabila.core.config.args.Args;
 import org.stabila.core.db.BandwidthProcessor;
@@ -665,11 +665,11 @@ public class Wallet {
     return count;
   }
 
-  public WitnessList getWitnessList() {
-    WitnessList.Builder builder = WitnessList.newBuilder();
-    List<WitnessCapsule> witnessCapsuleList = chainBaseManager.getWitnessStore().getAllWitnesses();
-    witnessCapsuleList
-            .forEach(witnessCapsule -> builder.addWitnesses(witnessCapsule.getInstance()));
+  public ExecutiveList getExecutiveList() {
+    ExecutiveList.Builder builder = ExecutiveList.newBuilder();
+    List<ExecutiveCapsule> executiveCapsuleList = chainBaseManager.getExecutiveStore().getAllExecutives();
+    executiveCapsuleList
+            .forEach(executiveCapsule -> builder.addExecutives(executiveCapsule.getInstance()));
     return builder.build();
   }
 
@@ -749,17 +749,17 @@ public class Wallet {
                     .setKey("getAssetIssueFee")
                     .setValue(chainBaseManager.getDynamicPropertiesStore().getAssetIssueFee())
                     .build());
-    //    WITNESS_PAY_PER_BLOCK, //UNIT ,5
+    //    EXECUTIVE_PAY_PER_BLOCK, //UNIT ,5
     builder.addChainParameter(
             Protocol.ChainParameters.ChainParameter.newBuilder()
-                    .setKey("getWitnessPayPerBlock")
-                    .setValue(chainBaseManager.getDynamicPropertiesStore().getWitnessPayPerBlock())
+                    .setKey("getExecutivePayPerBlock")
+                    .setValue(chainBaseManager.getDynamicPropertiesStore().getExecutivePayPerBlock())
                     .build());
-    //    WITNESS_STANDBY_ALLOWANCE, //UNIT ,6
+    //    EXECUTIVE_STANDBY_ALLOWANCE, //UNIT ,6
     builder.addChainParameter(
             Protocol.ChainParameters.ChainParameter.newBuilder()
-                    .setKey("getWitnessStandbyAllowance")
-                    .setValue(chainBaseManager.getDynamicPropertiesStore().getWitnessStandbyAllowance())
+                    .setKey("getExecutiveStandbyAllowance")
+                    .setValue(chainBaseManager.getDynamicPropertiesStore().getExecutiveStandbyAllowance())
                     .build());
     //    CREATE_NEW_ACCOUNT_FEE_IN_SYSTEM_CONTRACT, //UNIT ,7
     builder.addChainParameter(
@@ -952,8 +952,8 @@ public class Wallet {
             .build());
 
     builder.addChainParameter(Protocol.ChainParameters.ChainParameter.newBuilder()
-            .setKey("getWitness127PayPerBlock")
-            .setValue(chainBaseManager.getDynamicPropertiesStore().getWitness127PayPerBlock())
+            .setKey("getExecutive100PayPerBlock")
+            .setValue(chainBaseManager.getDynamicPropertiesStore().getExecutive100PayPerBlock())
             .build());
 
     builder.addChainParameter(
@@ -1426,7 +1426,7 @@ public class Wallet {
   }
 
   //in:outPoint, out:blockNumber
-  private IncrementalMerkleVoucherContainer createWitness(OutputPoint outPoint, Long blockNumber)
+  private IncrementalMerkleVoucherContainer createExecutive(OutputPoint outPoint, Long blockNumber)
           throws ItemNotFoundException, BadItemException,
           InvalidProtocolBufferException, ZksnarkException {
     if (!getFullNodeAllowShieldedTransaction()) {
@@ -1456,9 +1456,9 @@ public class Wallet {
     //Get the block of blockNum
     BlockCapsule block = chainBaseManager.getBlockByNum(blockNumber);
 
-    IncrementalMerkleVoucherContainer witness = null;
+    IncrementalMerkleVoucherContainer executive = null;
 
-    //get the witness in three parts
+    //get the executive in three parts
     boolean found = false;
     for (Transaction transaction : block.getInstance().getTransactionsList()) {
 
@@ -1486,13 +1486,13 @@ public class Wallet {
               tree.append(cm);
             } else if (outPoint.getIndex() == index) {
               tree.append(cm);
-              witness = tree.getTreeCapsule().deepCopy()
+              executive = tree.getTreeCapsule().deepCopy()
                       .toMerkleTreeContainer().toVoucher();
             } else {
-              if (witness != null) {
-                witness.append(cm);
+              if (executive != null) {
+                executive.append(cm);
               } else {
-                throw new ZksnarkException("witness is null!");
+                throw new ZksnarkException("executive is null!");
               }
             }
 
@@ -1505,8 +1505,8 @@ public class Wallet {
             PedersenHashCapsule cmCapsule = new PedersenHashCapsule();
             cmCapsule.setContent(receiveDescription.getNoteCommitment());
             PedersenHash cm = cmCapsule.getInstance();
-            if (witness != null) {
-              witness.append(cm);
+            if (executive != null) {
+              executive.append(cm);
             } else {
               tree.append(cm);
             }
@@ -1520,11 +1520,11 @@ public class Wallet {
       throw new RuntimeException("cm not found");
     }
 
-    return witness;
+    return executive;
 
   }
 
-  private void updateWitnesses(List<IncrementalMerkleVoucherContainer> witnessList, long large,
+  private void updateExecutives(List<IncrementalMerkleVoucherContainer> executiveList, long large,
                                int synBlockNum) throws ItemNotFoundException, BadItemException,
           InvalidProtocolBufferException, ZksnarkException {
     if (!getFullNodeAllowShieldedTransaction()) {
@@ -1557,7 +1557,7 @@ public class Wallet {
             PedersenHashCapsule cmCapsule = new PedersenHashCapsule();
             cmCapsule.setContent(receiveDescription.getNoteCommitment());
             PedersenHash cm = cmCapsule.getInstance();
-            for (IncrementalMerkleVoucherContainer wit : witnessList) {
+            for (IncrementalMerkleVoucherContainer wit : executiveList) {
               wit.append(cm);
             }
           }
@@ -1567,7 +1567,7 @@ public class Wallet {
     }
   }
 
-  private void updateLowWitness(IncrementalMerkleVoucherContainer witness, long blockNum1,
+  private void updateLowExecutive(IncrementalMerkleVoucherContainer executive, long blockNum1,
                                 long blockNum2) throws ItemNotFoundException, BadItemException,
           InvalidProtocolBufferException, ZksnarkException {
     long start;
@@ -1595,7 +1595,7 @@ public class Wallet {
             PedersenHashCapsule cmCapsule = new PedersenHashCapsule();
             cmCapsule.setContent(receiveDescription.getNoteCommitment());
             PedersenHash cm = cmCapsule.getInstance();
-            witness.append(cm);
+            executive.append(cm);
           }
 
         }
@@ -1648,7 +1648,7 @@ public class Wallet {
     logger.debug("largeBlockNum:" + largeBlockNum);
     int opIndex = 0;
 
-    List<IncrementalMerkleVoucherContainer> witnessList = Lists.newArrayList();
+    List<IncrementalMerkleVoucherContainer> executiveList = Lists.newArrayList();
     for (OutputPoint outputPoint : request.getOutPointsList()) {
       Long blockNum1 = getBlockNumber(outputPoint);
       logger.debug("blockNum:" + blockNum1 + ", opIndex:" + opIndex++);
@@ -1656,19 +1656,19 @@ public class Wallet {
         throw new RuntimeException(
                 "blockNum:" + blockNum1 + " + 100 < largeBlockNum:" + largeBlockNum);
       }
-      IncrementalMerkleVoucherContainer witness = createWitness(outputPoint, blockNum1);
-      updateLowWitness(witness, blockNum1, largeBlockNum);
-      witnessList.add(witness);
+      IncrementalMerkleVoucherContainer executive = createExecutive(outputPoint, blockNum1);
+      updateLowExecutive(executive, blockNum1, largeBlockNum);
+      executiveList.add(executive);
     }
 
     int synBlockNum = request.getBlockNum();
     if (synBlockNum != 0) {
       // According to the blockNum in the request, obtain the block before [block2+1,
-      // blockNum], and update the two witnesses.
-      updateWitnesses(witnessList, largeBlockNum + 1, synBlockNum);
+      // blockNum], and update the two executives.
+      updateExecutives(executiveList, largeBlockNum + 1, synBlockNum);
     }
 
-    for (IncrementalMerkleVoucherContainer w : witnessList) {
+    for (IncrementalMerkleVoucherContainer w : executiveList) {
       w.getVoucherCapsule().resetRt();
       result.addVouchers(w.getVoucherCapsule().getInstance());
       result.addPaths(ByteString.copyFrom(w.path().encode()));

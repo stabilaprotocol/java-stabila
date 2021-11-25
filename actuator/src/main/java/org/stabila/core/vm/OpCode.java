@@ -592,7 +592,7 @@ public enum OpCode {
 
   CDEXPIRETIME(0xd7, 2, 1, OpCode.Tier.ExtTier),
 
-  VOTEWITNESS(0xd8, 4, 1, OpCode.Tier.ExtTier),
+  VOTEEXECUTIVE(0xd8, 4, 1, OpCode.Tier.ExtTier),
 
   WITHDRAWREWARD(0xd9, 0, 1, OpCode.Tier.ExtTier),
 

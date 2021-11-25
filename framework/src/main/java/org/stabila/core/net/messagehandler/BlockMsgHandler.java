@@ -20,7 +20,7 @@ import org.stabila.core.net.peer.Item;
 import org.stabila.core.net.peer.PeerConnection;
 import org.stabila.core.net.service.AdvService;
 import org.stabila.core.net.service.SyncService;
-import org.stabila.core.services.WitnessProductBlockService;
+import org.stabila.core.services.ExecutiveProductBlockService;
 import org.stabila.protos.Protocol.Inventory.InventoryType;
 
 @Slf4j(topic = "net")
@@ -37,7 +37,7 @@ public class BlockMsgHandler implements StabilaMsgHandler {
   private SyncService syncService;
 
   @Autowired
-  private WitnessProductBlockService witnessProductBlockService;
+  private ExecutiveProductBlockService executiveProductBlockService;
 
   private int maxBlockSize = BLOCK_SIZE + Constant.ONE_THOUSAND;
 
@@ -63,7 +63,7 @@ public class BlockMsgHandler implements StabilaMsgHandler {
       processBlock(peer, blockMessage.getBlockCapsule());
       logger.info(
           "Receive block/interval {}/{} from {} fetch/delay {}/{}ms, "
-              + "txs/process {}/{}ms, witness: {}",
+              + "txs/process {}/{}ms, executive: {}",
           blockId.getNum(),
           interval,
           peer.getInetAddress(),
@@ -71,7 +71,7 @@ public class BlockMsgHandler implements StabilaMsgHandler {
           now - blockMessage.getBlockCapsule().getTimeStamp(),
           ((BlockMessage) msg).getBlockCapsule().getTransactions().size(),
           System.currentTimeMillis() - now,
-          Hex.toHexString(blockMessage.getBlockCapsule().getWitnessAddress().toByteArray()));
+          Hex.toHexString(blockMessage.getBlockCapsule().getExecutiveAddress().toByteArray()));
     }
   }
 
@@ -119,7 +119,7 @@ public class BlockMsgHandler implements StabilaMsgHandler {
     }
 
     stabilaNetDelegate.processBlock(block, false);
-    witnessProductBlockService.validWitnessProductTwoBlock(block);
+    executiveProductBlockService.validExecutiveProductTwoBlock(block);
     stabilaNetDelegate.getActivePeer().forEach(p -> {
       if (p.getAdvInvReceive().getIfPresent(blockId) != null) {
         p.setBlockBothHave(blockId);

@@ -72,12 +72,12 @@ public class GetNowBlock2Test {
     GrpcAPI.BlockExtention currentBlock = blockingStubFull
         .getNowBlock2(GrpcAPI.EmptyMessage.newBuilder().build());
     Assert.assertTrue(currentBlock.hasBlockHeader());
-    Assert.assertFalse(currentBlock.getBlockHeader().getWitnessSignature().isEmpty());
+    Assert.assertFalse(currentBlock.getBlockHeader().getExecutiveSignature().isEmpty());
     Assert.assertTrue(currentBlock.getBlockHeader().getRawData().getTimestamp() > 0);
-    Assert.assertFalse(currentBlock.getBlockHeader().getRawData().getWitnessAddress().isEmpty());
+    Assert.assertFalse(currentBlock.getBlockHeader().getRawData().getExecutiveAddress().isEmpty());
     Assert.assertTrue(currentBlock.getBlockHeader().getRawData().getNumber() > 0);
     Assert.assertFalse(currentBlock.getBlockHeader().getRawData().getParentHash().isEmpty());
-    Assert.assertTrue(currentBlock.getBlockHeader().getRawData().getWitnessId() >= 0);
+    Assert.assertTrue(currentBlock.getBlockHeader().getRawData().getExecutiveId() >= 0);
     logger.info("test getcurrentblock is " + Long
         .toString(currentBlock.getBlockHeader().getRawData().getNumber()));
     Assert.assertFalse(currentBlock.getBlockid().isEmpty());
@@ -100,12 +100,12 @@ public class GetNowBlock2Test {
     GrpcAPI.BlockExtention currentBlock = blockingStubSolidity
         .getNowBlock2(GrpcAPI.EmptyMessage.newBuilder().build());
     Assert.assertTrue(currentBlock.hasBlockHeader());
-    Assert.assertFalse(currentBlock.getBlockHeader().getWitnessSignature().isEmpty());
+    Assert.assertFalse(currentBlock.getBlockHeader().getExecutiveSignature().isEmpty());
     Assert.assertTrue(currentBlock.getBlockHeader().getRawData().getTimestamp() > 0);
-    Assert.assertFalse(currentBlock.getBlockHeader().getRawData().getWitnessAddress().isEmpty());
+    Assert.assertFalse(currentBlock.getBlockHeader().getRawData().getExecutiveAddress().isEmpty());
     Assert.assertTrue(currentBlock.getBlockHeader().getRawData().getNumber() > 0);
     Assert.assertFalse(currentBlock.getBlockHeader().getRawData().getParentHash().isEmpty());
-    Assert.assertTrue(currentBlock.getBlockHeader().getRawData().getWitnessId() >= 0);
+    Assert.assertTrue(currentBlock.getBlockHeader().getRawData().getExecutiveId() >= 0);
     logger.info("test getcurrentblock in soliditynode is " + Long
         .toString(currentBlock.getBlockHeader().getRawData().getNumber()));
   }

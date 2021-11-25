@@ -1,7 +1,7 @@
 package org.stabila.core.capsule;
 
 import static org.stabila.common.utils.WalletUtil.getAddressStringList;
-import static org.stabila.core.config.Parameter.ChainConstant.MAX_ACTIVE_WITNESS_NUM;
+import static org.stabila.core.config.Parameter.ChainConstant.MAX_ACTIVE_EXECUTIVE_NUM;
 
 import com.google.common.collect.Lists;
 import com.google.protobuf.ByteString;
@@ -153,17 +153,17 @@ public class ProposalCapsule implements ProtoCapsule<Proposal> {
     return this.proposal;
   }
 
-  public boolean hasMostApprovals(List<ByteString> activeWitnesses) {
+  public boolean hasMostApprovals(List<ByteString> activeExecutives) {
     long count = this.proposal.getApprovalsList().stream()
-        .filter(witness -> activeWitnesses.contains(witness)).count();
+        .filter(executive -> activeExecutives.contains(executive)).count();
     if (count != this.proposal.getApprovalsCount()) {
       List<ByteString> InvalidApprovalList = this.proposal.getApprovalsList().stream()
-          .filter(witness -> !activeWitnesses.contains(witness)).collect(Collectors.toList());
+          .filter(executive -> !activeExecutives.contains(executive)).collect(Collectors.toList());
       logger.info("InvalidApprovalList:" + getAddressStringList(InvalidApprovalList));
     }
-    if (activeWitnesses.size() != MAX_ACTIVE_WITNESS_NUM) {
-      logger.info("activeWitnesses size = {}", activeWitnesses.size());
+    if (activeExecutives.size() != MAX_ACTIVE_EXECUTIVE_NUM) {
+      logger.info("activeExecutives size = {}", activeExecutives.size());
     }
-    return count >= activeWitnesses.size() * 7 / 10;
+    return count >= activeExecutives.size() * 7 / 10;
   }
 }

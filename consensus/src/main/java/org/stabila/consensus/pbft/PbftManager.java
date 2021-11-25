@@ -53,17 +53,17 @@ public class PbftManager {
     }
   }
 
-  public void srPrePrepare(BlockCapsule block, List<ByteString> currentWitness, long epoch) {
+  public void srPrePrepare(BlockCapsule block, List<ByteString> currentExecutive, long epoch) {
     if (!chainBaseManager.getDynamicPropertiesStore().allowPBFT()) {
       return;
     }
     if (!pbftMessageHandle.isSyncing()) {
       if (Param.getInstance().isEnable()) {
         for (Miner miner : pbftMessageHandle.getSrMinerList()) {
-          doAction(PbftMessage.prePrepareSRLMsg(block, currentWitness, epoch, miner));
+          doAction(PbftMessage.prePrepareSRLMsg(block, currentExecutive, epoch, miner));
         }
       } else {
-        doAction(PbftMessage.fullNodePrePrepareSRLMsg(block, currentWitness, epoch));
+        doAction(PbftMessage.fullNodePrePrepareSRLMsg(block, currentExecutive, epoch));
       }
     }
   }
@@ -102,13 +102,13 @@ public class PbftManager {
 
   public boolean verifyMsg(PbftBaseMessage msg) {
     long epoch = msg.getPbftMessage().getRawData().getEpoch();
-    List<ByteString> witnessList;
+    List<ByteString> executiveList;
     if (epoch > maintenanceManager.getBeforeMaintenanceTime()) {
-      witnessList = maintenanceManager.getCurrentWitness();
+      executiveList = maintenanceManager.getCurrentExecutive();
     } else {
-      witnessList = maintenanceManager.getBeforeWitness();
+      executiveList = maintenanceManager.getBeforeExecutive();
     }
-    return witnessList.contains(ByteString.copyFrom(msg.getPublicKey()));
+    return executiveList.contains(ByteString.copyFrom(msg.getPublicKey()));
   }
 
 }

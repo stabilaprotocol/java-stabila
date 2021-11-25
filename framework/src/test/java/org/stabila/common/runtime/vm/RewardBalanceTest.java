@@ -198,8 +198,8 @@ public class RewardBalanceTest extends VMTestBase {
     repository.commit();
 
     // trigger deployed contract
-    String witnessAccount = "27Ssb1WE8FArwJVRRb8Dwy3ssVGuLY8L3S1";
-    hexInput = AbiUtil.parseMethod(methodByAddr, Collections.singletonList(witnessAccount));
+    String executiveAccount = "27Ssb1WE8FArwJVRRb8Dwy3ssVGuLY8L3S1";
+    hexInput = AbiUtil.parseMethod(methodByAddr, Collections.singletonList(executiveAccount));
     stb = SvmTestUtils.generateTriggerSmartContractAndGetTransaction(Hex.decode(OWNER_ADDRESS),
         factoryAddress, Hex.decode(hexInput), 0, feeLimit);
     rootInternalTransaction = new InternalTransaction(stb,
@@ -211,7 +211,7 @@ public class RewardBalanceTest extends VMTestBase {
             0, 0, blockCap.getInstance(), repository, System.nanoTime() / 1000,
             System.nanoTime() / 1000 + 50000, 3_000_000L);
     program = new Program(null, programInvoke, rootInternalTransaction, vmConfig);
-    result = program.getRewardBalance(new DataWord(Base58.decode(witnessAccount))).getData();
+    result = program.getRewardBalance(new DataWord(Base58.decode(executiveAccount))).getData();
     Assert.assertEquals(Hex.toHexString(result),
         "0000000000000000000000000000000000000000000000000000000000000000");
     repository.commit();

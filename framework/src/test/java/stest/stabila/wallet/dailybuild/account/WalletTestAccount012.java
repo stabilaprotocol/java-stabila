@@ -28,9 +28,9 @@ public class WalletTestAccount012 {
       .getString("foundationAccount.key1");
   private final byte[] foundationAddress = PublicMethed.getFinalAddress(foundationKey);
 
-  private final String witnessKey = Configuration.getByPath("testng.conf")
-      .getString("witness.key1");
-  private final byte[] witnessAddress = PublicMethed.getFinalAddress(witnessKey);
+  private final String executiveKey = Configuration.getByPath("testng.conf")
+      .getString("executive.key1");
+  private final byte[] executiveAddress = PublicMethed.getFinalAddress(executiveKey);
 
   ECKey ecKey1 = new ECKey(Utils.getRandom());
   byte[] cdedAddress = ecKey1.getAddress();
@@ -110,19 +110,19 @@ public class WalletTestAccount012 {
   }
 
 
-  @Test(enabled = true,description = "Vote witness by stabila power")
+  @Test(enabled = true,description = "Vote executive by stabila power")
   public void test02VotePowerOnlyComeFromStabilaPower() {
     AccountResourceMessage accountResource = PublicMethed
         .getAccountResource(cdedAddress, blockingStubFull);
     final Long beforeStabilaPowerUsed = accountResource.getStabilaPowerUsed();
 
 
-    HashMap<byte[],Long> witnessMap = new HashMap<>();
-    witnessMap.put(witnessAddress,cdedAmountForNet / 1000000L);
-    Assert.assertFalse(PublicMethed.voteWitness(cdedAddress,cdedKey,witnessMap,
+    HashMap<byte[],Long> executiveMap = new HashMap<>();
+    executiveMap.put(executiveAddress,cdedAmountForNet / 1000000L);
+    Assert.assertFalse(PublicMethed.voteExecutive(cdedAddress,cdedKey,executiveMap,
         blockingStubFull));
-    witnessMap.put(witnessAddress,cdedAmountForStabilaPower / 1000000L);
-    Assert.assertTrue(PublicMethed.voteWitness(cdedAddress,cdedKey,witnessMap,
+    executiveMap.put(executiveAddress,cdedAmountForStabilaPower / 1000000L);
+    Assert.assertTrue(PublicMethed.voteExecutive(cdedAddress,cdedKey,executiveMap,
         blockingStubFull));
     PublicMethed.waitProduceNextBlock(blockingStubFull);
 
@@ -133,8 +133,8 @@ public class WalletTestAccount012 {
         cdedAmountForStabilaPower / 1000000L);
 
     final Long secondBeforeStabilaPowerUsed = afterStabilaPowerUsed;
-    witnessMap.put(witnessAddress,(cdedAmountForStabilaPower / 1000000L) - 1);
-    Assert.assertTrue(PublicMethed.voteWitness(cdedAddress,cdedKey,witnessMap,
+    executiveMap.put(executiveAddress,(cdedAmountForStabilaPower / 1000000L) - 1);
+    Assert.assertTrue(PublicMethed.voteExecutive(cdedAddress,cdedKey,executiveMap,
         blockingStubFull));
     PublicMethed.waitProduceNextBlock(blockingStubFull);
     accountResource = PublicMethed

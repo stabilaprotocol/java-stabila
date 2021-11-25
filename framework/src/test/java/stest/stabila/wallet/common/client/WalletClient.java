@@ -21,7 +21,7 @@ import org.stabila.api.GrpcAPI.AssetIssueList;
 import org.stabila.api.GrpcAPI.BlockList;
 import org.stabila.api.GrpcAPI.NodeList;
 import org.stabila.api.GrpcAPI.TransactionList;
-import org.stabila.api.GrpcAPI.WitnessList;
+import org.stabila.api.GrpcAPI.ExecutiveList;
 import org.stabila.common.crypto.ECKey;
 import org.stabila.common.parameter.CommonParameter;
 import org.stabila.common.utils.ByteArray;
@@ -34,7 +34,7 @@ import org.stabila.protos.Protocol.Account;
 import org.stabila.protos.Protocol.AccountType;
 import org.stabila.protos.Protocol.Block;
 import org.stabila.protos.Protocol.Transaction;
-import org.stabila.protos.Protocol.Witness;
+import org.stabila.protos.Protocol.Executive;
 import org.stabila.protos.contract.AccountContract.AccountCreateContract;
 import org.stabila.protos.contract.AccountContract.AccountUpdateContract;
 import org.stabila.protos.contract.AssetIssueContractOuterClass;
@@ -44,7 +44,7 @@ import org.stabila.protos.contract.BalanceContract.CdBalanceContract;
 import org.stabila.protos.contract.BalanceContract.TransferContract;
 import org.stabila.protos.contract.BalanceContract.UncdBalanceContract;
 import org.stabila.protos.contract.BalanceContract.WithdrawBalanceContract;
-import org.stabila.protos.contract.WitnessContract;
+import org.stabila.protos.contract.ExecutiveContract;
 import stest.stabila.wallet.common.client.Parameter.CommonConstant;
 import stest.stabila.wallet.common.client.utils.Base58;
 import stest.stabila.wallet.common.client.utils.TransactionUtils;
@@ -166,32 +166,32 @@ public class WalletClient {
    */
 
   public static String selectFullNode() {
-    Map<String, String> witnessMap = new HashMap<>();
+    Map<String, String> executiveMap = new HashMap<>();
     Config config = Configuration.getByPath("config.conf");
-    List list = config.getObjectList("witnesses.witnessList");
+    List list = config.getObjectList("executives.executiveList");
     for (int i = 0; i < list.size(); i++) {
       ConfigObject obj = (ConfigObject) list.get(i);
       String ip = obj.get("ip").unwrapped().toString();
       String url = obj.get("url").unwrapped().toString();
-      witnessMap.put(url, ip);
+      executiveMap.put(url, ip);
     }
 
-    Optional<WitnessList> result = rpcCli.listWitnesses();
+    Optional<ExecutiveList> result = rpcCli.listExecutives();
     long minMissedNum = 100000000L;
-    String minMissedWitness = "";
+    String minMissedExecutive = "";
     if (result.isPresent()) {
-      List<Witness> witnessList = result.get().getWitnessesList();
-      for (Witness witness : witnessList) {
-        String url = witness.getUrl();
-        long missedBlocks = witness.getTotalMissed();
+      List<Executive> executiveList = result.get().getExecutivesList();
+      for (Executive executive : executiveList) {
+        String url = executive.getUrl();
+        long missedBlocks = executive.getTotalMissed();
         if (missedBlocks < minMissedNum) {
           minMissedNum = missedBlocks;
-          minMissedWitness = url;
+          minMissedExecutive = url;
         }
       }
     }
-    if (witnessMap.containsKey(minMissedWitness)) {
-      return witnessMap.get(minMissedWitness);
+    if (executiveMap.containsKey(minMissedExecutive)) {
+      return executiveMap.get(minMissedExecutive);
     } else {
       return "";
     }
@@ -278,15 +278,15 @@ public class WalletClient {
    * constructor.
    */
 
-  public static Transaction createWitnessTransaction(byte[] owner, byte[] url) {
-    WitnessContract.WitnessCreateContract contract = createWitnessCreateContract(owner, url);
-    return rpcCli.createWitness(contract);
+  public static Transaction createExecutiveTransaction(byte[] owner, byte[] url) {
+    ExecutiveContract.ExecutiveCreateContract contract = createExecutiveCreateContract(owner, url);
+    return rpcCli.createExecutive(contract);
   }
 
-  public static Transaction createVoteWitnessTransaction(byte[] owner,
-      HashMap<String, String> witness) {
-    WitnessContract.VoteWitnessContract contract = createVoteWitnessContract(owner, witness);
-    return rpcCli.voteWitnessAccount(contract);
+  public static Transaction createVoteExecutiveTransaction(byte[] owner,
+      HashMap<String, String> executive) {
+    ExecutiveContract.VoteExecutiveContract contract = createVoteExecutiveContract(owner, executive);
+    return rpcCli.voteExecutiveAccount(contract);
   }
 
   public static Transaction createAssetIssueTransaction(AssetIssueContract contract) {
@@ -411,9 +411,9 @@ public class WalletClient {
    * constructor.
    */
 
-  public static WitnessContract.WitnessCreateContract createWitnessCreateContract(byte[] owner,
+  public static ExecutiveContract.ExecutiveCreateContract createExecutiveCreateContract(byte[] owner,
       byte[] url) {
-    WitnessContract.WitnessCreateContract.Builder builder = WitnessContract.WitnessCreateContract
+    ExecutiveContract.ExecutiveCreateContract.Builder builder = ExecutiveContract.ExecutiveCreateContract
         .newBuilder();
     builder.setOwnerAddress(ByteString.copyFrom(owner));
     builder.setUrl(ByteString.copyFrom(url));
@@ -425,16 +425,16 @@ public class WalletClient {
    * constructor.
    */
 
-  public static WitnessContract.VoteWitnessContract createVoteWitnessContract(
-      byte[] owner, HashMap<String, String> witness) {
-    WitnessContract.VoteWitnessContract.Builder builder = WitnessContract.VoteWitnessContract
+  public static ExecutiveContract.VoteExecutiveContract createVoteExecutiveContract(
+      byte[] owner, HashMap<String, String> executive) {
+    ExecutiveContract.VoteExecutiveContract.Builder builder = ExecutiveContract.VoteExecutiveContract
         .newBuilder();
     builder.setOwnerAddress(ByteString.copyFrom(owner));
-    for (String addressBase58 : witness.keySet()) {
-      String value = witness.get(addressBase58);
+    for (String addressBase58 : executive.keySet()) {
+      String value = executive.get(addressBase58);
       long count = Long.parseLong(value);
-      WitnessContract.VoteWitnessContract.Vote.Builder voteBuilder
-          = WitnessContract.VoteWitnessContract.Vote.newBuilder();
+      ExecutiveContract.VoteExecutiveContract.Vote.Builder voteBuilder
+          = ExecutiveContract.VoteExecutiveContract.Vote.newBuilder();
       byte[] address = WalletClient.decodeFromBase58Check(addressBase58);
       if (address == null) {
         continue;
@@ -681,16 +681,16 @@ public class WalletClient {
   /**
    * constructor.
    */
-  public static Optional<WitnessList> listWitnesses() {
-    Optional<WitnessList> result = rpcCli.listWitnesses();
+  public static Optional<ExecutiveList> listExecutives() {
+    Optional<ExecutiveList> result = rpcCli.listExecutives();
     if (result.isPresent()) {
-      WitnessList witnessList = result.get();
-      List<Witness> list = witnessList.getWitnessesList();
-      List<Witness> newList = new ArrayList();
+      ExecutiveList executiveList = result.get();
+      List<Executive> list = executiveList.getExecutivesList();
+      List<Executive> newList = new ArrayList();
       newList.addAll(list);
-      newList.sort(new WitnessComparator());
-      WitnessList.Builder builder = WitnessList.newBuilder();
-      newList.forEach(witness -> builder.addWitnesses(witness));
+      newList.sort(new ExecutiveComparator());
+      ExecutiveList.Builder builder = ExecutiveList.newBuilder();
+      newList.forEach(executive -> builder.addExecutives(executive));
       result = Optional.of(builder.build());
     }
     return result;
@@ -860,9 +860,9 @@ public class WalletClient {
    * constructor.
    */
 
-  public boolean createWitness(byte[] url) {
+  public boolean createExecutive(byte[] url) {
     byte[] owner = getAddress();
-    Transaction transaction = createWitnessTransaction(owner, url);
+    Transaction transaction = createExecutiveTransaction(owner, url);
     if (transaction == null || transaction.getRawData().getContractCount() == 0) {
       return false;
     }
@@ -874,10 +874,10 @@ public class WalletClient {
    * constructor.
    */
 
-  public boolean voteWitness(HashMap<String, String> witness) {
+  public boolean voteExecutive(HashMap<String, String> executive) {
     byte[] owner = getAddress();
-    WitnessContract.VoteWitnessContract contract = createVoteWitnessContract(owner, witness);
-    Transaction transaction = rpcCli.voteWitnessAccount(contract);
+    ExecutiveContract.VoteExecutiveContract contract = createVoteExecutiveContract(owner, executive);
+    Transaction transaction = rpcCli.voteExecutiveAccount(contract);
     if (transaction == null || transaction.getRawData().getContractCount() == 0) {
       return false;
     }

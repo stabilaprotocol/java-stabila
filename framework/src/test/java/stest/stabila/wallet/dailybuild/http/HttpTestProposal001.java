@@ -19,12 +19,12 @@ public class HttpTestProposal001 {
   private final String testKey002 = Configuration.getByPath("testng.conf")
       .getString("foundationAccount.key1");
   private final byte[] fromAddress = PublicMethed.getFinalAddress(testKey002);
-  private final String witnessKey001 = Configuration.getByPath("testng.conf")
-      .getString("witness.key1");
-  private final byte[] witness1Address = PublicMethed.getFinalAddress(witnessKey001);
-  private final String witnessKey002 = Configuration.getByPath("testng.conf")
-      .getString("witness.key2");
-  private final byte[] witness2Address = PublicMethed.getFinalAddress(witnessKey002);
+  private final String executiveKey001 = Configuration.getByPath("testng.conf")
+      .getString("executive.key1");
+  private final byte[] executive1Address = PublicMethed.getFinalAddress(executiveKey001);
+  private final String executiveKey002 = Configuration.getByPath("testng.conf")
+      .getString("executive.key2");
+  private final byte[] executive2Address = PublicMethed.getFinalAddress(executiveKey002);
   private String httpnode = Configuration.getByPath("testng.conf").getStringList("httpnode.ip.list")
       .get(0);
   private JSONObject responseContent;
@@ -36,7 +36,7 @@ public class HttpTestProposal001 {
   @Test(enabled = true, description = "Create proposal by http")
   public void test1CreateProposal() {
     HttpMethed.waitToProduceOneBlock(httpnode);
-    response = HttpMethed.createProposal(httpnode, witness1Address, 21L, 1L, witnessKey001);
+    response = HttpMethed.createProposal(httpnode, executive1Address, 21L, 1L, executiveKey001);
     Assert.assertTrue(HttpMethed.verificationResult(response));
     HttpMethed.waitToProduceOneBlock(httpnode);
   }
@@ -64,7 +64,7 @@ public class HttpTestProposal001 {
     HttpMethed.printJsonContent(responseContent);
     Assert.assertTrue(responseContent.getInteger("proposal_id") == proposalId);
     Assert.assertEquals(responseContent.getString("proposer_address"),
-        ByteArray.toHexString(witness1Address));
+        ByteArray.toHexString(executive1Address));
   }
 
   /**
@@ -73,11 +73,11 @@ public class HttpTestProposal001 {
   @Test(enabled = true, description = "Approval proposal by http")
   public void test4ApprovalProposal() {
     response = HttpMethed
-        .approvalProposal(httpnode, witness1Address, proposalId, true, witnessKey001);
+        .approvalProposal(httpnode, executive1Address, proposalId, true, executiveKey001);
     Assert.assertTrue(HttpMethed.verificationResult(response));
     HttpMethed.waitToProduceOneBlock(httpnode);
     response = HttpMethed
-        .approvalProposal(httpnode, witness2Address, proposalId, true, witnessKey002);
+        .approvalProposal(httpnode, executive2Address, proposalId, true, executiveKey002);
     Assert.assertTrue(HttpMethed.verificationResult(response));
     HttpMethed.waitToProduceOneBlock(httpnode);
     response = HttpMethed.getProposalById(httpnode, proposalId);
@@ -108,7 +108,7 @@ public class HttpTestProposal001 {
    */
   @Test(enabled = true, description = "Delete proposal by http")
   public void test6DeleteProposal() {
-    response = HttpMethed.deleteProposal(httpnode, witness1Address, proposalId, witnessKey001);
+    response = HttpMethed.deleteProposal(httpnode, executive1Address, proposalId, executiveKey001);
     Assert.assertTrue(HttpMethed.verificationResult(response));
     HttpMethed.waitToProduceOneBlock(httpnode);
     response = HttpMethed.getProposalById(httpnode, proposalId);

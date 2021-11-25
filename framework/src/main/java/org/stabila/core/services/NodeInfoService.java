@@ -27,7 +27,7 @@ import org.stabila.common.parameter.CommonParameter;
 import org.stabila.core.ChainBaseManager;
 import org.stabila.core.db.Manager;
 import org.stabila.core.net.peer.PeerConnection;
-import org.stabila.core.services.WitnessProductBlockService.CheatWitnessInfo;
+import org.stabila.core.services.ExecutiveProductBlockService.CheatExecutiveInfo;
 import org.stabila.program.Version;
 import org.stabila.protos.Protocol.ReasonCode;
 
@@ -54,7 +54,7 @@ public class NodeInfoService {
   private ChainBaseManager chainBaseManager;
 
   @Autowired
-  private WitnessProductBlockService witnessProductBlockService;
+  private ExecutiveProductBlockService executiveProductBlockService;
 
   public NodeInfo getNodeInfo() {
     NodeInfo nodeInfo = new NodeInfo();
@@ -62,7 +62,7 @@ public class NodeInfoService {
     setMachineInfo(nodeInfo);
     setConfigNodeInfo(nodeInfo);
     setBlockInfo(nodeInfo);
-    setCheatWitnessInfo(nodeInfo);
+    setCheatExecutiveInfo(nodeInfo);
     return nodeInfo;
   }
 
@@ -197,10 +197,10 @@ public class NodeInfoService {
     nodeInfo.setSolidityBlock(chainBaseManager.getSolidBlockId().getString());
   }
 
-  protected void setCheatWitnessInfo(NodeInfo nodeInfo) {
-    for (Entry<String, CheatWitnessInfo> entry : witnessProductBlockService.queryCheatWitnessInfo()
+  protected void setCheatExecutiveInfo(NodeInfo nodeInfo) {
+    for (Entry<String, CheatExecutiveInfo> entry : executiveProductBlockService.queryCheatExecutiveInfo()
         .entrySet()) {
-      nodeInfo.getCheatWitnessInfoMap().put(entry.getKey(), entry.getValue().toString());
+      nodeInfo.getCheatExecutiveInfoMap().put(entry.getKey(), entry.getValue().toString());
     }
   }
 

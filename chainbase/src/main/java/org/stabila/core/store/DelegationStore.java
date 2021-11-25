@@ -70,11 +70,11 @@ public class DelegationStore extends StabilaStoreWithRevoking<BytesCapsule> {
     return bytesCapsule == null ? REMARK : ByteArray.toLong(bytesCapsule.getData());
   }
 
-  public void setWitnessVote(long cycle, byte[] address, long value) {
+  public void setExecutiveVote(long cycle, byte[] address, long value) {
     put(buildVoteKey(cycle, address), new BytesCapsule(ByteArray.fromLong(value)));
   }
 
-  public long getWitnessVote(long cycle, byte[] address) {
+  public long getExecutiveVote(long cycle, byte[] address) {
     BytesCapsule bytesCapsule = get(buildVoteKey(cycle, address));
     if (bytesCapsule == null) {
       return REMARK;
@@ -117,11 +117,11 @@ public class DelegationStore extends StabilaStoreWithRevoking<BytesCapsule> {
     return getBrokerage(-1, address);
   }
 
-  public void setWitnessVi(long cycle, byte[] address, BigInteger value) {
+  public void setExecutiveVi(long cycle, byte[] address, BigInteger value) {
     put(buildViKey(cycle, address), new BytesCapsule(value.toByteArray()));
   }
 
-  public BigInteger getWitnessVi(long cycle, byte[] address) {
+  public BigInteger getExecutiveVi(long cycle, byte[] address) {
     BytesCapsule bytesCapsule = get(buildViKey(cycle, address));
     if (bytesCapsule == null) {
       return BigInteger.ZERO;
@@ -130,18 +130,18 @@ public class DelegationStore extends StabilaStoreWithRevoking<BytesCapsule> {
     }
   }
 
-  public void accumulateWitnessVi(long cycle, byte[] address, long voteCount) {
-    BigInteger preVi = getWitnessVi(cycle - 1, address);
+  public void accumulateExecutiveVi(long cycle, byte[] address, long voteCount) {
+    BigInteger preVi = getExecutiveVi(cycle - 1, address);
     long reward = getReward(cycle, address);
     if (reward == 0 || voteCount == 0) { // Just forward pre vi
       if (!BigInteger.ZERO.equals(preVi)) { // Zero vi will not be record
-        setWitnessVi(cycle, address, preVi);
+        setExecutiveVi(cycle, address, preVi);
       }
     } else { // Accumulate delta vi
       BigInteger deltaVi = BigInteger.valueOf(reward)
           .multiply(DECIMAL_OF_VI_REWARD)
           .divide(BigInteger.valueOf(voteCount));
-      setWitnessVi(cycle, address, preVi.add(deltaVi));
+      setExecutiveVi(cycle, address, preVi.add(deltaVi));
     }
   }
 

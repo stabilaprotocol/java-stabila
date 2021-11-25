@@ -75,9 +75,9 @@ public class HttpSelfFormatFieldName {
     //VoteAssetContract
     AddressFieldNameMap.put("protocol.VoteAssetContract.owner_address", 1);
     AddressFieldNameMap.put("protocol.VoteAssetContract.vote_address", 1);
-    //VoteWitnessContract
-    AddressFieldNameMap.put("protocol.VoteWitnessContract.Vote.vote_address", 1);
-    AddressFieldNameMap.put("protocol.VoteWitnessContract.owner_address", 1);
+    //VoteExecutiveContract
+    AddressFieldNameMap.put("protocol.VoteExecutiveContract.Vote.vote_address", 1);
+    AddressFieldNameMap.put("protocol.VoteExecutiveContract.owner_address", 1);
     //UpdateSettingContract
     AddressFieldNameMap.put("protocol.UpdateSettingContract.owner_address", 1);
     AddressFieldNameMap.put("protocol.UpdateSettingContract.contract_address", 1);
@@ -87,10 +87,10 @@ public class HttpSelfFormatFieldName {
     //ClearABIContract
     AddressFieldNameMap.put("protocol.ClearABIContract.owner_address", 1);
     AddressFieldNameMap.put("protocol.ClearABIContract.contract_address", 1);
-    //WitnessCreateContract
-    AddressFieldNameMap.put("protocol.WitnessCreateContract.owner_address", 1);
-    //WitnessUpdateContract
-    AddressFieldNameMap.put("protocol.WitnessUpdateContract.owner_address", 1);
+    //ExecutiveCreateContract
+    AddressFieldNameMap.put("protocol.ExecutiveCreateContract.owner_address", 1);
+    //ExecutiveUpdateContract
+    AddressFieldNameMap.put("protocol.ExecutiveUpdateContract.owner_address", 1);
     //AssetIssueContract
     AddressFieldNameMap.put("protocol.AssetIssueContract.owner_address", 1);
     //ParticipateAssetIssueContract
@@ -160,8 +160,8 @@ public class HttpSelfFormatFieldName {
     //DelegatedResource
     AddressFieldNameMap.put("protocol.DelegatedResource.from", 1);
     AddressFieldNameMap.put("protocol.DelegatedResource.to", 1);
-    //Witness
-    AddressFieldNameMap.put("protocol.Witness.address", 1);
+    //Executive
+    AddressFieldNameMap.put("protocol.Executive.address", 1);
     //Votes
     AddressFieldNameMap.put("protocol.Votes.address", 1);
     //TransactionInfo
@@ -171,7 +171,7 @@ public class HttpSelfFormatFieldName {
     AddressFieldNameMap.put("protocol.DeferredTransaction.senderAddress", 1);
     AddressFieldNameMap.put("protocol.DeferredTransaction.receiverAddress", 1);
     //BlockHeader
-    AddressFieldNameMap.put("protocol.BlockHeader.raw.witness_address", 1);
+    AddressFieldNameMap.put("protocol.BlockHeader.raw.executive_address", 1);
     //SmartContract
     AddressFieldNameMap.put("protocol.SmartContract.origin_address", 1);
     AddressFieldNameMap.put("protocol.SmartContract.contract_address", 1);
@@ -205,10 +205,10 @@ public class HttpSelfFormatFieldName {
     NameFieldNameMap.put("protocol.SetAccountIdContract.account_id", 1);
     //TransferAssetContract
     NameFieldNameMap.put("protocol.TransferAssetContract.asset_name", 1);
-    //WitnessCreateContract
-    NameFieldNameMap.put("protocol.WitnessCreateContract.url", 1);
-    //WitnessUpdateContract
-    NameFieldNameMap.put("protocol.WitnessUpdateContract.update_url", 1);
+    //ExecutiveCreateContract
+    NameFieldNameMap.put("protocol.ExecutiveCreateContract.url", 1);
+    //ExecutiveUpdateContract
+    NameFieldNameMap.put("protocol.ExecutiveUpdateContract.update_url", 1);
     //AssetIssueContract
     NameFieldNameMap.put("protocol.AssetIssueContract.name", 1);
     NameFieldNameMap.put("protocol.AssetIssueContract.abbr", 1);

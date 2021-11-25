@@ -18,7 +18,7 @@ storage {
 
   # account, account-index, asset-issue, block, block-index,
   # block_KDB, peers, properties, recent-block, trans,
-  # utxo, votes, witness, witness_schedule.
+  # utxo, votes, executive, executive_schedule.
 
   # Otherwise, db configs will remain defualt and data will be stored in
   # the path of "output-directory" or which is set by "-d" ("--output-directory").

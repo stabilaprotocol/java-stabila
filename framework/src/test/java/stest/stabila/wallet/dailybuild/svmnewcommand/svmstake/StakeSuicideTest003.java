@@ -26,9 +26,9 @@ public class StakeSuicideTest003 {
   private String testFoundationKey = Configuration.getByPath("testng.conf")
       .getString("foundationAccount.key2");
   private byte[] testFoundationAddress = PublicMethed.getFinalAddress(testFoundationKey);
-  private String testWitnessKey = Configuration.getByPath("testng.conf")
-      .getString("witness.key1");
-  private String testWitnessAddress = PublicMethed.getAddressString(testWitnessKey);
+  private String testExecutiveKey = Configuration.getByPath("testng.conf")
+      .getString("executive.key1");
+  private String testExecutiveAddress = PublicMethed.getAddressString(testExecutiveKey);
 
   private Long maxFeeLimit = Configuration.getByPath("testng.conf")
       .getLong("defaultParameter.maxFeeLimit");
@@ -74,7 +74,7 @@ public class StakeSuicideTest003 {
     PublicMethed.waitProduceNextBlock(blockingStubFull);
 
     String txid = PublicMethed.triggerContract(contractAddress,"Stake(address,uint256)",
-        "\"" + testWitnessAddress + "\",10000000",false,0,maxFeeLimit,
+        "\"" + testExecutiveAddress + "\",10000000",false,0,maxFeeLimit,
         testFoundationAddress, testFoundationKey,blockingStubFull);
     PublicMethed.waitProduceNextBlock(blockingStubFull);
     Optional<TransactionInfo> ex = PublicMethed.getTransactionInfoById(txid, blockingStubFull);
@@ -112,7 +112,7 @@ public class StakeSuicideTest003 {
     PublicMethed.waitProduceNextBlock(blockingStubFull);
 
     String txid = PublicMethed.triggerContract(contractAddress,"Stake(address,uint256)",
-        "\"" + testWitnessAddress + "\",10000000",false,0,maxFeeLimit,
+        "\"" + testExecutiveAddress + "\",10000000",false,0,maxFeeLimit,
         testFoundationAddress, testFoundationKey,blockingStubFull);
     PublicMethed.waitProduceNextBlock(blockingStubFull);
     Optional<TransactionInfo> ex = PublicMethed.getTransactionInfoById(txid, blockingStubFull);
@@ -160,7 +160,7 @@ public class StakeSuicideTest003 {
     PublicMethed.waitProduceNextBlock(blockingStubFull);
 
     String txid = PublicMethed.triggerContract(contractAddress,"Stake(address,uint256)",
-        "\"" + testWitnessAddress + "\",10000000",false,0,maxFeeLimit,
+        "\"" + testExecutiveAddress + "\",10000000",false,0,maxFeeLimit,
         testFoundationAddress, testFoundationKey,blockingStubFull);
     PublicMethed.waitProduceNextBlock(blockingStubFull);
     Optional<TransactionInfo> ex = PublicMethed.getTransactionInfoById(txid, blockingStubFull);

@@ -36,9 +36,9 @@ public class NodeMetricManager {
 
     nodeInfo.setIp(Args.getInstance().getNodeExternalIp());
 
-    ByteString witnessAddress = ByteString.copyFrom(Args.getLocalWitnesses()
-        .getWitnessAccountAddress(CommonParameter.getInstance().isECKeyCryptoEngine()));
-    if (chainBaseManager.getWitnessScheduleStore().getActiveWitnesses().contains(witnessAddress)) {
+    ByteString executiveAddress = ByteString.copyFrom(Args.getLocalExecutives()
+        .getExecutiveAccountAddress(CommonParameter.getInstance().isECKeyCryptoEngine()));
+    if (chainBaseManager.getExecutiveScheduleStore().getActiveExecutives().contains(executiveAddress)) {
       nodeInfo.setNodeType(1);
     } else {
       nodeInfo.setNodeType(0);

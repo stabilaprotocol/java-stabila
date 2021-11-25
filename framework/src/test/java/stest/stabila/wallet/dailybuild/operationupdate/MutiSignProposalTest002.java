@@ -32,9 +32,9 @@ public class MutiSignProposalTest002 {
   private final String testKey002 = Configuration.getByPath("testng.conf")
       .getString("foundationAccount.key1");
   private final byte[] fromAddress = PublicMethed.getFinalAddress(testKey002);
-  private final String witnessKey001 = Configuration.getByPath("testng.conf")
-      .getString("witness.key1");
-  private final byte[] witness001Address = PublicMethed.getFinalAddress(witnessKey001);
+  private final String executiveKey001 = Configuration.getByPath("testng.conf")
+      .getString("executive.key1");
+  private final byte[] executive001Address = PublicMethed.getFinalAddress(executiveKey001);
   private final String operations = Configuration.getByPath("testng.conf")
       .getString("defaultParameter.operations");
   String[] permissionKeyString = new String[2];
@@ -85,7 +85,7 @@ public class MutiSignProposalTest002 {
   @Test(enabled = true)
   public void testMutiSignForProposal() {
     long needcoin = updateAccountPermissionFee + multiSignFee * 3;
-    Assert.assertTrue(PublicMethed.sendcoin(witness001Address, needcoin + 10000000L,
+    Assert.assertTrue(PublicMethed.sendcoin(executive001Address, needcoin + 10000000L,
         fromAddress, testKey002, blockingStubFull));
 
     ecKey1 = new ECKey(Utils.getRandom());
@@ -98,20 +98,20 @@ public class MutiSignProposalTest002 {
 
     PublicMethed.waitProduceNextBlock(blockingStubFull);
 
-    Long balanceBefore = PublicMethed.queryAccount(witness001Address, blockingStubFull)
+    Long balanceBefore = PublicMethed.queryAccount(executive001Address, blockingStubFull)
         .getBalance();
     logger.info("balanceBefore: " + balanceBefore);
 
     permissionKeyString[0] = manager1Key;
     permissionKeyString[1] = manager2Key;
     PublicMethed.waitProduceNextBlock(blockingStubFull);
-    ownerKeyString[0] = witnessKey001;
+    ownerKeyString[0] = executiveKey001;
     accountPermissionJson =
         "{\"owner_permission\":{\"type\":0,\"permission_name\":\"owner\",\"threshold\":2,\"keys\":["
-            + "{\"address\":\"" + PublicMethed.getAddressString(witnessKey001)
+            + "{\"address\":\"" + PublicMethed.getAddressString(executiveKey001)
             + "\",\"weight\":2}]},"
-            + "\"witness_permission\":{\"type\":1,\"permission_name\":\"owner\",\"threshold\":1,\""
-            + "keys\":[{\"address\":\"" + PublicMethed.getAddressString(witnessKey001)
+            + "\"executive_permission\":{\"type\":1,\"permission_name\":\"owner\",\"threshold\":1,\""
+            + "keys\":[{\"address\":\"" + PublicMethed.getAddressString(executiveKey001)
             + "\",\"weight\":1}]},"
             + "\"active_permissions\":[{\"type\":2,\"permission_name\":\"active0\",\"threshold\":2,"
             + "\"operations\":\"" + operations + "\","
@@ -121,7 +121,7 @@ public class MutiSignProposalTest002 {
             + "]}]}";
     logger.info(accountPermissionJson);
     PublicMethedForMutiSign.accountPermissionUpdate(
-        accountPermissionJson, witness001Address, witnessKey001,
+        accountPermissionJson, executive001Address, executiveKey001,
         blockingStubFull, ownerKeyString);
 
     //Create a proposal
@@ -130,7 +130,7 @@ public class MutiSignProposalTest002 {
     HashMap<Long, Long> proposalMap = new HashMap<Long, Long>();
     proposalMap.put(0L, 81000L);
     Assert.assertTrue(
-        PublicMethedForMutiSign.createProposalWithPermissionId(witness001Address, witnessKey001,
+        PublicMethedForMutiSign.createProposalWithPermissionId(executive001Address, executiveKey001,
             proposalMap, 2, blockingStubFull, permissionKeyString));
     PublicMethed.waitProduceNextBlock(blockingStubFull);
     //Get proposal list
@@ -140,15 +140,15 @@ public class MutiSignProposalTest002 {
     logger.info(Integer.toString(proposalId));
 
     Assert.assertTrue(PublicMethedForMutiSign.approveProposalWithPermission(
-        witness001Address, witnessKey001, proposalId,
+        executive001Address, executiveKey001, proposalId,
         true, 2, blockingStubFull, permissionKeyString));
     PublicMethed.waitProduceNextBlock(blockingStubFull);
     //Delete proposal list after approve
     Assert.assertTrue(PublicMethedForMutiSign.deleteProposalWithPermissionId(
-        witness001Address, witnessKey001, proposalId, 2, blockingStubFull, permissionKeyString));
+        executive001Address, executiveKey001, proposalId, 2, blockingStubFull, permissionKeyString));
     PublicMethed.waitProduceNextBlock(blockingStubFull);
 
-    Long balanceAfter = PublicMethed.queryAccount(witness001Address, blockingStubFull)
+    Long balanceAfter = PublicMethed.queryAccount(executive001Address, blockingStubFull)
         .getBalance();
     logger.info("balanceAfter: " + balanceAfter);
 

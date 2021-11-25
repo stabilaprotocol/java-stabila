@@ -1,7 +1,7 @@
 package org.stabila.consensus.dpos;
 
 import static org.stabila.core.config.Parameter.ChainConstant.BLOCK_PRODUCED_INTERVAL;
-import static org.stabila.core.config.Parameter.ChainConstant.MAX_ACTIVE_WITNESS_NUM;
+import static org.stabila.core.config.Parameter.ChainConstant.MAX_ACTIVE_EXECUTIVE_NUM;
 
 import com.google.protobuf.ByteString;
 import java.util.Random;
@@ -33,7 +33,7 @@ public class StateManager {
 
   private AtomicLong dupBlockTime = new AtomicLong(0);
 
-  private long blockCycle = BLOCK_PRODUCED_INTERVAL * MAX_ACTIVE_WITNESS_NUM;
+  private long blockCycle = BLOCK_PRODUCED_INTERVAL * MAX_ACTIVE_EXECUTIVE_NUM;
 
 
   public State getState() {
@@ -47,8 +47,8 @@ public class StateManager {
       return status;
     }
 
-    if (isDupWitness()) {
-      return State.DUP_WITNESS;
+    if (isDupExecutive()) {
+      return State.DUP_EXECUTIVE;
     }
 
     int participation = consensusDelegate.calculateFilledSlotsCount();
@@ -80,8 +80,8 @@ public class StateManager {
       return;
     }
 
-    ByteString witness = blockCapsule.getWitnessAddress();
-    if (!dposService.getMiners().containsKey(witness)) {
+    ByteString executive = blockCapsule.getExecutiveAddress();
+    if (!dposService.getMiners().containsKey(executive)) {
       return;
     }
 
@@ -101,7 +101,7 @@ public class StateManager {
     logger.warn("Dup block produced: {}", blockCapsule);
   }
 
-  private boolean isDupWitness() {
+  private boolean isDupExecutive() {
     if (dupBlockCount.get() == 0) {
       return false;
     }

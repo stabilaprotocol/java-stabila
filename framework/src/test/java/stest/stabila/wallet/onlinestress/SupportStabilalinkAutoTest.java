@@ -18,7 +18,7 @@ import org.stabila.common.utils.ByteArray;
 import org.stabila.common.utils.Utils;
 import org.stabila.core.Wallet;
 import org.stabila.protos.Protocol;
-import org.stabila.protos.contract.WitnessContract;
+import org.stabila.protos.contract.ExecutiveContract;
 import stest.stabila.wallet.common.client.Parameter.CommonConstant;
 import stest.stabila.wallet.common.client.utils.PublicMethed;
 import stest.stabila.wallet.common.client.utils.PublicMethedForMutiSign;
@@ -125,9 +125,9 @@ public class SupportStabilalinkAutoTest {
 
 
   @Test(enabled = true, threadPoolSize = 1, invocationCount = 1)
-  public void test002CreateWitness() {
+  public void test002CreateExecutive() {
     Integer i = 0;
-    System.out.println("Start genterate  witness address");
+    System.out.println("Start genterate  executive address");
     while (i++ < 10) {
       ecKey3 = new ECKey(Utils.getRandom());
       ownerAddress = ecKey3.getAddress();
@@ -139,14 +139,14 @@ public class SupportStabilalinkAutoTest {
 
       PublicMethed.waitProduceNextBlock(blockingStubFull);
 
-      String createWitnessUrl = "IOS-UI-Witness-00" + i;
-      byte[] createUrl = createWitnessUrl.getBytes();
-      createWitness(ownerAddress, createUrl, ownerKey);
+      String createExecutiveUrl = "IOS-UI-Executive-00" + i;
+      byte[] createUrl = createExecutiveUrl.getBytes();
+      createExecutive(ownerAddress, createUrl, ownerKey);
       PublicMethed.waitProduceNextBlock(blockingStubFull);
-      System.out.println("witness " + i + " -----------------------------"
+      System.out.println("executive " + i + " -----------------------------"
           + "---------------------------");
       PublicMethed.printAddress(ownerKey);
-      System.out.println("witness url is : " + createWitnessUrl);
+      System.out.println("executive url is : " + createExecutiveUrl);
       System.out.println("-------------------------------------------"
           + "-----------------------------");
 
@@ -254,9 +254,9 @@ public class SupportStabilalinkAutoTest {
 
 
   @Test(enabled = true, threadPoolSize = 1, invocationCount = 1)
-  public void test004CreateWitness() {
+  public void test004CreateExecutive() {
 
-    String[] witnessKey = {
+    String[] executiveKey = {
 
         "c74fb4d8101572041c6fab30e1602ba1ec8247e1ead19641fb985b3ed3a8261e",
         "25f98ac22c9fd02aa8a2ef354db0aa13ebc2a6c31377ea7e2b342f0d3898af0d",
@@ -271,19 +271,19 @@ public class SupportStabilalinkAutoTest {
 
     };
     int i = 1;
-    for (String ownerKey : witnessKey) {
+    for (String ownerKey : executiveKey) {
       byte[] ownerAddress = PublicMethed.getFinalAddress(ownerKey);
       PublicMethed.sendcoin(ownerAddress, 20000000000L, fromAddress, testKey002,
           blockingStubFull);
 
       PublicMethed.waitProduceNextBlock(blockingStubFull);
 
-      String createWitnessUrl = "IOS-UI-Witness-00" + i++;
-      byte[] createUrl = createWitnessUrl.getBytes();
-      createWitness(ownerAddress, createUrl, ownerKey);
+      String createExecutiveUrl = "IOS-UI-Executive-00" + i++;
+      byte[] createUrl = createExecutiveUrl.getBytes();
+      createExecutive(ownerAddress, createUrl, ownerKey);
       PublicMethed.waitProduceNextBlock(blockingStubFull);
       PublicMethed.printAddress(ownerKey);
-      System.out.println("witness url is : " + createWitnessUrl);
+      System.out.println("executive url is : " + createExecutiveUrl);
       System.out.println("---------------------------------------------------------------------");
 
     }
@@ -295,7 +295,7 @@ public class SupportStabilalinkAutoTest {
   @Test(enabled = true, threadPoolSize = 1, invocationCount = 1)
   public void test005SendTrc20() {
 
-    String[] witnessKey = {
+    String[] executiveKey = {
         "TR8CyAPJFMjCvphCVuWeeVxBh5iTG7VWxe",
         "TMhGDU7NiXwckCW64PqAvWFuC2kR1WSF5J",
         "TDf3JZtjDeEqsFdPGp6vT9meG3JxMwmXwA",
@@ -318,7 +318,7 @@ public class SupportStabilalinkAutoTest {
         "TBtMRD79NkLyAvMkCTTj5VC5KZnz2Po2XZ",
     };
     int i = 1;
-    for (String ownerKey : witnessKey) {
+    for (String ownerKey : executiveKey) {
       String triggerString = "\"" + ownerKey
           + "\"" + ", 20000000000";
       System.out.println(triggerString);
@@ -352,7 +352,7 @@ public class SupportStabilalinkAutoTest {
   /**
    * constructor.
    */
-  public Boolean createWitness(byte[] owner, byte[] url, String priKey) {
+  public Boolean createExecutive(byte[] owner, byte[] url, String priKey) {
     ECKey temKey = null;
     try {
       BigInteger priK = new BigInteger(priKey, 16);
@@ -362,12 +362,12 @@ public class SupportStabilalinkAutoTest {
     }
     final ECKey ecKey = temKey;
 
-    WitnessContract.WitnessCreateContract.Builder builder = WitnessContract.WitnessCreateContract
+    ExecutiveContract.ExecutiveCreateContract.Builder builder = ExecutiveContract.ExecutiveCreateContract
         .newBuilder();
     builder.setOwnerAddress(ByteString.copyFrom(owner));
     builder.setUrl(ByteString.copyFrom(url));
-    WitnessContract.WitnessCreateContract contract = builder.build();
-    Protocol.Transaction transaction = blockingStubFull.createWitness(contract);
+    ExecutiveContract.ExecutiveCreateContract contract = builder.build();
+    Protocol.Transaction transaction = blockingStubFull.createExecutive(contract);
     if (transaction == null || transaction.getRawData().getContractCount() == 0) {
       return false;
     }

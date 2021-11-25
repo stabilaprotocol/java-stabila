@@ -50,7 +50,7 @@ public class ActuatorConstantTest {
   public void variablecheck() {
     ActuatorConstant actuator = new ActuatorConstant();
     Assert.assertEquals("Account[", actuator.ACCOUNT_EXCEPTION_STR);
-    Assert.assertEquals("Witness[", actuator.WITNESS_EXCEPTION_STR);
+    Assert.assertEquals("Executive[", actuator.EXECUTIVE_EXCEPTION_STR);
     Assert.assertEquals("Proposal[", actuator.PROPOSAL_EXCEPTION_STR);
     Assert.assertEquals("] not exists", actuator.NOT_EXIST_STR);
     Assert.assertTrue(actuator instanceof ActuatorConstant);

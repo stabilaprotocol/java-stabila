@@ -102,10 +102,10 @@ public class CycleMultiSign {
     Account test001AddressAccount = PublicMethed.queryAccount(test001Address, blockingStubFull);
     List<Permission> permissionsList = test001AddressAccount.getActivePermissionList();
     Permission ownerPermission = test001AddressAccount.getOwnerPermission();
-    Permission witnessPermission = test001AddressAccount.getWitnessPermission();
+    Permission executivePermission = test001AddressAccount.getExecutivePermission();
     PublicMethedForMutiSign.printPermissionList(permissionsList);
     logger.info(PublicMethedForMutiSign.printPermission(ownerPermission));
-    logger.info(PublicMethedForMutiSign.printPermission(witnessPermission));
+    logger.info(PublicMethedForMutiSign.printPermission(executivePermission));
     logger.info("wei-----------------------");
 
     String[] permissionKeyString = new String[1];
@@ -132,10 +132,10 @@ public class CycleMultiSign {
     Account test001AddressAccount1 = PublicMethed.queryAccount(test001Address, blockingStubFull);
     List<Permission> permissionsList1 = test001AddressAccount1.getActivePermissionList();
     Permission ownerPermission1 = test001AddressAccount1.getOwnerPermission();
-    Permission witnessPermission1 = test001AddressAccount1.getWitnessPermission();
+    Permission executivePermission1 = test001AddressAccount1.getExecutivePermission();
     PublicMethedForMutiSign.printPermissionList(permissionsList1);
     logger.info(PublicMethedForMutiSign.printPermission(ownerPermission1));
-    logger.info(PublicMethedForMutiSign.printPermission(witnessPermission1));
+    logger.info(PublicMethedForMutiSign.printPermission(executivePermission1));
     logger.info("1-----------------------");
 
     String accountPermissionJson2 =
@@ -208,10 +208,10 @@ public class CycleMultiSign {
       Account test001AddressAccount2 = PublicMethed.queryAccount(test001Address, blockingStubFull);
       List<Permission> permissionsList2 = test001AddressAccount2.getActivePermissionList();
       Permission ownerPermission2 = test001AddressAccount2.getOwnerPermission();
-      Permission witnessPermission2 = test001AddressAccount2.getWitnessPermission();
+      Permission executivePermission2 = test001AddressAccount2.getExecutivePermission();
       PublicMethedForMutiSign.printPermissionList(permissionsList2);
       logger.info(PublicMethedForMutiSign.printPermission(ownerPermission2));
-      logger.info(PublicMethedForMutiSign.printPermission(witnessPermission2));
+      logger.info(PublicMethedForMutiSign.printPermission(executivePermission2));
     }
   }
 

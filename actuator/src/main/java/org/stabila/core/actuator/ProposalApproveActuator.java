@@ -15,7 +15,7 @@ import org.stabila.core.exception.ItemNotFoundException;
 import org.stabila.core.store.AccountStore;
 import org.stabila.core.store.DynamicPropertiesStore;
 import org.stabila.core.store.ProposalStore;
-import org.stabila.core.store.WitnessStore;
+import org.stabila.core.store.ExecutiveStore;
 import org.stabila.protos.Protocol.Proposal.State;
 import org.stabila.protos.Protocol.Transaction.Contract.ContractType;
 import org.stabila.protos.Protocol.Transaction.Result.code;
@@ -68,7 +68,7 @@ public class ProposalApproveActuator extends AbstractActuator {
       throw new ContractValidateException(ActuatorConstant.STORE_NOT_EXIST);
     }
     AccountStore accountStore = chainBaseManager.getAccountStore();
-    WitnessStore witnessStore = chainBaseManager.getWitnessStore();
+    ExecutiveStore executiveStore = chainBaseManager.getExecutiveStore();
     ProposalStore proposalStore = chainBaseManager.getProposalStore();
     DynamicPropertiesStore dynamicStore = chainBaseManager.getDynamicPropertiesStore();
     if (!this.any.is(ProposalApproveContract.class)) {
@@ -95,8 +95,8 @@ public class ProposalApproveActuator extends AbstractActuator {
           + ActuatorConstant.NOT_EXIST_STR);
     }
 
-    if (!witnessStore.has(ownerAddress)) {
-      throw new ContractValidateException(ActuatorConstant.WITNESS_EXCEPTION_STR + readableOwnerAddress
+    if (!executiveStore.has(ownerAddress)) {
+      throw new ContractValidateException(ActuatorConstant.EXECUTIVE_EXCEPTION_STR + readableOwnerAddress
           + ActuatorConstant.NOT_EXIST_STR);
     }
 
@@ -128,13 +128,13 @@ public class ProposalApproveActuator extends AbstractActuator {
     if (!contract.getIsAddApproval()) {
       if (!proposalCapsule.getApprovals().contains(contract.getOwnerAddress())) {
         throw new ContractValidateException(
-            ActuatorConstant.WITNESS_EXCEPTION_STR + readableOwnerAddress + "]has not approved proposal[" + contract
+            ActuatorConstant.EXECUTIVE_EXCEPTION_STR + readableOwnerAddress + "]has not approved proposal[" + contract
                 .getProposalId() + "] before");
       }
     } else {
       if (proposalCapsule.getApprovals().contains(contract.getOwnerAddress())) {
         throw new ContractValidateException(
-            ActuatorConstant.WITNESS_EXCEPTION_STR + readableOwnerAddress + "]has approved proposal[" + contract
+            ActuatorConstant.EXECUTIVE_EXCEPTION_STR + readableOwnerAddress + "]has approved proposal[" + contract
                 .getProposalId() + "] before");
       }
     }

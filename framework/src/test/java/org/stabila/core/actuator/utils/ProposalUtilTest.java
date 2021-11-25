@@ -141,7 +141,7 @@ public class ProposalUtilTest {
 
     try {
       actuatorUtil.validator(dynamicPropertiesStore, forkUtils,
-          ProposalUtil.ProposalType.WITNESS_PAY_PER_BLOCK.getCode(), invalidValue);
+          ProposalUtil.ProposalType.EXECUTIVE_PAY_PER_BLOCK.getCode(), invalidValue);
       Assert.assertTrue(false);
     } catch (ContractValidateException e) {
       Assert.assertEquals(LONG_VALUE_ERROR, e.getMessage());
@@ -149,7 +149,7 @@ public class ProposalUtilTest {
 
     try {
       actuatorUtil.validator(dynamicPropertiesStore, forkUtils,
-          ProposalUtil.ProposalType.WITNESS_PAY_PER_BLOCK.getCode(), LONG_VALUE + 1);
+          ProposalUtil.ProposalType.EXECUTIVE_PAY_PER_BLOCK.getCode(), LONG_VALUE + 1);
       Assert.assertTrue(false);
     } catch (ContractValidateException e) {
       Assert.assertEquals(LONG_VALUE_ERROR, e.getMessage());
@@ -157,7 +157,7 @@ public class ProposalUtilTest {
 
     try {
       actuatorUtil.validator(dynamicPropertiesStore, forkUtils,
-          ProposalUtil.ProposalType.WITNESS_STANDBY_ALLOWANCE.getCode(), invalidValue);
+          ProposalUtil.ProposalType.EXECUTIVE_STANDBY_ALLOWANCE.getCode(), invalidValue);
       Assert.assertTrue(false);
     } catch (ContractValidateException e) {
       Assert.assertEquals(LONG_VALUE_ERROR, e.getMessage());
@@ -165,7 +165,7 @@ public class ProposalUtilTest {
 
     try {
       actuatorUtil.validator(dynamicPropertiesStore, forkUtils,
-          ProposalUtil.ProposalType.WITNESS_STANDBY_ALLOWANCE.getCode(), LONG_VALUE + 1);
+          ProposalUtil.ProposalType.EXECUTIVE_STANDBY_ALLOWANCE.getCode(), LONG_VALUE + 1);
       Assert.assertTrue(false);
     } catch (ContractValidateException e) {
       Assert.assertEquals(LONG_VALUE_ERROR, e.getMessage());
@@ -320,7 +320,7 @@ public class ProposalUtilTest {
         .copyFrom(ByteArray.fromHexString("a0ec6525979a351a54fa09fea64beb4cce33ffbb7a"));
     List<ByteString> w = new ArrayList<>();
     w.add(address);
-    forkUtils.getManager().getWitnessScheduleStore().saveActiveWitnesses(w);
+    forkUtils.getManager().getExecutiveScheduleStore().saveActiveExecutives(w);
     try {
       ProposalUtil.validator(dynamicPropertiesStore, forkUtils,
           ProposalUtil.ProposalType.ALLOW_SHIELDED_TRC20_TRANSACTION

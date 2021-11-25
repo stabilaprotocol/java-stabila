@@ -129,9 +129,9 @@ if (project.hasProperty("mainClass")) {
 }
 
 run {
-    if (project.hasProperty('witness')) {
+    if (project.hasProperty('executive')) {
         standardInput = System.in
-        args = ['--witness']
+        args = ['--executive']
     }
 }
 

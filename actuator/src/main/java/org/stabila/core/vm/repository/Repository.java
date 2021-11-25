@@ -6,7 +6,6 @@ import org.stabila.core.store.AssetIssueV2Store;
 import org.stabila.core.store.DelegationStore;
 import org.stabila.core.store.DynamicPropertiesStore;
 import org.stabila.common.runtime.vm.DataWord;
-import org.stabila.core.capsule.*;
 import org.stabila.core.store.*;
 import org.stabila.core.vm.program.Storage;
 import org.stabila.protos.Protocol;
@@ -22,6 +21,10 @@ public interface Repository {
   DynamicPropertiesStore getDynamicPropertiesStore();
 
   DelegationStore getDelegationStore();
+
+  ExecutiveStore getExecutiveStore();
+
+  AccountStore getAccountStore();
 
   AccountCapsule createAccount(byte[] address, Protocol.AccountType type);
 
@@ -119,7 +122,7 @@ public interface Repository {
 
   AccountCapsule createNormalAccount(byte[] address);
 
-  WitnessCapsule getWitness(byte[] address);
+  ExecutiveCapsule getExecutive(byte[] address);
 
   void addTotalNetWeight(long amount);
 

@@ -36,7 +36,7 @@
        int64 latest_operation_time = 10;
      }
 
-   一个`Witness`包含8种参数：  
+   一个`Executive`包含8种参数：  
    `address`：验证节点的地址——比如：_“0xu82h…7237”_。   
    `voteCount`：验证节点所得投票数——比如：_234234_。  
    `pubKey`：验证节点的公钥——比如：_“0xu82h…7237”_。  
@@ -46,8 +46,8 @@
    `latestBlockNum`：最新的区块高度——比如：_4522_。
    `isJobs`：布尔表类型标志位。
 
-    // Witness 
-    message Witness {   
+    // Executive 
+    message Executive {   
       bytes address = 1;   
       int64 voteCount = 2;   
       bytes pubKey = 3;   
@@ -70,17 +70,17 @@
       BlockHeader block_header = 2;
       }
 
-   `BlockHeader` 包括`raw_data`和`witness_signature`。  
+   `BlockHeader` 包括`raw_data`和`executive_signature`。  
    `raw_data`：`raw`信息。  
-   `witness_signature`：区块头到验证节点的签名。
+   `executive_signature`：区块头到验证节点的签名。
 
    message `raw`包含6种参数：  
    `timestamp`：该消息体的时间戳——比如：_14356325_。  
    `txTrieRoot`：Merkle Tree的根——比如：_“7dacsa…3ed”_。  
    `parentHash`：上一个区块的哈希值——比如：_“7dacsa…3ed”_。  
    `number`：区块高度——比如：_13534657_。  
-   `witness_id`：验证节点的id——比如：_“0xu82h…7237”_。  
-   `witness_address`：验证节点的地址——比如：_“0xu82h…7237”_。
+   `executive_id`：验证节点的id——比如：_“0xu82h…7237”_。  
+   `executive_address`：验证节点的地址——比如：_“0xu82h…7237”_。
 
     message BlockHeader {   
       message raw {     
@@ -90,11 +90,11 @@
         //bytes nonce = 5;    
         //bytes difficulty = 6;     
         uint64 number = 7;     
-        uint64 witness_id = 8;     
-        bytes witness_address = 9;   
+        uint64 executive_id = 8;     
+        bytes executive_address = 9;   
        }   
        raw raw_data = 1;   
-       bytes witness_signature = 2;
+       bytes executive_signature = 2;
       }
 
    消息体 `ChainInventory` 包括 `BlockId` 和 `remain_num`。  
@@ -172,35 +172,35 @@
       int32 count = 5;
      }
 
-   `VoteWitnessContract`包含4种参数：  
+   `VoteExecutiveContract`包含4种参数：  
    `vote_address`：投票人地址——比如：_“0xu82h…7237”_。  
    `support`：投票赞成与否——比如：_true_。   
    `owner_address`：合约持有人地址——比如：_“0xu82h…7237”_。  
    `count`：投票数目——比如：_32632_。 
 
-    message VoteWitnessContract {   
+    message VoteExecutiveContract {   
       bytes owner_address = 1;   
       repeated bytes vote_address = 2;   
       bool support = 3;   
       int32 count = 5; 
      }
 
-   `WitnessCreateContract`包含3种参数：  
+   `ExecutiveCreateContract`包含3种参数：  
    `private_key`：合约的私钥——比如：_“0xu82h…7237”_。  
    `owner_address`：合约持有人地址——比如：_“0xu82h…7237”_。  
    `url`：合约的url链接。
    
-    message WitnessCreateContract {   
+    message ExecutiveCreateContract {   
       bytes owner_address = 1;   
       bytes private_key = 2;   
       bytes url = 12;
       }
 
-   `WitnessUpdateContract`包含2种参数：  
+   `ExecutiveUpdateContract`包含2种参数：  
    `owner_address`：合约持有人地址——比如：_“0xu82h…7237”_。  
    `update_url`：合约的url链接。
    
-    message WitnessUpdateContract {
+    message ExecutiveUpdateContract {
       bytes owner_address = 1;
       bytes update_url = 12;
      }
@@ -280,7 +280,7 @@
    `type`：合约的类型。  
    `parameter`：任意参数。
 
-   有八种账户类型合约：`AccountCreateContract`，`TransferContract`，`TransferAssetContract`，`VoteAssetContract`，`VoteWitnessContract`，`WitnessCreateContract`，`AssetIssueContract` 和`DeployContract`。
+   有八种账户类型合约：`AccountCreateContract`，`TransferContract`，`TransferAssetContract`，`VoteAssetContract`，`VoteExecutiveContract`，`ExecutiveCreateContract`，`AssetIssueContract` 和`DeployContract`。
 
    `TransactionType`包括`UtxoType`和`ContractType`。
 
@@ -295,8 +295,8 @@
            TransferContract = 1;       
            TransferAssetContract = 2;       
            VoteAssetContract = 3;       
-           VoteWitnessContract = 4;      
-           WitnessCreateContract = 5;       
+           VoteExecutiveContract = 4;      
+           ExecutiveCreateContract = 5;       
            AssetIssueContract = 6;       
            DeployContract = 7;     
           }     
@@ -487,10 +487,10 @@
    __`CreatAssetIssue`__：通过`AssetIssueContract`发布一个资产。  
    __`ListAccounts`__：通过`ListAccounts`查看账户列表。  
    __`UpdateAccount`__：通过`UpdateAccountContract`发布一个资产。  
-   __`VoteWitnessAccount`__：通过`VoteWitnessContract`发布一个资产。  
-   __`WitnessList`__：通过`WitnessList`查看见证节点列表。  
-   __`UpdateWitness`__：通过`WitnessUpdateContract`发布一个资产。  
-   __`CreateWitness`__：通过`WitnessCreateContract`发布一个资产。  
+   __`VoteExecutiveAccount`__：通过`VoteExecutiveContract`发布一个资产。  
+   __`ExecutiveList`__：通过`ExecutiveList`查看见证节点列表。  
+   __`UpdateExecutive`__：通过`ExecutiveUpdateContract`发布一个资产。  
+   __`CreateExecutive`__：通过`ExecutiveCreateContract`发布一个资产。  
    __`TransferAsset`__：通过`TransferAssetContract`发布一个资产。  
    __`ParticipateAssetIssue`__：通过`ParticipateAssetIssueContract`发布一个资产。  
    __`ListNodes`__：通过`ListNodes`查看节点列表。  
@@ -527,7 +527,7 @@
        
          };
        
-         rpc VoteWitnessAccount (VoteWitnessContract) returns (Transaction) {
+         rpc VoteExecutiveAccount (VoteExecutiveContract) returns (Transaction) {
        
          };
        
@@ -535,15 +535,15 @@
        
          };
        
-         rpc WitnessList (EmptyMessage) returns (WitnessList) {
+         rpc ExecutiveList (EmptyMessage) returns (ExecutiveList) {
        
          };
        
-         rpc UpdateWitness (WitnessUpdateContract) returns (Transaction) {
+         rpc UpdateExecutive (ExecutiveUpdateContract) returns (Transaction) {
        
          };
        
-         rpc CreateWitness (WitnessCreateContract) returns (Transaction) {
+         rpc CreateExecutive (ExecutiveCreateContract) returns (Transaction) {
        
          };
        
@@ -586,12 +586,12 @@
           repeated Account accounts = 1;
         }  
    
-   `WitnessList`：区块链浏览器中的见证节点列表。  
-   消息体 `WitnessList` 包含1个参数：  
-   `witnesses`：
+   `ExecutiveList`：区块链浏览器中的见证节点列表。  
+   消息体 `ExecutiveList` 包含1个参数：  
+   `executives`：
       
-           message WitnessList {
-             repeated Witness witnesses = 1;
+           message ExecutiveList {
+             repeated Executive executives = 1;
            }
            
    `AssetIssueList`：区块链浏览器中的发布资产列表。  

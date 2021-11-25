@@ -303,7 +303,7 @@ INFO [net] start the PeerConnectionCheckService
 INFO [API] RpcApiService has started, listening on 50051
 INFO [net] Node config, trust 0, active 0, forward 0.
 INFO [discover] Discovery server started, bind port 6666
-INFO [net] Fast forward config, isWitness: false, keySize: 1, fastForwardNodes: 0
+INFO [net] Fast forward config, isExecutive: false, keySize: 1, fastForwardNodes: 0
 INFO [net] StabilaNetService start successfully.
 INFO [net] TCP listener started, bind port 6666
 INFO [Configuration] user defined config file doesn't exists, use default config file in jar

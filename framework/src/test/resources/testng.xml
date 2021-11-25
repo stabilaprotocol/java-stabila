@@ -32,13 +32,13 @@
     </packages>
   </test>
 
-  <test name="contract scenario,committee,witness">
+  <test name="contract scenario,committee,executive">
     <packages>
       <package name="stest.stabila.wallet.contract.scenario">
       </package>
       <package name="stest.stabila.wallet.committee">
       </package>
-      <package name="stest.stabila.wallet.witness">
+      <package name="stest.stabila.wallet.executive">
       </package>
     </packages>
   </test>

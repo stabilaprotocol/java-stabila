@@ -27,27 +27,27 @@ public class WalletTestCommittee002 {
   private final byte[] fromAddress = PublicMethed.getFinalAddress(testKey002);
   private final String testKey003 = Configuration.getByPath("testng.conf")
       .getString("foundationAccount.key2");
-  //Witness 47.93.9.236
-  private final String witnessKey001 = Configuration.getByPath("testng.conf")
-      .getString("witness.key1");
-  //Witness 47.93.33.201
-  private final String witnessKey002 = Configuration.getByPath("testng.conf")
-      .getString("witness.key2");
-  //Witness 123.56.10.6
-  private final String witnessKey003 = Configuration.getByPath("testng.conf")
-      .getString("witness.key3");
+  //Executive 47.93.9.236
+  private final String executiveKey001 = Configuration.getByPath("testng.conf")
+      .getString("executive.key1");
+  //Executive 47.93.33.201
+  private final String executiveKey002 = Configuration.getByPath("testng.conf")
+      .getString("executive.key2");
+  //Executive 123.56.10.6
+  private final String executiveKey003 = Configuration.getByPath("testng.conf")
+      .getString("executive.key3");
   //Wtiness 39.107.80.135
-  private final String witnessKey004 = Configuration.getByPath("testng.conf")
-      .getString("witness.key4");
-  //Witness 47.93.184.2
-  private final String witnessKey005 = Configuration.getByPath("testng.conf")
-      .getString("witness.key5");
+  private final String executiveKey004 = Configuration.getByPath("testng.conf")
+      .getString("executive.key4");
+  //Executive 47.93.184.2
+  private final String executiveKey005 = Configuration.getByPath("testng.conf")
+      .getString("executive.key5");
   private final byte[] toAddress = PublicMethed.getFinalAddress(testKey003);
-  private final byte[] witness001Address = PublicMethed.getFinalAddress(witnessKey001);
-  private final byte[] witness002Address = PublicMethed.getFinalAddress(witnessKey002);
-  private final byte[] witness003Address = PublicMethed.getFinalAddress(witnessKey003);
-  private final byte[] witness004Address = PublicMethed.getFinalAddress(witnessKey004);
-  private final byte[] witness005Address = PublicMethed.getFinalAddress(witnessKey005);
+  private final byte[] executive001Address = PublicMethed.getFinalAddress(executiveKey001);
+  private final byte[] executive002Address = PublicMethed.getFinalAddress(executiveKey002);
+  private final byte[] executive003Address = PublicMethed.getFinalAddress(executiveKey003);
+  private final byte[] executive004Address = PublicMethed.getFinalAddress(executiveKey004);
+  private final byte[] executive005Address = PublicMethed.getFinalAddress(executiveKey005);
   private ManagedChannel channelFull = null;
   private ManagedChannel channelSolidity = null;
   private WalletGrpc.WalletBlockingStub blockingStubFull = null;
@@ -83,32 +83,32 @@ public class WalletTestCommittee002 {
   @Test(enabled = true)
   public void testCreateProposalMaintenanceTimeInterval() {
     blockingStubSolidity = WalletSolidityGrpc.newBlockingStub(channelSolidity);
-    Assert.assertTrue(PublicMethed.sendcoin(witness001Address, 10000000L,
+    Assert.assertTrue(PublicMethed.sendcoin(executive001Address, 10000000L,
         toAddress, testKey003, blockingStubFull));
 
     //0:MAINTENANCE_TIME_INTERVAL,[3*27s,24h]
     //Minimum interval
     HashMap<Long, Long> proposalMap = new HashMap<Long, Long>();
     proposalMap.put(0L, 81000L);
-    Assert.assertTrue(PublicMethed.createProposal(witness001Address, witnessKey001,
+    Assert.assertTrue(PublicMethed.createProposal(executive001Address, executiveKey001,
         proposalMap, blockingStubFull));
 
     //Maximum interval
     proposalMap.put(0L, 86400000L);
-    Assert.assertTrue(PublicMethed.createProposal(witness001Address, witnessKey001,
+    Assert.assertTrue(PublicMethed.createProposal(executive001Address, executiveKey001,
         proposalMap, blockingStubFull));
 
     //Minimum -1 interval, create failed.
     proposalMap.put(0L, 80000L);
-    Assert.assertFalse(PublicMethed.createProposal(witness001Address, witnessKey001,
+    Assert.assertFalse(PublicMethed.createProposal(executive001Address, executiveKey001,
         proposalMap, blockingStubFull));
 
     //Maximum + 1 interval
     proposalMap.put(0L, 86401000L);
-    Assert.assertFalse(PublicMethed.createProposal(witness001Address, witnessKey001,
+    Assert.assertFalse(PublicMethed.createProposal(executive001Address, executiveKey001,
         proposalMap, blockingStubFull));
 
-    //Non witness account
+    //Non executive account
     proposalMap.put(0L, 86400000L);
     Assert.assertFalse(PublicMethed.createProposal(toAddress, testKey003, proposalMap,
         blockingStubFull));
@@ -120,25 +120,25 @@ public class WalletTestCommittee002 {
     //Minimum AccountUpgradeCost
     HashMap<Long, Long> proposalMap = new HashMap<Long, Long>();
     proposalMap.put(1L, 0L);
-    Assert.assertTrue(PublicMethed.createProposal(witness001Address, witnessKey001,
+    Assert.assertTrue(PublicMethed.createProposal(executive001Address, executiveKey001,
         proposalMap, blockingStubFull));
 
     //Maximum AccountUpgradeCost
     proposalMap.put(1L, 100000000000000000L);
-    Assert.assertTrue(PublicMethed.createProposal(witness001Address, witnessKey001,
+    Assert.assertTrue(PublicMethed.createProposal(executive001Address, executiveKey001,
         proposalMap, blockingStubFull));
 
     //Minimum - 1 AccountUpgradeCost
     proposalMap.put(1L, -1L);
-    Assert.assertFalse(PublicMethed.createProposal(witness001Address, witnessKey001,
+    Assert.assertFalse(PublicMethed.createProposal(executive001Address, executiveKey001,
         proposalMap, blockingStubFull));
 
     //Maximum + 1 AccountUpgradeCost
     proposalMap.put(1L, 100000000000000001L);
-    Assert.assertFalse(PublicMethed.createProposal(witness001Address, witnessKey001,
+    Assert.assertFalse(PublicMethed.createProposal(executive001Address, executiveKey001,
         proposalMap, blockingStubFull));
 
-    //Non witness account
+    //Non executive account
     proposalMap.put(1L, 86400000L);
     Assert.assertFalse(PublicMethed.createProposal(toAddress, testKey003,
         proposalMap, blockingStubFull));
@@ -150,25 +150,25 @@ public class WalletTestCommittee002 {
     //Minimum CreateAccountFee
     HashMap<Long, Long> proposalMap = new HashMap<Long, Long>();
     proposalMap.put(2L, 0L);
-    Assert.assertTrue(PublicMethed.createProposal(witness001Address, witnessKey001,
+    Assert.assertTrue(PublicMethed.createProposal(executive001Address, executiveKey001,
         proposalMap, blockingStubFull));
 
     //Maximum CreateAccountFee
     proposalMap.put(2L, 100000000000000000L);
-    Assert.assertTrue(PublicMethed.createProposal(witness001Address, witnessKey001,
+    Assert.assertTrue(PublicMethed.createProposal(executive001Address, executiveKey001,
         proposalMap, blockingStubFull));
 
     //Minimum - 1 CreateAccountFee
     proposalMap.put(2L, -1L);
-    Assert.assertFalse(PublicMethed.createProposal(witness001Address, witnessKey001,
+    Assert.assertFalse(PublicMethed.createProposal(executive001Address, executiveKey001,
         proposalMap, blockingStubFull));
 
     //Maximum + 1 CreateAccountFee
     proposalMap.put(2L, 100000000000000001L);
-    Assert.assertFalse(PublicMethed.createProposal(witness001Address, witnessKey001,
+    Assert.assertFalse(PublicMethed.createProposal(executive001Address, executiveKey001,
         proposalMap, blockingStubFull));
 
-    //Non witness account
+    //Non executive account
     proposalMap.put(2L, 86400000L);
     Assert.assertFalse(PublicMethed.createProposal(toAddress, testKey003,
         proposalMap, blockingStubFull));
@@ -181,25 +181,25 @@ public class WalletTestCommittee002 {
     //Minimum TransactionFee
     HashMap<Long, Long> proposalMap = new HashMap<Long, Long>();
     proposalMap.put(3L, 0L);
-    Assert.assertTrue(PublicMethed.createProposal(witness001Address, witnessKey001,
+    Assert.assertTrue(PublicMethed.createProposal(executive001Address, executiveKey001,
         proposalMap, blockingStubFull));
 
     //Maximum TransactionFee
     proposalMap.put(3L, 100000000000000000L);
-    Assert.assertTrue(PublicMethed.createProposal(witness001Address, witnessKey001,
+    Assert.assertTrue(PublicMethed.createProposal(executive001Address, executiveKey001,
         proposalMap, blockingStubFull));
 
     //Minimum - 1 TransactionFee
     proposalMap.put(3L, -1L);
-    Assert.assertFalse(PublicMethed.createProposal(witness001Address, witnessKey001,
+    Assert.assertFalse(PublicMethed.createProposal(executive001Address, executiveKey001,
         proposalMap, blockingStubFull));
 
     //Maximum + 1 TransactionFee
     proposalMap.put(3L, 100000000000000001L);
-    Assert.assertFalse(PublicMethed.createProposal(witness001Address, witnessKey001,
+    Assert.assertFalse(PublicMethed.createProposal(executive001Address, executiveKey001,
         proposalMap, blockingStubFull));
 
-    //Non witness account
+    //Non executive account
     proposalMap.put(3L, 86400000L);
     Assert.assertFalse(PublicMethed.createProposal(toAddress, testKey003,
         proposalMap, blockingStubFull));
@@ -212,30 +212,30 @@ public class WalletTestCommittee002 {
     //Minimum AssetIssueFee
     HashMap<Long, Long> proposalMap = new HashMap<Long, Long>();
     proposalMap.put(4L, 0L);
-    Assert.assertTrue(PublicMethed.createProposal(witness001Address, witnessKey001,
+    Assert.assertTrue(PublicMethed.createProposal(executive001Address, executiveKey001,
         proposalMap, blockingStubFull));
 
     //Duplicat proposals
     proposalMap.put(4L, 0L);
-    Assert.assertTrue(PublicMethed.createProposal(witness001Address, witnessKey001,
+    Assert.assertTrue(PublicMethed.createProposal(executive001Address, executiveKey001,
         proposalMap, blockingStubFull));
 
     //Maximum AssetIssueFee
     proposalMap.put(4L, 100000000000000000L);
-    Assert.assertTrue(PublicMethed.createProposal(witness001Address, witnessKey001,
+    Assert.assertTrue(PublicMethed.createProposal(executive001Address, executiveKey001,
         proposalMap, blockingStubFull));
 
     //Minimum - 1 AssetIssueFee
     proposalMap.put(4L, -1L);
-    Assert.assertFalse(PublicMethed.createProposal(witness001Address, witnessKey001,
+    Assert.assertFalse(PublicMethed.createProposal(executive001Address, executiveKey001,
         proposalMap, blockingStubFull));
 
     //Maximum + 1 AssetIssueFee
     proposalMap.put(4L, 100000000000000001L);
-    Assert.assertFalse(PublicMethed.createProposal(witness001Address, witnessKey001,
+    Assert.assertFalse(PublicMethed.createProposal(executive001Address, executiveKey001,
         proposalMap, blockingStubFull));
 
-    //Non witness account
+    //Non executive account
     proposalMap.put(4L, 86400000L);
     Assert.assertFalse(PublicMethed.createProposal(toAddress, testKey003,
         proposalMap, blockingStubFull));
@@ -243,30 +243,30 @@ public class WalletTestCommittee002 {
   }
 
   @Test(enabled = true)
-  public void testWitnessPayPerBlock() {
-    //5:WITNESS_PAY_PER_BLOCK,[0,100 000 000 000 000 000]//drop
-    //Minimum WitnessPayPerBlock
+  public void testExecutivePayPerBlock() {
+    //5:EXECUTIVE_PAY_PER_BLOCK,[0,100 000 000 000 000 000]//drop
+    //Minimum ExecutivePayPerBlock
     HashMap<Long, Long> proposalMap = new HashMap<Long, Long>();
     proposalMap.put(5L, 0L);
-    Assert.assertTrue(PublicMethed.createProposal(witness001Address, witnessKey001,
+    Assert.assertTrue(PublicMethed.createProposal(executive001Address, executiveKey001,
         proposalMap, blockingStubFull));
 
-    //Maximum WitnessPayPerBlock
+    //Maximum ExecutivePayPerBlock
     proposalMap.put(5L, 100000000000000000L);
-    Assert.assertTrue(PublicMethed.createProposal(witness001Address, witnessKey001,
+    Assert.assertTrue(PublicMethed.createProposal(executive001Address, executiveKey001,
         proposalMap, blockingStubFull));
 
-    //Minimum - 1 WitnessPayPerBlock
+    //Minimum - 1 ExecutivePayPerBlock
     proposalMap.put(5L, -1L);
-    Assert.assertFalse(PublicMethed.createProposal(witness001Address, witnessKey001,
+    Assert.assertFalse(PublicMethed.createProposal(executive001Address, executiveKey001,
         proposalMap, blockingStubFull));
 
-    //Maximum + 1 WitnessPayPerBlock
+    //Maximum + 1 ExecutivePayPerBlock
     proposalMap.put(5L, 100000000000000001L);
-    Assert.assertFalse(PublicMethed.createProposal(witness001Address, witnessKey001,
+    Assert.assertFalse(PublicMethed.createProposal(executive001Address, executiveKey001,
         proposalMap, blockingStubFull));
 
-    //Non witness account
+    //Non executive account
     proposalMap.put(5L, 86400000L);
     Assert.assertFalse(PublicMethed.createProposal(toAddress, testKey003,
         proposalMap, blockingStubFull));
@@ -274,30 +274,30 @@ public class WalletTestCommittee002 {
   }
 
   @Test(enabled = true)
-  public void testWitnessStandbyAllowance() {
-    //6:WITNESS_STANDBY_ALLOWANCE,[0,100 000 000 000 000 000]//drop
-    //Minimum WitnessStandbyAllowance
+  public void testExecutiveStandbyAllowance() {
+    //6:EXECUTIVE_STANDBY_ALLOWANCE,[0,100 000 000 000 000 000]//drop
+    //Minimum ExecutiveStandbyAllowance
     HashMap<Long, Long> proposalMap = new HashMap<Long, Long>();
     proposalMap.put(6L, 0L);
-    Assert.assertTrue(PublicMethed.createProposal(witness001Address, witnessKey001,
+    Assert.assertTrue(PublicMethed.createProposal(executive001Address, executiveKey001,
         proposalMap, blockingStubFull));
 
-    //Maximum WitnessStandbyAllowance
+    //Maximum ExecutiveStandbyAllowance
     proposalMap.put(6L, 100000000000000000L);
-    Assert.assertTrue(PublicMethed.createProposal(witness001Address, witnessKey001,
+    Assert.assertTrue(PublicMethed.createProposal(executive001Address, executiveKey001,
         proposalMap, blockingStubFull));
 
-    //Minimum - 1 WitnessStandbyAllowance
+    //Minimum - 1 ExecutiveStandbyAllowance
     proposalMap.put(6L, -1L);
-    Assert.assertFalse(PublicMethed.createProposal(witness001Address, witnessKey001,
+    Assert.assertFalse(PublicMethed.createProposal(executive001Address, executiveKey001,
         proposalMap, blockingStubFull));
 
-    //Maximum + 1 WitnessStandbyAllowance
+    //Maximum + 1 ExecutiveStandbyAllowance
     proposalMap.put(6L, 100000000000000001L);
-    Assert.assertFalse(PublicMethed.createProposal(witness001Address, witnessKey001,
+    Assert.assertFalse(PublicMethed.createProposal(executive001Address, executiveKey001,
         proposalMap, blockingStubFull));
 
-    //Non witness account
+    //Non executive account
     proposalMap.put(6L, 86400000L);
     Assert.assertFalse(PublicMethed.createProposal(toAddress, testKey003,
         proposalMap, blockingStubFull));
@@ -309,25 +309,25 @@ public class WalletTestCommittee002 {
     //7:CREATE_NEW_ACCOUNT_FEE_IN_SYSTEM_CONTRACT,0 or 1
     HashMap<Long, Long> proposalMap = new HashMap<Long, Long>();
     proposalMap.put(7L, 1L);
-    Assert.assertTrue(PublicMethed.createProposal(witness001Address, witnessKey001,
+    Assert.assertTrue(PublicMethed.createProposal(executive001Address, executiveKey001,
         proposalMap, blockingStubFull));
 
-    //Maximum WitnessStandbyAllowance
+    //Maximum ExecutiveStandbyAllowance
     proposalMap.put(7L, 100000000000000000L);
-    Assert.assertTrue(PublicMethed.createProposal(witness001Address, witnessKey001,
+    Assert.assertTrue(PublicMethed.createProposal(executive001Address, executiveKey001,
         proposalMap, blockingStubFull));
 
-    //Minimum - 1 WitnessStandbyAllowance
+    //Minimum - 1 ExecutiveStandbyAllowance
     proposalMap.put(6L, -1L);
-    Assert.assertFalse(PublicMethed.createProposal(witness001Address, witnessKey001,
+    Assert.assertFalse(PublicMethed.createProposal(executive001Address, executiveKey001,
         proposalMap, blockingStubFull));
 
-    //Maximum + 1 WitnessStandbyAllowance
+    //Maximum + 1 ExecutiveStandbyAllowance
     proposalMap.put(6L, 100000000000000001L);
-    Assert.assertFalse(PublicMethed.createProposal(witness001Address, witnessKey001,
+    Assert.assertFalse(PublicMethed.createProposal(executive001Address, executiveKey001,
         proposalMap, blockingStubFull));
 
-    //Non witness account
+    //Non executive account
     proposalMap.put(6L, 86400000L);
     Assert.assertFalse(PublicMethed.createProposal(toAddress, testKey003,
         proposalMap, blockingStubFull));
@@ -340,12 +340,12 @@ public class WalletTestCommittee002 {
     // The index isn't from 0-9
     HashMap<Long, Long> proposalMap = new HashMap<Long, Long>();
     proposalMap.put(10L, 60L);
-    Assert.assertFalse(PublicMethed.createProposal(witness001Address, witnessKey001,
+    Assert.assertFalse(PublicMethed.createProposal(executive001Address, executiveKey001,
         proposalMap, blockingStubFull));
 
     //The index is -1
     proposalMap.put(-1L, 6L);
-    Assert.assertFalse(PublicMethed.createProposal(witness001Address, witnessKey001,
+    Assert.assertFalse(PublicMethed.createProposal(executive001Address, executiveKey001,
         proposalMap, blockingStubFull));
 
 

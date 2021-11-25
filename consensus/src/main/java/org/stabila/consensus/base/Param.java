@@ -65,12 +65,12 @@ public class Param {
 
     @Getter
     @Setter
-    private ByteString witnessAddress;
+    private ByteString executiveAddress;
 
-    public Miner(byte[] privateKey, ByteString privateKeyAddress, ByteString witnessAddress) {
+    public Miner(byte[] privateKey, ByteString privateKeyAddress, ByteString executiveAddress) {
       this.privateKey = privateKey;
       this.privateKeyAddress = privateKeyAddress;
-      this.witnessAddress = witnessAddress;
+      this.executiveAddress = executiveAddress;
     }
   }
 

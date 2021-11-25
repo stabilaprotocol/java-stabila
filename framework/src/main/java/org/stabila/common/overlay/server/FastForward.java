@@ -24,7 +24,7 @@ import org.stabila.common.utils.Sha256Hash;
 import org.stabila.core.capsule.TransactionCapsule;
 import org.stabila.core.config.args.Args;
 import org.stabila.core.db.Manager;
-import org.stabila.core.store.WitnessScheduleStore;
+import org.stabila.core.store.ExecutiveScheduleStore;
 import org.stabila.protos.Protocol;
 import org.stabila.protos.Protocol.ReasonCode;
 
@@ -39,7 +39,7 @@ public class FastForward {
 
   private ChannelManager channelManager;
 
-  private WitnessScheduleStore witnessScheduleStore;
+  private ExecutiveScheduleStore executiveScheduleStore;
 
   private BackupManager backupManager;
 
@@ -47,27 +47,27 @@ public class FastForward {
 
   private CommonParameter parameter = Args.getInstance();
   private List<Node> fastForwardNodes = parameter.getFastForwardNodes();
-  private ByteString witnessAddress = ByteString
-      .copyFrom(Args.getLocalWitnesses().getWitnessAccountAddress(CommonParameter.getInstance()
+  private ByteString executiveAddress = ByteString
+      .copyFrom(Args.getLocalExecutives().getExecutiveAccountAddress(CommonParameter.getInstance()
           .isECKeyCryptoEngine()));
-  private int keySize = Args.getLocalWitnesses().getPrivateKeys().size();
+  private int keySize = Args.getLocalExecutives().getPrivateKeys().size();
 
   public void init() {
     manager = ctx.getBean(Manager.class);
     channelManager = ctx.getBean(ChannelManager.class);
-    witnessScheduleStore = ctx.getBean(WitnessScheduleStore.class);
+    executiveScheduleStore = ctx.getBean(ExecutiveScheduleStore.class);
     backupManager = ctx.getBean(BackupManager.class);
 
-    logger.info("Fast forward config, isWitness: {}, keySize: {}, fastForwardNodes: {}",
-        parameter.isWitness(), keySize, fastForwardNodes.size());
+    logger.info("Fast forward config, isExecutive: {}, keySize: {}, fastForwardNodes: {}",
+        parameter.isExecutive(), keySize, fastForwardNodes.size());
 
-    if (!parameter.isWitness() || keySize == 0 || fastForwardNodes.isEmpty()) {
+    if (!parameter.isExecutive() || keySize == 0 || fastForwardNodes.isEmpty()) {
       return;
     }
 
     executorService.scheduleWithFixedDelay(() -> {
       try {
-        if (witnessScheduleStore.getActiveWitnesses().contains(witnessAddress)
+        if (executiveScheduleStore.getActiveExecutives().contains(executiveAddress)
             && backupManager.getStatus().equals(BackupStatusEnum.MASTER)) {
           connect();
         } else {
@@ -80,12 +80,12 @@ public class FastForward {
   }
 
   public void fillHelloMessage(HelloMessage message, Channel channel) {
-    if (isActiveWitness()) {
+    if (isActiveExecutive()) {
       fastForwardNodes.forEach(node -> {
         InetAddress address = new InetSocketAddress(node.getHost(), node.getPort()).getAddress();
         if (address.equals(channel.getInetAddress())) {
           SignInterface cryptoEngine = SignUtils
-              .fromPrivate(ByteArray.fromHexString(Args.getLocalWitnesses().getPrivateKey()),
+              .fromPrivate(ByteArray.fromHexString(Args.getLocalExecutives().getPrivateKey()),
                   Args.getInstance().isECKeyCryptoEngine());
 
           ByteString sig = ByteString.copyFrom(cryptoEngine.Base64toBytes(cryptoEngine
@@ -93,7 +93,7 @@ public class FastForward {
                   .isECKeyCryptoEngine(), ByteArray.fromLong(message
                   .getTimestamp())).getBytes())));
           message.setHelloMessage(message.getHelloMessage().toBuilder()
-              .setAddress(witnessAddress).setSignature(sig).build());
+              .setAddress(executiveAddress).setSignature(sig).build());
         }
       });
     }
@@ -113,8 +113,8 @@ public class FastForward {
       return true;
     }
 
-    if (!witnessScheduleStore.getActiveWitnesses().contains(msg.getAddress())) {
-      logger.error("HelloMessage from {}, {} is not a schedule witness.",
+    if (!executiveScheduleStore.getActiveExecutives().contains(msg.getAddress())) {
+      logger.error("HelloMessage from {}, {} is not a schedule executive.",
           channel.getInetAddress(),
           ByteArray.toHexString(msg.getAddress().toByteArray()));
       return false;
@@ -130,10 +130,10 @@ public class FastForward {
       if (manager.getDynamicPropertiesStore().getAllowMultiSign() != 1) {
         return Arrays.equals(sigAddress, msg.getAddress().toByteArray());
       } else {
-        byte[] witnessPermissionAddress = manager.getAccountStore()
+        byte[] executivePermissionAddress = manager.getAccountStore()
             .get(msg.getAddress().toByteArray())
-            .getWitnessPermissionAddress();
-        return Arrays.equals(sigAddress, witnessPermissionAddress);
+            .getExecutivePermissionAddress();
+        return Arrays.equals(sigAddress, executivePermissionAddress);
       }
     } catch (Exception e) {
       logger.error("Check hello message failed, msg: {}, {}", message, e);
@@ -141,11 +141,11 @@ public class FastForward {
     }
   }
 
-  private boolean isActiveWitness() {
-    return parameter.isWitness()
+  private boolean isActiveExecutive() {
+    return parameter.isExecutive()
         && keySize > 0
         && fastForwardNodes.size() > 0
-        && witnessScheduleStore.getActiveWitnesses().contains(witnessAddress)
+        && executiveScheduleStore.getActiveExecutives().contains(executiveAddress)
         && backupManager.getStatus().equals(BackupStatusEnum.MASTER);
   }
 

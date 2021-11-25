@@ -91,9 +91,9 @@ import org.stabila.protos.contract.SmartContractOuterClass.TriggerSmartContract;
 import org.stabila.protos.contract.SmartContractOuterClass.UpdateUcrLimitContract;
 import org.stabila.protos.contract.SmartContractOuterClass.UpdateSettingContract;
 import org.stabila.protos.contract.StorageContract.UpdateBrokerageContract;
-import org.stabila.protos.contract.WitnessContract.VoteWitnessContract;
-import org.stabila.protos.contract.WitnessContract.WitnessCreateContract;
-import org.stabila.protos.contract.WitnessContract.WitnessUpdateContract;
+import org.stabila.protos.contract.ExecutiveContract.VoteExecutiveContract;
+import org.stabila.protos.contract.ExecutiveContract.ExecutiveCreateContract;
+import org.stabila.protos.contract.ExecutiveContract.ExecutiveUpdateContract;
 import stest.stabila.wallet.common.client.Parameter.CommonConstant;
 import stest.stabila.wallet.common.client.WalletClient;
 
@@ -2741,16 +2741,16 @@ public class PublicMethedForMutiSign {
 
     JSONObject permissions = JSONObject.parseObject(permissionJson);
     JSONObject ownersPermission = permissions.getJSONObject("owner_permission");
-    JSONObject witnesssPermission = permissions.getJSONObject("witness_permission");
+    JSONObject executivesPermission = permissions.getJSONObject("executive_permission");
     JSONArray activesPermissions = permissions.getJSONArray("active_permissions");
 
     if (ownersPermission != null) {
       Permission ownerPermission = json2Permission(ownersPermission);
       builder.setOwner(ownerPermission);
     }
-    if (witnesssPermission != null) {
-      Permission witnessPermission = json2Permission(witnesssPermission);
-      builder.setWitness(witnessPermission);
+    if (executivesPermission != null) {
+      Permission executivePermission = json2Permission(executivesPermission);
+      builder.setExecutive(executivePermission);
     }
     if (activesPermissions != null) {
       List<Permission> activePermissionList = new ArrayList<>();
@@ -2807,16 +2807,16 @@ public class PublicMethedForMutiSign {
 
     JSONObject permissions = JSONObject.parseObject(permissionJson);
     JSONObject ownerpermission = permissions.getJSONObject("owner_permission");
-    JSONObject witnesspermission = permissions.getJSONObject("witness_permission");
+    JSONObject executivepermission = permissions.getJSONObject("executive_permission");
     JSONArray activepermissions = permissions.getJSONArray("active_permissions");
 
     if (ownerpermission != null) {
       Permission ownerPermission = json2Permission(ownerpermission);
       builder.setOwner(ownerPermission);
     }
-    if (witnesspermission != null) {
-      Permission witnessPermission = json2Permission(witnesspermission);
-      builder.setWitness(witnessPermission);
+    if (executivepermission != null) {
+      Permission executivePermission = json2Permission(executivepermission);
+      builder.setExecutive(executivePermission);
     }
     if (activepermissions != null) {
       List<Permission> activePermissionList = new ArrayList<>();
@@ -2879,16 +2879,16 @@ public class PublicMethedForMutiSign {
 
     JSONObject permissions = JSONObject.parseObject(permissionJson);
     JSONObject ownerpermission = permissions.getJSONObject("owner_permission");
-    JSONObject witnesspermission = permissions.getJSONObject("witness_permission");
+    JSONObject executivepermission = permissions.getJSONObject("executive_permission");
     JSONArray activepermissions = permissions.getJSONArray("active_permissions");
 
     if (ownerpermission != null) {
       Permission ownerPermission = json2Permission(ownerpermission);
       builder.setOwner(ownerPermission);
     }
-    if (witnesspermission != null) {
-      Permission witnessPermission = json2Permission(witnesspermission);
-      builder.setWitness(witnessPermission);
+    if (executivepermission != null) {
+      Permission executivePermission = json2Permission(executivepermission);
+      builder.setExecutive(executivePermission);
     }
     if (activepermissions != null) {
       List<Permission> activePermissionList = new ArrayList<>();
@@ -2964,7 +2964,7 @@ public class PublicMethedForMutiSign {
   /**
    * constructor.
    */
-  public static Boolean voteWitness(HashMap<String, String> witness, byte[] addRess, String priKey,
+  public static Boolean voteExecutive(HashMap<String, String> executive, byte[] addRess, String priKey,
       WalletGrpc.WalletBlockingStub blockingStubFull, String[] permissionKeyString) {
     Wallet.setAddressPreFixByte(CommonConstant.ADD_PRE_FIX_BYTE_MAINNET);
 
@@ -2977,12 +2977,12 @@ public class PublicMethedForMutiSign {
     }
     ECKey ecKey = temKey;
 
-    VoteWitnessContract.Builder builder = VoteWitnessContract.newBuilder();
+    VoteExecutiveContract.Builder builder = VoteExecutiveContract.newBuilder();
     builder.setOwnerAddress(ByteString.copyFrom(addRess));
-    for (String addressBase58 : witness.keySet()) {
-      String value = witness.get(addressBase58);
+    for (String addressBase58 : executive.keySet()) {
+      String value = executive.get(addressBase58);
       final long count = Long.parseLong(value);
-      VoteWitnessContract.Vote.Builder voteBuilder = VoteWitnessContract.Vote.newBuilder();
+      VoteExecutiveContract.Vote.Builder voteBuilder = VoteExecutiveContract.Vote.newBuilder();
       byte[] address = WalletClient.decodeFromBase58Check(addressBase58);
       if (address == null) {
         continue;
@@ -2992,9 +2992,9 @@ public class PublicMethedForMutiSign {
       builder.addVotes(voteBuilder.build());
     }
 
-    VoteWitnessContract contract = builder.build();
+    VoteExecutiveContract contract = builder.build();
 
-    Transaction transaction = blockingStubFull.voteWitnessAccount(contract);
+    Transaction transaction = blockingStubFull.voteExecutiveAccount(contract);
     if (transaction == null || transaction.getRawData().getContractCount() == 0) {
       logger.info("transaction == null");
       return false;
@@ -3168,16 +3168,16 @@ public class PublicMethedForMutiSign {
 
     JSONObject permissions = JSONObject.parseObject(permissionJson);
     JSONObject ownersPermission = permissions.getJSONObject("owner_permission");
-    JSONObject witnesssPermission = permissions.getJSONObject("witness_permission");
+    JSONObject executivesPermission = permissions.getJSONObject("executive_permission");
     JSONArray activesPermissions = permissions.getJSONArray("active_permissions");
 
     if (ownersPermission != null) {
       Permission ownerPermission = json2Permission(ownersPermission);
       builder.setOwner(ownerPermission);
     }
-    if (witnesssPermission != null) {
-      Permission witnessPermission = json2Permission(witnesssPermission);
-      builder.setWitness(witnessPermission);
+    if (executivesPermission != null) {
+      Permission executivePermission = json2Permission(executivesPermission);
+      builder.setExecutive(executivePermission);
     }
     if (activesPermissions != null) {
       List<Permission> activePermissionList = new ArrayList<>();
@@ -3242,16 +3242,16 @@ public class PublicMethedForMutiSign {
 
     JSONObject permissions = JSONObject.parseObject(permissionJson);
     JSONObject ownersPermission = permissions.getJSONObject("owner_permission");
-    JSONObject witnesssPermission = permissions.getJSONObject("witness_permission");
+    JSONObject executivesPermission = permissions.getJSONObject("executive_permission");
     JSONArray activesPermissions = permissions.getJSONArray("active_permissions");
 
     if (ownersPermission != null) {
       Permission ownerPermission = json2Permission(ownersPermission);
       builder.setOwner(ownerPermission);
     }
-    if (witnesssPermission != null) {
-      Permission witnessPermission = json2Permission(witnesssPermission);
-      builder.setWitness(witnessPermission);
+    if (executivesPermission != null) {
+      Permission executivePermission = json2Permission(executivesPermission);
+      builder.setExecutive(executivePermission);
     }
     if (activesPermissions != null) {
       List<Permission> activePermissionList = new ArrayList<>();
@@ -3402,7 +3402,7 @@ public class PublicMethedForMutiSign {
   /**
    * constructor.
    */
-  public static void recoverWitnessPermission(String ownerKey, List<String> ownerPermissionKeys,
+  public static void recoverExecutivePermission(String ownerKey, List<String> ownerPermissionKeys,
       WalletGrpc.WalletBlockingStub blockingStubFull) {
 
     PublicMethed.printAddress(ownerKey);
@@ -3411,7 +3411,7 @@ public class PublicMethedForMutiSign {
     String accountPermissionJson =
         "{\"owner_permission\":{\"type\":0,\"permission_name\":\"owner\",\"threshold\":1,\"keys\":["
             + "{\"address\":\"" + PublicMethed.getAddressString(ownerKey) + "\",\"weight\":1}]},"
-            + "\"witness_permission\":{\"type\":1,\"permission_name\":\"witness\","
+            + "\"executive_permission\":{\"type\":1,\"permission_name\":\"executive\","
             + "\"threshold\":1,\"keys\":[" + "{\"address\":\"" + PublicMethed
             .getAddressString(ownerKey) + "\",\"weight\":1}]},"
             + "\"active_permissions\":[{\"type\":2,\"permission_name\":\"active0\",\"threshold\":1,"
@@ -3433,7 +3433,7 @@ public class PublicMethedForMutiSign {
             .getKeysCount());
 
     Assert.assertEquals(1,
-        PublicMethed.queryAccount(ownerAddress, blockingStubFull).getWitnessPermission()
+        PublicMethed.queryAccount(ownerAddress, blockingStubFull).getExecutivePermission()
             .getKeysCount());
   }
 
@@ -3471,16 +3471,16 @@ public class PublicMethedForMutiSign {
 
     JSONObject permissions = JSONObject.parseObject(permissionJson);
     JSONObject ownersPermission = permissions.getJSONObject("owner_permission");
-    JSONObject witnesssPermission = permissions.getJSONObject("witness_permission");
+    JSONObject executivesPermission = permissions.getJSONObject("executive_permission");
     JSONArray activesPermissions = permissions.getJSONArray("active_permissions");
 
     if (ownersPermission != null) {
       Permission ownerPermission = json2Permission(ownersPermission);
       builder.setOwner(ownerPermission);
     }
-    if (witnesssPermission != null) {
-      Permission witnessPermission = json2Permission(witnesssPermission);
-      builder.setWitness(witnessPermission);
+    if (executivesPermission != null) {
+      Permission executivePermission = json2Permission(executivesPermission);
+      builder.setExecutive(executivePermission);
     }
     if (activesPermissions != null) {
       List<Permission> activePermissionList = new ArrayList<>();
@@ -4386,7 +4386,7 @@ public class PublicMethedForMutiSign {
   /**
    * constructor.
    */
-  public static Boolean voteWitnessWithPermissionId(HashMap<String, String> witness, byte[] addRess,
+  public static Boolean voteExecutiveWithPermissionId(HashMap<String, String> executive, byte[] addRess,
       String priKey, WalletGrpc.WalletBlockingStub blockingStubFull, int permissionId,
       String[] permissionKeyString) {
     Wallet.setAddressPreFixByte(CommonConstant.ADD_PRE_FIX_BYTE_MAINNET);
@@ -4400,12 +4400,12 @@ public class PublicMethedForMutiSign {
     }
     ECKey ecKey = temKey;
 
-    VoteWitnessContract.Builder builder = VoteWitnessContract.newBuilder();
+    VoteExecutiveContract.Builder builder = VoteExecutiveContract.newBuilder();
     builder.setOwnerAddress(ByteString.copyFrom(addRess));
-    for (String addressBase58 : witness.keySet()) {
-      String value = witness.get(addressBase58);
+    for (String addressBase58 : executive.keySet()) {
+      String value = executive.get(addressBase58);
       final long count = Long.parseLong(value);
-      VoteWitnessContract.Vote.Builder voteBuilder = VoteWitnessContract.Vote.newBuilder();
+      VoteExecutiveContract.Vote.Builder voteBuilder = VoteExecutiveContract.Vote.newBuilder();
       byte[] address = WalletClient.decodeFromBase58Check(addressBase58);
       if (address == null) {
         continue;
@@ -4415,9 +4415,9 @@ public class PublicMethedForMutiSign {
       builder.addVotes(voteBuilder.build());
     }
 
-    VoteWitnessContract contract = builder.build();
+    VoteExecutiveContract contract = builder.build();
 
-    TransactionExtention transactionExtention = blockingStubFull.voteWitnessAccount2(contract);
+    TransactionExtention transactionExtention = blockingStubFull.voteExecutiveAccount2(contract);
     Transaction transaction = transactionExtention.getTransaction();
 
     Return ret = transactionExtention.getResult();
@@ -4982,7 +4982,7 @@ public class PublicMethedForMutiSign {
   /**
    * constructor.
    */
-  public static boolean createWitness(String url, byte[] owner, String priKey, int permissionId,
+  public static boolean createExecutive(String url, byte[] owner, String priKey, int permissionId,
       String[] permissionKeyString, WalletGrpc.WalletBlockingStub blockingStubFull) {
     ECKey temKey = null;
     try {
@@ -4994,12 +4994,12 @@ public class PublicMethedForMutiSign {
     final ECKey ecKey = temKey;
 
     byte[] byteurl = url.getBytes();
-    WitnessCreateContract.Builder builder = WitnessCreateContract.newBuilder();
+    ExecutiveCreateContract.Builder builder = ExecutiveCreateContract.newBuilder();
     builder.setOwnerAddress(ByteString.copyFrom(owner));
     builder.setUrl(ByteString.copyFrom(byteurl));
-    WitnessCreateContract contract = builder.build();
+    ExecutiveCreateContract contract = builder.build();
 
-    TransactionExtention transactionExtention = blockingStubFull.createWitness2(contract);
+    TransactionExtention transactionExtention = blockingStubFull.createExecutive2(contract);
     if (transactionExtention == null || !transactionExtention.getResult().getResult()) {
       System.out.println("RPC create stb failed!");
       if (transactionExtention != null) {
@@ -5039,7 +5039,7 @@ public class PublicMethedForMutiSign {
    * constructor.
    */
 
-  public static boolean updateWitness2(byte[] owner, byte[] url, String priKey, int permissionId,
+  public static boolean updateExecutive2(byte[] owner, byte[] url, String priKey, int permissionId,
       String[] permissionKeyString, WalletGrpc.WalletBlockingStub blockingStubFull) {
     ECKey temKey = null;
     try {
@@ -5050,12 +5050,12 @@ public class PublicMethedForMutiSign {
     }
     final ECKey ecKey = temKey;
 
-    WitnessUpdateContract.Builder builder = WitnessUpdateContract.newBuilder();
+    ExecutiveUpdateContract.Builder builder = ExecutiveUpdateContract.newBuilder();
     builder.setOwnerAddress(ByteString.copyFrom(owner));
     builder.setUpdateUrl(ByteString.copyFrom(url));
-    WitnessUpdateContract contract = builder.build();
+    ExecutiveUpdateContract contract = builder.build();
 
-    GrpcAPI.TransactionExtention transactionExtention = blockingStubFull.updateWitness2(contract);
+    GrpcAPI.TransactionExtention transactionExtention = blockingStubFull.updateExecutive2(contract);
     if (transactionExtention == null) {
       return transactionExtention.getResult().getResult();
     }

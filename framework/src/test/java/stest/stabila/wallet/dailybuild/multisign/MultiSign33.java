@@ -85,11 +85,11 @@ public class MultiSign33 {
     Account test001AddressAccount = PublicMethed.queryAccount(test001Address, blockingStubFull);
     List<Permission> permissionsList = test001AddressAccount.getActivePermissionList();
     Permission ownerPermission = test001AddressAccount.getOwnerPermission();
-    Permission witnessPermission = test001AddressAccount.getWitnessPermission();
+    Permission executivePermission = test001AddressAccount.getExecutivePermission();
     final long balance = test001AddressAccount.getBalance();
     PublicMethedForMutiSign.printPermissionList(permissionsList);
     logger.info(PublicMethedForMutiSign.printPermission(ownerPermission));
-    logger.info(PublicMethedForMutiSign.printPermission(witnessPermission));
+    logger.info(PublicMethedForMutiSign.printPermission(executivePermission));
     dev001Key = ByteArray.toHexString(ecKey.getPrivKeyBytes());
 
     String[] permissionKeyString = new String[1];
@@ -115,11 +115,11 @@ public class MultiSign33 {
     Account test001AddressAccount1 = PublicMethed.queryAccount(test001Address, blockingStubFull);
     List<Permission> permissionsList1 = test001AddressAccount1.getActivePermissionList();
     Permission ownerPermission1 = test001AddressAccount1.getOwnerPermission();
-    Permission witnessPermission1 = test001AddressAccount1.getWitnessPermission();
+    Permission executivePermission1 = test001AddressAccount1.getExecutivePermission();
     final long balance1 = test001AddressAccount1.getBalance();
     PublicMethedForMutiSign.printPermissionList(permissionsList1);
     logger.info(PublicMethedForMutiSign.printPermission(ownerPermission1));
-    logger.info(PublicMethedForMutiSign.printPermission(witnessPermission1));
+    logger.info(PublicMethedForMutiSign.printPermission(executivePermission1));
     Assert.assertEquals(balance - balance1, updateAccountPermissionFee);
     String accountPermissionJson2 = "{\"owner_permission\":{\"type\":0,\"permission_name\":\""
         + "owner\",\"threshold\":1,\"keys\":[{\"address\":\"" + "" + PublicMethed
@@ -138,10 +138,10 @@ public class MultiSign33 {
     Permission ownerPermission2 = test001AddressAccount2.getOwnerPermission();
     long balance2 = test001AddressAccount2.getBalance();
     Assert.assertEquals(balance1 - balance2, updateAccountPermissionFee);
-    Permission witnessPermission2 = test001AddressAccount2.getWitnessPermission();
+    Permission executivePermission2 = test001AddressAccount2.getExecutivePermission();
     PublicMethedForMutiSign.printPermissionList(permissionsList2);
     logger.info(PublicMethedForMutiSign.printPermission(ownerPermission2));
-    logger.info(PublicMethedForMutiSign.printPermission(witnessPermission2));
+    logger.info(PublicMethedForMutiSign.printPermission(executivePermission2));
 
 
   }

@@ -86,6 +86,7 @@ public abstract class RateLimiterServlet extends HttpServlet {
   @Override
   protected void service(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
+    resp.setContentType("application/json");
     IRateLimiter rateLimiter = container.get(KEY_PREFIX_HTTP, getClass().getSimpleName());
 
     boolean acquireResource = true;

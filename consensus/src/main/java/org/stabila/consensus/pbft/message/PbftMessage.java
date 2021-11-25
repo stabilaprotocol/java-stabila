@@ -39,16 +39,16 @@ public class PbftMessage extends PbftBaseMessage {
   }
 
   public static PbftMessage prePrepareSRLMsg(BlockCapsule block,
-      List<ByteString> currentWitness, long epoch, Miner miner) {
+      List<ByteString> currentExecutive, long epoch, Miner miner) {
     SRL.Builder srListBuilder = SRL.newBuilder();
-    ByteString data = srListBuilder.addAllSrAddress(currentWitness).build().toByteString();
+    ByteString data = srListBuilder.addAllSrAddress(currentExecutive).build().toByteString();
     return buildCommon(DataType.SRL, data, block, epoch, epoch, miner);
   }
 
   public static PbftMessage fullNodePrePrepareSRLMsg(BlockCapsule block,
-      List<ByteString> currentWitness, long epoch) {
+      List<ByteString> currentExecutive, long epoch) {
     SRL.Builder srListBuilder = SRL.newBuilder();
-    ByteString data = srListBuilder.addAllSrAddress(currentWitness).build().toByteString();
+    ByteString data = srListBuilder.addAllSrAddress(currentExecutive).build().toByteString();
     return buildFullNodeCommon(DataType.SRL, data, block, epoch, epoch);
   }
 

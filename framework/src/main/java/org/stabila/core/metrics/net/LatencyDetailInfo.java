@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class LatencyDetailInfo {
-  private String witness;
+  private String executive;
   private int top99;
   private int top95;
   private int top75;

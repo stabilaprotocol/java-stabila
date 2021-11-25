@@ -132,24 +132,24 @@ public class WalletTestAccount015 {
   }
 
 
-  @Test(enabled = true, description = "List witnesses")
-  public void test06ListWitness() {
-    Assert.assertTrue(PublicMethed.listWitnesses(blockingStubFull)
-        .get().getWitnessesCount() >= 2);
+  @Test(enabled = true, description = "List executives")
+  public void test06ListExecutive() {
+    Assert.assertTrue(PublicMethed.listExecutives(blockingStubFull)
+        .get().getExecutivesCount() >= 2);
   }
 
-  @Test(enabled = true, description = "List witnesses from solidity node")
-  public void test07ListWitnessFromSolidity() {
-    Assert.assertTrue(PublicMethed.listWitnessesFromSolidity(blockingStubSolidity)
-        .get().getWitnessesCount() >= 2);
-    Assert.assertTrue(PublicMethed.listWitnessesFromSolidity(blockingStubSoliInFull)
-        .get().getWitnessesCount() >= 2);
+  @Test(enabled = true, description = "List executives from solidity node")
+  public void test07ListExecutiveFromSolidity() {
+    Assert.assertTrue(PublicMethed.listExecutivesFromSolidity(blockingStubSolidity)
+        .get().getExecutivesCount() >= 2);
+    Assert.assertTrue(PublicMethed.listExecutivesFromSolidity(blockingStubSoliInFull)
+        .get().getExecutivesCount() >= 2);
   }
 
-  @Test(enabled = true, description = "List witnesses from PBFT node")
-  public void test08ListWitnessFromPbft() {
-    Assert.assertTrue(PublicMethed.listWitnessesFromSolidity(blockingStubPbft)
-        .get().getWitnessesCount() >= 2);
+  @Test(enabled = true, description = "List executives from PBFT node")
+  public void test08ListExecutiveFromPbft() {
+    Assert.assertTrue(PublicMethed.listExecutivesFromSolidity(blockingStubPbft)
+        .get().getExecutivesCount() >= 2);
   }
 
 

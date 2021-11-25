@@ -18,7 +18,7 @@ import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 import org.stabila.api.GrpcAPI;
 import org.stabila.api.GrpcAPI.NumberMessage;
-import org.stabila.api.GrpcAPI.WitnessList;
+import org.stabila.api.GrpcAPI.ExecutiveList;
 import org.stabila.api.WalletGrpc;
 import org.stabila.common.crypto.ECKey;
 import org.stabila.common.utils.ByteArray;
@@ -30,7 +30,7 @@ import org.stabila.protos.Protocol.Block;
 import org.stabila.protos.contract.AccountContract.AccountUpdateContract;
 import org.stabila.protos.contract.AssetIssueContractOuterClass;
 import org.stabila.protos.contract.BalanceContract;
-import org.stabila.protos.contract.WitnessContract;
+import org.stabila.protos.contract.ExecutiveContract;
 import stest.stabila.wallet.common.client.Configuration;
 import stest.stabila.wallet.common.client.Parameter.CommonConstant;
 import stest.stabila.wallet.common.client.WalletClient;
@@ -117,11 +117,11 @@ public class UpdateAccount2Test {
       logger.info(Long.toString(noCreateAccount.getBalance()));
       //Assert.assertTrue(noCreateAccount.getBalance() == 1);
 
-      //TestVoteToNonWitnessAccount
+      //TestVoteToNonExecutiveAccount
       String voteStr = Base58.encode58Check(lowBalAddress);
 
-      HashMap<String, String> voteToNonWitnessAccount = new HashMap<String, String>();
-      voteToNonWitnessAccount.put(voteStr, "3");
+      HashMap<String, String> voteToNonExecutiveAccount = new HashMap<String, String>();
+      voteToNonExecutiveAccount.put(voteStr, "3");
 
       HashMap<String, String> voteToInvaildAddress = new HashMap<String, String>();
       voteToInvaildAddress.put("27cu1ozb4mX3m2afY68FSAqn3HmMp815d48SS", "4");
@@ -134,25 +134,25 @@ public class UpdateAccount2Test {
           fromAddress, testKey002, blockingStubFull);
       Assert.assertEquals(ret1.getCode(), GrpcAPI.Return.response_code.SUCCESS);
 
-      WitnessList witnesslist = blockingStubFull
-          .listWitnesses(GrpcAPI.EmptyMessage.newBuilder().build());
-      Optional<WitnessList> result = Optional.ofNullable(witnesslist);
-      WitnessList witnessList = result.get();
-      if (result.get().getWitnessesCount() < 6) {
+      ExecutiveList executivelist = blockingStubFull
+          .listExecutives(GrpcAPI.EmptyMessage.newBuilder().build());
+      Optional<ExecutiveList> result = Optional.ofNullable(executivelist);
+      ExecutiveList executiveList = result.get();
+      if (result.get().getExecutivesCount() < 6) {
         String createUrl1 = "adfafds";
         byte[] createUrl = createUrl1.getBytes();
         String lowBalTest2 = ByteArray.toHexString(ecKey2.getPrivKeyBytes());
-        ret1 = createWitness2(lowBalAddress2, createUrl, lowBalTest2);
+        ret1 = createExecutive2(lowBalAddress2, createUrl, lowBalTest2);
         Assert.assertEquals(ret1.getCode(), GrpcAPI.Return.response_code.SUCCESS);
         Assert.assertEquals(ret1.getMessage().toStringUtf8(), "");
         String voteStr1 = Base58.encode58Check(lowBalAddress2);
         HashMap<String, String> voteToWitAddress = new HashMap<String, String>();
         voteToWitAddress.put(voteStr1, "1");
         PublicMethed.printAddress(lowBalTest);
-        ret1 = voteWitness2(voteToWitAddress, fromAddress, testKey002);
+        ret1 = voteExecutive2(voteToWitAddress, fromAddress, testKey002);
         Assert.assertEquals(ret1.getCode(), GrpcAPI.Return.response_code.SUCCESS);
         Assert.assertEquals(ret1.getMessage().toStringUtf8(), "");
-        //logger.info("vote to non witness account ok!!!");
+        //logger.info("vote to non executive account ok!!!");
       }
 
       //normal cdBalance
@@ -161,11 +161,11 @@ public class UpdateAccount2Test {
       Assert.assertEquals(ret1.getCode(), GrpcAPI.Return.response_code.SUCCESS);
       Assert.assertEquals(ret1.getMessage().toStringUtf8(), "");
 
-      //vote To NonWitnessAccount
-      ret1 = voteWitness2(voteToNonWitnessAccount, fromAddress, testKey002);
+      //vote To NonExecutiveAccount
+      ret1 = voteExecutive2(voteToNonExecutiveAccount, fromAddress, testKey002);
       Assert.assertEquals(ret1.getCode(), GrpcAPI.Return.response_code.CONTRACT_VALIDATE_ERROR);
       //vote to InvaildAddress
-      ret1 = voteWitness2(voteToInvaildAddress, fromAddress, testKey002);
+      ret1 = voteExecutive2(voteToInvaildAddress, fromAddress, testKey002);
       Assert.assertEquals(ret1.getCode(), GrpcAPI.Return.response_code.CONTRACT_VALIDATE_ERROR);
       Assert.assertEquals(ret1.getMessage().toStringUtf8(),
           "contract validate error : VoteNumber must more than 0");
@@ -229,11 +229,11 @@ public class UpdateAccount2Test {
   }
 
   @Test(enabled = true)
-  public void testNoBalanceCreateWitness2() {
-    //Apply to be super witness failed when no enough balance.
-    //Assert.assertFalse(createWitness2(lowBalAddress, fromAddress, lowBalTest));
+  public void testNoBalanceCreateExecutive2() {
+    //Apply to be super executive failed when no enough balance.
+    //Assert.assertFalse(createExecutive2(lowBalAddress, fromAddress, lowBalTest));
     System.out.println("1111222333:" + lowBalAddress);
-    GrpcAPI.Return ret1 = createWitness2(lowBalAddress, fromAddress, lowBalTest);
+    GrpcAPI.Return ret1 = createExecutive2(lowBalAddress, fromAddress, lowBalTest);
     Assert.assertEquals(ret1.getCode(), GrpcAPI.Return.response_code.CONTRACT_VALIDATE_ERROR);
     Assert.assertEquals(ret1.getMessage().toStringUtf8(),
         "contract validate error : balance < AccountUpgradeCost");
@@ -269,7 +269,7 @@ public class UpdateAccount2Test {
    * constructor.
    */
 
-  public Boolean createWitness(byte[] owner, byte[] url, String priKey) {
+  public Boolean createExecutive(byte[] owner, byte[] url, String priKey) {
     ECKey temKey = null;
     try {
       BigInteger priK = new BigInteger(priKey, 16);
@@ -279,12 +279,12 @@ public class UpdateAccount2Test {
     }
     final ECKey ecKey = temKey;
 
-    WitnessContract.WitnessCreateContract.Builder builder = WitnessContract.WitnessCreateContract
+    ExecutiveContract.ExecutiveCreateContract.Builder builder = ExecutiveContract.ExecutiveCreateContract
         .newBuilder();
     builder.setOwnerAddress(ByteString.copyFrom(owner));
     builder.setUrl(ByteString.copyFrom(url));
-    WitnessContract.WitnessCreateContract contract = builder.build();
-    Protocol.Transaction transaction = blockingStubFull.createWitness(contract);
+    ExecutiveContract.ExecutiveCreateContract contract = builder.build();
+    Protocol.Transaction transaction = blockingStubFull.createExecutive(contract);
     if (transaction == null || transaction.getRawData().getContractCount() == 0) {
       return false;
     }
@@ -297,7 +297,7 @@ public class UpdateAccount2Test {
    * constructor.
    */
 
-  public GrpcAPI.Return createWitness2(byte[] owner, byte[] url, String priKey) {
+  public GrpcAPI.Return createExecutive2(byte[] owner, byte[] url, String priKey) {
     ECKey temKey = null;
     try {
       BigInteger priK = new BigInteger(priKey, 16);
@@ -307,12 +307,12 @@ public class UpdateAccount2Test {
     }
     final ECKey ecKey = temKey;
 
-    WitnessContract.WitnessCreateContract.Builder builder = WitnessContract.WitnessCreateContract
+    ExecutiveContract.ExecutiveCreateContract.Builder builder = ExecutiveContract.ExecutiveCreateContract
         .newBuilder();
     builder.setOwnerAddress(ByteString.copyFrom(owner));
     builder.setUrl(ByteString.copyFrom(url));
-    WitnessContract.WitnessCreateContract contract = builder.build();
-    GrpcAPI.TransactionExtention transactionExtention = blockingStubFull.createWitness2(contract);
+    ExecutiveContract.ExecutiveCreateContract contract = builder.build();
+    GrpcAPI.TransactionExtention transactionExtention = blockingStubFull.createExecutive2(contract);
     if (transactionExtention == null) {
       return transactionExtention.getResult();
     }
@@ -738,7 +738,7 @@ public class UpdateAccount2Test {
    * constructor.
    */
 
-  public Boolean voteWitness(HashMap<String, String> witness, byte[] address, String priKey) {
+  public Boolean voteExecutive(HashMap<String, String> executive, byte[] address, String priKey) {
 
     ECKey temKey = null;
     try {
@@ -748,14 +748,14 @@ public class UpdateAccount2Test {
       ex.printStackTrace();
     }
     final ECKey ecKey = temKey;
-    WitnessContract.VoteWitnessContract.Builder builder = WitnessContract.VoteWitnessContract
+    ExecutiveContract.VoteExecutiveContract.Builder builder = ExecutiveContract.VoteExecutiveContract
         .newBuilder();
     builder.setOwnerAddress(ByteString.copyFrom(address));
-    for (String addressBase58 : witness.keySet()) {
-      String value = witness.get(addressBase58);
+    for (String addressBase58 : executive.keySet()) {
+      String value = executive.get(addressBase58);
       long count = Long.parseLong(value);
-      WitnessContract.VoteWitnessContract.Vote.Builder voteBuilder =
-          WitnessContract.VoteWitnessContract.Vote
+      ExecutiveContract.VoteExecutiveContract.Vote.Builder voteBuilder =
+          ExecutiveContract.VoteExecutiveContract.Vote
               .newBuilder();
       byte[] addRess = WalletClient.decodeFromBase58Check(addressBase58);
       if (addRess == null) {
@@ -766,9 +766,9 @@ public class UpdateAccount2Test {
       builder.addVotes(voteBuilder.build());
     }
 
-    WitnessContract.VoteWitnessContract contract = builder.build();
+    ExecutiveContract.VoteExecutiveContract contract = builder.build();
 
-    Protocol.Transaction transaction = blockingStubFull.voteWitnessAccount(contract);
+    Protocol.Transaction transaction = blockingStubFull.voteExecutiveAccount(contract);
     if (transaction == null || transaction.getRawData().getContractCount() == 0) {
       logger.info("transaction == null");
       return false;
@@ -787,7 +787,7 @@ public class UpdateAccount2Test {
    * constructor.
    */
 
-  public GrpcAPI.Return voteWitness2(HashMap<String, String> witness, byte[] address,
+  public GrpcAPI.Return voteExecutive2(HashMap<String, String> executive, byte[] address,
       String priKey) {
 
     ECKey temKey = null;
@@ -798,14 +798,14 @@ public class UpdateAccount2Test {
       ex.printStackTrace();
     }
     final ECKey ecKey = temKey;
-    WitnessContract.VoteWitnessContract.Builder builder = WitnessContract.VoteWitnessContract
+    ExecutiveContract.VoteExecutiveContract.Builder builder = ExecutiveContract.VoteExecutiveContract
         .newBuilder();
     builder.setOwnerAddress(ByteString.copyFrom(address));
-    for (String addressBase58 : witness.keySet()) {
-      String value = witness.get(addressBase58);
+    for (String addressBase58 : executive.keySet()) {
+      String value = executive.get(addressBase58);
       long count = Long.parseLong(value);
-      WitnessContract.VoteWitnessContract.Vote.Builder voteBuilder =
-          WitnessContract.VoteWitnessContract.Vote
+      ExecutiveContract.VoteExecutiveContract.Vote.Builder voteBuilder =
+          ExecutiveContract.VoteExecutiveContract.Vote
               .newBuilder();
       byte[] addRess = WalletClient.decodeFromBase58Check(addressBase58);
       if (addRess == null) {
@@ -816,10 +816,10 @@ public class UpdateAccount2Test {
       builder.addVotes(voteBuilder.build());
     }
 
-    WitnessContract.VoteWitnessContract contract = builder.build();
+    ExecutiveContract.VoteExecutiveContract contract = builder.build();
 
     GrpcAPI.TransactionExtention transactionExtention = blockingStubFull
-        .voteWitnessAccount2(contract);
+        .voteExecutiveAccount2(contract);
     if (transactionExtention == null) {
       return transactionExtention.getResult();
     }

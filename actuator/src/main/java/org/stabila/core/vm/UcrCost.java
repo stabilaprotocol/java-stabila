@@ -34,7 +34,7 @@ public class UcrCost {
   private final int CD = 6666;
   private final int UNCD = 6666;
   private final int CD_EXPIRE_TIME = 16;
-  private final int VOTE_WITNESS = 10000;
+  private final int VOTE_EXECUTIVE = 10000;
   private final int WITHDRAW_REWARD = 6666;
 
   public static UcrCost getInstance() {
@@ -165,8 +165,8 @@ public class UcrCost {
     return CD_EXPIRE_TIME;
   }
 
-  public int getVoteWitness() {
-    return VOTE_WITNESS;
+  public int getVoteExecutive() {
+    return VOTE_EXECUTIVE;
   }
 
   public int getWithdrawReward() {

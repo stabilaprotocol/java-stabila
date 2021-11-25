@@ -16,11 +16,11 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.bouncycastle.util.encoders.Hex;
 import org.springframework.stereotype.Component;
 import org.stabila.core.capsule.AccountCapsule;
-import org.stabila.core.capsule.WitnessCapsule;
+import org.stabila.core.capsule.ExecutiveCapsule;
 import org.stabila.core.store.AccountStore;
 import org.stabila.core.store.DelegationStore;
 import org.stabila.core.store.DynamicPropertiesStore;
-import org.stabila.core.store.WitnessStore;
+import org.stabila.core.store.ExecutiveStore;
 import org.stabila.common.utils.StringUtil;
 import org.stabila.core.config.Parameter.ChainConstant;
 import org.stabila.core.exception.BalanceInsufficientException;
@@ -31,7 +31,7 @@ import org.stabila.protos.Protocol.Vote;
 public class MortgageService {
 
   @Setter
-  private WitnessStore witnessStore;
+  private ExecutiveStore executiveStore;
 
   @Setter
   @Getter
@@ -43,61 +43,61 @@ public class MortgageService {
   @Setter
   private AccountStore accountStore;
 
-  public void initStore(WitnessStore witnessStore, DelegationStore delegationStore,
-      DynamicPropertiesStore dynamicPropertiesStore, AccountStore accountStore) {
-    this.witnessStore = witnessStore;
+  public void initStore(ExecutiveStore executiveStore, DelegationStore delegationStore,
+                        DynamicPropertiesStore dynamicPropertiesStore, AccountStore accountStore) {
+    this.executiveStore = executiveStore;
     this.delegationStore = delegationStore;
     this.dynamicPropertiesStore = dynamicPropertiesStore;
     this.accountStore = accountStore;
   }
 
-  public void payStandbyWitness() {
-    List<WitnessCapsule> witnessCapsules = witnessStore.getAllWitnesses();
-    Map<ByteString, WitnessCapsule> witnessCapsuleMap = new HashMap<>();
-    List<ByteString> witnessAddressList = new ArrayList<>();
-    for (WitnessCapsule witnessCapsule : witnessCapsules) {
-      witnessAddressList.add(witnessCapsule.getAddress());
-      witnessCapsuleMap.put(witnessCapsule.getAddress(), witnessCapsule);
+  public void payStandbyExecutive() {
+    List<ExecutiveCapsule> executiveCapsules = executiveStore.getAllExecutives();
+    Map<ByteString, ExecutiveCapsule> executiveCapsuleMap = new HashMap<>();
+    List<ByteString> executiveAddressList = new ArrayList<>();
+    for (ExecutiveCapsule executiveCapsule : executiveCapsules) {
+      executiveAddressList.add(executiveCapsule.getAddress());
+      executiveCapsuleMap.put(executiveCapsule.getAddress(), executiveCapsule);
     }
-    witnessAddressList.sort(Comparator.comparingLong((ByteString b) -> witnessCapsuleMap.get(b).getVoteCount())
+    executiveAddressList.sort(Comparator.comparingLong((ByteString b) -> executiveCapsuleMap.get(b).getVoteCount())
             .reversed().thenComparing(Comparator.comparingInt(ByteString::hashCode).reversed()));
-    if (witnessAddressList.size() > ChainConstant.WITNESS_STANDBY_LENGTH) {
-      witnessAddressList = witnessAddressList.subList(0, ChainConstant.WITNESS_STANDBY_LENGTH);
+    if (executiveAddressList.size() > ChainConstant.EXECUTIVE_STANDBY_LENGTH) {
+      executiveAddressList = executiveAddressList.subList(0, ChainConstant.EXECUTIVE_STANDBY_LENGTH);
     }
     long voteSum = 0;
-    long totalPay = dynamicPropertiesStore.getWitness127PayPerBlock();
-    for (ByteString b : witnessAddressList) {
-      voteSum += witnessCapsuleMap.get(b).getVoteCount();
+    long totalPay = dynamicPropertiesStore.getExecutive100PayPerBlock();
+    for (ByteString b : executiveAddressList) {
+      voteSum += executiveCapsuleMap.get(b).getVoteCount();
     }
 
     if (voteSum > 0) {
-      for (ByteString b : witnessAddressList) {
+      for (ByteString b : executiveAddressList) {
         double eachVotePay = (double) totalPay / voteSum;
-        long pay = (long) (witnessCapsuleMap.get(b).getVoteCount() * eachVotePay);
+        long pay = (long) (executiveCapsuleMap.get(b).getVoteCount() * eachVotePay);
         logger.debug("pay {} stand reward {}", Hex.toHexString(b.toByteArray()), pay);
         payReward(b.toByteArray(), pay);
       }
     }
   }
 
-  public void payBlockReward(byte[] witnessAddress, long value) {
-    logger.debug("pay {} block reward {}", Hex.toHexString(witnessAddress), value);
-    payReward(witnessAddress, value);
+  public void payBlockReward(byte[] executiveAddress, long value) {
+    logger.debug("pay {} block reward {}", Hex.toHexString(executiveAddress), value);
+    payReward(executiveAddress, value);
   }
 
-  public void payTransactionFeeReward(byte[] witnessAddress, long value) {
-    logger.debug("pay {} transaction fee reward {}", Hex.toHexString(witnessAddress), value);
-    payReward(witnessAddress, value);
+  public void payTransactionFeeReward(byte[] executiveAddress, long value) {
+    logger.debug("pay {} transaction fee reward {}", Hex.toHexString(executiveAddress), value);
+    payReward(executiveAddress, value);
   }
 
-  private void payReward(byte[] witnessAddress, long value) {
+  private void payReward(byte[] executiveAddress, long value) {
     long cycle = dynamicPropertiesStore.getCurrentCycleNumber();
-    int brokerage = delegationStore.getBrokerage(cycle, witnessAddress);
+    int brokerage = delegationStore.getBrokerage(cycle, executiveAddress);
     double brokerageRate = (double) brokerage / 100;
     long brokerageAmount = (long) (brokerageRate * value);
     value -= brokerageAmount;
-    delegationStore.addReward(cycle, witnessAddress, value);
-    adjustAllowance(witnessAddress, brokerageAmount);
+    delegationStore.addReward(cycle, executiveAddress, value);
+    adjustAllowance(executiveAddress, brokerageAmount);
   }
 
   public void withdrawReward(byte[] address) {
@@ -187,7 +187,7 @@ public class MortgageService {
     for (Vote vote : accountCapsule.getVotesList()) {
       byte[] srAddress = vote.getVoteAddress().toByteArray();
       long totalReward = delegationStore.getReward(cycle, srAddress);
-      long totalVote = delegationStore.getWitnessVote(cycle, srAddress);
+      long totalVote = delegationStore.getExecutiveVote(cycle, srAddress);
       if (totalVote == DelegationStore.REMARK || totalVote == 0) {
         continue;
       }
@@ -227,8 +227,8 @@ public class MortgageService {
     if (beginCycle < endCycle) {
       for (Vote vote : accountCapsule.getVotesList()) {
         byte[] srAddress = vote.getVoteAddress().toByteArray();
-        BigInteger beginVi = delegationStore.getWitnessVi(beginCycle - 1, srAddress);
-        BigInteger endVi = delegationStore.getWitnessVi(endCycle - 1, srAddress);
+        BigInteger beginVi = delegationStore.getExecutiveVi(beginCycle - 1, srAddress);
+        BigInteger endVi = delegationStore.getExecutiveVi(endCycle - 1, srAddress);
         BigInteger deltaVi = endVi.subtract(beginVi);
         if (deltaVi.signum() <= 0) {
           continue;
@@ -241,8 +241,8 @@ public class MortgageService {
     return reward;
   }
 
-  public WitnessCapsule getWitnessByAddress(ByteString address) {
-    return witnessStore.get(address.toByteArray());
+  public ExecutiveCapsule getExecutiveByAddress(ByteString address) {
+    return executiveStore.get(address.toByteArray());
   }
 
   public void adjustAllowance(byte[] address, long amount) {
@@ -272,8 +272,8 @@ public class MortgageService {
     accountStore.put(account.createDbKey(), account);
   }
 
-  private void sortWitness(List<ByteString> list) {
-    list.sort(Comparator.comparingLong((ByteString b) -> getWitnessByAddress(b).getVoteCount())
+  private void sortExecutive(List<ByteString> list) {
+    list.sort(Comparator.comparingLong((ByteString b) -> getExecutiveByAddress(b).getVoteCount())
         .reversed().thenComparing(Comparator.comparingInt(ByteString::hashCode).reversed()));
   }
 }

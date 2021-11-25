@@ -1,6 +1,6 @@
 package org.stabila.consensus.dpos;
 
-import static org.stabila.core.config.Parameter.ChainConstant.WITNESS_STANDBY_LENGTH;
+import static org.stabila.core.config.Parameter.ChainConstant.EXECUTIVE_STANDBY_LENGTH;
 
 import com.google.protobuf.ByteString;
 import java.util.List;
@@ -17,24 +17,24 @@ public class IncentiveManager {
   @Autowired
   private ConsensusDelegate consensusDelegate;
 
-  public void reward(List<ByteString> witnesses) {
+  public void reward(List<ByteString> executives) {
     if (consensusDelegate.allowChangeDelegation()) {
       return;
     }
-    if (witnesses.size() > WITNESS_STANDBY_LENGTH) {
-      witnesses = witnesses.subList(0, WITNESS_STANDBY_LENGTH);
+    if (executives.size() > EXECUTIVE_STANDBY_LENGTH) {
+      executives = executives.subList(0, EXECUTIVE_STANDBY_LENGTH);
     }
     long voteSum = 0;
-    for (ByteString witness : witnesses) {
-      voteSum += consensusDelegate.getWitness(witness.toByteArray()).getVoteCount();
+    for (ByteString executive : executives) {
+      voteSum += consensusDelegate.getExecutive(executive.toByteArray()).getVoteCount();
     }
     if (voteSum <= 0) {
       return;
     }
-    long totalPay = consensusDelegate.getWitnessStandbyAllowance();
-    for (ByteString witness : witnesses) {
-      byte[] address = witness.toByteArray();
-      long pay = (long) (consensusDelegate.getWitness(address).getVoteCount() * ((double) totalPay
+    long totalPay = consensusDelegate.getExecutiveStandbyAllowance();
+    for (ByteString executive : executives) {
+      byte[] address = executive.toByteArray();
+      long pay = (long) (consensusDelegate.getExecutive(address).getVoteCount() * ((double) totalPay
           / voteSum));
       AccountCapsule accountCapsule = consensusDelegate.getAccount(address);
       accountCapsule.setAllowance(accountCapsule.getAllowance() + pay);

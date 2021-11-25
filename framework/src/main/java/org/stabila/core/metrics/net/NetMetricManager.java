@@ -232,25 +232,25 @@ public class NetMetricManager {
     latencyInfo.setTotalCount((int) blockLatency.getCount());
 
     List<LatencyDetailInfo> latencyDetailInfos = new ArrayList<>();
-    SortedMap<String, Histogram> witnessLatencyMap
-        = MetricsUtil.getHistograms(MetricsKey.NET_LATENCY_WITNESS);
-    for (Map.Entry<String, Histogram> entry : witnessLatencyMap.entrySet()) {
+    SortedMap<String, Histogram> executiveLatencyMap
+        = MetricsUtil.getHistograms(MetricsKey.NET_LATENCY_EXECUTIVE);
+    for (Map.Entry<String, Histogram> entry : executiveLatencyMap.entrySet()) {
       LatencyDetailInfo latencyDetailTemp = new LatencyDetailInfo();
-      String address = entry.getKey().substring(MetricsKey.NET_LATENCY_WITNESS.length());
+      String address = entry.getKey().substring(MetricsKey.NET_LATENCY_EXECUTIVE.length());
       latencyDetailTemp.setCount((int) entry.getValue().getCount());
-      latencyDetailTemp.setWitness(address);
+      latencyDetailTemp.setExecutive(address);
       latencyDetailTemp.setTop99((int) entry.getValue().getSnapshot().get99thPercentile());
       latencyDetailTemp.setTop95((int) entry.getValue().getSnapshot().get95thPercentile());
       latencyDetailTemp.setTop75((int) entry.getValue().getSnapshot().get75thPercentile());
-      long witnessDelay1S = MetricsUtil.getCounter(
-          MetricsKey.NET_LATENCY_WITNESS + address + ".1S").getCount();
-      latencyDetailTemp.setDelay1S((int) witnessDelay1S);
-      long witnessDelay2S = MetricsUtil.getCounter(
-          MetricsKey.NET_LATENCY_WITNESS + address + ".2S").getCount();
-      latencyDetailTemp.setDelay2S((int) witnessDelay2S);
-      long witnessDelay3S = MetricsUtil.getCounter(
-          MetricsKey.NET_LATENCY_WITNESS + address + ".3S").getCount();
-      latencyDetailTemp.setDelay3S((int) witnessDelay3S);
+      long executiveDelay1S = MetricsUtil.getCounter(
+          MetricsKey.NET_LATENCY_EXECUTIVE + address + ".1S").getCount();
+      latencyDetailTemp.setDelay1S((int) executiveDelay1S);
+      long executiveDelay2S = MetricsUtil.getCounter(
+          MetricsKey.NET_LATENCY_EXECUTIVE + address + ".2S").getCount();
+      latencyDetailTemp.setDelay2S((int) executiveDelay2S);
+      long executiveDelay3S = MetricsUtil.getCounter(
+          MetricsKey.NET_LATENCY_EXECUTIVE + address + ".3S").getCount();
+      latencyDetailTemp.setDelay3S((int) executiveDelay3S);
       latencyDetailInfos.add(latencyDetailTemp);
     }
     latencyInfo.setDetail(latencyDetailInfos);

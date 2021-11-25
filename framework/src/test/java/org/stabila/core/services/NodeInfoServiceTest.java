@@ -19,13 +19,13 @@ import stest.stabila.wallet.common.client.Configuration;
 public class NodeInfoServiceTest {
 
   private NodeInfoService nodeInfoService;
-  private WitnessProductBlockService witnessProductBlockService;
+  private ExecutiveProductBlockService executiveProductBlockService;
   private String fullnode = Configuration.getByPath("testng.conf").getStringList("fullnode.ip.list")
       .get(0);
 
   public NodeInfoServiceTest(StabilaApplicationContext context) {
     nodeInfoService = context.getBean("nodeInfoService", NodeInfoService.class);
-    witnessProductBlockService = context.getBean(WitnessProductBlockService.class);
+    executiveProductBlockService = context.getBean(ExecutiveProductBlockService.class);
   }
 
   public void test() {
@@ -33,11 +33,11 @@ public class NodeInfoServiceTest {
         100, ByteString.EMPTY);
     BlockCapsule blockCapsule2 = new BlockCapsule(1, Sha256Hash.ZERO_HASH,
         200, ByteString.EMPTY);
-    witnessProductBlockService.validWitnessProductTwoBlock(blockCapsule1);
-    witnessProductBlockService.validWitnessProductTwoBlock(blockCapsule2);
+    executiveProductBlockService.validExecutiveProductTwoBlock(blockCapsule1);
+    executiveProductBlockService.validExecutiveProductTwoBlock(blockCapsule2);
     NodeInfo nodeInfo = nodeInfoService.getNodeInfo();
     Assert.assertEquals(nodeInfo.getConfigNodeInfo().getCodeVersion(), Version.getVersion());
-    Assert.assertEquals(nodeInfo.getCheatWitnessInfoMap().size(), 1);
+    Assert.assertEquals(nodeInfo.getCheatExecutiveInfoMap().size(), 1);
     logger.info("{}", JSON.toJSONString(nodeInfo));
   }
 

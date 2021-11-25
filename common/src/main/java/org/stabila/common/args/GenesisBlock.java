@@ -15,7 +15,7 @@ public class GenesisBlock implements Serializable {
   private List<Account> assets;
 
   @Getter
-  private List<Witness> witnesses;
+  private List<Executive> executives;
 
   @Getter
   private String timestamp;
@@ -37,8 +37,8 @@ public class GenesisBlock implements Serializable {
     final GenesisBlock genesisBlock = new GenesisBlock();
     List<Account> assets = Collections.emptyList();
     genesisBlock.setAssets(assets);
-    List<Witness> witnesses = Collections.emptyList();
-    genesisBlock.setWitnesses(witnesses);
+    List<Executive> executives = Collections.emptyList();
+    genesisBlock.setExecutives(executives);
     genesisBlock.setNumber(DEFAULT_NUMBER);
     genesisBlock.setTimestamp(DEFAULT_TIMESTAMP);
     genesisBlock.setParentHash(DEFAULT_PARENT_HASH);
@@ -92,13 +92,13 @@ public class GenesisBlock implements Serializable {
   }
 
   /**
-   * Empty witnesses.
+   * Empty executives.
    */
-  public void setWitnesses(final List<Witness> witnesses) {
-    this.witnesses = witnesses;
+  public void setExecutives(final List<Executive> executives) {
+    this.executives = executives;
 
-    if (witnesses == null) {
-      this.witnesses = Collections.emptyList();
+    if (executives == null) {
+      this.executives = Collections.emptyList();
     }
   }
 }

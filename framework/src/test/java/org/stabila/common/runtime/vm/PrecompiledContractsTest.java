@@ -29,7 +29,7 @@ import org.stabila.core.actuator.CdBalanceActuator;
 import org.stabila.core.capsule.AccountCapsule;
 import org.stabila.core.capsule.ProposalCapsule;
 import org.stabila.core.capsule.TransactionResultCapsule;
-import org.stabila.core.capsule.WitnessCapsule;
+import org.stabila.core.capsule.ExecutiveCapsule;
 import org.stabila.core.config.DefaultConfig;
 import org.stabila.core.config.args.Args;
 import org.stabila.core.db.Manager;
@@ -66,9 +66,9 @@ public class PrecompiledContractsTest {
   private static final String dbPath = "output_PrecompiledContracts_test";
   private static final String ACCOUNT_NAME = "account";
   private static final String OWNER_ADDRESS;
-  private static final String WITNESS_NAME = "witness";
-  private static final String WITNESS_ADDRESS;
-  private static final String WITNESS_ADDRESS_BASE = "548794500882809695a8a687866e76d4271a1abc";
+  private static final String EXECUTIVE_NAME = "executive";
+  private static final String EXECUTIVE_ADDRESS;
+  private static final String EXECUTIVE_ADDRESS_BASE = "548794500882809695a8a687866e76d4271a1abc";
   private static final String URL = "https://stabila.network";
   // withdraw
   private static final long initBalance = 10_000_000_000L;
@@ -82,7 +82,7 @@ public class PrecompiledContractsTest {
     context = new StabilaApplicationContext(DefaultConfig.class);
     appT = ApplicationFactory.create(context);
     OWNER_ADDRESS = Wallet.getAddressPreFixString() + "abd4b9367799eaa3197fecb144eb71de1e049abc";
-    WITNESS_ADDRESS = Wallet.getAddressPreFixString() + WITNESS_ADDRESS_BASE;
+    EXECUTIVE_ADDRESS = Wallet.getAddressPreFixString() + EXECUTIVE_ADDRESS_BASE;
 
   }
 
@@ -114,17 +114,17 @@ public class PrecompiledContractsTest {
    */
   @Before
   public void createCapsule() {
-    // witness: witnessCapsule
-    WitnessCapsule witnessCapsule =
-        new WitnessCapsule(
-            StringUtil.hexString2ByteString(WITNESS_ADDRESS),
+    // executive: executiveCapsule
+    ExecutiveCapsule executiveCapsule =
+        new ExecutiveCapsule(
+            StringUtil.hexString2ByteString(EXECUTIVE_ADDRESS),
             10L,
             URL);
-    // witness: AccountCapsule
-    AccountCapsule witnessAccountCapsule =
+    // executive: AccountCapsule
+    AccountCapsule executiveAccountCapsule =
         new AccountCapsule(
-            ByteString.copyFromUtf8(WITNESS_NAME),
-            StringUtil.hexString2ByteString(WITNESS_ADDRESS),
+            ByteString.copyFromUtf8(EXECUTIVE_NAME),
+            StringUtil.hexString2ByteString(EXECUTIVE_ADDRESS),
             AccountType.Normal,
             initBalance);
     // some normal account
@@ -136,10 +136,10 @@ public class PrecompiledContractsTest {
             10_000_000_000_000L);
 
     dbManager.getAccountStore()
-        .put(witnessAccountCapsule.getAddress().toByteArray(), witnessAccountCapsule);
+        .put(executiveAccountCapsule.getAddress().toByteArray(), executiveAccountCapsule);
     dbManager.getAccountStore()
         .put(ownerAccountFirstCapsule.getAddress().toByteArray(), ownerAccountFirstCapsule);
-    dbManager.getWitnessStore().put(witnessCapsule.getAddress().toByteArray(), witnessCapsule);
+    dbManager.getExecutiveStore().put(executiveCapsule.getAddress().toByteArray(), executiveCapsule);
 
     dbManager.getDynamicPropertiesStore().saveLatestBlockHeaderTimestamp(1000000);
     dbManager.getDynamicPropertiesStore().saveLatestBlockHeaderNumber(10);
@@ -165,23 +165,23 @@ public class PrecompiledContractsTest {
   }
 
   //@Test
-  public void voteWitnessNativeTest()
+  public void voteExecutiveNativeTest()
       throws NoSuchMethodException, IllegalAccessException, InvocationTargetException,
       InstantiationException, ContractValidateException, ContractExeException {
     PrecompiledContract contract = createPrecompiledContract(voteContractAddr, OWNER_ADDRESS);
     Repository deposit = RepositoryImpl.createRoot(StoreFactory.getInstance());
-    byte[] witnessAddressBytes = new byte[32];
-    byte[] witnessAddressBytes21 = Hex.decode(WITNESS_ADDRESS);
-    System.arraycopy(witnessAddressBytes21, 0, witnessAddressBytes,
-        witnessAddressBytes.length - witnessAddressBytes21.length,
-        witnessAddressBytes21.length);
+    byte[] executiveAddressBytes = new byte[32];
+    byte[] executiveAddressBytes21 = Hex.decode(EXECUTIVE_ADDRESS);
+    System.arraycopy(executiveAddressBytes21, 0, executiveAddressBytes,
+        executiveAddressBytes.length - executiveAddressBytes21.length,
+        executiveAddressBytes21.length);
 
     DataWord voteCount = new DataWord(
         "0000000000000000000000000000000000000000000000000000000000000001");
     byte[] voteCountBytes = voteCount.getData();
-    byte[] data = new byte[witnessAddressBytes.length + voteCountBytes.length];
-    System.arraycopy(witnessAddressBytes, 0, data, 0, witnessAddressBytes.length);
-    System.arraycopy(voteCountBytes, 0, data, witnessAddressBytes.length,
+    byte[] data = new byte[executiveAddressBytes.length + voteCountBytes.length];
+    System.arraycopy(executiveAddressBytes, 0, data, 0, executiveAddressBytes.length);
+    System.arraycopy(voteCountBytes, 0, data, executiveAddressBytes.length,
         voteCountBytes.length);
 
     long cdedBalance = 1_000_000_000_000L;
@@ -203,7 +203,7 @@ public class PrecompiledContractsTest {
     Assert.assertEquals(1,
         dbManager.getAccountStore().get(ByteArray.fromHexString(OWNER_ADDRESS)).getVotesList()
             .get(0).getVoteCount());
-    Assert.assertArrayEquals(ByteArray.fromHexString(WITNESS_ADDRESS),
+    Assert.assertArrayEquals(ByteArray.fromHexString(EXECUTIVE_ADDRESS),
         dbManager.getAccountStore().get(ByteArray.fromHexString(OWNER_ADDRESS)).getVotesList()
             .get(0).getVoteAddress().toByteArray());
     Assert.assertEquals(true, result);
@@ -227,7 +227,7 @@ public class PrecompiledContractsTest {
           .arraycopy(value.getData(), 0, data4Create,
               key.getData().length, value.getData().length);
       PrecompiledContract createContract = createPrecompiledContract(proposalCreateAddr,
-          WITNESS_ADDRESS);
+          EXECUTIVE_ADDRESS);
 
       Assert.assertEquals(0, dbManager.getDynamicPropertiesStore().getLatestProposalNum());
       ProposalCapsule proposalCapsule;
@@ -257,21 +257,21 @@ public class PrecompiledContractsTest {
       System.arraycopy(isApprove.getData(), 0, data4Approve, idBytes.length,
           isApprove.getData().length);
       PrecompiledContract approveContract = createPrecompiledContract(proposalApproveAddr,
-          WITNESS_ADDRESS);
+          EXECUTIVE_ADDRESS);
       Repository deposit2 = RepositoryImpl.createRoot(StoreFactory.getInstance());
       approveContract.setRepository(deposit2);
       approveContract.execute(data4Approve);
       deposit2.commit();
       proposalCapsule = dbManager.getProposalStore().get(ByteArray.fromLong(id));
       Assert.assertEquals(1, proposalCapsule.getApprovals().size());
-      Assert.assertEquals(ByteString.copyFrom(ByteArray.fromHexString(WITNESS_ADDRESS)),
+      Assert.assertEquals(ByteString.copyFrom(ByteArray.fromHexString(EXECUTIVE_ADDRESS)),
           proposalCapsule.getApprovals().get(0));
 
       /*
        *  delete proposal Test
        */
       PrecompiledContract deleteContract = createPrecompiledContract(proposalDeleteAddr,
-          WITNESS_ADDRESS);
+          EXECUTIVE_ADDRESS);
       Repository deposit3 = RepositoryImpl.createRoot(StoreFactory.getInstance());
       deleteContract.setRepository(deposit3);
       deleteContract.execute(idBytes);
@@ -301,11 +301,11 @@ public class PrecompiledContractsTest {
     System.arraycopy(Arrays.copyOfRange(word2.getData(), 0, 3), 0,
         data, word1.getData().length, 3);
     PrecompiledContract contract = createPrecompiledContract(convertFromStabilaBase58AddressAddr,
-        WITNESS_ADDRESS);
+        EXECUTIVE_ADDRESS);
 
     byte[] solidityAddress = contract.execute(data).getRight();
     Assert.assertArrayEquals(solidityAddress,
-        new DataWord(Hex.decode(WITNESS_ADDRESS_BASE)).getData());
+        new DataWord(Hex.decode(EXECUTIVE_ADDRESS_BASE)).getData());
   }
 
 }

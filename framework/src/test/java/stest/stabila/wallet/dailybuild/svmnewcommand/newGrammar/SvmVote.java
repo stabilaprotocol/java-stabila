@@ -32,9 +32,9 @@ public class SvmVote {
   private final String testNetAccountKey = Configuration.getByPath("testng.conf")
       .getString("foundationAccount.key2");
   private final byte[] testNetAccountAddress = PublicMethed.getFinalAddress(testNetAccountKey);
-  private final String witnessKey = Configuration.getByPath("testng.conf")
-      .getString("witness.key1");
-  private final byte[] witnessAddress = PublicMethed.getFinalAddress(witnessKey);
+  private final String executiveKey = Configuration.getByPath("testng.conf")
+      .getString("executive.key1");
+  private final byte[] executiveAddress = PublicMethed.getFinalAddress(executiveKey);
   byte[] mapKeyContract = null;
   ECKey ecKey1 = new ECKey(Utils.getRandom());
   byte[] contractExcAddress = ecKey1.getAddress();
@@ -106,8 +106,8 @@ public class SvmVote {
   }
 
 
-  @Test(enabled = true, description = "cd balance and vote witness")
-  public void test02VoteWitness() {
+  @Test(enabled = true, description = "cd balance and vote executive")
+  public void test02VoteExecutive() {
     String methodStr = "cd(address,uint256,uint256)";
     String receiverAdd = Base58.encode58Check(mapKeyContract);
     String args = "\"" + receiverAdd + "\"," + cdCount + ",1";
@@ -125,10 +125,10 @@ public class SvmVote {
     Assert.assertEquals("cdForUcr", note);
     Assert.assertEquals(cdCount, internal.getCallValueInfo(0).getCallValue());
 
-    String witness58Add = Base58.encode58Check(witnessAddress);
-    args = "[\"" + witness58Add + "\"],[" + voteCount + "]";
+    String executive58Add = Base58.encode58Check(executiveAddress);
+    args = "[\"" + executive58Add + "\"],[" + voteCount + "]";
     logger.info("vote args: " + args);
-    methodStr = "voteWitness(address[],uint256[])";
+    methodStr = "voteExecutive(address[],uint256[])";
     triggerTxid = PublicMethed.triggerContract(mapKeyContract, methodStr, args, false,
         0, maxFeeLimit, contractExcAddress, contractExcKey, blockingStubFull);
     PublicMethed.waitProduceNextBlock(blockingStubFull);
@@ -140,7 +140,7 @@ public class SvmVote {
         transactionInfo.get().getReceipt().getResult());
     internal = transactionInfo.get().getInternalTransactions(0);
     note = internal.getNote().toStringUtf8();
-    Assert.assertEquals("voteWitness", note);
+    Assert.assertEquals("voteExecutive", note);
     Assert.assertTrue(internal.getExtra().length() > 1);
 
     Protocol.Account info = PublicMethed.queryAccount(mapKeyContract, blockingStubFull);
@@ -154,7 +154,7 @@ public class SvmVote {
     String args = "\"" + Base58.encode58Check(mapKeyContract) + "\"";
     GrpcAPI.TransactionExtention transactionExtention = PublicMethed
         .triggerConstantContractForExtention(mapKeyContract,
-            "isWitness(address)", args, false,
+            "isExecutive(address)", args, false,
             0, maxFeeLimit, "0", 0, contractExcAddress, contractExcKey, blockingStubFull);
     int trueRes = ByteArray.toInt(transactionExtention.getConstantResult(0).toByteArray());
     logger.info(trueRes + "");
@@ -163,10 +163,10 @@ public class SvmVote {
 
   @Test(enabled = true, description = "query sr address is Sr Candidate or not")
   public void test04IsSrCandidate() {
-    String args = "\"" + Base58.encode58Check(witnessAddress) + "\"";
+    String args = "\"" + Base58.encode58Check(executiveAddress) + "\"";
     GrpcAPI.TransactionExtention transactionExtention = PublicMethed
         .triggerConstantContractForExtention(mapKeyContract,
-            "isWitness(address)", args, false,
+            "isExecutive(address)", args, false,
             0, maxFeeLimit, "0", 0, contractExcAddress, contractExcKey, blockingStubFull);
     int trueRes = ByteArray.toInt(transactionExtention.getConstantResult(0).toByteArray());
     logger.info(trueRes + "");
@@ -178,7 +178,7 @@ public class SvmVote {
     String args = "\"T9yD14Nj9j7xAB4dbGeiX9h8unkKHxuWwb\"";
     GrpcAPI.TransactionExtention transactionExtention = PublicMethed
         .triggerConstantContractForExtention(mapKeyContract,
-            "isWitness(address)", args, false,
+            "isExecutive(address)", args, false,
             0, maxFeeLimit, "0", 0, contractExcAddress, contractExcKey, blockingStubFull);
     int trueRes = ByteArray.toInt(transactionExtention.getConstantResult(0).toByteArray());
     logger.info(trueRes + "");
@@ -187,7 +187,7 @@ public class SvmVote {
 
   @Test(enabled = true, description = "query sr's total vote count")
   public void test06querySrTotalVoteCount() {
-    String args = "\"" + Base58.encode58Check(witnessAddress) + "\"";
+    String args = "\"" + Base58.encode58Check(executiveAddress) + "\"";
     GrpcAPI.TransactionExtention transactionExtention = PublicMethed
         .triggerConstantContractForExtention(mapKeyContract,
             "queryTotalVoteCount(address)", args, false,
@@ -212,7 +212,7 @@ public class SvmVote {
   @Test(enabled = true, description = "query vote count")
   public void test08queryVoteCount() {
     String from = Base58.encode58Check(mapKeyContract);
-    String to = Base58.encode58Check(witnessAddress);
+    String to = Base58.encode58Check(executiveAddress);
     String args = "\"" + from + "\",\"" + to + "\"";
     GrpcAPI.TransactionExtention transactionExtention = PublicMethed
         .triggerConstantContractForExtention(mapKeyContract,
@@ -236,10 +236,10 @@ public class SvmVote {
     Assert.assertEquals(voteCount, trueRes);
   }
 
-  @Test(enabled = true, description = "query witnesses received vote count")
+  @Test(enabled = true, description = "query executives received vote count")
   public void test10queryReceivedVoteCount() {
-    String witness = Base58.encode58Check(witnessAddress);
-    String args = "\"" + witness + "\"";
+    String executive = Base58.encode58Check(executiveAddress);
+    String args = "\"" + executive + "\"";
     GrpcAPI.TransactionExtention transactionExtention = PublicMethed
         .triggerConstantContractForExtention(mapKeyContract,
             "queryReceivedVoteCount(address)", args, false,
@@ -247,13 +247,13 @@ public class SvmVote {
     int trueRes = ByteArray.toInt(transactionExtention.getConstantResult(0).toByteArray());
     logger.info(trueRes + "");
     Assert.assertTrue(trueRes > 0);
-    Optional<GrpcAPI.WitnessList> list = PublicMethed.listWitnesses(blockingStubFull);
+    Optional<GrpcAPI.ExecutiveList> list = PublicMethed.listExecutives(blockingStubFull);
     long receiveCount = 0;
     String temAdd;
-    for (int i = 0; i < list.get().getWitnessesCount(); i++) {
-      temAdd = Base58.encode58Check(list.get().getWitnesses(i).getAddress().toByteArray());
-      if (witness.equals(temAdd)) {
-        receiveCount = list.get().getWitnesses(i).getVoteCount();
+    for (int i = 0; i < list.get().getExecutivesCount(); i++) {
+      temAdd = Base58.encode58Check(list.get().getExecutives(i).getAddress().toByteArray());
+      if (executive.equals(temAdd)) {
+        receiveCount = list.get().getExecutives(i).getVoteCount();
         break;
       }
     }
@@ -301,7 +301,7 @@ public class SvmVote {
   @Test(enabled = true, description = "kill me")
   public void test13Suicide() {
     String methodStr = "killme(address)";
-    String args = "\"" + Base58.encode58Check(witnessAddress) + "\"";
+    String args = "\"" + Base58.encode58Check(executiveAddress) + "\"";
     String triggerTxid = PublicMethed.triggerContract(mapKeyContract, methodStr, args, false,
         0, maxFeeLimit, contractExcAddress, contractExcKey, blockingStubFull);
     PublicMethed.waitProduceNextBlock(blockingStubFull);

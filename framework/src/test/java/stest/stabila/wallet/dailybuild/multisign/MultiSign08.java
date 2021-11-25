@@ -32,9 +32,9 @@ public class MultiSign08 {
       .getString("foundationAccount.key2");
   private final byte[] fromAddress = PublicMethed.getFinalAddress(testKey002);
 
-  private final String witnessKey001 = Configuration.getByPath("testng.conf")
-      .getString("witness.key1");
-  private final byte[] witnessAddress001 = PublicMethed.getFinalAddress(witnessKey001);
+  private final String executiveKey001 = Configuration.getByPath("testng.conf")
+      .getString("executive.key1");
+  private final byte[] executiveAddress001 = PublicMethed.getFinalAddress(executiveKey001);
 
   private long multiSignFee = Configuration.getByPath("testng.conf")
       .getLong("defaultParameter.multiSignFee");
@@ -110,7 +110,7 @@ public class MultiSign08 {
             + "\"active_permissions\":[{\"type\":2,\"permission_name\":\"active0\","
             + "\"threshold\":-2147483648,"
             + "\"operations\":\"7fff1fc0033e0000000000000000000000000000000000000000000000000000\","
-            + "\"keys\":[" + "{\"address\":\"" + PublicMethed.getAddressString(witnessKey001)
+            + "\"keys\":[" + "{\"address\":\"" + PublicMethed.getAddressString(executiveKey001)
             + "\",\"weight\":3}," + "{\"address\":\"" + PublicMethed.getAddressString(tmpKey02)
             + "\",\"weight\":1}" + "]}]}";
 
@@ -131,7 +131,7 @@ public class MultiSign08 {
             + "\"active_permissions\":[{\"type\":2,\"permission_name\":\"active0\","
             + "\"threshold\":0,"
             + "\"operations\":\"7fff1fc0033e0000000000000000000000000000000000000000000000000000\","
-            + "\"keys\":[" + "{\"address\":\"" + PublicMethed.getAddressString(witnessKey001)
+            + "\"keys\":[" + "{\"address\":\"" + PublicMethed.getAddressString(executiveKey001)
             + "\",\"weight\":3}," + "{\"address\":\"" + PublicMethed.getAddressString(tmpKey02)
             + "\",\"weight\":1}" + "]}]}";
 
@@ -152,7 +152,7 @@ public class MultiSign08 {
             + "\"active_permissions\":[{\"type\":2,\"permission_name\":\"active0\","
             + "\"threshold\":-1,"
             + "\"operations\":\"7fff1fc0033e0000000000000000000000000000000000000000000000000000\","
-            + "\"keys\":[" + "{\"address\":\"" + PublicMethed.getAddressString(witnessKey001)
+            + "\"keys\":[" + "{\"address\":\"" + PublicMethed.getAddressString(executiveKey001)
             + "\",\"weight\":3}," + "{\"address\":\"" + PublicMethed.getAddressString(tmpKey02)
             + "\",\"weight\":1}" + "]}]}";
 
@@ -173,7 +173,7 @@ public class MultiSign08 {
             + "\"active_permissions\":[{\"type\":2,\"permission_name\":\"active0\","
             + "\"threshold\":-9223372036854775808,"
             + "\"operations\":\"7fff1fc0033e0000000000000000000000000000000000000000000000000000\","
-            + "\"keys\":[" + "{\"address\":\"" + PublicMethed.getAddressString(witnessKey001)
+            + "\"keys\":[" + "{\"address\":\"" + PublicMethed.getAddressString(executiveKey001)
             + "\",\"weight\":3}," + "{\"address\":\"" + PublicMethed.getAddressString(tmpKey02)
             + "\",\"weight\":1}" + "]}]}";
 
@@ -194,7 +194,7 @@ public class MultiSign08 {
             + "\"active_permissions\":[{\"type\":2,\"permission_name\":\"active0\","
             + "\"threshold\":-9223372036855775828,"
             + "\"operations\":\"7fff1fc0033e0000000000000000000000000000000000000000000000000000\","
-            + "\"keys\":[" + "{\"address\":\"" + PublicMethed.getAddressString(witnessKey001)
+            + "\"keys\":[" + "{\"address\":\"" + PublicMethed.getAddressString(executiveKey001)
             + "\",\"weight\":3}," + "{\"address\":\"" + PublicMethed.getAddressString(tmpKey02)
             + "\",\"weight\":1}" + "]}]}";
 
@@ -334,7 +334,7 @@ public class MultiSign08 {
             + "\"active_permissions\":[{\"type\":2,\"permission_name\":\"active0\","
             + "\"threshold\":9223372036854775807,"
             + "\"operations\":\"7fff1fc0033e0000000000000000000000000000000000000000000000000000\","
-            + "\"keys\":[" + "{\"address\":\"" + PublicMethed.getAddressString(witnessKey001)
+            + "\"keys\":[" + "{\"address\":\"" + PublicMethed.getAddressString(executiveKey001)
             + "\",\"weight\":9223372036854775807}," + "{\"address\":\"" + PublicMethed
             .getAddressString(ownerKey) + "\",\"weight\":1}" + "]}]}";
 
@@ -355,7 +355,7 @@ public class MultiSign08 {
             + "\"active_permissions\":[{\"type\":2,\"permission_name\":\"active0\","
             + "\"threshold\":1.1,"
             + "\"operations\":\"7fff1fc0033e0000000000000000000000000000000000000000000000000000\","
-            + "\"keys\":[" + "{\"address\":\"" + PublicMethed.getAddressString(witnessKey001)
+            + "\"keys\":[" + "{\"address\":\"" + PublicMethed.getAddressString(executiveKey001)
             + "\",\"weight\":9223372036854775806}," + "{\"address\":\"" + PublicMethed
             .getAddressString(ownerKey) + "\",\"weight\":1}" + "]}]}";
 
@@ -464,7 +464,7 @@ public class MultiSign08 {
             + "\"operations\":\"7fff1fc0033e0000000000000000000000000000000000000000000000000000\","
             + "\"keys\":[" + "{\"address\":\"" + PublicMethed.getAddressString(ownerKey)
             + "\",\"weight\":2147483647}," + "{\"address\":\"" + PublicMethed
-            .getAddressString(witnessKey001) + "\",\"weight\":3}," + "{\"address\":\""
+            .getAddressString(executiveKey001) + "\",\"weight\":3}," + "{\"address\":\""
             + PublicMethed.getAddressString(tmpKey01) + "\",\"weight\":2147483647}" + "]}]}";
     GrpcAPI.Return response = PublicMethed
         .accountPermissionUpdateForResponse(accountPermissionJson, ownerAddress, ownerKey,
@@ -496,7 +496,7 @@ public class MultiSign08 {
     List<String> ownerPermissionKeys = new ArrayList<>();
     List<String> activePermissionKeys = new ArrayList<>();
     ownerPermissionKeys.add(ownerKey);
-    activePermissionKeys.add(witnessKey001);
+    activePermissionKeys.add(executiveKey001);
     activePermissionKeys.add(ownerKey);
 
     logger.info("** update owner and active permission to two address");
@@ -507,7 +507,7 @@ public class MultiSign08 {
             + "\"active_permissions\":[{\"type\":2,\"permission_name\":\"active0\","
             + "\"threshold\":9223372036854775807,"
             + "\"operations\":\"7fff1fc0033e0000000000000000000000000000000000000000000000000000\","
-            + "\"keys\":[" + "{\"address\":\"" + PublicMethed.getAddressString(witnessKey001)
+            + "\"keys\":[" + "{\"address\":\"" + PublicMethed.getAddressString(executiveKey001)
             + "\",\"weight\":9223372036854775806}," + "{\"address\":\"" + PublicMethed
             .getAddressString(ownerKey) + "\",\"weight\":1}" + "]}]}";
 
@@ -562,7 +562,7 @@ public class MultiSign08 {
     List<String> ownerPermissionKeys = new ArrayList<>();
     List<String> activePermissionKeys = new ArrayList<>();
     ownerPermissionKeys.add(ownerKey);
-    activePermissionKeys.add(witnessKey001);
+    activePermissionKeys.add(executiveKey001);
     activePermissionKeys.add(ownerKey);
     activePermissionKeys.add(tmpKey01);
 
@@ -574,7 +574,7 @@ public class MultiSign08 {
             + "\"active_permissions\":[{\"type\":2,\"permission_name\":\"active0\","
             + "\"threshold\":2147483647,"
             + "\"operations\":\"7fff1fc0033e0000000000000000000000000000000000000000000000000000\","
-            + "\"keys\":[" + "{\"address\":\"" + PublicMethed.getAddressString(witnessKey001)
+            + "\"keys\":[" + "{\"address\":\"" + PublicMethed.getAddressString(executiveKey001)
             + "\",\"weight\":2147483646}," + "{\"address\":\"" + PublicMethed
             .getAddressString(ownerKey) + "\",\"weight\":2147483647}" + "]}]}";
 

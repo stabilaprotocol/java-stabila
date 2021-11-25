@@ -72,7 +72,7 @@ import org.stabila.core.capsule.BytesCapsule;
 import org.stabila.core.capsule.TransactionCapsule;
 import org.stabila.core.capsule.TransactionInfoCapsule;
 import org.stabila.core.capsule.TransactionRetCapsule;
-import org.stabila.core.capsule.WitnessCapsule;
+import org.stabila.core.capsule.ExecutiveCapsule;
 import org.stabila.core.capsule.utils.TransactionUtil;
 import org.stabila.core.config.Parameter.ChainConstant;
 import org.stabila.core.config.args.Args;
@@ -132,8 +132,8 @@ import org.stabila.core.store.StoreFactory;
 import org.stabila.core.store.TransactionHistoryStore;
 import org.stabila.core.store.TransactionRetStore;
 import org.stabila.core.store.VotesStore;
-import org.stabila.core.store.WitnessScheduleStore;
-import org.stabila.core.store.WitnessStore;
+import org.stabila.core.store.ExecutiveScheduleStore;
+import org.stabila.core.store.ExecutiveStore;
 import org.stabila.core.utils.TransactionRegister;
 import org.stabila.protos.Protocol.AccountType;
 import org.stabila.protos.Protocol.Transaction;
@@ -254,8 +254,8 @@ public class Manager {
         }
       };
 
-  public WitnessStore getWitnessStore() {
-    return chainBaseManager.getWitnessStore();
+  public ExecutiveStore getExecutiveStore() {
+    return chainBaseManager.getExecutiveStore();
   }
 
   public boolean needToUpdateAsset() {
@@ -278,8 +278,8 @@ public class Manager {
     return chainBaseManager.getMerkleTreeStore();
   }
 
-  public WitnessScheduleStore getWitnessScheduleStore() {
-    return chainBaseManager.getWitnessScheduleStore();
+  public ExecutiveScheduleStore getExecutiveScheduleStore() {
+    return chainBaseManager.getExecutiveScheduleStore();
   }
 
   public DelegatedResourceStore getDelegatedResourceStore() {
@@ -349,7 +349,7 @@ public class Manager {
   public void init() {
     Message.setDynamicPropertiesStore(this.getDynamicPropertiesStore());
     mortgageService
-        .initStore(chainBaseManager.getWitnessStore(), chainBaseManager.getDelegationStore(),
+        .initStore(chainBaseManager.getExecutiveStore(), chainBaseManager.getDelegationStore(),
             chainBaseManager.getDynamicPropertiesStore(), chainBaseManager.getAccountStore());
     accountStateCallBack.setChainBaseManager(chainBaseManager);
     trieService.setChainBaseManager(chainBaseManager);
@@ -454,7 +454,7 @@ public class Manager {
         chainBaseManager.getDynamicPropertiesStore().saveLatestBlockHeaderTimestamp(
             genesisBlock.getTimeStamp());
         this.initAccount();
-        this.initWitness();
+        this.initExecutive();
         this.khaosDb.start(genesisBlock);
         this.updateRecentBlock(genesisBlock);
         initAccountHistoryBalance();
@@ -517,13 +517,13 @@ public class Manager {
   }
 
   /**
-   * save witnesses into database.
+   * save executives into database.
    */
-  private void initWitness() {
+  private void initExecutive() {
     final CommonParameter commonParameter = Args.getInstance();
     final GenesisBlock genesisBlockArg = commonParameter.getGenesisBlock();
     genesisBlockArg
-        .getWitnesses()
+        .getExecutives()
         .forEach(
             key -> {
               byte[] keyAddress = key.getAddress();
@@ -536,13 +536,13 @@ public class Manager {
               } else {
                 accountCapsule = chainBaseManager.getAccountStore().getUnchecked(keyAddress);
               }
-              accountCapsule.setIsWitness(true);
+              accountCapsule.setIsExecutive(true);
               chainBaseManager.getAccountStore().put(keyAddress, accountCapsule);
 
-              final WitnessCapsule witnessCapsule =
-                  new WitnessCapsule(address, key.getVoteCount(), key.getUrl());
-              witnessCapsule.setIsJobs(true);
-              chainBaseManager.getWitnessStore().put(keyAddress, witnessCapsule);
+              final ExecutiveCapsule executiveCapsule =
+                  new ExecutiveCapsule(address, key.getVoteCount(), key.getUrl());
+              executiveCapsule.setIsJobs(true);
+              chainBaseManager.getExecutiveStore().put(keyAddress, executiveCapsule);
             });
   }
 
@@ -743,7 +743,7 @@ public class Manager {
             if (getDynamicPropertiesStore().supportBlackHoleOptimization()) {
               getDynamicPropertiesStore().burnStb(fee);
             } else {
-              adjustBalance(getAccountStore(), this.getAccountStore().getBlackhole(), +fee);
+              adjustBalance(getAccountStore(), this.getAccountStore().getUnit(), +fee);
             }
           }
         } catch (BalanceInsufficientException e) {
@@ -1211,7 +1211,7 @@ public class Manager {
 
     if (Objects.nonNull(blockCap)) {
       trace.setResult();
-      if (blockCap.hasWitnessSignature()) {
+      if (blockCap.hasExecutiveSignature()) {
         if (trace.checkNeedRetry()) {
           String txId = Hex.toHexString(stbCap.getTransactionId().getBytes());
           logger.info("Retry for tx id: {}", txId);
@@ -1269,7 +1269,7 @@ public class Manager {
 
     BlockCapsule blockCapsule = new BlockCapsule(chainBaseManager.getHeadBlockNum() + 1,
         chainBaseManager.getHeadBlockId(),
-        blockTime, miner.getWitnessAddress());
+        blockTime, miner.getExecutiveAddress());
     blockCapsule.generatedByMyself = true;
     session.reset();
     session.setValue(revokingStore.buildSession());
@@ -1278,10 +1278,10 @@ public class Manager {
 
     if (getDynamicPropertiesStore().getAllowMultiSign() == 1) {
       byte[] privateKeyAddress = miner.getPrivateKeyAddress().toByteArray();
-      AccountCapsule witnessAccount = getAccountStore()
-          .get(miner.getWitnessAddress().toByteArray());
-      if (!Arrays.equals(privateKeyAddress, witnessAccount.getWitnessPermissionAddress())) {
-        logger.warn("Witness permission is wrong");
+      AccountCapsule executiveAccount = getAccountStore()
+          .get(miner.getExecutiveAddress().toByteArray());
+      if (!Arrays.equals(privateKeyAddress, executiveAccount.getExecutivePermissionAddress())) {
+        logger.warn("Executive permission is wrong");
         return null;
       }
     }
@@ -1430,9 +1430,9 @@ public class Manager {
       ZksnarkException, BadBlockException {
     // todo set revoking db max size.
 
-    // checkWitness
+    // checkExecutive
     if (!consensus.validBlock(block)) {
-      throw new ValidateScheduleException("validateWitnessSchedule error");
+      throw new ValidateScheduleException("validateExecutiveSchedule error");
     }
 
     chainBaseManager.getBalanceTraceStore().initCurrentBlockBalanceTrace(block);
@@ -1499,29 +1499,29 @@ public class Manager {
   }
 
   private void payReward(BlockCapsule block) {
-    WitnessCapsule witnessCapsule =
-        chainBaseManager.getWitnessStore().getUnchecked(block.getInstance().getBlockHeader()
-            .getRawData().getWitnessAddress().toByteArray());
+    ExecutiveCapsule executiveCapsule =
+        chainBaseManager.getExecutiveStore().getUnchecked(block.getInstance().getBlockHeader()
+            .getRawData().getExecutiveAddress().toByteArray());
     if (getDynamicPropertiesStore().allowChangeDelegation()) {
-      mortgageService.payBlockReward(witnessCapsule.getAddress().toByteArray(),
-          getDynamicPropertiesStore().getWitnessPayPerBlock());
-      mortgageService.payStandbyWitness();
+      mortgageService.payBlockReward(executiveCapsule.getAddress().toByteArray(),
+          getDynamicPropertiesStore().getExecutivePayPerBlock());
+      mortgageService.payStandbyExecutive();
 
       if (chainBaseManager.getDynamicPropertiesStore().supportTransactionFeePool()) {
         long transactionFeeReward = Math
             .floorDiv(chainBaseManager.getDynamicPropertiesStore().getTransactionFeePool(),
                 Constant.TRANSACTION_FEE_POOL_PERIOD);
-        mortgageService.payTransactionFeeReward(witnessCapsule.getAddress().toByteArray(),
+        mortgageService.payTransactionFeeReward(executiveCapsule.getAddress().toByteArray(),
             transactionFeeReward);
         chainBaseManager.getDynamicPropertiesStore().saveTransactionFeePool(
             chainBaseManager.getDynamicPropertiesStore().getTransactionFeePool()
                 - transactionFeeReward);
       }
     } else {
-      byte[] witness = block.getWitnessAddress().toByteArray();
-      AccountCapsule account = getAccountStore().get(witness);
+      byte[] executive = block.getExecutiveAddress().toByteArray();
+      AccountCapsule account = getAccountStore().get(executive);
       account.setAllowance(account.getAllowance()
-          + chainBaseManager.getDynamicPropertiesStore().getWitnessPayPerBlock());
+          + chainBaseManager.getDynamicPropertiesStore().getExecutivePayPerBlock());
 
       if (chainBaseManager.getDynamicPropertiesStore().supportTransactionFeePool()) {
         long transactionFeeReward = Math

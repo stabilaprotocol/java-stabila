@@ -27,7 +27,7 @@ public class NodeInfo {
   /*machine information*/
   private MachineInfo machineInfo;
 
-  private Map<String, String> cheatWitnessInfoMap = new HashMap<>();
+  private Map<String, String> cheatExecutiveInfoMap = new HashMap<>();
 
   public long getBeginSyncNum() {
     return beginSyncNum;
@@ -119,13 +119,13 @@ public class NodeInfo {
     return this;
   }
 
-  public Map<String, String> getCheatWitnessInfoMap() {
-    return cheatWitnessInfoMap;
+  public Map<String, String> getCheatExecutiveInfoMap() {
+    return cheatExecutiveInfoMap;
   }
 
-  public NodeInfo setCheatWitnessInfoMap(
-      Map<String, String> cheatWitnessInfoMap) {
-    this.cheatWitnessInfoMap = cheatWitnessInfoMap;
+  public NodeInfo setCheatExecutiveInfoMap(
+      Map<String, String> cheatExecutiveInfoMap) {
+    this.cheatExecutiveInfoMap = cheatExecutiveInfoMap;
     return this;
   }
 
@@ -138,7 +138,7 @@ public class NodeInfo {
     builder.setActiveConnectCount(getActiveConnectCount());
     builder.setPassiveConnectCount(getPassiveConnectCount());
     builder.setTotalFlow(getTotalFlow());
-    builder.putAllCheatWitnessInfoMap(getCheatWitnessInfoMap());
+    builder.putAllCheatExecutiveInfoMap(getCheatExecutiveInfoMap());
     for (PeerInfo peerInfo : getPeerList()) {
       Protocol.NodeInfo.PeerInfo.Builder peerInfoBuilder = Protocol.NodeInfo.PeerInfo.newBuilder();
       peerInfoBuilder.setLastSyncBlock(peerInfo.getLastSyncBlock());

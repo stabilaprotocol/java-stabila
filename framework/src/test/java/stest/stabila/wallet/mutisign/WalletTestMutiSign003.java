@@ -30,9 +30,9 @@ public class WalletTestMutiSign003 {
   private final String testKey002 = Configuration.getByPath("testng.conf")
       .getString("foundationAccount.key1");
   private final byte[] fromAddress = PublicMethed.getFinalAddress(testKey002);
-  private final String witnessKey001 = Configuration.getByPath("testng.conf")
-      .getString("witness.key1");
-  private final byte[] witnessAddress = PublicMethed.getFinalAddress(witnessKey001);
+  private final String executiveKey001 = Configuration.getByPath("testng.conf")
+      .getString("executive.key1");
+  private final byte[] executiveAddress = PublicMethed.getFinalAddress(executiveKey001);
   ByteString assetAccountId1;
   String[] permissionKeyString = new String[2];
   String[] ownerKeyString = new String[3];
@@ -173,10 +173,10 @@ public class WalletTestMutiSign003 {
     Assert.assertTrue(PublicMethedForMutiSign.updateAccount(
         ownerAddress, updateName.getBytes(), ownerKey, blockingStubFull, ownerKeyString));
 
-    String voteStr = Base58.encode58Check(witnessAddress);
+    String voteStr = Base58.encode58Check(executiveAddress);
     HashMap<String, String> smallVoteMap = new HashMap<String, String>();
     smallVoteMap.put(voteStr, "1");
-    Assert.assertTrue(PublicMethedForMutiSign.voteWitness(
+    Assert.assertTrue(PublicMethedForMutiSign.voteExecutive(
         smallVoteMap, ownerAddress, ownerKey, blockingStubFull, ownerKeyString));
 
     PublicMethed.waitProduceNextBlock(blockingStubFull);

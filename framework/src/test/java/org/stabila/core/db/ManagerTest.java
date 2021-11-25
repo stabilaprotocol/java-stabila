@@ -37,7 +37,7 @@ import org.stabila.core.capsule.AccountCapsule;
 import org.stabila.core.capsule.AssetIssueCapsule;
 import org.stabila.core.capsule.BlockCapsule;
 import org.stabila.core.capsule.TransactionCapsule;
-import org.stabila.core.capsule.WitnessCapsule;
+import org.stabila.core.capsule.ExecutiveCapsule;
 import org.stabila.core.exception.AccountResourceInsufficientException;
 import org.stabila.core.exception.BadBlockException;
 import org.stabila.core.exception.BadItemException;
@@ -111,11 +111,11 @@ public class ManagerTest extends BlockGenerate {
             ByteString.copyFrom(
                 ECKey.fromPrivate(
                     ByteArray.fromHexString(
-                        Args.getLocalWitnesses().getPrivateKey()))
+                        Args.getLocalExecutives().getPrivateKey()))
                     .getAddress()));
     blockCapsule2.setMerkleRoot();
     blockCapsule2.sign(
-        ByteArray.fromHexString(Args.getLocalWitnesses().getPrivateKey()));
+        ByteArray.fromHexString(Args.getLocalExecutives().getPrivateKey()));
   }
 
   @After
@@ -142,11 +142,11 @@ public class ManagerTest extends BlockGenerate {
             ByteString.copyFrom(
                 ECKey.fromPrivate(
                     ByteArray.fromHexString(
-                        Args.getLocalWitnesses().getPrivateKey()))
+                        Args.getLocalExecutives().getPrivateKey()))
                     .getAddress()));
     blockCapsule.setMerkleRoot();
     blockCapsule.sign(
-        ByteArray.fromHexString(Args.getLocalWitnesses().getPrivateKey()));
+        ByteArray.fromHexString(Args.getLocalExecutives().getPrivateKey()));
 
     TransferContract tc =
         TransferContract.newBuilder()
@@ -230,9 +230,9 @@ public class ManagerTest extends BlockGenerate {
 
   @Test
   public void pushBlockInvalidSignature() {
-    // invalid witness address cause invalid signature
-    String invalidWitness = "bcab94c3e0c9214fb4ac7ff9d7d5a937d1f40031f";
-    blockCapsule2.setWitness(invalidWitness);
+    // invalid executive address cause invalid signature
+    String invalidExecutive = "bcab94c3e0c9214fb4ac7ff9d7d5a937d1f40031f";
+    blockCapsule2.setExecutive(invalidExecutive);
     try {
       dbManager.pushBlock(blockCapsule2);
       Assert.assertTrue(false);
@@ -375,7 +375,7 @@ public class ManagerTest extends BlockGenerate {
     Transaction stb = Transaction.newBuilder().build();
     TransactionCapsule moreTrans = new TransactionCapsule(stb);
     blockCapsule2.addTransaction(moreTrans);  // add one more transaction will change merkroot
-    blockCapsule2.sign(ByteArray.fromHexString(Args.getLocalWitnesses()
+    blockCapsule2.sign(ByteArray.fromHexString(Args.getLocalExecutives()
         .getPrivateKey()));
     try {
       dbManager.pushBlock(blockCapsule2);
@@ -430,7 +430,7 @@ public class ManagerTest extends BlockGenerate {
     blockCapsule2.addTransaction(trans1);  // addShield transaction
     blockCapsule2.addTransaction(trans2);  //  add Shield transaction
     blockCapsule2.setMerkleRoot();
-    blockCapsule2.sign(ByteArray.fromHexString(Args.getLocalWitnesses()
+    blockCapsule2.sign(ByteArray.fromHexString(Args.getLocalExecutives()
         .getPrivateKey()));
     try {
       dbManager.pushBlock(blockCapsule2);
@@ -458,14 +458,14 @@ public class ManagerTest extends BlockGenerate {
     final ECKey ecKey = ECKey.fromPrivate(privateKey);
     byte[] address = ecKey.getAddress();
 
-    WitnessCapsule witnessCapsule = new WitnessCapsule(ByteString.copyFrom(address));
-    chainManager.getWitnessScheduleStore().saveActiveWitnesses(new ArrayList<>());
-    chainManager.addWitness(ByteString.copyFrom(address));
+    ExecutiveCapsule executiveCapsule = new ExecutiveCapsule(ByteString.copyFrom(address));
+    chainManager.getExecutiveScheduleStore().saveActiveExecutives(new ArrayList<>());
+    chainManager.addExecutive(ByteString.copyFrom(address));
 
-    Block block = getSignedBlock(witnessCapsule.getAddress(), 1533529947843L, privateKey);
+    Block block = getSignedBlock(executiveCapsule.getAddress(), 1533529947843L, privateKey);
     dbManager.pushBlock(new BlockCapsule(block));
 
-    Map<ByteString, String> addressToProvateKeys = addTestWitnessAndAccount();
+    Map<ByteString, String> addressToProvateKeys = addTestExecutiveAndAccount();
     addressToProvateKeys.put(ByteString.copyFrom(address), key);
 
     long num = chainManager.getDynamicPropertiesStore().getLatestBlockHeaderNumber();
@@ -502,52 +502,52 @@ public class ManagerTest extends BlockGenerate {
 
 
   public void updateWits() {
-    int sizePrv = chainManager.getWitnessScheduleStore().getActiveWitnesses().size();
+    int sizePrv = chainManager.getExecutiveScheduleStore().getActiveExecutives().size();
     chainManager
-        .getWitnessScheduleStore().getActiveWitnesses()
+        .getExecutiveScheduleStore().getActiveExecutives()
         .forEach(
-            witnessAddress -> {
+            executiveAddress -> {
               logger.info(
-                  "witness address is {}",
-                  ByteArray.toHexString(witnessAddress.toByteArray()));
+                  "executive address is {}",
+                  ByteArray.toHexString(executiveAddress.toByteArray()));
             });
     logger.info("------------");
-    WitnessCapsule witnessCapsulef =
-        new WitnessCapsule(
+    ExecutiveCapsule executiveCapsulef =
+        new ExecutiveCapsule(
             ByteString.copyFrom(ByteArray.fromHexString("0x0011")), "www.stabila.net/first");
-    witnessCapsulef.setIsJobs(true);
-    WitnessCapsule witnessCapsules =
-        new WitnessCapsule(
+    executiveCapsulef.setIsJobs(true);
+    ExecutiveCapsule executiveCapsules =
+        new ExecutiveCapsule(
             ByteString.copyFrom(ByteArray.fromHexString("0x0012")),
             "www.stabila.net/second");
-    witnessCapsules.setIsJobs(true);
-    WitnessCapsule witnessCapsulet =
-        new WitnessCapsule(
+    executiveCapsules.setIsJobs(true);
+    ExecutiveCapsule executiveCapsulet =
+        new ExecutiveCapsule(
             ByteString.copyFrom(ByteArray.fromHexString("0x0013")), "www.stabila.net/three");
-    witnessCapsulet.setIsJobs(false);
+    executiveCapsulet.setIsJobs(false);
 
     chainManager
-        .getWitnessScheduleStore().getActiveWitnesses()
+        .getExecutiveScheduleStore().getActiveExecutives()
         .forEach(
-            witnessAddress -> {
+            executiveAddress -> {
               logger.info(
-                  "witness address is {}",
-                  ByteArray.toHexString(witnessAddress.toByteArray()));
+                  "executive address is {}",
+                  ByteArray.toHexString(executiveAddress.toByteArray()));
             });
     logger.info("---------");
-    chainManager.getWitnessStore().put(witnessCapsulef.getAddress().toByteArray(), witnessCapsulef);
-    chainManager.getWitnessStore().put(witnessCapsules.getAddress().toByteArray(), witnessCapsules);
-    chainManager.getWitnessStore().put(witnessCapsulet.getAddress().toByteArray(), witnessCapsulet);
+    chainManager.getExecutiveStore().put(executiveCapsulef.getAddress().toByteArray(), executiveCapsulef);
+    chainManager.getExecutiveStore().put(executiveCapsules.getAddress().toByteArray(), executiveCapsules);
+    chainManager.getExecutiveStore().put(executiveCapsulet.getAddress().toByteArray(), executiveCapsulet);
     chainManager
-        .getWitnesses()
+        .getExecutives()
         .forEach(
-            witnessAddress -> {
+            executiveAddress -> {
               logger.info(
-                  "witness address is {}",
-                  ByteArray.toHexString(witnessAddress.toByteArray()));
+                  "executive address is {}",
+                  ByteArray.toHexString(executiveAddress.toByteArray()));
             });
-    int sizeTis = chainManager.getWitnesses().size();
-    Assert.assertEquals("update add witness size is ",
+    int sizeTis = chainManager.getExecutives().size();
+    Assert.assertEquals("update add executive size is ",
         2, sizeTis - sizePrv);
   }
 
@@ -560,22 +560,22 @@ public class ManagerTest extends BlockGenerate {
       BadBlockException, TaposException, BadNumberBlockException, NonCommonBlockException,
       ReceiptCheckErrException, VMIllegalException, TooBigTransactionResultException,
       ZksnarkException {
-    Args.setParam(new String[]{"--witness"}, Constant.TEST_CONF);
+    Args.setParam(new String[]{"--executive"}, Constant.TEST_CONF);
     long size = chainManager.getBlockStore().size();
     //  System.out.print("block store size:" + size + "\n");
     String key = "f31db24bfbd1a2ef19beddca0a0fa37632eded9ac666a05d3bd925f01dde1f62";
     byte[] privateKey = ByteArray.fromHexString(key);
     final ECKey ecKey = ECKey.fromPrivate(privateKey);
     byte[] address = ecKey.getAddress();
-    WitnessCapsule witnessCapsule = new WitnessCapsule(ByteString.copyFrom(address));
-    chainManager.getWitnessScheduleStore().saveActiveWitnesses(new ArrayList<>());
-    chainManager.addWitness(ByteString.copyFrom(address));
+    ExecutiveCapsule executiveCapsule = new ExecutiveCapsule(ByteString.copyFrom(address));
+    chainManager.getExecutiveScheduleStore().saveActiveExecutives(new ArrayList<>());
+    chainManager.addExecutive(ByteString.copyFrom(address));
 
-    Block block = getSignedBlock(witnessCapsule.getAddress(), 1533529947843L, privateKey);
+    Block block = getSignedBlock(executiveCapsule.getAddress(), 1533529947843L, privateKey);
 
     dbManager.pushBlock(new BlockCapsule(block));
 
-    Map<ByteString, String> addressToProvateKeys = addTestWitnessAndAccount();
+    Map<ByteString, String> addressToProvateKeys = addTestExecutiveAndAccount();
     addressToProvateKeys.put(ByteString.copyFrom(address), key);
 
     long num = chainManager.getDynamicPropertiesStore().getLatestBlockHeaderNumber();
@@ -679,7 +679,7 @@ public class ManagerTest extends BlockGenerate {
       TaposException, BadNumberBlockException, NonCommonBlockException,
       ReceiptCheckErrException, VMIllegalException, TooBigTransactionResultException,
       ZksnarkException {
-    Args.setParam(new String[]{"--witness"}, Constant.TEST_CONF);
+    Args.setParam(new String[]{"--executive"}, Constant.TEST_CONF);
     long size = chainManager.getBlockStore().size();
     System.out.print("block store size:" + size + "\n");
     String key = "f31db24bfbd1a2ef19beddca0a0fa37632eded9ac666a05d3bd925f01dde1f62";
@@ -687,14 +687,14 @@ public class ManagerTest extends BlockGenerate {
     final ECKey ecKey = ECKey.fromPrivate(privateKey);
     byte[] address = ecKey.getAddress();
 
-    WitnessCapsule witnessCapsule = new WitnessCapsule(ByteString.copyFrom(address));
-    chainManager.getWitnessScheduleStore().saveActiveWitnesses(new ArrayList<>());
-    chainManager.addWitness(ByteString.copyFrom(address));
+    ExecutiveCapsule executiveCapsule = new ExecutiveCapsule(ByteString.copyFrom(address));
+    chainManager.getExecutiveScheduleStore().saveActiveExecutives(new ArrayList<>());
+    chainManager.addExecutive(ByteString.copyFrom(address));
 
-    Block block = getSignedBlock(witnessCapsule.getAddress(), 1533529947843L, privateKey);
+    Block block = getSignedBlock(executiveCapsule.getAddress(), 1533529947843L, privateKey);
     dbManager.pushBlock(new BlockCapsule(block));
 
-    Map<ByteString, String> addressToProvateKeys = addTestWitnessAndAccount();
+    Map<ByteString, String> addressToProvateKeys = addTestExecutiveAndAccount();
     addressToProvateKeys.put(ByteString.copyFrom(address), key);
 
     long num = chainManager.getDynamicPropertiesStore().getLatestBlockHeaderNumber();
@@ -785,21 +785,21 @@ public class ManagerTest extends BlockGenerate {
       BadBlockException, TaposException, BadNumberBlockException, NonCommonBlockException,
       ReceiptCheckErrException, VMIllegalException, TooBigTransactionResultException,
       ZksnarkException {
-    Args.setParam(new String[]{"--witness"}, Constant.TEST_CONF);
+    Args.setParam(new String[]{"--executive"}, Constant.TEST_CONF);
     long size = chainManager.getBlockStore().size();
     System.out.print("block store size:" + size + "\n");
     String key = "f31db24bfbd1a2ef19beddca0a0fa37632eded9ac666a05d3bd925f01dde1f62";
     byte[] privateKey = ByteArray.fromHexString(key);
     final ECKey ecKey = ECKey.fromPrivate(privateKey);
     byte[] address = ecKey.getAddress();
-    WitnessCapsule witnessCapsule = new WitnessCapsule(ByteString.copyFrom(address));
-    chainManager.getWitnessScheduleStore().saveActiveWitnesses(new ArrayList<>());
-    chainManager.addWitness(ByteString.copyFrom(address));
+    ExecutiveCapsule executiveCapsule = new ExecutiveCapsule(ByteString.copyFrom(address));
+    chainManager.getExecutiveScheduleStore().saveActiveExecutives(new ArrayList<>());
+    chainManager.addExecutive(ByteString.copyFrom(address));
 
-    Block block = getSignedBlock(witnessCapsule.getAddress(), 1533529947843L, privateKey);
+    Block block = getSignedBlock(executiveCapsule.getAddress(), 1533529947843L, privateKey);
     dbManager.pushBlock(new BlockCapsule(block));
 
-    Map<ByteString, String> addressToProvateKeys = addTestWitnessAndAccount();
+    Map<ByteString, String> addressToProvateKeys = addTestExecutiveAndAccount();
     addressToProvateKeys.put(ByteString.copyFrom(address), key);
 
     long num = chainManager.getDynamicPropertiesStore().getLatestBlockHeaderNumber();
@@ -867,8 +867,8 @@ public class ManagerTest extends BlockGenerate {
             .getBlockId());
   }
 
-  private Map<ByteString, String> addTestWitnessAndAccount() {
-    chainManager.getWitnesses().clear();
+  private Map<ByteString, String> addTestExecutiveAndAccount() {
+    chainManager.getExecutives().clear();
     return IntStream.range(0, 2)
         .mapToObj(
             i -> {
@@ -876,9 +876,9 @@ public class ManagerTest extends BlockGenerate {
               String privateKey = ByteArray.toHexString(ecKey.getPrivKey().toByteArray());
               ByteString address = ByteString.copyFrom(ecKey.getAddress());
 
-              WitnessCapsule witnessCapsule = new WitnessCapsule(address);
-              chainManager.getWitnessStore().put(address.toByteArray(), witnessCapsule);
-              chainManager.addWitness(address);
+              ExecutiveCapsule executiveCapsule = new ExecutiveCapsule(address);
+              chainManager.getExecutiveStore().put(address.toByteArray(), executiveCapsule);
+              chainManager.addExecutive(address);
 
               AccountCapsule accountCapsule =
                   new AccountCapsule(Account.newBuilder().setAddress(address).build());
@@ -899,24 +899,24 @@ public class ManagerTest extends BlockGenerate {
   private BlockCapsule createTestBlockCapsule(long time,
       long number, ByteString hash,
       Map<ByteString, String> addressToProvateKeys) {
-    ByteString witnessAddress = dposSlot.getScheduledWitness(dposSlot.getSlot(time));
+    ByteString executiveAddress = dposSlot.getScheduledExecutive(dposSlot.getSlot(time));
     BlockCapsule blockCapsule = new BlockCapsule(number, Sha256Hash.wrap(hash), time,
-        witnessAddress);
+        executiveAddress);
     blockCapsule.generatedByMyself = true;
     blockCapsule.setMerkleRoot();
-    blockCapsule.sign(ByteArray.fromHexString(addressToProvateKeys.get(witnessAddress)));
+    blockCapsule.sign(ByteArray.fromHexString(addressToProvateKeys.get(executiveAddress)));
     return blockCapsule;
   }
 
   private BlockCapsule createTestBlockCapsuleError(long time,
       long number, ByteString hash,
       Map<ByteString, String> addressToProvateKeys) {
-    ByteString witnessAddress = dposSlot.getScheduledWitness(dposSlot.getSlot(time));
+    ByteString executiveAddress = dposSlot.getScheduledExecutive(dposSlot.getSlot(time));
     BlockCapsule blockCapsule = new BlockCapsule(number, Sha256Hash.wrap(hash), time,
         ByteString.copyFromUtf8("onlyTest"));
     blockCapsule.generatedByMyself = true;
     blockCapsule.setMerkleRoot();
-    blockCapsule.sign(ByteArray.fromHexString(addressToProvateKeys.get(witnessAddress)));
+    blockCapsule.sign(ByteArray.fromHexString(addressToProvateKeys.get(executiveAddress)));
     return blockCapsule;
   }
 }

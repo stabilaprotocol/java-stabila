@@ -88,7 +88,7 @@ public class AssetIssueActuator extends AbstractActuator {
       if (dynamicStore.supportBlackHoleOptimization()) {
         dynamicStore.burnStb(fee);
       } else {
-        Commons.adjustBalance(accountStore, accountStore.getBlackhole(), fee);//send to blackhole
+        Commons.adjustBalance(accountStore, accountStore.getUnit(), fee);//send to blackhole
       }
       AccountCapsule accountCapsule = accountStore.get(ownerAddress);
       List<CdedSupply> cdedSupplyList = assetIssueContract.getCdedSupplyList();

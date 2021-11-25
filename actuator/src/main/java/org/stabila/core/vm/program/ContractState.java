@@ -27,7 +27,6 @@ import org.stabila.core.vm.repository.Key;
 import org.stabila.core.vm.repository.Repository;
 import org.stabila.core.vm.repository.Value;
 import org.stabila.common.runtime.vm.DataWord;
-import org.stabila.core.capsule.*;
 import org.stabila.core.store.*;
 import org.stabila.core.vm.program.invoke.ProgramInvoke;
 import org.stabila.core.vm.program.listener.ProgramListener;
@@ -97,8 +96,8 @@ public class ContractState implements Repository, ProgramListenerAware {
   }
 
   @Override
-  public WitnessCapsule getWitness(byte[] address) {
-    return repository.getWitness(address);
+  public ExecutiveCapsule getExecutive(byte[] address) {
+    return repository.getExecutive(address);
   }
 
   @Override
@@ -258,6 +257,16 @@ public class ContractState implements Repository, ProgramListenerAware {
   @Override
   public DelegationStore getDelegationStore() {
     return repository.getDelegationStore();
+  }
+
+  @Override
+  public ExecutiveStore getExecutiveStore() {
+    return repository.getExecutiveStore();
+  }
+
+  @Override
+  public AccountStore getAccountStore() {
+    return repository.getAccountStore();
   }
 
   @Override

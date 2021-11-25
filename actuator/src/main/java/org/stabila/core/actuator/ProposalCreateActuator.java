@@ -2,7 +2,7 @@ package org.stabila.core.actuator;
 
 import static org.stabila.core.actuator.ActuatorConstant.ACCOUNT_EXCEPTION_STR;
 import static org.stabila.core.actuator.ActuatorConstant.NOT_EXIST_STR;
-import static org.stabila.core.actuator.ActuatorConstant.WITNESS_EXCEPTION_STR;
+import static org.stabila.core.actuator.ActuatorConstant.EXECUTIVE_EXCEPTION_STR;
 
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
@@ -103,9 +103,9 @@ public class ProposalCreateActuator extends AbstractActuator {
           ACCOUNT_EXCEPTION_STR + readableOwnerAddress + NOT_EXIST_STR);
     }
 
-    if (!chainBaseManager.getWitnessStore().has(ownerAddress)) {
+    if (!chainBaseManager.getExecutiveStore().has(ownerAddress)) {
       throw new ContractValidateException(
-          WITNESS_EXCEPTION_STR + readableOwnerAddress + NOT_EXIST_STR);
+          EXECUTIVE_EXCEPTION_STR + readableOwnerAddress + NOT_EXIST_STR);
     }
 
     if (contract.getParametersMap().size() == 0) {

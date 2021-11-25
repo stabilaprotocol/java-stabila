@@ -41,7 +41,7 @@ public class AccountPermissionUpdateActuatorTest {
 
   private static final String dbPath = "output_transfer_test";
   private static final String OWNER_ADDRESS;
-  private static final String WITNESS_ADDRESS;
+  private static final String EXECUTIVE_ADDRESS;
   private static final String KEY_ADDRESS;
   private static final String KEY_ADDRESS1;
   private static final String KEY_ADDRESS2;
@@ -67,7 +67,7 @@ public class AccountPermissionUpdateActuatorTest {
     context = new StabilaApplicationContext(DefaultConfig.class);
     AppT = ApplicationFactory.create(context);
     OWNER_ADDRESS = Wallet.getAddressPreFixString() + "abd4b9367799eaa3197fecb144eb71de1e049abc";
-    WITNESS_ADDRESS = Wallet.getAddressPreFixString() + "8CFC572CC20CA18B636BDD93B4FB15EA84CC2B4E";
+    EXECUTIVE_ADDRESS = Wallet.getAddressPreFixString() + "8CFC572CC20CA18B636BDD93B4FB15EA84CC2B4E";
     KEY_ADDRESS = Wallet.getAddressPreFixString() + "548794500882809695a8a687866e76d4271a1abc";
     KEY_ADDRESS1 = Wallet.getAddressPreFixString() + "BCE23C7D683B889326F762DDA2223A861EDA2E5C";
     KEY_ADDRESS2 = Wallet.getAddressPreFixString() + "B207296C464175C5124AD6DEBCE3E9EB3720D9EA";
@@ -132,11 +132,11 @@ public class AccountPermissionUpdateActuatorTest {
         ByteString.copyFromUtf8("owner"), AccountType.Normal);
     dbManager.getAccountStore().put(ownerCapsule.getAddress().toByteArray(), ownerCapsule);
 
-    AccountCapsule witnessCapsule = new AccountCapsule(
-        ByteString.copyFrom(ByteArray.fromHexString(WITNESS_ADDRESS)),
-        ByteString.copyFromUtf8("witness"), AccountType.Normal);
-    witnessCapsule.setIsWitness(true);
-    dbManager.getAccountStore().put(witnessCapsule.getAddress().toByteArray(), witnessCapsule);
+    AccountCapsule executiveCapsule = new AccountCapsule(
+        ByteString.copyFrom(ByteArray.fromHexString(EXECUTIVE_ADDRESS)),
+        ByteString.copyFromUtf8("executive"), AccountType.Normal);
+    executiveCapsule.setIsExecutive(true);
+    dbManager.getAccountStore().put(executiveCapsule.getAddress().toByteArray(), executiveCapsule);
   }
 
   /**
@@ -154,15 +154,15 @@ public class AccountPermissionUpdateActuatorTest {
     return Any.pack(contract);
   }
 
-  private Any getContract(ByteString address, Permission owner, Permission witness,
+  private Any getContract(ByteString address, Permission owner, Permission executive,
       List<Permission> activeList) {
     AccountPermissionUpdateContract.Builder builder = AccountPermissionUpdateContract.newBuilder();
     builder.setOwnerAddress(address);
     if (owner != null) {
       builder.setOwner(owner);
     }
-    if (witness != null) {
-      builder.setWitness(witness);
+    if (executive != null) {
+      builder.setExecutive(executive);
     }
     if (activeList != null) {
       builder.addAllActives(activeList);
@@ -409,10 +409,10 @@ public class AccountPermissionUpdateActuatorTest {
   }
 
   @Test
-  public void witnessNeedless() {
+  public void executiveNeedless() {
     ByteString address = ByteString.copyFrom(ByteArray.fromHexString(OWNER_ADDRESS));
     Permission ownerPermission = AccountCapsule.createDefaultOwnerPermission(address);
-    Permission witnessPermission = AccountCapsule.createDefaultWitnessPermission(address);
+    Permission executivePermission = AccountCapsule.createDefaultExecutivePermission(address);
     Permission activePermission = AccountCapsule.createDefaultActivePermission(address,
         dbManager.getDynamicPropertiesStore());
 
@@ -421,16 +421,16 @@ public class AccountPermissionUpdateActuatorTest {
 
     AccountPermissionUpdateActuator actuator = new AccountPermissionUpdateActuator();
     actuator.setChainBaseManager(dbManager.getChainBaseManager())
-        .setAny(getContract(address, ownerPermission, witnessPermission, activeList));
+        .setAny(getContract(address, ownerPermission, executivePermission, activeList));
     TransactionResultCapsule ret = new TransactionResultCapsule();
 
-    processAndCheckInvalid(actuator, ret, "account isn't witness can't set witness permission",
-        "account isn't witness can't set witness permission");
+    processAndCheckInvalid(actuator, ret, "account isn't executive can't set executive permission",
+        "account isn't executive can't set executive permission");
   }
 
   @Test
-  public void witnessMissed() {
-    ByteString address = ByteString.copyFrom(ByteArray.fromHexString(WITNESS_ADDRESS));
+  public void executiveMissed() {
+    ByteString address = ByteString.copyFrom(ByteArray.fromHexString(EXECUTIVE_ADDRESS));
     Permission ownerPermission = AccountCapsule.createDefaultOwnerPermission(address);
     Permission activePermission = AccountCapsule.createDefaultActivePermission(address,
         dbManager.getDynamicPropertiesStore());
@@ -443,8 +443,8 @@ public class AccountPermissionUpdateActuatorTest {
         .setAny(getContract(address, ownerPermission, null, activeList));
     TransactionResultCapsule ret = new TransactionResultCapsule();
 
-    processAndCheckInvalid(actuator, ret, "witness permission is missed",
-        "witness permission is missed");
+    processAndCheckInvalid(actuator, ret, "executive permission is missed",
+        "executive permission is missed");
   }
 
   @Test
@@ -473,7 +473,7 @@ public class AccountPermissionUpdateActuatorTest {
   public void invalidActivePermissionType() {
     ByteString address = ByteString.copyFrom(ByteArray.fromHexString(OWNER_ADDRESS));
     Permission ownerPermission = AccountCapsule.createDefaultOwnerPermission(address);
-    Permission activePermission = Permission.newBuilder().setPermissionName("witness")
+    Permission activePermission = Permission.newBuilder().setPermissionName("executive")
         .setThreshold(1).setParentId(0)
         .build();
 
@@ -490,25 +490,25 @@ public class AccountPermissionUpdateActuatorTest {
   }
 
   @Test
-  public void invalidWitnessPermissionType() {
-    ByteString address = ByteString.copyFrom(ByteArray.fromHexString(WITNESS_ADDRESS));
+  public void invalidExecutivePermissionType() {
+    ByteString address = ByteString.copyFrom(ByteArray.fromHexString(EXECUTIVE_ADDRESS));
 
     Permission ownerPermission = AccountCapsule.createDefaultOwnerPermission(address);
-    Permission witnessPermission = Permission.newBuilder().setPermissionName("witness")
+    Permission executivePermission = Permission.newBuilder().setPermissionName("executive")
         .setThreshold(1).setParentId(0)
         .build();
-    Permission activePermission = AccountCapsule.createDefaultWitnessPermission(address);
+    Permission activePermission = AccountCapsule.createDefaultExecutivePermission(address);
 
     List<Permission> activeList = new ArrayList<>();
     activeList.add(activePermission);
 
     AccountPermissionUpdateActuator actuator = new AccountPermissionUpdateActuator();
     actuator.setChainBaseManager(dbManager.getChainBaseManager())
-        .setAny(getContract(address, ownerPermission, witnessPermission, activeList));
+        .setAny(getContract(address, ownerPermission, executivePermission, activeList));
     TransactionResultCapsule ret = new TransactionResultCapsule();
 
-    processAndCheckInvalid(actuator, ret, "witness permission type is error",
-        "witness permission type is error");
+    processAndCheckInvalid(actuator, ret, "executive permission type is error",
+        "executive permission type is error");
   }
 
   @Test
@@ -604,13 +604,13 @@ public class AccountPermissionUpdateActuatorTest {
   }
 
   @Test
-  public void witnessPermissionNoKey() {
-    ByteString address = ByteString.copyFrom(ByteArray.fromHexString(WITNESS_ADDRESS));
+  public void executivePermissionNoKey() {
+    ByteString address = ByteString.copyFrom(ByteArray.fromHexString(EXECUTIVE_ADDRESS));
 
     Permission ownerPermission = AccountCapsule.createDefaultOwnerPermission(address);
     Permission activePermission = AccountCapsule.createDefaultActivePermission(address,
         dbManager.getDynamicPropertiesStore());
-    Permission witnessPermission = Permission.newBuilder().setType(PermissionType.Witness)
+    Permission executivePermission = Permission.newBuilder().setType(PermissionType.Executive)
         .setPermissionName("active")
         .setThreshold(1).setParentId(0).build();
 
@@ -619,7 +619,7 @@ public class AccountPermissionUpdateActuatorTest {
 
     AccountPermissionUpdateActuator actuator = new AccountPermissionUpdateActuator();
     actuator.setChainBaseManager(dbManager.getChainBaseManager())
-        .setAny(getContract(address, ownerPermission, witnessPermission, activeList));
+        .setAny(getContract(address, ownerPermission, executivePermission, activeList));
     TransactionResultCapsule ret = new TransactionResultCapsule();
 
     processAndCheckInvalid(actuator, ret, "key's count should be greater than 0",
@@ -627,14 +627,14 @@ public class AccountPermissionUpdateActuatorTest {
   }
 
   @Test
-  public void witnessPermissionToManyKey() {
-    ByteString address = ByteString.copyFrom(ByteArray.fromHexString(WITNESS_ADDRESS));
+  public void executivePermissionToManyKey() {
+    ByteString address = ByteString.copyFrom(ByteArray.fromHexString(EXECUTIVE_ADDRESS));
 
     Permission ownerPermission = AccountCapsule.createDefaultOwnerPermission(address);
     Permission activePermission = AccountCapsule.createDefaultActivePermission(address,
         dbManager.getDynamicPropertiesStore());
-    Permission witnessPermission = Permission.newBuilder().setType(PermissionType.Witness)
-        .setPermissionName("witness")
+    Permission executivePermission = Permission.newBuilder().setType(PermissionType.Executive)
+        .setPermissionName("executive")
         .addKeys(VALID_KEY).addKeys(VALID_KEY1).addKeys(VALID_KEY2).addKeys(VALID_KEY3)
         .addKeys(VALID_KEY4)
         .addKeys(VALID_KEY5).setThreshold(1).build();
@@ -644,7 +644,7 @@ public class AccountPermissionUpdateActuatorTest {
 
     AccountPermissionUpdateActuator actuator = new AccountPermissionUpdateActuator();
     actuator.setChainBaseManager(dbManager.getChainBaseManager())
-        .setAny(getContract(address, ownerPermission, witnessPermission, activeList));
+        .setAny(getContract(address, ownerPermission, executivePermission, activeList));
     TransactionResultCapsule ret = new TransactionResultCapsule();
 
     processAndCheckInvalid(actuator, ret,
@@ -653,14 +653,14 @@ public class AccountPermissionUpdateActuatorTest {
   }
 
   @Test
-  public void witnessPermissionToManyKey1() {
-    ByteString address = ByteString.copyFrom(ByteArray.fromHexString(WITNESS_ADDRESS));
+  public void executivePermissionToManyKey1() {
+    ByteString address = ByteString.copyFrom(ByteArray.fromHexString(EXECUTIVE_ADDRESS));
 
     Permission ownerPermission = AccountCapsule.createDefaultOwnerPermission(address);
     Permission activePermission = AccountCapsule.createDefaultActivePermission(address,
         dbManager.getDynamicPropertiesStore());
-    Permission witnessPermission = Permission.newBuilder().setType(PermissionType.Witness)
-        .setPermissionName("witness")
+    Permission executivePermission = Permission.newBuilder().setType(PermissionType.Executive)
+        .setPermissionName("executive")
         .addKeys(VALID_KEY).addKeys(VALID_KEY1).addKeys(VALID_KEY2).addKeys(VALID_KEY3)
         .addKeys(VALID_KEY4)
         .setThreshold(1).build();
@@ -670,11 +670,11 @@ public class AccountPermissionUpdateActuatorTest {
 
     AccountPermissionUpdateActuator actuator = new AccountPermissionUpdateActuator();
     actuator.setChainBaseManager(dbManager.getChainBaseManager())
-        .setAny(getContract(address, ownerPermission, witnessPermission, activeList));
+        .setAny(getContract(address, ownerPermission, executivePermission, activeList));
     TransactionResultCapsule ret = new TransactionResultCapsule();
 
-    processAndCheckInvalid(actuator, ret, "Witness permission's key count should be 1",
-        "Witness permission's key count should be 1");
+    processAndCheckInvalid(actuator, ret, "Executive permission's key count should be 1",
+        "Executive permission's key count should be 1");
   }
 
   @Test
@@ -931,14 +931,14 @@ public class AccountPermissionUpdateActuatorTest {
   }
 
   @Test
-  public void witnessPermissionOperationNeedless() {
-    ByteString address = ByteString.copyFrom(ByteArray.fromHexString(WITNESS_ADDRESS));
+  public void executivePermissionOperationNeedless() {
+    ByteString address = ByteString.copyFrom(ByteArray.fromHexString(EXECUTIVE_ADDRESS));
 
     Permission ownerPermission = AccountCapsule.createDefaultOwnerPermission(address);
     Permission activePermission = AccountCapsule.createDefaultActivePermission(address,
         dbManager.getDynamicPropertiesStore());
-    Permission witnessPermission = Permission.newBuilder().setType(PermissionType.Witness)
-        .setPermissionName("witness")
+    Permission executivePermission = Permission.newBuilder().setType(PermissionType.Executive)
+        .setPermissionName("executive")
         .setThreshold(1)
         .setOperations(ByteString
             .copyFrom(ByteArray
@@ -950,11 +950,11 @@ public class AccountPermissionUpdateActuatorTest {
 
     AccountPermissionUpdateActuator actuator = new AccountPermissionUpdateActuator();
     actuator.setChainBaseManager(dbManager.getChainBaseManager())
-        .setAny(getContract(address, ownerPermission, witnessPermission, activeList));
+        .setAny(getContract(address, ownerPermission, executivePermission, activeList));
     TransactionResultCapsule ret = new TransactionResultCapsule();
 
-    processAndCheckInvalid(actuator, ret, "Witness permission needn't operations",
-        "Witness permission needn't operations");
+    processAndCheckInvalid(actuator, ret, "Executive permission needn't operations",
+        "Executive permission needn't operations");
   }
 
   @Test

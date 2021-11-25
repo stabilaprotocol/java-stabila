@@ -90,10 +90,10 @@ public class MerkleContainerTest {
 
     tree.append(a);
     tree.append(b);
-    IncrementalMerkleVoucherContainer witness1 = tree.toVoucher();
-    witness1.append(c);
+    IncrementalMerkleVoucherContainer executive1 = tree.toVoucher();
+    executive1.append(c);
 
-    System.out.println(ByteArray.toHexString(witness1.root().getContent().toByteArray()));
+    System.out.println(ByteArray.toHexString(executive1.root().getContent().toByteArray()));
 
     tree.append(c);
 
@@ -143,24 +143,24 @@ public class MerkleContainerTest {
     Assert.assertEquals(false, path.getIndex().get(0));
     Assert.assertEquals(true, path.getIndex().get(1));
 
-    //todo:need to check witness
-    //witness test
-    IncrementalMerkleVoucherContainer witness = tree.toVoucher();
-    //witness
-    witness.append(a);
+    //todo:need to check executive
+    //executive test
+    IncrementalMerkleVoucherContainer executive = tree.toVoucher();
+    //executive
+    executive.append(a);
     Assert.assertEquals(true, path.getIndex().get(1));
 
     Assert.assertEquals("ae308012692c14afb26cff2dc0178302b2fffcfd1c2e542c0ca9889a5db4cd6b",
-        ByteArray.toHexString(witness.getRootArray()));
+        ByteArray.toHexString(executive.getRootArray()));
 
-    witness.element();
-    witness.path();
+    executive.element();
+    executive.path();
 
-    witness.getVoucherCapsule().setOutputPoint(ByteString.copyFrom(hash), 1);
+    executive.getVoucherCapsule().setOutputPoint(ByteString.copyFrom(hash), 1);
 
     //save
     merkleContainer
-        .putMerkleVoucherIntoStore(witness.getMerkleVoucherKey(), witness.getVoucherCapsule());
+        .putMerkleVoucherIntoStore(executive.getMerkleVoucherKey(), executive.getVoucherCapsule());
 
     IncrementalMerkleTreeContainer bestMerkleRoot = merkleContainer.getBestMerkle();
     Assert.assertEquals(1, bestMerkleRoot.size());*/
@@ -186,7 +186,7 @@ public class MerkleContainerTest {
     return transaction;
   }
 
-  private void initMerkleTreeWitnessInfo() throws ZksnarkException {
+  private void initMerkleTreeExecutiveInfo() throws ZksnarkException {
     {
       IncrementalMerkleTreeCapsule tree = new IncrementalMerkleTreeCapsule();
 
@@ -344,9 +344,9 @@ public class MerkleContainerTest {
   }
 
   @Test
-  public void getMerkleTreeWitnessInfoTest() throws Exception {
+  public void getMerkleTreeExecutiveInfoTest() throws Exception {
     //init
-    initMerkleTreeWitnessInfo();
+    initMerkleTreeExecutiveInfo();
 
     //blockNum:100,txNum:1
     ByteString txId1 = ByteString.copyFrom(ByteArray
@@ -361,34 +361,34 @@ public class MerkleContainerTest {
         .addOutPoints(outputPoint2).setBlockNum(number).build();
     //  Args.getInstance().setAllowShieldedTransaction(1);
     Wallet wallet = context.getBean(Wallet.class);
-    IncrementalMerkleVoucherInfo merkleTreeWitnessInfo = wallet
+    IncrementalMerkleVoucherInfo merkleTreeExecutiveInfo = wallet
         .getMerkleTreeVoucherInfo(outputPointInfo);
 
-    //Assert.assertEquals(txId1, merkleTreeWitnessInfo.getWitness1().getOutputPoint().getHash());
-    Assert.assertEquals(0, merkleTreeWitnessInfo.getVouchers(0).getOutputPoint().getIndex());
+    //Assert.assertEquals(txId1, merkleTreeExecutiveInfo.getExecutive1().getOutputPoint().getHash());
+    Assert.assertEquals(0, merkleTreeExecutiveInfo.getVouchers(0).getOutputPoint().getIndex());
     //Assert
-    //    .assertEquals(13, new IncrementalMerkleVoucherCapsule(merkleTreeWitnessInfo.getWitness1
+    //    .assertEquals(13, new IncrementalMerkleVoucherCapsule(merkleTreeExecutiveInfo.getExecutive1
     //    ()).
     //        toMerkleVoucherContainer().size());
     //Assert
-    //    .assertEquals(13, new IncrementalMerkleVoucherCapsule(merkleTreeWitnessInfo.getWitness2
+    //    .assertEquals(13, new IncrementalMerkleVoucherCapsule(merkleTreeExecutiveInfo.getExecutive2
     //    ()).
     //        toMerkleVoucherContainer().size());
 
     IncrementalMerkleVoucherCapsule capsule1 = new IncrementalMerkleVoucherCapsule(
-        merkleTreeWitnessInfo.getVouchers(0));
+        merkleTreeExecutiveInfo.getVouchers(0));
     capsule1.toMerkleVoucherContainer().printSize();
 
     IncrementalMerkleVoucherCapsule capsule2 = new IncrementalMerkleVoucherCapsule(
-        merkleTreeWitnessInfo.getVouchers(1));
+        merkleTreeExecutiveInfo.getVouchers(1));
     capsule2.toMerkleVoucherContainer().printSize();
 
     System.out
         .println("kkkkkk" + ByteArray
-            .toHexString(merkleTreeWitnessInfo.getVouchers(0).getRt().toByteArray()));
+            .toHexString(merkleTreeExecutiveInfo.getVouchers(0).getRt().toByteArray()));
     Assert.assertEquals(
-        ByteArray.toHexString(merkleTreeWitnessInfo.getVouchers(0).getRt().toByteArray()),
-        ByteArray.toHexString(merkleTreeWitnessInfo.getVouchers(1).getRt().toByteArray())
+        ByteArray.toHexString(merkleTreeExecutiveInfo.getVouchers(0).getRt().toByteArray()),
+        ByteArray.toHexString(merkleTreeExecutiveInfo.getVouchers(1).getRt().toByteArray())
     );
 
   }
@@ -406,12 +406,12 @@ public class MerkleContainerTest {
         PedersenHash c = PedersenHash.newBuilder().setContent(ByteString.copyFrom(bytes)).build();
         tree.toMerkleTreeContainer().append(c);
       }
-      IncrementalMerkleVoucherContainer witnessa = tree.toMerkleTreeContainer().toVoucher();
+      IncrementalMerkleVoucherContainer executivea = tree.toMerkleTreeContainer().toVoucher();
       for (int j = i; j <= b; j++) {
         byte[] bytes = new byte[32];
         bytes[0] = (byte) j;
         PedersenHash c = PedersenHash.newBuilder().setContent(ByteString.copyFrom(bytes)).build();
-        witnessa.append(c);
+        executivea.append(c);
       }
 
       for (int j = i; j <= b; j++) {
@@ -420,10 +420,10 @@ public class MerkleContainerTest {
         PedersenHash c = PedersenHash.newBuilder().setContent(ByteString.copyFrom(bytes)).build();
         tree.toMerkleTreeContainer().append(c);
       }
-      IncrementalMerkleVoucherContainer witnessb = tree.toMerkleTreeContainer().toVoucher();
+      IncrementalMerkleVoucherContainer executiveb = tree.toMerkleTreeContainer().toVoucher();
 
-      byte[] roota = witnessa.root().getContent().toByteArray();
-      byte[] rootb = witnessb.root().getContent().toByteArray();
+      byte[] roota = executivea.root().getContent().toByteArray();
+      byte[] rootb = executiveb.root().getContent().toByteArray();
 
       Assert.assertTrue(Arrays.equals(roota, rootb));
     }

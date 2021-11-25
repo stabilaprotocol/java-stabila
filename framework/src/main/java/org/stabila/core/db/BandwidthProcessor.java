@@ -348,11 +348,11 @@ public class BandwidthProcessor extends ResourceProcessor {
   }
 
   public long calculateGlobalNetLimit(AccountCapsule accountCapsule) {
-    long frozeBalance = accountCapsule.getAllCdedBalanceForBandwidth();
-    if (frozeBalance < STB_PRECISION) {
+    long cdedBalance = accountCapsule.getAllCdedBalanceForBandwidth();
+    if (cdedBalance < STB_PRECISION) {
       return 0;
     }
-    long netWeight = frozeBalance / STB_PRECISION;
+    long netWeight = cdedBalance / STB_PRECISION;
     long totalNetLimit = chainBaseManager.getDynamicPropertiesStore().getTotalNetLimit();
     long totalNetWeight = chainBaseManager.getDynamicPropertiesStore().getTotalNetWeight();
     if (totalNetWeight == 0) {

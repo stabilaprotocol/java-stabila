@@ -28,9 +28,9 @@ public class StackSuicideTest001 {
   private String testFoundationKey = Configuration.getByPath("testng.conf")
       .getString("foundationAccount.key2");
   private byte[] testFoundationAddress = PublicMethed.getFinalAddress(testFoundationKey);
-  private String testWitnessKey = Configuration.getByPath("testng.conf")
-      .getString("witness.key1");
-  private String testWitnessAddress = PublicMethed.getAddressString(testWitnessKey);
+  private String testExecutiveKey = Configuration.getByPath("testng.conf")
+      .getString("executive.key1");
+  private String testExecutiveAddress = PublicMethed.getAddressString(testExecutiveKey);
 
   private Long maxFeeLimit = Configuration.getByPath("testng.conf")
       .getLong("defaultParameter.maxFeeLimit");
@@ -84,7 +84,7 @@ public class StackSuicideTest001 {
 
 
     String txid = PublicMethed.triggerContract(contractAddress,"Stake(address,uint256)",
-        "\"" + testWitnessAddress + "\",10000000",false,0,maxFeeLimit,
+        "\"" + testExecutiveAddress + "\",10000000",false,0,maxFeeLimit,
         testFoundationAddress, testFoundationKey,blockingStubFull);
     PublicMethed.waitProduceNextBlock(blockingStubFull);
     Optional<TransactionInfo> ex = PublicMethed.getTransactionInfoById(txid, blockingStubFull);
@@ -130,7 +130,7 @@ public class StackSuicideTest001 {
         maxFeeLimit, targetBalance, 100, null, testKey001, testAddress001, blockingStubFull);
 
     String methedStr = "Stake(address,uint256)";
-    String argStr = "\"" + testWitnessAddress + "\",10000000";
+    String argStr = "\"" + testExecutiveAddress + "\",10000000";
     String txid = PublicMethed.triggerContract(contractAddress,methedStr,
         argStr,false,0,maxFeeLimit,
         testFoundationAddress, testFoundationKey,blockingStubFull);
@@ -186,7 +186,7 @@ public class StackSuicideTest001 {
     PublicMethed.waitProduceNextBlock(blockingStubFull);
 
     String methedStr = "Stake(address,uint256)";
-    String argStr = "\"" + testWitnessAddress + "\"," + targetBalance;
+    String argStr = "\"" + testExecutiveAddress + "\"," + targetBalance;
     String txid = PublicMethed.triggerContract(contractAddress,methedStr,
         argStr,false,0,maxFeeLimit, testFoundationAddress, testFoundationKey,blockingStubFull);
     PublicMethed.waitProduceNextBlock(blockingStubFull);
@@ -195,7 +195,7 @@ public class StackSuicideTest001 {
     Assert.assertEquals(ex.get().getResult(), TransactionInfo.code.SUCESS);
     Assert.assertEquals(ByteArray.toInt(ex.get().getContractResult(0).toByteArray()),1);
 
-    argStr = "\"" + testWitnessAddress + "\"," + 12_000_000L;
+    argStr = "\"" + testExecutiveAddress + "\"," + 12_000_000L;
     String txid2 = PublicMethed.triggerContract(targetAddress,methedStr,argStr,false,
         0,maxFeeLimit,testFoundationAddress,testFoundationKey,blockingStubFull);
     PublicMethed.waitProduceNextBlock(blockingStubFull);

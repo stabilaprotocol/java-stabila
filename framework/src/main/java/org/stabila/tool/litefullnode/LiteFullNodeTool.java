@@ -83,8 +83,8 @@ public class LiteFullNodeTool {
       //TRANS_CACHE_DB_NAME,
       //"tree-block-index",
       "votes",
-      "witness",
-      "witness_schedule"
+      "executive",
+      "executive_schedule"
   );
 
   /**

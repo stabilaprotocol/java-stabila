@@ -48,12 +48,12 @@ public class HttpRateLimite001 {
   /**
    * constructor.
    */
-  @Test(enabled = true, description = "Rate limit QpsStrategy for ListWitness interface")
-  public void test1QpsStrategyForListWitnessInterface() {
+  @Test(enabled = true, description = "Rate limit QpsStrategy for ListExecutive interface")
+  public void test1QpsStrategyForListExecutiveInterface() {
     Long startTimeStamp = System.currentTimeMillis();
     Integer repeatTimes = 0;
     while (repeatTimes++ < 15) {
-      HttpMethed.listwitnesses(httpnode);
+      HttpMethed.listexecutives(httpnode);
     }
     Long endTimesStap = System.currentTimeMillis();
     logger.info("startTimeStamp - endTimesStap:" + (endTimesStap - startTimeStamp));

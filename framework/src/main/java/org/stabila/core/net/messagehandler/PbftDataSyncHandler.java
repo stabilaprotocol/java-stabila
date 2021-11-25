@@ -86,7 +86,7 @@ public class PbftDataSyncHandler implements StabilaMsgHandler {
       PbftSignDataStore pbftSignDataStore = chainBaseManager.getPbftSignDataStore();
       Raw raw = Raw.parseFrom(pbftCommitMessage.getPBFTCommitResult().getData());
       if (!validPbftSign(raw, pbftCommitMessage.getPBFTCommitResult().getSignatureList(),
-          chainBaseManager.getWitnesses())) {
+          chainBaseManager.getExecutives())) {
         return;
       }
       if (raw.getDataType() == DataType.BLOCK

@@ -77,7 +77,7 @@ abstract class ResourceProcessor {
       } else if (dynamicPropertiesStore.supportBlackHoleOptimization()) {
         dynamicPropertiesStore.burnStb(fee);
       } else {
-        Commons.adjustBalance(accountStore, accountStore.getBlackhole().createDbKey(), +fee);
+        Commons.adjustBalance(accountStore, accountStore.getUnit().createDbKey(), +fee);
       }
 
       return true;
@@ -95,7 +95,7 @@ abstract class ResourceProcessor {
       if (dynamicPropertiesStore.supportBlackHoleOptimization()) {
         dynamicPropertiesStore.burnStb(fee);
       } else {
-        Commons.adjustBalance(accountStore, accountStore.getBlackhole().createDbKey(), +fee);
+        Commons.adjustBalance(accountStore, accountStore.getUnit().createDbKey(), +fee);
       }
 
       return true;

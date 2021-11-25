@@ -6,13 +6,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.stabila.core.capsule.AccountCapsule;
-import org.stabila.core.capsule.WitnessCapsule;
+import org.stabila.core.capsule.ExecutiveCapsule;
 import org.stabila.core.store.AccountStore;
 import org.stabila.core.store.DelegationStore;
 import org.stabila.core.store.DynamicPropertiesStore;
 import org.stabila.core.store.VotesStore;
-import org.stabila.core.store.WitnessScheduleStore;
-import org.stabila.core.store.WitnessStore;
+import org.stabila.core.store.ExecutiveScheduleStore;
+import org.stabila.core.store.ExecutiveStore;
 
 @Slf4j(topic = "consensus")
 @Component
@@ -28,10 +28,10 @@ public class ConsensusDelegate {
   private AccountStore accountStore;
 
   @Autowired
-  private WitnessStore witnessStore;
+  private ExecutiveStore executiveStore;
 
   @Autowired
-  private WitnessScheduleStore witnessScheduleStore;
+  private ExecutiveScheduleStore executiveScheduleStore;
 
   @Autowired
   private VotesStore votesStore;
@@ -60,8 +60,8 @@ public class ConsensusDelegate {
     return dynamicPropertiesStore.getRemoveThePowerOfTheGr();
   }
 
-  public long getWitnessStandbyAllowance() {
-    return dynamicPropertiesStore.getWitnessStandbyAllowance();
+  public long getExecutiveStandbyAllowance() {
+    return dynamicPropertiesStore.getExecutiveStandbyAllowance();
   }
 
   public long getLatestBlockHeaderTimestamp() {
@@ -80,12 +80,12 @@ public class ConsensusDelegate {
     return dynamicPropertiesStore.getMaintenanceSkipSlots();
   }
 
-  public void saveActiveWitnesses(List<ByteString> addresses) {
-    witnessScheduleStore.saveActiveWitnesses(addresses);
+  public void saveActiveExecutives(List<ByteString> addresses) {
+    executiveScheduleStore.saveActiveExecutives(addresses);
   }
 
-  public List<ByteString> getActiveWitnesses() {
-    return witnessScheduleStore.getActiveWitnesses();
+  public List<ByteString> getActiveExecutives() {
+    return executiveScheduleStore.getActiveExecutives();
   }
 
   public AccountCapsule getAccount(byte[] address) {
@@ -96,16 +96,16 @@ public class ConsensusDelegate {
     accountStore.put(accountCapsule.createDbKey(), accountCapsule);
   }
 
-  public WitnessCapsule getWitness(byte[] address) {
-    return witnessStore.get(address);
+  public ExecutiveCapsule getExecutive(byte[] address) {
+    return executiveStore.get(address);
   }
 
-  public void saveWitness(WitnessCapsule witnessCapsule) {
-    witnessStore.put(witnessCapsule.createDbKey(), witnessCapsule);
+  public void saveExecutive(ExecutiveCapsule executiveCapsule) {
+    executiveStore.put(executiveCapsule.createDbKey(), executiveCapsule);
   }
 
-  public List<WitnessCapsule> getAllWitnesses() {
-    return witnessStore.getAllWitnesses();
+  public List<ExecutiveCapsule> getAllExecutives() {
+    return executiveStore.getAllExecutives();
   }
 
   public void saveStateFlag(int flag) {

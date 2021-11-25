@@ -8,7 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.joda.time.DateTime;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.stabila.core.capsule.WitnessCapsule;
+import org.stabila.core.capsule.ExecutiveCapsule;
 
 @Slf4j
 @Ignore
@@ -16,33 +16,33 @@ public class RandomGeneratorTest {
 
   @Test
   public void shuffle() {
-    final List<WitnessCapsule> witnessCapsuleListBefore = this.getWitnessList();
-    logger.info("updateWitnessSchedule,before: " + getWitnessStringList(witnessCapsuleListBefore));
-    final List<WitnessCapsule> witnessCapsuleListAfter = new RandomGenerator<WitnessCapsule>()
-        .shuffle(witnessCapsuleListBefore, DateTime.now().getMillis());
-    logger.info("updateWitnessSchedule,after: " + getWitnessStringList(witnessCapsuleListAfter));
+    final List<ExecutiveCapsule> executiveCapsuleListBefore = this.getExecutiveList();
+    logger.info("updateExecutiveSchedule,before: " + getExecutiveStringList(executiveCapsuleListBefore));
+    final List<ExecutiveCapsule> executiveCapsuleListAfter = new RandomGenerator<ExecutiveCapsule>()
+        .shuffle(executiveCapsuleListBefore, DateTime.now().getMillis());
+    logger.info("updateExecutiveSchedule,after: " + getExecutiveStringList(executiveCapsuleListAfter));
   }
 
-  private List<WitnessCapsule> getWitnessList() {
-    final List<WitnessCapsule> witnessCapsuleList = Lists.newArrayList();
-    final WitnessCapsule witnessStabila = new WitnessCapsule(
+  private List<ExecutiveCapsule> getExecutiveList() {
+    final List<ExecutiveCapsule> executiveCapsuleList = Lists.newArrayList();
+    final ExecutiveCapsule executiveStabila = new ExecutiveCapsule(
         ByteString.copyFrom("00000000001".getBytes()), 0, "");
-    final WitnessCapsule witnessOlivier = new WitnessCapsule(
+    final ExecutiveCapsule executiveOlivier = new ExecutiveCapsule(
         ByteString.copyFrom("00000000003".getBytes()), 100, "");
-    final WitnessCapsule witnessVivider = new WitnessCapsule(
+    final ExecutiveCapsule executiveVivider = new ExecutiveCapsule(
         ByteString.copyFrom("00000000005".getBytes()), 200, "");
-    final WitnessCapsule witnessSenaLiu = new WitnessCapsule(
+    final ExecutiveCapsule executiveSenaLiu = new ExecutiveCapsule(
         ByteString.copyFrom("00000000006".getBytes()), 300, "");
-    witnessCapsuleList.add(witnessStabila);
-    witnessCapsuleList.add(witnessOlivier);
-    witnessCapsuleList.add(witnessVivider);
-    witnessCapsuleList.add(witnessSenaLiu);
-    return witnessCapsuleList;
+    executiveCapsuleList.add(executiveStabila);
+    executiveCapsuleList.add(executiveOlivier);
+    executiveCapsuleList.add(executiveVivider);
+    executiveCapsuleList.add(executiveSenaLiu);
+    return executiveCapsuleList;
   }
 
-  private List<String> getWitnessStringList(List<WitnessCapsule> witnessStates) {
-    return witnessStates.stream()
-        .map(witnessCapsule -> ByteArray.toHexString(witnessCapsule.getAddress().toByteArray()))
+  private List<String> getExecutiveStringList(List<ExecutiveCapsule> executiveStates) {
+    return executiveStates.stream()
+        .map(executiveCapsule -> ByteArray.toHexString(executiveCapsule.getAddress().toByteArray()))
         .collect(Collectors.toList());
   }
 }

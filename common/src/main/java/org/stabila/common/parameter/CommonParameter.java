@@ -19,8 +19,8 @@ import org.stabila.core.config.args.Storage;
 
 public class CommonParameter {
 
-  public static final String IGNORE_WRONG_WITNESS_ADDRESS_FORMAT =
-      "The localWitnessAccountAddress format is incorrect, ignored";
+  public static final String IGNORE_WRONG_EXECUTIVE_ADDRESS_FORMAT =
+      "The localExecutiveAccountAddress format is incorrect, ignored";
   public static CommonParameter PARAMETER = new CommonParameter();
   @Setter
   public static boolean UCR_LIMIT_HARD_FORK = false;
@@ -37,8 +37,8 @@ public class CommonParameter {
   public boolean help = false;
   @Getter
   @Setter
-  @Parameter(names = {"-w", "--witness"})
-  public boolean witness = false;
+  @Parameter(names = {"-w", "--executive"})
+  public boolean executive = false;
   @Getter
   @Setter
   @Parameter(names = {"--support-constant"})
@@ -68,8 +68,8 @@ public class CommonParameter {
   public List<String> seedNodes = new ArrayList<>();
   @Parameter(names = {"-p", "--private-key"}, description = "private-key")
   public String privateKey = "";
-  @Parameter(names = {"--witness-address"}, description = "witness-address")
-  public String witnessAddress = "";
+  @Parameter(names = {"--executive-address"}, description = "executive-address")
+  public String executiveAddress = "";
   @Parameter(names = {"--password"}, description = "password")
   public String password;
   @Parameter(names = {"--storage-db-directory"}, description = "Storage db directory")

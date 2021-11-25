@@ -1,6 +1,6 @@
 package org.stabila.consensus.dpos;
 
-import static org.stabila.core.config.Parameter.ChainConstant.MAX_ACTIVE_WITNESS_NUM;
+import static org.stabila.core.config.Parameter.ChainConstant.MAX_ACTIVE_EXECUTIVE_NUM;
 import static org.stabila.core.config.Parameter.ChainConstant.SOLIDIFIED_THRESHOLD;
 
 import com.google.protobuf.ByteString;
@@ -25,7 +25,7 @@ import org.stabila.consensus.base.ConsensusInterface;
 import org.stabila.consensus.base.Param;
 import org.stabila.consensus.base.Param.Miner;
 import org.stabila.core.capsule.BlockCapsule;
-import org.stabila.core.capsule.WitnessCapsule;
+import org.stabila.core.capsule.ExecutiveCapsule;
 
 @Slf4j(topic = "consensus")
 @Component
@@ -76,7 +76,7 @@ public class DposService implements ConsensusInterface {
     this.blockHandle = param.getBlockHandle();
     this.genesisBlock = param.getGenesisBlock();
     this.genesisBlockTime = Long.parseLong(param.getGenesisBlock().getTimestamp());
-    param.getMiners().forEach(miner -> miners.put(miner.getWitnessAddress(), miner));
+    param.getMiners().forEach(miner -> miners.put(miner.getExecutiveAddress(), miner));
 
     dposTask.setDposService(this);
     dposSlot.setDposService(this);
@@ -84,15 +84,15 @@ public class DposService implements ConsensusInterface {
     maintenanceManager.setDposService(this);
 
     if (consensusDelegate.getLatestBlockHeaderNumber() == 0) {
-      List<ByteString> witnesses = new ArrayList<>();
-      consensusDelegate.getAllWitnesses().forEach(witnessCapsule ->
-          witnesses.add(witnessCapsule.getAddress()));
-      updateWitness(witnesses);
-      List<ByteString> addresses = consensusDelegate.getActiveWitnesses();
+      List<ByteString> executives = new ArrayList<>();
+      consensusDelegate.getAllExecutives().forEach(executiveCapsule ->
+          executives.add(executiveCapsule.getAddress()));
+      updateExecutive(executives);
+      List<ByteString> addresses = consensusDelegate.getActiveExecutives();
       addresses.forEach(address -> {
-        WitnessCapsule witnessCapsule = consensusDelegate.getWitness(address.toByteArray());
-        witnessCapsule.setIsJobs(true);
-        consensusDelegate.saveWitness(witnessCapsule);
+        ExecutiveCapsule executiveCapsule = consensusDelegate.getExecutive(address.toByteArray());
+        executiveCapsule.setIsJobs(true);
+        consensusDelegate.saveExecutive(executiveCapsule);
       });
     }
     maintenanceManager.init();
@@ -114,7 +114,7 @@ public class DposService implements ConsensusInterface {
     if (consensusDelegate.getLatestBlockHeaderNumber() == 0) {
       return true;
     }
-    ByteString witnessAddress = blockCapsule.getWitnessAddress();
+    ByteString executiveAddress = blockCapsule.getExecutiveAddress();
     long timeStamp = blockCapsule.getTimeStamp();
     long bSlot = dposSlot.getAbSlot(timeStamp);
     long hSlot = dposSlot.getAbSlot(consensusDelegate.getLatestBlockHeaderTimestamp());
@@ -124,11 +124,11 @@ public class DposService implements ConsensusInterface {
     }
 
     long slot = dposSlot.getSlot(timeStamp);
-    final ByteString scheduledWitness = dposSlot.getScheduledWitness(slot);
-    if (!scheduledWitness.equals(witnessAddress)) {
-      logger.warn("ValidBlock failed: sWitness: {}, bWitness: {}, bTimeStamp: {}, slot: {}",
-          ByteArray.toHexString(scheduledWitness.toByteArray()),
-          ByteArray.toHexString(witnessAddress.toByteArray()), new DateTime(timeStamp), slot);
+    final ByteString scheduledExecutive = dposSlot.getScheduledExecutive(slot);
+    if (!scheduledExecutive.equals(executiveAddress)) {
+      logger.warn("ValidBlock failed: sExecutive: {}, bExecutive: {}, bTimeStamp: {}, slot: {}",
+          ByteArray.toHexString(scheduledExecutive.toByteArray()),
+          ByteArray.toHexString(executiveAddress.toByteArray()), new DateTime(timeStamp), slot);
       return false;
     }
 
@@ -144,11 +144,11 @@ public class DposService implements ConsensusInterface {
   }
 
   private void updateSolidBlock() {
-    List<Long> numbers = consensusDelegate.getActiveWitnesses().stream()
-        .map(address -> consensusDelegate.getWitness(address.toByteArray()).getLatestBlockNum())
+    List<Long> numbers = consensusDelegate.getActiveExecutives().stream()
+        .map(address -> consensusDelegate.getExecutive(address.toByteArray()).getLatestBlockNum())
         .sorted()
         .collect(Collectors.toList());
-    long size = consensusDelegate.getActiveWitnesses().size();
+    long size = consensusDelegate.getActiveExecutives().size();
     int position = (int) (size * (1 - SOLIDIFIED_THRESHOLD * 1.0 / 100));
     long newSolidNum = numbers.get(position);
     long oldSolidNum = consensusDelegate.getLatestSolidifiedBlockNum();
@@ -162,17 +162,17 @@ public class DposService implements ConsensusInterface {
     logger.info("Update solid block number to {}", newSolidNum);
   }
 
-  public void updateWitness(List<ByteString> list) {
+  public void updateExecutive(List<ByteString> list) {
     list.sort(Comparator.comparingLong((ByteString b) ->
-        consensusDelegate.getWitness(b.toByteArray()).getVoteCount())
+        consensusDelegate.getExecutive(b.toByteArray()).getVoteCount())
         .reversed()
         .thenComparing(Comparator.comparingInt(ByteString::hashCode).reversed()));
 
-    if (list.size() > MAX_ACTIVE_WITNESS_NUM) {
+    if (list.size() > MAX_ACTIVE_EXECUTIVE_NUM) {
       consensusDelegate
-          .saveActiveWitnesses(list.subList(0, MAX_ACTIVE_WITNESS_NUM));
+          .saveActiveExecutives(list.subList(0, MAX_ACTIVE_EXECUTIVE_NUM));
     } else {
-      consensusDelegate.saveActiveWitnesses(list);
+      consensusDelegate.saveActiveExecutives(list);
     }
   }
 

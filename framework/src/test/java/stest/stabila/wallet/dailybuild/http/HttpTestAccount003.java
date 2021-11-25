@@ -26,14 +26,14 @@ public class HttpTestAccount003 {
   private final String testKey002 = Configuration.getByPath("testng.conf")
       .getString("foundationAccount.key1");
   private final byte[] fromAddress = PublicMethed.getFinalAddress(testKey002);
-  private final String witnessKey001 = Configuration.getByPath("testng.conf")
-      .getString("witness.key1");
-  private final byte[] witness1Address = PublicMethed.getFinalAddress(witnessKey001);
-  private final String witnessKey002 = Configuration.getByPath("testng.conf")
-      .getString("witness.key2");
-  private final byte[] witness2Address = PublicMethed.getFinalAddress(witnessKey002);
-  private final Long createWitnessAmount = Configuration.getByPath("testng.conf")
-      .getLong("defaultParameter.createWitnessAmount");
+  private final String executiveKey001 = Configuration.getByPath("testng.conf")
+      .getString("executive.key1");
+  private final byte[] executive1Address = PublicMethed.getFinalAddress(executiveKey001);
+  private final String executiveKey002 = Configuration.getByPath("testng.conf")
+      .getString("executive.key2");
+  private final byte[] executive2Address = PublicMethed.getFinalAddress(executiveKey002);
+  private final Long createExecutiveAmount = Configuration.getByPath("testng.conf")
+      .getLong("defaultParameter.createExecutiveAmount");
   ECKey ecKey1 = new ECKey(Utils.getRandom());
   byte[] newAccountAddress = ecKey1.getAddress();
   String newAccountKey = ByteArray.toHexString(ecKey1.getPrivKeyBytes());
@@ -78,8 +78,8 @@ public class HttpTestAccount003 {
   /**
    * constructor.
    */
-  @Test(enabled = true, description = "Vote witness account by http")
-  public void test02VoteWitnessAccount() {
+  @Test(enabled = true, description = "Vote executive account by http")
+  public void test02VoteExecutiveAccount() {
     //Cd balance
     response = HttpMethed
         .cdBalance(httpnode, updateAccountAddress, 40000000L, 0, 2, updateAccountKey);
@@ -87,18 +87,18 @@ public class HttpTestAccount003 {
     Assert.assertTrue(HttpMethed.verificationResult(response));
     HttpMethed.printJsonContent(responseContent);
     HttpMethed.waitToProduceOneBlock(httpnode);
-    voteElement.addProperty("vote_address", ByteArray.toHexString(witness1Address));
+    voteElement.addProperty("vote_address", ByteArray.toHexString(executive1Address));
     voteElement.addProperty("vote_count", 11);
     voteKeys.add(voteElement);
 
     voteElement.remove("vote_address");
     voteElement.remove("vote_count");
-    voteElement.addProperty("vote_address", ByteArray.toHexString(witness2Address));
+    voteElement.addProperty("vote_address", ByteArray.toHexString(executive2Address));
     voteElement.addProperty("vote_count", 12);
     voteKeys.add(voteElement);
 
     response = HttpMethed
-        .voteWitnessAccount(httpnode, updateAccountAddress, voteKeys, updateAccountKey);
+        .voteExecutiveAccount(httpnode, updateAccountAddress, voteKeys, updateAccountKey);
     Assert.assertTrue(HttpMethed.verificationResult(response));
     HttpMethed.waitToProduceOneBlock(httpnode);
     response = HttpMethed.getAccount(httpnode, updateAccountAddress);
@@ -110,38 +110,38 @@ public class HttpTestAccount003 {
   /**
    * constructor.
    */
-  @Test(enabled = true, description = "List witnesses by http")
-  public void test03ListWitness() {
-    response = HttpMethed.listwitnesses(httpnode);
+  @Test(enabled = true, description = "List executives by http")
+  public void test03ListExecutive() {
+    response = HttpMethed.listexecutives(httpnode);
     responseContent = HttpMethed.parseResponseContent(response);
     HttpMethed.printJsonContent(responseContent);
-    JSONArray jsonArray = JSONArray.parseArray(responseContent.getString("witnesses"));
+    JSONArray jsonArray = JSONArray.parseArray(responseContent.getString("executives"));
     Assert.assertTrue(jsonArray.size() >= 2);
   }
 
   /**
    * constructor.
    */
-  @Test(enabled = true, description = "List witnesses from solidity by http")
-  public void test04ListWitnessFromSolidity() {
+  @Test(enabled = true, description = "List executives from solidity by http")
+  public void test04ListExecutiveFromSolidity() {
     HttpMethed.waitToProduceOneBlockFromSolidity(httpnode, httpSoliditynode);
-    response = HttpMethed.listwitnessesFromSolidity(httpSoliditynode);
+    response = HttpMethed.listexecutivesFromSolidity(httpSoliditynode);
     responseContent = HttpMethed.parseResponseContent(response);
     HttpMethed.printJsonContent(responseContent);
-    JSONArray jsonArray = JSONArray.parseArray(responseContent.getString("witnesses"));
+    JSONArray jsonArray = JSONArray.parseArray(responseContent.getString("executives"));
     Assert.assertTrue(jsonArray.size() >= 2);
   }
 
   /**
    * constructor.
    */
-  @Test(enabled = true, description = "List witnesses from PBFT by http")
-  public void test05ListWitnessFromPbft() {
+  @Test(enabled = true, description = "List executives from PBFT by http")
+  public void test05ListExecutiveFromPbft() {
     HttpMethed.waitToProduceOneBlockFromSolidity(httpnode, httpSoliditynode);
-    response = HttpMethed.listwitnessesFromPbft(httpPbftNode);
+    response = HttpMethed.listexecutivesFromPbft(httpPbftNode);
     responseContent = HttpMethed.parseResponseContent(response);
     HttpMethed.printJsonContent(responseContent);
-    JSONArray jsonArray = JSONArray.parseArray(responseContent.getString("witnesses"));
+    JSONArray jsonArray = JSONArray.parseArray(responseContent.getString("executives"));
     Assert.assertTrue(jsonArray.size() >= 2);
   }
 
@@ -149,17 +149,17 @@ public class HttpTestAccount003 {
   /**
    * constructor.
    */
-  @Test(enabled = true, description = "Update witness by http")
-  public void test06UpdateWitness() {
-    response = HttpMethed.updateWitness(httpnode, witness1Address, updateUrl, witnessKey001);
+  @Test(enabled = true, description = "Update executive by http")
+  public void test06UpdateExecutive() {
+    response = HttpMethed.updateExecutive(httpnode, executive1Address, updateUrl, executiveKey001);
     Assert.assertTrue(HttpMethed.verificationResult(response));
     HttpMethed.waitToProduceOneBlock(httpnode);
 
-    response = HttpMethed.listwitnesses(httpnode);
+    response = HttpMethed.listexecutives(httpnode);
     responseContent = HttpMethed.parseResponseContent(response);
     HttpMethed.printJsonContent(responseContent);
-    Assert.assertTrue(responseContent.getString("witnesses").indexOf(updateUrl) != -1);
-    //logger.info("result is " + responseContent.getString("witnesses").indexOf(updateUrl));
+    Assert.assertTrue(responseContent.getString("executives").indexOf(updateUrl) != -1);
+    //logger.info("result is " + responseContent.getString("executives").indexOf(updateUrl));
   }
 
   /**
@@ -180,15 +180,15 @@ public class HttpTestAccount003 {
   /**
    * constructor.
    */
-  @Test(enabled = true, description = "Create witness by http")
-  public void test08CreateWitness() {
+  @Test(enabled = true, description = "Create executive by http")
+  public void test08CreateExecutive() {
     response = HttpMethed
-        .sendCoin(httpnode, fromAddress, newAccountAddress, createWitnessAmount, testKey002);
+        .sendCoin(httpnode, fromAddress, newAccountAddress, createExecutiveAmount, testKey002);
     Assert.assertTrue(HttpMethed.verificationResult(response));
     HttpMethed.waitToProduceOneBlock(httpnode);
     PublicMethed.printAddress(newAccountKey);
 
-    response = HttpMethed.createWitness(httpnode, newAccountAddress, updateUrl);
+    response = HttpMethed.createExecutive(httpnode, newAccountAddress, updateUrl);
     responseContent = HttpMethed.parseResponseContent(response);
     HttpMethed.printJsonContent(responseContent);
     Assert.assertTrue(!responseContent.getString("txID").isEmpty());
@@ -199,7 +199,7 @@ public class HttpTestAccount003 {
    */
   @Test(enabled = true, description = "Withdraw by http")
   public void test09Withdraw() {
-    response = HttpMethed.withdrawBalance(httpnode, witness1Address);
+    response = HttpMethed.withdrawBalance(httpnode, executive1Address);
     responseContent = HttpMethed.parseResponseContent(response);
     HttpMethed.printJsonContent(responseContent);
     Assert

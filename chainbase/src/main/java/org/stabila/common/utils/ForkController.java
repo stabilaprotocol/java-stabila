@@ -84,7 +84,7 @@ public class ForkController {
       }
     }
     return count >= Math
-        .ceil((double) versionEnum.getHardForkRate() * manager.getWitnesses().size() / 100);
+        .ceil((double) versionEnum.getHardForkRate() * manager.getExecutives().size() / 100);
   }
 
 
@@ -140,9 +140,9 @@ public class ForkController {
   }
 
   public synchronized void update(BlockCapsule blockCapsule) {
-    List<ByteString> witnesses = manager.getWitnessScheduleStore().getActiveWitnesses();
-    ByteString witness = blockCapsule.getWitnessAddress();
-    int slot = witnesses.indexOf(witness);
+    List<ByteString> executives = manager.getExecutiveScheduleStore().getActiveExecutives();
+    ByteString executive = blockCapsule.getExecutiveAddress();
+    int slot = executives.indexOf(executive);
     if (slot < 0) {
       return;
     }
@@ -155,8 +155,8 @@ public class ForkController {
     downgrade(version, slot);
 
     byte[] stats = manager.getDynamicPropertiesStore().statsByVersion(version);
-    if (Objects.isNull(stats) || stats.length != witnesses.size()) {
-      stats = new byte[witnesses.size()];
+    if (Objects.isNull(stats) || stats.length != executives.size()) {
+      stats = new byte[executives.size()];
     }
 
     if (check(stats)) {
@@ -167,17 +167,17 @@ public class ForkController {
     stats[slot] = VERSION_UPGRADE;
     manager.getDynamicPropertiesStore().statsByVersion(version, stats);
     logger.info(
-        "*******update hard fork:{}, witness size:{}, solt:{}, witness:{}, version:{}",
-        Streams.zip(witnesses.stream(), Stream.of(ArrayUtils.toObject(stats)), Maps::immutableEntry)
+        "*******update hard fork:{}, executive size:{}, solt:{}, executive:{}, version:{}",
+        Streams.zip(executives.stream(), Stream.of(ArrayUtils.toObject(stats)), Maps::immutableEntry)
             .map(e -> Maps
                 .immutableEntry(encode58Check(e.getKey().toByteArray()), e.getValue()))
             .map(e -> Maps
                 .immutableEntry(StringUtils.substring(e.getKey(), e.getKey().length() - 4),
                     e.getValue()))
             .collect(Collectors.toList()),
-        witnesses.size(),
+        executives.size(),
         slot,
-        encode58Check(witness.toByteArray()),
+        encode58Check(executive.toByteArray()),
         version);
   }
 

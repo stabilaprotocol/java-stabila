@@ -12,7 +12,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.stabila.common.application.StabilaApplicationContext;
-import org.stabila.common.args.Witness;
+import org.stabila.common.args.Executive;
 import org.stabila.common.utils.ByteArray;
 import org.stabila.common.utils.FileUtil;
 import org.stabila.common.utils.StringUtil;
@@ -20,7 +20,7 @@ import org.stabila.core.Constant;
 import org.stabila.core.Wallet;
 import org.stabila.core.capsule.AccountCapsule;
 import org.stabila.core.capsule.TransactionResultCapsule;
-import org.stabila.core.capsule.WitnessCapsule;
+import org.stabila.core.capsule.ExecutiveCapsule;
 import org.stabila.core.config.DefaultConfig;
 import org.stabila.core.config.args.Args;
 import org.stabila.core.db.Manager;
@@ -109,9 +109,9 @@ public class WithdrawBalanceActuatorTest {
     Assert.assertEquals(accountCapsule.getAllowance(), allowance);
     Assert.assertEquals(accountCapsule.getLatestWithdrawTime(), 0);
 
-    WitnessCapsule witnessCapsule = new WitnessCapsule(ByteString.copyFrom(address), 100,
+    ExecutiveCapsule executiveCapsule = new ExecutiveCapsule(ByteString.copyFrom(address), 100,
         "http://baidu.com");
-    dbManager.getWitnessStore().put(address, witnessCapsule);
+    dbManager.getExecutiveStore().put(address, executiveCapsule);
 
     WithdrawBalanceActuator actuator = new WithdrawBalanceActuator();
     actuator.setChainBaseManager(dbManager.getChainBaseManager())
@@ -182,7 +182,7 @@ public class WithdrawBalanceActuatorTest {
   }
 
   @Test
-  public void notWitness() {
+  public void notExecutive() {
     WithdrawBalanceActuator actuator = new WithdrawBalanceActuator();
     actuator.setChainBaseManager(dbManager.getChainBaseManager())
         .setAny(getContract(OWNER_ADDRESS));
@@ -196,7 +196,7 @@ public class WithdrawBalanceActuatorTest {
 
     } catch (ContractValidateException e) {
       Assert.assertTrue(e instanceof ContractValidateException);
-      //Assert.assertEquals("Account[" + OWNER_ADDRESS + "] is not a witnessAccount",
+      //Assert.assertEquals("Account[" + OWNER_ADDRESS + "] is not a executiveAccount",
       //    e.getMessage());
     } catch (ContractExeException e) {
       Assert.assertFalse(e instanceof ContractExeException);
@@ -213,9 +213,9 @@ public class WithdrawBalanceActuatorTest {
     AccountCapsule accountCapsule = dbManager.getAccountStore().get(address);
     Assert.assertEquals(accountCapsule.getAllowance(), 0);
 
-    WitnessCapsule witnessCapsule = new WitnessCapsule(ByteString.copyFrom(address), 100,
+    ExecutiveCapsule executiveCapsule = new ExecutiveCapsule(ByteString.copyFrom(address), 100,
         "http://baidu.com");
-    dbManager.getWitnessStore().put(address, witnessCapsule);
+    dbManager.getExecutiveStore().put(address, executiveCapsule);
 
     WithdrawBalanceActuator actuator = new WithdrawBalanceActuator();
     actuator.setChainBaseManager(dbManager.getChainBaseManager())
@@ -230,7 +230,7 @@ public class WithdrawBalanceActuatorTest {
 
     } catch (ContractValidateException e) {
       Assert.assertTrue(e instanceof ContractValidateException);
-      Assert.assertEquals("witnessAccount does not have any reward", e.getMessage());
+      Assert.assertEquals("executiveAccount does not have any reward", e.getMessage());
     } catch (ContractExeException e) {
       Assert.assertFalse(e instanceof ContractExeException);
     }
@@ -238,7 +238,7 @@ public class WithdrawBalanceActuatorTest {
 
   @Test
   public void isGR() {
-    Witness w = Args.getInstance().getGenesisBlock().getWitnesses().get(0);
+    Executive w = Args.getInstance().getGenesisBlock().getExecutives().get(0);
     byte[] address = w.getAddress();
     AccountCapsule grCapsule = new AccountCapsule(ByteString.copyFromUtf8("gr"),
         ByteString.copyFrom(address), AccountType.Normal, initBalance);
@@ -255,18 +255,18 @@ public class WithdrawBalanceActuatorTest {
     AccountCapsule accountCapsule = dbManager.getAccountStore().get(address);
     Assert.assertEquals(accountCapsule.getAllowance(), allowance);
 
-    WitnessCapsule witnessCapsule = new WitnessCapsule(ByteString.copyFrom(address), 100,
+    ExecutiveCapsule executiveCapsule = new ExecutiveCapsule(ByteString.copyFrom(address), 100,
         "http://google.com");
 
     dbManager.getAccountStore().put(address, accountCapsule);
-    dbManager.getWitnessStore().put(address, witnessCapsule);
+    dbManager.getExecutiveStore().put(address, executiveCapsule);
 
     WithdrawBalanceActuator actuator = new WithdrawBalanceActuator();
     actuator.setChainBaseManager(dbManager.getChainBaseManager())
         .setAny(getContract(ByteArray.toHexString(address)));
 
     TransactionResultCapsule ret = new TransactionResultCapsule();
-    Assert.assertTrue(dbManager.getWitnessStore().has(address));
+    Assert.assertTrue(dbManager.getExecutiveStore().has(address));
 
     try {
       actuator.validate();
@@ -300,11 +300,11 @@ public class WithdrawBalanceActuatorTest {
     Assert.assertEquals(accountCapsule.getAllowance(), allowance);
     Assert.assertEquals(accountCapsule.getLatestWithdrawTime(), now);
 
-    WitnessCapsule witnessCapsule = new WitnessCapsule(ByteString.copyFrom(address), 100,
+    ExecutiveCapsule executiveCapsule = new ExecutiveCapsule(ByteString.copyFrom(address), 100,
         "http://baidu.com");
 
     dbManager.getAccountStore().put(address, accountCapsule);
-    dbManager.getWitnessStore().put(address, witnessCapsule);
+    dbManager.getExecutiveStore().put(address, executiveCapsule);
 
     WithdrawBalanceActuator actuator = new WithdrawBalanceActuator();
     actuator.setChainBaseManager(dbManager.getChainBaseManager())
@@ -354,9 +354,9 @@ public class WithdrawBalanceActuatorTest {
     Assert.assertEquals(accountCapsule.getAllowance(), allowance);
     Assert.assertEquals(accountCapsule.getLatestWithdrawTime(), 0);
 
-    WitnessCapsule witnessCapsule = new WitnessCapsule(ByteString.copyFrom(address), 100,
+    ExecutiveCapsule executiveCapsule = new ExecutiveCapsule(ByteString.copyFrom(address), 100,
         "http://google.com");
-    dbManager.getWitnessStore().put(address, witnessCapsule);
+    dbManager.getExecutiveStore().put(address, executiveCapsule);
 
     actuatorTest.setContract(getContract(OWNER_ADDRESS));
     actuatorTest.nullTransationResult();

@@ -60,8 +60,8 @@ import org.stabila.core.store.TransactionHistoryStore;
 import org.stabila.core.store.TransactionRetStore;
 import org.stabila.core.store.TreeBlockIndexStore;
 import org.stabila.core.store.VotesStore;
-import org.stabila.core.store.WitnessScheduleStore;
-import org.stabila.core.store.WitnessStore;
+import org.stabila.core.store.ExecutiveScheduleStore;
+import org.stabila.core.store.ExecutiveStore;
 import org.stabila.core.store.ZKProofStore;
 
 @Slf4j(topic = "DB")
@@ -80,7 +80,7 @@ public class ChainBaseManager {
   private BlockStore blockStore;
   @Autowired
   @Getter
-  private WitnessStore witnessStore;
+  private ExecutiveStore executiveStore;
   @Autowired
   @Getter
   private AssetIssueStore assetIssueStore;
@@ -101,7 +101,7 @@ public class ChainBaseManager {
   private AccountIndexStore accountIndexStore;
   @Autowired
   @Getter
-  private WitnessScheduleStore witnessScheduleStore;
+  private ExecutiveScheduleStore executiveScheduleStore;
   @Autowired
   @Getter
   private VotesStore votesStore;
@@ -237,7 +237,7 @@ public class ChainBaseManager {
     closeOneStore(blockIndexStore);
     closeOneStore(accountIdIndexStore);
     closeOneStore(accountIndexStore);
-    closeOneStore(witnessScheduleStore);
+    closeOneStore(executiveScheduleStore);
     closeOneStore(assetIssueStore);
     closeOneStore(dynamicPropertiesStore);
     closeOneStore(abiStore);
@@ -261,16 +261,16 @@ public class ChainBaseManager {
   }
 
   // for test only
-  public List<ByteString> getWitnesses() {
-    return witnessScheduleStore.getActiveWitnesses();
+  public List<ByteString> getExecutives() {
+    return executiveScheduleStore.getActiveExecutives();
   }
 
   // for test only
-  public void addWitness(final ByteString address) {
-    List<ByteString> witnessAddresses =
-        witnessScheduleStore.getActiveWitnesses();
-    witnessAddresses.add(address);
-    getWitnessScheduleStore().saveActiveWitnesses(witnessAddresses);
+  public void addExecutive(final ByteString address) {
+    List<ByteString> executiveAddresses =
+        executiveScheduleStore.getActiveExecutives();
+    executiveAddresses.add(address);
+    getExecutiveScheduleStore().saveActiveExecutives(executiveAddresses);
   }
 
   public BlockCapsule getHead() throws HeaderNotFound {
