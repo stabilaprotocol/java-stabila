@@ -160,7 +160,7 @@ public class TransferToAccountTest {
     //  2. Test trigger with tokenValue and tokenId,
     //  also test internal transaction transferToken function */
     long triggerCallValue = 100;
-    long feeLimit = 100000000;
+    long feeLimit = 1000000;
     long tokenValue = 8;
     Transaction transaction = SvmTestUtils
         .generateTriggerSmartContractAndGetTransaction(Hex.decode(OWNER_ADDRESS), contractAddress,

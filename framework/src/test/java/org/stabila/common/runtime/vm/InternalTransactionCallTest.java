@@ -87,20 +87,20 @@ public class InternalTransactionCallTest {
       VMIllegalException {
     byte[] contractBAddress = deployBContractAndGetItsAddress();
     byte[] contractAAddress = deployAContractandGetItsAddress();
-
+    long feeLimit = 10000000L;
     /* ============ CALL callTest() to change B storage =================================== */
     String params =
         Hex.toHexString(new DataWord(new DataWord(contractBAddress).getLast20Bytes()).getData())
             + "0000000000000000000000000000000000000000000000000000000000000003";
     byte[] triggerData = SvmTestUtils.parseAbi("callTest(address,uint256)", params);
     SvmTestUtils.triggerContractWholeProcessReturnContractAddress(Hex.decode(OWNER_ADDRESS),
-        contractAAddress, triggerData, 0, 1000000000, deposit, null);
+        contractAAddress, triggerData, 0, feeLimit, deposit, null);
 
     /* =========== CALL numberForB() to check A's numberForB =================================== */
     byte[] triggerData2 = SvmTestUtils.parseAbi("numberForB()", "");
     runtime = SvmTestUtils
         .triggerContractWholeProcessReturnContractAddress(Hex.decode(OWNER_ADDRESS),
-            contractAAddress, triggerData2, 0, 1000000000, deposit, null);
+            contractAAddress, triggerData2, 0, feeLimit, deposit, null);
     // A should not be changed
     Assert.assertEquals(Hex.toHexString(runtime.getResult().getHReturn()),
         "0000000000000000000000000000000000000000000000000000000000000000");
@@ -109,7 +109,7 @@ public class InternalTransactionCallTest {
     byte[] triggerData3 = SvmTestUtils.parseAbi("senderForB()", "");
     runtime = SvmTestUtils
         .triggerContractWholeProcessReturnContractAddress(Hex.decode(OWNER_ADDRESS),
-            contractAAddress, triggerData3, 0, 1000000000, deposit, null);
+            contractAAddress, triggerData3, 0, feeLimit, deposit, null);
     // A should be changed
     Assert.assertEquals(Hex.toHexString(runtime.getResult().getHReturn()),
         "0000000000000000000000000000000000000000000000000000000000000000");
@@ -118,7 +118,7 @@ public class InternalTransactionCallTest {
     byte[] triggerData4 = SvmTestUtils.parseAbi("numberForB()", "");
     runtime = SvmTestUtils
         .triggerContractWholeProcessReturnContractAddress(Hex.decode(OWNER_ADDRESS),
-            contractBAddress, triggerData4, 0, 1000000000, deposit, null);
+            contractBAddress, triggerData4, 0, feeLimit, deposit, null);
     // B's numberForB should be changed to 3
     Assert.assertEquals(Hex.toHexString(runtime.getResult().getHReturn()),
         "0000000000000000000000000000000000000000000000000000000000000003");
@@ -127,7 +127,7 @@ public class InternalTransactionCallTest {
     byte[] triggerData5 = SvmTestUtils.parseAbi("senderForB()", "");
     runtime = SvmTestUtils
         .triggerContractWholeProcessReturnContractAddress(Hex.decode(OWNER_ADDRESS),
-            contractBAddress, triggerData5, 0, 1000000000, deposit, null);
+            contractBAddress, triggerData5, 0, feeLimit, deposit, null);
     // B 's senderForB should be A
     Assert.assertEquals(Hex.toHexString(runtime.getResult().getHReturn()),
         Hex.toHexString(new DataWord(new DataWord(contractAAddress).getLast20Bytes()).getData()));
@@ -145,6 +145,7 @@ public class InternalTransactionCallTest {
       VMIllegalException {
     byte[] contractBAddress = deployBContractAndGetItsAddress();
     byte[] contractAAddress = deployAContractandGetItsAddress();
+    long feeLimit = 10000000L;
     /* ========= CALL delegatecallTest() to change B storage =================================== */
     String params =
         Hex.toHexString(new DataWord(new DataWord(contractBAddress).getLast20Bytes()).getData())
@@ -152,13 +153,13 @@ public class InternalTransactionCallTest {
     byte[] triggerData = SvmTestUtils.parseAbi("delegatecallTest(address,uint256)",
         params);
     SvmTestUtils.triggerContractWholeProcessReturnContractAddress(Hex.decode(OWNER_ADDRESS),
-        contractAAddress, triggerData, 0, 1000000000, deposit, null);
+        contractAAddress, triggerData, 0, feeLimit, deposit, null);
 
     /* ============ CALL numberForB() to check A's numberForB =================================== */
     byte[] triggerData2 = SvmTestUtils.parseAbi("numberForB()", "");
     runtime = SvmTestUtils
         .triggerContractWholeProcessReturnContractAddress(Hex.decode(OWNER_ADDRESS),
-            contractAAddress, triggerData2, 0, 1000000000, deposit, null);
+            contractAAddress, triggerData2, 0, feeLimit, deposit, null);
     // A should be changed to 3
     Assert.assertEquals(Hex.toHexString(runtime.getResult().getHReturn()),
         "0000000000000000000000000000000000000000000000000000000000000003");
@@ -167,7 +168,7 @@ public class InternalTransactionCallTest {
     byte[] triggerData3 = SvmTestUtils.parseAbi("senderForB()", "");
     runtime = SvmTestUtils
         .triggerContractWholeProcessReturnContractAddress(Hex.decode(OWNER_ADDRESS),
-            contractAAddress, triggerData3, 0, 1000000000, deposit, null);
+            contractAAddress, triggerData3, 0, feeLimit, deposit, null);
     // A's senderForB should be changed to caller's contract Address (OWNER_ADDRESS)
     Assert.assertEquals(Hex.toHexString(runtime.getResult().getHReturn()),
         Hex.toHexString(new DataWord(new DataWord(OWNER_ADDRESS).getLast20Bytes()).getData()));
@@ -176,7 +177,7 @@ public class InternalTransactionCallTest {
     byte[] triggerData4 = SvmTestUtils.parseAbi("numberForB()", "");
     runtime = SvmTestUtils
         .triggerContractWholeProcessReturnContractAddress(Hex.decode(OWNER_ADDRESS),
-            contractBAddress, triggerData4, 0, 1000000000, deposit, null);
+            contractBAddress, triggerData4, 0, feeLimit, deposit, null);
     // B's numberForB should not be changed
     Assert.assertEquals(Hex.toHexString(runtime.getResult().getHReturn()),
         "0000000000000000000000000000000000000000000000000000000000000000");
@@ -185,7 +186,7 @@ public class InternalTransactionCallTest {
     byte[] triggerData5 = SvmTestUtils.parseAbi("senderForB()", "");
     runtime = SvmTestUtils
         .triggerContractWholeProcessReturnContractAddress(Hex.decode(OWNER_ADDRESS),
-            contractBAddress, triggerData5, 0, 1000000000, deposit, null);
+            contractBAddress, triggerData5, 0, feeLimit, deposit, null);
     // B 's senderForB should not be changed
     Assert.assertEquals(Hex.toHexString(runtime.getResult().getHReturn()),
         "0000000000000000000000000000000000000000000000000000000000000000");
@@ -204,19 +205,20 @@ public class InternalTransactionCallTest {
       VMIllegalException {
     byte[] contractBAddress = deployBContractAndGetItsAddress();
     byte[] contractAAddress = deployAContractandGetItsAddress();
+    long feeLimit = 10000000L;
     /* ================ CALL callcodeTest() to change B storage ======================== */
     String params =
         Hex.toHexString(new DataWord(new DataWord(contractBAddress).getLast20Bytes()).getData())
             + "0000000000000000000000000000000000000000000000000000000000000003";
     byte[] triggerData = SvmTestUtils.parseAbi("callcodeTest(address,uint256)", params);
     SvmTestUtils.triggerContractWholeProcessReturnContractAddress(Hex.decode(OWNER_ADDRESS),
-        contractAAddress, triggerData, 0, 1000000000, deposit, null);
+        contractAAddress, triggerData, 0, feeLimit, deposit, null);
 
     /* ========== CALL numberForB() to check A's numberForB =================================== */
     byte[] triggerData2 = SvmTestUtils.parseAbi("numberForB()", "");
     runtime = SvmTestUtils
         .triggerContractWholeProcessReturnContractAddress(Hex.decode(OWNER_ADDRESS),
-            contractAAddress, triggerData2, 0, 1000000000, deposit, null);
+            contractAAddress, triggerData2, 0, feeLimit, deposit, null);
     // A should be changed to 3
     Assert.assertEquals(Hex.toHexString(runtime.getResult().getHReturn()),
         "0000000000000000000000000000000000000000000000000000000000000003");
@@ -225,7 +227,7 @@ public class InternalTransactionCallTest {
     byte[] triggerData3 = SvmTestUtils.parseAbi("senderForB()", "");
     runtime = SvmTestUtils
         .triggerContractWholeProcessReturnContractAddress(Hex.decode(OWNER_ADDRESS),
-            contractAAddress, triggerData3, 0, 1000000000, deposit, null);
+            contractAAddress, triggerData3, 0, feeLimit, deposit, null);
     // A's senderForB should be changed to A's contract Address
     Assert.assertEquals(Hex.toHexString(runtime.getResult().getHReturn()),
         Hex.toHexString(new DataWord(new DataWord(contractAAddress).getLast20Bytes()).getData()));
@@ -234,7 +236,7 @@ public class InternalTransactionCallTest {
     byte[] triggerData4 = SvmTestUtils.parseAbi("numberForB()", "");
     runtime = SvmTestUtils
         .triggerContractWholeProcessReturnContractAddress(Hex.decode(OWNER_ADDRESS),
-            contractBAddress, triggerData4, 0, 1000000000, deposit, null);
+            contractBAddress, triggerData4, 0, feeLimit, deposit, null);
     // B's numberForB should not be changed
     Assert.assertEquals(Hex.toHexString(runtime.getResult().getHReturn()),
         "0000000000000000000000000000000000000000000000000000000000000000");
@@ -243,7 +245,7 @@ public class InternalTransactionCallTest {
     byte[] triggerData5 = SvmTestUtils.parseAbi("senderForB()", "");
     runtime = SvmTestUtils
         .triggerContractWholeProcessReturnContractAddress(Hex.decode(OWNER_ADDRESS),
-            contractBAddress, triggerData5, 0, 1000000000, deposit, null);
+            contractBAddress, triggerData5, 0, feeLimit, deposit, null);
     // B 's senderForB should not be changed
     Assert.assertEquals(Hex.toHexString(runtime.getResult().getHReturn()),
         "0000000000000000000000000000000000000000000000000000000000000000");

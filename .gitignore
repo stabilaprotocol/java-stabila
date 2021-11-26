@@ -43,6 +43,11 @@ src/main/resources/META-INF/
 /.classpath
 /.settings/
 /.apt_generated/
+**/.project
+**/.classpath
+**/.settings
+**/bin
+.gitignore.save
 
 # output directory
 /output-directory/

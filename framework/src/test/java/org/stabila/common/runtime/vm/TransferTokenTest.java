@@ -147,7 +147,7 @@ public class TransferTokenTest {
     /*  2. Test trigger with tokenValue and tokenId,
      also test internal transaction transferToken function */
     long triggerCallValue = 100;
-    long feeLimit = 100000000;
+    long feeLimit = 1000000;
     long tokenValue = 8;
     Transaction transaction = SvmTestUtils
         .generateTriggerSmartContractAndGetTransaction(Hex.decode(OWNER_ADDRESS), contractAddress,
@@ -207,7 +207,7 @@ public class TransferTokenTest {
             + "5add5e57b59db51d6f6ab609564554aed5e9c958621f9c5e085a510b0029";
 
     long value = 1000;
-    long feeLimit = 100000000;
+    long feeLimit = 1000000;
     long consumeUserResourcePercent = 0;
     long tokenValue = 100;
     long tokenId = id;
@@ -231,7 +231,7 @@ public class TransferTokenTest {
     long id = createAsset("testPerformanceToken");
     byte[] contractAddress = deployTransferTokenPerformanceContract(id);
     long triggerCallValue = 100;
-    long feeLimit = 1000_000_000;
+    long feeLimit = 10000000;
     long tokenValue = 0;
     String selectorStr = "trans(address,trcToken,uint256)";
     String params = "000000000000000000000000548794500882809695a8a687866e76d4271a1abc"
@@ -269,7 +269,7 @@ public class TransferTokenTest {
             + "29b474350029";
 
     long value = 1000;
-    long feeLimit = 100000000;
+    long feeLimit = 1000000;
     long consumeUserResourcePercent = 0;
     long tokenValue = 1000_000;
     long tokenId = id;
