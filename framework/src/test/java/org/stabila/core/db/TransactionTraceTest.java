@@ -209,7 +209,7 @@ public class TransactionTraceTest {
         100);
     Transaction transaction = Transaction.newBuilder().setRawData(raw.newBuilder().addContract(
         Contract.newBuilder().setParameter(Any.pack(smartContract))
-            .setType(ContractType.CreateSmartContract)).setFeeLimit(1000000000)
+            .setType(ContractType.CreateSmartContract)).setFeeLimit(10000000)
         .setTimestamp(System.currentTimeMillis()))
         .build();
 
@@ -257,7 +257,7 @@ public class TransactionTraceTest {
         100);
     Transaction transaction = Transaction.newBuilder().setRawData(raw.newBuilder().addContract(
         Contract.newBuilder().setParameter(Any.pack(smartContract))
-            .setType(ContractType.CreateSmartContract)).setFeeLimit(1000000000)
+            .setType(ContractType.CreateSmartContract)).setFeeLimit(10000000)
         .setTimestamp(System.currentTimeMillis())).build();
 
     byte[] contractAddress = deployInit(transaction);

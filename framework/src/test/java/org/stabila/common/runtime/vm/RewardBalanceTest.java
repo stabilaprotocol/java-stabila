@@ -143,7 +143,7 @@ public class RewardBalanceTest extends VMTestBase {
         + "2f65b0d6f77854c390b03b33fe20cd15ed8f722d497f9c3070c96"
         + "ef64736f6c634300050d0031";
     long value = 0;
-    long feeLimit = 100000000;
+    long feeLimit = 1000000;
     long consumeUserResourcePercent = 0;
 
     // deploy contract

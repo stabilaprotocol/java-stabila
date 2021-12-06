@@ -94,18 +94,18 @@ public class InternalTransactionComplexTest {
       VMIllegalException {
     byte[] calledContractAddress = deployCalledContractandGetItsAddress();
     byte[] callerContractAddress = deployCallerContractAndGetItsAddress(calledContractAddress);
-
+    long feeLimit = 1000000L;
     /* =================================== CALL makeTheCall =================================== */
     byte[] triggerData1 = SvmTestUtils.parseAbi("makeTheCall()", "");
     runtime = SvmTestUtils
         .triggerContractWholeProcessReturnContractAddress(Hex.decode(OWNER_ADDRESS),
-            callerContractAddress, triggerData1, 0, 100000000, deposit, null);
+            callerContractAddress, triggerData1, 0, feeLimit, deposit, null);
 
     /* =============== CALL testCallbackReturns_ to check data ====================== */
     byte[] triggerData2 = SvmTestUtils.parseAbi("testCallbackReturns_()", "");
     runtime = SvmTestUtils
         .triggerContractWholeProcessReturnContractAddress(Hex.decode(OWNER_ADDRESS),
-            callerContractAddress, triggerData2, 0, 100000000, deposit, null);
+            callerContractAddress, triggerData2, 0, feeLimit, deposit, null);
 
     // bool true => 0000000000000000000000000000000000000000000000000000000000000001,
     // uint256 314159 =>000000000000000000000000000000000000000000000000000000000004cb2f,
