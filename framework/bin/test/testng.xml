@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Stest" parallel="tests" thread-count="4">
+
+  <listeners>
+    <listener class-name="stest.stabila.wallet.common.client.utils.RetryListener"/>
+  </listeners>
+  <test name="account,transfer">
+    <packages>
+      <package name="stest.stabila.wallet.transfer">
+      </package>
+      <package name="stest.stabila.wallet.account">
+      </package>
+    </packages>
+  </test>
+
+  <test name="exchangeandtoken,mutisign">
+    <packages>
+      <package name="stest.stabila.wallet.exchangeandtoken">
+      </package>
+      <package name="stest.stabila.wallet.mutisign">
+      </package>
+    </packages>
+  </test>
+
+  <test name="Contract linkage,block,node">
+    <packages>
+      <package name="stest.stabila.wallet.contract.linkage">
+      </package>
+      <package name="stest.stabila.wallet.block">
+      </package>
+    </packages>
+  </test>
+
+  <test name="contract scenario,committee,executive">
+    <packages>
+      <package name="stest.stabila.wallet.contract.scenario">
+      </package>
+      <package name="stest.stabila.wallet.committee">
+      </package>
+      <package name="stest.stabila.wallet.executive">
+      </package>
+    </packages>
+  </test>
+</suite>
