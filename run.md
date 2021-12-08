@@ -2,7 +2,7 @@
 
 ## Running a local node and connecting to the public testnet 
 
-Use the [Testnet Config](https://github.com/stabilaprotocol/StabilaDeployment/blob/master/test_net_config.conf) or use the [Stabila Deployment Scripts](https://github.com/stabilaprotocol/StabilaDeployment).
+Use the [Testnet Config](https://github.com/stabilaprotocol/StabilaDeployment/blob/master/test_net_config.conf) or use the [Stabila Deployment Scripts](https://github.com/stabilaprotocol/stabila-deployment).
 
 
 ### Running a Super Representative Node for mainnet
