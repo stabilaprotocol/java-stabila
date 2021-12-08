@@ -79,5 +79,3 @@ Bonus point applies in STABILA incentives programme. Developers can earn points 
 You can find your points ranking at  [Stabilascan](https://stabilascan.org/#/developersreward).
 
 The Top 5 scored developers (for every month, quarter and year) can win a cash reward.
-
-For more details, please visit [Incentives Policy](https://stabilaprotocol.github.io/documentation-en/developers/incentives/).
