@@ -77,7 +77,7 @@ contract isTestCtr {
       throws ContractExeException, ReceiptCheckErrException, VMIllegalException,
       ContractValidateException {
     ConfigLoader.disable = true;
-    VMConfig.initAllowSvmTransferTrc10(1);
+    VMConfig.initAllowSvmTransferSrc10(1);
     VMConfig.initAllowSvmConstantinople(1);
     VMConfig.initAllowSvmSolidity059(1);
     String contractName = "TestIsContract";

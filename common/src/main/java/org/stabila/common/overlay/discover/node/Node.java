@@ -29,6 +29,9 @@ public class Node implements Serializable {
 
   private boolean isFakeNodeId = false;
 
+  @Getter
+  private String executiveAddress;
+
   public Node(byte[] id, String host, int port) {
     this.id = id;
     this.host = host;

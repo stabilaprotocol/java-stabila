@@ -73,7 +73,7 @@ public class ProposalController {
   public void processProposal(ProposalCapsule proposalCapsule) {
 
     List<ByteString> activeExecutives = this.manager.getExecutiveScheduleStore().getActiveExecutives();
-    if (proposalCapsule.hasMostApprovals(activeExecutives)) {
+    if (proposalCapsule.hasMostApprovals(activeExecutives, manager.getDynamicPropertiesStore().getMaxActiveExecutiveNum())) {
       logger.info(
           "Processing proposal,id:{},it has received most approvals, "
               + "begin to set dynamic parameter:{}, "

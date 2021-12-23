@@ -1,4 +1,4 @@
-package stest.stabila.wallet.dailybuild.zentrc20token;
+package stest.stabila.wallet.dailybuild.zensrc20token;
 
 import com.alibaba.fastjson.JSONObject;
 import java.util.ArrayList;
@@ -18,10 +18,10 @@ import stest.stabila.wallet.common.client.Configuration;
 import stest.stabila.wallet.common.client.utils.HttpMethed;
 import stest.stabila.wallet.common.client.utils.ShieldAddressInfo;
 import stest.stabila.wallet.common.client.utils.ShieldNoteInfo;
-import stest.stabila.wallet.common.client.utils.ZenTrc20Base;
+import stest.stabila.wallet.common.client.utils.ZenSrc20Base;
 
 @Slf4j
-public class HttpShieldTrc20Token001 extends ZenTrc20Base {
+public class HttpShieldSrc20Token001 extends ZenSrc20Base {
 
   List<Note> shieldOutList = new ArrayList<>();
   Optional<ShieldAddressInfo> shieldAddressOptionalInfo1;

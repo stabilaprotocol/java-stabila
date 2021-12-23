@@ -1,19 +1,18 @@
 package org.stabila.core.services.http;
 
-import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.stabila.api.GrpcAPI;
-import org.stabila.api.GrpcAPI.OvkDecryptTRC20Parameters;
+import org.stabila.api.GrpcAPI.OvkDecryptSRC20Parameters;
 import org.stabila.common.utils.ByteArray;
 import org.stabila.core.Wallet;
 
 @Component
 @Slf4j(topic = "API")
-public class ScanShieldedTRC20NotesByOvkServlet extends RateLimiterServlet {
+public class ScanShieldedSRC20NotesByOvkServlet extends RateLimiterServlet {
 
   @Autowired
   private Wallet wallet;
@@ -21,19 +20,19 @@ public class ScanShieldedTRC20NotesByOvkServlet extends RateLimiterServlet {
   protected void doPost(HttpServletRequest request, HttpServletResponse response) {
     try {
       PostParams params = PostParams.getPostParams(request);
-      OvkDecryptTRC20Parameters.Builder ovkDecryptTRC20Parameters = OvkDecryptTRC20Parameters
+      OvkDecryptSRC20Parameters.Builder ovkDecryptSRC20Parameters = OvkDecryptSRC20Parameters
           .newBuilder();
-      JsonFormat.merge(params.getParams(), ovkDecryptTRC20Parameters, params.isVisible());
+      JsonFormat.merge(params.getParams(), ovkDecryptSRC20Parameters, params.isVisible());
 
-      GrpcAPI.DecryptNotesTRC20 notes = wallet
-          .scanShieldedTRC20NotesByOvk(ovkDecryptTRC20Parameters.getStartBlockIndex(),
-              ovkDecryptTRC20Parameters.getEndBlockIndex(),
-              ovkDecryptTRC20Parameters.getOvk().toByteArray(),
-              ovkDecryptTRC20Parameters.getShieldedTRC20ContractAddress().toByteArray(),
-              ovkDecryptTRC20Parameters.getEventsList()
+      GrpcAPI.DecryptNotesSRC20 notes = wallet
+          .scanShieldedSRC20NotesByOvk(ovkDecryptSRC20Parameters.getStartBlockIndex(),
+              ovkDecryptSRC20Parameters.getEndBlockIndex(),
+              ovkDecryptSRC20Parameters.getOvk().toByteArray(),
+              ovkDecryptSRC20Parameters.getShieldedSRC20ContractAddress().toByteArray(),
+              ovkDecryptSRC20Parameters.getEventsList()
           );
       response.getWriter()
-          .println(ScanShieldedTRC20NotesByIvkServlet.convertOutput(notes, params.isVisible()));
+          .println(ScanShieldedSRC20NotesByIvkServlet.convertOutput(notes, params.isVisible()));
     } catch (Exception e) {
       Util.processError(e, response);
     }
@@ -45,16 +44,16 @@ public class ScanShieldedTRC20NotesByOvkServlet extends RateLimiterServlet {
       long startBlockIndex = Long.parseLong(request.getParameter("start_block_index"));
       long endBlockIndex = Long.parseLong(request.getParameter("end_block_index"));
       String ovk = request.getParameter("ovk");
-      String contractAddress = request.getParameter("shielded_TRC20_contract_address");
+      String contractAddress = request.getParameter("shielded_SRC20_contract_address");
       if (visible) {
         contractAddress = Util.getHexAddress(contractAddress);
       }
-      GrpcAPI.DecryptNotesTRC20 notes = wallet
-          .scanShieldedTRC20NotesByOvk(startBlockIndex, endBlockIndex,
+      GrpcAPI.DecryptNotesSRC20 notes = wallet
+          .scanShieldedSRC20NotesByOvk(startBlockIndex, endBlockIndex,
               ByteArray.fromHexString(ovk), ByteArray.fromHexString(contractAddress), null);
 
       response.getWriter()
-          .println(ScanShieldedTRC20NotesByIvkServlet.convertOutput(notes, visible));
+          .println(ScanShieldedSRC20NotesByIvkServlet.convertOutput(notes, visible));
     } catch (Exception e) {
       Util.processError(e, response);
     }

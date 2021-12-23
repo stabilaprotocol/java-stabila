@@ -116,6 +116,8 @@ public class ProposalCreateActuator extends AbstractActuator {
       validateValue(entry);
     }
 
+    validateValues(contract.getParametersMap());
+
     return true;
   }
 
@@ -123,6 +125,22 @@ public class ProposalCreateActuator extends AbstractActuator {
     ProposalUtil
         .validator(chainBaseManager.getDynamicPropertiesStore(), forkController, entry.getKey(),
             entry.getValue());
+  }
+
+  private void validateValues(Map<Long, Long> entries) throws ContractValidateException {
+    if (entries.containsKey(ProposalUtil.ProposalType.MAX_ACTIVE_EXECUTIVE_NUM.getCode())
+            || entries.containsKey(ProposalUtil.ProposalType.EXECUTIVE_STANDBY_LENGTH.getCode())) {
+      long maxActiveExecutiveNum = entries.containsKey(ProposalUtil.ProposalType.MAX_ACTIVE_EXECUTIVE_NUM.getCode())
+              ? entries.get(ProposalUtil.ProposalType.MAX_ACTIVE_EXECUTIVE_NUM.getCode())
+              : chainBaseManager.getDynamicPropertiesStore().getMaxActiveExecutiveNum();
+      long executiveStandbyLength = entries.containsKey(ProposalUtil.ProposalType.EXECUTIVE_STANDBY_LENGTH.getCode())
+              ? entries.get(ProposalUtil.ProposalType.EXECUTIVE_STANDBY_LENGTH.getCode())
+              : chainBaseManager.getDynamicPropertiesStore().getExecutiveStandbyLength();
+      if (maxActiveExecutiveNum > executiveStandbyLength) {
+        throw new ContractValidateException("Executive Standby Length can't be less than Max Active Executive Num. " +
+                "Both properties can be updated by 1 proposal or these properties can be updates separately according to this rule.");
+      }
+    }
   }
 
   @Override

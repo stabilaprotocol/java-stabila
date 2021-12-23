@@ -4,7 +4,6 @@ import static java.lang.Math.max;
 import static java.lang.System.exit;
 import static org.stabila.core.Constant.ADD_PRE_FIX_BYTE_MAINNET;
 import static org.stabila.core.config.Parameter.ChainConstant.BLOCK_PRODUCE_TIMEOUT_PERCENT;
-import static org.stabila.core.config.Parameter.ChainConstant.MAX_ACTIVE_EXECUTIVE_NUM;
 
 import com.beust.jcommander.JCommander;
 import com.typesafe.config.Config;
@@ -135,9 +134,9 @@ public class Args extends CommonParameter {
     PARAMETER.maintenanceTimeInterval = 0;
     PARAMETER.proposalExpireTime = 0;
     PARAMETER.checkCdedTime = 1;
-    PARAMETER.allowCreationOfContracts = 0;
+    PARAMETER. allowCreationOfContracts = 0;
     PARAMETER.allowAdaptiveUcr = 0;
-    PARAMETER.allowSvmTransferTrc10 = 0;
+    PARAMETER.allowSvmTransferSrc10 = 0;
     PARAMETER.allowSvmConstantinople = 0;
     PARAMETER.allowDelegateResource = 0;
     PARAMETER.allowSameTokenName = 0;
@@ -175,9 +174,8 @@ public class Args extends CommonParameter {
     PARAMETER.solidityNodeHttpEnable = true;
     PARAMETER.nodeMetricsEnable = false;
     PARAMETER.metricsStorageEnable = false;
-    PARAMETER.agreeNodeCount = MAX_ACTIVE_EXECUTIVE_NUM * 2 / 3 + 1;
     PARAMETER.allowPBFT = 0;
-    PARAMETER.allowShieldedTRC20Transaction = 0;
+    PARAMETER.allowShieldedSRC20Transaction = 0;
     PARAMETER.allowMarketTransaction = 0;
     PARAMETER.allowTransactionFeePool = 0;
     PARAMETER.allowBlackHoleOptimization = 0;
@@ -536,9 +534,9 @@ public class Args extends CommonParameter {
         config.hasPath(Constant.COMMITTEE_ALLOW_SAME_TOKEN_NAME) ? config
             .getInt(Constant.COMMITTEE_ALLOW_SAME_TOKEN_NAME) : 0;
 
-    PARAMETER.allowSvmTransferTrc10 =
-        config.hasPath(Constant.COMMITTEE_ALLOW_SVM_TRANSFER_TRC10) ? config
-            .getInt(Constant.COMMITTEE_ALLOW_SVM_TRANSFER_TRC10) : 0;
+    PARAMETER.allowSvmTransferSrc10 =
+        config.hasPath(Constant.COMMITTEE_ALLOW_SVM_TRANSFER_SRC10) ? config
+            .getInt(Constant.COMMITTEE_ALLOW_SVM_TRANSFER_SRC10) : 0;
 
     PARAMETER.allowSvmConstantinople =
         config.hasPath(Constant.COMMITTEE_ALLOW_SVM_CONSTANTINOPLE) ? config
@@ -624,9 +622,9 @@ public class Args extends CommonParameter {
     //     config.hasPath(Constant.COMMITTEE_ALLOW_SHIELDED_TRANSACTION) ? config
     //         .getInt(Constant.COMMITTEE_ALLOW_SHIELDED_TRANSACTION) : 0;
 
-    PARAMETER.allowShieldedTRC20Transaction =
-        config.hasPath(Constant.COMMITTEE_ALLOW_SHIELDED_TRC20_TRANSACTION) ? config
-            .getInt(Constant.COMMITTEE_ALLOW_SHIELDED_TRC20_TRANSACTION) : 0;
+    PARAMETER.allowShieldedSRC20Transaction =
+        config.hasPath(Constant.COMMITTEE_ALLOW_SHIELDED_SRC20_TRANSACTION) ? config
+            .getInt(Constant.COMMITTEE_ALLOW_SHIELDED_SRC20_TRANSACTION) : 0;
 
     PARAMETER.allowMarketTransaction =
         config.hasPath(Constant.COMMITTEE_ALLOW_MARKET_TRANSACTION) ? config
@@ -700,14 +698,6 @@ public class Args extends CommonParameter {
     PARAMETER.allowPBFT =
         config.hasPath(Constant.COMMITTEE_ALLOW_PBFT) ? config
             .getLong(Constant.COMMITTEE_ALLOW_PBFT) : 0;
-
-    PARAMETER.agreeNodeCount = config.hasPath(Constant.NODE_AGREE_NODE_COUNT) ? config
-        .getInt(Constant.NODE_AGREE_NODE_COUNT) : MAX_ACTIVE_EXECUTIVE_NUM * 2 / 3 + 1;
-    PARAMETER.agreeNodeCount = PARAMETER.agreeNodeCount > MAX_ACTIVE_EXECUTIVE_NUM
-        ? MAX_ACTIVE_EXECUTIVE_NUM : PARAMETER.agreeNodeCount;
-    if (PARAMETER.isExecutive()) {
-      //  INSTANCE.agreeNodeCount = MAX_ACTIVE_EXECUTIVE_NUM * 2 / 3 + 1;
-    }
 
     PARAMETER.allowSvmCd =
             config.hasPath(Constant.COMMITTEE_ALLOW_SVM_CD) ? config

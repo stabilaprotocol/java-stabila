@@ -126,7 +126,7 @@ public class Constant {
 
   public static final String COMMITTEE_ALLOW_SAME_TOKEN_NAME = "committee.allowSameTokenName";
 
-  public static final String COMMITTEE_ALLOW_SVM_TRANSFER_TRC10 = "committee.allowSvmTransferTrc10";
+  public static final String COMMITTEE_ALLOW_SVM_TRANSFER_SRC10 = "committee.allowSvmTransferSrc10";
 
   public static final String COMMITTEE_ALLOW_SVM_CONSTANTINOPLE = "committee.allowSvmConstantinople";
 
@@ -176,8 +176,8 @@ public class Constant {
 
   // public static final String COMMITTEE_ALLOW_SHIELDED_TRANSACTION = "committee.allowShieldedTransaction";
 
-  public static final String COMMITTEE_ALLOW_SHIELDED_TRC20_TRANSACTION = "committee"
-      + ".allowShieldedTRC20Transaction";
+  public static final String COMMITTEE_ALLOW_SHIELDED_SRC20_TRANSACTION = "committee"
+      + ".allowShieldedSRC20Transaction";
 
   public static final String COMMITTEE_ALLOW_SVM_ISTANBUL = "committee"
       + ".allowSvmIstanbul";
@@ -256,7 +256,6 @@ public class Constant {
   public static final String SEED_NODE_IP_LIST = "seed.node.ip.list";
   public static final String NODE_METRICS_ENABLE = "node.metricsEnable";
   public static final String COMMITTEE_ALLOW_PBFT = "committee.allowPBFT";
-  public static final String NODE_AGREE_NODE_COUNT = "node.agreeNodeCount";
 
   public static final String COMMITTEE_ALLOW_TRANSACTION_FEE_POOL = "committee.allowTransactionFeePool";
   public static final String COMMITTEE_ALLOW_BLACK_HOLE_OPTIMIZATION = "committee.allowBlackHoleOptimization";

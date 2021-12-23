@@ -24,7 +24,7 @@ import org.stabila.api.GrpcAPI;
 import org.stabila.api.GrpcAPI.BytesMessage;
 import org.stabila.api.GrpcAPI.EmptyMessage;
 import org.stabila.api.GrpcAPI.Note;
-import org.stabila.api.GrpcAPI.ShieldedTRC20Parameters;
+import org.stabila.api.GrpcAPI.ShieldedSRC20Parameters;
 import org.stabila.api.GrpcAPI.TransactionExtention;
 import org.stabila.api.WalletGrpc;
 import org.stabila.api.WalletSolidityGrpc;
@@ -40,17 +40,17 @@ import stest.stabila.wallet.common.client.Configuration;
 import stest.stabila.wallet.common.client.Parameter.CommonConstant;
 
 @Slf4j
-public class ZenTrc20Base {
+public class ZenSrc20Base {
 
   public final String foundationAccountKey = Configuration.getByPath("testng.conf")
       .getString("foundationAccount.key1");
   public final byte[] foundationAccountAddress = PublicMethed.getFinalAddress(foundationAccountKey);
-  public static final String zenTrc20TokenOwnerKey = Configuration.getByPath("testng.conf")
-      .getString("defaultParameter.zenTrc20TokenOwnerKey");
-  public static final byte[] zenTrc20TokenOwnerAddress = PublicMethed
-      .getFinalAddress(zenTrc20TokenOwnerKey);
-  public static final String zenTrc20TokenOwnerAddressString = PublicMethed
-      .getAddressString(zenTrc20TokenOwnerKey);
+  public static final String zenSrc20TokenOwnerKey = Configuration.getByPath("testng.conf")
+      .getString("defaultParameter.zenSrc20TokenOwnerKey");
+  public static final byte[] zenSrc20TokenOwnerAddress = PublicMethed
+      .getFinalAddress(zenSrc20TokenOwnerKey);
+  public static final String zenSrc20TokenOwnerAddressString = PublicMethed
+      .getAddressString(zenSrc20TokenOwnerKey);
   public ManagedChannel channelFull = null;
   public WalletGrpc.WalletBlockingStub blockingStubFull = null;
   public ManagedChannel channelSolidity = null;
@@ -69,7 +69,7 @@ public class ZenTrc20Base {
   public static com.google.protobuf.ByteString shieldAddressByteString;
   public static byte[] shieldAddressByte;
   public static String shieldAddress;
-  public static String deployShieldTrc20Txid;
+  public static String deployShieldSrc20Txid;
   public static String deployShieldTxid;
   public static String mint = "mint(uint256,bytes32[9],bytes32[2],bytes32[21])";
   public static String transfer =
@@ -87,8 +87,8 @@ public class ZenTrc20Base {
   /**
    * constructor.
    */
-  @BeforeSuite(enabled = true, description = "Deploy shield trc20 depend contract")
-  public void deployShieldTrc20DependContract() {
+  @BeforeSuite(enabled = true, description = "Deploy shield src20 depend contract")
+  public void deployShieldSrc20DependContract() {
     Wallet.setAddressPreFixByte(CommonConstant.ADD_PRE_FIX_BYTE_MAINNET);
     channelFull = ManagedChannelBuilder.forTarget(fullnode)
         .usePlaintext(true)
@@ -96,27 +96,27 @@ public class ZenTrc20Base {
     blockingStubFull = WalletGrpc.newBlockingStub(channelFull);
 
     getDailyBuildStartNum();
-    Assert.assertTrue(PublicMethed.sendcoin(zenTrc20TokenOwnerAddress, 10000000000000L,
+    Assert.assertTrue(PublicMethed.sendcoin(zenSrc20TokenOwnerAddress, 10000000000000L,
         foundationAccountAddress, foundationAccountKey, blockingStubFull));
     PublicMethed.waitProduceNextBlock(blockingStubFull);
-    String contractName = "shieldTrc20Token";
+    String contractName = "shieldSrc20Token";
 
     String abi = Configuration.getByPath("testng.conf")
-        .getString("abi.abi_shieldTrc20Token");
+        .getString("abi.abi_shieldSrc20Token");
     String code = Configuration.getByPath("testng.conf")
-        .getString("code.code_shieldTrc20Token");
+        .getString("code.code_shieldSrc20Token");
     String constructorStr = "constructor(uint256,string,string)";
-    String data = totalSupply.toString() + "," + "\"TokenTRC20\"" + "," + "\"zen20\"";
+    String data = totalSupply.toString() + "," + "\"TokenSRC20\"" + "," + "\"zen20\"";
     logger.info("data:" + data);
-    deployShieldTrc20Txid = PublicMethed
+    deployShieldSrc20Txid = PublicMethed
         .deployContractWithConstantParame(contractName, abi, code, constructorStr, data, "",
             maxFeeLimit, 0L, 100, null,
-            zenTrc20TokenOwnerKey, zenTrc20TokenOwnerAddress, blockingStubFull);
+            zenSrc20TokenOwnerKey, zenSrc20TokenOwnerAddress, blockingStubFull);
 
     PublicMethed.waitProduceNextBlock(blockingStubFull);
-    logger.info(deployShieldTrc20Txid);
+    logger.info(deployShieldSrc20Txid);
     Optional<TransactionInfo> infoById = PublicMethed
-        .getTransactionInfoById(deployShieldTrc20Txid, blockingStubFull);
+        .getTransactionInfoById(deployShieldSrc20Txid, blockingStubFull);
     contractAddressByteString = infoById.get().getContractAddress();
     contractAddressByte = infoById.get().getContractAddress().toByteArray();
     contractAddress = Base58.encode58Check(contractAddressByte);
@@ -132,7 +132,7 @@ public class ZenTrc20Base {
     deployShieldTxid = PublicMethed
         .deployContractWithConstantParame(contractName, abi, code, constructorStr, data, "",
             maxFeeLimit, 0L, 100, null,
-            zenTrc20TokenOwnerKey, zenTrc20TokenOwnerAddress, blockingStubFull);
+            zenSrc20TokenOwnerKey, zenSrc20TokenOwnerAddress, blockingStubFull);
     PublicMethed.waitProduceNextBlock(blockingStubFull);
     logger.info(deployShieldTxid);
     infoById = PublicMethed
@@ -145,7 +145,7 @@ public class ZenTrc20Base {
     data = "\"" + shieldAddress + "\"" + "," + totalSupply.toString();
     String txid = PublicMethed.triggerContract(contractAddressByte,
         "approve(address,uint256)", data, false,
-        0, maxFeeLimit, zenTrc20TokenOwnerAddress, zenTrc20TokenOwnerKey, blockingStubFull);
+        0, maxFeeLimit, zenSrc20TokenOwnerAddress, zenSrc20TokenOwnerKey, blockingStubFull);
     PublicMethed.waitProduceNextBlock(blockingStubFull);
     infoById = PublicMethed
         .getTransactionInfoById(txid, blockingStubFull);
@@ -168,21 +168,21 @@ public class ZenTrc20Base {
   /**
    * constructor.
    */
-  public GrpcAPI.ShieldedTRC20Parameters createShieldedTrc20Parameters(BigInteger publicFromAmount,
-      GrpcAPI.DecryptNotesTRC20 inputNoteList, List<ShieldedAddressInfo> shieldedAddressInfoList,
+  public GrpcAPI.ShieldedSRC20Parameters createShieldedSrc20Parameters(BigInteger publicFromAmount,
+      GrpcAPI.DecryptNotesSRC20 inputNoteList, List<ShieldedAddressInfo> shieldedAddressInfoList,
       List<Note> outputNoteList, String publicToAddress, Long pubicToAmount,
       WalletGrpc.WalletBlockingStub blockingStubFull,
       WalletSolidityGrpc.WalletSolidityBlockingStub blockingStubSolidity) throws ZksnarkException {
 
-    GrpcAPI.PrivateShieldedTRC20Parameters.Builder builder
-        = GrpcAPI.PrivateShieldedTRC20Parameters.newBuilder();
+    GrpcAPI.PrivateShieldedSRC20Parameters.Builder builder
+        = GrpcAPI.PrivateShieldedSRC20Parameters.newBuilder();
 
     //Mint type should set public from amount to parameter
     if (publicFromAmount.compareTo(BigInteger.ZERO) > 0) {
       builder.setFromAmount(publicFromAmount.toString());
     }
 
-    builder.setShieldedTRC20ContractAddress(ByteString.copyFrom(shieldAddressByte));
+    builder.setShieldedSRC20ContractAddress(ByteString.copyFrom(shieldAddressByte));
     long valueBalance = 0;
 
     if (inputNoteList != null) {
@@ -233,17 +233,17 @@ public class ZenTrc20Base {
         byte[] eachRootAndPath = ByteArray.fromHexString(rootAndPath.get(i));
         byte[] root = Arrays.copyOfRange(eachRootAndPath, 0, 32);
         byte[] path = Arrays.copyOfRange(eachRootAndPath, 32, 1056);
-        GrpcAPI.SpendNoteTRC20.Builder spendTrc20NoteBuilder = GrpcAPI.SpendNoteTRC20.newBuilder();
-        spendTrc20NoteBuilder.setNote(noteBuild.build());
-        spendTrc20NoteBuilder.setAlpha(ByteString.copyFrom(blockingStubFull.getRcm(
+        GrpcAPI.SpendNoteSRC20.Builder spendSrc20NoteBuilder = GrpcAPI.SpendNoteSRC20.newBuilder();
+        spendSrc20NoteBuilder.setNote(noteBuild.build());
+        spendSrc20NoteBuilder.setAlpha(ByteString.copyFrom(blockingStubFull.getRcm(
             EmptyMessage.newBuilder().build()).getValue().toByteArray()));
-        spendTrc20NoteBuilder.setRoot(ByteString.copyFrom(root));
-        spendTrc20NoteBuilder.setPath(ByteString.copyFrom(path));
-        spendTrc20NoteBuilder.setPos(inputNoteList.getNoteTxs(i).getPosition());
+        spendSrc20NoteBuilder.setRoot(ByteString.copyFrom(root));
+        spendSrc20NoteBuilder.setPath(ByteString.copyFrom(path));
+        spendSrc20NoteBuilder.setPos(inputNoteList.getNoteTxs(i).getPosition());
 
         valueBalance = Math.addExact(valueBalance, inputNoteList.getNoteTxs(i).getNote()
             .getValue());
-        builder.addShieldedSpends(spendTrc20NoteBuilder.build());
+        builder.addShieldedSpends(spendSrc20NoteBuilder.build());
       }
     } else {
       //@TODO remove randomOvk by sha256.of(privateKey)
@@ -288,23 +288,23 @@ public class ZenTrc20Base {
   /**
    * constructor.
    */
-  public GrpcAPI.ShieldedTRC20Parameters createShieldedTrc20ParametersWithoutAsk(
+  public GrpcAPI.ShieldedSRC20Parameters createShieldedSrc20ParametersWithoutAsk(
       BigInteger publicFromAmount,
-      GrpcAPI.DecryptNotesTRC20 inputNoteList, List<ShieldedAddressInfo> shieldedAddressInfoList,
+      GrpcAPI.DecryptNotesSRC20 inputNoteList, List<ShieldedAddressInfo> shieldedAddressInfoList,
       List<Note> outputNoteList, String publicToAddress, byte[] receiverAddressbyte,
       Long pubicToAmount,
       WalletGrpc.WalletBlockingStub blockingStubFull,
       WalletSolidityGrpc.WalletSolidityBlockingStub blockingStubSolidity) throws ZksnarkException {
 
-    GrpcAPI.PrivateShieldedTRC20ParametersWithoutAsk.Builder builder
-        = GrpcAPI.PrivateShieldedTRC20ParametersWithoutAsk.newBuilder();
+    GrpcAPI.PrivateShieldedSRC20ParametersWithoutAsk.Builder builder
+        = GrpcAPI.PrivateShieldedSRC20ParametersWithoutAsk.newBuilder();
 
     //Mint type should set public from amount to parameter
     if (publicFromAmount.compareTo(BigInteger.ZERO) > 0) {
       builder.setFromAmount(publicFromAmount.toString());
     }
 
-    builder.setShieldedTRC20ContractAddress(ByteString.copyFrom(shieldAddressByte));
+    builder.setShieldedSRC20ContractAddress(ByteString.copyFrom(shieldAddressByte));
 
     long valueBalance = 0;
     byte[] ask = new byte[32];
@@ -362,15 +362,15 @@ public class ZenTrc20Base {
         byte[] eachRootAndPath = ByteArray.fromHexString(rootAndPath.get(i));
         byte[] root = Arrays.copyOfRange(eachRootAndPath, 0, 32);
         byte[] path = Arrays.copyOfRange(eachRootAndPath, 32, 1056);
-        GrpcAPI.SpendNoteTRC20.Builder spendTrc20NoteBuilder = GrpcAPI.SpendNoteTRC20.newBuilder();
-        spendTrc20NoteBuilder.setNote(noteBuild.build());
-        spendTrc20NoteBuilder.setAlpha(ByteString.copyFrom(blockingStubFull.getRcm(
+        GrpcAPI.SpendNoteSRC20.Builder spendSrc20NoteBuilder = GrpcAPI.SpendNoteSRC20.newBuilder();
+        spendSrc20NoteBuilder.setNote(noteBuild.build());
+        spendSrc20NoteBuilder.setAlpha(ByteString.copyFrom(blockingStubFull.getRcm(
             EmptyMessage.newBuilder().build()).getValue().toByteArray()));
-        spendTrc20NoteBuilder.setRoot(ByteString.copyFrom(root));
-        spendTrc20NoteBuilder.setPath(ByteString.copyFrom(path));
-        spendTrc20NoteBuilder.setPos(inputNoteList.getNoteTxs(i).getPosition());
+        spendSrc20NoteBuilder.setRoot(ByteString.copyFrom(root));
+        spendSrc20NoteBuilder.setPath(ByteString.copyFrom(path));
+        spendSrc20NoteBuilder.setPos(inputNoteList.getNoteTxs(i).getPosition());
 
-        builder.addShieldedSpends(spendTrc20NoteBuilder.build());
+        builder.addShieldedSpends(spendSrc20NoteBuilder.build());
         valueBalance = Math.addExact(valueBalance, inputNoteList.getNoteTxs(i)
             .getNote().getValue());
       }
@@ -403,16 +403,16 @@ public class ZenTrc20Base {
       builder.setToAmount(pubicToAmount.toString());
     }
 
-    ShieldedTRC20Parameters parameters = blockingStubFull
+    ShieldedSRC20Parameters parameters = blockingStubFull
         .createShieldedContractParametersWithoutAsk(builder.build());
     if (parameters == null) {
       System.out.println("createShieldedContractParametersWithoutAsk failed!");
       return null;
     }
 
-    GrpcAPI.ShieldedTRC20TriggerContractParameters.Builder stBuilder =
-        GrpcAPI.ShieldedTRC20TriggerContractParameters.newBuilder();
-    stBuilder.setShieldedTRC20Parameters(parameters);
+    GrpcAPI.ShieldedSRC20TriggerContractParameters.Builder stBuilder =
+        GrpcAPI.ShieldedSRC20TriggerContractParameters.newBuilder();
+    stBuilder.setShieldedSRC20Parameters(parameters);
 
     if (parameters.getParameterType().equals("burn")) {
       stBuilder.setAmount(pubicToAmount.toString());
@@ -421,8 +421,8 @@ public class ZenTrc20Base {
 
     ByteString messageHash = parameters.getMessageHash();
     List<ShieldContract.SpendDescription> spendDescList = parameters.getSpendDescriptionList();
-    ShieldedTRC20Parameters.Builder newBuilder =
-        ShieldedTRC20Parameters.newBuilder().mergeFrom(parameters);
+    ShieldedSRC20Parameters.Builder newBuilder =
+        ShieldedSRC20Parameters.newBuilder().mergeFrom(parameters);
     for (int i = 0; i < spendDescList.size(); i++) {
       GrpcAPI.SpendAuthSigParameters.Builder builder1 = GrpcAPI.SpendAuthSigParameters.newBuilder();
       builder1.setAsk(ByteString.copyFrom(ask));
@@ -437,11 +437,11 @@ public class ZenTrc20Base {
       stBuilder.addSpendAuthoritySignature(authSig);
       BytesMessage triggerInputData;
       try {
-        triggerInputData = blockingStubFull.getTriggerInputForShieldedTRC20Contract(stBuilder
+        triggerInputData = blockingStubFull.getTriggerInputForShieldedSRC20Contract(stBuilder
             .build());
       } catch (Exception e) {
         triggerInputData = null;
-        System.out.println("getTriggerInputForShieldedTRC20Contract error, please retry!");
+        System.out.println("getTriggerInputForShieldedSRC20Contract error, please retry!");
       }
       if (triggerInputData == null) {
         return null;
@@ -466,8 +466,8 @@ public class ZenTrc20Base {
     argsStr = "000000000000000000000000000000000000000000000000" + argsStr;
     TransactionExtention transactionExtention = PublicMethed
         .triggerConstantContractForExtentionOnSolidity(shieldAddressByte, methodStr, argsStr,
-            true, 0, 1000000000L, "0", 0, zenTrc20TokenOwnerAddress,
-            zenTrc20TokenOwnerKey, blockingStubSolidity);
+            true, 0, 1000000000L, "0", 0, zenSrc20TokenOwnerAddress,
+            zenSrc20TokenOwnerKey, blockingStubSolidity);
     byte[] result = transactionExtention.getConstantResult(0).toByteArray();
     return ByteArray.toHexString(result);
   }
@@ -476,7 +476,7 @@ public class ZenTrc20Base {
   /**
    * constructor.
    */
-  public String encodeMintParamsToHexString(GrpcAPI.ShieldedTRC20Parameters parameters,
+  public String encodeMintParamsToHexString(GrpcAPI.ShieldedSRC20Parameters parameters,
       BigInteger value) {
     byte[] mergedBytes;
     ShieldContract.ReceiveDescription revDesc = parameters.getReceiveDescription(0);
@@ -571,7 +571,7 @@ public class ZenTrc20Base {
   /**
    * constructor.
    */
-  public static List<Note> addShieldTrc20OutputList(List<Note> shieldOutList,
+  public static List<Note> addShieldSrc20OutputList(List<Note> shieldOutList,
       String shieldToAddress, String toAmountString, String menoString,
       WalletGrpc.WalletBlockingStub blockingStubFull) {
     String shieldAddress = shieldToAddress;
@@ -599,7 +599,7 @@ public class ZenTrc20Base {
   /**
    * constructor.
    */
-  public Long getBalanceOfShieldTrc20(String queryAddress, byte[] ownerAddress,
+  public Long getBalanceOfShieldSrc20(String queryAddress, byte[] ownerAddress,
       String ownerKey, WalletGrpc.WalletBlockingStub blockingStubFull) {
     String paramStr = "\"" + queryAddress + "\"";
     TransactionExtention transactionExtention = PublicMethed
@@ -623,7 +623,7 @@ public class ZenTrc20Base {
   /**
    * constructor.
    */
-  public String getBalanceOfShieldTrc20String(String queryAddress, byte[] ownerAddress,
+  public String getBalanceOfShieldSrc20String(String queryAddress, byte[] ownerAddress,
       String ownerKey, WalletGrpc.WalletBlockingStub blockingStubFull) {
     String paramStr = "\"" + queryAddress + "\"";
     TransactionExtention transactionExtention = PublicMethed
@@ -647,7 +647,7 @@ public class ZenTrc20Base {
   /**
    * constructor.
    */
-  public GrpcAPI.DecryptNotesTRC20 scanShieldedTrc20NoteByIvk(ShieldedAddressInfo
+  public GrpcAPI.DecryptNotesSRC20 scanShieldedSrc20NoteByIvk(ShieldedAddressInfo
       shieldedAddressInfo, WalletGrpc.WalletBlockingStub blockingStubFull,
       WalletSolidityGrpc.WalletSolidityBlockingStub blockingStubSolidity) throws Exception {
     long currentBlockNum = blockingStubFull.getNowBlock(GrpcAPI.EmptyMessage.newBuilder().build())
@@ -690,21 +690,21 @@ public class ZenTrc20Base {
     //ivk.getIvk()
     String ivkString = ByteArray.toHexString(ivk.getIvk().toByteArray());
     String ivkStringOld = ByteArray.toHexString(shieldedAddressInfo.getIvk());
-    GrpcAPI.IvkDecryptTRC20Parameters parameters = GrpcAPI.IvkDecryptTRC20Parameters
+    GrpcAPI.IvkDecryptSRC20Parameters parameters = GrpcAPI.IvkDecryptSRC20Parameters
         .newBuilder()
         .setStartBlockIndex(startNum)
         .setEndBlockIndex(endNum)
-        .setShieldedTRC20ContractAddress(ByteString.copyFrom(Commons.decode58Check(shieldAddress)))
+        .setShieldedSRC20ContractAddress(ByteString.copyFrom(Commons.decode58Check(shieldAddress)))
         .setIvk(ByteString.copyFrom(ByteArray.fromHexString(ivkString)))
         .setAk(ByteString.copyFrom(ByteArray.fromHexString(akString)))
         .setNk(ByteString.copyFrom(ByteArray.fromHexString(nkString)))
         .build();
     try {
-      return blockingStubSolidity.scanShieldedTRC20NotesByIvk(parameters);
+      return blockingStubSolidity.scanShieldedSRC20NotesByIvk(parameters);
     } catch (Exception e) {
       System.out.println(e);
       Status status = Status.fromThrowable(e);
-      System.out.println("ScanShieldedTRC20NoteByIvk failed,error " + status.getDescription());
+      System.out.println("ScanShieldedSRC20NoteByIvk failed,error " + status.getDescription());
 
     }
     return null;
@@ -714,7 +714,7 @@ public class ZenTrc20Base {
   /**
    * constructor.
    */
-  public GrpcAPI.DecryptNotesTRC20 scanShieldedTrc20NoteByIvk(ShieldedAddressInfo
+  public GrpcAPI.DecryptNotesSRC20 scanShieldedSrc20NoteByIvk(ShieldedAddressInfo
       shieldedAddressInfo, WalletGrpc.WalletBlockingStub blockingStubFull) throws Exception {
     long currentBlockNum = blockingStubFull.getNowBlock(GrpcAPI.EmptyMessage.newBuilder().build())
         .getBlockHeader().getRawData().getNumber();
@@ -752,22 +752,22 @@ public class ZenTrc20Base {
         .getIncomingViewingKey(viewBuilder.build());
 
     String ivkString = ByteArray.toHexString(ivk.getIvk().toByteArray());
-    GrpcAPI.IvkDecryptTRC20Parameters parameters = GrpcAPI.IvkDecryptTRC20Parameters
+    GrpcAPI.IvkDecryptSRC20Parameters parameters = GrpcAPI.IvkDecryptSRC20Parameters
         .newBuilder()
         .setStartBlockIndex(startNum)
         .setEndBlockIndex(endNum)
-        .setShieldedTRC20ContractAddress(ByteString.copyFrom(Commons.decode58Check(shieldAddress)))
+        .setShieldedSRC20ContractAddress(ByteString.copyFrom(Commons.decode58Check(shieldAddress)))
         .setIvk(ByteString.copyFrom(ByteArray.fromHexString(ivkString)))
         .setAk(ByteString.copyFrom(ByteArray.fromHexString(akString)))
         .setNk(ByteString.copyFrom(ByteArray.fromHexString(nkString)))
         //.setEvents()
         .build();
     try {
-      return blockingStubFull.scanShieldedTRC20NotesByIvk(parameters);
+      return blockingStubFull.scanShieldedSRC20NotesByIvk(parameters);
     } catch (Exception e) {
       System.out.println(e);
       Status status = Status.fromThrowable(e);
-      System.out.println("ScanShieldedTRC20NoteByIvk failed,error " + status.getDescription());
+      System.out.println("ScanShieldedSRC20NoteByIvk failed,error " + status.getDescription());
 
     }
     return null;
@@ -777,7 +777,7 @@ public class ZenTrc20Base {
   /**
    * constructor.
    */
-  public GrpcAPI.DecryptNotesTRC20 scanShieldedTrc20NoteByIvkWithRange(ShieldedAddressInfo
+  public GrpcAPI.DecryptNotesSRC20 scanShieldedSrc20NoteByIvkWithRange(ShieldedAddressInfo
       shieldedAddressInfo, Long startNum, Long endNum,
       WalletGrpc.WalletBlockingStub blockingStubFull) throws Exception {
 
@@ -808,20 +808,20 @@ public class ZenTrc20Base {
         .getIncomingViewingKey(viewBuilder.build());
 
     String ivkString = ByteArray.toHexString(ivk.getIvk().toByteArray());
-    GrpcAPI.DecryptNotesTRC20 result = GrpcAPI.DecryptNotesTRC20.newBuilder().build();
-    GrpcAPI.DecryptNotesTRC20 tempNoteTxs;
+    GrpcAPI.DecryptNotesSRC20 result = GrpcAPI.DecryptNotesSRC20.newBuilder().build();
+    GrpcAPI.DecryptNotesSRC20 tempNoteTxs;
     while (startNum < endNum) {
-      GrpcAPI.IvkDecryptTRC20Parameters parameters = GrpcAPI.IvkDecryptTRC20Parameters
+      GrpcAPI.IvkDecryptSRC20Parameters parameters = GrpcAPI.IvkDecryptSRC20Parameters
           .newBuilder()
           .setStartBlockIndex(startNum)
           .setEndBlockIndex(startNum + 99)
-          .setShieldedTRC20ContractAddress(ByteString
+          .setShieldedSRC20ContractAddress(ByteString
                   .copyFrom(Commons.decode58Check(shieldAddress)))
           .setIvk(ByteString.copyFrom(ByteArray.fromHexString(ivkString)))
           .setAk(ByteString.copyFrom(ByteArray.fromHexString(akString)))
           .setNk(ByteString.copyFrom(ByteArray.fromHexString(nkString)))
           .build();
-      tempNoteTxs = blockingStubFull.scanShieldedTRC20NotesByIvk(parameters);
+      tempNoteTxs = blockingStubFull.scanShieldedSRC20NotesByIvk(parameters);
       logger.info("tempNoteTxs size:" + tempNoteTxs.getNoteTxsCount());
 
       result = result.toBuilder().addAllNoteTxs(tempNoteTxs.getNoteTxsList()).build();
@@ -833,7 +833,7 @@ public class ZenTrc20Base {
     } catch (Exception e) {
       System.out.println(e);
       Status status = Status.fromThrowable(e);
-      System.out.println("ScanShieldedTRC20NoteByIvk failed,error " + status.getDescription());
+      System.out.println("ScanShieldedSRC20NoteByIvk failed,error " + status.getDescription());
 
     }
     return null;
@@ -843,7 +843,7 @@ public class ZenTrc20Base {
   /**
    * constructor.
    */
-  public GrpcAPI.DecryptNotesTRC20 scanShieldedTrc20NoteByOvk(ShieldedAddressInfo
+  public GrpcAPI.DecryptNotesSRC20 scanShieldedSrc20NoteByOvk(ShieldedAddressInfo
       shieldedAddressInfo, WalletGrpc.WalletBlockingStub blockingStubFull) throws Exception {
     long currentBlockNum = blockingStubFull.getNowBlock(GrpcAPI.EmptyMessage.newBuilder().build())
         .getBlockHeader().getRawData().getNumber();
@@ -854,19 +854,19 @@ public class ZenTrc20Base {
     }
 
     String ovkString = ByteArray.toHexString(shieldedAddressInfo.getOvk());
-    GrpcAPI.OvkDecryptTRC20Parameters parameters = GrpcAPI.OvkDecryptTRC20Parameters.newBuilder()
+    GrpcAPI.OvkDecryptSRC20Parameters parameters = GrpcAPI.OvkDecryptSRC20Parameters.newBuilder()
         .setStartBlockIndex(startNum)
         .setEndBlockIndex(endNum)
         .setOvk(ByteString.copyFrom(ByteArray.fromHexString(ovkString)))
-        .setShieldedTRC20ContractAddress(ByteString.copyFrom(Commons.decode58Check(shieldAddress)))
+        .setShieldedSRC20ContractAddress(ByteString.copyFrom(Commons.decode58Check(shieldAddress)))
         .build();
 
     try {
-      return blockingStubFull.scanShieldedTRC20NotesByOvk(parameters);
+      return blockingStubFull.scanShieldedSRC20NotesByOvk(parameters);
     } catch (Exception e) {
       System.out.println(e);
       Status status = Status.fromThrowable(e);
-      System.out.println("ScanShieldedTRC20NoteByovk failed,error " + status.getDescription());
+      System.out.println("ScanShieldedSRC20NoteByovk failed,error " + status.getDescription());
 
     }
     return null;
@@ -876,7 +876,7 @@ public class ZenTrc20Base {
   /**
    * constructor.
    */
-  public GrpcAPI.DecryptNotesTRC20 scanShieldedTrc20NoteByOvk(ShieldedAddressInfo
+  public GrpcAPI.DecryptNotesSRC20 scanShieldedSrc20NoteByOvk(ShieldedAddressInfo
       shieldedAddressInfo, WalletGrpc.WalletBlockingStub blockingStubFull,
       WalletSolidityGrpc.WalletSolidityBlockingStub blockingStubSolidity) throws Exception {
     long currentBlockNum = blockingStubFull.getNowBlock(GrpcAPI.EmptyMessage.newBuilder().build())
@@ -888,19 +888,19 @@ public class ZenTrc20Base {
     }
 
     String ovkString = ByteArray.toHexString(shieldedAddressInfo.getOvk());
-    GrpcAPI.OvkDecryptTRC20Parameters parameters = GrpcAPI.OvkDecryptTRC20Parameters.newBuilder()
+    GrpcAPI.OvkDecryptSRC20Parameters parameters = GrpcAPI.OvkDecryptSRC20Parameters.newBuilder()
         .setStartBlockIndex(startNum)
         .setEndBlockIndex(endNum)
         .setOvk(ByteString.copyFrom(ByteArray.fromHexString(ovkString)))
-        .setShieldedTRC20ContractAddress(ByteString.copyFrom(Commons.decode58Check(shieldAddress)))
+        .setShieldedSRC20ContractAddress(ByteString.copyFrom(Commons.decode58Check(shieldAddress)))
         .build();
 
     try {
-      return blockingStubSolidity.scanShieldedTRC20NotesByOvk(parameters);
+      return blockingStubSolidity.scanShieldedSRC20NotesByOvk(parameters);
     } catch (Exception e) {
       System.out.println(e);
       Status status = Status.fromThrowable(e);
-      System.out.println("ScanShieldedTRC20NoteByovk failed,error " + status.getDescription());
+      System.out.println("ScanShieldedSRC20NoteByovk failed,error " + status.getDescription());
 
     }
     return null;
@@ -909,11 +909,11 @@ public class ZenTrc20Base {
   /**
    * constructor.
    */
-  public static Boolean getTrc20SpendResult(
-      ShieldedAddressInfo shieldAddressInfo, GrpcAPI.DecryptNotesTRC20.NoteTx noteTx,
+  public static Boolean getSrc20SpendResult(
+      ShieldedAddressInfo shieldAddressInfo, GrpcAPI.DecryptNotesSRC20.NoteTx noteTx,
       WalletGrpc.WalletBlockingStub blockingStubFull) {
 
-    GrpcAPI.NfTRC20Parameters.Builder builder = GrpcAPI.NfTRC20Parameters.newBuilder();
+    GrpcAPI.NfSRC20Parameters.Builder builder = GrpcAPI.NfSRC20Parameters.newBuilder();
 
     String spendingKey = ByteArray.toHexString(shieldAddressInfo.getSk());
     BytesMessage sk = BytesMessage.newBuilder()
@@ -932,7 +932,7 @@ public class ZenTrc20Base {
     builder.setAk(ak.get().getValue());
     builder.setNk(nk.get().getValue());
     builder.setPosition(noteTx.getPosition());
-    builder.setShieldedTRC20ContractAddress(ByteString.copyFrom(shieldAddressByte));
+    builder.setShieldedSRC20ContractAddress(ByteString.copyFrom(shieldAddressByte));
 
     Note.Builder noteBuild = Note.newBuilder();
     noteBuild.setPaymentAddress(shieldAddressInfo.getAddress());
@@ -942,7 +942,7 @@ public class ZenTrc20Base {
     builder.setNote(noteBuild.build());
 
     Optional<GrpcAPI.NullifierResult> result = Optional.of(blockingStubFull
-        .isShieldedTRC20ContractNoteSpent(builder.build()));
+        .isShieldedSRC20ContractNoteSpent(builder.build()));
     return result.get().getIsSpent();
   }
 
@@ -950,12 +950,12 @@ public class ZenTrc20Base {
   /**
    * constructor.
    */
-  public static Boolean getTrc20SpendResult(
-      ShieldedAddressInfo shieldAddressInfo, GrpcAPI.DecryptNotesTRC20.NoteTx noteTx,
+  public static Boolean getSrc20SpendResult(
+      ShieldedAddressInfo shieldAddressInfo, GrpcAPI.DecryptNotesSRC20.NoteTx noteTx,
       WalletGrpc.WalletBlockingStub blockingStubFull,
       WalletSolidityGrpc.WalletSolidityBlockingStub blockingStubSolidity) {
 
-    GrpcAPI.NfTRC20Parameters.Builder builder = GrpcAPI.NfTRC20Parameters.newBuilder();
+    GrpcAPI.NfSRC20Parameters.Builder builder = GrpcAPI.NfSRC20Parameters.newBuilder();
 
     String spendingKey = ByteArray.toHexString(shieldAddressInfo.getSk());
     BytesMessage sk = BytesMessage.newBuilder()
@@ -974,7 +974,7 @@ public class ZenTrc20Base {
     builder.setAk(ak.get().getValue());
     builder.setNk(nk.get().getValue());
     builder.setPosition(noteTx.getPosition());
-    builder.setShieldedTRC20ContractAddress(ByteString.copyFrom(shieldAddressByte));
+    builder.setShieldedSRC20ContractAddress(ByteString.copyFrom(shieldAddressByte));
 
     Note.Builder noteBuild = Note.newBuilder();
     noteBuild.setPaymentAddress(shieldAddressInfo.getAddress());
@@ -984,7 +984,7 @@ public class ZenTrc20Base {
     builder.setNote(noteBuild.build());
 
     Optional<GrpcAPI.NullifierResult> result = Optional.of(blockingStubSolidity
-        .isShieldedTRC20ContractNoteSpent(builder.build()));
+        .isShieldedSRC20ContractNoteSpent(builder.build()));
     return result.get().getIsSpent();
   }
 
@@ -1027,7 +1027,7 @@ public class ZenTrc20Base {
   /**
    * constructor.
    */
-  public String encodeTransferParamsToHexString(GrpcAPI.ShieldedTRC20Parameters parameters) {
+  public String encodeTransferParamsToHexString(GrpcAPI.ShieldedSRC20Parameters parameters) {
     byte[] input = new byte[0];
     byte[] spendAuthSig = new byte[0];
     byte[] output = new byte[0];
@@ -1090,7 +1090,7 @@ public class ZenTrc20Base {
   /**
    * constructor.
    */
-  public String encodeBurnParamsToHexString(GrpcAPI.ShieldedTRC20Parameters parameters,
+  public String encodeBurnParamsToHexString(GrpcAPI.ShieldedSRC20Parameters parameters,
       BigInteger value,
       String transparentToAddress) {
     byte[] mergedBytes;
@@ -1151,10 +1151,10 @@ public class ZenTrc20Base {
       rawBody.put("ovk", "4364c875deeb663781a2f1530f9e4f87ea81cc3c757ca2a30fa4768940de2f98");
       rawBody.put("from_amount", fromAmount.toString());
       rawBody.put("shielded_receives", shiledReceives);
-      rawBody.put("shielded_TRC20_contract_address", shieldAddress);
+      rawBody.put("shielded_SRC20_contract_address", shieldAddress);
       rawBody.put("visible", true);
 
-      response = HttpMethed.createConnectForShieldTrc20(requestUrl, rawBody);
+      response = HttpMethed.createConnectForShieldSrc20(requestUrl, rawBody);
 
     } catch (Exception e) {
       e.printStackTrace();
@@ -1190,12 +1190,12 @@ public class ZenTrc20Base {
       if (shieldedReceiver != null) {
         rawBody.put("shielded_receives", shieldedReceiver);
       }
-      rawBody.put("shielded_TRC20_contract_address", shieldAddress);
+      rawBody.put("shielded_SRC20_contract_address", shieldAddress);
       rawBody.put("transparent_to_address", toAddress);
       rawBody.put("to_amount", toAmount.toString());
       rawBody.put("visible", true);
 
-      response = HttpMethed.createConnectForShieldTrc20(requestUrl, rawBody);
+      response = HttpMethed.createConnectForShieldSrc20(requestUrl, rawBody);
 
     } catch (Exception e) {
       e.printStackTrace();
@@ -1229,7 +1229,7 @@ public class ZenTrc20Base {
       rawBody.put("ak", shieldAccountInfo.getString("ak"));
       rawBody.put("nsk", shieldAccountInfo.getString("nsk"));
       rawBody.put("shielded_spends", shieldedSpends);
-      rawBody.put("shielded_TRC20_contract_address", shieldAddress);
+      rawBody.put("shielded_SRC20_contract_address", shieldAddress);
       rawBody.put("transparent_to_address", toAddress);
       rawBody.put("to_amount", toAmount.toString());
       rawBody.put("visible", true);
@@ -1237,7 +1237,7 @@ public class ZenTrc20Base {
         rawBody.put("shielded_receives", shieldedReceiver);
       }
 
-      response = HttpMethed.createConnectForShieldTrc20(requestUrl, rawBody);
+      response = HttpMethed.createConnectForShieldSrc20(requestUrl, rawBody);
 
     } catch (Exception e) {
       e.printStackTrace();
@@ -1260,11 +1260,11 @@ public class ZenTrc20Base {
       rawBody.put("ask", shieldAccountInfo.getString("ask"));
       rawBody.put("nsk", shieldAccountInfo.getString("nsk"));
       rawBody.put("shielded_spends", shieldedSpends);
-      rawBody.put("shielded_TRC20_contract_address", shieldAddress);
+      rawBody.put("shielded_SRC20_contract_address", shieldAddress);
       rawBody.put("shielded_receives", shieldedReceives);
       rawBody.put("visible", true);
       logger.info(rawBody.toString());
-      response = HttpMethed.createConnectForShieldTrc20(requestUrl, rawBody);
+      response = HttpMethed.createConnectForShieldSrc20(requestUrl, rawBody);
     } catch (Exception e) {
       e.printStackTrace();
       httppost.releaseConnection();
@@ -1287,11 +1287,11 @@ public class ZenTrc20Base {
       rawBody.put("ak", shieldAccountInfo.getString("ak"));
       rawBody.put("nsk", shieldAccountInfo.getString("nsk"));
       rawBody.put("shielded_spends", shieldedSpends);
-      rawBody.put("shielded_TRC20_contract_address", shieldAddress);
+      rawBody.put("shielded_SRC20_contract_address", shieldAddress);
       rawBody.put("shielded_receives", shieldedReceives);
       rawBody.put("visible", true);
       logger.info(rawBody.toString());
-      response = HttpMethed.createConnectForShieldTrc20(requestUrl, rawBody);
+      response = HttpMethed.createConnectForShieldSrc20(requestUrl, rawBody);
     } catch (Exception e) {
       e.printStackTrace();
       httppost.releaseConnection();
@@ -1312,7 +1312,7 @@ public class ZenTrc20Base {
       rawBody.put("tx_hash", messageHash);
       rawBody.put("alpha", alpha);
       logger.info("createSpendAuthSig:" + rawBody.toString());
-      response = HttpMethed.createConnectForShieldTrc20(requestUrl, rawBody);
+      response = HttpMethed.createConnectForShieldSrc20(requestUrl, rawBody);
     } catch (Exception e) {
       e.printStackTrace();
       httppost.releaseConnection();
@@ -1325,22 +1325,22 @@ public class ZenTrc20Base {
   /**
    * constructor.
    */
-  public static JSONArray scanShieldTrc20NoteByIvk(String httpNode,
+  public static JSONArray scanShieldSrc20NoteByIvk(String httpNode,
       JSONObject shieldAddressInfo) {
     try {
       Long endScanNumber = HttpMethed.getNowBlockNum(httpNode);
       Long startScanNumer = endScanNumber > 99 ? endScanNumber - 90 : 1;
 
-      final String requestUrl = "http://" + httpNode + "/wallet/scanshieldedtrc20notesbyivk";
+      final String requestUrl = "http://" + httpNode + "/wallet/scanshieldedsrc20notesbyivk";
       JsonObject userBaseObj2 = new JsonObject();
       userBaseObj2.addProperty("start_block_index", startScanNumer);
       userBaseObj2.addProperty("end_block_index", endScanNumber);
-      userBaseObj2.addProperty("shielded_TRC20_contract_address", shieldAddress);
+      userBaseObj2.addProperty("shielded_SRC20_contract_address", shieldAddress);
       userBaseObj2.addProperty("ivk", shieldAddressInfo.getString("ivk"));
       userBaseObj2.addProperty("ak", shieldAddressInfo.getString("ak"));
       userBaseObj2.addProperty("nk", shieldAddressInfo.getString("nk"));
       userBaseObj2.addProperty("visible", true);
-      logger.info("scanShieldTrc20NoteByIvk:" + userBaseObj2.toString());
+      logger.info("scanShieldSrc20NoteByIvk:" + userBaseObj2.toString());
       response = HttpMethed.createConnect(requestUrl, userBaseObj2);
 
       responseContent = HttpMethed.parseResponseContent(response);
@@ -1359,23 +1359,23 @@ public class ZenTrc20Base {
   /**
    * constructor.
    */
-  public static JSONArray scanShieldTrc20NoteByIvkOnSolidity(String httpNode,
+  public static JSONArray scanShieldSrc20NoteByIvkOnSolidity(String httpNode,
       JSONObject shieldAddressInfo) {
     try {
       Long endScanNumber = HttpMethed.getNowBlockNumOnSolidity(httpNode);
       Long startScanNumer = endScanNumber > 99 ? endScanNumber - 90 : 1;
 
       final String requestUrl =
-          "http://" + httpNode + "/walletsolidity/scanshieldedtrc20notesbyivk";
+          "http://" + httpNode + "/walletsolidity/scanshieldedsrc20notesbyivk";
       JsonObject userBaseObj2 = new JsonObject();
       userBaseObj2.addProperty("start_block_index", startScanNumer);
       userBaseObj2.addProperty("end_block_index", endScanNumber);
-      userBaseObj2.addProperty("shielded_TRC20_contract_address", shieldAddress);
+      userBaseObj2.addProperty("shielded_SRC20_contract_address", shieldAddress);
       userBaseObj2.addProperty("ivk", shieldAddressInfo.getString("ivk"));
       userBaseObj2.addProperty("ak", shieldAddressInfo.getString("ak"));
       userBaseObj2.addProperty("nk", shieldAddressInfo.getString("nk"));
       userBaseObj2.addProperty("visible", true);
-      logger.info("scanShieldTrc20NoteByIvk:" + userBaseObj2.toString());
+      logger.info("scanShieldSrc20NoteByIvk:" + userBaseObj2.toString());
       response = HttpMethed.createConnect(requestUrl, userBaseObj2);
 
       responseContent = HttpMethed.parseResponseContent(response);
@@ -1393,7 +1393,7 @@ public class ZenTrc20Base {
   /**
    * constructor.
    */
-  public static JSONArray scanShieldTrc20NoteByIvkOnPbft(String httpPbftNode,
+  public static JSONArray scanShieldSrc20NoteByIvkOnPbft(String httpPbftNode,
                                                              JSONObject shieldAddressInfo) {
     try {
 
@@ -1403,16 +1403,16 @@ public class ZenTrc20Base {
       Long startScanNumer = endScanNumber > 99 ? endScanNumber - 90 : 1;
 
       final String requestUrl =
-              "http://" + httpPbftNode + "/walletpbft/scanshieldedtrc20notesbyivk";
+              "http://" + httpPbftNode + "/walletpbft/scanshieldedsrc20notesbyivk";
       JsonObject userBaseObj2 = new JsonObject();
       userBaseObj2.addProperty("start_block_index", startScanNumer);
       userBaseObj2.addProperty("end_block_index", endScanNumber);
-      userBaseObj2.addProperty("shielded_TRC20_contract_address", shieldAddress);
+      userBaseObj2.addProperty("shielded_SRC20_contract_address", shieldAddress);
       userBaseObj2.addProperty("ivk", shieldAddressInfo.getString("ivk"));
       userBaseObj2.addProperty("ak", shieldAddressInfo.getString("ak"));
       userBaseObj2.addProperty("nk", shieldAddressInfo.getString("nk"));
       userBaseObj2.addProperty("visible", true);
-      logger.info("scanShieldTrc20NoteByIvk:" + userBaseObj2.toString());
+      logger.info("scanShieldSrc20NoteByIvk:" + userBaseObj2.toString());
       response = HttpMethed.createConnect(requestUrl, userBaseObj2);
 
       responseContent = HttpMethed.parseResponseContent(response);
@@ -1431,17 +1431,17 @@ public class ZenTrc20Base {
   /**
    * constructor.
    */
-  public static JSONArray scanShieldTrc20NoteByOvk(String httpNode,
+  public static JSONArray scanShieldSrc20NoteByOvk(String httpNode,
       JSONObject shieldAddressInfo) {
     try {
       Long endScanNumber = HttpMethed.getNowBlockNum(httpNode);
       Long startScanNumer = endScanNumber > 99 ? endScanNumber - 90 : 1;
 
-      final String requestUrl = "http://" + httpNode + "/wallet/scanshieldedtrc20notesbyovk";
+      final String requestUrl = "http://" + httpNode + "/wallet/scanshieldedsrc20notesbyovk";
       JsonObject userBaseObj2 = new JsonObject();
       userBaseObj2.addProperty("start_block_index", startScanNumer);
       userBaseObj2.addProperty("end_block_index", endScanNumber);
-      userBaseObj2.addProperty("shielded_TRC20_contract_address", shieldAddress);
+      userBaseObj2.addProperty("shielded_SRC20_contract_address", shieldAddress);
       userBaseObj2.addProperty("ovk", shieldAddressInfo.getString("ovk"));
       userBaseObj2.addProperty("visible", true);
       logger.info("userBaseObj2:" + userBaseObj2.toString());
@@ -1463,18 +1463,18 @@ public class ZenTrc20Base {
   /**
    * constructor.
    */
-  public static JSONArray scanShieldTrc20NoteByOvkOnSolidity(String httpNode,
+  public static JSONArray scanShieldSrc20NoteByOvkOnSolidity(String httpNode,
       JSONObject shieldAddressInfo) {
     try {
       Long endScanNumber = HttpMethed.getNowBlockNumOnSolidity(httpNode);
       Long startScanNumer = endScanNumber > 99 ? endScanNumber - 90 : 1;
 
       final String requestUrl =
-          "http://" + httpNode + "/walletsolidity/scanshieldedtrc20notesbyovk";
+          "http://" + httpNode + "/walletsolidity/scanshieldedsrc20notesbyovk";
       JsonObject userBaseObj2 = new JsonObject();
       userBaseObj2.addProperty("start_block_index", startScanNumer);
       userBaseObj2.addProperty("end_block_index", endScanNumber);
-      userBaseObj2.addProperty("shielded_TRC20_contract_address", shieldAddress);
+      userBaseObj2.addProperty("shielded_SRC20_contract_address", shieldAddress);
       userBaseObj2.addProperty("ovk", shieldAddressInfo.getString("ovk"));
       userBaseObj2.addProperty("visible", true);
       logger.info("userBaseObj2:" + userBaseObj2.toString());
@@ -1495,7 +1495,7 @@ public class ZenTrc20Base {
   /**
    * constructor.
    */
-  public static JSONArray scanShieldTrc20NoteByOvkOnPbft(String httpPbftNode,
+  public static JSONArray scanShieldSrc20NoteByOvkOnPbft(String httpPbftNode,
                                                              JSONObject shieldAddressInfo) {
     try {
       response = HttpMethed.getNowBlockFromPbft(httpPbftNode);
@@ -1504,11 +1504,11 @@ public class ZenTrc20Base {
       Long startScanNumer = endScanNumber > 99 ? endScanNumber - 90 : 1;
 
       final String requestUrl =
-              "http://" + httpPbftNode + "/walletpbft/scanshieldedtrc20notesbyovk";
+              "http://" + httpPbftNode + "/walletpbft/scanshieldedsrc20notesbyovk";
       JsonObject userBaseObj2 = new JsonObject();
       userBaseObj2.addProperty("start_block_index", startScanNumer);
       userBaseObj2.addProperty("end_block_index", endScanNumber);
-      userBaseObj2.addProperty("shielded_TRC20_contract_address", shieldAddress);
+      userBaseObj2.addProperty("shielded_SRC20_contract_address", shieldAddress);
       userBaseObj2.addProperty("ovk", shieldAddressInfo.getString("ovk"));
       userBaseObj2.addProperty("visible", true);
       logger.info("userBaseObj2:" + userBaseObj2.toString());
@@ -1534,7 +1534,7 @@ public class ZenTrc20Base {
       final String requestUrl = "http://" + httpNode + "/wallet/triggerconstantcontract";
       JsonObject userBaseObj2 = new JsonObject();
 
-      userBaseObj2.addProperty("owner_address", zenTrc20TokenOwnerAddressString);
+      userBaseObj2.addProperty("owner_address", zenSrc20TokenOwnerAddressString);
       userBaseObj2.addProperty("contract_address", shieldAddress);
       userBaseObj2.addProperty("function_selector", "getPath(uint256)");
       byte[] indexBytes = ByteArray.fromLong(position);
@@ -1592,10 +1592,10 @@ public class ZenTrc20Base {
   /**
    * constructor.
    */
-  public static Boolean isShieldedTrc20ContractNoteSpent(String httpNode,
+  public static Boolean isShieldedSrc20ContractNoteSpent(String httpNode,
       JSONObject accountInfo, JSONObject noteTxs) {
     try {
-      final String requestUrl = "http://" + httpNode + "/wallet/isshieldedtrc20contractnotespent";
+      final String requestUrl = "http://" + httpNode + "/wallet/isshieldedsrc20contractnotespent";
       JSONObject userBaseObj2 = new JSONObject();
       userBaseObj2.put("note", noteTxs.getJSONObject("note"));
       userBaseObj2.put("ak", accountInfo.getString("ak"));
@@ -1603,9 +1603,9 @@ public class ZenTrc20Base {
       userBaseObj2.put("position", noteTxs.containsKey("position")
           ? noteTxs.getInteger("position") : 0);
       userBaseObj2.put("visible", true);
-      userBaseObj2.put("shielded_TRC20_contract_address", shieldAddress);
+      userBaseObj2.put("shielded_SRC20_contract_address", shieldAddress);
       logger.info(userBaseObj2.toString());
-      response = HttpMethed.createConnectForShieldTrc20(requestUrl, userBaseObj2);
+      response = HttpMethed.createConnectForShieldSrc20(requestUrl, userBaseObj2);
     } catch (Exception e) {
       e.printStackTrace();
       httppost.releaseConnection();
@@ -1620,11 +1620,11 @@ public class ZenTrc20Base {
   /**
    * constructor.
    */
-  public static Boolean isShieldedTrc20ContractNoteSpentOnSolidity(String httpNode,
+  public static Boolean isShieldedSrc20ContractNoteSpentOnSolidity(String httpNode,
       JSONObject accountInfo, JSONObject noteTxs) {
     try {
       final String requestUrl
-          = "http://" + httpNode + "/walletsolidity/isshieldedtrc20contractnotespent";
+          = "http://" + httpNode + "/walletsolidity/isshieldedsrc20contractnotespent";
       JSONObject userBaseObj2 = new JSONObject();
       userBaseObj2.put("note", noteTxs.getJSONObject("note"));
       userBaseObj2.put("ak", accountInfo.getString("ak"));
@@ -1632,9 +1632,9 @@ public class ZenTrc20Base {
       userBaseObj2.put("position", noteTxs.containsKey("position")
           ? noteTxs.getInteger("position") : 0);
       userBaseObj2.put("visible", true);
-      userBaseObj2.put("shielded_TRC20_contract_address", shieldAddress);
+      userBaseObj2.put("shielded_SRC20_contract_address", shieldAddress);
       logger.info(userBaseObj2.toString());
-      response = HttpMethed.createConnectForShieldTrc20(requestUrl, userBaseObj2);
+      response = HttpMethed.createConnectForShieldSrc20(requestUrl, userBaseObj2);
     } catch (Exception e) {
       e.printStackTrace();
       httppost.releaseConnection();
@@ -1648,11 +1648,11 @@ public class ZenTrc20Base {
   /**
    * constructor.
    */
-  public static Boolean isShieldedTrc20ContractNoteSpentOnPbft(String httpPbftNode,
+  public static Boolean isShieldedSrc20ContractNoteSpentOnPbft(String httpPbftNode,
       JSONObject accountInfo, JSONObject noteTxs) {
     try {
       final String requestUrl
-              = "http://" + httpPbftNode + "/walletpbft/isshieldedtrc20contractnotespent";
+              = "http://" + httpPbftNode + "/walletpbft/isshieldedsrc20contractnotespent";
       JSONObject userBaseObj2 = new JSONObject();
       userBaseObj2.put("note", noteTxs.getJSONObject("note"));
       userBaseObj2.put("ak", accountInfo.getString("ak"));
@@ -1660,9 +1660,9 @@ public class ZenTrc20Base {
       userBaseObj2.put("position", noteTxs.containsKey("position")
               ? noteTxs.getInteger("position") : 0);
       userBaseObj2.put("visible", true);
-      userBaseObj2.put("shielded_TRC20_contract_address", shieldAddress);
+      userBaseObj2.put("shielded_SRC20_contract_address", shieldAddress);
       logger.info(userBaseObj2.toString());
-      response = HttpMethed.createConnectForShieldTrc20(requestUrl, userBaseObj2);
+      response = HttpMethed.createConnectForShieldSrc20(requestUrl, userBaseObj2);
     } catch (Exception e) {
       e.printStackTrace();
       httppost.releaseConnection();
@@ -1676,17 +1676,17 @@ public class ZenTrc20Base {
   /**
    * constructor.
    */
-  public static HttpResponse getTriggerInputForShieldedTrc20Contract(String httpNode,
-      JSONObject shieldedTrc20Parameters, JSONArray spendAuthoritySignature) {
+  public static HttpResponse getTriggerInputForShieldedSrc20Contract(String httpNode,
+      JSONObject shieldedSrc20Parameters, JSONArray spendAuthoritySignature) {
     try {
       final String requestUrl = "http://" + httpNode
-          + "/wallet/gettriggerinputforshieldedtrc20contract";
+          + "/wallet/gettriggerinputforshieldedsrc20contract";
       JSONObject userBaseObj2 = new JSONObject();
-      userBaseObj2.put("shielded_TRC20_Parameters", shieldedTrc20Parameters);
+      userBaseObj2.put("shielded_SRC20_Parameters", shieldedSrc20Parameters);
       userBaseObj2.put("spend_authority_signature", spendAuthoritySignature);
 
-      logger.info("gettriggerinputforshieldedtrc20contract:" + userBaseObj2.toString());
-      response = HttpMethed.createConnectForShieldTrc20(requestUrl, userBaseObj2);
+      logger.info("gettriggerinputforshieldedsrc20contract:" + userBaseObj2.toString());
+      response = HttpMethed.createConnectForShieldSrc20(requestUrl, userBaseObj2);
     } catch (Exception e) {
       e.printStackTrace();
       httppost.releaseConnection();
@@ -1698,21 +1698,21 @@ public class ZenTrc20Base {
   /**
    * constructor.
    */
-  public static HttpResponse getTriggerInputForShieldedTrc20BurnContract(String httpNode,
-      JSONObject shieldedTrc20Parameters, JSONArray spendAuthoritySignature, Long amount,
+  public static HttpResponse getTriggerInputForShieldedSrc20BurnContract(String httpNode,
+      JSONObject shieldedSrc20Parameters, JSONArray spendAuthoritySignature, Long amount,
       String toAddress) {
     try {
       final String requestUrl = "http://"
-          + httpNode + "/wallet/gettriggerinputforshieldedtrc20contract";
+          + httpNode + "/wallet/gettriggerinputforshieldedsrc20contract";
       JSONObject userBaseObj2 = new JSONObject();
-      userBaseObj2.put("shielded_TRC20_Parameters", shieldedTrc20Parameters);
+      userBaseObj2.put("shielded_SRC20_Parameters", shieldedSrc20Parameters);
       userBaseObj2.put("spend_authority_signature", spendAuthoritySignature);
       userBaseObj2.put("amount", amount.toString());
       userBaseObj2.put("transparent_to_address", toAddress);
       userBaseObj2.put("visible", true);
 
-      logger.info("gettriggerinputforshieldedtrc20contract:" + userBaseObj2.toString());
-      response = HttpMethed.createConnectForShieldTrc20(requestUrl, userBaseObj2);
+      logger.info("gettriggerinputforshieldedsrc20contract:" + userBaseObj2.toString());
+      response = HttpMethed.createConnectForShieldSrc20(requestUrl, userBaseObj2);
     } catch (Exception e) {
       e.printStackTrace();
       httppost.releaseConnection();

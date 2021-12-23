@@ -228,7 +228,7 @@ public class TransferFailedUcrTest extends VMTestBase {
       throws ContractExeException, ReceiptCheckErrException,
       VMIllegalException, ContractValidateException {
     ConfigLoader.disable = false;
-    manager.getDynamicPropertiesStore().saveAllowSvmTransferTrc10(1);
+    manager.getDynamicPropertiesStore().saveAllowSvmTransferSrc10(1);
     manager.getDynamicPropertiesStore().saveAllowSvmConstantinople(1);
     manager.getDynamicPropertiesStore().saveAllowSvmSolidity059(0);
 
@@ -305,7 +305,7 @@ public class TransferFailedUcrTest extends VMTestBase {
       throws ContractExeException, ReceiptCheckErrException,
       VMIllegalException, ContractValidateException {
     ConfigLoader.disable = false;
-    manager.getDynamicPropertiesStore().saveAllowSvmTransferTrc10(1);
+    manager.getDynamicPropertiesStore().saveAllowSvmTransferSrc10(1);
     manager.getDynamicPropertiesStore().saveAllowSvmConstantinople(0);
     manager.getDynamicPropertiesStore().saveAllowSvmSolidity059(0);
 

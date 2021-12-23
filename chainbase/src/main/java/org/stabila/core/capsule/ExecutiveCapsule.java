@@ -140,4 +140,16 @@ public class ExecutiveCapsule implements ProtoCapsule<Executive>, Comparable<Exe
   public void setUrl(final String url) {
     this.executive = this.executive.toBuilder().setUrl(url).build();
   }
+
+  public String getNodeIp() { return this.executive.getNodeIp(); }
+
+  public void setNodeIp(final String nodeIp) {
+    this.executive = this.executive.toBuilder().setNodeIp(nodeIp).build();
+  }
+
+  public boolean getAlive() { return this.executive.getAlive(); }
+
+  public void setAlive(final boolean alive) {
+    this.executive = this.executive.toBuilder().setAlive(alive).build();
+  }
 }

@@ -100,7 +100,7 @@ public class ContractTrcToken038 {
     int originUcrLimit = 50000;
 
     String filePath = "src/test/resources/soliditycode/contractTrcToken038.sol";
-    String contractName2 = "transferTrc10";
+    String contractName2 = "transferSrc10";
     HashMap retMap2 = PublicMethed.getBycodeAbi(filePath, contractName2);
     String code2 = retMap2.get("byteCode").toString();
     String abi2 = retMap2.get("abI").toString();
@@ -109,7 +109,7 @@ public class ContractTrcToken038 {
             0L, 0, originUcrLimit, "0",
             0, null, dev001Key, dev001Address, blockingStubFull);
 
-    String contractName = "receiveTrc10";
+    String contractName = "receiveSrc10";
     HashMap retMap = PublicMethed.getBycodeAbi(filePath, contractName);
     String code = retMap.get("byteCode").toString();
     String abi = retMap.get("abI").toString();

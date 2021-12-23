@@ -199,7 +199,7 @@ public class ProposalControllerTest {
       proposalCapsule.addApproval(ByteString.copyFrom(new byte[]{(byte) i}));
     }
 
-    Assert.assertEquals(true, proposalCapsule.hasMostApprovals(activeExecutives));
+    Assert.assertEquals(true, proposalCapsule.hasMostApprovals(activeExecutives, 21));
 
     proposalCapsule.clearApproval();
     for (int i = 1; i < 18; i++) {
@@ -214,7 +214,7 @@ public class ProposalControllerTest {
     for (int i = 0; i < 3; i++) {
       proposalCapsule.addApproval(ByteString.copyFrom(new byte[]{(byte) i}));
     }
-    Assert.assertEquals(true, proposalCapsule.hasMostApprovals(activeExecutives));
+    Assert.assertEquals(true, proposalCapsule.hasMostApprovals(activeExecutives, 21));
 
 
   }

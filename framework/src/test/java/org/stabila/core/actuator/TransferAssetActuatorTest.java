@@ -1403,7 +1403,7 @@ public class TransferAssetActuatorTest {
     dbManager.getDynamicPropertiesStore().saveForbidTransferToContract(1);
     createAssertSameTokenNameActive();
     VMConfig.initAllowMultiSign(1);
-    VMConfig.initAllowSvmTransferTrc10(1);
+    VMConfig.initAllowSvmTransferSrc10(1);
     VMConfig.initAllowSvmConstantinople(1);
     VMConfig.initAllowSvmSolidity059(1);
     String contractName = "testContract";

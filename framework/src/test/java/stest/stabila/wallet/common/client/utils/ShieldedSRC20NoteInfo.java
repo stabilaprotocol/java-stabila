@@ -8,7 +8,7 @@ import org.stabila.common.utils.Base58;
 import org.stabila.common.utils.ByteArray;
 
 @AllArgsConstructor
-public class ShieldedTRC20NoteInfo {
+public class ShieldedSRC20NoteInfo {
 
   @Setter
   @Getter
@@ -35,11 +35,11 @@ public class ShieldedTRC20NoteInfo {
   @Getter
   public byte[] memo;
 
-  public ShieldedTRC20NoteInfo() {
+  public ShieldedSRC20NoteInfo() {
   }
 
   /**
-   * format shieldedTRC20 note to a string
+   * format shieldedSRC20 note to a string
    */
   public String encode(byte[] encryptKey) throws CipherException {
     String encodeString = noteIndex + ";";
@@ -67,7 +67,7 @@ public class ShieldedTRC20NoteInfo {
   }
 
   /**
-   * parse string to get shieldedTRC20 note
+   * parse string to get shieldedSRC20 note
    */
   public boolean decode(String data, byte[] encryptKey) throws CipherException {
     byte[] chipherText = Base58.decode(data);

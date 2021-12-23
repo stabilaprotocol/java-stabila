@@ -2,25 +2,25 @@ package org.stabila.core.services.http;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import java.util.stream.Collectors;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.stabila.api.GrpcAPI;
-import org.stabila.api.GrpcAPI.IvkDecryptTRC20Parameters;
+import org.stabila.api.GrpcAPI.IvkDecryptSRC20Parameters;
 import org.stabila.common.utils.ByteArray;
 import org.stabila.core.Wallet;
 
 @Component
 @Slf4j(topic = "API")
-public class ScanShieldedTRC20NotesByIvkServlet extends RateLimiterServlet {
+public class ScanShieldedSRC20NotesByIvkServlet extends RateLimiterServlet {
 
   @Autowired
   private Wallet wallet;
 
-  public static String convertOutput(GrpcAPI.DecryptNotesTRC20 notes, boolean visible) {
+  public static String convertOutput(GrpcAPI.DecryptNotesSRC20 notes, boolean visible) {
     String resultString = JsonFormat.printToString(notes, visible);
     if (notes.getNoteTxsCount() == 0) {
       return resultString;
@@ -38,18 +38,18 @@ public class ScanShieldedTRC20NotesByIvkServlet extends RateLimiterServlet {
   protected void doPost(HttpServletRequest request, HttpServletResponse response) {
     try {
       PostParams params = PostParams.getPostParams(request);
-      IvkDecryptTRC20Parameters.Builder ivkDecryptTRC20Parameters = IvkDecryptTRC20Parameters
+      IvkDecryptSRC20Parameters.Builder ivkDecryptSRC20Parameters = IvkDecryptSRC20Parameters
           .newBuilder();
-      JsonFormat.merge(params.getParams(), ivkDecryptTRC20Parameters, params.isVisible());
+      JsonFormat.merge(params.getParams(), ivkDecryptSRC20Parameters, params.isVisible());
 
-      GrpcAPI.DecryptNotesTRC20 notes = wallet
-          .scanShieldedTRC20NotesByIvk(ivkDecryptTRC20Parameters.getStartBlockIndex(),
-              ivkDecryptTRC20Parameters.getEndBlockIndex(),
-              ivkDecryptTRC20Parameters.getShieldedTRC20ContractAddress().toByteArray(),
-              ivkDecryptTRC20Parameters.getIvk().toByteArray(),
-              ivkDecryptTRC20Parameters.getAk().toByteArray(),
-              ivkDecryptTRC20Parameters.getNk().toByteArray(),
-              ivkDecryptTRC20Parameters.getEventsList());
+      GrpcAPI.DecryptNotesSRC20 notes = wallet
+          .scanShieldedSRC20NotesByIvk(ivkDecryptSRC20Parameters.getStartBlockIndex(),
+              ivkDecryptSRC20Parameters.getEndBlockIndex(),
+              ivkDecryptSRC20Parameters.getShieldedSRC20ContractAddress().toByteArray(),
+              ivkDecryptSRC20Parameters.getIvk().toByteArray(),
+              ivkDecryptSRC20Parameters.getAk().toByteArray(),
+              ivkDecryptSRC20Parameters.getNk().toByteArray(),
+              ivkDecryptSRC20Parameters.getEventsList());
       response.getWriter().println(convertOutput(notes, params.isVisible()));
     } catch (Exception e) {
       Util.processError(e, response);
@@ -63,7 +63,7 @@ public class ScanShieldedTRC20NotesByIvkServlet extends RateLimiterServlet {
       long endNum = Long.parseLong(request.getParameter("end_block_index"));
       String ivk = request.getParameter("ivk");
 
-      String contractAddress = request.getParameter("shielded_TRC20_contract_address");
+      String contractAddress = request.getParameter("shielded_SRC20_contract_address");
       if (visible) {
         contractAddress = Util.getHexAddress(contractAddress);
       }
@@ -71,8 +71,8 @@ public class ScanShieldedTRC20NotesByIvkServlet extends RateLimiterServlet {
       String ak = request.getParameter("ak");
       String nk = request.getParameter("nk");
 
-      GrpcAPI.DecryptNotesTRC20 notes = wallet
-          .scanShieldedTRC20NotesByIvk(startNum, endNum,
+      GrpcAPI.DecryptNotesSRC20 notes = wallet
+          .scanShieldedSRC20NotesByIvk(startNum, endNum,
               ByteArray.fromHexString(contractAddress), ByteArray.fromHexString(ivk),
               ByteArray.fromHexString(ak), ByteArray.fromHexString(nk), null);
       response.getWriter().println(convertOutput(notes, visible));

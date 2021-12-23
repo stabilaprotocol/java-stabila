@@ -53,6 +53,7 @@ public class HelloMessage extends P2pMessage {
     builder.setGenesisBlockId(gBlockId);
     builder.setSolidBlockId(sBlockId);
     builder.setHeadBlockId(hBlockId);
+    builder.setExecutiveAddress(from.getExecutiveAddress());
 
     this.helloMessage = builder.build();
     this.type = MessageTypes.P2P_HELLO.asByte();
@@ -91,6 +92,10 @@ public class HelloMessage extends P2pMessage {
   public BlockCapsule.BlockId getHeadBlockId() {
     return new BlockCapsule.BlockId(this.helloMessage.getHeadBlockId().getHash(),
         this.helloMessage.getHeadBlockId().getNumber());
+  }
+
+  public String getExecutiveAddress() {
+    return this.helloMessage.getExecutiveAddress();
   }
 
   @Override

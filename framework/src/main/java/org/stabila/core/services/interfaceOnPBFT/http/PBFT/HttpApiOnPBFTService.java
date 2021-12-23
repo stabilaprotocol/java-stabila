@@ -39,15 +39,15 @@ import org.stabila.core.services.interfaceOnPBFT.http.GetNowBlockOnPBFTServlet;
 import org.stabila.core.services.interfaceOnPBFT.http.GetPaginatedAssetIssueListOnPBFTServlet;
 import org.stabila.core.services.interfaceOnPBFT.http.GetRewardOnPBFTServlet;
 import org.stabila.core.services.interfaceOnPBFT.http.GetTransactionCountByBlockNumOnPBFTServlet;
-import org.stabila.core.services.interfaceOnPBFT.http.IsShieldedTRC20ContractNoteSpentOnPBFTServlet;
+import org.stabila.core.services.interfaceOnPBFT.http.IsShieldedSRC20ContractNoteSpentOnPBFTServlet;
 import org.stabila.core.services.interfaceOnPBFT.http.IsSpendOnPBFTServlet;
 import org.stabila.core.services.interfaceOnPBFT.http.ListExchangesOnPBFTServlet;
 import org.stabila.core.services.interfaceOnPBFT.http.ListExecutivesOnPBFTServlet;
 import org.stabila.core.services.interfaceOnPBFT.http.ScanAndMarkNoteByIvkOnPBFTServlet;
 import org.stabila.core.services.interfaceOnPBFT.http.ScanNoteByIvkOnPBFTServlet;
 import org.stabila.core.services.interfaceOnPBFT.http.ScanNoteByOvkOnPBFTServlet;
-import org.stabila.core.services.interfaceOnPBFT.http.ScanShieldedTRC20NotesByIvkOnPBFTServlet;
-import org.stabila.core.services.interfaceOnPBFT.http.ScanShieldedTRC20NotesByOvkOnPBFTServlet;
+import org.stabila.core.services.interfaceOnPBFT.http.ScanShieldedSRC20NotesByIvkOnPBFTServlet;
+import org.stabila.core.services.interfaceOnPBFT.http.ScanShieldedSRC20NotesByOvkOnPBFTServlet;
 import org.stabila.core.services.interfaceOnPBFT.http.TriggerConstantContractOnPBFTServlet;
 
 @Slf4j(topic = "API")
@@ -136,12 +136,12 @@ public class HttpApiOnPBFTService implements Service {
   private GetMarketPairListOnPBFTServlet getMarketPairListOnPBFTServlet;
 
   @Autowired
-  private ScanShieldedTRC20NotesByIvkOnPBFTServlet scanShieldedTRC20NotesByIvkOnPBFTServlet;
+  private ScanShieldedSRC20NotesByIvkOnPBFTServlet scanShieldedSRC20NotesByIvkOnPBFTServlet;
   @Autowired
-  private ScanShieldedTRC20NotesByOvkOnPBFTServlet scanShieldedTRC20NotesByOvkOnPBFTServlet;
+  private ScanShieldedSRC20NotesByOvkOnPBFTServlet scanShieldedSRC20NotesByOvkOnPBFTServlet;
   @Autowired
-  private IsShieldedTRC20ContractNoteSpentOnPBFTServlet
-      isShieldedTRC20ContractNoteSpentOnPBFTServlet;
+  private IsShieldedSRC20ContractNoteSpentOnPBFTServlet
+      isShieldedSRC20ContractNoteSpentOnPBFTServlet;
   @Autowired
   private GetBurnStbOnPBFTServlet getBurnStbOnPBFTServlet;
 
@@ -221,12 +221,12 @@ public class HttpApiOnPBFTService implements Service {
       context.addServlet(new ServletHolder(getMarketPairListOnPBFTServlet),
           "/getmarketpairlist");
 
-      context.addServlet(new ServletHolder(scanShieldedTRC20NotesByIvkOnPBFTServlet),
-          "/scanshieldedtrc20notesbyivk");
-      context.addServlet(new ServletHolder(scanShieldedTRC20NotesByOvkOnPBFTServlet),
-          "/scanshieldedtrc20notesbyovk");
-      context.addServlet(new ServletHolder(isShieldedTRC20ContractNoteSpentOnPBFTServlet),
-          "/isshieldedtrc20contractnotespent");
+      context.addServlet(new ServletHolder(scanShieldedSRC20NotesByIvkOnPBFTServlet),
+          "/scanshieldedsrc20notesbyivk");
+      context.addServlet(new ServletHolder(scanShieldedSRC20NotesByOvkOnPBFTServlet),
+          "/scanshieldedsrc20notesbyovk");
+      context.addServlet(new ServletHolder(isShieldedSRC20ContractNoteSpentOnPBFTServlet),
+          "/isshieldedsrc20contractnotespent");
       context.addServlet(new ServletHolder(getBurnStbOnPBFTServlet),
           "/getburnstb");
 

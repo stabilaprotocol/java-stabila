@@ -101,7 +101,7 @@ public class TransferToAccountTest {
 
   private long createAsset(String tokenName) {
     chainBaseManager.getDynamicPropertiesStore().saveAllowSameTokenName(1);
-    chainBaseManager.getDynamicPropertiesStore().saveAllowSvmTransferTrc10(1);
+    chainBaseManager.getDynamicPropertiesStore().saveAllowSvmTransferSrc10(1);
     chainBaseManager.getDynamicPropertiesStore().saveAllowSvmConstantinople(1);
     chainBaseManager.getDynamicPropertiesStore().saveAllowSvmSolidity059(1);
 

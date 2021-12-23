@@ -327,7 +327,7 @@ public class VMActuator implements Actuator2 {
     long callValue = newSmartContract.getCallValue();
     long tokenValue = 0;
     long tokenId = 0;
-    if (VMConfig.allowSvmTransferTrc10()) {
+    if (VMConfig.allowSvmTransferSrc10()) {
       tokenValue = contract.getCallTokenValue();
       tokenId = contract.getTokenId();
     }
@@ -401,7 +401,7 @@ public class VMActuator implements Actuator2 {
     if (callValue > 0) {
       transfer(this.repository, callerAddress, contractAddress, callValue);
     }
-    if (VMConfig.allowSvmTransferTrc10() && tokenValue > 0) {
+    if (VMConfig.allowSvmTransferSrc10() && tokenValue > 0) {
       transferToken(this.repository, callerAddress, contractAddress, String.valueOf(tokenId),
           tokenValue);
     }
@@ -440,7 +440,7 @@ public class VMActuator implements Actuator2 {
     long callValue = contract.getCallValue();
     long tokenValue = 0;
     long tokenId = 0;
-    if (VMConfig.allowSvmTransferTrc10()) {
+    if (VMConfig.allowSvmTransferSrc10()) {
       tokenValue = contract.getCallTokenValue();
       tokenId = contract.getTokenId();
     }
@@ -507,7 +507,7 @@ public class VMActuator implements Actuator2 {
     if (callValue > 0) {
       transfer(this.repository, callerAddress, contractAddress, callValue);
     }
-    if (VMConfig.allowSvmTransferTrc10() && tokenValue > 0) {
+    if (VMConfig.allowSvmTransferSrc10() && tokenValue > 0) {
       transferToken(this.repository, callerAddress, contractAddress, String.valueOf(tokenId),
           tokenValue);
     }
@@ -590,7 +590,7 @@ public class VMActuator implements Actuator2 {
 
 
   public void checkTokenValueAndId(long tokenValue, long tokenId) throws ContractValidateException {
-    if (VMConfig.allowSvmTransferTrc10() && VMConfig.allowMultiSign()) {
+    if (VMConfig.allowSvmTransferSrc10() && VMConfig.allowMultiSign()) {
       // tokenid can only be 0
       // or (MIN_TOKEN_ID, Long.Max]
       if (tokenId <= VMConstant.MIN_TOKEN_ID && tokenId != 0) {

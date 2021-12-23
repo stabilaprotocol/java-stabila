@@ -37,7 +37,7 @@ public class CommonParameter {
   public boolean help = false;
   @Getter
   @Setter
-  @Parameter(names = {"-w", "--executive"})
+  @Parameter(names = {"-e", "--executive"})
   public boolean executive = false;
   @Getter
   @Setter
@@ -227,7 +227,7 @@ public class CommonParameter {
   public long allowSameTokenName; //committee parameter
   @Getter
   @Setter
-  public long allowSvmTransferTrc10; //committee parameter
+  public long allowSvmTransferSrc10; //committee parameter
   @Getter
   @Setter
   public long allowSvmConstantinople; //committee parameter
@@ -438,7 +438,7 @@ public class CommonParameter {
 
   @Getter/**/
   @Setter
-  public long allowShieldedTRC20Transaction;
+  public long allowShieldedSRC20Transaction;
 
   @Getter/**/
   @Setter

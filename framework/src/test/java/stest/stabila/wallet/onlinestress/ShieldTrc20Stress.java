@@ -23,10 +23,10 @@ import stest.stabila.wallet.common.client.Configuration;
 import stest.stabila.wallet.common.client.utils.HttpMethed;
 import stest.stabila.wallet.common.client.utils.PublicMethed;
 import stest.stabila.wallet.common.client.utils.ShieldedAddressInfo;
-import stest.stabila.wallet.common.client.utils.ZenTrc20Base;
+import stest.stabila.wallet.common.client.utils.ZenSrc20Base;
 
 @Slf4j
-public class ShieldTrc20Stress extends ZenTrc20Base {
+public class ShieldSrc20Stress extends ZenSrc20Base {
 
   private String fullnode = Configuration.getByPath("testng.conf")
       .getStringList("fullnode.ip.list").get(0);
@@ -96,40 +96,40 @@ public class ShieldTrc20Stress extends ZenTrc20Base {
     Optional<ShieldedAddressInfo> sendShieldAddressInfo = getNewShieldedAddress(blockingStubFull);
     Optional<ShieldedAddressInfo> receiverShieldAddressInfo = getNewShieldedAddress(
         blockingStubFull);
-    String memo = "Shield trc20 from T account to shield account in" + System.currentTimeMillis();
+    String memo = "Shield src20 from T account to shield account in" + System.currentTimeMillis();
     String sendShieldAddress = sendShieldAddressInfo.get().getAddress();
 
     List<Note> shieldOutList = new ArrayList<>();
     shieldOutList.clear();
-    shieldOutList = addShieldTrc20OutputList(shieldOutList, sendShieldAddress,
+    shieldOutList = addShieldSrc20OutputList(shieldOutList, sendShieldAddress,
         "" + publicFromAmount, memo, blockingStubFull);
 
-    //Create shiled trc20 parameters
-    GrpcAPI.ShieldedTRC20Parameters shieldedTrc20Parameters
-        = createShieldedTrc20Parameters(publicFromAmount,
+    //Create shiled src20 parameters
+    GrpcAPI.ShieldedSRC20Parameters shieldedSrc20Parameters
+        = createShieldedSrc20Parameters(publicFromAmount,
         null, null, shieldOutList, "", 0L,
         blockingStubFull, blockingStubSolidity
     );
 
-    String data = encodeMintParamsToHexString(shieldedTrc20Parameters, publicFromAmount);
+    String data = encodeMintParamsToHexString(shieldedSrc20Parameters, publicFromAmount);
 
     //Do mint transaction type
     String txid = PublicMethed.triggerContract(shieldAddressByte,
-        mint, data, true, 0, maxFeeLimit, zenTrc20TokenOwnerAddress,
-        zenTrc20TokenOwnerKey, blockingStubFull);
+        mint, data, true, 0, maxFeeLimit, zenSrc20TokenOwnerAddress,
+        zenSrc20TokenOwnerKey, blockingStubFull);
     PublicMethed.waitProduceNextBlock(blockingStubFull);
     PublicMethed.waitProduceNextBlock(blockingStubFull);
     sendShieldAddress = sendShieldAddressInfo.get().getAddress();
     List<ShieldedAddressInfo> inputShieldAddressList = new ArrayList<>();
-    GrpcAPI.DecryptNotesTRC20 sendNote;
-    List<GrpcAPI.DecryptNotesTRC20> inputList = new ArrayList<>();
+    GrpcAPI.DecryptNotesSRC20 sendNote;
+    List<GrpcAPI.DecryptNotesSRC20> inputList = new ArrayList<>();
     inputShieldAddressList.add(sendShieldAddressInfo.get());
 
-    sendNote = scanShieldedTrc20NoteByIvk(sendShieldAddressInfo.get(),
+    sendNote = scanShieldedSrc20NoteByIvk(sendShieldAddressInfo.get(),
         blockingStubFull1);
 
     while (sendNote.getNoteTxsCount() == 0) {
-      sendNote = scanShieldedTrc20NoteByIvk(sendShieldAddressInfo.get(),
+      sendNote = scanShieldedSrc20NoteByIvk(sendShieldAddressInfo.get(),
           blockingStubFull1);
     }
 
@@ -137,31 +137,31 @@ public class ShieldTrc20Stress extends ZenTrc20Base {
     while (times-- > 0) {
       //receiverShieldAddressInfo = getNewShieldedAddress(blockingStubFull);
       //Scan sender note
-      /*sendNote = scanShieldedTrc20NoteByIvk(sendShieldAddressInfo.get(),
+      /*sendNote = scanShieldedSrc20NoteByIvk(sendShieldAddressInfo.get(),
           blockingStubFull1);
 
       while (sendNote.getNoteTxsCount() == 0) {
-        sendNote = scanShieldedTrc20NoteByIvk(sendShieldAddressInfo.get(),
+        sendNote = scanShieldedSrc20NoteByIvk(sendShieldAddressInfo.get(),
             blockingStubFull1);
       }*/
 
-      sendNote = scanShieldedTrc20NoteByIvk(sendShieldAddressInfo.get(),
+      sendNote = scanShieldedSrc20NoteByIvk(sendShieldAddressInfo.get(),
           blockingStubFull1);
 
       String transferMemo = "Transfer type test " + System.currentTimeMillis();
 
       shieldOutList.clear();
-      shieldOutList = addShieldTrc20OutputList(shieldOutList, sendShieldAddress,
+      shieldOutList = addShieldSrc20OutputList(shieldOutList, sendShieldAddress,
           "" + publicFromAmount, transferMemo, blockingStubFull);
 
       //logger.info("send note size:" + sendNote.getNoteTxsCount());
 
       //Create transfer parameters
       try {
-        GrpcAPI.DecryptNotesTRC20 inputNoteFor2to2 = GrpcAPI.DecryptNotesTRC20.newBuilder()
+        GrpcAPI.DecryptNotesSRC20 inputNoteFor2to2 = GrpcAPI.DecryptNotesSRC20.newBuilder()
             .addNoteTxs(sendNote.getNoteTxs(sendNote.getNoteTxsCount() - 1)).build();
-        shieldedTrc20Parameters
-            = createShieldedTrc20Parameters(BigInteger.valueOf(0),
+        shieldedSrc20Parameters
+            = createShieldedSrc20Parameters(BigInteger.valueOf(0),
             inputNoteFor2to2, inputShieldAddressList, shieldOutList, "", 0L,
             blockingStubFull1, blockingStubSolidity);
       } catch (Exception e) {
@@ -173,10 +173,10 @@ public class ShieldTrc20Stress extends ZenTrc20Base {
         continue;
       }
 
-      data = encodeTransferParamsToHexString(shieldedTrc20Parameters);
+      data = encodeTransferParamsToHexString(shieldedSrc20Parameters);
       txid = PublicMethed.triggerContract(shieldAddressByte,
-          transfer, data, true, 0, maxFeeLimit, zenTrc20TokenOwnerAddress,
-          zenTrc20TokenOwnerKey, blockingStubFull);
+          transfer, data, true, 0, maxFeeLimit, zenSrc20TokenOwnerAddress,
+          zenSrc20TokenOwnerKey, blockingStubFull);
 
       //sendShieldAddressInfo = receiverShieldAddressInfo;
     }
@@ -212,26 +212,26 @@ public class ShieldTrc20Stress extends ZenTrc20Base {
     while (--mintNumber >= 0) {
       BigInteger publicFromAmount = getRandomAmount();
 
-      String memo = "Shield trc20 from T account to shield account in" + System.currentTimeMillis();
+      String memo = "Shield src20 from T account to shield account in" + System.currentTimeMillis();
       String sendShieldAddress = sendShieldAddressInfo.get().getAddress();
 
       List<Note> shieldOutList = new ArrayList<>();
       shieldOutList.clear();
-      shieldOutList = addShieldTrc20OutputList(shieldOutList, sendShieldAddress,
+      shieldOutList = addShieldSrc20OutputList(shieldOutList, sendShieldAddress,
           "" + publicFromAmount, memo, blockingStubFull);
 
-      //Create shiled trc20 parameters
-      GrpcAPI.ShieldedTRC20Parameters shieldedTrc20Parameters
-          = createShieldedTrc20Parameters(publicFromAmount,
+      //Create shiled src20 parameters
+      GrpcAPI.ShieldedSRC20Parameters shieldedSrc20Parameters
+          = createShieldedSrc20Parameters(publicFromAmount,
           null, null, shieldOutList, "",
           0L, blockingStubFull, blockingStubSolidity
       );
       String data = "";
       try {
-        data = encodeMintParamsToHexString(shieldedTrc20Parameters, publicFromAmount);
+        data = encodeMintParamsToHexString(shieldedSrc20Parameters, publicFromAmount);
       } catch (Exception e) {
         try {
-          data = encodeMintParamsToHexString(shieldedTrc20Parameters, publicFromAmount);
+          data = encodeMintParamsToHexString(shieldedSrc20Parameters, publicFromAmount);
         } catch (Exception e1) {
           continue;
         }
@@ -239,8 +239,8 @@ public class ShieldTrc20Stress extends ZenTrc20Base {
       }
 
       String txid = PublicMethed.triggerContract(shieldAddressByte,
-          mint, data, true, 0, maxFeeLimit, zenTrc20TokenOwnerAddress,
-          zenTrc20TokenOwnerKey, blockingStubFull);
+          mint, data, true, 0, maxFeeLimit, zenSrc20TokenOwnerAddress,
+          zenSrc20TokenOwnerKey, blockingStubFull);
       try {
         Thread.sleep(2000);
       } catch (InterruptedException e) {
@@ -270,7 +270,7 @@ public class ShieldTrc20Stress extends ZenTrc20Base {
     Long endMintNum = blockingStubFull.getNowBlock(GrpcAPI.EmptyMessage.newBuilder().build())
         .getBlockHeader().getRawData().getNumber();
 
-    GrpcAPI.DecryptNotesTRC20 sendNote = scanShieldedTrc20NoteByIvkWithRange(
+    GrpcAPI.DecryptNotesSRC20 sendNote = scanShieldedSrc20NoteByIvkWithRange(
         sendShieldAddressInfo.get(),
         startmintNum.get(), endMintNum, blockingStubFull1);
 
@@ -286,7 +286,7 @@ public class ShieldTrc20Stress extends ZenTrc20Base {
 
     List<String> dataList = new ArrayList<>();
     for (int i = 0; i < sendNote.getNoteTxsCount() - 1; i = i + 2) {
-      GrpcAPI.DecryptNotesTRC20 inputNoteFor2to2 = GrpcAPI.DecryptNotesTRC20.newBuilder()
+      GrpcAPI.DecryptNotesSRC20 inputNoteFor2to2 = GrpcAPI.DecryptNotesSRC20.newBuilder()
           .addNoteTxs(sendNote.getNoteTxs(i))
           .addNoteTxs(sendNote.getNoteTxs(i + 1))
           .build();
@@ -294,24 +294,24 @@ public class ShieldTrc20Stress extends ZenTrc20Base {
       String transferMemo1 = "Transfer1 type test " + getRandomLongAmount() + getRandomLongAmount();
       String transferMemo2 = "Transfer2 type test " + getRandomLongAmount() + getRandomLongAmount();
       shieldOutList.clear();
-      shieldOutList = addShieldTrc20OutputList(shieldOutList,
+      shieldOutList = addShieldSrc20OutputList(shieldOutList,
           receiverShieldAddressInfo.get().getAddress(),
           "" + sendNote.getNoteTxs(i).getNote().getValue(), transferMemo1, blockingStubFull);
-      shieldOutList = addShieldTrc20OutputList(shieldOutList,
+      shieldOutList = addShieldSrc20OutputList(shieldOutList,
           receiverShieldAddressInfo.get().getAddress(),
           "" + sendNote.getNoteTxs(i + 1).getNote().getValue(), transferMemo2, blockingStubFull);
 
-      GrpcAPI.ShieldedTRC20Parameters shieldedTrc20Parameters = null;
+      GrpcAPI.ShieldedSRC20Parameters shieldedSrc20Parameters = null;
       if (i % 2 == 0) {
         try {
-          shieldedTrc20Parameters
-              = createShieldedTrc20Parameters(BigInteger.valueOf(0),
+          shieldedSrc20Parameters
+              = createShieldedSrc20Parameters(BigInteger.valueOf(0),
               inputNoteFor2to2, inputShieldAddressList, shieldOutList, "",
               0L, blockingStubFull1, blockingStubSolidity);
         } catch (Exception e) {
           try {
-            shieldedTrc20Parameters
-                = createShieldedTrc20Parameters(BigInteger.valueOf(0),
+            shieldedSrc20Parameters
+                = createShieldedSrc20Parameters(BigInteger.valueOf(0),
                 inputNoteFor2to2, inputShieldAddressList, shieldOutList, "",
                 0L, blockingStubFull, blockingStubSolidity);
           } catch (Exception e1) {
@@ -322,14 +322,14 @@ public class ShieldTrc20Stress extends ZenTrc20Base {
 
       } else {
         try {
-          shieldedTrc20Parameters
-              = createShieldedTrc20Parameters(BigInteger.valueOf(0),
+          shieldedSrc20Parameters
+              = createShieldedSrc20Parameters(BigInteger.valueOf(0),
               inputNoteFor2to2, inputShieldAddressList, shieldOutList, "",
               0L, blockingStubFull, blockingStubSolidity);
         } catch (Exception e) {
           try {
-            shieldedTrc20Parameters
-                = createShieldedTrc20Parameters(BigInteger.valueOf(0),
+            shieldedSrc20Parameters
+                = createShieldedSrc20Parameters(BigInteger.valueOf(0),
                 inputNoteFor2to2, inputShieldAddressList, shieldOutList, "",
                 0L, blockingStubFull1, blockingStubSolidity);
           } catch (Exception e2) {
@@ -340,7 +340,7 @@ public class ShieldTrc20Stress extends ZenTrc20Base {
         }
       }
 
-      dataList.add(encodeTransferParamsToHexString(shieldedTrc20Parameters));
+      dataList.add(encodeTransferParamsToHexString(shieldedSrc20Parameters));
       //logger.info("dataList size:" + dataList.size());
 
     }
@@ -366,12 +366,12 @@ public class ShieldTrc20Stress extends ZenTrc20Base {
     for (int i = 0; i < dataList.size(); i++) {
       if (i % 2 == 0) {
         PublicMethed.triggerContract(shieldAddressByte,
-            transfer, dataList.get(i), true, 0, maxFeeLimit, zenTrc20TokenOwnerAddress,
-            zenTrc20TokenOwnerKey, blockingStubFull);
+            transfer, dataList.get(i), true, 0, maxFeeLimit, zenSrc20TokenOwnerAddress,
+            zenSrc20TokenOwnerKey, blockingStubFull);
       } else {
         PublicMethed.triggerContract(shieldAddressByte,
-            transfer, dataList.get(i), true, 0, maxFeeLimit, zenTrc20TokenOwnerAddress,
-            zenTrc20TokenOwnerKey, blockingStubFull1);
+            transfer, dataList.get(i), true, 0, maxFeeLimit, zenSrc20TokenOwnerAddress,
+            zenSrc20TokenOwnerKey, blockingStubFull1);
       }
       try {
         Thread.sleep(3000);
@@ -425,26 +425,26 @@ public class ShieldTrc20Stress extends ZenTrc20Base {
     while (--mintNumber >= 0) {
       BigInteger publicFromAmount = getRandomAmount();
 
-      String memo = "Shield trc20 from T account to shield account in" + System.currentTimeMillis();
+      String memo = "Shield src20 from T account to shield account in" + System.currentTimeMillis();
       String sendShieldAddress = sendShieldAddressInfo.get().getAddress();
 
       List<Note> shieldOutList = new ArrayList<>();
       shieldOutList.clear();
-      shieldOutList = addShieldTrc20OutputList(shieldOutList, sendShieldAddress,
+      shieldOutList = addShieldSrc20OutputList(shieldOutList, sendShieldAddress,
           "" + publicFromAmount, memo, blockingStubFull);
 
-      //Create shiled trc20 parameters
-      GrpcAPI.ShieldedTRC20Parameters shieldedTrc20Parameters
-          = createShieldedTrc20Parameters(publicFromAmount,
+      //Create shiled src20 parameters
+      GrpcAPI.ShieldedSRC20Parameters shieldedSrc20Parameters
+          = createShieldedSrc20Parameters(publicFromAmount,
           null, null, shieldOutList, "",
           0L, blockingStubFull, blockingStubSolidity
       );
       String data = "";
       try {
-        data = encodeMintParamsToHexString(shieldedTrc20Parameters, publicFromAmount);
+        data = encodeMintParamsToHexString(shieldedSrc20Parameters, publicFromAmount);
       } catch (Exception e) {
         try {
-          data = encodeMintParamsToHexString(shieldedTrc20Parameters, publicFromAmount);
+          data = encodeMintParamsToHexString(shieldedSrc20Parameters, publicFromAmount);
         } catch (Exception e1) {
           continue;
         }
@@ -452,8 +452,8 @@ public class ShieldTrc20Stress extends ZenTrc20Base {
       }
 
       String txid = PublicMethed.triggerContract(shieldAddressByte,
-          mint, data, true, 0, maxFeeLimit, zenTrc20TokenOwnerAddress,
-          zenTrc20TokenOwnerKey, blockingStubFull);
+          mint, data, true, 0, maxFeeLimit, zenSrc20TokenOwnerAddress,
+          zenSrc20TokenOwnerKey, blockingStubFull);
       try {
         Thread.sleep(2000);
       } catch (InterruptedException e) {
@@ -485,7 +485,7 @@ public class ShieldTrc20Stress extends ZenTrc20Base {
     Long endMintNum = blockingStubFull.getNowBlock(GrpcAPI.EmptyMessage.newBuilder().build())
         .getBlockHeader().getRawData().getNumber();
 
-    GrpcAPI.DecryptNotesTRC20 sendNote = scanShieldedTrc20NoteByIvkWithRange(
+    GrpcAPI.DecryptNotesSRC20 sendNote = scanShieldedSrc20NoteByIvkWithRange(
         sendShieldAddressInfo.get(),
         startmintNum.get(), endMintNum, blockingStubFull1);
 
@@ -502,24 +502,24 @@ public class ShieldTrc20Stress extends ZenTrc20Base {
     List<String> dataList = new ArrayList<>();
     for (int i = 0; i < sendNote.getNoteTxsCount(); i++) {
       String burnnMemo1 = "burnnMemo1 type test " + getRandomLongAmount() + getRandomLongAmount();
-      GrpcAPI.DecryptNotesTRC20 burnInput = GrpcAPI.DecryptNotesTRC20.newBuilder()
+      GrpcAPI.DecryptNotesSRC20 burnInput = GrpcAPI.DecryptNotesSRC20.newBuilder()
           .addNoteTxs(sendNote.getNoteTxs(i))
           .build();
 
-      GrpcAPI.ShieldedTRC20Parameters shieldedTrc20Parameters = null;
-      createShieldedTrc20Parameters(BigInteger.valueOf(0),
-          burnInput, inputShieldAddressList, null, zenTrc20TokenOwnerAddressString,
+      GrpcAPI.ShieldedSRC20Parameters shieldedSrc20Parameters = null;
+      createShieldedSrc20Parameters(BigInteger.valueOf(0),
+          burnInput, inputShieldAddressList, null, zenSrc20TokenOwnerAddressString,
           burnInput.getNoteTxs(0).getNote().getValue(), blockingStubFull, blockingStubSolidity);
 
       if (i % 2 == 0) {
         try {
-          shieldedTrc20Parameters = createShieldedTrc20Parameters(BigInteger.valueOf(0),
-              burnInput, inputShieldAddressList, null, zenTrc20TokenOwnerAddressString,
+          shieldedSrc20Parameters = createShieldedSrc20Parameters(BigInteger.valueOf(0),
+              burnInput, inputShieldAddressList, null, zenSrc20TokenOwnerAddressString,
               burnInput.getNoteTxs(0).getNote().getValue(), blockingStubFull, blockingStubSolidity);
         } catch (Exception e) {
           try {
-            shieldedTrc20Parameters = createShieldedTrc20Parameters(BigInteger.valueOf(0),
-                burnInput, inputShieldAddressList, null, zenTrc20TokenOwnerAddressString,
+            shieldedSrc20Parameters = createShieldedSrc20Parameters(BigInteger.valueOf(0),
+                burnInput, inputShieldAddressList, null, zenSrc20TokenOwnerAddressString,
                 burnInput.getNoteTxs(0).getNote().getValue(), blockingStubFull1,
                 blockingStubSolidity);
           } catch (Exception e1) {
@@ -530,13 +530,13 @@ public class ShieldTrc20Stress extends ZenTrc20Base {
 
       } else {
         try {
-          shieldedTrc20Parameters = createShieldedTrc20Parameters(BigInteger.valueOf(0),
-              burnInput, inputShieldAddressList, null, zenTrc20TokenOwnerAddressString,
+          shieldedSrc20Parameters = createShieldedSrc20Parameters(BigInteger.valueOf(0),
+              burnInput, inputShieldAddressList, null, zenSrc20TokenOwnerAddressString,
               burnInput.getNoteTxs(0).getNote().getValue(), blockingStubFull, blockingStubSolidity);
         } catch (Exception e) {
           try {
-            shieldedTrc20Parameters = createShieldedTrc20Parameters(BigInteger.valueOf(0),
-                burnInput, inputShieldAddressList, null, zenTrc20TokenOwnerAddressString,
+            shieldedSrc20Parameters = createShieldedSrc20Parameters(BigInteger.valueOf(0),
+                burnInput, inputShieldAddressList, null, zenSrc20TokenOwnerAddressString,
                 burnInput.getNoteTxs(0).getNote().getValue(), blockingStubFull1,
                 blockingStubSolidity);
           } catch (Exception e1) {
@@ -547,7 +547,7 @@ public class ShieldTrc20Stress extends ZenTrc20Base {
         }
       }
 
-      dataList.add(shieldedTrc20Parameters.getTriggerContractInput());
+      dataList.add(shieldedSrc20Parameters.getTriggerContractInput());
 
     }
 
@@ -572,12 +572,12 @@ public class ShieldTrc20Stress extends ZenTrc20Base {
     for (int i = 0; i < dataList.size(); i++) {
       if (i % 2 == 0) {
         PublicMethed.triggerContract(shieldAddressByte,
-            burn, dataList.get(i), true, 0, maxFeeLimit, zenTrc20TokenOwnerAddress,
-            zenTrc20TokenOwnerKey, blockingStubFull);
+            burn, dataList.get(i), true, 0, maxFeeLimit, zenSrc20TokenOwnerAddress,
+            zenSrc20TokenOwnerKey, blockingStubFull);
       } else {
         PublicMethed.triggerContract(shieldAddressByte,
-            burn, dataList.get(i), true, 0, maxFeeLimit, zenTrc20TokenOwnerAddress,
-            zenTrc20TokenOwnerKey, blockingStubFull1);
+            burn, dataList.get(i), true, 0, maxFeeLimit, zenSrc20TokenOwnerAddress,
+            zenSrc20TokenOwnerKey, blockingStubFull1);
       }
       try {
         Thread.sleep(3000);

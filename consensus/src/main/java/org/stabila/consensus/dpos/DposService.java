@@ -1,6 +1,5 @@
 package org.stabila.consensus.dpos;
 
-import static org.stabila.core.config.Parameter.ChainConstant.MAX_ACTIVE_EXECUTIVE_NUM;
 import static org.stabila.core.config.Parameter.ChainConstant.SOLIDIFIED_THRESHOLD;
 
 import com.google.protobuf.ByteString;
@@ -163,14 +162,18 @@ public class DposService implements ConsensusInterface {
   }
 
   public void updateExecutive(List<ByteString> list) {
-    list.sort(Comparator.comparingLong((ByteString b) ->
-        consensusDelegate.getExecutive(b.toByteArray()).getVoteCount())
-        .reversed()
-        .thenComparing(Comparator.comparingInt(ByteString::hashCode).reversed()));
+    long powVoteBrokerage = consensusDelegate.getDynamicPropertiesStore().getPowVoteBrokerage();
+    double powPower = powVoteBrokerage / 100.0;
+    double votePower = 1.0 - powPower;
+    list.sort(Comparator.comparingDouble((ByteString b) -> {
+      ExecutiveCapsule executive = consensusDelegate.getExecutive(b.toByteArray());
+      return votePower * executive.getVoteCount() + powPower * executive.getTotalProduced();
+    }).reversed().thenComparing(Comparator.comparingInt(ByteString::hashCode).reversed()));
 
-    if (list.size() > MAX_ACTIVE_EXECUTIVE_NUM) {
+    long maxActiveExecutiveNum = consensusDelegate.getDynamicPropertiesStore().getMaxActiveExecutiveNum();
+    if (list.size() > maxActiveExecutiveNum) {
       consensusDelegate
-          .saveActiveExecutives(list.subList(0, MAX_ACTIVE_EXECUTIVE_NUM));
+          .saveActiveExecutives(list.subList(0, (int) maxActiveExecutiveNum));
     } else {
       consensusDelegate.saveActiveExecutives(list);
     }

@@ -461,7 +461,7 @@ public class TransferFailed003 {
     Assert.assertTrue(infoById.get().getResultValue() == 1);
     Assert.assertEquals(contractResult.TRANSFER_FAILED, infoById.get().getReceipt().getResult());
     Assert.assertEquals(
-        "transfer trc10 failed: Cannot transfer asset to yourself.",
+        "transfer src10 failed: Cannot transfer asset to yourself.",
         ByteArray.toStr(infoById.get().getResMessage().toByteArray()));
     Assert.assertTrue(afterBalance + fee == beforeBalance);
     Assert.assertEquals(testNetAccountCountBefore, testNetAccountCountAfter);

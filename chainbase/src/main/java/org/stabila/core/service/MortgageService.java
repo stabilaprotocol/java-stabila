@@ -61,8 +61,8 @@ public class MortgageService {
     }
     executiveAddressList.sort(Comparator.comparingLong((ByteString b) -> executiveCapsuleMap.get(b).getVoteCount())
             .reversed().thenComparing(Comparator.comparingInt(ByteString::hashCode).reversed()));
-    if (executiveAddressList.size() > ChainConstant.EXECUTIVE_STANDBY_LENGTH) {
-      executiveAddressList = executiveAddressList.subList(0, ChainConstant.EXECUTIVE_STANDBY_LENGTH);
+    if (executiveAddressList.size() > dynamicPropertiesStore.getExecutiveStandbyLength()) {
+      executiveAddressList = executiveAddressList.subList(0, (int) dynamicPropertiesStore.getExecutiveStandbyLength());
     }
     long voteSum = 0;
     long totalPay = dynamicPropertiesStore.getExecutive100PayPerBlock();

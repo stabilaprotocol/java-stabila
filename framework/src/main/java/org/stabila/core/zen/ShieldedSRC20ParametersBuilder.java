@@ -13,7 +13,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.bouncycastle.util.encoders.Hex;
 import org.stabila.api.GrpcAPI;
 import org.stabila.api.GrpcAPI.BytesMessage;
-import org.stabila.api.GrpcAPI.ShieldedTRC20Parameters;
+import org.stabila.api.GrpcAPI.ShieldedSRC20Parameters;
 import org.stabila.common.utils.ByteArray;
 import org.stabila.common.utils.ByteUtil;
 import org.stabila.common.utils.Sha256Hash;
@@ -35,7 +35,7 @@ import org.stabila.protos.contract.ShieldContract.ReceiveDescription;
 
 
 @Slf4j
-public class ShieldedTRC20ParametersBuilder {
+public class ShieldedSRC20ParametersBuilder {
 
   private static final int MERKLE_TREE_PATH_LENGTH = 1024; // 32*32
   private static final String MERKLE_TREE_PATH_LENGTH_ERROR = "Merkle tree path format is wrong";
@@ -45,14 +45,14 @@ public class ShieldedTRC20ParametersBuilder {
   @Setter
   private List<ReceiveDescriptionInfo> receives = new ArrayList<>();
   @Getter
-  private ShieldedTRC20Parameters.Builder builder = ShieldedTRC20Parameters.newBuilder();
+  private ShieldedSRC20Parameters.Builder builder = ShieldedSRC20Parameters.newBuilder();
   @Getter
   private long valueBalance = 0;
   @Getter
   @Setter
-  private ShieldedTRC20ParametersType shieldedTRC20ParametersType;
+  private ShieldedSRC20ParametersType shieldedSRC20ParametersType;
   @Setter
-  private byte[] shieldedTRC20Address;
+  private byte[] shieldedSRC20Address;
   @Setter
   private BigInteger transparentFromAmount;
   @Setter
@@ -62,20 +62,20 @@ public class ShieldedTRC20ParametersBuilder {
   @Setter
   private byte[] burnCiphertext = new byte[80];
 
-  public ShieldedTRC20ParametersBuilder() {
+  public ShieldedSRC20ParametersBuilder() {
 
   }
 
-  public ShieldedTRC20ParametersBuilder(String type) throws ZksnarkException {
+  public ShieldedSRC20ParametersBuilder(String type) throws ZksnarkException {
     switch (type) {
       case "mint":
-        shieldedTRC20ParametersType = ShieldedTRC20ParametersType.MINT;
+        shieldedSRC20ParametersType = ShieldedSRC20ParametersType.MINT;
         break;
       case "transfer":
-        shieldedTRC20ParametersType = ShieldedTRC20ParametersType.TRANSFER;
+        shieldedSRC20ParametersType = ShieldedSRC20ParametersType.TRANSFER;
         break;
       case "burn":
-        shieldedTRC20ParametersType = ShieldedTRC20ParametersType.BURN;
+        shieldedSRC20ParametersType = ShieldedSRC20ParametersType.BURN;
         break;
       default:
         throw new ZksnarkException("invalid shielded TRC-20 parameters type");
@@ -241,24 +241,24 @@ public class ShieldedTRC20ParametersBuilder {
         padding);
   }
 
-  public ShieldedTRC20Parameters build(boolean withAsk) throws ZksnarkException {
+  public ShieldedSRC20Parameters build(boolean withAsk) throws ZksnarkException {
     // Empty output script
     byte[] mergedBytes;
     byte[] dataHashToBeSigned; //256
     BigInteger value = BigInteger.ZERO;
     ShieldContract.SpendDescription spendDescription;
     ShieldContract.ReceiveDescription receiveDescription;
-    ShieldedTRC20Parameters shieldedTRC20Parameters;
+    ShieldedSRC20Parameters shieldedSRC20Parameters;
 
     long ctx = JLibrustzcash.librustzcashSaplingProvingCtxInit();
     try {
-      switch (shieldedTRC20ParametersType) {
+      switch (shieldedSRC20ParametersType) {
         case MINT:
           ReceiveDescriptionInfo receive = receives.get(0);
           receiveDescription = generateOutputProof(receive, ctx).getInstance();
           builder.addReceiveDescription(receiveDescription);
 
-          mergedBytes = ByteUtil.merge(shieldedTRC20Address,
+          mergedBytes = ByteUtil.merge(shieldedSRC20Address,
               ByteArray.fromLong(receive.getNote().getValue()),
               encodeReceiveDescriptionWithoutC(receiveDescription),
               encodeCencCout(receiveDescription));
@@ -267,7 +267,7 @@ public class ShieldedTRC20ParametersBuilder {
           break;
         case TRANSFER:
           // Create SpendDescriptions
-          mergedBytes = shieldedTRC20Address;
+          mergedBytes = shieldedSRC20Address;
           for (SpendDescriptionInfo spend : spends) {
             spendDescription = generateSpendProof(spend, ctx).getInstance();
             builder.addSpendDescription(spendDescription);
@@ -291,7 +291,7 @@ public class ShieldedTRC20ParametersBuilder {
           SpendDescriptionInfo spend = spends.get(0);
           spendDescription = generateSpendProof(spend, ctx).getInstance();
           builder.addSpendDescription(spendDescription);
-          mergedBytes = ByteUtil.merge(shieldedTRC20Address,
+          mergedBytes = ByteUtil.merge(shieldedSRC20Address,
               encodeSpendDescriptionWithoutSpendAuthSig(spendDescription));
           if (receives.size() == 1) {
             receiveDescription = generateOutputProof(receives.get(0), ctx).getInstance();
@@ -333,37 +333,37 @@ public class ShieldedTRC20ParametersBuilder {
       JLibrustzcash.librustzcashSaplingProvingCtxFree(ctx);
     }
 
-    if (withAsk || shieldedTRC20ParametersType == ShieldedTRC20ParametersType.MINT) {
-      shieldedTRC20Parameters = builder.build();
+    if (withAsk || shieldedSRC20ParametersType == ShieldedSRC20ParametersType.MINT) {
+      shieldedSRC20Parameters = builder.build();
       builder.setTriggerContractInput(
-          getTriggerContractInput(shieldedTRC20Parameters, null, value, true,
+          getTriggerContractInput(shieldedSRC20Parameters, null, value, true,
               transparentToAddress));
     }
 
-    if (!withAsk && shieldedTRC20ParametersType == ShieldedTRC20ParametersType.BURN) {
+    if (!withAsk && shieldedSRC20ParametersType == ShieldedSRC20ParametersType.BURN) {
       builder.setTriggerContractInput(Hex.toHexString(burnCiphertext));
     }
     return builder.build();
   }
 
-  public String getTriggerContractInput(ShieldedTRC20Parameters shieldedTRC20Parameters,
+  public String getTriggerContractInput(ShieldedSRC20Parameters shieldedSRC20Parameters,
       List<BytesMessage> spendAuthoritySignature,
       BigInteger value, boolean withAsk,
       byte[] transparentToAddress) {
-    switch (shieldedTRC20ParametersType) {
+    switch (shieldedSRC20ParametersType) {
       case MINT:
-        return mintParamsToHexString(shieldedTRC20Parameters, value);
+        return mintParamsToHexString(shieldedSRC20Parameters, value);
       case TRANSFER:
-        return transferParamsToHexString(shieldedTRC20Parameters, spendAuthoritySignature, withAsk);
+        return transferParamsToHexString(shieldedSRC20Parameters, spendAuthoritySignature, withAsk);
       case BURN:
-        return burnParamsToHexString(shieldedTRC20Parameters, spendAuthoritySignature, value,
+        return burnParamsToHexString(shieldedSRC20Parameters, spendAuthoritySignature, value,
             transparentToAddress, withAsk);
       default:
         return null;
     }
   }
 
-  private String mintParamsToHexString(GrpcAPI.ShieldedTRC20Parameters mintParams,
+  private String mintParamsToHexString(GrpcAPI.ShieldedSRC20Parameters mintParams,
       BigInteger value) {
     if (value.compareTo(BigInteger.ZERO) <= 0) {
       throw new IllegalArgumentException("require the value be positive");
@@ -385,7 +385,7 @@ public class ShieldedTRC20ParametersBuilder {
     return Hex.toHexString(mergedBytes);
   }
 
-  private String transferParamsToHexString(GrpcAPI.ShieldedTRC20Parameters transferParams,
+  private String transferParamsToHexString(GrpcAPI.ShieldedSRC20Parameters transferParams,
       List<BytesMessage> spendAuthoritySignature,
       boolean withAsk) {
     byte[] input = new byte[0];
@@ -466,7 +466,7 @@ public class ShieldedTRC20ParametersBuilder {
     ));
   }
 
-  private String burnParamsToHexString(GrpcAPI.ShieldedTRC20Parameters burnParams,
+  private String burnParamsToHexString(GrpcAPI.ShieldedSRC20Parameters burnParams,
       List<BytesMessage> spendAuthoritySignature,
       BigInteger value, byte[] transparentToAddress,
       boolean withAsk) {
@@ -656,7 +656,7 @@ public class ShieldedTRC20ParametersBuilder {
     private Note note;
   }
 
-  public enum ShieldedTRC20ParametersType {
+  public enum ShieldedSRC20ParametersType {
     MINT,
     TRANSFER,
     BURN

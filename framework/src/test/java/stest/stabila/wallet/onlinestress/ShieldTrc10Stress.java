@@ -26,7 +26,7 @@ import stest.stabila.wallet.common.client.utils.PublicMethed;
 import stest.stabila.wallet.common.client.utils.ShieldAddressInfo;
 
 @Slf4j
-public class ShieldTrc10Stress {
+public class ShieldSrc10Stress {
 
   private final String testKey002 = Configuration.getByPath("testng.conf")
       .getString("foundationAccount.key1");

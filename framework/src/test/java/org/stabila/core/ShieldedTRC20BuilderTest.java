@@ -30,10 +30,10 @@ import org.stabila.core.services.http.FullNodeHttpApiService;
 import org.stabila.core.zen.note.Note;
 import org.stabila.api.GrpcAPI;
 import org.stabila.api.GrpcAPI.BytesMessage;
-import org.stabila.api.GrpcAPI.PrivateShieldedTRC20Parameters;
-import org.stabila.api.GrpcAPI.PrivateShieldedTRC20ParametersWithoutAsk;
-import org.stabila.api.GrpcAPI.ShieldedTRC20Parameters;
-import org.stabila.api.GrpcAPI.ShieldedTRC20TriggerContractParameters;
+import org.stabila.api.GrpcAPI.PrivateShieldedSRC20Parameters;
+import org.stabila.api.GrpcAPI.PrivateShieldedSRC20ParametersWithoutAsk;
+import org.stabila.api.GrpcAPI.ShieldedSRC20Parameters;
+import org.stabila.api.GrpcAPI.ShieldedSRC20TriggerContractParameters;
 import org.stabila.api.GrpcAPI.SpendAuthSigParameters;
 import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.utils.ByteArray;
@@ -59,9 +59,9 @@ import org.stabila.protos.contract.ShieldContract.SpendDescription;
 import stest.stabila.wallet.common.client.WalletClient;
 
 @Slf4j
-public class ShieldedTRC20BuilderTest extends BlockGenerate {
+public class ShieldedSRC20BuilderTest extends BlockGenerate {
 
-  private static String dbPath = "output_Shielded_TRC20_Api_test";
+  private static String dbPath = "output_Shielded_SRC20_Api_test";
   private static AnnotationConfigApplicationContext context;
   private static Manager dbManager;
   private static Wallet wallet;
@@ -91,7 +91,7 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
   public static void init() {
     dbManager = context.getBean(Manager.class);
     wallet = context.getBean(Wallet.class);
-    dbManager.getDynamicPropertiesStore().saveAllowShieldedTRC20Transaction(1);
+    dbManager.getDynamicPropertiesStore().saveAllowShieldedSRC20Transaction(1);
     dbManager.getDynamicPropertiesStore().saveAllowShieldedTransaction(1);
   }
 
@@ -120,12 +120,12 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
     byte[] frontier = new byte[32 * 33];
 
     for (int countNum = 0; countNum < totalCountNum; countNum++) {
-      GrpcAPI.PrivateShieldedTRC20Parameters mintPrivateParam1 = mintParams(
+      GrpcAPI.PrivateShieldedSRC20Parameters mintPrivateParam1 = mintParams(
           privateKey, value, SHIELDED_CONTRACT_ADDRESS_STR, null);
-      GrpcAPI.ShieldedTRC20Parameters trc20MintParams = wallet
+      GrpcAPI.ShieldedSRC20Parameters src20MintParams = wallet
           .createShieldedContractParameters(mintPrivateParam1);
 
-      byte[] inputData = abiEncodeForMint(trc20MintParams, value, frontier, leafCount);
+      byte[] inputData = abiEncodeForMint(src20MintParams, value, frontier, leafCount);
       Pair<Boolean, byte[]> contractResult = mintContract.execute(inputData);
       byte[] result = contractResult.getRight();
 
@@ -170,17 +170,17 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
       { //for mint1
         GrpcAPI.Note note = getNote(100, senderPaymentAddressStr, rcm1, new byte[512]);
         GrpcAPI.ReceiveNote.Builder revNoteBuilder = GrpcAPI.ReceiveNote.newBuilder();
-        GrpcAPI.PrivateShieldedTRC20Parameters.Builder paramBuilder = GrpcAPI
-            .PrivateShieldedTRC20Parameters.newBuilder();
+        GrpcAPI.PrivateShieldedSRC20Parameters.Builder paramBuilder = GrpcAPI
+            .PrivateShieldedSRC20Parameters.newBuilder();
         revNoteBuilder.setNote(note);
         paramBuilder.setOvk(ByteString.copyFrom(senderFvk.getOvk()));
         paramBuilder.setFromAmount(BigInteger.valueOf(100).toString());
         paramBuilder.addShieldedReceives(revNoteBuilder.build());
         paramBuilder
-            .setShieldedTRC20ContractAddress(ByteString.copyFrom(SHIELDED_CONTRACT_ADDRESS));
-        PrivateShieldedTRC20Parameters privMintParams = paramBuilder.build();
+            .setShieldedSRC20ContractAddress(ByteString.copyFrom(SHIELDED_CONTRACT_ADDRESS));
+        PrivateShieldedSRC20Parameters privMintParams = paramBuilder.build();
 
-        ShieldedTRC20Parameters minParam = wallet.createShieldedContractParameters(privMintParams);
+        ShieldedSRC20Parameters minParam = wallet.createShieldedContractParameters(privMintParams);
         byte[] mintInputData1 = abiEncodeForMint(minParam, 100, frontier, leafCount);
         Pair<Boolean, byte[]> mintContractResult1 = mintContract.execute(mintInputData1);
         byte[] mintResult1 = mintContractResult1.getRight();
@@ -200,9 +200,9 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
       }
 
       { //for transfer
-        GrpcAPI.PrivateShieldedTRC20Parameters.Builder privateTRC20Builder = GrpcAPI
-            .PrivateShieldedTRC20Parameters.newBuilder();
-        GrpcAPI.SpendNoteTRC20.Builder spendNoteBuilder = GrpcAPI.SpendNoteTRC20.newBuilder();
+        GrpcAPI.PrivateShieldedSRC20Parameters.Builder privateSRC20Builder = GrpcAPI
+            .PrivateShieldedSRC20Parameters.newBuilder();
+        GrpcAPI.SpendNoteSRC20.Builder spendNoteBuilder = GrpcAPI.SpendNoteSRC20.newBuilder();
         GrpcAPI.Note note = getNote(100, senderPaymentAddressStr, rcm1, new byte[512]);
         byte[][] cm1 = new byte[1][32];
         //spendNote1
@@ -218,7 +218,7 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
         spendNoteBuilder.setPos(position1);
         spendNoteBuilder.setAlpha(ByteString.copyFrom(Note.generateR()));
         spendNoteBuilder.setNote(note);
-        privateTRC20Builder.addShieldedSpends(spendNoteBuilder.build());
+        privateSRC20Builder.addShieldedSpends(spendNoteBuilder.build());
 
         //receiveNote1
         GrpcAPI.ReceiveNote.Builder revNoteBuilder = GrpcAPI.ReceiveNote.newBuilder();
@@ -231,16 +231,16 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
         byte[] rcm = Note.generateR();
         GrpcAPI.Note revNote = getNote(100, recPaymentAddressStr, rcm, memo);
         revNoteBuilder.setNote(revNote);
-        privateTRC20Builder.addShieldedReceives(revNoteBuilder.build());
+        privateSRC20Builder.addShieldedReceives(revNoteBuilder.build());
 
         ExpandedSpendingKey expsk = senderSk.expandedSpendingKey();
-        privateTRC20Builder.setAsk(ByteString.copyFrom(expsk.getAsk()));
-        privateTRC20Builder.setNsk(ByteString.copyFrom(expsk.getNsk()));
-        privateTRC20Builder.setOvk(ByteString.copyFrom(expsk.getOvk()));
-        privateTRC20Builder
-            .setShieldedTRC20ContractAddress(ByteString.copyFrom(SHIELDED_CONTRACT_ADDRESS));
-        GrpcAPI.ShieldedTRC20Parameters transferParam = wallet
-            .createShieldedContractParameters(privateTRC20Builder.build());
+        privateSRC20Builder.setAsk(ByteString.copyFrom(expsk.getAsk()));
+        privateSRC20Builder.setNsk(ByteString.copyFrom(expsk.getNsk()));
+        privateSRC20Builder.setOvk(ByteString.copyFrom(expsk.getOvk()));
+        privateSRC20Builder
+            .setShieldedSRC20ContractAddress(ByteString.copyFrom(SHIELDED_CONTRACT_ADDRESS));
+        GrpcAPI.ShieldedSRC20Parameters transferParam = wallet
+            .createShieldedContractParameters(privateSRC20Builder.build());
 
         byte[] inputData = abiEncodeForTransfer(transferParam, frontier, leafCount);
         Pair<Boolean, byte[]> contractResult = verifyTransfer(inputData);
@@ -303,16 +303,16 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
       { //for mint1
         GrpcAPI.Note note = getNote(100, senderPaymentAddressStr, rcm1, new byte[512]);
         GrpcAPI.ReceiveNote.Builder revNoteBuilder = GrpcAPI.ReceiveNote.newBuilder();
-        GrpcAPI.PrivateShieldedTRC20Parameters.Builder paramBuilder = GrpcAPI
-            .PrivateShieldedTRC20Parameters.newBuilder();
+        GrpcAPI.PrivateShieldedSRC20Parameters.Builder paramBuilder = GrpcAPI
+            .PrivateShieldedSRC20Parameters.newBuilder();
         revNoteBuilder.setNote(note);
         paramBuilder.setOvk(ByteString.copyFrom(senderFvk.getOvk()));
         paramBuilder.setFromAmount(BigInteger.valueOf(100).toString());
         paramBuilder.addShieldedReceives(revNoteBuilder.build());
         paramBuilder
-            .setShieldedTRC20ContractAddress(ByteString.copyFrom(SHIELDED_CONTRACT_ADDRESS));
-        PrivateShieldedTRC20Parameters privMintParams = paramBuilder.build();
-        ShieldedTRC20Parameters mintParam = wallet.createShieldedContractParameters(privMintParams);
+            .setShieldedSRC20ContractAddress(ByteString.copyFrom(SHIELDED_CONTRACT_ADDRESS));
+        PrivateShieldedSRC20Parameters privMintParams = paramBuilder.build();
+        ShieldedSRC20Parameters mintParam = wallet.createShieldedContractParameters(privMintParams);
 
         byte[] mintInputData1 = abiEncodeForMint(mintParam, 100, frontier, leafCount);
         Pair<Boolean, byte[]> mintContractResult1 = mintContract.execute(mintInputData1);
@@ -333,9 +333,9 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
       }
 
       { //for transfer
-        GrpcAPI.PrivateShieldedTRC20Parameters.Builder privateTRC20Builder = GrpcAPI
-            .PrivateShieldedTRC20Parameters.newBuilder();
-        GrpcAPI.SpendNoteTRC20.Builder spendNoteBuilder = GrpcAPI.SpendNoteTRC20.newBuilder();
+        GrpcAPI.PrivateShieldedSRC20Parameters.Builder privateSRC20Builder = GrpcAPI
+            .PrivateShieldedSRC20Parameters.newBuilder();
+        GrpcAPI.SpendNoteSRC20.Builder spendNoteBuilder = GrpcAPI.SpendNoteSRC20.newBuilder();
         GrpcAPI.Note note = getNote(100, senderPaymentAddressStr, rcm1, new byte[512]);
         byte[][] cm1 = new byte[1][32];
         //spendNote1
@@ -351,7 +351,7 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
         spendNoteBuilder.setPos(position1);
         spendNoteBuilder.setAlpha(ByteString.copyFrom(Note.generateR()));
         spendNoteBuilder.setNote(note);
-        privateTRC20Builder.addShieldedSpends(spendNoteBuilder.build());
+        privateSRC20Builder.addShieldedSpends(spendNoteBuilder.build());
 
         //receiveNote1
         GrpcAPI.ReceiveNote.Builder revNoteBuilder1 = GrpcAPI.ReceiveNote.newBuilder();
@@ -364,7 +364,7 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
         byte[] rcm = Note.generateR();
         GrpcAPI.Note revNote = getNote(60, recPaymentAddressStr, rcm, memo);
         revNoteBuilder1.setNote(revNote);
-        privateTRC20Builder.addShieldedReceives(revNoteBuilder1.build());
+        privateSRC20Builder.addShieldedReceives(revNoteBuilder1.build());
 
         //receiveNote2
         GrpcAPI.ReceiveNote.Builder revNoteBuilder2 = GrpcAPI.ReceiveNote.newBuilder();
@@ -376,16 +376,16 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
         byte[] rcm2 = Note.generateR();
         GrpcAPI.Note revNote2 = getNote(40, recPaymentAddressStr2, rcm2, memo);
         revNoteBuilder2.setNote(revNote2);
-        privateTRC20Builder.addShieldedReceives(revNoteBuilder2.build());
+        privateSRC20Builder.addShieldedReceives(revNoteBuilder2.build());
 
         ExpandedSpendingKey expsk = senderSk.expandedSpendingKey();
-        privateTRC20Builder.setAsk(ByteString.copyFrom(expsk.getAsk()));
-        privateTRC20Builder.setNsk(ByteString.copyFrom(expsk.getNsk()));
-        privateTRC20Builder.setOvk(ByteString.copyFrom(expsk.getOvk()));
-        privateTRC20Builder
-            .setShieldedTRC20ContractAddress(ByteString.copyFrom(SHIELDED_CONTRACT_ADDRESS));
-        GrpcAPI.ShieldedTRC20Parameters transferParam = wallet
-            .createShieldedContractParameters(privateTRC20Builder.build());
+        privateSRC20Builder.setAsk(ByteString.copyFrom(expsk.getAsk()));
+        privateSRC20Builder.setNsk(ByteString.copyFrom(expsk.getNsk()));
+        privateSRC20Builder.setOvk(ByteString.copyFrom(expsk.getOvk()));
+        privateSRC20Builder
+            .setShieldedSRC20ContractAddress(ByteString.copyFrom(SHIELDED_CONTRACT_ADDRESS));
+        GrpcAPI.ShieldedSRC20Parameters transferParam = wallet
+            .createShieldedContractParameters(privateSRC20Builder.build());
 
         byte[] inputData = abiEncodeForTransfer(transferParam, frontier, leafCount);
         Pair<Boolean, byte[]> contractResult = verifyTransfer(inputData);
@@ -457,16 +457,16 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
       { //for mint1
         GrpcAPI.Note note = getNote(30, senderPaymentAddressStr1, rcm1, new byte[512]);
         GrpcAPI.ReceiveNote.Builder revNoteBuilder = GrpcAPI.ReceiveNote.newBuilder();
-        GrpcAPI.PrivateShieldedTRC20Parameters.Builder paramBuilder = GrpcAPI
-            .PrivateShieldedTRC20Parameters.newBuilder();
+        GrpcAPI.PrivateShieldedSRC20Parameters.Builder paramBuilder = GrpcAPI
+            .PrivateShieldedSRC20Parameters.newBuilder();
         revNoteBuilder.setNote(note);
         paramBuilder.setOvk(ByteString.copyFrom(DEFAULT_OVK));
         paramBuilder.setFromAmount(BigInteger.valueOf(30).toString());
         paramBuilder.addShieldedReceives(revNoteBuilder.build());
         paramBuilder
-            .setShieldedTRC20ContractAddress(ByteString.copyFrom(SHIELDED_CONTRACT_ADDRESS));
-        PrivateShieldedTRC20Parameters privMintParams = paramBuilder.build();
-        ShieldedTRC20Parameters mintParam = wallet.createShieldedContractParameters(privMintParams);
+            .setShieldedSRC20ContractAddress(ByteString.copyFrom(SHIELDED_CONTRACT_ADDRESS));
+        PrivateShieldedSRC20Parameters privMintParams = paramBuilder.build();
+        ShieldedSRC20Parameters mintParam = wallet.createShieldedContractParameters(privMintParams);
 
         byte[] mintInputData1 = abiEncodeForMint(mintParam, 30, frontier, leafCount);
         Pair<Boolean, byte[]> mintContractResult1 = mintContract.execute(mintInputData1);
@@ -489,16 +489,16 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
       { //for mint2
         GrpcAPI.Note note = getNote(70, senderPaymentAddressStr2, rcm2, new byte[512]);
         GrpcAPI.ReceiveNote.Builder revNoteBuilder = GrpcAPI.ReceiveNote.newBuilder();
-        GrpcAPI.PrivateShieldedTRC20Parameters.Builder paramBuilder = GrpcAPI
-            .PrivateShieldedTRC20Parameters.newBuilder();
+        GrpcAPI.PrivateShieldedSRC20Parameters.Builder paramBuilder = GrpcAPI
+            .PrivateShieldedSRC20Parameters.newBuilder();
         revNoteBuilder.setNote(note);
         paramBuilder.setOvk(ByteString.copyFrom(DEFAULT_OVK));
         paramBuilder.setFromAmount(BigInteger.valueOf(70).toString());
         paramBuilder.addShieldedReceives(revNoteBuilder.build());
         paramBuilder
-            .setShieldedTRC20ContractAddress(ByteString.copyFrom(SHIELDED_CONTRACT_ADDRESS));
-        PrivateShieldedTRC20Parameters privMintParams = paramBuilder.build();
-        ShieldedTRC20Parameters mintParam = wallet.createShieldedContractParameters(privMintParams);
+            .setShieldedSRC20ContractAddress(ByteString.copyFrom(SHIELDED_CONTRACT_ADDRESS));
+        PrivateShieldedSRC20Parameters privMintParams = paramBuilder.build();
+        ShieldedSRC20Parameters mintParam = wallet.createShieldedContractParameters(privMintParams);
 
         byte[] mintInputData1 = abiEncodeForMint(mintParam, 70, frontier, leafCount);
         Pair<Boolean, byte[]> mintContractResult1 = mintContract.execute(mintInputData1);
@@ -519,9 +519,9 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
       }
 
       { //for transfer
-        GrpcAPI.PrivateShieldedTRC20Parameters.Builder privateTRC20Builder = GrpcAPI
-            .PrivateShieldedTRC20Parameters.newBuilder();
-        GrpcAPI.SpendNoteTRC20.Builder spendNoteBuilder1 = GrpcAPI.SpendNoteTRC20.newBuilder();
+        GrpcAPI.PrivateShieldedSRC20Parameters.Builder privateSRC20Builder = GrpcAPI
+            .PrivateShieldedSRC20Parameters.newBuilder();
+        GrpcAPI.SpendNoteSRC20.Builder spendNoteBuilder1 = GrpcAPI.SpendNoteSRC20.newBuilder();
         GrpcAPI.Note note1 = getNote(30, senderPaymentAddressStr1, rcm1, new byte[512]);
         byte[][] cm1 = new byte[1][32];
         //spendNote1
@@ -537,10 +537,10 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
         spendNoteBuilder1.setPos(position1);
         spendNoteBuilder1.setAlpha(ByteString.copyFrom(Note.generateR()));
         spendNoteBuilder1.setNote(note1);
-        privateTRC20Builder.addShieldedSpends(spendNoteBuilder1.build());
+        privateSRC20Builder.addShieldedSpends(spendNoteBuilder1.build());
 
         //spendNote2
-        GrpcAPI.SpendNoteTRC20.Builder spendNoteBuilder2 = GrpcAPI.SpendNoteTRC20.newBuilder();
+        GrpcAPI.SpendNoteSRC20.Builder spendNoteBuilder2 = GrpcAPI.SpendNoteSRC20.newBuilder();
         Note senderNote2 = new Note(senderPaymentAddress2.getD(), senderPaymentAddress2.getPkD(),
             70, rcm2, new byte[512]);
         GrpcAPI.Note note2 = getNote(70, senderPaymentAddressStr2, rcm2, new byte[512]);
@@ -555,7 +555,7 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
         spendNoteBuilder2.setPos(position2);
         spendNoteBuilder2.setAlpha(ByteString.copyFrom(Note.generateR()));
         spendNoteBuilder2.setNote(note2);
-        privateTRC20Builder.addShieldedSpends(spendNoteBuilder2.build());
+        privateSRC20Builder.addShieldedSpends(spendNoteBuilder2.build());
 
         //receiveNote1
         GrpcAPI.ReceiveNote.Builder revNoteBuilder1 = GrpcAPI.ReceiveNote.newBuilder();
@@ -568,16 +568,16 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
         byte[] rcm3 = Note.generateR();
         GrpcAPI.Note revNote = getNote(100, recPaymentAddressStr, rcm3, memo);
         revNoteBuilder1.setNote(revNote);
-        privateTRC20Builder.addShieldedReceives(revNoteBuilder1.build());
+        privateSRC20Builder.addShieldedReceives(revNoteBuilder1.build());
 
         ExpandedSpendingKey expsk = senderSk.expandedSpendingKey();
-        privateTRC20Builder.setAsk(ByteString.copyFrom(expsk.getAsk()));
-        privateTRC20Builder.setNsk(ByteString.copyFrom(expsk.getNsk()));
-        privateTRC20Builder.setOvk(ByteString.copyFrom(expsk.getOvk()));
-        privateTRC20Builder
-            .setShieldedTRC20ContractAddress(ByteString.copyFrom(SHIELDED_CONTRACT_ADDRESS));
-        GrpcAPI.ShieldedTRC20Parameters transferParam = wallet
-            .createShieldedContractParameters(privateTRC20Builder.build());
+        privateSRC20Builder.setAsk(ByteString.copyFrom(expsk.getAsk()));
+        privateSRC20Builder.setNsk(ByteString.copyFrom(expsk.getNsk()));
+        privateSRC20Builder.setOvk(ByteString.copyFrom(expsk.getOvk()));
+        privateSRC20Builder
+            .setShieldedSRC20ContractAddress(ByteString.copyFrom(SHIELDED_CONTRACT_ADDRESS));
+        GrpcAPI.ShieldedSRC20Parameters transferParam = wallet
+            .createShieldedContractParameters(privateSRC20Builder.build());
 
         byte[] inputData = abiEncodeForTransfer(transferParam, frontier, leafCount);
         Pair<Boolean, byte[]> contractResult = verifyTransfer(inputData);
@@ -645,16 +645,16 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
       { //for mint1
         GrpcAPI.Note note = getNote(30, senderPaymentAddressStr1, rcm1, new byte[512]);
         GrpcAPI.ReceiveNote.Builder revNoteBuilder = GrpcAPI.ReceiveNote.newBuilder();
-        GrpcAPI.PrivateShieldedTRC20Parameters.Builder paramBuilder = GrpcAPI
-            .PrivateShieldedTRC20Parameters.newBuilder();
+        GrpcAPI.PrivateShieldedSRC20Parameters.Builder paramBuilder = GrpcAPI
+            .PrivateShieldedSRC20Parameters.newBuilder();
         revNoteBuilder.setNote(note);
         paramBuilder.setOvk(ByteString.copyFrom(DEFAULT_OVK));
         paramBuilder.setFromAmount(BigInteger.valueOf(30).toString());
         paramBuilder.addShieldedReceives(revNoteBuilder.build());
         paramBuilder
-            .setShieldedTRC20ContractAddress(ByteString.copyFrom(SHIELDED_CONTRACT_ADDRESS));
-        PrivateShieldedTRC20Parameters privMintParams = paramBuilder.build();
-        ShieldedTRC20Parameters mintParam = wallet.createShieldedContractParameters(privMintParams);
+            .setShieldedSRC20ContractAddress(ByteString.copyFrom(SHIELDED_CONTRACT_ADDRESS));
+        PrivateShieldedSRC20Parameters privMintParams = paramBuilder.build();
+        ShieldedSRC20Parameters mintParam = wallet.createShieldedContractParameters(privMintParams);
 
         byte[] mintInputData1 = abiEncodeForMint(mintParam, 30, frontier, leafCount);
         Pair<Boolean, byte[]> mintContractResult1 = mintContract.execute(mintInputData1);
@@ -677,16 +677,16 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
       { //for mint2
         GrpcAPI.Note note = getNote(70, senderPaymentAddressStr2, rcm2, new byte[512]);
         GrpcAPI.ReceiveNote.Builder revNoteBuilder = GrpcAPI.ReceiveNote.newBuilder();
-        GrpcAPI.PrivateShieldedTRC20Parameters.Builder paramBuilder = GrpcAPI
-            .PrivateShieldedTRC20Parameters.newBuilder();
+        GrpcAPI.PrivateShieldedSRC20Parameters.Builder paramBuilder = GrpcAPI
+            .PrivateShieldedSRC20Parameters.newBuilder();
         revNoteBuilder.setNote(note);
         paramBuilder.setOvk(ByteString.copyFrom(DEFAULT_OVK));
         paramBuilder.setFromAmount(BigInteger.valueOf(70).toString());
         paramBuilder.addShieldedReceives(revNoteBuilder.build());
         paramBuilder
-            .setShieldedTRC20ContractAddress(ByteString.copyFrom(SHIELDED_CONTRACT_ADDRESS));
-        PrivateShieldedTRC20Parameters privMintParams = paramBuilder.build();
-        ShieldedTRC20Parameters mintParam = wallet.createShieldedContractParameters(privMintParams);
+            .setShieldedSRC20ContractAddress(ByteString.copyFrom(SHIELDED_CONTRACT_ADDRESS));
+        PrivateShieldedSRC20Parameters privMintParams = paramBuilder.build();
+        ShieldedSRC20Parameters mintParam = wallet.createShieldedContractParameters(privMintParams);
 
         byte[] mintInputData1 = abiEncodeForMint(mintParam, 70, frontier, leafCount);
         Pair<Boolean, byte[]> mintContractResult1 = mintContract.execute(mintInputData1);
@@ -707,9 +707,9 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
       }
 
       { //for transfer
-        GrpcAPI.PrivateShieldedTRC20Parameters.Builder privateTRC20Builder = GrpcAPI
-            .PrivateShieldedTRC20Parameters.newBuilder();
-        GrpcAPI.SpendNoteTRC20.Builder spendNoteBuilder1 = GrpcAPI.SpendNoteTRC20.newBuilder();
+        GrpcAPI.PrivateShieldedSRC20Parameters.Builder privateSRC20Builder = GrpcAPI
+            .PrivateShieldedSRC20Parameters.newBuilder();
+        GrpcAPI.SpendNoteSRC20.Builder spendNoteBuilder1 = GrpcAPI.SpendNoteSRC20.newBuilder();
         GrpcAPI.Note note1 = getNote(30, senderPaymentAddressStr1, rcm1, new byte[512]);
         byte[][] cm1 = new byte[1][32];
         //spendNote1
@@ -725,10 +725,10 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
         spendNoteBuilder1.setPos(position1);
         spendNoteBuilder1.setAlpha(ByteString.copyFrom(Note.generateR()));
         spendNoteBuilder1.setNote(note1);
-        privateTRC20Builder.addShieldedSpends(spendNoteBuilder1.build());
+        privateSRC20Builder.addShieldedSpends(spendNoteBuilder1.build());
 
         //spendNote2
-        GrpcAPI.SpendNoteTRC20.Builder spendNoteBuilder2 = GrpcAPI.SpendNoteTRC20.newBuilder();
+        GrpcAPI.SpendNoteSRC20.Builder spendNoteBuilder2 = GrpcAPI.SpendNoteSRC20.newBuilder();
         Note senderNote2 = new Note(senderPaymentAddress2.getD(), senderPaymentAddress2.getPkD(),
             70, rcm2, new byte[512]);
         GrpcAPI.Note note2 = getNote(70, senderPaymentAddressStr2, rcm2, new byte[512]);
@@ -743,7 +743,7 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
         spendNoteBuilder2.setPos(position2);
         spendNoteBuilder2.setAlpha(ByteString.copyFrom(Note.generateR()));
         spendNoteBuilder2.setNote(note2);
-        privateTRC20Builder.addShieldedSpends(spendNoteBuilder2.build());
+        privateSRC20Builder.addShieldedSpends(spendNoteBuilder2.build());
 
         //receiveNote1
         GrpcAPI.ReceiveNote.Builder revNoteBuilder1 = GrpcAPI.ReceiveNote.newBuilder();
@@ -756,7 +756,7 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
         byte[] rcm3 = Note.generateR();
         GrpcAPI.Note revNote = getNote(60, recPaymentAddressStr, rcm3, memo);
         revNoteBuilder1.setNote(revNote);
-        privateTRC20Builder.addShieldedReceives(revNoteBuilder1.build());
+        privateSRC20Builder.addShieldedReceives(revNoteBuilder1.build());
 
         //receiveNote2
         GrpcAPI.ReceiveNote.Builder revNoteBuilder2 = GrpcAPI.ReceiveNote.newBuilder();
@@ -768,16 +768,16 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
         byte[] rcm4 = Note.generateR();
         GrpcAPI.Note revNote2 = getNote(40, recPaymentAddressStr2, rcm4, memo);
         revNoteBuilder2.setNote(revNote2);
-        privateTRC20Builder.addShieldedReceives(revNoteBuilder2.build());
+        privateSRC20Builder.addShieldedReceives(revNoteBuilder2.build());
 
         ExpandedSpendingKey expsk = senderSk.expandedSpendingKey();
-        privateTRC20Builder.setAsk(ByteString.copyFrom(expsk.getAsk()));
-        privateTRC20Builder.setNsk(ByteString.copyFrom(expsk.getNsk()));
-        privateTRC20Builder.setOvk(ByteString.copyFrom(expsk.getOvk()));
-        privateTRC20Builder
-            .setShieldedTRC20ContractAddress(ByteString.copyFrom(SHIELDED_CONTRACT_ADDRESS));
-        GrpcAPI.ShieldedTRC20Parameters transferParam = wallet
-            .createShieldedContractParameters(privateTRC20Builder.build());
+        privateSRC20Builder.setAsk(ByteString.copyFrom(expsk.getAsk()));
+        privateSRC20Builder.setNsk(ByteString.copyFrom(expsk.getNsk()));
+        privateSRC20Builder.setOvk(ByteString.copyFrom(expsk.getOvk()));
+        privateSRC20Builder
+            .setShieldedSRC20ContractAddress(ByteString.copyFrom(SHIELDED_CONTRACT_ADDRESS));
+        GrpcAPI.ShieldedSRC20Parameters transferParam = wallet
+            .createShieldedContractParameters(privateSRC20Builder.build());
 
         byte[] inputData = abiEncodeForTransfer(transferParam, frontier, leafCount);
         Pair<Boolean, byte[]> contractResult = verifyTransfer(inputData);
@@ -846,17 +846,17 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
       { //for mint1
         GrpcAPI.Note note = getNote(value, senderPaymentAddressStr, rcm, new byte[512]);
         GrpcAPI.ReceiveNote.Builder revNoteBuilder = GrpcAPI.ReceiveNote.newBuilder();
-        GrpcAPI.PrivateShieldedTRC20Parameters.Builder paramBuilder = GrpcAPI
-            .PrivateShieldedTRC20Parameters.newBuilder();
+        GrpcAPI.PrivateShieldedSRC20Parameters.Builder paramBuilder = GrpcAPI
+            .PrivateShieldedSRC20Parameters.newBuilder();
         revNoteBuilder.setNote(note);
         paramBuilder.setOvk(ByteString.copyFrom(senderFvk.getOvk()));
         paramBuilder.setFromAmount(BigInteger.valueOf(value).toString());
         paramBuilder.addShieldedReceives(revNoteBuilder.build());
         paramBuilder
-            .setShieldedTRC20ContractAddress(ByteString.copyFrom(SHIELDED_CONTRACT_ADDRESS));
-        PrivateShieldedTRC20Parameters privMintParams = paramBuilder.build();
+            .setShieldedSRC20ContractAddress(ByteString.copyFrom(SHIELDED_CONTRACT_ADDRESS));
+        PrivateShieldedSRC20Parameters privMintParams = paramBuilder.build();
 
-        ShieldedTRC20Parameters minParam = wallet.createShieldedContractParameters(privMintParams);
+        ShieldedSRC20Parameters minParam = wallet.createShieldedContractParameters(privMintParams);
         byte[] mintInputData1 = abiEncodeForMint(minParam, value, frontier, leafCount);
         Pair<Boolean, byte[]> mintContractResult1 = mintContract.execute(mintInputData1);
         byte[] mintResult1 = mintContractResult1.getRight();
@@ -876,9 +876,9 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
       }
 
       { //for burn
-        GrpcAPI.PrivateShieldedTRC20Parameters.Builder privateTRC20Builder = GrpcAPI
-            .PrivateShieldedTRC20Parameters.newBuilder();
-        GrpcAPI.SpendNoteTRC20.Builder spendNoteBuilder = GrpcAPI.SpendNoteTRC20.newBuilder();
+        GrpcAPI.PrivateShieldedSRC20Parameters.Builder privateSRC20Builder = GrpcAPI
+            .PrivateShieldedSRC20Parameters.newBuilder();
+        GrpcAPI.SpendNoteSRC20.Builder spendNoteBuilder = GrpcAPI.SpendNoteSRC20.newBuilder();
         GrpcAPI.Note note = getNote(value, senderPaymentAddressStr, rcm, new byte[512]);
         byte[][] cm1 = new byte[1][32];
         //spendNote1
@@ -894,17 +894,17 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
         spendNoteBuilder.setPos(position1);
         spendNoteBuilder.setAlpha(ByteString.copyFrom(Note.generateR()));
         spendNoteBuilder.setNote(note);
-        privateTRC20Builder.addShieldedSpends(spendNoteBuilder.build());
+        privateSRC20Builder.addShieldedSpends(spendNoteBuilder.build());
 
         ExpandedSpendingKey expsk = senderSk.expandedSpendingKey();
-        privateTRC20Builder.setAsk(ByteString.copyFrom(expsk.getAsk()));
-        privateTRC20Builder.setNsk(ByteString.copyFrom(expsk.getNsk()));
-        privateTRC20Builder.setToAmount(BigInteger.valueOf(value).toString());
-        privateTRC20Builder.setTransparentToAddress(ByteString.copyFrom(PUBLIC_TO_ADDRESS));
-        privateTRC20Builder
-            .setShieldedTRC20ContractAddress(ByteString.copyFrom(SHIELDED_CONTRACT_ADDRESS));
-        GrpcAPI.ShieldedTRC20Parameters burnParam = wallet
-            .createShieldedContractParameters(privateTRC20Builder.build());
+        privateSRC20Builder.setAsk(ByteString.copyFrom(expsk.getAsk()));
+        privateSRC20Builder.setNsk(ByteString.copyFrom(expsk.getNsk()));
+        privateSRC20Builder.setToAmount(BigInteger.valueOf(value).toString());
+        privateSRC20Builder.setTransparentToAddress(ByteString.copyFrom(PUBLIC_TO_ADDRESS));
+        privateSRC20Builder
+            .setShieldedSRC20ContractAddress(ByteString.copyFrom(SHIELDED_CONTRACT_ADDRESS));
+        GrpcAPI.ShieldedSRC20Parameters burnParam = wallet
+            .createShieldedContractParameters(privateSRC20Builder.build());
 
         byte[] inputData = abiEncodeForBurn(burnParam, value);
         Pair<Boolean, byte[]> contractResult = burnContract.execute(inputData);
@@ -942,17 +942,17 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
       { //for mint1
         GrpcAPI.Note note = getNote(value, senderPaymentAddressStr, rcm, new byte[512]);
         GrpcAPI.ReceiveNote.Builder revNoteBuilder = GrpcAPI.ReceiveNote.newBuilder();
-        GrpcAPI.PrivateShieldedTRC20Parameters.Builder paramBuilder = GrpcAPI
-            .PrivateShieldedTRC20Parameters.newBuilder();
+        GrpcAPI.PrivateShieldedSRC20Parameters.Builder paramBuilder = GrpcAPI
+            .PrivateShieldedSRC20Parameters.newBuilder();
         revNoteBuilder.setNote(note);
         paramBuilder.setOvk(ByteString.copyFrom(senderFvk.getOvk()));
         paramBuilder.setFromAmount(BigInteger.valueOf(value).toString());
         paramBuilder.addShieldedReceives(revNoteBuilder.build());
         paramBuilder
-            .setShieldedTRC20ContractAddress(ByteString.copyFrom(SHIELDED_CONTRACT_ADDRESS));
-        PrivateShieldedTRC20Parameters privMintParams = paramBuilder.build();
+            .setShieldedSRC20ContractAddress(ByteString.copyFrom(SHIELDED_CONTRACT_ADDRESS));
+        PrivateShieldedSRC20Parameters privMintParams = paramBuilder.build();
 
-        ShieldedTRC20Parameters minParam = wallet.createShieldedContractParameters(privMintParams);
+        ShieldedSRC20Parameters minParam = wallet.createShieldedContractParameters(privMintParams);
         byte[] mintInputData1 = abiEncodeForMint(minParam, value, frontier, leafCount);
         Pair<Boolean, byte[]> mintContractResult1 = mintContract.execute(mintInputData1);
         byte[] mintResult1 = mintContractResult1.getRight();
@@ -972,9 +972,9 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
       }
 
       { //for burn
-        GrpcAPI.PrivateShieldedTRC20Parameters.Builder privateTRC20Builder = GrpcAPI
-            .PrivateShieldedTRC20Parameters.newBuilder();
-        GrpcAPI.SpendNoteTRC20.Builder spendNoteBuilder = GrpcAPI.SpendNoteTRC20.newBuilder();
+        GrpcAPI.PrivateShieldedSRC20Parameters.Builder privateSRC20Builder = GrpcAPI
+            .PrivateShieldedSRC20Parameters.newBuilder();
+        GrpcAPI.SpendNoteSRC20.Builder spendNoteBuilder = GrpcAPI.SpendNoteSRC20.newBuilder();
         GrpcAPI.Note note = getNote(value, senderPaymentAddressStr, rcm, new byte[512]);
         byte[][] cm1 = new byte[1][32];
         //spendNote1
@@ -990,15 +990,15 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
         spendNoteBuilder.setPos(position1);
         spendNoteBuilder.setAlpha(ByteString.copyFrom(Note.generateR()));
         spendNoteBuilder.setNote(note);
-        privateTRC20Builder.addShieldedSpends(spendNoteBuilder.build());
+        privateSRC20Builder.addShieldedSpends(spendNoteBuilder.build());
 
         ExpandedSpendingKey expsk = senderSk.expandedSpendingKey();
-        privateTRC20Builder.setAsk(ByteString.copyFrom(expsk.getAsk()));
-        privateTRC20Builder.setNsk(ByteString.copyFrom(expsk.getNsk()));
-        privateTRC20Builder.setToAmount(BigInteger.valueOf(60).toString());
-        privateTRC20Builder.setTransparentToAddress(ByteString.copyFrom(PUBLIC_TO_ADDRESS));
-        privateTRC20Builder
-            .setShieldedTRC20ContractAddress(ByteString.copyFrom(SHIELDED_CONTRACT_ADDRESS));
+        privateSRC20Builder.setAsk(ByteString.copyFrom(expsk.getAsk()));
+        privateSRC20Builder.setNsk(ByteString.copyFrom(expsk.getNsk()));
+        privateSRC20Builder.setToAmount(BigInteger.valueOf(60).toString());
+        privateSRC20Builder.setTransparentToAddress(ByteString.copyFrom(PUBLIC_TO_ADDRESS));
+        privateSRC20Builder
+            .setShieldedSRC20ContractAddress(ByteString.copyFrom(SHIELDED_CONTRACT_ADDRESS));
 
         //receiveNote
         GrpcAPI.ReceiveNote.Builder revNoteBuilder2 = GrpcAPI.ReceiveNote.newBuilder();
@@ -1011,10 +1011,10 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
         byte[] memo = new byte[512];
         GrpcAPI.Note revNote2 = getNote(40, recPaymentAddressStr2, rcm4, memo);
         revNoteBuilder2.setNote(revNote2);
-        privateTRC20Builder.addShieldedReceives(revNoteBuilder2.build());
+        privateSRC20Builder.addShieldedReceives(revNoteBuilder2.build());
 
-        GrpcAPI.ShieldedTRC20Parameters burnParam = wallet
-            .createShieldedContractParameters(privateTRC20Builder.build());
+        GrpcAPI.ShieldedSRC20Parameters burnParam = wallet
+            .createShieldedContractParameters(privateSRC20Builder.build());
 
         byte[] inputData = abiEncodeForBurn(burnParam, value);
         Pair<Boolean, byte[]> contractResult = burnContract.execute(inputData);
@@ -1063,16 +1063,16 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
       { //for mint1
         GrpcAPI.Note note = getNote(30, senderPaymentAddressStr1, rcm1, new byte[512]);
         GrpcAPI.ReceiveNote.Builder revNoteBuilder = GrpcAPI.ReceiveNote.newBuilder();
-        GrpcAPI.PrivateShieldedTRC20Parameters.Builder paramBuilder = GrpcAPI
-            .PrivateShieldedTRC20Parameters.newBuilder();
+        GrpcAPI.PrivateShieldedSRC20Parameters.Builder paramBuilder = GrpcAPI
+            .PrivateShieldedSRC20Parameters.newBuilder();
         revNoteBuilder.setNote(note);
         paramBuilder.setOvk(ByteString.copyFrom(DEFAULT_OVK));
         paramBuilder.setFromAmount(BigInteger.valueOf(30).toString());
         paramBuilder.addShieldedReceives(revNoteBuilder.build());
         paramBuilder
-            .setShieldedTRC20ContractAddress(ByteString.copyFrom(SHIELDED_CONTRACT_ADDRESS));
-        PrivateShieldedTRC20Parameters privMintParams = paramBuilder.build();
-        ShieldedTRC20Parameters mintParam = wallet.createShieldedContractParameters(privMintParams);
+            .setShieldedSRC20ContractAddress(ByteString.copyFrom(SHIELDED_CONTRACT_ADDRESS));
+        PrivateShieldedSRC20Parameters privMintParams = paramBuilder.build();
+        ShieldedSRC20Parameters mintParam = wallet.createShieldedContractParameters(privMintParams);
 
         byte[] mintInputData1 = abiEncodeForMint(mintParam, 30, frontier, leafCount);
         Pair<Boolean, byte[]> mintContractResult1 = mintContract.execute(mintInputData1);
@@ -1093,9 +1093,9 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
       }
 
       { //for transfer
-        GrpcAPI.PrivateShieldedTRC20ParametersWithoutAsk.Builder privateTRC20Builder = GrpcAPI
-            .PrivateShieldedTRC20ParametersWithoutAsk.newBuilder();
-        GrpcAPI.SpendNoteTRC20.Builder spendNoteBuilder1 = GrpcAPI.SpendNoteTRC20.newBuilder();
+        GrpcAPI.PrivateShieldedSRC20ParametersWithoutAsk.Builder privateSRC20Builder = GrpcAPI
+            .PrivateShieldedSRC20ParametersWithoutAsk.newBuilder();
+        GrpcAPI.SpendNoteSRC20.Builder spendNoteBuilder1 = GrpcAPI.SpendNoteSRC20.newBuilder();
         GrpcAPI.Note note1 = getNote(30, senderPaymentAddressStr1, rcm1, new byte[512]);
         byte[][] cm1 = new byte[1][32];
         //spendNote1
@@ -1111,7 +1111,7 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
         spendNoteBuilder1.setPos(position1);
         spendNoteBuilder1.setAlpha(ByteString.copyFrom(Note.generateR()));
         spendNoteBuilder1.setNote(note1);
-        privateTRC20Builder.addShieldedSpends(spendNoteBuilder1.build());
+        privateSRC20Builder.addShieldedSpends(spendNoteBuilder1.build());
 
         //receiveNote1
         GrpcAPI.ReceiveNote.Builder revNoteBuilder1 = GrpcAPI.ReceiveNote.newBuilder();
@@ -1124,35 +1124,35 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
         byte[] rcm3 = Note.generateR();
         GrpcAPI.Note revNote = getNote(30, recPaymentAddressStr, rcm3, memo);
         revNoteBuilder1.setNote(revNote);
-        privateTRC20Builder.addShieldedReceives(revNoteBuilder1.build());
+        privateSRC20Builder.addShieldedReceives(revNoteBuilder1.build());
 
         ExpandedSpendingKey expsk = senderSk.expandedSpendingKey();
-        privateTRC20Builder.setAk(ByteString.copyFrom(senderFvk.getAk()));
-        privateTRC20Builder.setNsk(ByteString.copyFrom(expsk.getNsk()));
-        privateTRC20Builder.setOvk(ByteString.copyFrom(expsk.getOvk()));
-        privateTRC20Builder
-            .setShieldedTRC20ContractAddress(ByteString.copyFrom(SHIELDED_CONTRACT_ADDRESS));
-        GrpcAPI.ShieldedTRC20Parameters transferParam = wallet
-            .createShieldedContractParametersWithoutAsk(privateTRC20Builder.build());
+        privateSRC20Builder.setAk(ByteString.copyFrom(senderFvk.getAk()));
+        privateSRC20Builder.setNsk(ByteString.copyFrom(expsk.getNsk()));
+        privateSRC20Builder.setOvk(ByteString.copyFrom(expsk.getOvk()));
+        privateSRC20Builder
+            .setShieldedSRC20ContractAddress(ByteString.copyFrom(SHIELDED_CONTRACT_ADDRESS));
+        GrpcAPI.ShieldedSRC20Parameters transferParam = wallet
+            .createShieldedContractParametersWithoutAsk(privateSRC20Builder.build());
 
         //get the binding signature
-        PrivateShieldedTRC20ParametersWithoutAsk shieldedTRC20ParametersWithoutAsk =
-            privateTRC20Builder
+        PrivateShieldedSRC20ParametersWithoutAsk shieldedSRC20ParametersWithoutAsk =
+            privateSRC20Builder
                 .build();
         SpendAuthSigParameters.Builder signParamerters1 = SpendAuthSigParameters.newBuilder();
         signParamerters1
-            .setAlpha(shieldedTRC20ParametersWithoutAsk.getShieldedSpends(0).getAlpha());
+            .setAlpha(shieldedSRC20ParametersWithoutAsk.getShieldedSpends(0).getAlpha());
         signParamerters1.setAsk(ByteString.copyFrom(expsk.getAsk()));
         signParamerters1.setTxHash(transferParam.getMessageHash());
         BytesMessage signMsg1 = wallet.createSpendAuthSig(signParamerters1.build());
 
-        ShieldedTRC20TriggerContractParameters.Builder triggerParam =
-            ShieldedTRC20TriggerContractParameters
+        ShieldedSRC20TriggerContractParameters.Builder triggerParam =
+            ShieldedSRC20TriggerContractParameters
                 .newBuilder();
-        triggerParam.setShieldedTRC20Parameters(transferParam);
+        triggerParam.setShieldedSRC20Parameters(transferParam);
         triggerParam.addSpendAuthoritySignature(signMsg1);
         BytesMessage triggerInput = wallet
-            .getTriggerInputForShieldedTRC20Contract(triggerParam.build());
+            .getTriggerInputForShieldedSRC20Contract(triggerParam.build());
         logger.info(
             "trigger contract input: " + Hex.toHexString(triggerInput.getValue().toByteArray()));
 
@@ -1165,7 +1165,7 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
         spendDesBuilder1.setZkproof(transferParam.getSpendDescription(0).getZkproof());
         spendDesBuilder1.setNullifier(transferParam.getSpendDescription(0).getNullifier());
 
-        ShieldedTRC20Parameters.Builder bindingSigBuilder = ShieldedTRC20Parameters.newBuilder();
+        ShieldedSRC20Parameters.Builder bindingSigBuilder = ShieldedSRC20Parameters.newBuilder();
         bindingSigBuilder.addSpendDescription(spendDesBuilder1.build());
         bindingSigBuilder.addReceiveDescription(transferParam.getReceiveDescription(0));
         bindingSigBuilder.setMessageHash(transferParam.getMessageHash());
@@ -1236,16 +1236,16 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
       { //for mint1
         GrpcAPI.Note note = getNote(100, senderPaymentAddressStr1, rcm1, new byte[512]);
         GrpcAPI.ReceiveNote.Builder revNoteBuilder = GrpcAPI.ReceiveNote.newBuilder();
-        GrpcAPI.PrivateShieldedTRC20Parameters.Builder paramBuilder = GrpcAPI
-            .PrivateShieldedTRC20Parameters.newBuilder();
+        GrpcAPI.PrivateShieldedSRC20Parameters.Builder paramBuilder = GrpcAPI
+            .PrivateShieldedSRC20Parameters.newBuilder();
         revNoteBuilder.setNote(note);
         paramBuilder.setOvk(ByteString.copyFrom(DEFAULT_OVK));
         paramBuilder.setFromAmount(BigInteger.valueOf(100).toString());
         paramBuilder.addShieldedReceives(revNoteBuilder.build());
         paramBuilder
-            .setShieldedTRC20ContractAddress(ByteString.copyFrom(SHIELDED_CONTRACT_ADDRESS));
-        PrivateShieldedTRC20Parameters privMintParams = paramBuilder.build();
-        ShieldedTRC20Parameters mintParam = wallet.createShieldedContractParameters(privMintParams);
+            .setShieldedSRC20ContractAddress(ByteString.copyFrom(SHIELDED_CONTRACT_ADDRESS));
+        PrivateShieldedSRC20Parameters privMintParams = paramBuilder.build();
+        ShieldedSRC20Parameters mintParam = wallet.createShieldedContractParameters(privMintParams);
 
         byte[] mintInputData1 = abiEncodeForMint(mintParam, 100, frontier, leafCount);
         Pair<Boolean, byte[]> mintContractResult1 = mintContract.execute(mintInputData1);
@@ -1266,9 +1266,9 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
       }
 
       { //for transfer
-        GrpcAPI.PrivateShieldedTRC20ParametersWithoutAsk.Builder privateTRC20Builder = GrpcAPI
-            .PrivateShieldedTRC20ParametersWithoutAsk.newBuilder();
-        GrpcAPI.SpendNoteTRC20.Builder spendNoteBuilder1 = GrpcAPI.SpendNoteTRC20.newBuilder();
+        GrpcAPI.PrivateShieldedSRC20ParametersWithoutAsk.Builder privateSRC20Builder = GrpcAPI
+            .PrivateShieldedSRC20ParametersWithoutAsk.newBuilder();
+        GrpcAPI.SpendNoteSRC20.Builder spendNoteBuilder1 = GrpcAPI.SpendNoteSRC20.newBuilder();
         GrpcAPI.Note note1 = getNote(100, senderPaymentAddressStr1, rcm1, new byte[512]);
         byte[][] cm1 = new byte[1][32];
         //spendNote1
@@ -1284,7 +1284,7 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
         spendNoteBuilder1.setPos(position1);
         spendNoteBuilder1.setAlpha(ByteString.copyFrom(Note.generateR()));
         spendNoteBuilder1.setNote(note1);
-        privateTRC20Builder.addShieldedSpends(spendNoteBuilder1.build());
+        privateSRC20Builder.addShieldedSpends(spendNoteBuilder1.build());
 
         //receiveNote1
         GrpcAPI.ReceiveNote.Builder revNoteBuilder1 = GrpcAPI.ReceiveNote.newBuilder();
@@ -1297,7 +1297,7 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
         byte[] rcm3 = Note.generateR();
         GrpcAPI.Note revNote = getNote(60, recPaymentAddressStr, rcm3, memo);
         revNoteBuilder1.setNote(revNote);
-        privateTRC20Builder.addShieldedReceives(revNoteBuilder1.build());
+        privateSRC20Builder.addShieldedReceives(revNoteBuilder1.build());
 
         //receiveNote2
         GrpcAPI.ReceiveNote.Builder revNoteBuilder2 = GrpcAPI.ReceiveNote.newBuilder();
@@ -1309,35 +1309,35 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
         byte[] rcm4 = Note.generateR();
         GrpcAPI.Note revNote2 = getNote(40, recPaymentAddressStr2, rcm4, memo);
         revNoteBuilder2.setNote(revNote2);
-        privateTRC20Builder.addShieldedReceives(revNoteBuilder2.build());
+        privateSRC20Builder.addShieldedReceives(revNoteBuilder2.build());
 
         ExpandedSpendingKey expsk = senderSk.expandedSpendingKey();
-        privateTRC20Builder.setAk(ByteString.copyFrom(senderFvk.getAk()));
-        privateTRC20Builder.setNsk(ByteString.copyFrom(expsk.getNsk()));
-        privateTRC20Builder.setOvk(ByteString.copyFrom(expsk.getOvk()));
-        privateTRC20Builder
-            .setShieldedTRC20ContractAddress(ByteString.copyFrom(SHIELDED_CONTRACT_ADDRESS));
-        GrpcAPI.ShieldedTRC20Parameters transferParam = wallet
-            .createShieldedContractParametersWithoutAsk(privateTRC20Builder.build());
+        privateSRC20Builder.setAk(ByteString.copyFrom(senderFvk.getAk()));
+        privateSRC20Builder.setNsk(ByteString.copyFrom(expsk.getNsk()));
+        privateSRC20Builder.setOvk(ByteString.copyFrom(expsk.getOvk()));
+        privateSRC20Builder
+            .setShieldedSRC20ContractAddress(ByteString.copyFrom(SHIELDED_CONTRACT_ADDRESS));
+        GrpcAPI.ShieldedSRC20Parameters transferParam = wallet
+            .createShieldedContractParametersWithoutAsk(privateSRC20Builder.build());
 
         //get the binding signature
-        PrivateShieldedTRC20ParametersWithoutAsk shieldedTRC20ParametersWithoutAsk =
-            privateTRC20Builder
+        PrivateShieldedSRC20ParametersWithoutAsk shieldedSRC20ParametersWithoutAsk =
+            privateSRC20Builder
                 .build();
         SpendAuthSigParameters.Builder signParamerters1 = SpendAuthSigParameters.newBuilder();
         signParamerters1
-            .setAlpha(shieldedTRC20ParametersWithoutAsk.getShieldedSpends(0).getAlpha());
+            .setAlpha(shieldedSRC20ParametersWithoutAsk.getShieldedSpends(0).getAlpha());
         signParamerters1.setAsk(ByteString.copyFrom(expsk.getAsk()));
         signParamerters1.setTxHash(transferParam.getMessageHash());
         BytesMessage signMsg1 = wallet.createSpendAuthSig(signParamerters1.build());
 
-        ShieldedTRC20TriggerContractParameters.Builder triggerParam =
-            ShieldedTRC20TriggerContractParameters
+        ShieldedSRC20TriggerContractParameters.Builder triggerParam =
+            ShieldedSRC20TriggerContractParameters
                 .newBuilder();
-        triggerParam.setShieldedTRC20Parameters(transferParam);
+        triggerParam.setShieldedSRC20Parameters(transferParam);
         triggerParam.addSpendAuthoritySignature(signMsg1);
         BytesMessage triggerInput = wallet
-            .getTriggerInputForShieldedTRC20Contract(triggerParam.build());
+            .getTriggerInputForShieldedSRC20Contract(triggerParam.build());
         logger.info(
             "trigger contract input: " + Hex.toHexString(triggerInput.getValue().toByteArray()));
 
@@ -1350,7 +1350,7 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
         spendDesBuilder1.setZkproof(transferParam.getSpendDescription(0).getZkproof());
         spendDesBuilder1.setNullifier(transferParam.getSpendDescription(0).getNullifier());
 
-        ShieldedTRC20Parameters.Builder bindingSigBuilder = ShieldedTRC20Parameters.newBuilder();
+        ShieldedSRC20Parameters.Builder bindingSigBuilder = ShieldedSRC20Parameters.newBuilder();
         bindingSigBuilder.addSpendDescription(spendDesBuilder1.build());
         bindingSigBuilder.addReceiveDescription(transferParam.getReceiveDescription(0));
         bindingSigBuilder.addReceiveDescription(transferParam.getReceiveDescription(1));
@@ -1429,16 +1429,16 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
       { //for mint1
         GrpcAPI.Note note = getNote(30, senderPaymentAddressStr1, rcm1, new byte[512]);
         GrpcAPI.ReceiveNote.Builder revNoteBuilder = GrpcAPI.ReceiveNote.newBuilder();
-        GrpcAPI.PrivateShieldedTRC20Parameters.Builder paramBuilder = GrpcAPI
-            .PrivateShieldedTRC20Parameters.newBuilder();
+        GrpcAPI.PrivateShieldedSRC20Parameters.Builder paramBuilder = GrpcAPI
+            .PrivateShieldedSRC20Parameters.newBuilder();
         revNoteBuilder.setNote(note);
         paramBuilder.setOvk(ByteString.copyFrom(DEFAULT_OVK));
         paramBuilder.setFromAmount(BigInteger.valueOf(30).toString());
         paramBuilder.addShieldedReceives(revNoteBuilder.build());
         paramBuilder
-            .setShieldedTRC20ContractAddress(ByteString.copyFrom(SHIELDED_CONTRACT_ADDRESS));
-        PrivateShieldedTRC20Parameters privMintParams = paramBuilder.build();
-        ShieldedTRC20Parameters mintParam = wallet.createShieldedContractParameters(privMintParams);
+            .setShieldedSRC20ContractAddress(ByteString.copyFrom(SHIELDED_CONTRACT_ADDRESS));
+        PrivateShieldedSRC20Parameters privMintParams = paramBuilder.build();
+        ShieldedSRC20Parameters mintParam = wallet.createShieldedContractParameters(privMintParams);
 
         byte[] mintInputData1 = abiEncodeForMint(mintParam, 30, frontier, leafCount);
         Pair<Boolean, byte[]> mintContractResult1 = mintContract.execute(mintInputData1);
@@ -1461,16 +1461,16 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
       { //for mint2
         GrpcAPI.Note note = getNote(70, senderPaymentAddressStr2, rcm2, new byte[512]);
         GrpcAPI.ReceiveNote.Builder revNoteBuilder = GrpcAPI.ReceiveNote.newBuilder();
-        GrpcAPI.PrivateShieldedTRC20Parameters.Builder paramBuilder = GrpcAPI
-            .PrivateShieldedTRC20Parameters.newBuilder();
+        GrpcAPI.PrivateShieldedSRC20Parameters.Builder paramBuilder = GrpcAPI
+            .PrivateShieldedSRC20Parameters.newBuilder();
         revNoteBuilder.setNote(note);
         paramBuilder.setOvk(ByteString.copyFrom(DEFAULT_OVK));
         paramBuilder.setFromAmount(BigInteger.valueOf(70).toString());
         paramBuilder.addShieldedReceives(revNoteBuilder.build());
         paramBuilder
-            .setShieldedTRC20ContractAddress(ByteString.copyFrom(SHIELDED_CONTRACT_ADDRESS));
-        PrivateShieldedTRC20Parameters privMintParams = paramBuilder.build();
-        ShieldedTRC20Parameters mintParam = wallet.createShieldedContractParameters(privMintParams);
+            .setShieldedSRC20ContractAddress(ByteString.copyFrom(SHIELDED_CONTRACT_ADDRESS));
+        PrivateShieldedSRC20Parameters privMintParams = paramBuilder.build();
+        ShieldedSRC20Parameters mintParam = wallet.createShieldedContractParameters(privMintParams);
 
         byte[] mintInputData1 = abiEncodeForMint(mintParam, 70, frontier, leafCount);
         Pair<Boolean, byte[]> mintContractResult1 = mintContract.execute(mintInputData1);
@@ -1491,9 +1491,9 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
       }
 
       { //for transfer
-        GrpcAPI.PrivateShieldedTRC20ParametersWithoutAsk.Builder privateTRC20Builder = GrpcAPI
-            .PrivateShieldedTRC20ParametersWithoutAsk.newBuilder();
-        GrpcAPI.SpendNoteTRC20.Builder spendNoteBuilder1 = GrpcAPI.SpendNoteTRC20.newBuilder();
+        GrpcAPI.PrivateShieldedSRC20ParametersWithoutAsk.Builder privateSRC20Builder = GrpcAPI
+            .PrivateShieldedSRC20ParametersWithoutAsk.newBuilder();
+        GrpcAPI.SpendNoteSRC20.Builder spendNoteBuilder1 = GrpcAPI.SpendNoteSRC20.newBuilder();
         GrpcAPI.Note note1 = getNote(30, senderPaymentAddressStr1, rcm1, new byte[512]);
         byte[][] cm1 = new byte[1][32];
         //spendNote1
@@ -1509,10 +1509,10 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
         spendNoteBuilder1.setPos(position1);
         spendNoteBuilder1.setAlpha(ByteString.copyFrom(Note.generateR()));
         spendNoteBuilder1.setNote(note1);
-        privateTRC20Builder.addShieldedSpends(spendNoteBuilder1.build());
+        privateSRC20Builder.addShieldedSpends(spendNoteBuilder1.build());
 
         //spendNote2
-        GrpcAPI.SpendNoteTRC20.Builder spendNoteBuilder2 = GrpcAPI.SpendNoteTRC20.newBuilder();
+        GrpcAPI.SpendNoteSRC20.Builder spendNoteBuilder2 = GrpcAPI.SpendNoteSRC20.newBuilder();
         Note senderNote2 = new Note(senderPaymentAddress2.getD(), senderPaymentAddress2.getPkD(),
             70, rcm2, new byte[512]);
         GrpcAPI.Note note2 = getNote(70, senderPaymentAddressStr2, rcm2, new byte[512]);
@@ -1527,7 +1527,7 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
         spendNoteBuilder2.setPos(position2);
         spendNoteBuilder2.setAlpha(ByteString.copyFrom(Note.generateR()));
         spendNoteBuilder2.setNote(note2);
-        privateTRC20Builder.addShieldedSpends(spendNoteBuilder2.build());
+        privateSRC20Builder.addShieldedSpends(spendNoteBuilder2.build());
 
         //receiveNote1
         GrpcAPI.ReceiveNote.Builder revNoteBuilder1 = GrpcAPI.ReceiveNote.newBuilder();
@@ -1540,24 +1540,24 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
         byte[] rcm3 = Note.generateR();
         GrpcAPI.Note revNote = getNote(100, recPaymentAddressStr, rcm3, memo);
         revNoteBuilder1.setNote(revNote);
-        privateTRC20Builder.addShieldedReceives(revNoteBuilder1.build());
+        privateSRC20Builder.addShieldedReceives(revNoteBuilder1.build());
 
         ExpandedSpendingKey expsk = senderSk.expandedSpendingKey();
-        privateTRC20Builder.setAk(ByteString.copyFrom(senderFvk.getAk()));
-        privateTRC20Builder.setNsk(ByteString.copyFrom(expsk.getNsk()));
-        privateTRC20Builder.setOvk(ByteString.copyFrom(expsk.getOvk()));
-        privateTRC20Builder
-            .setShieldedTRC20ContractAddress(ByteString.copyFrom(SHIELDED_CONTRACT_ADDRESS));
-        GrpcAPI.ShieldedTRC20Parameters transferParam = wallet
-            .createShieldedContractParametersWithoutAsk(privateTRC20Builder.build());
+        privateSRC20Builder.setAk(ByteString.copyFrom(senderFvk.getAk()));
+        privateSRC20Builder.setNsk(ByteString.copyFrom(expsk.getNsk()));
+        privateSRC20Builder.setOvk(ByteString.copyFrom(expsk.getOvk()));
+        privateSRC20Builder
+            .setShieldedSRC20ContractAddress(ByteString.copyFrom(SHIELDED_CONTRACT_ADDRESS));
+        GrpcAPI.ShieldedSRC20Parameters transferParam = wallet
+            .createShieldedContractParametersWithoutAsk(privateSRC20Builder.build());
 
         //get the binding signature
-        PrivateShieldedTRC20ParametersWithoutAsk shieldedTRC20ParametersWithoutAsk =
-            privateTRC20Builder
+        PrivateShieldedSRC20ParametersWithoutAsk shieldedSRC20ParametersWithoutAsk =
+            privateSRC20Builder
                 .build();
         SpendAuthSigParameters.Builder signParamerters1 = SpendAuthSigParameters.newBuilder();
         signParamerters1
-            .setAlpha(shieldedTRC20ParametersWithoutAsk.getShieldedSpends(0).getAlpha());
+            .setAlpha(shieldedSRC20ParametersWithoutAsk.getShieldedSpends(0).getAlpha());
         signParamerters1.setAsk(ByteString.copyFrom(expsk.getAsk()));
         signParamerters1.setTxHash(transferParam.getMessageHash());
         BytesMessage signMsg1 = wallet.createSpendAuthSig(signParamerters1.build());
@@ -1572,19 +1572,19 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
 
         SpendAuthSigParameters.Builder signParamerters2 = SpendAuthSigParameters.newBuilder();
         signParamerters2
-            .setAlpha(shieldedTRC20ParametersWithoutAsk.getShieldedSpends(1).getAlpha());
+            .setAlpha(shieldedSRC20ParametersWithoutAsk.getShieldedSpends(1).getAlpha());
         signParamerters2.setAsk(ByteString.copyFrom(expsk.getAsk()));
         signParamerters2.setTxHash(transferParam.getMessageHash());
         BytesMessage signMsg2 = wallet.createSpendAuthSig(signParamerters2.build());
 
-        ShieldedTRC20TriggerContractParameters.Builder triggerParam =
-            ShieldedTRC20TriggerContractParameters
+        ShieldedSRC20TriggerContractParameters.Builder triggerParam =
+            ShieldedSRC20TriggerContractParameters
                 .newBuilder();
-        triggerParam.setShieldedTRC20Parameters(transferParam);
+        triggerParam.setShieldedSRC20Parameters(transferParam);
         triggerParam.addSpendAuthoritySignature(signMsg1);
         triggerParam.addSpendAuthoritySignature(signMsg2);
         BytesMessage triggerInput = wallet
-            .getTriggerInputForShieldedTRC20Contract(triggerParam.build());
+            .getTriggerInputForShieldedSRC20Contract(triggerParam.build());
         logger.info(
             "trigger contract input: " + Hex.toHexString(triggerInput.getValue().toByteArray()));
 
@@ -1597,7 +1597,7 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
         spendDesBuilder2.setZkproof(transferParam.getSpendDescription(1).getZkproof());
         spendDesBuilder2.setNullifier(transferParam.getSpendDescription(1).getNullifier());
 
-        ShieldedTRC20Parameters.Builder bindingSigBuilder = ShieldedTRC20Parameters.newBuilder();
+        ShieldedSRC20Parameters.Builder bindingSigBuilder = ShieldedSRC20Parameters.newBuilder();
         bindingSigBuilder.addSpendDescription(spendDesBuilder1.build());
         bindingSigBuilder.addSpendDescription(spendDesBuilder2.build());
         bindingSigBuilder.addReceiveDescription(transferParam.getReceiveDescription(0));
@@ -1672,16 +1672,16 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
       { //for mint1
         GrpcAPI.Note note = getNote(30, senderPaymentAddressStr1, rcm1, new byte[512]);
         GrpcAPI.ReceiveNote.Builder revNoteBuilder = GrpcAPI.ReceiveNote.newBuilder();
-        GrpcAPI.PrivateShieldedTRC20Parameters.Builder paramBuilder = GrpcAPI
-            .PrivateShieldedTRC20Parameters.newBuilder();
+        GrpcAPI.PrivateShieldedSRC20Parameters.Builder paramBuilder = GrpcAPI
+            .PrivateShieldedSRC20Parameters.newBuilder();
         revNoteBuilder.setNote(note);
         paramBuilder.setOvk(ByteString.copyFrom(DEFAULT_OVK));
         paramBuilder.setFromAmount(BigInteger.valueOf(30).toString());
         paramBuilder.addShieldedReceives(revNoteBuilder.build());
         paramBuilder
-            .setShieldedTRC20ContractAddress(ByteString.copyFrom(SHIELDED_CONTRACT_ADDRESS));
-        PrivateShieldedTRC20Parameters privMintParams = paramBuilder.build();
-        ShieldedTRC20Parameters mintParam = wallet.createShieldedContractParameters(privMintParams);
+            .setShieldedSRC20ContractAddress(ByteString.copyFrom(SHIELDED_CONTRACT_ADDRESS));
+        PrivateShieldedSRC20Parameters privMintParams = paramBuilder.build();
+        ShieldedSRC20Parameters mintParam = wallet.createShieldedContractParameters(privMintParams);
 
         byte[] mintInputData1 = abiEncodeForMint(mintParam, 30, frontier, leafCount);
         Pair<Boolean, byte[]> mintContractResult1 = mintContract.execute(mintInputData1);
@@ -1704,16 +1704,16 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
       { //for mint2
         GrpcAPI.Note note = getNote(70, senderPaymentAddressStr2, rcm2, new byte[512]);
         GrpcAPI.ReceiveNote.Builder revNoteBuilder = GrpcAPI.ReceiveNote.newBuilder();
-        GrpcAPI.PrivateShieldedTRC20Parameters.Builder paramBuilder = GrpcAPI
-            .PrivateShieldedTRC20Parameters.newBuilder();
+        GrpcAPI.PrivateShieldedSRC20Parameters.Builder paramBuilder = GrpcAPI
+            .PrivateShieldedSRC20Parameters.newBuilder();
         revNoteBuilder.setNote(note);
         paramBuilder.setOvk(ByteString.copyFrom(DEFAULT_OVK));
         paramBuilder.setFromAmount(BigInteger.valueOf(70).toString());
         paramBuilder.addShieldedReceives(revNoteBuilder.build());
         paramBuilder
-            .setShieldedTRC20ContractAddress(ByteString.copyFrom(SHIELDED_CONTRACT_ADDRESS));
-        PrivateShieldedTRC20Parameters privMintParams = paramBuilder.build();
-        ShieldedTRC20Parameters mintParam = wallet.createShieldedContractParameters(privMintParams);
+            .setShieldedSRC20ContractAddress(ByteString.copyFrom(SHIELDED_CONTRACT_ADDRESS));
+        PrivateShieldedSRC20Parameters privMintParams = paramBuilder.build();
+        ShieldedSRC20Parameters mintParam = wallet.createShieldedContractParameters(privMintParams);
 
         byte[] mintInputData1 = abiEncodeForMint(mintParam, 70, frontier, leafCount);
         Pair<Boolean, byte[]> mintContractResult1 = mintContract.execute(mintInputData1);
@@ -1734,9 +1734,9 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
       }
 
       { //for transfer
-        GrpcAPI.PrivateShieldedTRC20ParametersWithoutAsk.Builder privateTRC20Builder = GrpcAPI
-            .PrivateShieldedTRC20ParametersWithoutAsk.newBuilder();
-        GrpcAPI.SpendNoteTRC20.Builder spendNoteBuilder1 = GrpcAPI.SpendNoteTRC20.newBuilder();
+        GrpcAPI.PrivateShieldedSRC20ParametersWithoutAsk.Builder privateSRC20Builder = GrpcAPI
+            .PrivateShieldedSRC20ParametersWithoutAsk.newBuilder();
+        GrpcAPI.SpendNoteSRC20.Builder spendNoteBuilder1 = GrpcAPI.SpendNoteSRC20.newBuilder();
         GrpcAPI.Note note1 = getNote(30, senderPaymentAddressStr1, rcm1, new byte[512]);
         byte[][] cm1 = new byte[1][32];
         //spendNote1
@@ -1752,10 +1752,10 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
         spendNoteBuilder1.setPos(position1);
         spendNoteBuilder1.setAlpha(ByteString.copyFrom(Note.generateR()));
         spendNoteBuilder1.setNote(note1);
-        privateTRC20Builder.addShieldedSpends(spendNoteBuilder1.build());
+        privateSRC20Builder.addShieldedSpends(spendNoteBuilder1.build());
 
         //spendNote2
-        GrpcAPI.SpendNoteTRC20.Builder spendNoteBuilder2 = GrpcAPI.SpendNoteTRC20.newBuilder();
+        GrpcAPI.SpendNoteSRC20.Builder spendNoteBuilder2 = GrpcAPI.SpendNoteSRC20.newBuilder();
         Note senderNote2 = new Note(senderPaymentAddress2.getD(), senderPaymentAddress2.getPkD(),
             70, rcm2, new byte[512]);
         GrpcAPI.Note note2 = getNote(70, senderPaymentAddressStr2, rcm2, new byte[512]);
@@ -1770,7 +1770,7 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
         spendNoteBuilder2.setPos(position2);
         spendNoteBuilder2.setAlpha(ByteString.copyFrom(Note.generateR()));
         spendNoteBuilder2.setNote(note2);
-        privateTRC20Builder.addShieldedSpends(spendNoteBuilder2.build());
+        privateSRC20Builder.addShieldedSpends(spendNoteBuilder2.build());
 
         //receiveNote1
         GrpcAPI.ReceiveNote.Builder revNoteBuilder1 = GrpcAPI.ReceiveNote.newBuilder();
@@ -1783,7 +1783,7 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
         byte[] rcm3 = Note.generateR();
         GrpcAPI.Note revNote = getNote(60, recPaymentAddressStr, rcm3, memo);
         revNoteBuilder1.setNote(revNote);
-        privateTRC20Builder.addShieldedReceives(revNoteBuilder1.build());
+        privateSRC20Builder.addShieldedReceives(revNoteBuilder1.build());
 
         //receiveNote2
         GrpcAPI.ReceiveNote.Builder revNoteBuilder2 = GrpcAPI.ReceiveNote.newBuilder();
@@ -1795,24 +1795,24 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
         byte[] rcm4 = Note.generateR();
         GrpcAPI.Note revNote2 = getNote(40, recPaymentAddressStr2, rcm4, memo);
         revNoteBuilder2.setNote(revNote2);
-        privateTRC20Builder.addShieldedReceives(revNoteBuilder2.build());
+        privateSRC20Builder.addShieldedReceives(revNoteBuilder2.build());
 
         ExpandedSpendingKey expsk = senderSk.expandedSpendingKey();
-        privateTRC20Builder.setAk(ByteString.copyFrom(senderFvk.getAk()));
-        privateTRC20Builder.setNsk(ByteString.copyFrom(expsk.getNsk()));
-        privateTRC20Builder.setOvk(ByteString.copyFrom(expsk.getOvk()));
-        privateTRC20Builder
-            .setShieldedTRC20ContractAddress(ByteString.copyFrom(SHIELDED_CONTRACT_ADDRESS));
-        GrpcAPI.ShieldedTRC20Parameters transferParam = wallet
-            .createShieldedContractParametersWithoutAsk(privateTRC20Builder.build());
+        privateSRC20Builder.setAk(ByteString.copyFrom(senderFvk.getAk()));
+        privateSRC20Builder.setNsk(ByteString.copyFrom(expsk.getNsk()));
+        privateSRC20Builder.setOvk(ByteString.copyFrom(expsk.getOvk()));
+        privateSRC20Builder
+            .setShieldedSRC20ContractAddress(ByteString.copyFrom(SHIELDED_CONTRACT_ADDRESS));
+        GrpcAPI.ShieldedSRC20Parameters transferParam = wallet
+            .createShieldedContractParametersWithoutAsk(privateSRC20Builder.build());
 
         //get the binding signature
-        PrivateShieldedTRC20ParametersWithoutAsk shieldedTRC20ParametersWithoutAsk =
-            privateTRC20Builder
+        PrivateShieldedSRC20ParametersWithoutAsk shieldedSRC20ParametersWithoutAsk =
+            privateSRC20Builder
                 .build();
         SpendAuthSigParameters.Builder signParamerters1 = SpendAuthSigParameters.newBuilder();
         signParamerters1
-            .setAlpha(shieldedTRC20ParametersWithoutAsk.getShieldedSpends(0).getAlpha());
+            .setAlpha(shieldedSRC20ParametersWithoutAsk.getShieldedSpends(0).getAlpha());
         signParamerters1.setAsk(ByteString.copyFrom(expsk.getAsk()));
         signParamerters1.setTxHash(transferParam.getMessageHash());
         BytesMessage signMsg1 = wallet.createSpendAuthSig(signParamerters1.build());
@@ -1827,19 +1827,19 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
 
         SpendAuthSigParameters.Builder signParamerters2 = SpendAuthSigParameters.newBuilder();
         signParamerters2
-            .setAlpha(shieldedTRC20ParametersWithoutAsk.getShieldedSpends(1).getAlpha());
+            .setAlpha(shieldedSRC20ParametersWithoutAsk.getShieldedSpends(1).getAlpha());
         signParamerters2.setAsk(ByteString.copyFrom(expsk.getAsk()));
         signParamerters2.setTxHash(transferParam.getMessageHash());
         BytesMessage signMsg2 = wallet.createSpendAuthSig(signParamerters2.build());
 
-        ShieldedTRC20TriggerContractParameters.Builder triggerParam =
-            ShieldedTRC20TriggerContractParameters
+        ShieldedSRC20TriggerContractParameters.Builder triggerParam =
+            ShieldedSRC20TriggerContractParameters
                 .newBuilder();
-        triggerParam.setShieldedTRC20Parameters(transferParam);
+        triggerParam.setShieldedSRC20Parameters(transferParam);
         triggerParam.addSpendAuthoritySignature(signMsg1);
         triggerParam.addSpendAuthoritySignature(signMsg2);
         BytesMessage triggerInput = wallet
-            .getTriggerInputForShieldedTRC20Contract(triggerParam.build());
+            .getTriggerInputForShieldedSRC20Contract(triggerParam.build());
         logger.info(
             "trigger contract input: " + Hex.toHexString(triggerInput.getValue().toByteArray()));
 
@@ -1852,7 +1852,7 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
         spendDesBuilder2.setZkproof(transferParam.getSpendDescription(1).getZkproof());
         spendDesBuilder2.setNullifier(transferParam.getSpendDescription(1).getNullifier());
 
-        ShieldedTRC20Parameters.Builder bindingSigBuilder = ShieldedTRC20Parameters.newBuilder();
+        ShieldedSRC20Parameters.Builder bindingSigBuilder = ShieldedSRC20Parameters.newBuilder();
         bindingSigBuilder.addSpendDescription(spendDesBuilder1.build());
         bindingSigBuilder.addSpendDescription(spendDesBuilder2.build());
         bindingSigBuilder.addReceiveDescription(transferParam.getReceiveDescription(0));
@@ -1930,17 +1930,17 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
       { //for mint1
         GrpcAPI.Note note = getNote(value, senderPaymentAddressStr, rcm, new byte[512]);
         GrpcAPI.ReceiveNote.Builder revNoteBuilder = GrpcAPI.ReceiveNote.newBuilder();
-        GrpcAPI.PrivateShieldedTRC20Parameters.Builder paramBuilder = GrpcAPI
-            .PrivateShieldedTRC20Parameters.newBuilder();
+        GrpcAPI.PrivateShieldedSRC20Parameters.Builder paramBuilder = GrpcAPI
+            .PrivateShieldedSRC20Parameters.newBuilder();
         revNoteBuilder.setNote(note);
         paramBuilder.setOvk(ByteString.copyFrom(senderFvk.getOvk()));
         paramBuilder.setFromAmount(BigInteger.valueOf(value).toString());
         paramBuilder.addShieldedReceives(revNoteBuilder.build());
         paramBuilder
-            .setShieldedTRC20ContractAddress(ByteString.copyFrom(SHIELDED_CONTRACT_ADDRESS));
-        PrivateShieldedTRC20Parameters privMintParams = paramBuilder.build();
+            .setShieldedSRC20ContractAddress(ByteString.copyFrom(SHIELDED_CONTRACT_ADDRESS));
+        PrivateShieldedSRC20Parameters privMintParams = paramBuilder.build();
 
-        ShieldedTRC20Parameters minParam = wallet.createShieldedContractParameters(privMintParams);
+        ShieldedSRC20Parameters minParam = wallet.createShieldedContractParameters(privMintParams);
         byte[] mintInputData1 = abiEncodeForMint(minParam, value, frontier, leafCount);
         Pair<Boolean, byte[]> mintContractResult1 = mintContract.execute(mintInputData1);
         byte[] mintResult1 = mintContractResult1.getRight();
@@ -1960,9 +1960,9 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
       }
 
       { //for burn
-        GrpcAPI.PrivateShieldedTRC20ParametersWithoutAsk.Builder privateTRC20Builder = GrpcAPI
-            .PrivateShieldedTRC20ParametersWithoutAsk.newBuilder();
-        GrpcAPI.SpendNoteTRC20.Builder spendNoteBuilder = GrpcAPI.SpendNoteTRC20.newBuilder();
+        GrpcAPI.PrivateShieldedSRC20ParametersWithoutAsk.Builder privateSRC20Builder = GrpcAPI
+            .PrivateShieldedSRC20ParametersWithoutAsk.newBuilder();
+        GrpcAPI.SpendNoteSRC20.Builder spendNoteBuilder = GrpcAPI.SpendNoteSRC20.newBuilder();
         GrpcAPI.Note note = getNote(value, senderPaymentAddressStr, rcm, new byte[512]);
         byte[][] cm1 = new byte[1][32];
         //spendNote1
@@ -1978,38 +1978,38 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
         spendNoteBuilder.setPos(position1);
         spendNoteBuilder.setAlpha(ByteString.copyFrom(Note.generateR()));
         spendNoteBuilder.setNote(note);
-        privateTRC20Builder.addShieldedSpends(spendNoteBuilder.build());
+        privateSRC20Builder.addShieldedSpends(spendNoteBuilder.build());
 
         ExpandedSpendingKey expsk = senderSk.expandedSpendingKey();
-        privateTRC20Builder.setAk(ByteString.copyFrom(senderFvk.getAk()));
-        privateTRC20Builder.setNsk(ByteString.copyFrom(expsk.getNsk()));
-        privateTRC20Builder.setToAmount(BigInteger.valueOf(value).toString());
-        privateTRC20Builder.setTransparentToAddress(ByteString.copyFrom(PUBLIC_TO_ADDRESS));
-        privateTRC20Builder
-            .setShieldedTRC20ContractAddress(ByteString.copyFrom(SHIELDED_CONTRACT_ADDRESS));
-        GrpcAPI.ShieldedTRC20Parameters burnParam = wallet
-            .createShieldedContractParametersWithoutAsk(privateTRC20Builder.build());
+        privateSRC20Builder.setAk(ByteString.copyFrom(senderFvk.getAk()));
+        privateSRC20Builder.setNsk(ByteString.copyFrom(expsk.getNsk()));
+        privateSRC20Builder.setToAmount(BigInteger.valueOf(value).toString());
+        privateSRC20Builder.setTransparentToAddress(ByteString.copyFrom(PUBLIC_TO_ADDRESS));
+        privateSRC20Builder
+            .setShieldedSRC20ContractAddress(ByteString.copyFrom(SHIELDED_CONTRACT_ADDRESS));
+        GrpcAPI.ShieldedSRC20Parameters burnParam = wallet
+            .createShieldedContractParametersWithoutAsk(privateSRC20Builder.build());
 
         //get the binding signature
-        PrivateShieldedTRC20ParametersWithoutAsk shieldedTRC20ParametersWithoutAsk =
-            privateTRC20Builder
+        PrivateShieldedSRC20ParametersWithoutAsk shieldedSRC20ParametersWithoutAsk =
+            privateSRC20Builder
                 .build();
         SpendAuthSigParameters.Builder signParamerters1 = SpendAuthSigParameters.newBuilder();
         signParamerters1
-            .setAlpha(shieldedTRC20ParametersWithoutAsk.getShieldedSpends(0).getAlpha());
+            .setAlpha(shieldedSRC20ParametersWithoutAsk.getShieldedSpends(0).getAlpha());
         signParamerters1.setAsk(ByteString.copyFrom(expsk.getAsk()));
         signParamerters1.setTxHash(burnParam.getMessageHash());
         BytesMessage signMsg1 = wallet.createSpendAuthSig(signParamerters1.build());
 
-        ShieldedTRC20TriggerContractParameters.Builder triggerParam =
-            ShieldedTRC20TriggerContractParameters
+        ShieldedSRC20TriggerContractParameters.Builder triggerParam =
+            ShieldedSRC20TriggerContractParameters
                 .newBuilder();
-        triggerParam.setShieldedTRC20Parameters(burnParam);
+        triggerParam.setShieldedSRC20Parameters(burnParam);
         triggerParam.addSpendAuthoritySignature(signMsg1);
         triggerParam.setAmount(BigInteger.valueOf(value).toString());
         triggerParam.setTransparentToAddress(ByteString.copyFrom(PUBLIC_TO_ADDRESS));
         BytesMessage triggerInput = wallet
-            .getTriggerInputForShieldedTRC20Contract(triggerParam.build());
+            .getTriggerInputForShieldedSRC20Contract(triggerParam.build());
         logger.info(
             "trigger contract input: " + Hex.toHexString(triggerInput.getValue().toByteArray()));
 
@@ -2022,7 +2022,7 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
         spendDesBuilder1.setZkproof(burnParam.getSpendDescription(0).getZkproof());
         spendDesBuilder1.setNullifier(burnParam.getSpendDescription(0).getNullifier());
 
-        ShieldedTRC20Parameters.Builder bindingSigBuilder = ShieldedTRC20Parameters.newBuilder();
+        ShieldedSRC20Parameters.Builder bindingSigBuilder = ShieldedSRC20Parameters.newBuilder();
         bindingSigBuilder.addSpendDescription(spendDesBuilder1.build());
         bindingSigBuilder.setMessageHash(burnParam.getMessageHash());
         bindingSigBuilder.setBindingSignature(burnParam.getBindingSignature());
@@ -2066,17 +2066,17 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
       { //for mint1
         GrpcAPI.Note note = getNote(value, senderPaymentAddressStr, rcm, new byte[512]);
         GrpcAPI.ReceiveNote.Builder revNoteBuilder = GrpcAPI.ReceiveNote.newBuilder();
-        GrpcAPI.PrivateShieldedTRC20Parameters.Builder paramBuilder = GrpcAPI
-            .PrivateShieldedTRC20Parameters.newBuilder();
+        GrpcAPI.PrivateShieldedSRC20Parameters.Builder paramBuilder = GrpcAPI
+            .PrivateShieldedSRC20Parameters.newBuilder();
         revNoteBuilder.setNote(note);
         paramBuilder.setOvk(ByteString.copyFrom(senderFvk.getOvk()));
         paramBuilder.setFromAmount(BigInteger.valueOf(value).toString());
         paramBuilder.addShieldedReceives(revNoteBuilder.build());
         paramBuilder
-            .setShieldedTRC20ContractAddress(ByteString.copyFrom(SHIELDED_CONTRACT_ADDRESS));
-        PrivateShieldedTRC20Parameters privMintParams = paramBuilder.build();
+            .setShieldedSRC20ContractAddress(ByteString.copyFrom(SHIELDED_CONTRACT_ADDRESS));
+        PrivateShieldedSRC20Parameters privMintParams = paramBuilder.build();
 
-        ShieldedTRC20Parameters minParam = wallet.createShieldedContractParameters(privMintParams);
+        ShieldedSRC20Parameters minParam = wallet.createShieldedContractParameters(privMintParams);
         byte[] mintInputData1 = abiEncodeForMint(minParam, value, frontier, leafCount);
         Pair<Boolean, byte[]> mintContractResult1 = mintContract.execute(mintInputData1);
         byte[] mintResult1 = mintContractResult1.getRight();
@@ -2096,9 +2096,9 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
       }
 
       { //for burn
-        GrpcAPI.PrivateShieldedTRC20ParametersWithoutAsk.Builder privateTRC20Builder = GrpcAPI
-            .PrivateShieldedTRC20ParametersWithoutAsk.newBuilder();
-        GrpcAPI.SpendNoteTRC20.Builder spendNoteBuilder = GrpcAPI.SpendNoteTRC20.newBuilder();
+        GrpcAPI.PrivateShieldedSRC20ParametersWithoutAsk.Builder privateSRC20Builder = GrpcAPI
+            .PrivateShieldedSRC20ParametersWithoutAsk.newBuilder();
+        GrpcAPI.SpendNoteSRC20.Builder spendNoteBuilder = GrpcAPI.SpendNoteSRC20.newBuilder();
         GrpcAPI.Note note = getNote(value, senderPaymentAddressStr, rcm, new byte[512]);
         byte[][] cm1 = new byte[1][32];
         //spendNote1
@@ -2114,15 +2114,15 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
         spendNoteBuilder.setPos(position1);
         spendNoteBuilder.setAlpha(ByteString.copyFrom(Note.generateR()));
         spendNoteBuilder.setNote(note);
-        privateTRC20Builder.addShieldedSpends(spendNoteBuilder.build());
+        privateSRC20Builder.addShieldedSpends(spendNoteBuilder.build());
 
         ExpandedSpendingKey expsk = senderSk.expandedSpendingKey();
-        privateTRC20Builder.setAk(ByteString.copyFrom(senderFvk.getAk()));
-        privateTRC20Builder.setNsk(ByteString.copyFrom(expsk.getNsk()));
-        privateTRC20Builder.setToAmount(BigInteger.valueOf(60).toString());
-        privateTRC20Builder.setTransparentToAddress(ByteString.copyFrom(PUBLIC_TO_ADDRESS));
-        privateTRC20Builder
-            .setShieldedTRC20ContractAddress(ByteString.copyFrom(SHIELDED_CONTRACT_ADDRESS));
+        privateSRC20Builder.setAk(ByteString.copyFrom(senderFvk.getAk()));
+        privateSRC20Builder.setNsk(ByteString.copyFrom(expsk.getNsk()));
+        privateSRC20Builder.setToAmount(BigInteger.valueOf(60).toString());
+        privateSRC20Builder.setTransparentToAddress(ByteString.copyFrom(PUBLIC_TO_ADDRESS));
+        privateSRC20Builder
+            .setShieldedSRC20ContractAddress(ByteString.copyFrom(SHIELDED_CONTRACT_ADDRESS));
 
         //receiveNote
         GrpcAPI.ReceiveNote.Builder revNoteBuilder2 = GrpcAPI.ReceiveNote.newBuilder();
@@ -2135,31 +2135,31 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
         byte[] memo = new byte[512];
         GrpcAPI.Note revNote2 = getNote(40, recPaymentAddressStr2, rcm4, memo);
         revNoteBuilder2.setNote(revNote2);
-        privateTRC20Builder.addShieldedReceives(revNoteBuilder2.build());
+        privateSRC20Builder.addShieldedReceives(revNoteBuilder2.build());
 
-        GrpcAPI.ShieldedTRC20Parameters burnParam = wallet
-            .createShieldedContractParametersWithoutAsk(privateTRC20Builder.build());
+        GrpcAPI.ShieldedSRC20Parameters burnParam = wallet
+            .createShieldedContractParametersWithoutAsk(privateSRC20Builder.build());
 
         //get the binding signature
-        PrivateShieldedTRC20ParametersWithoutAsk shieldedTRC20ParametersWithoutAsk =
-            privateTRC20Builder
+        PrivateShieldedSRC20ParametersWithoutAsk shieldedSRC20ParametersWithoutAsk =
+            privateSRC20Builder
                 .build();
         SpendAuthSigParameters.Builder signParamerters1 = SpendAuthSigParameters.newBuilder();
         signParamerters1
-            .setAlpha(shieldedTRC20ParametersWithoutAsk.getShieldedSpends(0).getAlpha());
+            .setAlpha(shieldedSRC20ParametersWithoutAsk.getShieldedSpends(0).getAlpha());
         signParamerters1.setAsk(ByteString.copyFrom(expsk.getAsk()));
         signParamerters1.setTxHash(burnParam.getMessageHash());
         BytesMessage signMsg1 = wallet.createSpendAuthSig(signParamerters1.build());
 
-        ShieldedTRC20TriggerContractParameters.Builder triggerParam =
-            ShieldedTRC20TriggerContractParameters
+        ShieldedSRC20TriggerContractParameters.Builder triggerParam =
+            ShieldedSRC20TriggerContractParameters
                 .newBuilder();
-        triggerParam.setShieldedTRC20Parameters(burnParam);
+        triggerParam.setShieldedSRC20Parameters(burnParam);
         triggerParam.addSpendAuthoritySignature(signMsg1);
         triggerParam.setAmount(BigInteger.valueOf(value).toString());
         triggerParam.setTransparentToAddress(ByteString.copyFrom(PUBLIC_TO_ADDRESS));
         BytesMessage triggerInput = wallet
-            .getTriggerInputForShieldedTRC20Contract(triggerParam.build());
+            .getTriggerInputForShieldedSRC20Contract(triggerParam.build());
         logger.info(
             "trigger contract input: " + Hex.toHexString(triggerInput.getValue().toByteArray()));
 
@@ -2172,7 +2172,7 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
         spendDesBuilder1.setZkproof(burnParam.getSpendDescription(0).getZkproof());
         spendDesBuilder1.setNullifier(burnParam.getSpendDescription(0).getNullifier());
 
-        ShieldedTRC20Parameters.Builder bindingSigBuilder = ShieldedTRC20Parameters.newBuilder();
+        ShieldedSRC20Parameters.Builder bindingSigBuilder = ShieldedSRC20Parameters.newBuilder();
         bindingSigBuilder.addSpendDescription(spendDesBuilder1.build());
         bindingSigBuilder.setMessageHash(burnParam.getMessageHash());
         bindingSigBuilder.setBindingSignature(burnParam.getBindingSignature());
@@ -2220,21 +2220,21 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
     GrpcAPI.Note revNote = getNote(revValue, paymentAddressStr, rcm, memo);
     revNoteBuilder.setNote(revNote);
 
-    GrpcAPI.PrivateShieldedTRC20ParametersWithoutAsk.Builder paramBuilder = GrpcAPI
-        .PrivateShieldedTRC20ParametersWithoutAsk.newBuilder();
+    GrpcAPI.PrivateShieldedSRC20ParametersWithoutAsk.Builder paramBuilder = GrpcAPI
+        .PrivateShieldedSRC20ParametersWithoutAsk.newBuilder();
     paramBuilder.setOvk(ByteString.copyFrom(ovk));
     paramBuilder.setFromAmount(BigInteger.valueOf(revValue).toString());
     paramBuilder.addShieldedReceives(revNoteBuilder.build());
-    paramBuilder.setShieldedTRC20ContractAddress(ByteString.copyFrom(SHIELDED_CONTRACT_ADDRESS));
-    GrpcAPI.ShieldedTRC20Parameters trc20MintParams = wallet
+    paramBuilder.setShieldedSRC20ContractAddress(ByteString.copyFrom(SHIELDED_CONTRACT_ADDRESS));
+    GrpcAPI.ShieldedSRC20Parameters src20MintParams = wallet
         .createShieldedContractParametersWithoutAsk(paramBuilder.build());
 
-    GrpcAPI.PrivateShieldedTRC20ParametersWithoutAsk privateParams = paramBuilder.build();
+    GrpcAPI.PrivateShieldedSRC20ParametersWithoutAsk privateParams = paramBuilder.build();
 
     //verify receiveProof && bindingSignature
     boolean result;
     long ctx = JLibrustzcash.librustzcashSaplingVerificationCtxInit();
-    ShieldContract.ReceiveDescription revDesc = trc20MintParams.getReceiveDescription(0);
+    ShieldContract.ReceiveDescription revDesc = src20MintParams.getReceiveDescription(0);
     try {
       result = JLibrustzcash.librustzcashSaplingCheckOutput(
           new LibrustzcashParam.CheckOutputParams(
@@ -2248,8 +2248,8 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
           new LibrustzcashParam.FinalCheckParams(
               ctx,
               valueBalance,
-              trc20MintParams.getBindingSignature().toByteArray(),
-              trc20MintParams.getMessageHash().toByteArray()));
+              src20MintParams.getBindingSignature().toByteArray(),
+              src20MintParams.getMessageHash().toByteArray()));
     } catch (Throwable any) {
       result = false;
     } finally {
@@ -2257,19 +2257,19 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
     }
     Assert.assertTrue(result);
 
-    ShieldedTRC20TriggerContractParameters.Builder triggerParam =
-        ShieldedTRC20TriggerContractParameters
+    ShieldedSRC20TriggerContractParameters.Builder triggerParam =
+        ShieldedSRC20TriggerContractParameters
             .newBuilder();
-    triggerParam.setShieldedTRC20Parameters(trc20MintParams);
+    triggerParam.setShieldedSRC20Parameters(src20MintParams);
     triggerParam.setAmount(BigInteger.valueOf(revValue).toString());
     BytesMessage triggerInput = wallet
-        .getTriggerInputForShieldedTRC20Contract(triggerParam.build());
+        .getTriggerInputForShieldedSRC20Contract(triggerParam.build());
     Assert.assertArrayEquals(triggerInput.getValue().toByteArray(),
-        Hex.decode(trc20MintParams.getTriggerContractInput()));
+        Hex.decode(src20MintParams.getTriggerContractInput()));
   }
 
   @Test
-  public void testScanShieldedTRC20NotesByIvk() throws Exception {
+  public void testScanShieldedSRC20NotesByIvk() throws Exception {
     int statNum = 1;
     int endNum = 100;
     librustzcashInitZksnarkParams();
@@ -2277,31 +2277,31 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
     FullViewingKey fvk = sk.fullViewingKey();
     byte[] ivk = fvk.inViewingKey().value;
 
-    GrpcAPI.DecryptNotesTRC20 scannedNotes = wallet.scanShieldedTRC20NotesByIvk(
+    GrpcAPI.DecryptNotesSRC20 scannedNotes = wallet.scanShieldedSRC20NotesByIvk(
         statNum, endNum, SHIELDED_CONTRACT_ADDRESS, ivk, fvk.getAk(), fvk.getNk(), null);
 
-    for (GrpcAPI.DecryptNotesTRC20.NoteTx noteTx : scannedNotes.getNoteTxsList()) {
+    for (GrpcAPI.DecryptNotesSRC20.NoteTx noteTx : scannedNotes.getNoteTxsList()) {
       logger.info(noteTx.toString());
     }
   }
 
   @Test
-  public void testscanShieldedTRC20NotesByOvk() throws Exception {
+  public void testscanShieldedSRC20NotesByOvk() throws Exception {
     int statNum = 9200;
     int endNum = 9240;
     SpendingKey sk = SpendingKey.decode(privateKey);
     FullViewingKey fvk = sk.fullViewingKey();
 
-    GrpcAPI.DecryptNotesTRC20 scannedNotes = wallet.scanShieldedTRC20NotesByOvk(
+    GrpcAPI.DecryptNotesSRC20 scannedNotes = wallet.scanShieldedSRC20NotesByOvk(
         statNum, endNum, fvk.getOvk(), SHIELDED_CONTRACT_ADDRESS, null);
 
-    for (GrpcAPI.DecryptNotesTRC20.NoteTx noteTx : scannedNotes.getNoteTxsList()) {
+    for (GrpcAPI.DecryptNotesSRC20.NoteTx noteTx : scannedNotes.getNoteTxsList()) {
       logger.info(noteTx.toString());
     }
   }
 
   @Test(expected = IllegalArgumentException.class)
-  public void isShieldedTRC20ContractNoteSpent() throws Exception {
+  public void isShieldedSRC20ContractNoteSpent() throws Exception {
     int statNum = 9200;
     int endNum = 9240;
     librustzcashInitZksnarkParams();
@@ -2309,30 +2309,30 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
     FullViewingKey fvk = sk.fullViewingKey();
     byte[] ivk = fvk.inViewingKey().value;
 
-    GrpcAPI.DecryptNotesTRC20 scannedNotes = wallet.scanShieldedTRC20NotesByIvk(
+    GrpcAPI.DecryptNotesSRC20 scannedNotes = wallet.scanShieldedSRC20NotesByIvk(
         statNum, endNum, SHIELDED_CONTRACT_ADDRESS, ivk, fvk.getAk(), fvk.getNk(), null);
 
-    for (GrpcAPI.DecryptNotesTRC20.NoteTx noteTx : scannedNotes.getNoteTxsList()) {
+    for (GrpcAPI.DecryptNotesSRC20.NoteTx noteTx : scannedNotes.getNoteTxsList()) {
       logger.info(noteTx.toString());
     }
 
-    GrpcAPI.NfTRC20Parameters.Builder NfBuilfer;
-    NfBuilfer = GrpcAPI.NfTRC20Parameters.newBuilder();
+    GrpcAPI.NfSRC20Parameters.Builder NfBuilfer;
+    NfBuilfer = GrpcAPI.NfSRC20Parameters.newBuilder();
     NfBuilfer.setAk(ByteString.copyFrom(fvk.getAk()));
     NfBuilfer.setNk(ByteString.copyFrom(fvk.getNk()));
     NfBuilfer.setPosition(271);
-    NfBuilfer.setShieldedTRC20ContractAddress(ByteString.copyFrom(SHIELDED_CONTRACT_ADDRESS));
+    NfBuilfer.setShieldedSRC20ContractAddress(ByteString.copyFrom(SHIELDED_CONTRACT_ADDRESS));
     if (scannedNotes.getNoteTxsList().size() > 0) {
       NfBuilfer.setNote(scannedNotes.getNoteTxs(0).getNote());
     }
 
     GrpcAPI.NullifierResult result = wallet
-        .isShieldedTRC20ContractNoteSpent(NfBuilfer.build());
+        .isShieldedSRC20ContractNoteSpent(NfBuilfer.build());
     Assert.assertTrue(result.getIsSpent());
   }
 
 
-  private byte[] abiEncodeForBurn(ShieldedTRC20Parameters params, long value) {
+  private byte[] abiEncodeForBurn(ShieldedSRC20Parameters params, long value) {
     byte[] mergedBytes;
     ShieldContract.SpendDescription spendDesc = params.getSpendDescription(0);
     mergedBytes = ByteUtil.merge(
@@ -2378,7 +2378,7 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
     return path;
   }
 
-  private GrpcAPI.PrivateShieldedTRC20Parameters mintParams(String privKey,
+  private GrpcAPI.PrivateShieldedSRC20Parameters mintParams(String privKey,
       long value, String contractAddr, byte[] rcm)
       throws ZksnarkException, ContractValidateException {
     librustzcashInitZksnarkParams();
@@ -2404,18 +2404,18 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
     revNoteBuilder.setNote(revNote);
     byte[] contractAddress = WalletClient.decodeFromBase58Check(contractAddr);
 
-    GrpcAPI.PrivateShieldedTRC20Parameters.Builder paramBuilder = GrpcAPI
-        .PrivateShieldedTRC20Parameters.newBuilder();
+    GrpcAPI.PrivateShieldedSRC20Parameters.Builder paramBuilder = GrpcAPI
+        .PrivateShieldedSRC20Parameters.newBuilder();
     paramBuilder.setAsk(ByteString.copyFrom(ask));
     paramBuilder.setNsk(ByteString.copyFrom(nsk));
     paramBuilder.setOvk(ByteString.copyFrom(ovk));
     paramBuilder.setFromAmount(BigInteger.valueOf(fromAmount).toString());
     paramBuilder.addShieldedReceives(revNoteBuilder.build());
-    paramBuilder.setShieldedTRC20ContractAddress(ByteString.copyFrom(contractAddress));
+    paramBuilder.setShieldedSRC20ContractAddress(ByteString.copyFrom(contractAddress));
     return paramBuilder.build();
   }
 
-  private byte[] abiEncodeForMint(ShieldedTRC20Parameters params, long value,
+  private byte[] abiEncodeForMint(ShieldedSRC20Parameters params, long value,
       byte[] frontier, long leafCount) {
     byte[] mergedBytes;
     ShieldContract.ReceiveDescription revDesc = params.getReceiveDescription(0);
@@ -2442,7 +2442,7 @@ public class ShieldedTRC20BuilderTest extends BlockGenerate {
     return noteBuilder.build();
   }
 
-  private byte[] abiEncodeForTransfer(ShieldedTRC20Parameters params, byte[] frontier,
+  private byte[] abiEncodeForTransfer(ShieldedSRC20Parameters params, byte[] frontier,
       long leafCount) {
     byte[] input = new byte[0];
     byte[] spendAuthSig = new byte[0];

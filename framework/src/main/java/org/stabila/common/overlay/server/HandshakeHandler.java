@@ -35,7 +35,9 @@ import org.stabila.common.overlay.message.DisconnectMessage;
 import org.stabila.common.overlay.message.HelloMessage;
 import org.stabila.common.overlay.message.P2pMessage;
 import org.stabila.common.overlay.message.P2pMessageFactory;
+import org.stabila.common.utils.Base58;
 import org.stabila.core.ChainBaseManager;
+import org.stabila.core.capsule.ExecutiveCapsule;
 import org.stabila.core.config.args.Args;
 import org.stabila.core.db.Manager;
 import org.stabila.core.metrics.MetricsKey;
@@ -185,6 +187,15 @@ public class HandshakeHandler extends ByteToMessageDecoder {
 
     if (remoteId.length != 64) {
       sendHelloMsg(ctx, msg.getTimestamp());
+    }
+
+    if (msg.getExecutiveAddress() != null) {
+      byte[] executiveAddressBytes = Base58.decode(msg.getExecutiveAddress());
+      ExecutiveCapsule executive = chainBaseManager.getExecutiveStore().get(executiveAddressBytes);
+      if (executive != null) {
+        executive.setNodeIp(msg.getFrom().getHost());
+        executive.setAlive(true);
+      }
     }
 
     syncPool.onConnect(channel);

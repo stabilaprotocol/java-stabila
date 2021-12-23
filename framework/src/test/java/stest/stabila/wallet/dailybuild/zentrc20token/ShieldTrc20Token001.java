@@ -1,4 +1,4 @@
-package stest.stabila.wallet.dailybuild.zentrc20token;
+package stest.stabila.wallet.dailybuild.zensrc20token;
 
 import io.grpc.ManagedChannelBuilder;
 import java.util.Optional;
@@ -13,10 +13,10 @@ import org.stabila.api.WalletGrpc;
 import org.stabila.protos.Protocol.TransactionInfo;
 import stest.stabila.wallet.common.client.Configuration;
 import stest.stabila.wallet.common.client.utils.PublicMethed;
-import stest.stabila.wallet.common.client.utils.ZenTrc20Base;
+import stest.stabila.wallet.common.client.utils.ZenSrc20Base;
 
 @Slf4j
-public class ShieldTrc20Token001 extends ZenTrc20Base {
+public class ShieldSrc20Token001 extends ZenSrc20Base {
 
   private String fullnode = Configuration.getByPath("testng.conf")
       .getStringList("fullnode.ip.list").get(0);
@@ -38,7 +38,7 @@ public class ShieldTrc20Token001 extends ZenTrc20Base {
   @Test(enabled = true, description = "Check shield contract deploy success")
   public void test01checkShieldContractDeploySuccess() {
     Optional<TransactionInfo> infoById = PublicMethed
-        .getTransactionInfoById(deployShieldTrc20Txid, blockingStubFull);
+        .getTransactionInfoById(deployShieldSrc20Txid, blockingStubFull);
     Assert.assertTrue(infoById.get().getReceipt().getResultValue() == 1);
     infoById = PublicMethed
         .getTransactionInfoById(deployShieldTxid, blockingStubFull);
@@ -51,7 +51,7 @@ public class ShieldTrc20Token001 extends ZenTrc20Base {
   public void test02ViewScalingFactor() {
     String txid = PublicMethed.triggerContract(shieldAddressByte,
         "scalingFactor()", "", false,
-        0, maxFeeLimit, zenTrc20TokenOwnerAddress, zenTrc20TokenOwnerKey, blockingStubFull);
+        0, maxFeeLimit, zenSrc20TokenOwnerAddress, zenSrc20TokenOwnerKey, blockingStubFull);
     Optional<TransactionInfo> infoById = PublicMethed
         .getTransactionInfoById(txid, blockingStubFull);
     logger.info(txid);
@@ -60,7 +60,7 @@ public class ShieldTrc20Token001 extends ZenTrc20Base {
     TransactionExtention transactionExtention = PublicMethed
         .triggerConstantContractForExtention(shieldAddressByte, "scalingFactor()",
             "", false, 0, 0, "0", 0,
-            zenTrc20TokenOwnerAddress, zenTrc20TokenOwnerKey, blockingStubFull);
+            zenSrc20TokenOwnerAddress, zenSrc20TokenOwnerKey, blockingStubFull);
 
     logger.info("transactionExtention:" + transactionExtention);
     String scalingFactor = PublicMethed

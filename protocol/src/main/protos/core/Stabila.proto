@@ -291,6 +291,8 @@ message Executive {
   int64 latestBlockNum = 7;
   int64 latestSlotNum = 8;
   bool isJobs = 9;
+  string nodeIp = 10;
+  bool alive = 11;
 }
 
 // Vote Change
@@ -619,6 +621,7 @@ message HelloMessage {
   BlockId headBlockId = 6;
   bytes address = 7;
   bytes signature = 8;
+  string executiveAddress = 9;
 }
 
 message InternalTransaction {
@@ -687,6 +690,7 @@ message NodeInfo {
     int32 disconnectTimes = 23;
     string localDisconnectReason = 24;
     string remoteDisconnectReason = 25;
+    string executiveAddress = 26;
   }
 
   message ConfigNodeInfo {
@@ -777,6 +781,8 @@ message MetricsInfo {
     message Executive {
       string address = 1;
       int32 version = 2;
+      string nodeIp = 3;
+      bool alive = 4;
     }
 
     message DupExecutive {

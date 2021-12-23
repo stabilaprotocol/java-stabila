@@ -1,7 +1,5 @@
 package org.stabila.consensus.dpos;
 
-import static org.stabila.core.config.Parameter.ChainConstant.EXECUTIVE_STANDBY_LENGTH;
-
 import com.google.protobuf.ByteString;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
@@ -21,8 +19,8 @@ public class IncentiveManager {
     if (consensusDelegate.allowChangeDelegation()) {
       return;
     }
-    if (executives.size() > EXECUTIVE_STANDBY_LENGTH) {
-      executives = executives.subList(0, EXECUTIVE_STANDBY_LENGTH);
+    if (executives.size() > consensusDelegate.getDynamicPropertiesStore().getExecutiveStandbyLength()) {
+      executives = executives.subList(0, (int) consensusDelegate.getDynamicPropertiesStore().getExecutiveStandbyLength());
     }
     long voteSum = 0;
     for (ByteString executive : executives) {

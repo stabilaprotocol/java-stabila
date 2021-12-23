@@ -51,6 +51,7 @@ import org.stabila.common.logsfilter.trigger.ContractEventTrigger;
 import org.stabila.common.logsfilter.trigger.ContractLogTrigger;
 import org.stabila.common.logsfilter.trigger.ContractTrigger;
 import org.stabila.common.logsfilter.trigger.Trigger;
+import org.stabila.common.overlay.discover.node.NodeManager;
 import org.stabila.common.overlay.message.Message;
 import org.stabila.common.parameter.CommonParameter;
 import org.stabila.common.runtime.RuntimeImpl;
@@ -210,6 +211,8 @@ public class Manager {
   // the capacity is equal to Integer.MAX_VALUE default
   private BlockingQueue<TransactionCapsule> rePushTransactions;
   private BlockingQueue<TriggerCapsule> triggerCapsuleQueue;
+  @Autowired
+  private NodeManager nodeManager;
 
   /**
    * Cycle thread to rePush Transactions
@@ -542,6 +545,15 @@ public class Manager {
               final ExecutiveCapsule executiveCapsule =
                   new ExecutiveCapsule(address, key.getVoteCount(), key.getUrl());
               executiveCapsule.setIsJobs(true);
+              if (Args.getInstance().isExecutive() &&
+                      Arrays.equals(
+                              Args.getLocalExecutives().getExecutiveAccountAddress(CommonParameter.getInstance().isECKeyCryptoEngine()),
+                              address.toByteArray()
+                      )
+              ) {
+                executiveCapsule.setNodeIp(nodeManager.getPublicHomeNode().getHost());
+                executiveCapsule.setAlive(true);
+              }
               chainBaseManager.getExecutiveStore().put(keyAddress, executiveCapsule);
             });
   }

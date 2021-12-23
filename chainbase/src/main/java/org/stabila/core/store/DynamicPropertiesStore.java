@@ -18,6 +18,8 @@ import org.stabila.core.capsule.BytesCapsule;
 import org.stabila.core.config.Parameter;
 import org.stabila.core.config.Parameter.ChainConstant;
 
+import static org.stabila.core.config.Parameter.ChainConstant.BLOCK_PRODUCED_INTERVAL;
+
 @Slf4j(topic = "DB")
 @Component
 public class DynamicPropertiesStore extends StabilaStoreWithRevoking<BytesCapsule> {
@@ -120,11 +122,11 @@ public class DynamicPropertiesStore extends StabilaStoreWithRevoking<BytesCapsul
   //Used only for abi moves, once，value is {0,1}
   private static final byte[] ABI_MOVE_DONE = "ABI_MOVE_DONE".getBytes();
   //This value is only allowed to be 0, 1, -1
-  private static final byte[] ALLOW_SVM_TRANSFER_TRC10 = "ALLOW_SVM_TRANSFER_TRC10".getBytes();
+  private static final byte[] ALLOW_SVM_TRANSFER_SRC10 = "ALLOW_SVM_TRANSFER_SRC10".getBytes();
   //If the parameter is larger than 0, allow ZKsnark Transaction
   private static final byte[] ALLOW_SHIELDED_TRANSACTION = "ALLOW_SHIELDED_TRANSACTION".getBytes();
-  private static final byte[] ALLOW_SHIELDED_TRC20_TRANSACTION =
-      "ALLOW_SHIELDED_TRC20_TRANSACTION"
+  private static final byte[] ALLOW_SHIELDED_SRC20_TRANSACTION =
+      "ALLOW_SHIELDED_SRC20_TRANSACTION"
           .getBytes();
   private static final byte[] ALLOW_SVM_ISTANBUL = "ALLOW_SVM_ISTANBUL".getBytes();
   private static final byte[] ALLOW_SVM_CONSTANTINOPLE = "ALLOW_SVM_CONSTANTINOPLE".getBytes();
@@ -160,7 +162,15 @@ public class DynamicPropertiesStore extends StabilaStoreWithRevoking<BytesCapsul
       "NEW_REWARD_ALGORITHM_EFFECTIVE_CYCLE".getBytes();
   //This value is only allowed to be 1
   private static final byte[] ALLOW_ACCOUNT_ASSET_OPTIMIZATION = "ALLOW_ACCOUNT_ASSET_OPTIMIZATION".getBytes();
+  private static final byte[] MAX_ACTIVE_EXECUTIVE_NUM = "MAX_ACTIVE_EXECUTIVE_NUM".getBytes();
+  private static final byte[] EXECUTIVE_STANDBY_LENGTH = "EXECUTIVE_STANDBY_LENGTH".getBytes();
+  private static final byte[] POW_VOTE_BROKERAGE = "POW_VOTE_BROKERAGE".getBytes();
 
+  private static final long DEFAULT_MAX_ACTIVE_EXECUTIVE_NUM = 2L;
+  private static final long DEFAULT_EXECUTIVE_STANDBY_LENGTH = 100L;
+  private static final int DEFAULT_POW_VOTE_BROKERAGE = 50;
+
+  private long blockCycle = 0L;
 
   @Autowired
   private DynamicPropertiesStore(@Value("properties") String dbName) {
@@ -556,10 +566,10 @@ public class DynamicPropertiesStore extends StabilaStoreWithRevoking<BytesCapsul
     }
 
     try {
-      this.getAllowSvmTransferTrc10();
+      this.getAllowSvmTransferSrc10();
     } catch (IllegalArgumentException e) {
-      this.saveAllowSvmTransferTrc10(CommonParameter.getInstance()
-          .getAllowSvmTransferTrc10());
+      this.saveAllowSvmTransferSrc10(CommonParameter.getInstance()
+          .getAllowSvmTransferSrc10());
     }
 
     try {
@@ -626,10 +636,10 @@ public class DynamicPropertiesStore extends StabilaStoreWithRevoking<BytesCapsul
     }
 
     try {
-      this.getAllowShieldedTRC20Transaction();
+      this.getAllowShieldedSRC20Transaction();
     } catch (IllegalArgumentException e) {
-      this.saveAllowShieldedTRC20Transaction(
-          CommonParameter.getInstance().getAllowShieldedTRC20Transaction());
+      this.saveAllowShieldedSRC20Transaction(
+          CommonParameter.getInstance().getAllowShieldedSRC20Transaction());
     }
 
     try {
@@ -763,6 +773,24 @@ public class DynamicPropertiesStore extends StabilaStoreWithRevoking<BytesCapsul
     } catch (IllegalArgumentException e) {
       this.setAllowAccountAssetOptimization(CommonParameter
               .getInstance().getAllowAccountAssetOptimization());
+    }
+
+    try {
+      this.getMaxActiveExecutiveNum();
+    } catch (IllegalArgumentException e) {
+      this.saveMaxActiveExecutiveNum(DEFAULT_MAX_ACTIVE_EXECUTIVE_NUM);
+    }
+
+    try {
+      this.getExecutiveStandbyLength();
+    } catch (IllegalArgumentException e) {
+      this.saveExecutiveStandbyLength(DEFAULT_EXECUTIVE_STANDBY_LENGTH);
+    }
+
+    try {
+      this.getPowVoteBrokerage();
+    } catch (IllegalArgumentException e) {
+      this.savePowVoteBrokerage(DEFAULT_POW_VOTE_BROKERAGE);
     }
   }
 
@@ -1637,17 +1665,17 @@ public class DynamicPropertiesStore extends StabilaStoreWithRevoking<BytesCapsul
             () -> new IllegalArgumentException("not found ALLOW_ADAPTIVE_UCR"));
   }
 
-  public void saveAllowSvmTransferTrc10(long value) {
-    this.put(ALLOW_SVM_TRANSFER_TRC10,
+  public void saveAllowSvmTransferSrc10(long value) {
+    this.put(ALLOW_SVM_TRANSFER_SRC10,
         new BytesCapsule(ByteArray.fromLong(value)));
   }
 
-  public long getAllowSvmTransferTrc10() {
-    return Optional.ofNullable(getUnchecked(ALLOW_SVM_TRANSFER_TRC10))
+  public long getAllowSvmTransferSrc10() {
+    return Optional.ofNullable(getUnchecked(ALLOW_SVM_TRANSFER_SRC10))
         .map(BytesCapsule::getData)
         .map(ByteArray::toLong)
         .orElseThrow(
-            () -> new IllegalArgumentException("not found ALLOW_SVM_TRANSFER_TRC10"));
+            () -> new IllegalArgumentException("not found ALLOW_SVM_TRANSFER_SRC10"));
   }
 
   public void saveAllowSvmConstantinople(long value) {
@@ -1817,14 +1845,14 @@ public class DynamicPropertiesStore extends StabilaStoreWithRevoking<BytesCapsul
             () -> new IllegalArgumentException("not found ALLOW_SHIELDED_TRANSACTION"));
   }
 
-  public void saveAllowShieldedTRC20Transaction(long allowShieldedTRC20Transaction) {
-    this.put(DynamicPropertiesStore.ALLOW_SHIELDED_TRC20_TRANSACTION,
-        new BytesCapsule(ByteArray.fromLong(allowShieldedTRC20Transaction)));
+  public void saveAllowShieldedSRC20Transaction(long allowShieldedSRC20Transaction) {
+    this.put(DynamicPropertiesStore.ALLOW_SHIELDED_SRC20_TRANSACTION,
+        new BytesCapsule(ByteArray.fromLong(allowShieldedSRC20Transaction)));
   }
 
-  public long getAllowShieldedTRC20Transaction() {
-    String msg = "not found ALLOW_SHIELDED_TRC20_TRANSACTION";
-    return Optional.ofNullable(getUnchecked(ALLOW_SHIELDED_TRC20_TRANSACTION))
+  public long getAllowShieldedSRC20Transaction() {
+    String msg = "not found ALLOW_SHIELDED_SRC20_TRANSACTION";
+    return Optional.ofNullable(getUnchecked(ALLOW_SHIELDED_SRC20_TRANSACTION))
         .map(BytesCapsule::getData)
         .map(ByteArray::toLong)
         .orElseThrow(
@@ -1849,8 +1877,8 @@ public class DynamicPropertiesStore extends StabilaStoreWithRevoking<BytesCapsul
     return getAllowShieldedTransaction() == 1L;
   }
 
-  public boolean supportShieldedTRC20Transaction() {
-    return getAllowShieldedTRC20Transaction() == 1L;
+  public boolean supportShieldedSRC20Transaction() {
+    return getAllowShieldedSRC20Transaction() == 1L;
   }
 
   public void saveBlockFilledSlots(int[] blockFilledSlots) {
@@ -2284,6 +2312,47 @@ public class DynamicPropertiesStore extends StabilaStoreWithRevoking<BytesCapsul
 
   public void setAllowAccountAssetOptimization(long value) {
     this.put(ALLOW_ACCOUNT_ASSET_OPTIMIZATION, new BytesCapsule(ByteArray.fromLong(value)));
+  }
+
+  public void saveMaxActiveExecutiveNum(long maxActiveExecutiveNum) {
+    this.put(MAX_ACTIVE_EXECUTIVE_NUM, new BytesCapsule(ByteArray.fromLong(maxActiveExecutiveNum)));
+    blockCycle = BLOCK_PRODUCED_INTERVAL * maxActiveExecutiveNum;
+  }
+
+  public long getMaxActiveExecutiveNum() {
+    return Optional.ofNullable(getUnchecked(MAX_ACTIVE_EXECUTIVE_NUM))
+            .map(BytesCapsule::getData)
+            .map(ByteArray::toLong)
+            .orElseThrow(
+                    () -> new IllegalArgumentException("not found MAX_ACTIVE_EXECUTIVE_NUM"));
+  }
+
+  public void saveExecutiveStandbyLength(long executiveStandbyLength) {
+    this.put(EXECUTIVE_STANDBY_LENGTH, new BytesCapsule(ByteArray.fromLong(executiveStandbyLength)));
+  }
+
+  public long getExecutiveStandbyLength() {
+    return Optional.ofNullable(getUnchecked(EXECUTIVE_STANDBY_LENGTH))
+            .map(BytesCapsule::getData)
+            .map(ByteArray::toLong)
+            .orElseThrow(
+                    () -> new IllegalArgumentException("not found EXECUTIVE_STANDBY_LENGTH"));
+  }
+
+  public void savePowVoteBrokerage(int powVoteBrokerage) {
+    this.put(POW_VOTE_BROKERAGE, new BytesCapsule(ByteArray.fromInt(powVoteBrokerage)));
+  }
+
+  public long getPowVoteBrokerage() {
+    return Optional.ofNullable(getUnchecked(POW_VOTE_BROKERAGE))
+            .map(BytesCapsule::getData)
+            .map(ByteArray::toInt)
+            .orElseThrow(
+                    () -> new IllegalArgumentException("not found POW_VOTE_BROKERAGE"));
+  }
+
+  public long getBlockCycle() {
+    return blockCycle;
   }
 
   private static class DynamicResourceProperties {

@@ -16,7 +16,8 @@ public class Parameter {
     VERSION_4_1(19, 1596780000000L, 80),//GMT 2020-08-07 06:00:00,80 means 22 SR upgrade
     VERSION_4_1_2(20, 1596780000000L, 80),
     VERSION_4_2(21, 1596780000000L, 80),
-    VERSION_4_3(22, 1596780000000L, 80);
+    VERSION_4_3(22, 1596780000000L, 80),
+    VERSION_5_0(23, 1639565736000L, 80);
 
     @Getter
     private int value;
@@ -48,8 +49,6 @@ public class Parameter {
 
   public class ChainConstant {
 
-    public static final int MAX_ACTIVE_EXECUTIVE_NUM = 21;
-    public static final int EXECUTIVE_STANDBY_LENGTH = 100;
     public static final long TRANSFER_FEE = 0; // free
     public static final int BLOCK_PRODUCED_INTERVAL = 3000; //ms,produce block period, must be divisible by 60. millisecond
     public static final int MAX_VOTE_NUMBER = 30;

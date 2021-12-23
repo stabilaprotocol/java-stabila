@@ -1,7 +1,6 @@
 package org.stabila.core.capsule;
 
 import static org.stabila.common.utils.WalletUtil.getAddressStringList;
-import static org.stabila.core.config.Parameter.ChainConstant.MAX_ACTIVE_EXECUTIVE_NUM;
 
 import com.google.common.collect.Lists;
 import com.google.protobuf.ByteString;
@@ -153,17 +152,17 @@ public class ProposalCapsule implements ProtoCapsule<Proposal> {
     return this.proposal;
   }
 
-  public boolean hasMostApprovals(List<ByteString> activeExecutives) {
+  public boolean hasMostApprovals(List<ByteString> activeExecutives, long maxActiveExecutiveNum) {
     long count = this.proposal.getApprovalsList().stream()
-        .filter(executive -> activeExecutives.contains(executive)).count();
+        .filter(activeExecutives::contains).count();
     if (count != this.proposal.getApprovalsCount()) {
       List<ByteString> InvalidApprovalList = this.proposal.getApprovalsList().stream()
           .filter(executive -> !activeExecutives.contains(executive)).collect(Collectors.toList());
       logger.info("InvalidApprovalList:" + getAddressStringList(InvalidApprovalList));
     }
-    if (activeExecutives.size() != MAX_ACTIVE_EXECUTIVE_NUM) {
+    if (activeExecutives.size() != maxActiveExecutiveNum) {
       logger.info("activeExecutives size = {}", activeExecutives.size());
     }
-    return count >= activeExecutives.size() * 7 / 10;
+    return count >= activeExecutives.size() * 7L / 10;
   }
 }

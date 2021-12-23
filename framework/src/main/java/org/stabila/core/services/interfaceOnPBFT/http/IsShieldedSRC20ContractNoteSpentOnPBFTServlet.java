@@ -5,12 +5,13 @@ import javax.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.stabila.core.services.http.ScanShieldedTRC20NotesByIvkServlet;
+import org.stabila.core.services.http.IsShieldedSRC20ContractNoteSpentServlet;
 import org.stabila.core.services.interfaceOnPBFT.WalletOnPBFT;
 
 @Component
 @Slf4j(topic = "API")
-public class ScanShieldedTRC20NotesByIvkOnPBFTServlet extends ScanShieldedTRC20NotesByIvkServlet {
+public class IsShieldedSRC20ContractNoteSpentOnPBFTServlet extends
+    IsShieldedSRC20ContractNoteSpentServlet {
 
   @Autowired
   private WalletOnPBFT walletOnPBFT;

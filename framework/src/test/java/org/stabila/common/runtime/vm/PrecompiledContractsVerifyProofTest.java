@@ -11,7 +11,7 @@ import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.stabila.api.GrpcAPI.ShieldedTRC20Parameters;
+import org.stabila.api.GrpcAPI.ShieldedSRC20Parameters;
 import org.stabila.common.application.StabilaApplicationContext;
 import org.stabila.common.utils.ByteArray;
 import org.stabila.common.utils.ByteUtil;
@@ -31,8 +31,8 @@ import org.stabila.core.vm.PrecompiledContracts.MerkleHash;
 import org.stabila.core.vm.PrecompiledContracts.VerifyBurnProof;
 import org.stabila.core.vm.PrecompiledContracts.VerifyMintProof;
 import org.stabila.core.vm.PrecompiledContracts.VerifyTransferProof;
-import org.stabila.core.zen.ShieldedTRC20ParametersBuilder;
-import org.stabila.core.zen.ShieldedTRC20ParametersBuilder.ShieldedTRC20ParametersType;
+import org.stabila.core.zen.ShieldedSRC20ParametersBuilder;
+import org.stabila.core.zen.ShieldedSRC20ParametersBuilder.ShieldedSRC20ParametersType;
 import org.stabila.core.zen.address.DiversifierT;
 import org.stabila.core.zen.address.ExpandedSpendingKey;
 import org.stabila.core.zen.address.FullViewingKey;
@@ -101,10 +101,10 @@ public class PrecompiledContractsVerifyProofTest {
     byte[] frontier = new byte[32 * 33];
 
     for (int countNum = 0; countNum < totalCountNum; countNum++) {
-      ShieldedTRC20ParametersBuilder builder = new ShieldedTRC20ParametersBuilder();
+      ShieldedSRC20ParametersBuilder builder = new ShieldedSRC20ParametersBuilder();
       builder.setTransparentFromAmount(BigInteger.valueOf(value));
-      builder.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
-      builder.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.MINT);
+      builder.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
+      builder.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.MINT);
 
       //ReceiveNote
       SpendingKey recvSk = SpendingKey.random();
@@ -112,7 +112,7 @@ public class PrecompiledContractsVerifyProofTest {
       IncomingViewingKey incomingViewingKey = fullViewingKey.inViewingKey();
       PaymentAddress paymentAddress = incomingViewingKey.address(DiversifierT.random()).get();
       builder.addOutput(DEFAULT_OVK, paymentAddress, value, new byte[512]);
-      ShieldedTRC20Parameters params = builder.build(false);
+      ShieldedSRC20Parameters params = builder.build(false);
 
       byte[] inputData = abiEncodeForMint(params, value, frontier, leafCount);
       Pair<Boolean, byte[]> contractResult = mintContract.execute(inputData);
@@ -156,13 +156,13 @@ public class PrecompiledContractsVerifyProofTest {
       PaymentAddress senderPaymentAddress2 = senderIvk.address(DiversifierT.random()).get();
 
       { //for mint1
-        ShieldedTRC20ParametersBuilder mintBuilder1 = new ShieldedTRC20ParametersBuilder();
+        ShieldedSRC20ParametersBuilder mintBuilder1 = new ShieldedSRC20ParametersBuilder();
         mintBuilder1.setTransparentFromAmount(BigInteger.valueOf(30));
-        mintBuilder1.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
-        mintBuilder1.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.MINT);
+        mintBuilder1.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
+        mintBuilder1.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.MINT);
         mintBuilder1.addOutput(DEFAULT_OVK, senderPaymentAddress1.getD(),
             senderPaymentAddress1.getPkD(), 30, rcm1, new byte[512]);
-        ShieldedTRC20Parameters mintParams1 = mintBuilder1.build(false);
+        ShieldedSRC20Parameters mintParams1 = mintBuilder1.build(false);
 
         byte[] mintInputData1 = abiEncodeForMint(mintParams1, 30, frontier, leafCount);
         Pair<Boolean, byte[]> mintContractResult1 = mintContract.execute(mintInputData1);
@@ -183,13 +183,13 @@ public class PrecompiledContractsVerifyProofTest {
       }
 
       { //for mint2
-        ShieldedTRC20ParametersBuilder mintBuilder2 = new ShieldedTRC20ParametersBuilder();
+        ShieldedSRC20ParametersBuilder mintBuilder2 = new ShieldedSRC20ParametersBuilder();
         mintBuilder2.setTransparentFromAmount(BigInteger.valueOf(70));
-        mintBuilder2.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
-        mintBuilder2.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.MINT);
+        mintBuilder2.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
+        mintBuilder2.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.MINT);
         mintBuilder2.addOutput(DEFAULT_OVK, senderPaymentAddress2.getD(),
             senderPaymentAddress2.getPkD(), 70, rcm2, new byte[512]);
-        ShieldedTRC20Parameters mintParams2 = mintBuilder2.build(false);
+        ShieldedSRC20Parameters mintParams2 = mintBuilder2.build(false);
 
         byte[] mintInputData2 = abiEncodeForMint(mintParams2, 70, frontier, leafCount);
         Pair<Boolean, byte[]> mintContractResult2 = mintContract.execute(mintInputData2);
@@ -211,9 +211,9 @@ public class PrecompiledContractsVerifyProofTest {
       }
 
       { //for transfer
-        ShieldedTRC20ParametersBuilder builder = new ShieldedTRC20ParametersBuilder();
-        builder.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.TRANSFER);
-        builder.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
+        ShieldedSRC20ParametersBuilder builder = new ShieldedSRC20ParametersBuilder();
+        builder.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.TRANSFER);
+        builder.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
         builder.setTransparentFromAmount(BigInteger.ZERO);
         builder.setTransparentToAmount(BigInteger.ZERO);
         //spendNote1
@@ -252,7 +252,7 @@ public class PrecompiledContractsVerifyProofTest {
         PaymentAddress receivePaymentAddress2 = receiveIvk2.address(new DiversifierT()).get();
         builder.addOutput(senderOvk, receivePaymentAddress2, 60, new byte[512]);
 
-        ShieldedTRC20Parameters params = builder.build(true);
+        ShieldedSRC20Parameters params = builder.build(true);
 
         byte[] inputData = abiEncodeForTransfer(params, frontier, leafCount, 0);
         Pair<Boolean, byte[]> contractResult = verifyTransfer(inputData);
@@ -311,13 +311,13 @@ public class PrecompiledContractsVerifyProofTest {
       PaymentAddress senderPaymentAddress1 = senderIvk.address(DiversifierT.random()).get();
 
       { //for mint1
-        ShieldedTRC20ParametersBuilder mintBuilder1 = new ShieldedTRC20ParametersBuilder();
+        ShieldedSRC20ParametersBuilder mintBuilder1 = new ShieldedSRC20ParametersBuilder();
         mintBuilder1.setTransparentFromAmount(BigInteger.valueOf(100));
-        mintBuilder1.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
-        mintBuilder1.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.MINT);
+        mintBuilder1.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
+        mintBuilder1.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.MINT);
         mintBuilder1.addOutput(DEFAULT_OVK, senderPaymentAddress1.getD(),
             senderPaymentAddress1.getPkD(), 100, rcm1, new byte[512]);
-        ShieldedTRC20Parameters mintParams1 = mintBuilder1.build(false);
+        ShieldedSRC20Parameters mintParams1 = mintBuilder1.build(false);
 
         byte[] mintInputData1 = abiEncodeForMint(mintParams1, 100, frontier, leafCount);
         Pair<Boolean, byte[]> mintContractResult1 = mintContract.execute(mintInputData1);
@@ -338,9 +338,9 @@ public class PrecompiledContractsVerifyProofTest {
       }
 
       { //for transfer
-        ShieldedTRC20ParametersBuilder builder = new ShieldedTRC20ParametersBuilder();
-        builder.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.TRANSFER);
-        builder.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
+        ShieldedSRC20ParametersBuilder builder = new ShieldedSRC20ParametersBuilder();
+        builder.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.TRANSFER);
+        builder.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
         builder.setTransparentFromAmount(BigInteger.ZERO);
         builder.setTransparentToAmount(BigInteger.ZERO);
         //spendNote1
@@ -361,7 +361,7 @@ public class PrecompiledContractsVerifyProofTest {
         PaymentAddress receivePaymentAddress1 = receiveIvk1.address(new DiversifierT()).get();
         builder.addOutput(senderOvk, receivePaymentAddress1, 100, new byte[512]);
 
-        ShieldedTRC20Parameters params = builder.build(true);
+        ShieldedSRC20Parameters params = builder.build(true);
 
         byte[] inputData = abiEncodeForTransfer(params, frontier, leafCount, 0);
         Pair<Boolean, byte[]> contractResult = verifyTransfer(inputData);
@@ -416,13 +416,13 @@ public class PrecompiledContractsVerifyProofTest {
       PaymentAddress senderPaymentAddress1 = senderIvk.address(DiversifierT.random()).get();
 
       { //for mint1
-        ShieldedTRC20ParametersBuilder mintBuilder1 = new ShieldedTRC20ParametersBuilder();
+        ShieldedSRC20ParametersBuilder mintBuilder1 = new ShieldedSRC20ParametersBuilder();
         mintBuilder1.setTransparentFromAmount(BigInteger.valueOf(100));
-        mintBuilder1.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
-        mintBuilder1.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.MINT);
+        mintBuilder1.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
+        mintBuilder1.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.MINT);
         mintBuilder1.addOutput(DEFAULT_OVK, senderPaymentAddress1.getD(),
             senderPaymentAddress1.getPkD(), 100, rcm1, new byte[512]);
-        ShieldedTRC20Parameters mintParams1 = mintBuilder1.build(false);
+        ShieldedSRC20Parameters mintParams1 = mintBuilder1.build(false);
 
         byte[] mintInputData1 = abiEncodeForMint(mintParams1, 100, frontier, leafCount);
         Pair<Boolean, byte[]> mintContractResult1 = mintContract.execute(mintInputData1);
@@ -443,9 +443,9 @@ public class PrecompiledContractsVerifyProofTest {
       }
 
       { //for burn
-        ShieldedTRC20ParametersBuilder builder = new ShieldedTRC20ParametersBuilder();
-        builder.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.BURN);
-        builder.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
+        ShieldedSRC20ParametersBuilder builder = new ShieldedSRC20ParametersBuilder();
+        builder.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.BURN);
+        builder.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
         builder.setTransparentFromAmount(BigInteger.ZERO);
         builder.setTransparentToAmount(BigInteger.valueOf(50L));
         builder.setTransparentToAddress(PUBLIC_TO_ADDRESS);
@@ -467,7 +467,7 @@ public class PrecompiledContractsVerifyProofTest {
         PaymentAddress receivePaymentAddress1 = receiveIvk1.address(new DiversifierT()).get();
         builder.addOutput(senderOvk, receivePaymentAddress1, 50, new byte[512]);
 
-        ShieldedTRC20Parameters params = builder.build(true);
+        ShieldedSRC20Parameters params = builder.build(true);
 
         byte[] inputData = abiEncodeForTransfer(params, frontier, leafCount, 50);
         Pair<Boolean, byte[]> contractResult = verifyTransfer(inputData);
@@ -522,13 +522,13 @@ public class PrecompiledContractsVerifyProofTest {
       PaymentAddress senderPaymentAddress1 = senderIvk.address(DiversifierT.random()).get();
 
       { //for mint1
-        ShieldedTRC20ParametersBuilder mintBuilder1 = new ShieldedTRC20ParametersBuilder();
+        ShieldedSRC20ParametersBuilder mintBuilder1 = new ShieldedSRC20ParametersBuilder();
         mintBuilder1.setTransparentFromAmount(BigInteger.valueOf(100));
-        mintBuilder1.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
-        mintBuilder1.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.MINT);
+        mintBuilder1.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
+        mintBuilder1.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.MINT);
         mintBuilder1.addOutput(DEFAULT_OVK, senderPaymentAddress1.getD(),
             senderPaymentAddress1.getPkD(), 100, rcm1, new byte[512]);
-        ShieldedTRC20Parameters mintParams1 = mintBuilder1.build(false);
+        ShieldedSRC20Parameters mintParams1 = mintBuilder1.build(false);
 
         byte[] mintInputData1 = abiEncodeForMint(mintParams1, 100, frontier, leafCount);
         Pair<Boolean, byte[]> mintContractResult1 = mintContract.execute(mintInputData1);
@@ -549,9 +549,9 @@ public class PrecompiledContractsVerifyProofTest {
       }
 
       { //for transfer
-        ShieldedTRC20ParametersBuilder builder = new ShieldedTRC20ParametersBuilder();
-        builder.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.TRANSFER);
-        builder.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
+        ShieldedSRC20ParametersBuilder builder = new ShieldedSRC20ParametersBuilder();
+        builder.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.TRANSFER);
+        builder.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
         builder.setTransparentFromAmount(BigInteger.ZERO);
         builder.setTransparentToAmount(BigInteger.ZERO);
         //spendNote1
@@ -579,7 +579,7 @@ public class PrecompiledContractsVerifyProofTest {
         PaymentAddress receivePaymentAddress2 = receiveIvk2.address(new DiversifierT()).get();
         builder.addOutput(senderOvk, receivePaymentAddress2, 60, new byte[512]);
 
-        ShieldedTRC20Parameters params = builder.build(true);
+        ShieldedSRC20Parameters params = builder.build(true);
 
         byte[] inputData = abiEncodeForTransfer(params, frontier, leafCount, 0);
         Pair<Boolean, byte[]> contractResult = verifyTransfer(inputData);
@@ -641,13 +641,13 @@ public class PrecompiledContractsVerifyProofTest {
       PaymentAddress senderPaymentAddress2 = senderIvk.address(DiversifierT.random()).get();
 
       { //for mint1
-        ShieldedTRC20ParametersBuilder mintBuilder1 = new ShieldedTRC20ParametersBuilder();
+        ShieldedSRC20ParametersBuilder mintBuilder1 = new ShieldedSRC20ParametersBuilder();
         mintBuilder1.setTransparentFromAmount(BigInteger.valueOf(30));
-        mintBuilder1.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
-        mintBuilder1.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.MINT);
+        mintBuilder1.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
+        mintBuilder1.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.MINT);
         mintBuilder1.addOutput(DEFAULT_OVK, senderPaymentAddress1.getD(),
             senderPaymentAddress1.getPkD(), 30, rcm1, new byte[512]);
-        ShieldedTRC20Parameters mintParams1 = mintBuilder1.build(false);
+        ShieldedSRC20Parameters mintParams1 = mintBuilder1.build(false);
 
         byte[] mintInputData1 = abiEncodeForMint(mintParams1, 30, frontier, leafCount);
         Pair<Boolean, byte[]> mintContractResult1 = mintContract.execute(mintInputData1);
@@ -668,13 +668,13 @@ public class PrecompiledContractsVerifyProofTest {
       }
 
       { //for mint2
-        ShieldedTRC20ParametersBuilder mintBuilder2 = new ShieldedTRC20ParametersBuilder();
+        ShieldedSRC20ParametersBuilder mintBuilder2 = new ShieldedSRC20ParametersBuilder();
         mintBuilder2.setTransparentFromAmount(BigInteger.valueOf(70));
-        mintBuilder2.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
-        mintBuilder2.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.MINT);
+        mintBuilder2.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
+        mintBuilder2.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.MINT);
         mintBuilder2.addOutput(DEFAULT_OVK, senderPaymentAddress2.getD(),
             senderPaymentAddress2.getPkD(), 70, rcm2, new byte[512]);
-        ShieldedTRC20Parameters mintParams2 = mintBuilder2.build(false);
+        ShieldedSRC20Parameters mintParams2 = mintBuilder2.build(false);
 
         byte[] mintInputData2 = abiEncodeForMint(mintParams2, 70, frontier, leafCount);
         Pair<Boolean, byte[]> mintContractResult2 = mintContract.execute(mintInputData2);
@@ -696,9 +696,9 @@ public class PrecompiledContractsVerifyProofTest {
       }
 
       { //for transfer
-        ShieldedTRC20ParametersBuilder builder = new ShieldedTRC20ParametersBuilder();
-        builder.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.TRANSFER);
-        builder.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
+        ShieldedSRC20ParametersBuilder builder = new ShieldedSRC20ParametersBuilder();
+        builder.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.TRANSFER);
+        builder.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
         builder.setTransparentFromAmount(BigInteger.ZERO);
         builder.setTransparentToAmount(BigInteger.ZERO);
         //spendNote1
@@ -730,7 +730,7 @@ public class PrecompiledContractsVerifyProofTest {
         PaymentAddress receivePaymentAddress1 = receiveIvk1.address(new DiversifierT()).get();
         builder.addOutput(senderOvk, receivePaymentAddress1, 100, new byte[512]);
 
-        ShieldedTRC20Parameters params = builder.build(true);
+        ShieldedSRC20Parameters params = builder.build(true);
 
         byte[] inputData = abiEncodeForTransfer(params, frontier, leafCount, 0);
         Pair<Boolean, byte[]> contractResult = verifyTransfer(inputData);
@@ -787,13 +787,13 @@ public class PrecompiledContractsVerifyProofTest {
       PaymentAddress senderPaymentAddress = senderIvk.address(DiversifierT.random()).get();
 
       { //for mint
-        ShieldedTRC20ParametersBuilder mintBuilder = new ShieldedTRC20ParametersBuilder();
+        ShieldedSRC20ParametersBuilder mintBuilder = new ShieldedSRC20ParametersBuilder();
         mintBuilder.setTransparentFromAmount(BigInteger.valueOf(value));
-        mintBuilder.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
-        mintBuilder.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.MINT);
+        mintBuilder.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
+        mintBuilder.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.MINT);
         mintBuilder.addOutput(DEFAULT_OVK, senderPaymentAddress.getD(),
             senderPaymentAddress.getPkD(), value, rcm, new byte[512]);
-        ShieldedTRC20Parameters mintParams = mintBuilder.build(false);
+        ShieldedSRC20Parameters mintParams = mintBuilder.build(false);
 
         byte[] mintInputData = abiEncodeForMint(mintParams, value, frontier, leafCount);
         Pair<Boolean, byte[]> mintContractResult = mintContract.execute(mintInputData);
@@ -814,9 +814,9 @@ public class PrecompiledContractsVerifyProofTest {
       }
 
       { //for burn
-        ShieldedTRC20ParametersBuilder builder = new ShieldedTRC20ParametersBuilder();
-        builder.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.BURN);
-        builder.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
+        ShieldedSRC20ParametersBuilder builder = new ShieldedSRC20ParametersBuilder();
+        builder.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.BURN);
+        builder.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
         builder.setTransparentToAmount(BigInteger.valueOf(value));
         builder.setTransparentToAddress(PUBLIC_TO_ADDRESS);
         //spendNote1
@@ -829,7 +829,7 @@ public class PrecompiledContractsVerifyProofTest {
         byte[] anchor = voucher.root().getContent().toByteArray();
         long position = voucher.position();
         builder.addSpend(senderExpsk, senderNote, anchor, path, position);
-        ShieldedTRC20Parameters params = builder.build(true);
+        ShieldedSRC20Parameters params = builder.build(true);
 
         byte[] inputData = abiEncodeForBurn(params, value);
         Pair<Boolean, byte[]> contractResult = burnContract.execute(inputData);
@@ -901,13 +901,13 @@ public class PrecompiledContractsVerifyProofTest {
     PaymentAddress senderPaymentAddress1 = senderIvk.address(DiversifierT.random()).get();
 
     { //for mint1
-      ShieldedTRC20ParametersBuilder mintBuilder1 = new ShieldedTRC20ParametersBuilder();
+      ShieldedSRC20ParametersBuilder mintBuilder1 = new ShieldedSRC20ParametersBuilder();
       mintBuilder1.setTransparentFromAmount(BigInteger.valueOf(100));
-      mintBuilder1.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
-      mintBuilder1.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.MINT);
+      mintBuilder1.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
+      mintBuilder1.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.MINT);
       mintBuilder1.addOutput(DEFAULT_OVK, senderPaymentAddress1.getD(),
           senderPaymentAddress1.getPkD(), 100, rcm1, new byte[512]);
-      ShieldedTRC20Parameters mintParams1 = mintBuilder1.build(false);
+      ShieldedSRC20Parameters mintParams1 = mintBuilder1.build(false);
 
       byte[] mintInputData1 = abiEncodeForMint(mintParams1, 100, frontier, leafCount);
       Pair<Boolean, byte[]> mintContractResult1 = mintContract.execute(mintInputData1);
@@ -928,9 +928,9 @@ public class PrecompiledContractsVerifyProofTest {
     }
 
     { //for burn
-      ShieldedTRC20ParametersBuilder builder = new ShieldedTRC20ParametersBuilder();
-      builder.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.BURN);
-      builder.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
+      ShieldedSRC20ParametersBuilder builder = new ShieldedSRC20ParametersBuilder();
+      builder.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.BURN);
+      builder.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
       builder.setTransparentFromAmount(BigInteger.ZERO);
       builder.setTransparentToAmount(BigInteger.valueOf(40));
       builder.setTransparentToAddress(PUBLIC_TO_ADDRESS);
@@ -952,7 +952,7 @@ public class PrecompiledContractsVerifyProofTest {
       PaymentAddress receivePaymentAddress1 = receiveIvk1.address(new DiversifierT()).get();
       builder.addOutput(senderOvk, receivePaymentAddress1, 50, new byte[512]);
 
-      ShieldedTRC20Parameters params = builder.build(true);
+      ShieldedSRC20Parameters params = builder.build(true);
 
       byte[] inputData = abiEncodeForTransfer(params, frontier, leafCount, 40);
       Pair<Boolean, byte[]> contractResult = verifyTransfer(inputData);
@@ -1010,10 +1010,10 @@ public class PrecompiledContractsVerifyProofTest {
     long value = 100L;
     byte[] frontier = new byte[32 * 33];
 
-    ShieldedTRC20ParametersBuilder builder = new ShieldedTRC20ParametersBuilder();
+    ShieldedSRC20ParametersBuilder builder = new ShieldedSRC20ParametersBuilder();
     builder.setTransparentFromAmount(BigInteger.valueOf(value));
-    builder.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
-    builder.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.MINT);
+    builder.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
+    builder.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.MINT);
 
     //ReceiveNote
     SpendingKey recvSk = SpendingKey.random();
@@ -1021,7 +1021,7 @@ public class PrecompiledContractsVerifyProofTest {
     IncomingViewingKey incomingViewingKey = fullViewingKey.inViewingKey();
     PaymentAddress paymentAddress = incomingViewingKey.address(DiversifierT.random()).get();
     builder.addOutput(DEFAULT_OVK, paymentAddress, value, new byte[512]);
-    ShieldedTRC20Parameters params = builder.build(false);
+    ShieldedSRC20Parameters params = builder.build(false);
 
     byte[] inputData = abiEncodeForMint(params, value, frontier, leafCount);
     byte[] mergedBytes = ByteUtil.merge(inputData, new byte[1]);
@@ -1048,9 +1048,9 @@ public class PrecompiledContractsVerifyProofTest {
     PaymentAddress senderPaymentAddress1 = senderIvk.address(DiversifierT.random()).get();
     PaymentAddress senderPaymentAddress2 = senderIvk.address(DiversifierT.random()).get();
 
-    ShieldedTRC20ParametersBuilder builder = new ShieldedTRC20ParametersBuilder();
-    builder.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.TRANSFER);
-    builder.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
+    ShieldedSRC20ParametersBuilder builder = new ShieldedSRC20ParametersBuilder();
+    builder.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.TRANSFER);
+    builder.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
     builder.setTransparentFromAmount(BigInteger.ZERO);
     builder.setTransparentToAmount(BigInteger.ZERO);
 
@@ -1091,7 +1091,7 @@ public class PrecompiledContractsVerifyProofTest {
     IncomingViewingKey receiveIvk2 = receiveFvk2.inViewingKey();
     PaymentAddress receivePaymentAddress2 = receiveIvk2.address(new DiversifierT()).get();
     builder.addOutput(senderOvk, receivePaymentAddress2, 60, new byte[512]);
-    ShieldedTRC20Parameters params = builder.build(true);
+    ShieldedSRC20Parameters params = builder.build(true);
 
     byte[] inputData = abiEncodeForTransfer(params, frontier, leafCount, 0);
     byte[] mergedBytes = ByteUtil.merge(inputData, new byte[1]);
@@ -1112,9 +1112,9 @@ public class PrecompiledContractsVerifyProofTest {
     JLibrustzcash.librustzcashSaplingGenerateR(rcm);
     PaymentAddress senderPaymentAddress = senderIvk.address(DiversifierT.random()).get();
 
-    ShieldedTRC20ParametersBuilder builder = new ShieldedTRC20ParametersBuilder();
-    builder.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.BURN);
-    builder.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
+    ShieldedSRC20ParametersBuilder builder = new ShieldedSRC20ParametersBuilder();
+    builder.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.BURN);
+    builder.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
     builder.setTransparentToAmount(BigInteger.valueOf(value));
     builder.setTransparentToAddress(PUBLIC_TO_ADDRESS);
     //spendNote
@@ -1129,7 +1129,7 @@ public class PrecompiledContractsVerifyProofTest {
     byte[] anchor = voucher.root().getContent().toByteArray();
     long position = voucher.position();
     builder.addSpend(senderExpsk, senderNote, anchor, path, position);
-    ShieldedTRC20Parameters params = builder.build(true);
+    ShieldedSRC20Parameters params = builder.build(true);
 
     byte[] inputData = abiEncodeForBurn(params, value);
     byte[] data = ByteUtil.merge(inputData, new byte[1]);
@@ -1146,10 +1146,10 @@ public class PrecompiledContractsVerifyProofTest {
     long[] leafCountList = {-1, 1L << 32};
 
     for (long leafCount : leafCountList) {
-      ShieldedTRC20ParametersBuilder builder = new ShieldedTRC20ParametersBuilder();
+      ShieldedSRC20ParametersBuilder builder = new ShieldedSRC20ParametersBuilder();
       builder.setTransparentFromAmount(BigInteger.valueOf(value));
-      builder.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
-      builder.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.MINT);
+      builder.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
+      builder.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.MINT);
 
       //ReceiveNote
       SpendingKey recvSk = SpendingKey.random();
@@ -1157,7 +1157,7 @@ public class PrecompiledContractsVerifyProofTest {
       IncomingViewingKey incomingViewingKey = fullViewingKey.inViewingKey();
       PaymentAddress paymentAddress = incomingViewingKey.address(DiversifierT.random()).get();
       builder.addOutput(DEFAULT_OVK, paymentAddress, value, new byte[512]);
-      ShieldedTRC20Parameters params = builder.build(false);
+      ShieldedSRC20Parameters params = builder.build(false);
 
       byte[] inputData = abiEncodeForMint(params, value, frontier, leafCount);
       Pair<Boolean, byte[]> contractResult = mintContract.execute(inputData);
@@ -1185,9 +1185,9 @@ public class PrecompiledContractsVerifyProofTest {
     PaymentAddress senderPaymentAddress2 = senderIvk.address(DiversifierT.random()).get();
 
     for (long leafCount : leafCountList) {
-      ShieldedTRC20ParametersBuilder builder = new ShieldedTRC20ParametersBuilder();
-      builder.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.TRANSFER);
-      builder.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
+      ShieldedSRC20ParametersBuilder builder = new ShieldedSRC20ParametersBuilder();
+      builder.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.TRANSFER);
+      builder.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
       builder.setTransparentFromAmount(BigInteger.ZERO);
       builder.setTransparentToAmount(BigInteger.ZERO);
       IncrementalMerkleTreeContainer tree = new IncrementalMerkleTreeContainer(
@@ -1227,7 +1227,7 @@ public class PrecompiledContractsVerifyProofTest {
       IncomingViewingKey receiveIvk2 = receiveFvk2.inViewingKey();
       PaymentAddress receivePaymentAddress2 = receiveIvk2.address(new DiversifierT()).get();
       builder.addOutput(senderOvk, receivePaymentAddress2, 60, new byte[512]);
-      ShieldedTRC20Parameters params = builder.build(true);
+      ShieldedSRC20Parameters params = builder.build(true);
 
       byte[] inputData = abiEncodeForTransfer(params, frontier, leafCount, 0);
       Pair<Boolean, byte[]> contractResult = verifyTransfer(inputData);
@@ -1251,9 +1251,9 @@ public class PrecompiledContractsVerifyProofTest {
     JLibrustzcash.librustzcashSaplingGenerateR(rcm);
     PaymentAddress senderPaymentAddress = senderIvk.address(DiversifierT.random()).get();
 
-    ShieldedTRC20ParametersBuilder builder = new ShieldedTRC20ParametersBuilder();
-    builder.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.TRANSFER);
-    builder.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
+    ShieldedSRC20ParametersBuilder builder = new ShieldedSRC20ParametersBuilder();
+    builder.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.TRANSFER);
+    builder.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
     builder.setTransparentFromAmount(BigInteger.ZERO);
     builder.setTransparentToAmount(BigInteger.ZERO);
 
@@ -1284,7 +1284,7 @@ public class PrecompiledContractsVerifyProofTest {
     IncomingViewingKey receiveIvk2 = receiveFvk2.inViewingKey();
     PaymentAddress receivePaymentAddress2 = receiveIvk2.address(new DiversifierT()).get();
     builder.addOutput(senderOvk, receivePaymentAddress2, 60, new byte[512]);
-    ShieldedTRC20Parameters params = builder.build(true);
+    ShieldedSRC20Parameters params = builder.build(true);
 
     byte[] inputData = abiEncodeForTransfer(params, frontier, leafCount, 0);
     Pair<Boolean, byte[]> contractResult = verifyTransfer(inputData);
@@ -1310,9 +1310,9 @@ public class PrecompiledContractsVerifyProofTest {
     PaymentAddress senderPaymentAddress1 = senderIvk.address(DiversifierT.random()).get();
     PaymentAddress senderPaymentAddress2 = senderIvk.address(DiversifierT.random()).get();
 
-    ShieldedTRC20ParametersBuilder builder = new ShieldedTRC20ParametersBuilder();
-    builder.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.TRANSFER);
-    builder.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
+    ShieldedSRC20ParametersBuilder builder = new ShieldedSRC20ParametersBuilder();
+    builder.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.TRANSFER);
+    builder.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
     builder.setTransparentFromAmount(BigInteger.ZERO);
     builder.setTransparentToAmount(BigInteger.ZERO);
 
@@ -1351,7 +1351,7 @@ public class PrecompiledContractsVerifyProofTest {
         50, r, new byte[512]);
     builder.addOutput(senderOvk, receivePaymentAddress.getD(), receivePaymentAddress.getPkD(),
         50, r, new byte[512]);
-    ShieldedTRC20Parameters params = builder.build(true);
+    ShieldedSRC20Parameters params = builder.build(true);
 
     byte[] inputData = abiEncodeForTransfer(params, frontier, leafCount, 0);
     Pair<Boolean, byte[]> contractResult = verifyTransfer(inputData);
@@ -1367,10 +1367,10 @@ public class PrecompiledContractsVerifyProofTest {
     long[] negativeValueList = {100, 1000};
 
     for (long value : negativeValueList) {
-      ShieldedTRC20ParametersBuilder builder = new ShieldedTRC20ParametersBuilder();
+      ShieldedSRC20ParametersBuilder builder = new ShieldedSRC20ParametersBuilder();
       builder.setTransparentFromAmount(BigInteger.valueOf(value));
-      builder.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
-      builder.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.MINT);
+      builder.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
+      builder.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.MINT);
 
       //ReceiveNote
       SpendingKey recvSk = SpendingKey.random();
@@ -1378,7 +1378,7 @@ public class PrecompiledContractsVerifyProofTest {
       IncomingViewingKey incomingViewingKey = fullViewingKey.inViewingKey();
       PaymentAddress paymentAddress = incomingViewingKey.address(DiversifierT.random()).get();
       builder.addOutput(DEFAULT_OVK, paymentAddress, 50, new byte[512]);
-      ShieldedTRC20Parameters params = builder.build(false);
+      ShieldedSRC20Parameters params = builder.build(false);
 
       byte[] inputData = abiEncodeForMint(params, value, frontier, leafCount);
       Pair<Boolean, byte[]> contractResult = mintContract.execute(inputData);
@@ -1400,9 +1400,9 @@ public class PrecompiledContractsVerifyProofTest {
     JLibrustzcash.librustzcashSaplingGenerateR(rcm);
     PaymentAddress senderPaymentAddress = senderIvk.address(DiversifierT.random()).get();
 
-    ShieldedTRC20ParametersBuilder builder = new ShieldedTRC20ParametersBuilder();
-    builder.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.BURN);
-    builder.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
+    ShieldedSRC20ParametersBuilder builder = new ShieldedSRC20ParametersBuilder();
+    builder.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.BURN);
+    builder.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
     builder.setTransparentToAmount(BigInteger.valueOf(value));
     builder.setTransparentToAddress(PUBLIC_TO_ADDRESS);
     //spendNote
@@ -1417,7 +1417,7 @@ public class PrecompiledContractsVerifyProofTest {
     byte[] anchor = voucher.root().getContent().toByteArray();
     long position = voucher.position();
     builder.addSpend(senderExpsk, senderNote, anchor, path, position);
-    ShieldedTRC20Parameters params = builder.build(true);
+    ShieldedSRC20Parameters params = builder.build(true);
 
     byte[] inputData = abiEncodeForBurn(params, value);
     Pair<Boolean, byte[]> contractResult = burnContract.execute(inputData);
@@ -1434,10 +1434,10 @@ public class PrecompiledContractsVerifyProofTest {
     byte[] frontier = new byte[32 * 33];
 
     for (int countNum = 0; countNum < totalCountNum; countNum++) {
-      ShieldedTRC20ParametersBuilder builder = new ShieldedTRC20ParametersBuilder();
+      ShieldedSRC20ParametersBuilder builder = new ShieldedSRC20ParametersBuilder();
       builder.setTransparentFromAmount(BigInteger.valueOf(value));
-      builder.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
-      builder.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.MINT);
+      builder.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
+      builder.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.MINT);
 
       //ReceiveNote
       SpendingKey recvSk = SpendingKey.random();
@@ -1445,7 +1445,7 @@ public class PrecompiledContractsVerifyProofTest {
       IncomingViewingKey incomingViewingKey = fullViewingKey.inViewingKey();
       PaymentAddress paymentAddress = incomingViewingKey.address(DiversifierT.random()).get();
       builder.addOutput(DEFAULT_OVK, paymentAddress, value, new byte[512]);
-      ShieldedTRC20Parameters params = builder.build(false);
+      ShieldedSRC20Parameters params = builder.build(false);
 
       byte[] inputData = abiEncodeForMintWrongCM(params, value, frontier, leafCount);
       Pair<Boolean, byte[]> contractResult = mintContract.execute(inputData);
@@ -1464,10 +1464,10 @@ public class PrecompiledContractsVerifyProofTest {
     byte[] frontier = new byte[32 * 33];
 
     for (int countNum = 0; countNum < totalCountNum; countNum++) {
-      ShieldedTRC20ParametersBuilder builder = new ShieldedTRC20ParametersBuilder();
+      ShieldedSRC20ParametersBuilder builder = new ShieldedSRC20ParametersBuilder();
       builder.setTransparentFromAmount(BigInteger.valueOf(value));
-      builder.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
-      builder.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.MINT);
+      builder.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
+      builder.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.MINT);
 
       //ReceiveNote
       SpendingKey recvSk = SpendingKey.random();
@@ -1475,7 +1475,7 @@ public class PrecompiledContractsVerifyProofTest {
       IncomingViewingKey incomingViewingKey = fullViewingKey.inViewingKey();
       PaymentAddress paymentAddress = incomingViewingKey.address(DiversifierT.random()).get();
       builder.addOutput(DEFAULT_OVK, paymentAddress, value, new byte[512]);
-      ShieldedTRC20Parameters params = builder.build(false);
+      ShieldedSRC20Parameters params = builder.build(false);
 
       byte[] inputData = abiEncodeForMintWrongCV(params, value, frontier, leafCount);
       Pair<Boolean, byte[]> contractResult = mintContract.execute(inputData);
@@ -1493,10 +1493,10 @@ public class PrecompiledContractsVerifyProofTest {
     byte[] frontier = new byte[32 * 33];
 
     for (int countNum = 0; countNum < totalCountNum; countNum++) {
-      ShieldedTRC20ParametersBuilder builder = new ShieldedTRC20ParametersBuilder();
+      ShieldedSRC20ParametersBuilder builder = new ShieldedSRC20ParametersBuilder();
       builder.setTransparentFromAmount(BigInteger.valueOf(value));
-      builder.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
-      builder.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.MINT);
+      builder.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
+      builder.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.MINT);
 
       //ReceiveNote
       SpendingKey recvSk = SpendingKey.random();
@@ -1504,7 +1504,7 @@ public class PrecompiledContractsVerifyProofTest {
       IncomingViewingKey incomingViewingKey = fullViewingKey.inViewingKey();
       PaymentAddress paymentAddress = incomingViewingKey.address(DiversifierT.random()).get();
       builder.addOutput(DEFAULT_OVK, paymentAddress, value, new byte[512]);
-      ShieldedTRC20Parameters params = builder.build(false);
+      ShieldedSRC20Parameters params = builder.build(false);
 
       byte[] inputData = abiEncodeForMintWrongEpk(params, value, frontier, leafCount);
       Pair<Boolean, byte[]> contractResult = mintContract.execute(inputData);
@@ -1522,10 +1522,10 @@ public class PrecompiledContractsVerifyProofTest {
     byte[] frontier = new byte[32 * 33];
 
     for (int countNum = 0; countNum < totalCountNum; countNum++) {
-      ShieldedTRC20ParametersBuilder builder = new ShieldedTRC20ParametersBuilder();
+      ShieldedSRC20ParametersBuilder builder = new ShieldedSRC20ParametersBuilder();
       builder.setTransparentFromAmount(BigInteger.valueOf(value));
-      builder.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
-      builder.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.MINT);
+      builder.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
+      builder.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.MINT);
 
       //ReceiveNote
       SpendingKey recvSk = SpendingKey.random();
@@ -1533,7 +1533,7 @@ public class PrecompiledContractsVerifyProofTest {
       IncomingViewingKey incomingViewingKey = fullViewingKey.inViewingKey();
       PaymentAddress paymentAddress = incomingViewingKey.address(DiversifierT.random()).get();
       builder.addOutput(DEFAULT_OVK, paymentAddress, value, new byte[512]);
-      ShieldedTRC20Parameters params = builder.build(false);
+      ShieldedSRC20Parameters params = builder.build(false);
 
       byte[] inputData = abiEncodeForMintWrongProof(params, value, frontier, leafCount);
       Pair<Boolean, byte[]> contractResult = mintContract.execute(inputData);
@@ -1551,10 +1551,10 @@ public class PrecompiledContractsVerifyProofTest {
     byte[] frontier = new byte[32 * 33];
 
     for (int countNum = 0; countNum < totalCountNum; countNum++) {
-      ShieldedTRC20ParametersBuilder builder = new ShieldedTRC20ParametersBuilder();
+      ShieldedSRC20ParametersBuilder builder = new ShieldedSRC20ParametersBuilder();
       builder.setTransparentFromAmount(BigInteger.valueOf(value));
-      builder.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
-      builder.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.MINT);
+      builder.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
+      builder.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.MINT);
 
       //ReceiveNote
       SpendingKey recvSk = SpendingKey.random();
@@ -1562,7 +1562,7 @@ public class PrecompiledContractsVerifyProofTest {
       IncomingViewingKey incomingViewingKey = fullViewingKey.inViewingKey();
       PaymentAddress paymentAddress = incomingViewingKey.address(DiversifierT.random()).get();
       builder.addOutput(DEFAULT_OVK, paymentAddress, value, new byte[512]);
-      ShieldedTRC20Parameters params = builder.build(false);
+      ShieldedSRC20Parameters params = builder.build(false);
 
       byte[] inputData = abiEncodeForMintWrongProof(params, value, frontier, leafCount);
       Pair<Boolean, byte[]> contractResult = mintContract.execute(inputData);
@@ -1580,10 +1580,10 @@ public class PrecompiledContractsVerifyProofTest {
     byte[] frontier = new byte[32 * 33];
 
     for (int countNum = 0; countNum < totalCountNum; countNum++) {
-      ShieldedTRC20ParametersBuilder builder = new ShieldedTRC20ParametersBuilder();
+      ShieldedSRC20ParametersBuilder builder = new ShieldedSRC20ParametersBuilder();
       builder.setTransparentFromAmount(BigInteger.valueOf(value));
-      builder.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
-      builder.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.MINT);
+      builder.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
+      builder.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.MINT);
 
       //ReceiveNote
       SpendingKey recvSk = SpendingKey.random();
@@ -1591,7 +1591,7 @@ public class PrecompiledContractsVerifyProofTest {
       IncomingViewingKey incomingViewingKey = fullViewingKey.inViewingKey();
       PaymentAddress paymentAddress = incomingViewingKey.address(DiversifierT.random()).get();
       builder.addOutput(DEFAULT_OVK, paymentAddress, value, new byte[512]);
-      ShieldedTRC20Parameters params = builder.build(false);
+      ShieldedSRC20Parameters params = builder.build(false);
 
       byte[] inputData = abiEncodeForMintWrongHash(params, value, frontier, leafCount);
       Pair<Boolean, byte[]> contractResult = mintContract.execute(inputData);
@@ -1623,13 +1623,13 @@ public class PrecompiledContractsVerifyProofTest {
       PaymentAddress senderPaymentAddress2 = senderIvk.address(DiversifierT.random()).get();
 
       { //for mint1
-        ShieldedTRC20ParametersBuilder mintBuilder1 = new ShieldedTRC20ParametersBuilder();
+        ShieldedSRC20ParametersBuilder mintBuilder1 = new ShieldedSRC20ParametersBuilder();
         mintBuilder1.setTransparentFromAmount(BigInteger.valueOf(30));
-        mintBuilder1.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
-        mintBuilder1.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.MINT);
+        mintBuilder1.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
+        mintBuilder1.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.MINT);
         mintBuilder1.addOutput(DEFAULT_OVK, senderPaymentAddress1.getD(),
             senderPaymentAddress1.getPkD(), 30, rcm1, new byte[512]);
-        ShieldedTRC20Parameters mintParams1 = mintBuilder1.build(false);
+        ShieldedSRC20Parameters mintParams1 = mintBuilder1.build(false);
 
         byte[] mintInputData1 = abiEncodeForMint(mintParams1, 30, frontier, leafCount);
         Pair<Boolean, byte[]> mintContractResult1 = mintContract.execute(mintInputData1);
@@ -1649,13 +1649,13 @@ public class PrecompiledContractsVerifyProofTest {
       }
 
       { //for mint2
-        ShieldedTRC20ParametersBuilder mintBuilder2 = new ShieldedTRC20ParametersBuilder();
+        ShieldedSRC20ParametersBuilder mintBuilder2 = new ShieldedSRC20ParametersBuilder();
         mintBuilder2.setTransparentFromAmount(BigInteger.valueOf(70));
-        mintBuilder2.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
-        mintBuilder2.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.MINT);
+        mintBuilder2.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
+        mintBuilder2.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.MINT);
         mintBuilder2.addOutput(DEFAULT_OVK, senderPaymentAddress2.getD(),
             senderPaymentAddress2.getPkD(), 70, rcm2, new byte[512]);
-        ShieldedTRC20Parameters mintParams2 = mintBuilder2.build(false);
+        ShieldedSRC20Parameters mintParams2 = mintBuilder2.build(false);
 
         byte[] mintInputData2 = abiEncodeForMint(mintParams2, 70, frontier, leafCount);
         Pair<Boolean, byte[]> mintContractResult2 = mintContract.execute(mintInputData2);
@@ -1676,9 +1676,9 @@ public class PrecompiledContractsVerifyProofTest {
       }
 
       { //for transfer
-        ShieldedTRC20ParametersBuilder builder = new ShieldedTRC20ParametersBuilder();
-        builder.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.TRANSFER);
-        builder.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
+        ShieldedSRC20ParametersBuilder builder = new ShieldedSRC20ParametersBuilder();
+        builder.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.TRANSFER);
+        builder.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
         builder.setTransparentFromAmount(BigInteger.ZERO);
         builder.setTransparentToAmount(BigInteger.ZERO);
         //spendNote1
@@ -1717,7 +1717,7 @@ public class PrecompiledContractsVerifyProofTest {
         PaymentAddress receivePaymentAddress2 = receiveIvk2.address(new DiversifierT()).get();
         builder.addOutput(senderOvk, receivePaymentAddress2, 60, new byte[512]);
 
-        ShieldedTRC20Parameters params = builder.build(true);
+        ShieldedSRC20Parameters params = builder.build(true);
 
         byte[] inputData = abiEncodeForTransferWrongNf(params, frontier, leafCount);
         Pair<Boolean, byte[]> contractResult = verifyTransfer(inputData);
@@ -1749,13 +1749,13 @@ public class PrecompiledContractsVerifyProofTest {
       PaymentAddress senderPaymentAddress2 = senderIvk.address(DiversifierT.random()).get();
 
       { //for mint1
-        ShieldedTRC20ParametersBuilder mintBuilder1 = new ShieldedTRC20ParametersBuilder();
+        ShieldedSRC20ParametersBuilder mintBuilder1 = new ShieldedSRC20ParametersBuilder();
         mintBuilder1.setTransparentFromAmount(BigInteger.valueOf(30));
-        mintBuilder1.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
-        mintBuilder1.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.MINT);
+        mintBuilder1.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
+        mintBuilder1.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.MINT);
         mintBuilder1.addOutput(DEFAULT_OVK, senderPaymentAddress1.getD(),
             senderPaymentAddress1.getPkD(), 30, rcm1, new byte[512]);
-        ShieldedTRC20Parameters mintParams1 = mintBuilder1.build(false);
+        ShieldedSRC20Parameters mintParams1 = mintBuilder1.build(false);
 
         byte[] mintInputData1 = abiEncodeForMint(mintParams1, 30, frontier, leafCount);
         Pair<Boolean, byte[]> mintContractResult1 = mintContract.execute(mintInputData1);
@@ -1775,13 +1775,13 @@ public class PrecompiledContractsVerifyProofTest {
       }
 
       { //for mint2
-        ShieldedTRC20ParametersBuilder mintBuilder2 = new ShieldedTRC20ParametersBuilder();
+        ShieldedSRC20ParametersBuilder mintBuilder2 = new ShieldedSRC20ParametersBuilder();
         mintBuilder2.setTransparentFromAmount(BigInteger.valueOf(70));
-        mintBuilder2.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
-        mintBuilder2.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.MINT);
+        mintBuilder2.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
+        mintBuilder2.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.MINT);
         mintBuilder2.addOutput(DEFAULT_OVK, senderPaymentAddress2.getD(),
             senderPaymentAddress2.getPkD(), 70, rcm2, new byte[512]);
-        ShieldedTRC20Parameters mintParams2 = mintBuilder2.build(false);
+        ShieldedSRC20Parameters mintParams2 = mintBuilder2.build(false);
 
         byte[] mintInputData2 = abiEncodeForMint(mintParams2, 70, frontier, leafCount);
         Pair<Boolean, byte[]> mintContractResult2 = mintContract.execute(mintInputData2);
@@ -1802,9 +1802,9 @@ public class PrecompiledContractsVerifyProofTest {
       }
 
       { //for transfer
-        ShieldedTRC20ParametersBuilder builder = new ShieldedTRC20ParametersBuilder();
-        builder.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.TRANSFER);
-        builder.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
+        ShieldedSRC20ParametersBuilder builder = new ShieldedSRC20ParametersBuilder();
+        builder.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.TRANSFER);
+        builder.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
         builder.setTransparentFromAmount(BigInteger.ZERO);
         builder.setTransparentToAmount(BigInteger.ZERO);
         //spendNote1
@@ -1843,7 +1843,7 @@ public class PrecompiledContractsVerifyProofTest {
         PaymentAddress receivePaymentAddress2 = receiveIvk2.address(new DiversifierT()).get();
         builder.addOutput(senderOvk, receivePaymentAddress2, 60, new byte[512]);
 
-        ShieldedTRC20Parameters params = builder.build(true);
+        ShieldedSRC20Parameters params = builder.build(true);
 
         byte[] inputData = abiEncodeForTransferWrongRoot(params, frontier, leafCount);
         Pair<Boolean, byte[]> contractResult = verifyTransfer(inputData);
@@ -1876,13 +1876,13 @@ public class PrecompiledContractsVerifyProofTest {
       PaymentAddress senderPaymentAddress2 = senderIvk.address(DiversifierT.random()).get();
 
       { //for mint1
-        ShieldedTRC20ParametersBuilder mintBuilder1 = new ShieldedTRC20ParametersBuilder();
+        ShieldedSRC20ParametersBuilder mintBuilder1 = new ShieldedSRC20ParametersBuilder();
         mintBuilder1.setTransparentFromAmount(BigInteger.valueOf(30));
-        mintBuilder1.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
-        mintBuilder1.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.MINT);
+        mintBuilder1.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
+        mintBuilder1.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.MINT);
         mintBuilder1.addOutput(DEFAULT_OVK, senderPaymentAddress1.getD(),
             senderPaymentAddress1.getPkD(), 30, rcm1, new byte[512]);
-        ShieldedTRC20Parameters mintParams1 = mintBuilder1.build(false);
+        ShieldedSRC20Parameters mintParams1 = mintBuilder1.build(false);
 
         byte[] mintInputData1 = abiEncodeForMint(mintParams1, 30, frontier, leafCount);
         Pair<Boolean, byte[]> mintContractResult1 = mintContract.execute(mintInputData1);
@@ -1902,13 +1902,13 @@ public class PrecompiledContractsVerifyProofTest {
       }
 
       { //for mint2
-        ShieldedTRC20ParametersBuilder mintBuilder2 = new ShieldedTRC20ParametersBuilder();
+        ShieldedSRC20ParametersBuilder mintBuilder2 = new ShieldedSRC20ParametersBuilder();
         mintBuilder2.setTransparentFromAmount(BigInteger.valueOf(70));
-        mintBuilder2.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
-        mintBuilder2.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.MINT);
+        mintBuilder2.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
+        mintBuilder2.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.MINT);
         mintBuilder2.addOutput(DEFAULT_OVK, senderPaymentAddress2.getD(),
             senderPaymentAddress2.getPkD(), 70, rcm2, new byte[512]);
-        ShieldedTRC20Parameters mintParams2 = mintBuilder2.build(false);
+        ShieldedSRC20Parameters mintParams2 = mintBuilder2.build(false);
 
         byte[] mintInputData2 = abiEncodeForMint(mintParams2, 70, frontier, leafCount);
         Pair<Boolean, byte[]> mintContractResult2 = mintContract.execute(mintInputData2);
@@ -1929,9 +1929,9 @@ public class PrecompiledContractsVerifyProofTest {
       }
 
       { //for transfer
-        ShieldedTRC20ParametersBuilder builder = new ShieldedTRC20ParametersBuilder();
-        builder.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.TRANSFER);
-        builder.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
+        ShieldedSRC20ParametersBuilder builder = new ShieldedSRC20ParametersBuilder();
+        builder.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.TRANSFER);
+        builder.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
         builder.setTransparentFromAmount(BigInteger.ZERO);
         builder.setTransparentToAmount(BigInteger.ZERO);
         //spendNote1
@@ -1970,7 +1970,7 @@ public class PrecompiledContractsVerifyProofTest {
         PaymentAddress receivePaymentAddress2 = receiveIvk2.address(new DiversifierT()).get();
         builder.addOutput(senderOvk, receivePaymentAddress2, 60, new byte[512]);
 
-        ShieldedTRC20Parameters params = builder.build(true);
+        ShieldedSRC20Parameters params = builder.build(true);
 
         byte[] inputData = abiEncodeForTransferWrongSpendCV(params, frontier, leafCount);
         Pair<Boolean, byte[]> contractResult = verifyTransfer(inputData);
@@ -2002,13 +2002,13 @@ public class PrecompiledContractsVerifyProofTest {
       PaymentAddress senderPaymentAddress2 = senderIvk.address(DiversifierT.random()).get();
 
       { //for mint1
-        ShieldedTRC20ParametersBuilder mintBuilder1 = new ShieldedTRC20ParametersBuilder();
+        ShieldedSRC20ParametersBuilder mintBuilder1 = new ShieldedSRC20ParametersBuilder();
         mintBuilder1.setTransparentFromAmount(BigInteger.valueOf(30));
-        mintBuilder1.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
-        mintBuilder1.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.MINT);
+        mintBuilder1.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
+        mintBuilder1.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.MINT);
         mintBuilder1.addOutput(DEFAULT_OVK, senderPaymentAddress1.getD(),
             senderPaymentAddress1.getPkD(), 30, rcm1, new byte[512]);
-        ShieldedTRC20Parameters mintParams1 = mintBuilder1.build(false);
+        ShieldedSRC20Parameters mintParams1 = mintBuilder1.build(false);
 
         byte[] mintInputData1 = abiEncodeForMint(mintParams1, 30, frontier, leafCount);
         Pair<Boolean, byte[]> mintContractResult1 = mintContract.execute(mintInputData1);
@@ -2028,13 +2028,13 @@ public class PrecompiledContractsVerifyProofTest {
       }
 
       { //for mint2
-        ShieldedTRC20ParametersBuilder mintBuilder2 = new ShieldedTRC20ParametersBuilder();
+        ShieldedSRC20ParametersBuilder mintBuilder2 = new ShieldedSRC20ParametersBuilder();
         mintBuilder2.setTransparentFromAmount(BigInteger.valueOf(70));
-        mintBuilder2.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
-        mintBuilder2.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.MINT);
+        mintBuilder2.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
+        mintBuilder2.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.MINT);
         mintBuilder2.addOutput(DEFAULT_OVK, senderPaymentAddress2.getD(),
             senderPaymentAddress2.getPkD(), 70, rcm2, new byte[512]);
-        ShieldedTRC20Parameters mintParams2 = mintBuilder2.build(false);
+        ShieldedSRC20Parameters mintParams2 = mintBuilder2.build(false);
 
         byte[] mintInputData2 = abiEncodeForMint(mintParams2, 70, frontier, leafCount);
         Pair<Boolean, byte[]> mintContractResult2 = mintContract.execute(mintInputData2);
@@ -2055,9 +2055,9 @@ public class PrecompiledContractsVerifyProofTest {
       }
 
       { //for transfer
-        ShieldedTRC20ParametersBuilder builder = new ShieldedTRC20ParametersBuilder();
-        builder.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.TRANSFER);
-        builder.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
+        ShieldedSRC20ParametersBuilder builder = new ShieldedSRC20ParametersBuilder();
+        builder.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.TRANSFER);
+        builder.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
         builder.setTransparentFromAmount(BigInteger.ZERO);
         builder.setTransparentToAmount(BigInteger.ZERO);
         //spendNote1
@@ -2096,7 +2096,7 @@ public class PrecompiledContractsVerifyProofTest {
         PaymentAddress receivePaymentAddress2 = receiveIvk2.address(new DiversifierT()).get();
         builder.addOutput(senderOvk, receivePaymentAddress2, 60, new byte[512]);
 
-        ShieldedTRC20Parameters params = builder.build(true);
+        ShieldedSRC20Parameters params = builder.build(true);
 
         byte[] inputData = abiEncodeForTransferWrongRk(params, frontier, leafCount);
         Pair<Boolean, byte[]> contractResult = verifyTransfer(inputData);
@@ -2128,13 +2128,13 @@ public class PrecompiledContractsVerifyProofTest {
       PaymentAddress senderPaymentAddress2 = senderIvk.address(DiversifierT.random()).get();
 
       { //for mint1
-        ShieldedTRC20ParametersBuilder mintBuilder1 = new ShieldedTRC20ParametersBuilder();
+        ShieldedSRC20ParametersBuilder mintBuilder1 = new ShieldedSRC20ParametersBuilder();
         mintBuilder1.setTransparentFromAmount(BigInteger.valueOf(30));
-        mintBuilder1.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
-        mintBuilder1.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.MINT);
+        mintBuilder1.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
+        mintBuilder1.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.MINT);
         mintBuilder1.addOutput(DEFAULT_OVK, senderPaymentAddress1.getD(),
             senderPaymentAddress1.getPkD(), 30, rcm1, new byte[512]);
-        ShieldedTRC20Parameters mintParams1 = mintBuilder1.build(false);
+        ShieldedSRC20Parameters mintParams1 = mintBuilder1.build(false);
 
         byte[] mintInputData1 = abiEncodeForMint(mintParams1, 30, frontier, leafCount);
         Pair<Boolean, byte[]> mintContractResult1 = mintContract.execute(mintInputData1);
@@ -2154,13 +2154,13 @@ public class PrecompiledContractsVerifyProofTest {
       }
 
       { //for mint2
-        ShieldedTRC20ParametersBuilder mintBuilder2 = new ShieldedTRC20ParametersBuilder();
+        ShieldedSRC20ParametersBuilder mintBuilder2 = new ShieldedSRC20ParametersBuilder();
         mintBuilder2.setTransparentFromAmount(BigInteger.valueOf(70));
-        mintBuilder2.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
-        mintBuilder2.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.MINT);
+        mintBuilder2.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
+        mintBuilder2.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.MINT);
         mintBuilder2.addOutput(DEFAULT_OVK, senderPaymentAddress2.getD(),
             senderPaymentAddress2.getPkD(), 70, rcm2, new byte[512]);
-        ShieldedTRC20Parameters mintParams2 = mintBuilder2.build(false);
+        ShieldedSRC20Parameters mintParams2 = mintBuilder2.build(false);
 
         byte[] mintInputData2 = abiEncodeForMint(mintParams2, 70, frontier, leafCount);
         Pair<Boolean, byte[]> mintContractResult2 = mintContract.execute(mintInputData2);
@@ -2181,9 +2181,9 @@ public class PrecompiledContractsVerifyProofTest {
       }
 
       { //for transfer
-        ShieldedTRC20ParametersBuilder builder = new ShieldedTRC20ParametersBuilder();
-        builder.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.TRANSFER);
-        builder.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
+        ShieldedSRC20ParametersBuilder builder = new ShieldedSRC20ParametersBuilder();
+        builder.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.TRANSFER);
+        builder.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
         builder.setTransparentFromAmount(BigInteger.ZERO);
         builder.setTransparentToAmount(BigInteger.ZERO);
         //spendNote1
@@ -2222,7 +2222,7 @@ public class PrecompiledContractsVerifyProofTest {
         PaymentAddress receivePaymentAddress2 = receiveIvk2.address(new DiversifierT()).get();
         builder.addOutput(senderOvk, receivePaymentAddress2, 60, new byte[512]);
 
-        ShieldedTRC20Parameters params = builder.build(true);
+        ShieldedSRC20Parameters params = builder.build(true);
 
         byte[] inputData = abiEncodeForTransferWrongSpendProof(params, frontier, leafCount);
         Pair<Boolean, byte[]> contractResult = verifyTransfer(inputData);
@@ -2254,13 +2254,13 @@ public class PrecompiledContractsVerifyProofTest {
       PaymentAddress senderPaymentAddress2 = senderIvk.address(DiversifierT.random()).get();
 
       { //for mint1
-        ShieldedTRC20ParametersBuilder mintBuilder1 = new ShieldedTRC20ParametersBuilder();
+        ShieldedSRC20ParametersBuilder mintBuilder1 = new ShieldedSRC20ParametersBuilder();
         mintBuilder1.setTransparentFromAmount(BigInteger.valueOf(30));
-        mintBuilder1.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
-        mintBuilder1.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.MINT);
+        mintBuilder1.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
+        mintBuilder1.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.MINT);
         mintBuilder1.addOutput(DEFAULT_OVK, senderPaymentAddress1.getD(),
             senderPaymentAddress1.getPkD(), 30, rcm1, new byte[512]);
-        ShieldedTRC20Parameters mintParams1 = mintBuilder1.build(false);
+        ShieldedSRC20Parameters mintParams1 = mintBuilder1.build(false);
 
         byte[] mintInputData1 = abiEncodeForMint(mintParams1, 30, frontier, leafCount);
         Pair<Boolean, byte[]> mintContractResult1 = mintContract.execute(mintInputData1);
@@ -2280,13 +2280,13 @@ public class PrecompiledContractsVerifyProofTest {
       }
 
       { //for mint2
-        ShieldedTRC20ParametersBuilder mintBuilder2 = new ShieldedTRC20ParametersBuilder();
+        ShieldedSRC20ParametersBuilder mintBuilder2 = new ShieldedSRC20ParametersBuilder();
         mintBuilder2.setTransparentFromAmount(BigInteger.valueOf(70));
-        mintBuilder2.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
-        mintBuilder2.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.MINT);
+        mintBuilder2.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
+        mintBuilder2.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.MINT);
         mintBuilder2.addOutput(DEFAULT_OVK, senderPaymentAddress2.getD(),
             senderPaymentAddress2.getPkD(), 70, rcm2, new byte[512]);
-        ShieldedTRC20Parameters mintParams2 = mintBuilder2.build(false);
+        ShieldedSRC20Parameters mintParams2 = mintBuilder2.build(false);
 
         byte[] mintInputData2 = abiEncodeForMint(mintParams2, 70, frontier, leafCount);
         Pair<Boolean, byte[]> mintContractResult2 = mintContract.execute(mintInputData2);
@@ -2307,9 +2307,9 @@ public class PrecompiledContractsVerifyProofTest {
       }
 
       { //for transfer
-        ShieldedTRC20ParametersBuilder builder = new ShieldedTRC20ParametersBuilder();
-        builder.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.TRANSFER);
-        builder.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
+        ShieldedSRC20ParametersBuilder builder = new ShieldedSRC20ParametersBuilder();
+        builder.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.TRANSFER);
+        builder.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
         builder.setTransparentFromAmount(BigInteger.ZERO);
         builder.setTransparentToAmount(BigInteger.ZERO);
         //spendNote1
@@ -2348,7 +2348,7 @@ public class PrecompiledContractsVerifyProofTest {
         PaymentAddress receivePaymentAddress2 = receiveIvk2.address(new DiversifierT()).get();
         builder.addOutput(senderOvk, receivePaymentAddress2, 60, new byte[512]);
 
-        ShieldedTRC20Parameters params = builder.build(true);
+        ShieldedSRC20Parameters params = builder.build(true);
 
         byte[] inputData = abiEncodeForTransferWrongCM(params, frontier, leafCount);
         Pair<Boolean, byte[]> contractResult = verifyTransfer(inputData);
@@ -2380,13 +2380,13 @@ public class PrecompiledContractsVerifyProofTest {
       PaymentAddress senderPaymentAddress2 = senderIvk.address(DiversifierT.random()).get();
 
       { //for mint1
-        ShieldedTRC20ParametersBuilder mintBuilder1 = new ShieldedTRC20ParametersBuilder();
+        ShieldedSRC20ParametersBuilder mintBuilder1 = new ShieldedSRC20ParametersBuilder();
         mintBuilder1.setTransparentFromAmount(BigInteger.valueOf(30));
-        mintBuilder1.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
-        mintBuilder1.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.MINT);
+        mintBuilder1.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
+        mintBuilder1.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.MINT);
         mintBuilder1.addOutput(DEFAULT_OVK, senderPaymentAddress1.getD(),
             senderPaymentAddress1.getPkD(), 30, rcm1, new byte[512]);
-        ShieldedTRC20Parameters mintParams1 = mintBuilder1.build(false);
+        ShieldedSRC20Parameters mintParams1 = mintBuilder1.build(false);
 
         byte[] mintInputData1 = abiEncodeForMint(mintParams1, 30, frontier, leafCount);
         Pair<Boolean, byte[]> mintContractResult1 = mintContract.execute(mintInputData1);
@@ -2406,13 +2406,13 @@ public class PrecompiledContractsVerifyProofTest {
       }
 
       { //for mint2
-        ShieldedTRC20ParametersBuilder mintBuilder2 = new ShieldedTRC20ParametersBuilder();
+        ShieldedSRC20ParametersBuilder mintBuilder2 = new ShieldedSRC20ParametersBuilder();
         mintBuilder2.setTransparentFromAmount(BigInteger.valueOf(70));
-        mintBuilder2.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
-        mintBuilder2.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.MINT);
+        mintBuilder2.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
+        mintBuilder2.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.MINT);
         mintBuilder2.addOutput(DEFAULT_OVK, senderPaymentAddress2.getD(),
             senderPaymentAddress2.getPkD(), 70, rcm2, new byte[512]);
-        ShieldedTRC20Parameters mintParams2 = mintBuilder2.build(false);
+        ShieldedSRC20Parameters mintParams2 = mintBuilder2.build(false);
 
         byte[] mintInputData2 = abiEncodeForMint(mintParams2, 70, frontier, leafCount);
         Pair<Boolean, byte[]> mintContractResult2 = mintContract.execute(mintInputData2);
@@ -2433,9 +2433,9 @@ public class PrecompiledContractsVerifyProofTest {
       }
 
       { //for transfer
-        ShieldedTRC20ParametersBuilder builder = new ShieldedTRC20ParametersBuilder();
-        builder.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.TRANSFER);
-        builder.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
+        ShieldedSRC20ParametersBuilder builder = new ShieldedSRC20ParametersBuilder();
+        builder.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.TRANSFER);
+        builder.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
         builder.setTransparentFromAmount(BigInteger.ZERO);
         builder.setTransparentToAmount(BigInteger.ZERO);
         //spendNote1
@@ -2474,7 +2474,7 @@ public class PrecompiledContractsVerifyProofTest {
         PaymentAddress receivePaymentAddress2 = receiveIvk2.address(new DiversifierT()).get();
         builder.addOutput(senderOvk, receivePaymentAddress2, 60, new byte[512]);
 
-        ShieldedTRC20Parameters params = builder.build(true);
+        ShieldedSRC20Parameters params = builder.build(true);
 
         byte[] inputData = abiEncodeForTransferWrongReceiveCV(params, frontier, leafCount);
         Pair<Boolean, byte[]> contractResult = verifyTransfer(inputData);
@@ -2506,13 +2506,13 @@ public class PrecompiledContractsVerifyProofTest {
       PaymentAddress senderPaymentAddress2 = senderIvk.address(DiversifierT.random()).get();
 
       { //for mint1
-        ShieldedTRC20ParametersBuilder mintBuilder1 = new ShieldedTRC20ParametersBuilder();
+        ShieldedSRC20ParametersBuilder mintBuilder1 = new ShieldedSRC20ParametersBuilder();
         mintBuilder1.setTransparentFromAmount(BigInteger.valueOf(30));
-        mintBuilder1.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
-        mintBuilder1.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.MINT);
+        mintBuilder1.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
+        mintBuilder1.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.MINT);
         mintBuilder1.addOutput(DEFAULT_OVK, senderPaymentAddress1.getD(),
             senderPaymentAddress1.getPkD(), 30, rcm1, new byte[512]);
-        ShieldedTRC20Parameters mintParams1 = mintBuilder1.build(false);
+        ShieldedSRC20Parameters mintParams1 = mintBuilder1.build(false);
 
         byte[] mintInputData1 = abiEncodeForMint(mintParams1, 30, frontier, leafCount);
         Pair<Boolean, byte[]> mintContractResult1 = mintContract.execute(mintInputData1);
@@ -2532,13 +2532,13 @@ public class PrecompiledContractsVerifyProofTest {
       }
 
       { //for mint2
-        ShieldedTRC20ParametersBuilder mintBuilder2 = new ShieldedTRC20ParametersBuilder();
+        ShieldedSRC20ParametersBuilder mintBuilder2 = new ShieldedSRC20ParametersBuilder();
         mintBuilder2.setTransparentFromAmount(BigInteger.valueOf(70));
-        mintBuilder2.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
-        mintBuilder2.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.MINT);
+        mintBuilder2.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
+        mintBuilder2.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.MINT);
         mintBuilder2.addOutput(DEFAULT_OVK, senderPaymentAddress2.getD(),
             senderPaymentAddress2.getPkD(), 70, rcm2, new byte[512]);
-        ShieldedTRC20Parameters mintParams2 = mintBuilder2.build(false);
+        ShieldedSRC20Parameters mintParams2 = mintBuilder2.build(false);
 
         byte[] mintInputData2 = abiEncodeForMint(mintParams2, 70, frontier, leafCount);
         Pair<Boolean, byte[]> mintContractResult2 = mintContract.execute(mintInputData2);
@@ -2559,9 +2559,9 @@ public class PrecompiledContractsVerifyProofTest {
       }
 
       { //for transfer
-        ShieldedTRC20ParametersBuilder builder = new ShieldedTRC20ParametersBuilder();
-        builder.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.TRANSFER);
-        builder.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
+        ShieldedSRC20ParametersBuilder builder = new ShieldedSRC20ParametersBuilder();
+        builder.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.TRANSFER);
+        builder.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
         builder.setTransparentFromAmount(BigInteger.ZERO);
         builder.setTransparentToAmount(BigInteger.ZERO);
         //spendNote1
@@ -2600,7 +2600,7 @@ public class PrecompiledContractsVerifyProofTest {
         PaymentAddress receivePaymentAddress2 = receiveIvk2.address(new DiversifierT()).get();
         builder.addOutput(senderOvk, receivePaymentAddress2, 60, new byte[512]);
 
-        ShieldedTRC20Parameters params = builder.build(true);
+        ShieldedSRC20Parameters params = builder.build(true);
 
         byte[] inputData = abiEncodeForTransferWrongEpk(params, frontier, leafCount);
         Pair<Boolean, byte[]> contractResult = verifyTransfer(inputData);
@@ -2632,13 +2632,13 @@ public class PrecompiledContractsVerifyProofTest {
       PaymentAddress senderPaymentAddress2 = senderIvk.address(DiversifierT.random()).get();
 
       { //for mint1
-        ShieldedTRC20ParametersBuilder mintBuilder1 = new ShieldedTRC20ParametersBuilder();
+        ShieldedSRC20ParametersBuilder mintBuilder1 = new ShieldedSRC20ParametersBuilder();
         mintBuilder1.setTransparentFromAmount(BigInteger.valueOf(30));
-        mintBuilder1.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
-        mintBuilder1.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.MINT);
+        mintBuilder1.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
+        mintBuilder1.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.MINT);
         mintBuilder1.addOutput(DEFAULT_OVK, senderPaymentAddress1.getD(),
             senderPaymentAddress1.getPkD(), 30, rcm1, new byte[512]);
-        ShieldedTRC20Parameters mintParams1 = mintBuilder1.build(false);
+        ShieldedSRC20Parameters mintParams1 = mintBuilder1.build(false);
 
         byte[] mintInputData1 = abiEncodeForMint(mintParams1, 30, frontier, leafCount);
         Pair<Boolean, byte[]> mintContractResult1 = mintContract.execute(mintInputData1);
@@ -2658,13 +2658,13 @@ public class PrecompiledContractsVerifyProofTest {
       }
 
       { //for mint2
-        ShieldedTRC20ParametersBuilder mintBuilder2 = new ShieldedTRC20ParametersBuilder();
+        ShieldedSRC20ParametersBuilder mintBuilder2 = new ShieldedSRC20ParametersBuilder();
         mintBuilder2.setTransparentFromAmount(BigInteger.valueOf(70));
-        mintBuilder2.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
-        mintBuilder2.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.MINT);
+        mintBuilder2.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
+        mintBuilder2.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.MINT);
         mintBuilder2.addOutput(DEFAULT_OVK, senderPaymentAddress2.getD(),
             senderPaymentAddress2.getPkD(), 70, rcm2, new byte[512]);
-        ShieldedTRC20Parameters mintParams2 = mintBuilder2.build(false);
+        ShieldedSRC20Parameters mintParams2 = mintBuilder2.build(false);
 
         byte[] mintInputData2 = abiEncodeForMint(mintParams2, 70, frontier, leafCount);
         Pair<Boolean, byte[]> mintContractResult2 = mintContract.execute(mintInputData2);
@@ -2685,9 +2685,9 @@ public class PrecompiledContractsVerifyProofTest {
       }
 
       { //for transfer
-        ShieldedTRC20ParametersBuilder builder = new ShieldedTRC20ParametersBuilder();
-        builder.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.TRANSFER);
-        builder.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
+        ShieldedSRC20ParametersBuilder builder = new ShieldedSRC20ParametersBuilder();
+        builder.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.TRANSFER);
+        builder.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
         builder.setTransparentFromAmount(BigInteger.ZERO);
         builder.setTransparentToAmount(BigInteger.ZERO);
         //spendNote1
@@ -2726,7 +2726,7 @@ public class PrecompiledContractsVerifyProofTest {
         PaymentAddress receivePaymentAddress2 = receiveIvk2.address(new DiversifierT()).get();
         builder.addOutput(senderOvk, receivePaymentAddress2, 60, new byte[512]);
 
-        ShieldedTRC20Parameters params = builder.build(true);
+        ShieldedSRC20Parameters params = builder.build(true);
 
         byte[] inputData = abiEncodeForTransferWrongReceivProof(params, frontier, leafCount);
         Pair<Boolean, byte[]> contractResult = verifyTransfer(inputData);
@@ -2758,13 +2758,13 @@ public class PrecompiledContractsVerifyProofTest {
       PaymentAddress senderPaymentAddress2 = senderIvk.address(DiversifierT.random()).get();
 
       { //for mint1
-        ShieldedTRC20ParametersBuilder mintBuilder1 = new ShieldedTRC20ParametersBuilder();
+        ShieldedSRC20ParametersBuilder mintBuilder1 = new ShieldedSRC20ParametersBuilder();
         mintBuilder1.setTransparentFromAmount(BigInteger.valueOf(30));
-        mintBuilder1.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
-        mintBuilder1.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.MINT);
+        mintBuilder1.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
+        mintBuilder1.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.MINT);
         mintBuilder1.addOutput(DEFAULT_OVK, senderPaymentAddress1.getD(),
             senderPaymentAddress1.getPkD(), 30, rcm1, new byte[512]);
-        ShieldedTRC20Parameters mintParams1 = mintBuilder1.build(false);
+        ShieldedSRC20Parameters mintParams1 = mintBuilder1.build(false);
 
         byte[] mintInputData1 = abiEncodeForMint(mintParams1, 30, frontier, leafCount);
         Pair<Boolean, byte[]> mintContractResult1 = mintContract.execute(mintInputData1);
@@ -2784,13 +2784,13 @@ public class PrecompiledContractsVerifyProofTest {
       }
 
       { //for mint2
-        ShieldedTRC20ParametersBuilder mintBuilder2 = new ShieldedTRC20ParametersBuilder();
+        ShieldedSRC20ParametersBuilder mintBuilder2 = new ShieldedSRC20ParametersBuilder();
         mintBuilder2.setTransparentFromAmount(BigInteger.valueOf(70));
-        mintBuilder2.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
-        mintBuilder2.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.MINT);
+        mintBuilder2.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
+        mintBuilder2.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.MINT);
         mintBuilder2.addOutput(DEFAULT_OVK, senderPaymentAddress2.getD(),
             senderPaymentAddress2.getPkD(), 70, rcm2, new byte[512]);
-        ShieldedTRC20Parameters mintParams2 = mintBuilder2.build(false);
+        ShieldedSRC20Parameters mintParams2 = mintBuilder2.build(false);
 
         byte[] mintInputData2 = abiEncodeForMint(mintParams2, 70, frontier, leafCount);
         Pair<Boolean, byte[]> mintContractResult2 = mintContract.execute(mintInputData2);
@@ -2811,9 +2811,9 @@ public class PrecompiledContractsVerifyProofTest {
       }
 
       { //for transfer
-        ShieldedTRC20ParametersBuilder builder = new ShieldedTRC20ParametersBuilder();
-        builder.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.TRANSFER);
-        builder.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
+        ShieldedSRC20ParametersBuilder builder = new ShieldedSRC20ParametersBuilder();
+        builder.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.TRANSFER);
+        builder.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
         builder.setTransparentFromAmount(BigInteger.ZERO);
         builder.setTransparentToAmount(BigInteger.ZERO);
         //spendNote1
@@ -2852,7 +2852,7 @@ public class PrecompiledContractsVerifyProofTest {
         PaymentAddress receivePaymentAddress2 = receiveIvk2.address(new DiversifierT()).get();
         builder.addOutput(senderOvk, receivePaymentAddress2, 60, new byte[512]);
 
-        ShieldedTRC20Parameters params = builder.build(true);
+        ShieldedSRC20Parameters params = builder.build(true);
 
         byte[] inputData = abiEncodeForTransferWrongBindingSignature(params, frontier, leafCount);
         Pair<Boolean, byte[]> contractResult = verifyTransfer(inputData);
@@ -2884,13 +2884,13 @@ public class PrecompiledContractsVerifyProofTest {
       PaymentAddress senderPaymentAddress2 = senderIvk.address(DiversifierT.random()).get();
 
       { //for mint1
-        ShieldedTRC20ParametersBuilder mintBuilder1 = new ShieldedTRC20ParametersBuilder();
+        ShieldedSRC20ParametersBuilder mintBuilder1 = new ShieldedSRC20ParametersBuilder();
         mintBuilder1.setTransparentFromAmount(BigInteger.valueOf(30));
-        mintBuilder1.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
-        mintBuilder1.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.MINT);
+        mintBuilder1.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
+        mintBuilder1.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.MINT);
         mintBuilder1.addOutput(DEFAULT_OVK, senderPaymentAddress1.getD(),
             senderPaymentAddress1.getPkD(), 30, rcm1, new byte[512]);
-        ShieldedTRC20Parameters mintParams1 = mintBuilder1.build(false);
+        ShieldedSRC20Parameters mintParams1 = mintBuilder1.build(false);
 
         byte[] mintInputData1 = abiEncodeForMint(mintParams1, 30, frontier, leafCount);
         Pair<Boolean, byte[]> mintContractResult1 = mintContract.execute(mintInputData1);
@@ -2910,13 +2910,13 @@ public class PrecompiledContractsVerifyProofTest {
       }
 
       { //for mint2
-        ShieldedTRC20ParametersBuilder mintBuilder2 = new ShieldedTRC20ParametersBuilder();
+        ShieldedSRC20ParametersBuilder mintBuilder2 = new ShieldedSRC20ParametersBuilder();
         mintBuilder2.setTransparentFromAmount(BigInteger.valueOf(70));
-        mintBuilder2.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
-        mintBuilder2.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.MINT);
+        mintBuilder2.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
+        mintBuilder2.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.MINT);
         mintBuilder2.addOutput(DEFAULT_OVK, senderPaymentAddress2.getD(),
             senderPaymentAddress2.getPkD(), 70, rcm2, new byte[512]);
-        ShieldedTRC20Parameters mintParams2 = mintBuilder2.build(false);
+        ShieldedSRC20Parameters mintParams2 = mintBuilder2.build(false);
 
         byte[] mintInputData2 = abiEncodeForMint(mintParams2, 70, frontier, leafCount);
         Pair<Boolean, byte[]> mintContractResult2 = mintContract.execute(mintInputData2);
@@ -2937,9 +2937,9 @@ public class PrecompiledContractsVerifyProofTest {
       }
 
       { //for transfer
-        ShieldedTRC20ParametersBuilder builder = new ShieldedTRC20ParametersBuilder();
-        builder.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.TRANSFER);
-        builder.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
+        ShieldedSRC20ParametersBuilder builder = new ShieldedSRC20ParametersBuilder();
+        builder.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.TRANSFER);
+        builder.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
         builder.setTransparentFromAmount(BigInteger.ZERO);
         builder.setTransparentToAmount(BigInteger.ZERO);
         //spendNote1
@@ -2978,7 +2978,7 @@ public class PrecompiledContractsVerifyProofTest {
         PaymentAddress receivePaymentAddress2 = receiveIvk2.address(new DiversifierT()).get();
         builder.addOutput(senderOvk, receivePaymentAddress2, 60, new byte[512]);
 
-        ShieldedTRC20Parameters params = builder.build(true);
+        ShieldedSRC20Parameters params = builder.build(true);
 
         byte[] inputData = abiEncodeForTransferWrongHash(params, frontier, leafCount);
         Pair<Boolean, byte[]> contractResult = verifyTransfer(inputData);
@@ -3008,13 +3008,13 @@ public class PrecompiledContractsVerifyProofTest {
       PaymentAddress senderPaymentAddress = senderIvk.address(DiversifierT.random()).get();
 
       { //for mint
-        ShieldedTRC20ParametersBuilder mintBuilder = new ShieldedTRC20ParametersBuilder();
+        ShieldedSRC20ParametersBuilder mintBuilder = new ShieldedSRC20ParametersBuilder();
         mintBuilder.setTransparentFromAmount(BigInteger.valueOf(value));
-        mintBuilder.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
-        mintBuilder.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.MINT);
+        mintBuilder.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
+        mintBuilder.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.MINT);
         mintBuilder.addOutput(DEFAULT_OVK, senderPaymentAddress.getD(),
             senderPaymentAddress.getPkD(), value, rcm, new byte[512]);
-        ShieldedTRC20Parameters mintParams = mintBuilder.build(false);
+        ShieldedSRC20Parameters mintParams = mintBuilder.build(false);
 
         byte[] mintInputData = abiEncodeForMint(mintParams, value, frontier, leafCount);
         Pair<Boolean, byte[]> mintContractResult = mintContract.execute(mintInputData);
@@ -3034,9 +3034,9 @@ public class PrecompiledContractsVerifyProofTest {
       }
 
       { //for burn
-        ShieldedTRC20ParametersBuilder builder = new ShieldedTRC20ParametersBuilder();
-        builder.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.BURN);
-        builder.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
+        ShieldedSRC20ParametersBuilder builder = new ShieldedSRC20ParametersBuilder();
+        builder.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.BURN);
+        builder.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
         builder.setTransparentToAmount(BigInteger.valueOf(value));
         builder.setTransparentToAddress(PUBLIC_TO_ADDRESS);
         //spendNote1
@@ -3049,7 +3049,7 @@ public class PrecompiledContractsVerifyProofTest {
         byte[] anchor = voucher.root().getContent().toByteArray();
         long position = voucher.position();
         builder.addSpend(senderExpsk, senderNote, anchor, path, position);
-        ShieldedTRC20Parameters params = builder.build(true);
+        ShieldedSRC20Parameters params = builder.build(true);
 
         byte[] inputData = abiEncodeForBurnWrongNF(params, value);
         Pair<Boolean, byte[]> contractResult = burnContract.execute(inputData);
@@ -3079,13 +3079,13 @@ public class PrecompiledContractsVerifyProofTest {
       PaymentAddress senderPaymentAddress = senderIvk.address(DiversifierT.random()).get();
 
       { //for mint
-        ShieldedTRC20ParametersBuilder mintBuilder = new ShieldedTRC20ParametersBuilder();
+        ShieldedSRC20ParametersBuilder mintBuilder = new ShieldedSRC20ParametersBuilder();
         mintBuilder.setTransparentFromAmount(BigInteger.valueOf(value));
-        mintBuilder.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
-        mintBuilder.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.MINT);
+        mintBuilder.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
+        mintBuilder.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.MINT);
         mintBuilder.addOutput(DEFAULT_OVK, senderPaymentAddress.getD(),
             senderPaymentAddress.getPkD(), value, rcm, new byte[512]);
-        ShieldedTRC20Parameters mintParams = mintBuilder.build(false);
+        ShieldedSRC20Parameters mintParams = mintBuilder.build(false);
 
         byte[] mintInputData = abiEncodeForMint(mintParams, value, frontier, leafCount);
         Pair<Boolean, byte[]> mintContractResult = mintContract.execute(mintInputData);
@@ -3105,9 +3105,9 @@ public class PrecompiledContractsVerifyProofTest {
       }
 
       { //for burn
-        ShieldedTRC20ParametersBuilder builder = new ShieldedTRC20ParametersBuilder();
-        builder.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.BURN);
-        builder.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
+        ShieldedSRC20ParametersBuilder builder = new ShieldedSRC20ParametersBuilder();
+        builder.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.BURN);
+        builder.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
         builder.setTransparentToAmount(BigInteger.valueOf(value));
         builder.setTransparentToAddress(PUBLIC_TO_ADDRESS);
         //spendNote1
@@ -3120,7 +3120,7 @@ public class PrecompiledContractsVerifyProofTest {
         byte[] anchor = voucher.root().getContent().toByteArray();
         long position = voucher.position();
         builder.addSpend(senderExpsk, senderNote, anchor, path, position);
-        ShieldedTRC20Parameters params = builder.build(true);
+        ShieldedSRC20Parameters params = builder.build(true);
 
         byte[] inputData = abiEncodeForBurnWrongRoot(params, value);
         Pair<Boolean, byte[]> contractResult = burnContract.execute(inputData);
@@ -3151,13 +3151,13 @@ public class PrecompiledContractsVerifyProofTest {
       PaymentAddress senderPaymentAddress = senderIvk.address(DiversifierT.random()).get();
 
       { //for mint
-        ShieldedTRC20ParametersBuilder mintBuilder = new ShieldedTRC20ParametersBuilder();
+        ShieldedSRC20ParametersBuilder mintBuilder = new ShieldedSRC20ParametersBuilder();
         mintBuilder.setTransparentFromAmount(BigInteger.valueOf(value));
-        mintBuilder.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
-        mintBuilder.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.MINT);
+        mintBuilder.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
+        mintBuilder.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.MINT);
         mintBuilder.addOutput(DEFAULT_OVK, senderPaymentAddress.getD(),
             senderPaymentAddress.getPkD(), value, rcm, new byte[512]);
-        ShieldedTRC20Parameters mintParams = mintBuilder.build(false);
+        ShieldedSRC20Parameters mintParams = mintBuilder.build(false);
 
         byte[] mintInputData = abiEncodeForMint(mintParams, value, frontier, leafCount);
         Pair<Boolean, byte[]> mintContractResult = mintContract.execute(mintInputData);
@@ -3177,9 +3177,9 @@ public class PrecompiledContractsVerifyProofTest {
       }
 
       { //for burn
-        ShieldedTRC20ParametersBuilder builder = new ShieldedTRC20ParametersBuilder();
-        builder.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.BURN);
-        builder.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
+        ShieldedSRC20ParametersBuilder builder = new ShieldedSRC20ParametersBuilder();
+        builder.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.BURN);
+        builder.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
         builder.setTransparentToAmount(BigInteger.valueOf(value));
         builder.setTransparentToAddress(PUBLIC_TO_ADDRESS);
         //spendNote1
@@ -3192,7 +3192,7 @@ public class PrecompiledContractsVerifyProofTest {
         byte[] anchor = voucher.root().getContent().toByteArray();
         long position = voucher.position();
         builder.addSpend(senderExpsk, senderNote, anchor, path, position);
-        ShieldedTRC20Parameters params = builder.build(true);
+        ShieldedSRC20Parameters params = builder.build(true);
 
         byte[] inputData = abiEncodeForBurnWrongCV(params, value);
         Pair<Boolean, byte[]> contractResult = burnContract.execute(inputData);
@@ -3222,13 +3222,13 @@ public class PrecompiledContractsVerifyProofTest {
       PaymentAddress senderPaymentAddress = senderIvk.address(DiversifierT.random()).get();
 
       { //for mint
-        ShieldedTRC20ParametersBuilder mintBuilder = new ShieldedTRC20ParametersBuilder();
+        ShieldedSRC20ParametersBuilder mintBuilder = new ShieldedSRC20ParametersBuilder();
         mintBuilder.setTransparentFromAmount(BigInteger.valueOf(value));
-        mintBuilder.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
-        mintBuilder.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.MINT);
+        mintBuilder.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
+        mintBuilder.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.MINT);
         mintBuilder.addOutput(DEFAULT_OVK, senderPaymentAddress.getD(),
             senderPaymentAddress.getPkD(), value, rcm, new byte[512]);
-        ShieldedTRC20Parameters mintParams = mintBuilder.build(false);
+        ShieldedSRC20Parameters mintParams = mintBuilder.build(false);
 
         byte[] mintInputData = abiEncodeForMint(mintParams, value, frontier, leafCount);
         Pair<Boolean, byte[]> mintContractResult = mintContract.execute(mintInputData);
@@ -3248,9 +3248,9 @@ public class PrecompiledContractsVerifyProofTest {
       }
 
       { //for burn
-        ShieldedTRC20ParametersBuilder builder = new ShieldedTRC20ParametersBuilder();
-        builder.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.BURN);
-        builder.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
+        ShieldedSRC20ParametersBuilder builder = new ShieldedSRC20ParametersBuilder();
+        builder.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.BURN);
+        builder.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
         builder.setTransparentToAmount(BigInteger.valueOf(value));
         builder.setTransparentToAddress(PUBLIC_TO_ADDRESS);
         //spendNote1
@@ -3263,7 +3263,7 @@ public class PrecompiledContractsVerifyProofTest {
         byte[] anchor = voucher.root().getContent().toByteArray();
         long position = voucher.position();
         builder.addSpend(senderExpsk, senderNote, anchor, path, position);
-        ShieldedTRC20Parameters params = builder.build(true);
+        ShieldedSRC20Parameters params = builder.build(true);
 
         byte[] inputData = abiEncodeForBurnWrongRK(params, value);
         Pair<Boolean, byte[]> contractResult = burnContract.execute(inputData);
@@ -3293,13 +3293,13 @@ public class PrecompiledContractsVerifyProofTest {
       PaymentAddress senderPaymentAddress = senderIvk.address(DiversifierT.random()).get();
 
       { //for mint
-        ShieldedTRC20ParametersBuilder mintBuilder = new ShieldedTRC20ParametersBuilder();
+        ShieldedSRC20ParametersBuilder mintBuilder = new ShieldedSRC20ParametersBuilder();
         mintBuilder.setTransparentFromAmount(BigInteger.valueOf(value));
-        mintBuilder.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
-        mintBuilder.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.MINT);
+        mintBuilder.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
+        mintBuilder.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.MINT);
         mintBuilder.addOutput(DEFAULT_OVK, senderPaymentAddress.getD(),
             senderPaymentAddress.getPkD(), value, rcm, new byte[512]);
-        ShieldedTRC20Parameters mintParams = mintBuilder.build(false);
+        ShieldedSRC20Parameters mintParams = mintBuilder.build(false);
 
         byte[] mintInputData = abiEncodeForMint(mintParams, value, frontier, leafCount);
         Pair<Boolean, byte[]> mintContractResult = mintContract.execute(mintInputData);
@@ -3319,9 +3319,9 @@ public class PrecompiledContractsVerifyProofTest {
       }
 
       { //for burn
-        ShieldedTRC20ParametersBuilder builder = new ShieldedTRC20ParametersBuilder();
-        builder.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.BURN);
-        builder.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
+        ShieldedSRC20ParametersBuilder builder = new ShieldedSRC20ParametersBuilder();
+        builder.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.BURN);
+        builder.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
         builder.setTransparentToAmount(BigInteger.valueOf(value));
         builder.setTransparentToAddress(PUBLIC_TO_ADDRESS);
         //spendNote1
@@ -3334,7 +3334,7 @@ public class PrecompiledContractsVerifyProofTest {
         byte[] anchor = voucher.root().getContent().toByteArray();
         long position = voucher.position();
         builder.addSpend(senderExpsk, senderNote, anchor, path, position);
-        ShieldedTRC20Parameters params = builder.build(true);
+        ShieldedSRC20Parameters params = builder.build(true);
 
         byte[] inputData = abiEncodeForBurnWrongProof(params, value);
         Pair<Boolean, byte[]> contractResult = burnContract.execute(inputData);
@@ -3364,13 +3364,13 @@ public class PrecompiledContractsVerifyProofTest {
       PaymentAddress senderPaymentAddress = senderIvk.address(DiversifierT.random()).get();
 
       { //for mint
-        ShieldedTRC20ParametersBuilder mintBuilder = new ShieldedTRC20ParametersBuilder();
+        ShieldedSRC20ParametersBuilder mintBuilder = new ShieldedSRC20ParametersBuilder();
         mintBuilder.setTransparentFromAmount(BigInteger.valueOf(value));
-        mintBuilder.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
-        mintBuilder.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.MINT);
+        mintBuilder.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
+        mintBuilder.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.MINT);
         mintBuilder.addOutput(DEFAULT_OVK, senderPaymentAddress.getD(),
             senderPaymentAddress.getPkD(), value, rcm, new byte[512]);
-        ShieldedTRC20Parameters mintParams = mintBuilder.build(false);
+        ShieldedSRC20Parameters mintParams = mintBuilder.build(false);
 
         byte[] mintInputData = abiEncodeForMint(mintParams, value, frontier, leafCount);
         Pair<Boolean, byte[]> mintContractResult = mintContract.execute(mintInputData);
@@ -3390,9 +3390,9 @@ public class PrecompiledContractsVerifyProofTest {
       }
 
       { //for burn
-        ShieldedTRC20ParametersBuilder builder = new ShieldedTRC20ParametersBuilder();
-        builder.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.BURN);
-        builder.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
+        ShieldedSRC20ParametersBuilder builder = new ShieldedSRC20ParametersBuilder();
+        builder.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.BURN);
+        builder.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
         builder.setTransparentToAmount(BigInteger.valueOf(value));
         builder.setTransparentToAddress(PUBLIC_TO_ADDRESS);
         //spendNote1
@@ -3405,7 +3405,7 @@ public class PrecompiledContractsVerifyProofTest {
         byte[] anchor = voucher.root().getContent().toByteArray();
         long position = voucher.position();
         builder.addSpend(senderExpsk, senderNote, anchor, path, position);
-        ShieldedTRC20Parameters params = builder.build(true);
+        ShieldedSRC20Parameters params = builder.build(true);
 
         byte[] inputData = abiEncodeForBurnWrongAuthoritySignature(params, value);
         Pair<Boolean, byte[]> contractResult = burnContract.execute(inputData);
@@ -3435,13 +3435,13 @@ public class PrecompiledContractsVerifyProofTest {
       PaymentAddress senderPaymentAddress = senderIvk.address(DiversifierT.random()).get();
 
       { //for mint
-        ShieldedTRC20ParametersBuilder mintBuilder = new ShieldedTRC20ParametersBuilder();
+        ShieldedSRC20ParametersBuilder mintBuilder = new ShieldedSRC20ParametersBuilder();
         mintBuilder.setTransparentFromAmount(BigInteger.valueOf(value));
-        mintBuilder.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
-        mintBuilder.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.MINT);
+        mintBuilder.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
+        mintBuilder.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.MINT);
         mintBuilder.addOutput(DEFAULT_OVK, senderPaymentAddress.getD(),
             senderPaymentAddress.getPkD(), value, rcm, new byte[512]);
-        ShieldedTRC20Parameters mintParams = mintBuilder.build(false);
+        ShieldedSRC20Parameters mintParams = mintBuilder.build(false);
 
         byte[] mintInputData = abiEncodeForMint(mintParams, value, frontier, leafCount);
         Pair<Boolean, byte[]> mintContractResult = mintContract.execute(mintInputData);
@@ -3461,9 +3461,9 @@ public class PrecompiledContractsVerifyProofTest {
       }
 
       { //for burn
-        ShieldedTRC20ParametersBuilder builder = new ShieldedTRC20ParametersBuilder();
-        builder.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.BURN);
-        builder.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
+        ShieldedSRC20ParametersBuilder builder = new ShieldedSRC20ParametersBuilder();
+        builder.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.BURN);
+        builder.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
         builder.setTransparentToAmount(BigInteger.valueOf(value));
         builder.setTransparentToAddress(PUBLIC_TO_ADDRESS);
         //spendNote1
@@ -3476,7 +3476,7 @@ public class PrecompiledContractsVerifyProofTest {
         byte[] anchor = voucher.root().getContent().toByteArray();
         long position = voucher.position();
         builder.addSpend(senderExpsk, senderNote, anchor, path, position);
-        ShieldedTRC20Parameters params = builder.build(true);
+        ShieldedSRC20Parameters params = builder.build(true);
 
         byte[] inputData = abiEncodeForBurnWrongBingSignature(params, value);
         Pair<Boolean, byte[]> contractResult = burnContract.execute(inputData);
@@ -3506,13 +3506,13 @@ public class PrecompiledContractsVerifyProofTest {
       PaymentAddress senderPaymentAddress = senderIvk.address(DiversifierT.random()).get();
 
       { //for mint
-        ShieldedTRC20ParametersBuilder mintBuilder = new ShieldedTRC20ParametersBuilder();
+        ShieldedSRC20ParametersBuilder mintBuilder = new ShieldedSRC20ParametersBuilder();
         mintBuilder.setTransparentFromAmount(BigInteger.valueOf(value));
-        mintBuilder.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
-        mintBuilder.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.MINT);
+        mintBuilder.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
+        mintBuilder.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.MINT);
         mintBuilder.addOutput(DEFAULT_OVK, senderPaymentAddress.getD(),
             senderPaymentAddress.getPkD(), value, rcm, new byte[512]);
-        ShieldedTRC20Parameters mintParams = mintBuilder.build(false);
+        ShieldedSRC20Parameters mintParams = mintBuilder.build(false);
 
         byte[] mintInputData = abiEncodeForMint(mintParams, value, frontier, leafCount);
         Pair<Boolean, byte[]> mintContractResult = mintContract.execute(mintInputData);
@@ -3532,9 +3532,9 @@ public class PrecompiledContractsVerifyProofTest {
       }
 
       { //for burn
-        ShieldedTRC20ParametersBuilder builder = new ShieldedTRC20ParametersBuilder();
-        builder.setShieldedTRC20ParametersType(ShieldedTRC20ParametersType.BURN);
-        builder.setShieldedTRC20Address(SHIELDED_CONTRACT_ADDRESS);
+        ShieldedSRC20ParametersBuilder builder = new ShieldedSRC20ParametersBuilder();
+        builder.setShieldedSRC20ParametersType(ShieldedSRC20ParametersType.BURN);
+        builder.setShieldedSRC20Address(SHIELDED_CONTRACT_ADDRESS);
         builder.setTransparentToAmount(BigInteger.valueOf(value));
         builder.setTransparentToAddress(PUBLIC_TO_ADDRESS);
         //spendNote1
@@ -3547,7 +3547,7 @@ public class PrecompiledContractsVerifyProofTest {
         byte[] anchor = voucher.root().getContent().toByteArray();
         long position = voucher.position();
         builder.addSpend(senderExpsk, senderNote, anchor, path, position);
-        ShieldedTRC20Parameters params = builder.build(true);
+        ShieldedSRC20Parameters params = builder.build(true);
 
         byte[] inputData = abiEncodeForBurnWrongHash(params, value);
         Pair<Boolean, byte[]> contractResult = burnContract.execute(inputData);
@@ -3587,7 +3587,7 @@ public class PrecompiledContractsVerifyProofTest {
   }
 
 
-  private byte[] abiEncodeForMint(ShieldedTRC20Parameters params, long value,
+  private byte[] abiEncodeForMint(ShieldedSRC20Parameters params, long value,
       byte[] frontier, long leafCount) {
     byte[] mergedBytes;
     ShieldContract.ReceiveDescription revDesc = params.getReceiveDescription(0);
@@ -3605,7 +3605,7 @@ public class PrecompiledContractsVerifyProofTest {
     return mergedBytes;
   }
 
-  private byte[] abiEncodeForMintWrongCM(ShieldedTRC20Parameters params, long value,
+  private byte[] abiEncodeForMintWrongCM(ShieldedSRC20Parameters params, long value,
       byte[] frontier, long leafCount) {
     byte[] mergedBytes;
     ShieldContract.ReceiveDescription revDesc = params.getReceiveDescription(0);
@@ -3623,7 +3623,7 @@ public class PrecompiledContractsVerifyProofTest {
     return mergedBytes;
   }
 
-  private byte[] abiEncodeForMintWrongCV(ShieldedTRC20Parameters params, long value,
+  private byte[] abiEncodeForMintWrongCV(ShieldedSRC20Parameters params, long value,
       byte[] frontier, long leafCount) {
     byte[] mergedBytes;
     ShieldContract.ReceiveDescription revDesc = params.getReceiveDescription(0);
@@ -3641,7 +3641,7 @@ public class PrecompiledContractsVerifyProofTest {
     return mergedBytes;
   }
 
-  private byte[] abiEncodeForMintWrongEpk(ShieldedTRC20Parameters params, long value,
+  private byte[] abiEncodeForMintWrongEpk(ShieldedSRC20Parameters params, long value,
       byte[] frontier, long leafCount) {
     byte[] mergedBytes;
     ShieldContract.ReceiveDescription revDesc = params.getReceiveDescription(0);
@@ -3659,7 +3659,7 @@ public class PrecompiledContractsVerifyProofTest {
     return mergedBytes;
   }
 
-  private byte[] abiEncodeForMintWrongProof(ShieldedTRC20Parameters params, long value,
+  private byte[] abiEncodeForMintWrongProof(ShieldedSRC20Parameters params, long value,
       byte[] frontier, long leafCount) {
     byte[] mergedBytes;
     ShieldContract.ReceiveDescription revDesc = params.getReceiveDescription(0);
@@ -3677,7 +3677,7 @@ public class PrecompiledContractsVerifyProofTest {
     return mergedBytes;
   }
 
-  private byte[] abiEncodeForMintWrongBindingSignature(ShieldedTRC20Parameters params, long value,
+  private byte[] abiEncodeForMintWrongBindingSignature(ShieldedSRC20Parameters params, long value,
       byte[] frontier, long leafCount) {
     byte[] mergedBytes;
     ShieldContract.ReceiveDescription revDesc = params.getReceiveDescription(0);
@@ -3695,7 +3695,7 @@ public class PrecompiledContractsVerifyProofTest {
     return mergedBytes;
   }
 
-  private byte[] abiEncodeForMintWrongHash(ShieldedTRC20Parameters params, long value,
+  private byte[] abiEncodeForMintWrongHash(ShieldedSRC20Parameters params, long value,
       byte[] frontier, long leafCount) {
     byte[] mergedBytes;
     ShieldContract.ReceiveDescription revDesc = params.getReceiveDescription(0);
@@ -3713,7 +3713,7 @@ public class PrecompiledContractsVerifyProofTest {
     return mergedBytes;
   }
 
-  private byte[] abiEncodeForTransfer(ShieldedTRC20Parameters params, byte[] frontier,
+  private byte[] abiEncodeForTransfer(ShieldedSRC20Parameters params, byte[] frontier,
       long leafCount, long valueBalance) {
     byte[] input = new byte[0];
     byte[] spendAuthSig = new byte[0];
@@ -3765,7 +3765,7 @@ public class PrecompiledContractsVerifyProofTest {
     return mergedBytes;
   }
 
-  private byte[] abiEncodeForTransferWrongNf(ShieldedTRC20Parameters params, byte[] frontier,
+  private byte[] abiEncodeForTransferWrongNf(ShieldedSRC20Parameters params, byte[] frontier,
       long leafCount) {
     byte[] input = new byte[0];
     byte[] spendAuthSig = new byte[0];
@@ -3817,7 +3817,7 @@ public class PrecompiledContractsVerifyProofTest {
     return mergedBytes;
   }
 
-  private byte[] abiEncodeForTransferWrongRoot(ShieldedTRC20Parameters params, byte[] frontier,
+  private byte[] abiEncodeForTransferWrongRoot(ShieldedSRC20Parameters params, byte[] frontier,
       long leafCount) {
     byte[] input = new byte[0];
     byte[] spendAuthSig = new byte[0];
@@ -3870,7 +3870,7 @@ public class PrecompiledContractsVerifyProofTest {
   }
 
 
-  private byte[] abiEncodeForTransferWrongSpendCV(ShieldedTRC20Parameters params, byte[] frontier,
+  private byte[] abiEncodeForTransferWrongSpendCV(ShieldedSRC20Parameters params, byte[] frontier,
       long leafCount) {
     byte[] input = new byte[0];
     byte[] spendAuthSig = new byte[0];
@@ -3922,7 +3922,7 @@ public class PrecompiledContractsVerifyProofTest {
     return mergedBytes;
   }
 
-  private byte[] abiEncodeForTransferWrongRk(ShieldedTRC20Parameters params, byte[] frontier,
+  private byte[] abiEncodeForTransferWrongRk(ShieldedSRC20Parameters params, byte[] frontier,
       long leafCount) {
     byte[] input = new byte[0];
     byte[] spendAuthSig = new byte[0];
@@ -3974,7 +3974,7 @@ public class PrecompiledContractsVerifyProofTest {
     return mergedBytes;
   }
 
-  private byte[] abiEncodeForTransferWrongSpendProof(ShieldedTRC20Parameters params,
+  private byte[] abiEncodeForTransferWrongSpendProof(ShieldedSRC20Parameters params,
       byte[] frontier,
       long leafCount) {
     byte[] input = new byte[0];
@@ -4027,7 +4027,7 @@ public class PrecompiledContractsVerifyProofTest {
     return mergedBytes;
   }
 
-  private byte[] abiEncodeForTransferWrongCM(ShieldedTRC20Parameters params, byte[] frontier,
+  private byte[] abiEncodeForTransferWrongCM(ShieldedSRC20Parameters params, byte[] frontier,
       long leafCount) {
     byte[] input = new byte[0];
     byte[] spendAuthSig = new byte[0];
@@ -4080,7 +4080,7 @@ public class PrecompiledContractsVerifyProofTest {
   }
 
 
-  private byte[] abiEncodeForTransferWrongReceiveCV(ShieldedTRC20Parameters params, byte[] frontier,
+  private byte[] abiEncodeForTransferWrongReceiveCV(ShieldedSRC20Parameters params, byte[] frontier,
       long leafCount) {
     byte[] input = new byte[0];
     byte[] spendAuthSig = new byte[0];
@@ -4132,7 +4132,7 @@ public class PrecompiledContractsVerifyProofTest {
     return mergedBytes;
   }
 
-  private byte[] abiEncodeForTransferWrongEpk(ShieldedTRC20Parameters params, byte[] frontier,
+  private byte[] abiEncodeForTransferWrongEpk(ShieldedSRC20Parameters params, byte[] frontier,
       long leafCount) {
     byte[] input = new byte[0];
     byte[] spendAuthSig = new byte[0];
@@ -4185,7 +4185,7 @@ public class PrecompiledContractsVerifyProofTest {
   }
 
 
-  private byte[] abiEncodeForTransferWrongReceivProof(ShieldedTRC20Parameters params,
+  private byte[] abiEncodeForTransferWrongReceivProof(ShieldedSRC20Parameters params,
       byte[] frontier,
       long leafCount) {
     byte[] input = new byte[0];
@@ -4238,7 +4238,7 @@ public class PrecompiledContractsVerifyProofTest {
     return mergedBytes;
   }
 
-  private byte[] abiEncodeForTransferWrongBindingSignature(ShieldedTRC20Parameters params,
+  private byte[] abiEncodeForTransferWrongBindingSignature(ShieldedSRC20Parameters params,
       byte[] frontier,
       long leafCount) {
     byte[] input = new byte[0];
@@ -4292,7 +4292,7 @@ public class PrecompiledContractsVerifyProofTest {
   }
 
 
-  private byte[] abiEncodeForTransferWrongHash(ShieldedTRC20Parameters params, byte[] frontier,
+  private byte[] abiEncodeForTransferWrongHash(ShieldedSRC20Parameters params, byte[] frontier,
       long leafCount) {
     byte[] input = new byte[0];
     byte[] spendAuthSig = new byte[0];
@@ -4344,7 +4344,7 @@ public class PrecompiledContractsVerifyProofTest {
     return mergedBytes;
   }
 
-  private byte[] abiEncodeForBurn(ShieldedTRC20Parameters params, long value) {
+  private byte[] abiEncodeForBurn(ShieldedSRC20Parameters params, long value) {
     byte[] mergedBytes;
     ShieldContract.SpendDescription spendDesc = params.getSpendDescription(0);
     mergedBytes = ByteUtil.merge(
@@ -4361,7 +4361,7 @@ public class PrecompiledContractsVerifyProofTest {
     return mergedBytes;
   }
 
-  private byte[] abiEncodeForBurnWrongNF(ShieldedTRC20Parameters params, long value) {
+  private byte[] abiEncodeForBurnWrongNF(ShieldedSRC20Parameters params, long value) {
     byte[] mergedBytes;
     ShieldContract.SpendDescription spendDesc = params.getSpendDescription(0);
     mergedBytes = ByteUtil.merge(
@@ -4378,7 +4378,7 @@ public class PrecompiledContractsVerifyProofTest {
     return mergedBytes;
   }
 
-  private byte[] abiEncodeForBurnWrongRoot(ShieldedTRC20Parameters params, long value) {
+  private byte[] abiEncodeForBurnWrongRoot(ShieldedSRC20Parameters params, long value) {
     byte[] mergedBytes;
     ShieldContract.SpendDescription spendDesc = params.getSpendDescription(0);
     mergedBytes = ByteUtil.merge(
@@ -4395,7 +4395,7 @@ public class PrecompiledContractsVerifyProofTest {
     return mergedBytes;
   }
 
-  private byte[] abiEncodeForBurnWrongCV(ShieldedTRC20Parameters params, long value) {
+  private byte[] abiEncodeForBurnWrongCV(ShieldedSRC20Parameters params, long value) {
     byte[] mergedBytes;
     ShieldContract.SpendDescription spendDesc = params.getSpendDescription(0);
     mergedBytes = ByteUtil.merge(
@@ -4412,7 +4412,7 @@ public class PrecompiledContractsVerifyProofTest {
     return mergedBytes;
   }
 
-  private byte[] abiEncodeForBurnWrongRK(ShieldedTRC20Parameters params, long value) {
+  private byte[] abiEncodeForBurnWrongRK(ShieldedSRC20Parameters params, long value) {
     byte[] mergedBytes;
     ShieldContract.SpendDescription spendDesc = params.getSpendDescription(0);
     mergedBytes = ByteUtil.merge(
@@ -4429,7 +4429,7 @@ public class PrecompiledContractsVerifyProofTest {
     return mergedBytes;
   }
 
-  private byte[] abiEncodeForBurnWrongProof(ShieldedTRC20Parameters params, long value) {
+  private byte[] abiEncodeForBurnWrongProof(ShieldedSRC20Parameters params, long value) {
     byte[] mergedBytes;
     ShieldContract.SpendDescription spendDesc = params.getSpendDescription(0);
     mergedBytes = ByteUtil.merge(
@@ -4446,7 +4446,7 @@ public class PrecompiledContractsVerifyProofTest {
     return mergedBytes;
   }
 
-  private byte[] abiEncodeForBurnWrongAuthoritySignature(ShieldedTRC20Parameters params,
+  private byte[] abiEncodeForBurnWrongAuthoritySignature(ShieldedSRC20Parameters params,
       long value) {
     byte[] mergedBytes;
     ShieldContract.SpendDescription spendDesc = params.getSpendDescription(0);
@@ -4464,7 +4464,7 @@ public class PrecompiledContractsVerifyProofTest {
     return mergedBytes;
   }
 
-  private byte[] abiEncodeForBurnWrongBingSignature(ShieldedTRC20Parameters params, long value) {
+  private byte[] abiEncodeForBurnWrongBingSignature(ShieldedSRC20Parameters params, long value) {
     byte[] mergedBytes;
     ShieldContract.SpendDescription spendDesc = params.getSpendDescription(0);
     mergedBytes = ByteUtil.merge(
@@ -4481,7 +4481,7 @@ public class PrecompiledContractsVerifyProofTest {
     return mergedBytes;
   }
 
-  private byte[] abiEncodeForBurnWrongHash(ShieldedTRC20Parameters params, long value) {
+  private byte[] abiEncodeForBurnWrongHash(ShieldedSRC20Parameters params, long value) {
     byte[] mergedBytes;
     ShieldContract.SpendDescription spendDesc = params.getSpendDescription(0);
     mergedBytes = ByteUtil.merge(

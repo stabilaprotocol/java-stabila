@@ -248,7 +248,7 @@ public class ContractTrcToken018 {
     logger.info("infoById.get().getResMessage().toStringUtf8(): " + infoById.get().getResMessage()
         .toStringUtf8());
     /*Assert.assertEquals(
-        "transfer trc10 failed: Validate InternalTransfer error, no ToAccount. "
+        "transfer src10 failed: Validate InternalTransfer error, no ToAccount. "
             + "And not allowed to create account in smart contract.",
         infoById.get().getResMessage().toStringUtf8());*/
 

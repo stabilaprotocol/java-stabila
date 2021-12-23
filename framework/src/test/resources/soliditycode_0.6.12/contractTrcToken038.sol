@@ -1,6 +1,6 @@
 
 
-contract transferTrc10 {
+contract transferSrc10 {
     function receive(address payable rec) public payable {
         uint256 aamount=address(this).tokenBalance(msg.tokenid);
         uint256 bamount=rec.tokenBalance(msg.tokenid);
@@ -15,7 +15,7 @@ contract transferTrc10 {
     }
 }
 
-contract receiveTrc10 {
+contract receiveSrc10 {
     fallback() external payable {
     }
     function AssertError() public{

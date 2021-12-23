@@ -5,14 +5,14 @@ import javax.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.stabila.core.services.http.IsShieldedTRC20ContractNoteSpentServlet;
+import org.stabila.core.services.http.ScanShieldedSRC20NotesByOvkServlet;
 import org.stabila.core.services.interfaceOnSolidity.WalletOnSolidity;
 
 
 @Component
 @Slf4j(topic = "API")
-public class IsShieldedTRC20ContractNoteSpentOnSolidityServlet extends
-    IsShieldedTRC20ContractNoteSpentServlet {
+public class ScanShieldedSRC20NotesByOvkOnSolidityServlet extends
+    ScanShieldedSRC20NotesByOvkServlet {
 
 
   @Autowired
