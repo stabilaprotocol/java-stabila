@@ -114,8 +114,8 @@ public class Channel {
   /**
    * Set node and register it in NodeManager if it is not registered yet.
    */
-  public void initNode(byte[] nodeId, int remotePort) {
-    Node n = new Node(nodeId, inetSocketAddress.getHostString(), remotePort);
+  public void initNode(byte[] nodeId, int remotePort, String executiveAddress) {
+    Node n = new Node(nodeId, inetSocketAddress.getHostString(), remotePort, executiveAddress);
     NodeHandler handler = nodeManager.getNodeHandler(n);
     node = handler.getNode();
     nodeStatistics = handler.getNodeStatistics();

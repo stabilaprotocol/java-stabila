@@ -10,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import org.stabila.common.utils.Commons;
+import org.stabila.core.ChainBaseManager;
+import org.stabila.core.capsule.ExecutiveCapsule;
 import org.stabila.core.net.peer.PeerConnection;
 
 @Slf4j(topic = "net")
@@ -22,6 +25,9 @@ public class StabilaChannelInitializer extends ChannelInitializer<NioSocketChann
 
   @Autowired
   private ChannelManager channelManager;
+
+  @Autowired
+  private ChainBaseManager chainBaseManager;
 
   private String remoteId;
 
@@ -46,6 +52,17 @@ public class StabilaChannelInitializer extends ChannelInitializer<NioSocketChann
       // be aware of channel closing
       ch.closeFuture().addListener((ChannelFutureListener) future -> {
         logger.info("Close channel:" + channel);
+        String executiveAddress = channel.getNode().getExecutiveAddress();
+        if (executiveAddress != null) {
+          byte[] executiveAddressBytes = Commons.decodeFromBase58Check(executiveAddress);
+          if (executiveAddressBytes != null) {
+            ExecutiveCapsule executive = chainBaseManager.getExecutiveStore().get(executiveAddressBytes);
+            if (executive != null) {
+              executive.setAlive(false);
+              chainBaseManager.getExecutiveStore().put(executiveAddressBytes, executive);
+            }
+          }
+        }
         if (!peerDiscoveryMode) {
           channelManager.notifyDisconnect(channel);
         }

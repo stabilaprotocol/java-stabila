@@ -30,7 +30,7 @@ public class Node implements Serializable {
   private boolean isFakeNodeId = false;
 
   @Getter
-  private String executiveAddress;
+  private String executiveAddress = "";
 
   public Node(byte[] id, String host, int port) {
     this.id = id;
@@ -44,6 +44,14 @@ public class Node implements Serializable {
     this.host = host;
     this.port = port;
     this.bindPort = bindPort;
+  }
+
+  public Node(byte[] id, String host, int port, String executiveAddress) {
+    this.id = id;
+    this.host = host;
+    this.port = port;
+    this.isFakeNodeId = true;
+    this.executiveAddress = executiveAddress;
   }
 
   public static Node instanceOf(String hostPort) {

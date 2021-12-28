@@ -36,6 +36,7 @@ import org.stabila.common.overlay.message.HelloMessage;
 import org.stabila.common.overlay.message.P2pMessage;
 import org.stabila.common.overlay.message.P2pMessageFactory;
 import org.stabila.common.utils.Base58;
+import org.stabila.common.utils.Commons;
 import org.stabila.core.ChainBaseManager;
 import org.stabila.core.capsule.ExecutiveCapsule;
 import org.stabila.core.config.args.Args;
@@ -79,7 +80,7 @@ public class HandshakeHandler extends ByteToMessageDecoder {
     logger.info("channel active, {}", ctx.channel().remoteAddress());
     channel.setChannelHandlerContext(ctx);
     if (remoteId.length == 64) {
-      channel.initNode(remoteId, ((InetSocketAddress) ctx.channel().remoteAddress()).getPort());
+      channel.initNode(remoteId, ((InetSocketAddress) ctx.channel().remoteAddress()).getPort(), nodeManager.getPublicHomeNode().getExecutiveAddress());
       sendHelloMsg(ctx, System.currentTimeMillis());
     }
   }
@@ -134,7 +135,7 @@ public class HandshakeHandler extends ByteToMessageDecoder {
 
   private void handleHelloMsg(ChannelHandlerContext ctx, HelloMessage msg) {
 
-    channel.initNode(msg.getFrom().getId(), msg.getFrom().getPort());
+    channel.initNode(msg.getFrom().getId(), msg.getFrom().getPort(), msg.getExecutiveAddress());
 
     if (!fastForward.checkHelloMessage(msg, channel)) {
       channel.disconnect(ReasonCode.UNEXPECTED_IDENTITY);
@@ -190,11 +191,14 @@ public class HandshakeHandler extends ByteToMessageDecoder {
     }
 
     if (msg.getExecutiveAddress() != null) {
-      byte[] executiveAddressBytes = Base58.decode(msg.getExecutiveAddress());
-      ExecutiveCapsule executive = chainBaseManager.getExecutiveStore().get(executiveAddressBytes);
-      if (executive != null) {
-        executive.setNodeIp(msg.getFrom().getHost());
-        executive.setAlive(true);
+      byte[] executiveAddressBytes = Commons.decodeFromBase58Check(msg.getExecutiveAddress());
+      if (executiveAddressBytes != null) {
+        ExecutiveCapsule executive = chainBaseManager.getExecutiveStore().get(executiveAddressBytes);
+        if (executive != null) {
+          executive.setNodeIp(msg.getFrom().getHost());
+          executive.setAlive(true);
+          chainBaseManager.getExecutiveStore().put(executiveAddressBytes, executive);
+        }
       }
     }
 

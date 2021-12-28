@@ -28,9 +28,7 @@ import org.stabila.common.overlay.discover.node.NodeHandler.State;
 import org.stabila.common.overlay.discover.node.statistics.NodeStatistics;
 import org.stabila.common.overlay.discover.table.NodeTable;
 import org.stabila.common.parameter.CommonParameter;
-import org.stabila.common.utils.ByteArray;
-import org.stabila.common.utils.CollectionUtils;
-import org.stabila.common.utils.JsonUtil;
+import org.stabila.common.utils.*;
 import org.stabila.core.ChainBaseManager;
 import org.stabila.core.capsule.BytesCapsule;
 import org.stabila.core.config.args.Args;
@@ -69,7 +67,8 @@ public class NodeManager implements EventHandler {
     discoveryEnabled = commonParameter.isNodeDiscoveryEnable();
 
     homeNode = new Node(Node.getNodeId(), commonParameter.getNodeExternalIp(),
-        commonParameter.getNodeListenPort());
+        commonParameter.getNodeListenPort(), StringUtil.encode58Check(Args.getLocalExecutives().getExecutiveAccountAddress(
+                CommonParameter.getInstance().isECKeyCryptoEngine())));
 
     for (String boot : commonParameter.getSeedNode().getIpList()) {
       bootNodes.add(Node.instanceOf(boot));
