@@ -52,7 +52,7 @@ public class StabilaChannelInitializer extends ChannelInitializer<NioSocketChann
       // be aware of channel closing
       ch.closeFuture().addListener((ChannelFutureListener) future -> {
         logger.info("Close channel:" + channel);
-        String executiveAddress = channel.getNode().getExecutiveAddress();
+         String executiveAddress = channel.getNode().getExecutiveAddress();
         if (executiveAddress != null) {
           byte[] executiveAddressBytes = Commons.decodeFromBase58Check(executiveAddress);
           if (executiveAddressBytes != null) {

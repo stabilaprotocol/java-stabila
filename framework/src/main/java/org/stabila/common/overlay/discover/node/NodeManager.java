@@ -180,8 +180,9 @@ public class NodeManager implements EventHandler {
       trimTable();
       ret = new NodeHandler(n, this);
       nodeHandlerMap.put(key, ret);
-    } else if (ret.getNode().isDiscoveryNode() && !n.isDiscoveryNode()) {
+    } else {
       ret.setNode(n);
+      nodeHandlerMap.put(key, ret);
     }
     return ret;
   }

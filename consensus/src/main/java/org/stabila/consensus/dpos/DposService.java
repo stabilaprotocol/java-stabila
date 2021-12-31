@@ -167,7 +167,11 @@ public class DposService implements ConsensusInterface {
     double votePower = 1.0 - powPower;
     list.sort(Comparator.comparingDouble((ByteString b) -> {
       ExecutiveCapsule executive = consensusDelegate.getExecutive(b.toByteArray());
-      return votePower * executive.getVoteCount() + powPower * executive.getTotalProduced();
+      double ret = votePower * executive.getVoteCount() + powPower * executive.getTotalProduced();
+      if (!executive.getAlive()) {
+        ret = 1.0 / (-ret);
+      }
+      return ret;
     }).reversed().thenComparing(Comparator.comparingInt(ByteString::hashCode).reversed()));
 
     long maxActiveExecutiveNum = consensusDelegate.getDynamicPropertiesStore().getMaxActiveExecutiveNum();
