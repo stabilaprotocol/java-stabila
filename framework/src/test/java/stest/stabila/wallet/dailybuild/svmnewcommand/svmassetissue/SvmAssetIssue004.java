@@ -154,7 +154,7 @@ public class SvmAssetIssue004 {
         .getBalance();
     logger.info("dev001AddressBalanceBefore: " + dev001AddressBalanceBefore);
     param = "\"" + Base58.encode58Check(dev003Address) + "\"," + 100 + ",\"" + assetIssueId + "\"";
-    String methodTransferToken = "transferToken(address,uint256,trcToken)";
+    String methodTransferToken = "transferToken(address,uint256,srcToken)";
     txid = PublicMethed.triggerContract(contractAddress, methodTransferToken, param, false,
         0, maxFeeLimit, dev001Address, dev001Key, blockingStubFull);
     PublicMethed.waitProduceNextBlock(blockingStubFull);

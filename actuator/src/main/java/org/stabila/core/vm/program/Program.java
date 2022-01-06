@@ -558,7 +558,7 @@ public class Program {
       // if owner == obtainer just zeroing account according to Yellow Paper
       getContractState().addBalance(owner, -balance);
       byte[] blackHoleAddress = getContractState().getBlackHoleAddress();
-      if (VMConfig.allowSvmTransferTrc10()) {
+      if (VMConfig.allowSvmTransferSrc10()) {
         getContractState().addBalance(blackHoleAddress, balance);
         MUtil.transferAllToken(getContractState(), owner, blackHoleAddress);
       }
@@ -566,7 +566,7 @@ public class Program {
       createAccountIfNotExist(getContractState(), obtainer);
       try {
         MUtil.transfer(getContractState(), owner, obtainer, balance);
-        if (VMConfig.allowSvmTransferTrc10()) {
+        if (VMConfig.allowSvmTransferSrc10()) {
           MUtil.transferAllToken(getContractState(), owner, obtainer);
         }
       } catch (ContractValidateException e) {
@@ -911,7 +911,7 @@ public class Program {
         return;
       }
     } else {
-      // transfer trc10 token validation
+      // transfer src10 token validation
       tokenId = String.valueOf(msg.getTokenId().longValue()).getBytes();
       long senderBalance = deposit.getTokenBalance(senderAddress, tokenId);
       if (senderBalance < endowment) {
@@ -957,7 +957,7 @@ public class Program {
         } catch (ContractValidateException e) {
           if (VMConfig.allowSvmConstantinople()) {
             refundUcr(msg.getUcr().longValue(), REFUND_UCR_FROM_MESSAGE_CALL);
-            throw new TransferException("transfer trc10 failed: %s", e.getMessage());
+            throw new TransferException("transfer src10 failed: %s", e.getMessage());
           }
           throw new BytecodeExecutionException(VALIDATE_FOR_SMART_CONTRACT_FAILURE, e.getMessage());
         }
@@ -1503,7 +1503,7 @@ public class Program {
     if (!isTokenTransfer) {
       senderBalance = deposit.getBalance(senderAddress);
     } else {
-      // transfer trc10 token validation
+      // transfer src10 token validation
       tokenId = String.valueOf(msg.getTokenId().longValue()).getBytes();
       senderBalance = deposit.getTokenBalance(senderAddress, tokenId);
     }
@@ -1681,7 +1681,7 @@ public class Program {
 
   private void createAccountIfNotExist(Repository deposit, byte[] contextAddress) {
     if (VMConfig.allowSvmSolidity059()) {
-      //after solidity059 proposal , allow contract transfer trc10 or STB to non-exist address(would create one)
+      //after solidity059 proposal , allow contract transfer src10 or STB to non-exist address(would create one)
       AccountCapsule sender = deposit.getAccount(contextAddress);
       if (sender == null) {
         deposit.createNormalAccount(contextAddress);

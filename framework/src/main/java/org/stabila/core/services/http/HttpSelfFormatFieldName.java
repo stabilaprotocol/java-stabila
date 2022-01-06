@@ -31,30 +31,30 @@ public class HttpSelfFormatFieldName {
     //PrivateParametersWithoutAsk
     AddressFieldNameMap.put("protocol.PrivateParametersWithoutAsk.transparent_from_address", 1);
     AddressFieldNameMap.put("protocol.PrivateParametersWithoutAsk.transparent_to_address", 1);
-    //PrivateShieldedTRC20Parameters
+    //PrivateShieldedSRC20Parameters
     AddressFieldNameMap.put(
-        "protocol.PrivateShieldedTRC20Parameters.transparent_to_address", 1);
+        "protocol.PrivateShieldedSRC20Parameters.transparent_to_address", 1);
     AddressFieldNameMap.put(
-        "protocol.PrivateShieldedTRC20Parameters.shielded_TRC20_contract_address", 1);
-    //PrivateShieldedTRC20ParametersWithoutAsk
+        "protocol.PrivateShieldedSRC20Parameters.shielded_SRC20_contract_address", 1);
+    //PrivateShieldedSRC20ParametersWithoutAsk
     AddressFieldNameMap.put(
-        "protocol.PrivateShieldedTRC20ParametersWithoutAsk.transparent_to_address", 1);
+        "protocol.PrivateShieldedSRC20ParametersWithoutAsk.transparent_to_address", 1);
     AddressFieldNameMap.put(
-        "protocol.PrivateShieldedTRC20ParametersWithoutAsk.shielded_TRC20_contract_address", 1);
-    //IvkDecryptTRC20Parameters
+        "protocol.PrivateShieldedSRC20ParametersWithoutAsk.shielded_SRC20_contract_address", 1);
+    //IvkDecryptSRC20Parameters
     AddressFieldNameMap.put(
-        "protocol.IvkDecryptTRC20Parameters.shielded_TRC20_contract_address", 1);
-    //OvkDecryptTRC20Parameters
+        "protocol.IvkDecryptSRC20Parameters.shielded_SRC20_contract_address", 1);
+    //OvkDecryptSRC20Parameters
     AddressFieldNameMap.put(
-        "protocol.OvkDecryptTRC20Parameters.shielded_TRC20_contract_address", 1);
-    //NfTRC20Parameters
+        "protocol.OvkDecryptSRC20Parameters.shielded_SRC20_contract_address", 1);
+    //NfSRC20Parameters
     AddressFieldNameMap.put(
-        "protocol.NfTRC20Parameters.shielded_TRC20_contract_address", 1);
-    //ShieldedTRC20TriggerContractParameters
+        "protocol.NfSRC20Parameters.shielded_SRC20_contract_address", 1);
+    //ShieldedSRC20TriggerContractParameters
     AddressFieldNameMap.put(
-        "protocol.ShieldedTRC20TriggerContractParameters.transparent_to_address", 1);
+        "protocol.ShieldedSRC20TriggerContractParameters.transparent_to_address", 1);
     AddressFieldNameMap.put(
-        "protocol.DecryptNotesTRC20.NoteTx.transparent_to_address", 1);
+        "protocol.DecryptNotesSRC20.NoteTx.transparent_to_address", 1);
 
     //***** Contract.proto *****
     //AccountCreateContract

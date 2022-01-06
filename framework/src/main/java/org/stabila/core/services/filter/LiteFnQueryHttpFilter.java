@@ -47,9 +47,9 @@ public class LiteFnQueryHttpFilter implements Filter {
     filterPaths.add("/wallet/getmarketpricebypair");
     filterPaths.add("/wallet/getmarketorderlistbypair");
     filterPaths.add("/wallet/getmarketpairlist");
-    filterPaths.add("/wallet/scanshieldedtrc20notesbyivk");
-    filterPaths.add("/wallet/scanshieldedtrc20notesbyovk");
-    filterPaths.add("/wallet/isshieldedtrc20contractnotespent");
+    filterPaths.add("/wallet/scanshieldedsrc20notesbyivk");
+    filterPaths.add("/wallet/scanshieldedsrc20notesbyovk");
+    filterPaths.add("/wallet/isshieldedsrc20contractnotespent");
 
     // base path: /walletsolidity
     filterPaths.add("/walletsolidity/getblockbyid");
@@ -70,9 +70,9 @@ public class LiteFnQueryHttpFilter implements Filter {
     filterPaths.add("/walletsolidity/getmarketpricebypair");
     filterPaths.add("/walletsolidity/getmarketorderlistbypair");
     filterPaths.add("/walletsolidity/getmarketpairlist");
-    filterPaths.add("/walletsolidity/scanshieldedtrc20notesbyivk");
-    filterPaths.add("/walletsolidity/scanshieldedtrc20notesbyovk");
-    filterPaths.add("/walletsolidity/isshieldedtrc20contractnotespent");
+    filterPaths.add("/walletsolidity/scanshieldedsrc20notesbyivk");
+    filterPaths.add("/walletsolidity/scanshieldedsrc20notesbyovk");
+    filterPaths.add("/walletsolidity/isshieldedsrc20contractnotespent");
 
     // base path: /walletpbft
     filterPaths.add("/walletpbft/getblockbyid");
@@ -92,9 +92,9 @@ public class LiteFnQueryHttpFilter implements Filter {
     filterPaths.add("/walletpbft/getmarketpricebypair");
     filterPaths.add("/walletpbft/getmarketorderlistbypair");
     filterPaths.add("/walletpbft/getmarketpairlist");
-    filterPaths.add("/walletpbft/scanshieldedtrc20notesbyivk");
-    filterPaths.add("/walletpbft/scanshieldedtrc20notesbyovk");
-    filterPaths.add("/walletpbft/isshieldedtrc20contractnotespent");
+    filterPaths.add("/walletpbft/scanshieldedsrc20notesbyivk");
+    filterPaths.add("/walletpbft/scanshieldedsrc20notesbyovk");
+    filterPaths.add("/walletpbft/isshieldedsrc20contractnotespent");
   }
 
   @Override

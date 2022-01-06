@@ -6,8 +6,8 @@ import javax.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.stabila.api.GrpcAPI.PrivateShieldedTRC20ParametersWithoutAsk;
-import org.stabila.api.GrpcAPI.ShieldedTRC20Parameters;
+import org.stabila.api.GrpcAPI.PrivateShieldedSRC20ParametersWithoutAsk;
+import org.stabila.api.GrpcAPI.ShieldedSRC20Parameters;
 import org.stabila.core.Wallet;
 
 @Component
@@ -23,13 +23,13 @@ public class CreateShieldedContractParametersWithoutAskServlet extends RateLimit
   protected void doPost(HttpServletRequest request, HttpServletResponse response) {
     try {
       PostParams params = PostParams.getPostParams(request);
-      PrivateShieldedTRC20ParametersWithoutAsk.Builder build =
-          PrivateShieldedTRC20ParametersWithoutAsk.newBuilder();
+      PrivateShieldedSRC20ParametersWithoutAsk.Builder build =
+          PrivateShieldedSRC20ParametersWithoutAsk.newBuilder();
       JsonFormat.merge(params.getParams(), build, params.isVisible());
-      ShieldedTRC20Parameters shieldedTRC20Parameters = wallet
+      ShieldedSRC20Parameters shieldedSRC20Parameters = wallet
           .createShieldedContractParametersWithoutAsk(build.build());
       response.getWriter().println(JsonFormat
-              .printToString(shieldedTRC20Parameters, params.isVisible()));
+              .printToString(shieldedSRC20Parameters, params.isVisible()));
     } catch (Exception e) {
       Util.processError(e, response);
     }

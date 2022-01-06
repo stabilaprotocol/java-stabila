@@ -227,7 +227,7 @@ public class CommonParameter {
   public long allowSameTokenName; //committee parameter
   @Getter
   @Setter
-  public long allowSvmTransferTrc10; //committee parameter
+  public long allowSvmTransferSrc10; //committee parameter
   @Getter
   @Setter
   public long allowSvmConstantinople; //committee parameter
@@ -438,7 +438,7 @@ public class CommonParameter {
 
   @Getter/**/
   @Setter
-  public long allowShieldedTRC20Transaction;
+  public long allowShieldedSRC20Transaction;
 
   @Getter/**/
   @Setter
@@ -475,6 +475,10 @@ public class CommonParameter {
   @Getter
   @Setter
   public long allowAccountAssetOptimization;
+
+  @Getter
+  @Setter
+  public long deployContractFee;
 
   private static double calcMaxTimeRatio() {
     //return max(2.0, min(5.0, 5 * 4.0 / max(Runtime.getRuntime().availableProcessors(), 1)));

@@ -11,11 +11,11 @@ contract UcrOfTransferFailedTest {
     }
 
     function testTransferTokenCompiledLongMin1() payable public{
-        address(0x1).tokenBalance(trcToken(-9223372036855775828));
+        address(0x1).tokenBalance(srcToken(-9223372036855775828));
     }
 
     function testTransferTokenCompiledLongMax1() payable public{
-         address(0x1).tokenBalance(trcToken(9223372036855775827));
+         address(0x1).tokenBalance(srcToken(9223372036855775827));
     }
 
     // InsufficientBalance
@@ -27,7 +27,7 @@ contract UcrOfTransferFailedTest {
         msg.sender.send(i);
     }
 
-    function testTransferTokenInsufficientBalance(uint256 i,trcToken tokenId) payable public{
+    function testTransferTokenInsufficientBalance(uint256 i,srcToken tokenId) payable public{
         msg.sender.transferToken(i, tokenId);
     }
 
@@ -51,7 +51,7 @@ contract UcrOfTransferFailedTest {
         nonexistentTarget.transfer(i);
     }
 
-    function testTransferTokenNonexistentTarget(uint256 i,address  nonexistentTarget, trcToken tokenId) payable public {
+    function testTransferTokenNonexistentTarget(uint256 i,address  nonexistentTarget, srcToken tokenId) payable public {
         require(address(this).balance >= i);
         nonexistentTarget.transferToken(i, tokenId);
     }
@@ -78,7 +78,7 @@ contract UcrOfTransferFailedTest {
         self.send(i);
     }
 
-    function testTransferTokenSelf(uint256 i,trcToken tokenId) payable public{
+    function testTransferTokenSelf(uint256 i,srcToken tokenId) payable public{
         require(address(this).balance >= i);
         address  self = address(uint160(address(this)));
         self.transferToken(i, tokenId);

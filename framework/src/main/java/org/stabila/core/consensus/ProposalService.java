@@ -101,8 +101,8 @@ public class ProposalService extends ProposalUtil {
           manager.getDynamicPropertiesStore().saveTotalUcrLimit(entry.getValue());
           break;
         }
-        case ALLOW_SVM_TRANSFER_TRC10: {
-          manager.getDynamicPropertiesStore().saveAllowSvmTransferTrc10(entry.getValue());
+        case ALLOW_SVM_TRANSFER_SRC10: {
+          manager.getDynamicPropertiesStore().saveAllowSvmTransferSrc10(entry.getValue());
           break;
         }
         case TOTAL_CURRENT_UCR_LIMIT: {
@@ -202,8 +202,8 @@ public class ProposalService extends ProposalUtil {
           manager.getDynamicPropertiesStore().saveAllowSvmIstanbul(entry.getValue());
           break;
         }
-        case ALLOW_SHIELDED_TRC20_TRANSACTION: {
-          manager.getDynamicPropertiesStore().saveAllowShieldedTRC20Transaction(entry.getValue());
+        case ALLOW_SHIELDED_SRC20_TRANSACTION: {
+          manager.getDynamicPropertiesStore().saveAllowShieldedSRC20Transaction(entry.getValue());
           break;
         }
         case ALLOW_MARKET_TRANSACTION: {
@@ -255,9 +255,12 @@ public class ProposalService extends ProposalUtil {
           manager.getDynamicPropertiesStore().saveTotalNetLimit(entry.getValue());
           break;
         }
-
         case ALLOW_ACCOUNT_ASSET_OPTIMIZATION: {
           manager.getDynamicPropertiesStore().setAllowAccountAssetOptimization(entry.getValue());
+          break;
+        }
+        case DEPLOY_CONTRACT_FEE: {
+          manager.getDynamicPropertiesStore().saveDeployContractFee(entry.getValue());
           break;
         }
         default:

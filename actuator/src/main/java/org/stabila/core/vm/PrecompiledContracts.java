@@ -184,16 +184,16 @@ public class PrecompiledContracts {
     if (VMConfig.allowSvmSolidity059() && address.equals(validateMultiSignAddr)) {
       return validateMultiSign;
     }
-    if (VMConfig.allowShieldedTRC20Transaction() && address.equals(verifyMintProofAddr)) {
+    if (VMConfig.allowShieldedSRC20Transaction() && address.equals(verifyMintProofAddr)) {
       return verifyMintProof;
     }
-    if (VMConfig.allowShieldedTRC20Transaction() && address.equals(verifyTransferProofAddr)) {
+    if (VMConfig.allowShieldedSRC20Transaction() && address.equals(verifyTransferProofAddr)) {
       return verifyTransferProof;
     }
-    if (VMConfig.allowShieldedTRC20Transaction() && address.equals(verifyBurnProofAddr)) {
+    if (VMConfig.allowShieldedSRC20Transaction() && address.equals(verifyBurnProofAddr)) {
       return verifyBurnProof;
     }
-    if (VMConfig.allowShieldedTRC20Transaction() && address.equals(merkleHashAddr)) {
+    if (VMConfig.allowShieldedSRC20Transaction() && address.equals(merkleHashAddr)) {
       return merkleHash;
     }
     if (VMConfig.allowSvmVote() && address.equals(rewardBalanceAddr)) {

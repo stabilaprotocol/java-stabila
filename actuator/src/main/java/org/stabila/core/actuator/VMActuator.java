@@ -17,6 +17,8 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.bouncycastle.util.encoders.Hex;
+import org.stabila.common.utils.Commons;
+import org.stabila.core.exception.BalanceInsufficientException;
 import org.stabila.core.utils.TransactionUtil;
 import org.stabila.core.vm.repository.Repository;
 import org.stabila.core.vm.repository.RepositoryImpl;
@@ -227,6 +229,19 @@ public class VMActuator implements Actuator2 {
             result.setRuntimeError("REVERT opcode executed");
           }
         } else {
+          if (StbType.STB_CONTRACT_CREATION_TYPE == stbType) {
+            try {
+              CreateSmartContract contract = ContractCapsule.getSmartContractFromTransaction(stb);
+              SmartContract newSmartContract = contract.getNewContract();
+              AccountCapsule creator = this.repository
+                      .getAccount(newSmartContract.getOriginAddress().toByteArray());
+              Commons.adjustBalance(repository.getAccountStore(), creator, -repository.getDynamicPropertiesStore().getDeployContractFee());
+              Commons.adjustBalance(repository.getAccountStore(), repository.getAccountStore().getUnit(), repository.getDynamicPropertiesStore().getDeployContractFee());
+            } catch (Exception e) {
+              logger.info(e.getMessage());
+              throw new ContractValidateException(e.getMessage());
+            }
+          }
           repository.commit();
 
           if (logInfoTriggerParser != null) {
@@ -234,7 +249,6 @@ public class VMActuator implements Actuator2 {
                 .parseLogInfos(program.getResult().getLogInfoList(), repository);
             program.getResult().setTriggerList(triggers);
           }
-
         }
       } else {
         repository.commit();
@@ -327,11 +341,13 @@ public class VMActuator implements Actuator2 {
     long callValue = newSmartContract.getCallValue();
     long tokenValue = 0;
     long tokenId = 0;
-    if (VMConfig.allowSvmTransferTrc10()) {
+    if (VMConfig.allowSvmTransferSrc10()) {
       tokenValue = contract.getCallTokenValue();
       tokenId = contract.getTokenId();
     }
     byte[] callerAddress = contract.getOwnerAddress().toByteArray();
+    AccountCapsule creator = this.repository
+            .getAccount(newSmartContract.getOriginAddress().toByteArray());
     // create vm to constructor smart contract
     try {
       long feeLimit = stb.getRawData().getFeeLimit();
@@ -340,8 +356,12 @@ public class VMActuator implements Actuator2 {
         throw new ContractValidateException(
             "feeLimit must be >= 0 and <= " + repository.getDynamicPropertiesStore().getMaxFeeLimit());
       }
-      AccountCapsule creator = this.repository
-          .getAccount(newSmartContract.getOriginAddress().toByteArray());
+      if (!creator.hasEnoughBalanceForDeployContract(repository.getDynamicPropertiesStore())) {
+        logger.info("Not enough balance for deploy contract");
+        throw new ContractValidateException(
+                "Contract owner must have STB balance >= deploy contract fee from chain parameters"
+        );
+      }
 
       long ucrLimit;
       // according to version
@@ -401,11 +421,10 @@ public class VMActuator implements Actuator2 {
     if (callValue > 0) {
       transfer(this.repository, callerAddress, contractAddress, callValue);
     }
-    if (VMConfig.allowSvmTransferTrc10() && tokenValue > 0) {
+    if (VMConfig.allowSvmTransferSrc10() && tokenValue > 0) {
       transferToken(this.repository, callerAddress, contractAddress, String.valueOf(tokenId),
           tokenValue);
     }
-
   }
 
   /**
@@ -440,7 +459,7 @@ public class VMActuator implements Actuator2 {
     long callValue = contract.getCallValue();
     long tokenValue = 0;
     long tokenId = 0;
-    if (VMConfig.allowSvmTransferTrc10()) {
+    if (VMConfig.allowSvmTransferSrc10()) {
       tokenValue = contract.getCallTokenValue();
       tokenId = contract.getTokenId();
     }
@@ -507,7 +526,7 @@ public class VMActuator implements Actuator2 {
     if (callValue > 0) {
       transfer(this.repository, callerAddress, contractAddress, callValue);
     }
-    if (VMConfig.allowSvmTransferTrc10() && tokenValue > 0) {
+    if (VMConfig.allowSvmTransferSrc10() && tokenValue > 0) {
       transferToken(this.repository, callerAddress, contractAddress, String.valueOf(tokenId),
           tokenValue);
     }
@@ -590,7 +609,7 @@ public class VMActuator implements Actuator2 {
 
 
   public void checkTokenValueAndId(long tokenValue, long tokenId) throws ContractValidateException {
-    if (VMConfig.allowSvmTransferTrc10() && VMConfig.allowMultiSign()) {
+    if (VMConfig.allowSvmTransferSrc10() && VMConfig.allowMultiSign()) {
       // tokenid can only be 0
       // or (MIN_TOKEN_ID, Long.Max]
       if (tokenId <= VMConstant.MIN_TOKEN_ID && tokenId != 0) {

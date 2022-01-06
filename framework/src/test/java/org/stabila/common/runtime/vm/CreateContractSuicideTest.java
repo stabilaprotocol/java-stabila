@@ -130,10 +130,10 @@ contract D {
       VMIllegalException, ContractValidateException {
     byte[] stats = new byte[27];
     Arrays.fill(stats, (byte) 1);
-    //VMConfig.initAllowSvmTransferTrc10(1);
+    //VMConfig.initAllowSvmTransferSrc10(1);
     ConfigLoader.disable = false;
     this.manager.getDynamicPropertiesStore().saveAllowMultiSign(1);
-    this.manager.getDynamicPropertiesStore().saveAllowSvmTransferTrc10(1);
+    this.manager.getDynamicPropertiesStore().saveAllowSvmTransferSrc10(1);
     byte[] address = Hex.decode(OWNER_ADDRESS);
 
     this.manager.getDynamicPropertiesStore()
@@ -174,7 +174,7 @@ contract D {
     //VMConfig.initAllowMultiSign(0);
     ConfigLoader.disable = false;
     this.manager.getDynamicPropertiesStore().saveAllowMultiSign(0);
-    this.manager.getDynamicPropertiesStore().saveAllowSvmTransferTrc10(1);
+    this.manager.getDynamicPropertiesStore().saveAllowSvmTransferSrc10(1);
 
     byte[] address = Hex.decode(OWNER_ADDRESS);
     Transaction aStb = SvmTestUtils.generateDeploySmartContractAndGetTransaction(

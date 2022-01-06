@@ -472,7 +472,7 @@ public class TransferFailed004 {
         "\"1" + "\",\"" + Base58.encode58Check(contractAddress) + "\",\"" + assetAccountId
             .toStringUtf8() + "\"";
     txid = PublicMethed.triggerContract(contractAddress4,
-        "testTransferTokenNonexistentTarget(uint256,address,trcToken)", num, false,
+        "testTransferTokenNonexistentTarget(uint256,address,srcToken)", num, false,
         0, maxFeeLimit, contractExcAddress, contractExcKey, blockingStubFull);
     PublicMethed.waitProduceNextBlock(blockingStubFull);
     infoById = PublicMethed.getTransactionInfoById(txid, blockingStubFull);
@@ -537,7 +537,7 @@ public class TransferFailed004 {
         "\"1" + "\",\"" + Base58.encode58Check(contractAddress) + "\",\"" + assetAccountId2
             .toStringUtf8() + "\"";
     String txid = PublicMethed.triggerContract(contractAddress4,
-        "testTransferTokenNonexistentTarget(uint256,address,trcToken)", num, false,
+        "testTransferTokenNonexistentTarget(uint256,address,srcToken)", num, false,
         0, maxFeeLimit, contractExcAddress3, contractExcKey3, blockingStubFull);
     PublicMethed.waitProduceNextBlock(blockingStubFull);
     Optional<TransactionInfo> infoById = PublicMethed

@@ -126,7 +126,7 @@ public class Constant {
 
   public static final String COMMITTEE_ALLOW_SAME_TOKEN_NAME = "committee.allowSameTokenName";
 
-  public static final String COMMITTEE_ALLOW_SVM_TRANSFER_TRC10 = "committee.allowSvmTransferTrc10";
+  public static final String COMMITTEE_ALLOW_SVM_TRANSFER_SRC10 = "committee.allowSvmTransferSrc10";
 
   public static final String COMMITTEE_ALLOW_SVM_CONSTANTINOPLE = "committee.allowSvmConstantinople";
 
@@ -176,8 +176,8 @@ public class Constant {
 
   // public static final String COMMITTEE_ALLOW_SHIELDED_TRANSACTION = "committee.allowShieldedTransaction";
 
-  public static final String COMMITTEE_ALLOW_SHIELDED_TRC20_TRANSACTION = "committee"
-      + ".allowShieldedTRC20Transaction";
+  public static final String COMMITTEE_ALLOW_SHIELDED_SRC20_TRANSACTION = "committee"
+      + ".allowShieldedSRC20Transaction";
 
   public static final String COMMITTEE_ALLOW_SVM_ISTANBUL = "committee"
       + ".allowSvmIstanbul";

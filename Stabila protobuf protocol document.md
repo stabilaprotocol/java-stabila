@@ -449,7 +449,7 @@ Transaction and transaction-related messages.
 
     `transferTo_address`:
 
-    `callValueInfo`: Refers to asset transfer information in internal transactions, including stb and trc10.
+    `callValueInfo`: Refers to asset transfer information in internal transactions, including stb and src10.
 
    ```java
        message InternalTransaction {
@@ -1287,9 +1287,9 @@ Contract and contract-related messages.
     
        `new_contract`:  details of the new smart contract.
     
-       `call_token_value`: amount of TRC10 token sent to the newly created smart contract.
+       `call_token_value`: amount of SRC10 token sent to the newly created smart contract.
     
-       `token_id`: TRC10 token id.
+       `token_id`: SRC10 token id.
     
       ```java
       message CreateSmartContract {
@@ -1310,9 +1310,9 @@ Contract and contract-related messages.
     
        `data`: functions and parameters called in smart contract.
     
-       `call_token_value`: TRC10 token amount sent to smart contract.
+       `call_token_value`: SRC10 token amount sent to smart contract.
     
-       `token_id`: TRC10 token id.
+       `token_id`: SRC10 token id.
     
       ```java
       message TriggerSmartContract {

@@ -240,19 +240,19 @@ public class FullNodeHttpApiService implements Service {
   @Autowired
   private GetTransactionInfoByBlockNumServlet getTransactionInfoByBlockNumServlet;
   @Autowired
-  private IsShieldedTRC20ContractNoteSpentServlet isShieldedTRC20ContractNoteSpentServlet;
+  private IsShieldedSRC20ContractNoteSpentServlet isShieldedSRC20ContractNoteSpentServlet;
   @Autowired
   private CreateShieldedContractParametersServlet createShieldedContractParametersServlet;
   @Autowired
   private CreateShieldedContractParametersWithoutAskServlet
       createShieldedContractParametersWithoutAskServlet;
   @Autowired
-  private ScanShieldedTRC20NotesByIvkServlet scanShieldedTRC20NotesByIvkServlet;
+  private ScanShieldedSRC20NotesByIvkServlet scanShieldedSRC20NotesByIvkServlet;
   @Autowired
-  private ScanShieldedTRC20NotesByOvkServlet scanShieldedTRC20NotesByOvkServlet;
+  private ScanShieldedSRC20NotesByOvkServlet scanShieldedSRC20NotesByOvkServlet;
   @Autowired
-  private GetTriggerInputForShieldedTRC20ContractServlet
-      getTriggerInputForShieldedTRC20ContractServlet;
+  private GetTriggerInputForShieldedSRC20ContractServlet
+      getTriggerInputForShieldedSRC20ContractServlet;
   @Autowired
   private MetricsServlet metricsServlet;
   @Autowired
@@ -481,18 +481,18 @@ public class FullNodeHttpApiService implements Service {
       //      "/wallet/getshieldtransactionhash");
 
       context
-          .addServlet(new ServletHolder(isShieldedTRC20ContractNoteSpentServlet),
-              "/wallet/isshieldedtrc20contractnotespent");
+          .addServlet(new ServletHolder(isShieldedSRC20ContractNoteSpentServlet),
+              "/wallet/isshieldedsrc20contractnotespent");
       context.addServlet(new ServletHolder(createShieldedContractParametersServlet),
           "/wallet/createshieldedcontractparameters");
       context.addServlet(new ServletHolder(createShieldedContractParametersWithoutAskServlet),
           "/wallet/createshieldedcontractparameterswithoutask");
-      context.addServlet(new ServletHolder(scanShieldedTRC20NotesByIvkServlet),
-          "/wallet/scanshieldedtrc20notesbyivk");
-      context.addServlet(new ServletHolder(scanShieldedTRC20NotesByOvkServlet),
-          "/wallet/scanshieldedtrc20notesbyovk");
-      context.addServlet(new ServletHolder(getTriggerInputForShieldedTRC20ContractServlet),
-          "/wallet/gettriggerinputforshieldedtrc20contract");
+      context.addServlet(new ServletHolder(scanShieldedSRC20NotesByIvkServlet),
+          "/wallet/scanshieldedsrc20notesbyivk");
+      context.addServlet(new ServletHolder(scanShieldedSRC20NotesByOvkServlet),
+          "/wallet/scanshieldedsrc20notesbyovk");
+      context.addServlet(new ServletHolder(getTriggerInputForShieldedSRC20ContractServlet),
+          "/wallet/gettriggerinputforshieldedsrc20contract");
 
       context.addServlet(new ServletHolder(broadcastHexServlet), "/wallet/broadcasthex");
       context.addServlet(new ServletHolder(getBrokerageServlet), "/wallet/getBrokerage");

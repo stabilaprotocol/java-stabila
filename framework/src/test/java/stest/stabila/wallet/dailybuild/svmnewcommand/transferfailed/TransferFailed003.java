@@ -147,7 +147,7 @@ public class TransferFailed003 {
     String txid = "";
     String num = "1" + ",\"" + assetAccountId.toStringUtf8() + "\"";
     txid = PublicMethed.triggerContract(contractAddress,
-        "testTransferTokenInsufficientBalance(uint256,trcToken)", num, false,
+        "testTransferTokenInsufficientBalance(uint256,srcToken)", num, false,
         0, maxFeeLimit, contractExcAddress, contractExcKey, blockingStubFull);
     Optional<TransactionInfo> infoById = null;
     PublicMethed.waitProduceNextBlock(blockingStubFull);
@@ -218,7 +218,7 @@ public class TransferFailed003 {
     String txid = "";
     String num = "1000" + ",\"" + assetAccountId.toStringUtf8() + "\"";
     txid = PublicMethed.triggerContract(contractAddress,
-        "testTransferTokenInsufficientBalance(uint256,trcToken)", num, false,
+        "testTransferTokenInsufficientBalance(uint256,srcToken)", num, false,
         0, maxFeeLimit, contractExcAddress, contractExcKey, blockingStubFull);
     Optional<TransactionInfo> infoById = null;
     PublicMethed.waitProduceNextBlock(blockingStubFull);
@@ -298,7 +298,7 @@ public class TransferFailed003 {
         "\"1" + "\",\"" + Base58.encode58Check(nonexistentAddress) + "\",\"" + assetAccountId
             .toStringUtf8() + "\"";
     txid = PublicMethed.triggerContract(contractAddress,
-        "testTransferTokenNonexistentTarget(uint256,address,trcToken)", num, false,
+        "testTransferTokenNonexistentTarget(uint256,address,srcToken)", num, false,
         0, maxFeeLimit, contractExcAddress, contractExcKey, blockingStubFull);
     Optional<TransactionInfo> infoById = null;
     PublicMethed.waitProduceNextBlock(blockingStubFull);
@@ -349,7 +349,7 @@ public class TransferFailed003 {
     Assert.assertEquals(1L, nonexistentAddressAccount.longValue());
 
     txid = PublicMethed.triggerContract(contractAddress,
-        "testTransferTokenNonexistentTarget(uint256,address,trcToken)", num, false,
+        "testTransferTokenNonexistentTarget(uint256,address,srcToken)", num, false,
         0, maxFeeLimit, contractExcAddress, contractExcKey, blockingStubFull);
     infoById = null;
     PublicMethed.waitProduceNextBlock(blockingStubFull);
@@ -423,7 +423,7 @@ public class TransferFailed003 {
     String txid = "";
     String num = "1" + ",\"" + assetAccountId.toStringUtf8() + "\"";
     txid = PublicMethed.triggerContract(contractAddress,
-        "testTransferTokenSelf(uint256,trcToken)", num, false,
+        "testTransferTokenSelf(uint256,srcToken)", num, false,
         0, maxFeeLimit, contractExcAddress, contractExcKey, blockingStubFull);
     Optional<TransactionInfo> infoById = null;
     PublicMethed.waitProduceNextBlock(blockingStubFull);
@@ -461,7 +461,7 @@ public class TransferFailed003 {
     Assert.assertTrue(infoById.get().getResultValue() == 1);
     Assert.assertEquals(contractResult.TRANSFER_FAILED, infoById.get().getReceipt().getResult());
     Assert.assertEquals(
-        "transfer trc10 failed: Cannot transfer asset to yourself.",
+        "transfer src10 failed: Cannot transfer asset to yourself.",
         ByteArray.toStr(infoById.get().getResMessage().toByteArray()));
     Assert.assertTrue(afterBalance + fee == beforeBalance);
     Assert.assertEquals(testNetAccountCountBefore, testNetAccountCountAfter);
@@ -503,7 +503,7 @@ public class TransferFailed003 {
 
     String num = "1" + ",\"" + fakeassetAccountId + "\"";
     txid = PublicMethed.triggerContract(contractAddress,
-        "testTransferTokenInsufficientBalance(uint256,trcToken)", num, false,
+        "testTransferTokenInsufficientBalance(uint256,srcToken)", num, false,
         0, maxFeeLimit, contractExcAddress, contractExcKey, blockingStubFull);
     Optional<TransactionInfo> infoById = null;
     PublicMethed.waitProduceNextBlock(blockingStubFull);
@@ -586,7 +586,7 @@ public class TransferFailed003 {
             + assetAccountId
             .toStringUtf8() + "\"";
     txid = PublicMethed.triggerContract(contractAddress,
-        "testTransferTokenNonexistentTarget(uint256,address,trcToken)", num, false,
+        "testTransferTokenNonexistentTarget(uint256,address,srcToken)", num, false,
         0, maxFeeLimit, contractExcAddress, contractExcKey, blockingStubFull);
     Optional<TransactionInfo> infoById = null;
     PublicMethed.waitProduceNextBlock(blockingStubFull);
@@ -668,7 +668,7 @@ public class TransferFailed003 {
     String txid = "";
     String num = "1000000000000000" + ",\"" + assetAccountId.toStringUtf8() + "\"";
     txid = PublicMethed.triggerContract(contractAddress,
-        "testTransferTokenSelf(uint256,trcToken)", num, false,
+        "testTransferTokenSelf(uint256,srcToken)", num, false,
         0, maxFeeLimit, contractExcAddress, contractExcKey, blockingStubFull);
     Optional<TransactionInfo> infoById = null;
     PublicMethed.waitProduceNextBlock(blockingStubFull);
@@ -748,7 +748,7 @@ public class TransferFailed003 {
         "\"1" + "\",\"" + Base58.encode58Check(nonexistentAddress) + "\",\"" + assetAccountId
             .toStringUtf8() + "\"";
     txid = PublicMethed.triggerContract(contractAddress,
-        "testTransferTokenRevert(uint256,address,trcToken)", num, false,
+        "testTransferTokenRevert(uint256,address,srcToken)", num, false,
         0, maxFeeLimit, contractExcAddress, contractExcKey, blockingStubFull);
     Optional<TransactionInfo> infoById = null;
     PublicMethed.waitProduceNextBlock(blockingStubFull);
