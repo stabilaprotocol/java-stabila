@@ -9,6 +9,7 @@ import static org.stabila.core.vm.utils.MUtil.transferToken;
 
 import com.google.protobuf.ByteString;
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -18,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.bouncycastle.util.encoders.Hex;
 import org.stabila.common.utils.Commons;
+import org.stabila.core.capsule.*;
 import org.stabila.core.exception.BalanceInsufficientException;
 import org.stabila.core.utils.TransactionUtil;
 import org.stabila.core.vm.repository.Repository;
@@ -31,11 +33,6 @@ import org.stabila.common.runtime.ProgramResult;
 import org.stabila.common.utils.StorageUtils;
 import org.stabila.common.utils.StringUtil;
 import org.stabila.common.utils.WalletUtil;
-import org.stabila.core.capsule.AccountCapsule;
-import org.stabila.core.capsule.BlockCapsule;
-import org.stabila.core.capsule.ContractCapsule;
-import org.stabila.core.capsule.ReceiptCapsule;
-import org.stabila.core.capsule.TransactionCapsule;
 import org.stabila.core.db.TransactionContext;
 import org.stabila.core.exception.ContractExeException;
 import org.stabila.core.exception.ContractValidateException;
@@ -235,8 +232,12 @@ public class VMActuator implements Actuator2 {
               SmartContract newSmartContract = contract.getNewContract();
               AccountCapsule creator = this.repository
                       .getAccount(newSmartContract.getOriginAddress().toByteArray());
-              Commons.adjustBalance(repository.getAccountStore(), creator, -repository.getDynamicPropertiesStore().getDeployContractFee());
-              Commons.adjustBalance(repository.getAccountStore(), repository.getAccountStore().getUnit(), repository.getDynamicPropertiesStore().getDeployContractFee());
+              long fee = repository.getDynamicPropertiesStore().getDeployContractFee();
+              Commons.adjustBalance(repository.getAccountStore(), creator, -fee);
+              Commons.adjustBalance(repository.getAccountStore(), repository.getAccountStore().getUnit(), fee);
+              TransactionResultCapsule transactionResultCapsule = result.getRet();
+              transactionResultCapsule.setStatus(fee, Transaction.Result.code.SUCESS);
+              result.setRet(transactionResultCapsule);
             } catch (Exception e) {
               logger.info(e.getMessage());
               throw new ContractValidateException(e.getMessage());
@@ -283,6 +284,7 @@ public class VMActuator implements Actuator2 {
       logger.info("runtime result is :{}", result.getException().getMessage());
     }
     //use program returned fill context
+    //context.setStbCap(new TransactionCapsule(Transaction.newBuilder(context.getStbCap().getInstance()).addAllRet(transactionResultList).build()));
     context.setProgramResult(result);
 
     if (VMConfig.vmTrace() && program != null) {
