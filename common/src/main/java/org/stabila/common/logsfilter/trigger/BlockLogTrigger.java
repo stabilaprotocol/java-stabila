@@ -25,7 +25,7 @@ public class BlockLogTrigger extends Trigger {
 
   @Getter
   @Setter
-  private String executedBy;
+  private String producedBy;
 
   @Getter
   @Setter
@@ -48,8 +48,8 @@ public class BlockLogTrigger extends Trigger {
         .append(transactionSize)
         .append(", latestSolidifiedBlockNumber: ")
         .append(latestSolidifiedBlockNumber)
-        .append(", executedBy: ")
-        .append(executedBy)
+        .append(", producedBy: ")
+        .append(producedBy)
         .append(", transactionList: ")
         .append(transactionList).toString();
   }

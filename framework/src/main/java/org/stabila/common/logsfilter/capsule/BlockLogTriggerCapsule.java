@@ -19,7 +19,7 @@ public class BlockLogTriggerCapsule extends TriggerCapsule {
     blockLogTrigger.setTimeStamp(block.getTimeStamp());
     blockLogTrigger.setBlockNumber(block.getNum());
     blockLogTrigger.setTransactionSize(block.getTransactions().size());
-    blockLogTrigger.setExecutedBy(StringUtil.encode58Check(block.getExecutiveAddress().toByteArray()));
+    blockLogTrigger.setProducedBy(StringUtil.encode58Check(block.getExecutiveAddress().toByteArray()));
     block.getTransactions().forEach(stb ->
         blockLogTrigger.getTransactionList().add(stb.getTransactionId().toString())
     );
