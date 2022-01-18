@@ -822,12 +822,6 @@ public class Wallet {
                     .setKey("getAllowDelegateResource")
                     .setValue(chainBaseManager.getDynamicPropertiesStore().getAllowDelegateResource())
                     .build());
-    //    TOTAL_UCR_LIMIT, // 50,000,000,000, 17
-    builder.addChainParameter(
-            Protocol.ChainParameters.ChainParameter.newBuilder()
-                    .setKey("getTotalUcrLimit")
-                    .setValue(chainBaseManager.getDynamicPropertiesStore().getTotalUcrLimit())
-                    .build());
     //    ALLOW_SVM_TRANSFER_SRC10, // 1, 18
     builder.addChainParameter(
             Protocol.ChainParameters.ChainParameter.newBuilder()

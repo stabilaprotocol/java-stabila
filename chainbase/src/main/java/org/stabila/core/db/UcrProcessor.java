@@ -64,23 +64,15 @@ public class UcrProcessor extends ResourceProcessor {
     long targetTotalUcrLimit = dynamicPropertiesStore.getTotalUcrTargetLimit();
     long totalUcrCurrentLimit = dynamicPropertiesStore
         .getTotalUcrCurrentLimit();
-    long totalUcrLimit = dynamicPropertiesStore.getTotalUcrLimit();
 
     long result;
     if (totalUcrAverageUsage > targetTotalUcrLimit) {
       result = totalUcrCurrentLimit * AdaptiveResourceLimitConstants.CONTRACT_RATE_NUMERATOR
           / AdaptiveResourceLimitConstants.CONTRACT_RATE_DENOMINATOR;
-      // logger.info(totalUcrAverageUsage + ">" + targetTotalUcrLimit + "\n" + result);
     } else {
       result = totalUcrCurrentLimit * AdaptiveResourceLimitConstants.EXPAND_RATE_NUMERATOR
           / AdaptiveResourceLimitConstants.EXPAND_RATE_DENOMINATOR;
-      // logger.info(totalUcrAverageUsage + "<" + targetTotalUcrLimit + "\n" + result);
     }
-
-    result = Math.min(
-        Math.max(result, totalUcrLimit),
-        totalUcrLimit * dynamicPropertiesStore.getAdaptiveResourceLimitMultiplier()
-    );
 
     dynamicPropertiesStore.saveTotalUcrCurrentLimit(result);
     logger.debug(

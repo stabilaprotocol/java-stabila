@@ -375,12 +375,6 @@ public class DynamicPropertiesStore extends StabilaStoreWithRevoking<BytesCapsul
     }
 
     try {
-      this.getTotalUcrLimit();
-    } catch (IllegalArgumentException e) {
-      this.saveTotalUcrLimit(30000000000L);
-    }
-
-    try {
       this.getUcrFee();
     } catch (IllegalArgumentException e) {
       this.saveUcrFee(40L);// 40 unit per ucr
@@ -658,13 +652,13 @@ public class DynamicPropertiesStore extends StabilaStoreWithRevoking<BytesCapsul
     try {
       this.getTotalUcrCurrentLimit();
     } catch (IllegalArgumentException e) {
-      this.saveTotalUcrCurrentLimit(getTotalUcrLimit());
+      this.saveTotalUcrCurrentLimit(30_000_000_000L);
     }
 
     try {
       this.getTotalUcrTargetLimit();
     } catch (IllegalArgumentException e) {
-      this.saveTotalUcrTargetLimit(getTotalUcrLimit() / 14400);
+      this.saveTotalUcrTargetLimit(2_083_333L);
     }
 
     try {
@@ -1112,32 +1106,12 @@ public class DynamicPropertiesStore extends StabilaStoreWithRevoking<BytesCapsul
             () -> new IllegalArgumentException("not found TOTAL_NET_LIMIT"));
   }
 
-  @Deprecated
-  public void saveTotalUcrLimit(long totalUcrLimit) {
-    this.put(DynamicResourceProperties.TOTAL_UCR_LIMIT,
-        new BytesCapsule(ByteArray.fromLong(totalUcrLimit)));
-
-    long ratio = getAdaptiveResourceLimitTargetRatio();
-    saveTotalUcrTargetLimit(totalUcrLimit / ratio);
-  }
-
   public void saveTotalUcrLimit2(long totalUcrLimit) {
-    this.put(DynamicResourceProperties.TOTAL_UCR_LIMIT,
-        new BytesCapsule(ByteArray.fromLong(totalUcrLimit)));
-
     long ratio = getAdaptiveResourceLimitTargetRatio();
     saveTotalUcrTargetLimit(totalUcrLimit / ratio);
     if (getAllowAdaptiveUcr() == 0) {
       saveTotalUcrCurrentLimit(totalUcrLimit);
     }
-  }
-
-  public long getTotalUcrLimit() {
-    return Optional.ofNullable(getUnchecked(DynamicResourceProperties.TOTAL_UCR_LIMIT))
-        .map(BytesCapsule::getData)
-        .map(ByteArray::toLong)
-        .orElseThrow(
-            () -> new IllegalArgumentException("not found TOTAL_UCR_LIMIT"));
   }
 
   public void saveTotalUcrCurrentLimit(long totalUcrCurrentLimit) {
@@ -2324,7 +2298,6 @@ public class DynamicPropertiesStore extends StabilaStoreWithRevoking<BytesCapsul
     private static final byte[] TOTAL_UCR_AVERAGE_TIME = "TOTAL_UCR_AVERAGE_TIME".getBytes();
     private static final byte[] TOTAL_UCR_WEIGHT = "TOTAL_UCR_WEIGHT".getBytes();
     private static final byte[] TOTAL_STABILA_POWER_WEIGHT = "TOTAL_STABILA_POWER_WEIGHT".getBytes();
-    private static final byte[] TOTAL_UCR_LIMIT = "TOTAL_UCR_LIMIT".getBytes();
     private static final byte[] BLOCK_UCR_USAGE = "BLOCK_UCR_USAGE".getBytes();
     private static final byte[] ADAPTIVE_RESOURCE_LIMIT_MULTIPLIER =
         "ADAPTIVE_RESOURCE_LIMIT_MULTIPLIER"
