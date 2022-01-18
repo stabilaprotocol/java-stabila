@@ -14,7 +14,7 @@ contract svmAssetIssue003 {
         newaddress.transfer(100000000);
     }
 
-    function updateAssetAndTransfer(trcToken tokenId, string memory url, string memory desc, address addr) public {
+    function updateAssetAndTransfer(srcToken tokenId, string memory url, string memory desc, address addr) public {
         address payable newaddress = address(uint160(addr));
         newaddress.transfer(100000000);
         updateasset(tokenId, bytes(url), bytes(desc));

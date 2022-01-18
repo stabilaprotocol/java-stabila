@@ -85,7 +85,7 @@ public class VM {
     try {
       OpCode op = OpCode.code(program.getCurrentOp());
       if (op == null
-          || (!VMConfig.allowSvmTransferTrc10()
+          || (!VMConfig.allowSvmTransferSrc10()
               && (op == OpCode.CALLTOKEN || op == OpCode.TOKENBALANCE
                   || op == OpCode.CALLTOKENVALUE || op == OpCode.CALLTOKENID))
           || (!VMConfig.allowSvmConstantinople()

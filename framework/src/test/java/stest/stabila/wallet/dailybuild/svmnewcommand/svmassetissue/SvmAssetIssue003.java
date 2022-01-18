@@ -147,7 +147,7 @@ public class SvmAssetIssue003 {
     description = "stb";
     param = "\"" + assetIssueId + "\",\"" + url + "\",\"" + description + "\"";
     logger.info("param: " + param);
-    String methodUpdateAsset = "updateAsset(trcToken,string,string)";
+    String methodUpdateAsset = "updateAsset(srcToken,string,string)";
     txid = PublicMethed.triggerContract(contractAddress, methodUpdateAsset, param, false,
         0, maxFeeLimit, dev001Address, dev001Key, blockingStubFull);
     PublicMethed.waitProduceNextBlock(blockingStubFull);
@@ -421,7 +421,7 @@ public class SvmAssetIssue003 {
     param = "\"" + assetIssueId + "\",\"" + url + "\",\"" + description + "\",\"" + url2 + "\",\""
         + description2 + "\"";
     logger.info("param: " + param);
-    String methodUpdateAsset = "updateAsset(trcToken,string,string,string,string)";
+    String methodUpdateAsset = "updateAsset(srcToken,string,string,string,string)";
     txid = PublicMethed.triggerContract(contractAddress, methodUpdateAsset, param, false,
         0, maxFeeLimit, dev001Address, dev001Key, blockingStubFull);
     PublicMethed.waitProduceNextBlock(blockingStubFull);
@@ -524,7 +524,7 @@ public class SvmAssetIssue003 {
     param = "\"" + assetIssueId + "\",\"" + url1 + "\",\"" + description1 + "\",\"" + Base58
         .encode58Check(dev002Address) + "\"";
     logger.info("param: " + param);
-    String methodUpdateAsset = "updateAssetAndTransfer(trcToken,string,string,address)";
+    String methodUpdateAsset = "updateAssetAndTransfer(srcToken,string,string,address)";
     txid = PublicMethed.triggerContract(contractAddress, methodUpdateAsset, param, false,
         0, maxFeeLimit, dev001Address, dev001Key, blockingStubFull);
     PublicMethed.waitProduceNextBlock(blockingStubFull);
@@ -676,7 +676,7 @@ public class SvmAssetIssue003 {
     // updateAsset
     param = "\"" + assetIssueId + "\",\"" + url + "\",\"" + description + "\"";
     logger.info("param: " + param);
-    String methodUpdateAsset = "updateAsset(trcToken,string,string)";
+    String methodUpdateAsset = "updateAsset(srcToken,string,string)";
     txid = PublicMethed.triggerContract(contractAddress, methodUpdateAsset, param, false,
         0, maxFeeLimit, dev001Address, dev001Key, blockingStubFull);
     PublicMethed.waitProduceNextBlock(blockingStubFull);
@@ -776,7 +776,7 @@ public class SvmAssetIssue003 {
     description = "stb";
     param = "\"1119125\",\"" + url + "\",\"" + description + "\"";
     logger.info("param: " + param);
-    String methodUpdateAsset = "updateAsset(trcToken,string,string)";
+    String methodUpdateAsset = "updateAsset(srcToken,string,string)";
     txid = PublicMethed.triggerContract(contractAddress, methodUpdateAsset, param, false,
         0, maxFeeLimit, dev001Address, dev001Key, blockingStubFull);
     PublicMethed.waitProduceNextBlock(blockingStubFull);

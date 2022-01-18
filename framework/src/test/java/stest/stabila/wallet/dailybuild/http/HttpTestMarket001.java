@@ -71,7 +71,7 @@ public class HttpTestMarket001 {
   /**
    * constructor.
    */
-  @Test(enabled = true, description = "MarketSellAsset stb with trc10 by http")
+  @Test(enabled = true, description = "MarketSellAsset stb with src10 by http")
   public void test01MarketSellAsset() {
     PublicMethed.printAddress(sellKey);
     PublicMethed.printAddress(dev002Key);
@@ -115,7 +115,7 @@ public class HttpTestMarket001 {
     responseContent = HttpMethed.parseResponseContent(response);
     HttpMethed.printJsonContent(responseContent);
 
-    // marketsellasset trc10-trc10
+    // marketsellasset src10-src10
     txId2 = HttpMethed
         .marketSellAssetGetTxId(httpnode, sellAddress, assetIssueId1, 10L, assetIssueId2, 500L,
             sellKey, "true");
@@ -128,7 +128,7 @@ public class HttpTestMarket001 {
     orderId = responseContent.getString("orderId");
     logger.info("orderId:" + orderId);
 
-    // marketsellasset stb-trc10
+    // marketsellasset stb-src10
     txId1 = HttpMethed
         .marketSellAssetGetTxId(httpnode, sellAddress, "_", 1000L, assetIssueId1, 20L, sellKey,
             "false");
@@ -141,7 +141,7 @@ public class HttpTestMarket001 {
     orderId1 = responseContent.getString("orderId");
     logger.info("orderId1:" + orderId1);
 
-    // marketsellasset trc10-stb
+    // marketsellasset src10-stb
     txId2 = HttpMethed
         .marketSellAssetGetTxId(httpnode, sellAddress, assetIssueId1, 10L, "_", 500L, sellKey,
             "true");
@@ -498,7 +498,7 @@ public class HttpTestMarket001 {
   /**
    * constructor.
    */
-  @Test(enabled = true, description = "MarketCancelOrder stb with trc10 by http")
+  @Test(enabled = true, description = "MarketCancelOrder stb with src10 by http")
   public void test17MarketCancelOrder() {
     response = HttpMethed.getMarketOrderByAccount(httpnode, sellAddress, "true");
     getMarketOrderByAccountContent = HttpMethed.parseResponseContent(response);

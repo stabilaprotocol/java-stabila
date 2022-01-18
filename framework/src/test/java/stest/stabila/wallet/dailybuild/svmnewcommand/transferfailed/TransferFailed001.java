@@ -623,7 +623,7 @@ public class TransferFailed001 {
   }
 
   @Test(enabled = false, description = "PreCompiled tokenbalance")
-  public void test008TransferTrctoken() {
+  public void test008TransferSrctoken() {
 
     Assert.assertTrue(PublicMethed
         .sendcoin(contractExcAddress, 10000_000_000L, testNetAccountAddress, testNetAccountKey,
@@ -736,7 +736,7 @@ public class TransferFailed001 {
   }
 
   @Test(enabled = true, description = "PreCompiled address(0x1) query tokenbalance")
-  public void test009TransferTrctoken() {
+  public void test009TransferSrctoken() {
     //address: 410000000000000000000000000000000000000001
     String addressx = "T9yD14Nj9j7xAB4dbGeiX9h8unkKLxmGkn";
     byte[] addressxx = WalletClient.decodeFromBase58Check(addressx);

@@ -287,35 +287,35 @@ public class ProposalUtilTest {
     dynamicPropertiesStore.saveAllowSameTokenName(1);
     try {
       actuatorUtil.validator(dynamicPropertiesStore, forkUtils,
-          ProposalUtil.ProposalType.ALLOW_SVM_TRANSFER_TRC10.getCode(), 2);
+          ProposalUtil.ProposalType.ALLOW_SVM_TRANSFER_SRC10.getCode(), 2);
       Assert.assertTrue(false);
     } catch (ContractValidateException e) {
       Assert.assertEquals(
-          "This value[ALLOW_SVM_TRANSFER_TRC10] is only allowed to be 1", e.getMessage());
+          "This value[ALLOW_SVM_TRANSFER_SRC10] is only allowed to be 1", e.getMessage());
     }
 
     dynamicPropertiesStore.saveAllowSameTokenName(0);
     try {
       actuatorUtil.validator(dynamicPropertiesStore, forkUtils,
-          ProposalUtil.ProposalType.ALLOW_SVM_TRANSFER_TRC10.getCode(), 1);
+          ProposalUtil.ProposalType.ALLOW_SVM_TRANSFER_SRC10.getCode(), 1);
       Assert.assertTrue(false);
     } catch (ContractValidateException e) {
       Assert.assertEquals("[ALLOW_SAME_TOKEN_NAME] proposal must be approved "
-          + "before [ALLOW_SVM_TRANSFER_TRC10] can be proposed", e.getMessage());
+          + "before [ALLOW_SVM_TRANSFER_SRC10] can be proposed", e.getMessage());
     }
 
     forkUtils.init(dbManager.getChainBaseManager());
     long maintenanceTimeInterval = forkUtils.getManager().getDynamicPropertiesStore()
         .getMaintenanceTimeInterval();
     long hardForkTime =
-        ((ForkBlockVersionEnum.VERSION_4_0_1.getHardForkTime() - 1) / maintenanceTimeInterval + 1)
+        ((ForkBlockVersionEnum.VERSION_1_0.getHardForkTime() - 1) / maintenanceTimeInterval + 1)
             * maintenanceTimeInterval;
     forkUtils.getManager().getDynamicPropertiesStore()
         .saveLatestBlockHeaderTimestamp(hardForkTime + 1);
     byte[] stats = new byte[27];
     Arrays.fill(stats, (byte) 1);
     forkUtils.getManager().getDynamicPropertiesStore()
-        .statsByVersion(ForkBlockVersionEnum.VERSION_4_0_1.getValue(), stats);
+        .statsByVersion(ForkBlockVersionEnum.VERSION_1_0.getValue(), stats);
     ByteString address = ByteString
         .copyFrom(ByteArray.fromHexString("a0ec6525979a351a54fa09fea64beb4cce33ffbb7a"));
     List<ByteString> w = new ArrayList<>();
@@ -323,21 +323,21 @@ public class ProposalUtilTest {
     forkUtils.getManager().getExecutiveScheduleStore().saveActiveExecutives(w);
     try {
       ProposalUtil.validator(dynamicPropertiesStore, forkUtils,
-          ProposalUtil.ProposalType.ALLOW_SHIELDED_TRC20_TRANSACTION
+          ProposalUtil.ProposalType.ALLOW_SHIELDED_SRC20_TRANSACTION
               .getCode(), 2);
       Assert.fail();
     } catch (ContractValidateException e) {
-      Assert.assertEquals("This value[ALLOW_SHIELDED_TRC20_TRANSACTION] is only allowed"
+      Assert.assertEquals("This value[ALLOW_SHIELDED_SRC20_TRANSACTION] is only allowed"
           + " to be 1 or 0", e.getMessage());
     }
 
     hardForkTime =
-        ((ForkBlockVersionEnum.VERSION_4_3.getHardForkTime() - 1) / maintenanceTimeInterval + 1)
+        ((ForkBlockVersionEnum.VERSION_1_0.getHardForkTime() - 1) / maintenanceTimeInterval + 1)
             * maintenanceTimeInterval;
     forkUtils.getManager().getDynamicPropertiesStore()
         .saveLatestBlockHeaderTimestamp(hardForkTime + 1);
     forkUtils.getManager().getDynamicPropertiesStore()
-        .statsByVersion(ForkBlockVersionEnum.VERSION_4_3.getValue(), stats);
+        .statsByVersion(ForkBlockVersionEnum.VERSION_1_0.getValue(), stats);
     try {
       ProposalUtil.validator(dynamicPropertiesStore, forkUtils, ProposalUtil.ProposalType.FREE_NET_LIMIT
           .getCode(), -1);

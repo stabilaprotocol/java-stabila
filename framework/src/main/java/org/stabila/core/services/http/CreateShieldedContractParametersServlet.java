@@ -6,8 +6,8 @@ import javax.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.stabila.api.GrpcAPI.PrivateShieldedTRC20Parameters;
-import org.stabila.api.GrpcAPI.ShieldedTRC20Parameters;
+import org.stabila.api.GrpcAPI.PrivateShieldedSRC20Parameters;
+import org.stabila.api.GrpcAPI.ShieldedSRC20Parameters;
 import org.stabila.core.Wallet;
 
 @Component
@@ -27,12 +27,12 @@ public class CreateShieldedContractParametersServlet extends RateLimiterServlet 
       Util.checkBodySize(contract);
 
       boolean visible = Util.getVisiblePost(contract);
-      PrivateShieldedTRC20Parameters.Builder build = PrivateShieldedTRC20Parameters.newBuilder();
+      PrivateShieldedSRC20Parameters.Builder build = PrivateShieldedSRC20Parameters.newBuilder();
       JsonFormat.merge(contract, build, visible);
 
-      ShieldedTRC20Parameters shieldedTRC20Parameters = wallet
+      ShieldedSRC20Parameters shieldedSRC20Parameters = wallet
           .createShieldedContractParameters(build.build());
-      response.getWriter().println(JsonFormat.printToString(shieldedTRC20Parameters, visible));
+      response.getWriter().println(JsonFormat.printToString(shieldedSRC20Parameters, visible));
     } catch (Exception e) {
       Util.processError(e, response);
     }

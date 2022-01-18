@@ -1151,4 +1151,7 @@ public class AccountCapsule implements ProtoCapsule<Account>, Comparable<Account
     }
   }
 
+  public boolean hasEnoughBalanceForDeployContract(DynamicPropertiesStore dynamicPropertiesStore) {
+    return this.account.getBalance() >= dynamicPropertiesStore.getDeployContractFee();
+  }
 }
