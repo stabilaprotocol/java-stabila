@@ -47,32 +47,6 @@ Then observe whether block synchronization success，If synchronization successf
 
 </details>
 
-* In IntelliJ IDEA
-  
-<details>
-<summary>
-
-Open the configuration panel:
-
-</summary>
-
-![](docs/images/program_configure.png)
-
-</details>  
-
-<details>
-<summary>
-
-In the `Program arguments` option, fill in `--executive`:
-
-</summary>
-
-![](docs/images/set_executive_param.jpeg)
-
-</details> 
-  
-Then, run `FullNode::main()` again.
-
 ## Advanced Configurations
 
 Read the [Advanced Configurations](common/src/main/java/org/stabila/core/config/README.md).
