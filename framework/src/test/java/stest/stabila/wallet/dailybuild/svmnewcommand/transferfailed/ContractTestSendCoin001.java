@@ -131,7 +131,7 @@ public class ContractTestSendCoin001 {
     logger.info("before AssetId: " + assetAccountId.toStringUtf8() + ", devAssetCountBefore: "
         + devAssetCountBefore);
 
-    String filePath = "src/test/resources/soliditycode/contractTrcToken031.sol";
+    String filePath = "src/test/resources/soliditycode/contractSrcToken031.sol";
     String contractName = "token";
     HashMap retMap = PublicMethed.getBycodeAbi(filePath, contractName);
 

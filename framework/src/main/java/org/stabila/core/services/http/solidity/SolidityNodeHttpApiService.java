@@ -38,15 +38,15 @@ import org.stabila.core.services.http.GetPaginatedAssetIssueListServlet;
 import org.stabila.core.services.http.GetRewardServlet;
 import org.stabila.core.services.http.GetTransactionCountByBlockNumServlet;
 import org.stabila.core.services.http.GetTransactionInfoByBlockNumServlet;
-import org.stabila.core.services.http.IsShieldedTRC20ContractNoteSpentServlet;
+import org.stabila.core.services.http.IsShieldedSRC20ContractNoteSpentServlet;
 import org.stabila.core.services.http.IsSpendServlet;
 import org.stabila.core.services.http.ListExchangesServlet;
 import org.stabila.core.services.http.ListExecutivesServlet;
 import org.stabila.core.services.http.ScanAndMarkNoteByIvkServlet;
 import org.stabila.core.services.http.ScanNoteByIvkServlet;
 import org.stabila.core.services.http.ScanNoteByOvkServlet;
-import org.stabila.core.services.http.ScanShieldedTRC20NotesByIvkServlet;
-import org.stabila.core.services.http.ScanShieldedTRC20NotesByOvkServlet;
+import org.stabila.core.services.http.ScanShieldedSRC20NotesByIvkServlet;
+import org.stabila.core.services.http.ScanShieldedSRC20NotesByOvkServlet;
 import org.stabila.core.services.http.TriggerConstantContractServlet;
 
 
@@ -113,11 +113,11 @@ public class SolidityNodeHttpApiService implements Service {
   @Autowired
   private IsSpendServlet isSpendServlet;
   @Autowired
-  private ScanShieldedTRC20NotesByIvkServlet scanShieldedTRC20NotesByIvkServlet;
+  private ScanShieldedSRC20NotesByIvkServlet scanShieldedSRC20NotesByIvkServlet;
   @Autowired
-  private ScanShieldedTRC20NotesByOvkServlet scanShieldedTRC20NotesByOvkServlet;
+  private ScanShieldedSRC20NotesByOvkServlet scanShieldedSRC20NotesByOvkServlet;
   @Autowired
-  private IsShieldedTRC20ContractNoteSpentServlet isShieldedTRC20ContractNoteSpentServlet;
+  private IsShieldedSRC20ContractNoteSpentServlet isShieldedSRC20ContractNoteSpentServlet;
   @Autowired
   private GetMarketOrderByAccountServlet getMarketOrderByAccountServlet;
   @Autowired
@@ -202,12 +202,12 @@ public class SolidityNodeHttpApiService implements Service {
       // context.addServlet(new ServletHolder(isSpendServlet),
       //     "/walletsolidity/isspend");
 
-      context.addServlet(new ServletHolder(scanShieldedTRC20NotesByIvkServlet),
-          "/walletsolidity/scanshieldedtrc20notesbyivk");
-      context.addServlet(new ServletHolder(scanShieldedTRC20NotesByOvkServlet),
-          "/walletsolidity/scanshieldedtrc20notesbyovk");
-      context.addServlet(new ServletHolder(isShieldedTRC20ContractNoteSpentServlet),
-          "/walletsolidity/isshieldedtrc20contractnotespent");
+      context.addServlet(new ServletHolder(scanShieldedSRC20NotesByIvkServlet),
+          "/walletsolidity/scanshieldedsrc20notesbyivk");
+      context.addServlet(new ServletHolder(scanShieldedSRC20NotesByOvkServlet),
+          "/walletsolidity/scanshieldedsrc20notesbyovk");
+      context.addServlet(new ServletHolder(isShieldedSRC20ContractNoteSpentServlet),
+          "/walletsolidity/isshieldedsrc20contractnotespent");
 
       context.addServlet(new ServletHolder(getTransactionInfoByBlockNumServlet),
           "/walletsolidity/gettransactioninfobyblocknum");

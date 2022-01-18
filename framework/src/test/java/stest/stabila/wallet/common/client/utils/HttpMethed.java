@@ -2735,7 +2735,7 @@ public class HttpMethed {
   /**
    * constructor.
    */
-  public static HttpResponse createConnectForShieldTrc20(String url, JSONObject requestBody) {
+  public static HttpResponse createConnectForShieldSrc20(String url, JSONObject requestBody) {
     try {
       httpClient.getParams()
           .setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, connectionTimeout);

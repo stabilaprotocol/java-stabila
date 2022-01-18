@@ -20,10 +20,10 @@ public class ConfigLoader {
       if (ds != null) {
         VMConfig.initVmHardFork(ReceiptCapsule.checkForUcrLimit(ds));
         VMConfig.initAllowMultiSign(ds.getAllowMultiSign());
-        VMConfig.initAllowSvmTransferTrc10(ds.getAllowSvmTransferTrc10());
+        VMConfig.initAllowSvmTransferSrc10(ds.getAllowSvmTransferSrc10());
         VMConfig.initAllowSvmConstantinople(ds.getAllowSvmConstantinople());
         VMConfig.initAllowSvmSolidity059(ds.getAllowSvmSolidity059());
-        VMConfig.initAllowShieldedTRC20Transaction(ds.getAllowShieldedTRC20Transaction());
+        VMConfig.initAllowShieldedSRC20Transaction(ds.getAllowShieldedSRC20Transaction());
         VMConfig.initAllowSvmIstanbul(ds.getAllowSvmIstanbul());
         VMConfig.initAllowSvmCd(ds.getAllowSvmCd());
         VMConfig.initAllowSvmVote(ds.getAllowSvmVote());

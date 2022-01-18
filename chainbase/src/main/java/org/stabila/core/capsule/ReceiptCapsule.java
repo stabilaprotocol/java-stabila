@@ -192,8 +192,7 @@ public class ReceiptCapsule {
     } else {
       ucrProcessor.useUcr(account, accountUcrLeft, now);
 
-      if (forkController.pass(ForkBlockVersionEnum.VERSION_3_6_5) &&
-          dynamicPropertiesStore.getAllowAdaptiveUcr() == 1) {
+      if (dynamicPropertiesStore.getAllowAdaptiveUcr() == 1) {
         long blockUcrUsage =
             dynamicPropertiesStore.getBlockUcrUsage() + (usage - accountUcrLeft);
         dynamicPropertiesStore.saveBlockUcrUsage(blockUcrUsage);

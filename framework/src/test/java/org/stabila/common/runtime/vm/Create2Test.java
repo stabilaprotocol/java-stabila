@@ -101,7 +101,7 @@ public class Create2Test extends VMTestBase {
   public void testCreate2()
       throws ContractExeException, ReceiptCheckErrException,
       VMIllegalException, ContractValidateException {
-    manager.getDynamicPropertiesStore().saveAllowSvmTransferTrc10(1);
+    manager.getDynamicPropertiesStore().saveAllowSvmTransferSrc10(1);
     manager.getDynamicPropertiesStore().saveAllowSvmConstantinople(1);
     manager.getDynamicPropertiesStore().saveAllowSvmIstanbul(0);
     String contractName = "Factory_0";
@@ -208,7 +208,7 @@ contract A {
   @Test
   public void create2AddressTest() throws ContractExeException, ReceiptCheckErrException,
       VMIllegalException, ContractValidateException {
-    manager.getDynamicPropertiesStore().saveAllowSvmTransferTrc10(1);
+    manager.getDynamicPropertiesStore().saveAllowSvmTransferSrc10(1);
     manager.getDynamicPropertiesStore().saveAllowSvmConstantinople(1);
     manager.getDynamicPropertiesStore().saveAllowSvmSolidity059(1);
     manager.getDynamicPropertiesStore().saveAllowSvmIstanbul(1);

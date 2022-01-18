@@ -149,7 +149,7 @@ test {
         exclude '**/ManagerTest.class'
         exclude 'org/stabila/core/zksnark/**'
         exclude 'org/stabila/common/runtime/vm/PrecompiledContractsVerifyProofTest.class'
-        exclude 'org/stabila/core/ShieldedTRC20BuilderTest.class'
+        exclude 'org/stabila/core/ShieldedSRC20BuilderTest.class'
         exclude 'org/stabila/common/runtime/vm/WithdrawRewardTest.class'
     }
 }

@@ -35,7 +35,7 @@ public class VMConfig {
   @Setter
   private static boolean vmTrace = false;
 
-  private static boolean ALLOW_SVM_TRANSFER_TRC10 = false;
+  private static boolean ALLOW_SVM_TRANSFER_SRC10 = false;
 
   private static boolean ALLOW_SVM_CONSTANTINOPLE = false;
 
@@ -43,7 +43,7 @@ public class VMConfig {
 
   private static boolean ALLOW_SVM_SOLIDITY_059 = false;
 
-  private static boolean ALLOW_SHIELDED_TRC20_TRANSACTION = false;
+  private static boolean ALLOW_SHIELDED_SRC20_TRANSACTION = false;
 
   private static boolean ALLOW_SVM_ISTANBUL = false;
 
@@ -74,8 +74,8 @@ public class VMConfig {
     ALLOW_MULTI_SIGN = allow == 1;
   }
 
-  public static void initAllowSvmTransferTrc10(long allow) {
-    ALLOW_SVM_TRANSFER_TRC10 = allow == 1;
+  public static void initAllowSvmTransferSrc10(long allow) {
+    ALLOW_SVM_TRANSFER_SRC10 = allow == 1;
   }
 
   public static void initAllowSvmConstantinople(long allow) {
@@ -86,8 +86,8 @@ public class VMConfig {
     ALLOW_SVM_SOLIDITY_059 = allow == 1;
   }
 
-  public static void initAllowShieldedTRC20Transaction(long allow) {
-    ALLOW_SHIELDED_TRC20_TRANSACTION = allow == 1;
+  public static void initAllowShieldedSRC20Transaction(long allow) {
+    ALLOW_SHIELDED_SRC20_TRANSACTION = allow == 1;
   }
 
   public static void initAllowSvmIstanbul(long allow) {
@@ -106,8 +106,8 @@ public class VMConfig {
     return UCR_LIMIT_HARD_FORK;
   }
 
-  public static boolean allowSvmTransferTrc10() {
-    return ALLOW_SVM_TRANSFER_TRC10;
+  public static boolean allowSvmTransferSrc10() {
+    return ALLOW_SVM_TRANSFER_SRC10;
   }
 
   public static boolean allowSvmConstantinople() {
@@ -122,8 +122,8 @@ public class VMConfig {
     return ALLOW_SVM_SOLIDITY_059;
   }
 
-  public static boolean allowShieldedTRC20Transaction() {
-    return ALLOW_SHIELDED_TRC20_TRANSACTION;
+  public static boolean allowShieldedSRC20Transaction() {
+    return ALLOW_SHIELDED_SRC20_TRANSACTION;
   }
 
   public static boolean allowSvmIstanbul() {return ALLOW_SVM_ISTANBUL; }

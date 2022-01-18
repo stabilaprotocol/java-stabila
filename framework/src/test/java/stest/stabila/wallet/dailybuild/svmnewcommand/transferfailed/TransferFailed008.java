@@ -163,7 +163,7 @@ public class TransferFailed008 {
     String num =
         "\"" + oldContractAddress + "\",\"1\",\"" + assetAccountId.toStringUtf8() + "\"";
     txid = PublicMethed.triggerContract(contractAddress,
-        "transferTokenTest(address,uint256,trcToken)", num, false,
+        "transferTokenTest(address,uint256,srcToken)", num, false,
         0, maxFeeLimit, contractExcAddress, contractExcKey, blockingStubFull);
     Optional<TransactionInfo> infoById = null;
     PublicMethed.waitProduceNextBlock(blockingStubFull);
@@ -253,7 +253,7 @@ public class TransferFailed008 {
     String txid = "";
     String num = "\"1" + "\",\"" + assetAccountId.toStringUtf8() + "\"";
     txid = PublicMethed.triggerContract(contractAddress,
-        "createContractTest(uint256,trcToken)", num, false,
+        "createContractTest(uint256,srcToken)", num, false,
         0, maxFeeLimit, contractExcAddress, contractExcKey, blockingStubFull);
     Optional<TransactionInfo> infoById = null;
     PublicMethed.waitProduceNextBlock(blockingStubFull);
@@ -329,7 +329,7 @@ public class TransferFailed008 {
     HashMap retMap = PublicMethed.getBycodeAbi(filePath, contractName);
     String code = retMap.get("byteCode").toString();
     String abi = retMap.get("abI").toString();
-    String constructorStr = "constructor(address,uint256,trcToken)";
+    String constructorStr = "constructor(address,uint256,srcToken)";
     String argsStr =
         "\"" + Base58.encode58Check(nonexistentAddress) + "\",\"1\",\"" + assetAccountId
             .toStringUtf8() + "\"";
@@ -399,7 +399,7 @@ public class TransferFailed008 {
     HashMap retMap = PublicMethed.getBycodeAbi(filePath, contractName);
     String code = retMap.get("byteCode").toString();
     String abi = retMap.get("abI").toString();
-    String constructorStr = "constructor(address,uint256,trcToken)";
+    String constructorStr = "constructor(address,uint256,srcToken)";
     String argsStr =
         "\"" + Base58.encode58Check(nonexistentAddress) + "\",\"1\",\"" + assetAccountId2
             .toStringUtf8() + "\"";
@@ -448,7 +448,7 @@ public class TransferFailed008 {
     HashMap retMap = PublicMethed.getBycodeAbi(filePath, contractName);
     String code = retMap.get("byteCode").toString();
     String abi = retMap.get("abI").toString();
-    String constructorStr = "constructor(trcToken)";
+    String constructorStr = "constructor(srcToken)";
     String argsStr = "\"" + assetAccountId.toStringUtf8() + "\"";
 
     String deplTxid = PublicMethed.deployContractWithConstantParame(contractName, abi, code,

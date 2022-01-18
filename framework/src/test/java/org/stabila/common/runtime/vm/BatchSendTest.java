@@ -76,7 +76,7 @@ public class BatchSendTest {
     dbManager.getAccountStore().put(ownerCapsule.getAddress().toByteArray(), ownerCapsule);
     dbManager.getDynamicPropertiesStore().saveAllowSameTokenName(1);
     dbManager.getDynamicPropertiesStore().saveAllowMultiSign(1);
-    dbManager.getDynamicPropertiesStore().saveAllowSvmTransferTrc10(1);
+    dbManager.getDynamicPropertiesStore().saveAllowSvmTransferSrc10(1);
     dbManager.getDynamicPropertiesStore().saveAllowSvmConstantinople(1);
     dbManager.getDynamicPropertiesStore().saveAllowSvmSolidity059(1);
 

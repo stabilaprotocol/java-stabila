@@ -338,7 +338,7 @@ public class Create2Test021 {
         .getAssetIssueValue(contractExcAddress, assetAccountId, blockingStubFull);
     String txid1 = PublicMethed
         .triggerContract(bytes,
-            "testTransferToken(uint256,trcToken)", num, false,
+            "testTransferToken(uint256,srcToken)", num, false,
             0, maxFeeLimit, "0", 0, contractExcAddress, contractExcKey, blockingStubFull);
     PublicMethed.waitProduceNextBlock(blockingStubFull);
     Optional<TransactionInfo> transactionInfoById1 = PublicMethed

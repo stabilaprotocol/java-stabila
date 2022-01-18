@@ -101,7 +101,7 @@ public class TransferToAccountTest {
 
   private long createAsset(String tokenName) {
     chainBaseManager.getDynamicPropertiesStore().saveAllowSameTokenName(1);
-    chainBaseManager.getDynamicPropertiesStore().saveAllowSvmTransferTrc10(1);
+    chainBaseManager.getDynamicPropertiesStore().saveAllowSvmTransferSrc10(1);
     chainBaseManager.getDynamicPropertiesStore().saveAllowSvmConstantinople(1);
     chainBaseManager.getDynamicPropertiesStore().saveAllowSvmSolidity059(1);
 
@@ -133,7 +133,7 @@ public class TransferToAccountTest {
   /**
    * pragma solidity ^0.5.4; <p> contract TestTransferTo { constructor() public payable{} <p>
    * function depositIn() public payable{} <p> function transferTokenTo(address  payable toAddress,
-   * trcToken id,uint256 amount) public payable { toAddress.transferToken(amount,id); } <p> function
+   * srcToken id,uint256 amount) public payable { toAddress.transferToken(amount,id); } <p> function
    * transferTo(address  payable toAddress ,uint256 amount) public payable {
    * toAddress.transfer(amount); } <p> }
    */
@@ -151,7 +151,7 @@ public class TransferToAccountTest {
     Assert.assertEquals(1000,
         chainBaseManager.getAccountStore().get(contractAddress).getBalance());
 
-    String selectorStr = "transferTokenTo(address,trcToken,uint256)";
+    String selectorStr = "transferTokenTo(address,srcToken,uint256)";
 
     byte[] input = Hex.decode(AbiUtil
         .parseMethod(selectorStr,
@@ -249,7 +249,7 @@ public class TransferToAccountTest {
 
     // 9.Test transferToken Big Amount
 
-    selectorStr = "transferTokenTo(address,trcToken,uint256)";
+    selectorStr = "transferTokenTo(address,srcToken,uint256)";
     ecKey = new ECKey(Utils.getRandom());
     String params = "000000000000000000000000548794500882809695a8a687866e76d4271a1abc"
         + Hex.toHexString(new DataWord(id).getData())

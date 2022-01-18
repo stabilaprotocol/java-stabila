@@ -44,9 +44,9 @@ public class LiteFnQueryGrpcInterceptor implements ServerInterceptor {
     filterMethods.add("protocol.Wallet/GetMarketPriceByPair");
     filterMethods.add("protocol.Wallet/GetMarketOrderListByPair");
     filterMethods.add("protocol.Wallet/GetMarketPairList");
-    filterMethods.add("protocol.Wallet/ScanShieldedTRC20NotesByIvk");
-    filterMethods.add("protocol.Wallet/ScanShieldedTRC20NotesByOvk");
-    filterMethods.add("protocol.Wallet/IsShieldedTRC20ContractNoteSpent");
+    filterMethods.add("protocol.Wallet/ScanShieldedSRC20NotesByIvk");
+    filterMethods.add("protocol.Wallet/ScanShieldedSRC20NotesByOvk");
+    filterMethods.add("protocol.Wallet/IsShieldedSRC20ContractNoteSpent");
 
     // walletSolidity
     filterMethods.add("protocol.WalletSolidity/GetBlockByNum");
@@ -64,9 +64,9 @@ public class LiteFnQueryGrpcInterceptor implements ServerInterceptor {
     filterMethods.add("protocol.WalletSolidity/GetMarketPriceByPair");
     filterMethods.add("protocol.WalletSolidity/GetMarketOrderListByPair");
     filterMethods.add("protocol.WalletSolidity/GetMarketPairList");
-    filterMethods.add("protocol.WalletSolidity/ScanShieldedTRC20NotesByIvk");
-    filterMethods.add("protocol.WalletSolidity/ScanShieldedTRC20NotesByOvk");
-    filterMethods.add("protocol.WalletSolidity/IsShieldedTRC20ContractNoteSpent");
+    filterMethods.add("protocol.WalletSolidity/ScanShieldedSRC20NotesByIvk");
+    filterMethods.add("protocol.WalletSolidity/ScanShieldedSRC20NotesByOvk");
+    filterMethods.add("protocol.WalletSolidity/IsShieldedSRC20ContractNoteSpent");
 
     // database
     filterMethods.add("protocol.Database/GetBlockByNum");

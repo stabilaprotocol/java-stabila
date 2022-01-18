@@ -65,7 +65,7 @@ public class deployMainGateway {
   }
 
   @Test(enabled = true, description = "deploy Main Chain Gateway")
-  public void test1DepositTrc20001() {
+  public void test1DepositSrc20001() {
 
     PublicMethed.printAddress(testKeyFordeposit);
 

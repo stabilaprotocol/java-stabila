@@ -8,7 +8,7 @@ contract svmAssetIssue002 {
         return assetissue(name, abbr, totalSupply, precision);
     }
 
-    function updateAsset(trcToken tokenId, string memory url1, string memory desc1, string memory url2, string memory desc2) public returns (bool) {
+    function updateAsset(srcToken tokenId, string memory url1, string memory desc1, string memory url2, string memory desc2) public returns (bool) {
         updateasset(tokenId, bytes(url1), bytes(desc1));
         return updateasset(tokenId, bytes(url2), bytes(desc2));
     }

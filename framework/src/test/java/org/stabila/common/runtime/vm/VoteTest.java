@@ -293,7 +293,7 @@ public class VoteTest {
 
     ConfigLoader.disable = true;
     VMConfig.initVmHardFork(true);
-    VMConfig.initAllowSvmTransferTrc10(1);
+    VMConfig.initAllowSvmTransferSrc10(1);
     VMConfig.initAllowSvmConstantinople(1);
     VMConfig.initAllowSvmSolidity059(1);
     VMConfig.initAllowSvmIstanbul(1);
