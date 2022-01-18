@@ -97,10 +97,6 @@ public class ProposalService extends ProposalUtil {
           manager.getDynamicPropertiesStore().saveAllowDelegateResource(entry.getValue());
           break;
         }
-        case TOTAL_UCR_LIMIT: {
-          manager.getDynamicPropertiesStore().saveTotalUcrLimit(entry.getValue());
-          break;
-        }
         case ALLOW_SVM_TRANSFER_SRC10: {
           manager.getDynamicPropertiesStore().saveAllowSvmTransferSrc10(entry.getValue());
           break;
@@ -118,14 +114,10 @@ public class ProposalService extends ProposalUtil {
         case ALLOW_ADAPTIVE_UCR: {
           if (manager.getDynamicPropertiesStore().getAllowAdaptiveUcr() == 0) {
             manager.getDynamicPropertiesStore().saveAllowAdaptiveUcr(entry.getValue());
-            if (manager.getChainBaseManager()
-                .getForkController().pass(ForkBlockVersionEnum.VERSION_3_6_5)) {
-              //24 * 60 * 2 . one minute,1/2 total limit.
-              manager.getDynamicPropertiesStore().saveAdaptiveResourceLimitTargetRatio(2880);
-              manager.getDynamicPropertiesStore().saveTotalUcrTargetLimit(
-                  manager.getDynamicPropertiesStore().getTotalUcrLimit() / 2880);
-              manager.getDynamicPropertiesStore().saveAdaptiveResourceLimitMultiplier(50);
-            }
+            //24 * 60 * 2 . one minute,1/2 total limit.
+            manager.getDynamicPropertiesStore().saveAdaptiveResourceLimitTargetRatio(2880L);
+            manager.getDynamicPropertiesStore().saveTotalUcrTargetLimit(10_416_666L);
+            manager.getDynamicPropertiesStore().saveAdaptiveResourceLimitMultiplier(50L);
           }
           break;
         }
@@ -157,8 +149,7 @@ public class ProposalService extends ProposalUtil {
         case ADAPTIVE_RESOURCE_LIMIT_TARGET_RATIO: {
           long ratio = 24 * 60 * entry.getValue();
           manager.getDynamicPropertiesStore().saveAdaptiveResourceLimitTargetRatio(ratio);
-          manager.getDynamicPropertiesStore().saveTotalUcrTargetLimit(
-              manager.getDynamicPropertiesStore().getTotalUcrLimit() / ratio);
+          manager.getDynamicPropertiesStore().saveTotalUcrTargetLimit(30_000_000_000L / ratio);
           break;
         }
         case ADAPTIVE_RESOURCE_LIMIT_MULTIPLIER: {
@@ -174,22 +165,6 @@ public class ProposalService extends ProposalUtil {
           manager.getDynamicPropertiesStore().saveExecutive100PayPerBlock(entry.getValue());
           break;
         }
-        //case ALLOW_SHIELDED_TRANSACTION: {
-        //  if (manager.getDynamicPropertiesStore().getAllowShieldedTransaction() == 0) {
-        //    manager.getDynamicPropertiesStore().saveAllowShieldedTransaction(entry.getValue());
-        //    manager.getDynamicPropertiesStore().addSystemContractAndSetPermission(51);
-        //  }
-        //  break;
-        //}
-        //case SHIELDED_TRANSACTION_FEE: {
-        //  manager.getDynamicPropertiesStore().saveShieldedTransactionFee(entry.getValue());
-        //  break;
-        //}
-        //        case SHIELDED_TRANSACTION_CREATE_ACCOUNT_FEE: {
-        //          manager.getDynamicPropertiesStore()
-        //              .saveShieldedTransactionCreateAccountFee(entry.getValue());
-        //          break;
-        //        }
         case FORBID_TRANSFER_TO_CONTRACT: {
           manager.getDynamicPropertiesStore().saveForbidTransferToContract(entry.getValue());
           break;
