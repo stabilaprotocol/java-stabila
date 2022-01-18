@@ -39,10 +39,12 @@ src/main/resources/META-INF/
 /bin/
 
 # Eclipse IDE specific files and folders
-/.project
+.project
 /.classpath
 /.settings/
 /.apt_generated/
+bin/
+/.project/
 
 # output directory
 /output-directory/
