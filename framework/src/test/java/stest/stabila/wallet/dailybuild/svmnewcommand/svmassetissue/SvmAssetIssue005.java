@@ -163,7 +163,7 @@ public class SvmAssetIssue005 {
     Assert.assertEquals(contractAddressBalance - 1024000000L, contractAddressBalance2);
 
     // transferToken
-    String methodTransferToken = "transferToken(address,uint256,trcToken)";
+    String methodTransferToken = "transferToken(address,uint256,srcToken)";
     param = "\"" + Base58.encode58Check(dev002Address) + "\"," + 100 + ",\"" + assetIssueId + "\"";
     txid = PublicMethed.triggerContract(contractAddress, methodTransferToken, param, false,
         0, maxFeeLimit, dev001Address, dev001Key, blockingStubFull);
@@ -181,7 +181,7 @@ public class SvmAssetIssue005 {
     Assert.assertEquals(100L, dev002AssetValue);
 
     // updateAsset
-    String methodUpdateAsset = "updateAsset(trcToken,string,string)";
+    String methodUpdateAsset = "updateAsset(srcToken,string,string)";
     param = "\"" + assetIssueId + "\",\"" + url + "\",\"" + description + "\"";
     logger.info("param: " + param);
     txid = PublicMethed.triggerContract(contractAddress, methodUpdateAsset, param, false,
@@ -404,7 +404,7 @@ public class SvmAssetIssue005 {
     Assert.assertEquals(contractAddressBalance2 - 1024000000L, contractAddressBalanceAfter2);
 
     // transferToken
-    String methodTransferToken = "transferToken(address,uint256,trcToken)";
+    String methodTransferToken = "transferToken(address,uint256,srcToken)";
     param = "\"" + Base58.encode58Check(dev002Address) + "\"," + 100 + ",\"" + assetIssueId + "\"";
     txid = PublicMethed.triggerContract(contractAddress2, methodTransferToken, param, false,
         0, maxFeeLimit, dev001Address, dev001Key, blockingStubFull);
@@ -477,7 +477,7 @@ public class SvmAssetIssue005 {
     Assert.assertEquals(assetIssueId, assetIssueListByName.getId());
 
     // transferToken,success
-    methodTransferToken = "transferToken(address,uint256,trcToken)";
+    methodTransferToken = "transferToken(address,uint256,srcToken)";
     param = "\"" + Base58.encode58Check(dev002Address) + "\"," + 100 + ",\"" + assetIssueId + "\"";
     txid = PublicMethed.triggerContract(contractAddress, methodTransferToken, param, false,
         0, maxFeeLimit, dev001Address, dev001Key, blockingStubFull);
@@ -506,7 +506,7 @@ public class SvmAssetIssue005 {
     Assert.assertEquals(dev002AssetValue - 12L, assetIssueValueDev002After);
 
     // updateAsset,will fail
-    String methodUpdateAsset = "updateAsset(trcToken,string,string)";
+    String methodUpdateAsset = "updateAsset(srcToken,string,string)";
     param = "\"" + assetIssueId + "\",\"updateUrl\",\"updateDesc\"";
     logger.info("param: " + param);
     txid = PublicMethed.triggerContract(contractAddress, methodUpdateAsset, param, false,
@@ -652,7 +652,7 @@ public class SvmAssetIssue005 {
             .getAssetIssueCount());
 
     // updateAsset
-    String methodUpdateAsset = "updateAsset(trcToken,string,string)";
+    String methodUpdateAsset = "updateAsset(srcToken,string,string)";
     param = "\"123\",\"updateURLURL\",\"updateDESCDESC\"";
     logger.info("param: " + param);
     txid = PublicMethed.triggerContract(callContractAddress, methodUpdateAsset, param, false,

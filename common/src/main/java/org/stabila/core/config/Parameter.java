@@ -5,18 +5,8 @@ import lombok.Getter;
 public class Parameter {
 
   public enum ForkBlockVersionEnum {
-    UCR_LIMIT(5, 0L, 0),
-    VERSION_3_2_2(6, 0L, 0),
-    VERSION_3_5(7, 0L, 0),
-    VERSION_3_6(8, 0L, 0),
-    VERSION_3_6_5(9, 0L, 0),
-    VERSION_3_6_6(10, 0L, 0),
-    VERSION_4_0(16, 0L, 0),
-    VERSION_4_0_1(17, 1596780000000L, 80),//GMT 2020-08-07 06:00:00,80 means 22 SR upgrade
-    VERSION_4_1(19, 1596780000000L, 80),//GMT 2020-08-07 06:00:00,80 means 22 SR upgrade
-    VERSION_4_1_2(20, 1596780000000L, 80),
-    VERSION_4_2(21, 1596780000000L, 80),
-    VERSION_4_3(22, 1596780000000L, 80);
+    VERSION_1_0(1, 1596780000000L, 80),
+    VERSION_2_0(2, 1596780000000L, 80);
 
     @Getter
     private int value;
@@ -64,7 +54,7 @@ public class Parameter {
     public static final int SINGLE_REPEAT = 1;
     public static final int BLOCK_FILLED_SLOTS_NUMBER = 128;
     public static final int MAX_CDED_NUMBER = 1;
-    public static final int BLOCK_VERSION = 22;
+    public static final int BLOCK_VERSION = 23;
     public static final long CDED_PERIOD = 86_400_000L;
     public static final long STB_PRECISION = 1000_000L;
   }

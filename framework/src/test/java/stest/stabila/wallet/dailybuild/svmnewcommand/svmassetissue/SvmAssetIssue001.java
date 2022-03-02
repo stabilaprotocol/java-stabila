@@ -188,7 +188,7 @@ public class SvmAssetIssue001 {
     Assert.assertEquals(contractAddressBalance - 1024000000L, contractAddressBalance2);
 
     param = "\"" + Base58.encode58Check(dev002Address) + "\"," + 100 + ",\"" + assetIssueId + "\"";
-    String methodTransferToken = "transferToken(address,uint256,trcToken)";
+    String methodTransferToken = "transferToken(address,uint256,srcToken)";
     txid = PublicMethed.triggerContract(contractAddress, methodTransferToken, param, false,
         0, maxFeeLimit, dev001Address, dev001Key, blockingStubFull);
     PublicMethed.waitProduceNextBlock(blockingStubFull);
@@ -221,7 +221,7 @@ public class SvmAssetIssue001 {
 
     String param = "\"" + assetIssueId + "\",\"" + url + "\",\"" + description + "\"";
     logger.info("param: " + param);
-    String methodUpdateAsset = "updateAsset(trcToken,string,string)";
+    String methodUpdateAsset = "updateAsset(srcToken,string,string)";
     String txid = PublicMethed.triggerContract(contractAddress, methodUpdateAsset, param, false,
         0, maxFeeLimit, dev001Address, dev001Key, blockingStubFull);
     PublicMethed.waitProduceNextBlock(blockingStubFull);

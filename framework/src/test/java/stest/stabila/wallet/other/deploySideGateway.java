@@ -67,7 +67,7 @@ public class deploySideGateway {
   }
 
   @Test(enabled = true, description = "deploy Side Chain Gateway")
-  public void test1DepositTrc20001() {
+  public void test1DepositSrc20001() {
 
     PublicMethed.printAddress(testKeyFordeposit);
 

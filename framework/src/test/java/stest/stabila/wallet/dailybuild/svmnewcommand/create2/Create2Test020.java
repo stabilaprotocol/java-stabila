@@ -80,7 +80,7 @@ public class Create2Test020 {
     blockingStubSolidity = WalletSolidityGrpc.newBlockingStub(channelSolidity);
   }
 
-  @Test(enabled = true, description = "Deploy Factory contract, create2 with salt type : trcToken")
+  @Test(enabled = true, description = "Deploy Factory contract, create2 with salt type : srcToken")
   public void testTriggerContract() {
     Assert.assertTrue(PublicMethed
         .sendcoin(contractExcAddress, 500000000000L, testNetAccountAddress, testNetAccountKey,
@@ -118,7 +118,7 @@ public class Create2Test020 {
     String num = "\"" + code1 + "\"" + "," + 1000001;
     txid = PublicMethed
         .triggerContract(contractAddress,
-            "deploy(bytes,trcToken)", num, false,
+            "deploy(bytes,srcToken)", num, false,
             0, maxFeeLimit, "0", 0, contractExcAddress, contractExcKey, blockingStubFull);
 
     PublicMethed.waitProduceNextBlock(blockingStubFull);

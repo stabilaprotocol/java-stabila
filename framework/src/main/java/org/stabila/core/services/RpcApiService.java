@@ -37,7 +37,7 @@ import org.stabila.api.GrpcAPI.BlockReference;
 import org.stabila.api.GrpcAPI.BytesMessage;
 import org.stabila.api.GrpcAPI.DecryptNotes;
 import org.stabila.api.GrpcAPI.DecryptNotesMarked;
-import org.stabila.api.GrpcAPI.DecryptNotesTRC20;
+import org.stabila.api.GrpcAPI.DecryptNotesSRC20;
 import org.stabila.api.GrpcAPI.DelegatedResourceList;
 import org.stabila.api.GrpcAPI.DelegatedResourceMessage;
 import org.stabila.api.GrpcAPI.DiversifierMessage;
@@ -51,25 +51,25 @@ import org.stabila.api.GrpcAPI.ExchangeList;
 import org.stabila.api.GrpcAPI.ExpandedSpendingKeyMessage;
 import org.stabila.api.GrpcAPI.IncomingViewingKeyDiversifierMessage;
 import org.stabila.api.GrpcAPI.IncomingViewingKeyMessage;
-import org.stabila.api.GrpcAPI.IvkDecryptTRC20Parameters;
-import org.stabila.api.GrpcAPI.NfTRC20Parameters;
+import org.stabila.api.GrpcAPI.IvkDecryptSRC20Parameters;
+import org.stabila.api.GrpcAPI.NfSRC20Parameters;
 import org.stabila.api.GrpcAPI.Node;
 import org.stabila.api.GrpcAPI.NodeList;
 import org.stabila.api.GrpcAPI.NoteParameters;
 import org.stabila.api.GrpcAPI.NumberMessage;
-import org.stabila.api.GrpcAPI.OvkDecryptTRC20Parameters;
+import org.stabila.api.GrpcAPI.OvkDecryptSRC20Parameters;
 import org.stabila.api.GrpcAPI.PaginatedMessage;
 import org.stabila.api.GrpcAPI.PaymentAddressMessage;
 import org.stabila.api.GrpcAPI.PrivateParameters;
 import org.stabila.api.GrpcAPI.PrivateParametersWithoutAsk;
-import org.stabila.api.GrpcAPI.PrivateShieldedTRC20Parameters;
-import org.stabila.api.GrpcAPI.PrivateShieldedTRC20ParametersWithoutAsk;
+import org.stabila.api.GrpcAPI.PrivateShieldedSRC20Parameters;
+import org.stabila.api.GrpcAPI.PrivateShieldedSRC20ParametersWithoutAsk;
 import org.stabila.api.GrpcAPI.ProposalList;
 import org.stabila.api.GrpcAPI.Return;
 import org.stabila.api.GrpcAPI.Return.response_code;
 import org.stabila.api.GrpcAPI.ShieldedAddressInfo;
-import org.stabila.api.GrpcAPI.ShieldedTRC20Parameters;
-import org.stabila.api.GrpcAPI.ShieldedTRC20TriggerContractParameters;
+import org.stabila.api.GrpcAPI.ShieldedSRC20Parameters;
+import org.stabila.api.GrpcAPI.ShieldedSRC20TriggerContractParameters;
 import org.stabila.api.GrpcAPI.SpendAuthSigParameters;
 import org.stabila.api.GrpcAPI.SpendResult;
 import org.stabila.api.GrpcAPI.TransactionApprovedList;
@@ -367,9 +367,9 @@ public class RpcApiService implements Service {
     }
   }
 
-  private void checkSupportShieldedTRC20Transaction() throws ZksnarkException {
-    String msg = "Not support Shielded TRC20 Transaction, need to be opened by the committee";
-    if (!dbManager.getDynamicPropertiesStore().supportShieldedTRC20Transaction()) {
+  private void checkSupportShieldedSRC20Transaction() throws ZksnarkException {
+    String msg = "Not support Shielded SRC20 Transaction, need to be opened by the committee";
+    if (!dbManager.getDynamicPropertiesStore().supportShieldedSRC20Transaction()) {
       throw new ZksnarkException(msg);
     }
   }
@@ -760,20 +760,20 @@ public class RpcApiService implements Service {
     }
 
     @Override
-    public void scanShieldedTRC20NotesByIvk(IvkDecryptTRC20Parameters request,
-        StreamObserver<DecryptNotesTRC20> responseObserver) {
+    public void scanShieldedSRC20NotesByIvk(IvkDecryptSRC20Parameters request,
+        StreamObserver<DecryptNotesSRC20> responseObserver) {
       long startNum = request.getStartBlockIndex();
       long endNum = request.getEndBlockIndex();
-      byte[] contractAddress = request.getShieldedTRC20ContractAddress().toByteArray();
+      byte[] contractAddress = request.getShieldedSRC20ContractAddress().toByteArray();
       byte[] ivk = request.getIvk().toByteArray();
       byte[] ak = request.getAk().toByteArray();
       byte[] nk = request.getNk().toByteArray();
       ProtocolStringList topicsList = request.getEventsList();
 
       try {
-        checkSupportShieldedTRC20Transaction();
+        checkSupportShieldedSRC20Transaction();
         responseObserver.onNext(
-            wallet.scanShieldedTRC20NotesByIvk(startNum, endNum, contractAddress, ivk, ak, nk,
+            wallet.scanShieldedSRC20NotesByIvk(startNum, endNum, contractAddress, ivk, ak, nk,
                 topicsList));
 
       } catch (Exception e) {
@@ -783,18 +783,18 @@ public class RpcApiService implements Service {
     }
 
     @Override
-    public void scanShieldedTRC20NotesByOvk(OvkDecryptTRC20Parameters request,
-        StreamObserver<DecryptNotesTRC20> responseObserver) {
+    public void scanShieldedSRC20NotesByOvk(OvkDecryptSRC20Parameters request,
+        StreamObserver<DecryptNotesSRC20> responseObserver) {
       long startNum = request.getStartBlockIndex();
       long endNum = request.getEndBlockIndex();
-      byte[] contractAddress = request.getShieldedTRC20ContractAddress().toByteArray();
+      byte[] contractAddress = request.getShieldedSRC20ContractAddress().toByteArray();
       byte[] ovk = request.getOvk().toByteArray();
       ProtocolStringList topicList = request.getEventsList();
       try {
-        checkSupportShieldedTRC20Transaction();
+        checkSupportShieldedSRC20Transaction();
         responseObserver
             .onNext(wallet
-                .scanShieldedTRC20NotesByOvk(startNum, endNum, ovk, contractAddress, topicList));
+                .scanShieldedSRC20NotesByOvk(startNum, endNum, ovk, contractAddress, topicList));
       } catch (Exception e) {
         responseObserver.onError(getRunTimeException(e));
       }
@@ -802,11 +802,11 @@ public class RpcApiService implements Service {
     }
 
     @Override
-    public void isShieldedTRC20ContractNoteSpent(NfTRC20Parameters request,
+    public void isShieldedSRC20ContractNoteSpent(NfSRC20Parameters request,
         StreamObserver<GrpcAPI.NullifierResult> responseObserver) {
       try {
-        checkSupportShieldedTRC20Transaction();
-        responseObserver.onNext(wallet.isShieldedTRC20ContractNoteSpent(request));
+        checkSupportShieldedSRC20Transaction();
+        responseObserver.onNext(wallet.isShieldedSRC20ContractNoteSpent(request));
       } catch (Exception e) {
         responseObserver.onError(getRunTimeException(e));
       }
@@ -2129,7 +2129,7 @@ public class RpcApiService implements Service {
         StreamObserver<ShieldedAddressInfo> responseObserver) {
 
       try {
-        checkSupportShieldedTRC20Transaction();
+        checkSupportShieldedSRC20Transaction();
 
         responseObserver.onNext(wallet.getNewShieldedAddress());
       } catch (Exception e) {
@@ -2143,7 +2143,7 @@ public class RpcApiService implements Service {
     public void getSpendingKey(EmptyMessage request,
         StreamObserver<BytesMessage> responseObserver) {
       try {
-        checkSupportShieldedTRC20Transaction();
+        checkSupportShieldedSRC20Transaction();
 
         responseObserver.onNext(wallet.getSpendingKey());
       } catch (Exception e) {
@@ -2157,7 +2157,7 @@ public class RpcApiService implements Service {
     public void getRcm(EmptyMessage request,
         StreamObserver<BytesMessage> responseObserver) {
       try {
-        checkSupportShieldedTRC20Transaction();
+        checkSupportShieldedSRC20Transaction();
 
         responseObserver.onNext(wallet.getRcm());
       } catch (Exception e) {
@@ -2173,7 +2173,7 @@ public class RpcApiService implements Service {
       ByteString spendingKey = request.getValue();
 
       try {
-        checkSupportShieldedTRC20Transaction();
+        checkSupportShieldedSRC20Transaction();
 
         ExpandedSpendingKeyMessage response = wallet.getExpandedSpendingKey(spendingKey);
         responseObserver.onNext(response);
@@ -2190,7 +2190,7 @@ public class RpcApiService implements Service {
       ByteString ak = request.getValue();
 
       try {
-        checkSupportShieldedTRC20Transaction();
+        checkSupportShieldedSRC20Transaction();
 
         responseObserver.onNext(wallet.getAkFromAsk(ak));
       } catch (BadItemException | ZksnarkException e) {
@@ -2206,7 +2206,7 @@ public class RpcApiService implements Service {
       ByteString nk = request.getValue();
 
       try {
-        checkSupportShieldedTRC20Transaction();
+        checkSupportShieldedSRC20Transaction();
 
         responseObserver.onNext(wallet.getNkFromNsk(nk));
       } catch (BadItemException | ZksnarkException e) {
@@ -2224,7 +2224,7 @@ public class RpcApiService implements Service {
       ByteString nk = request.getNk();
 
       try {
-        checkSupportShieldedTRC20Transaction();
+        checkSupportShieldedSRC20Transaction();
 
         responseObserver.onNext(wallet.getIncomingViewingKey(ak.toByteArray(), nk.toByteArray()));
       } catch (ZksnarkException e) {
@@ -2239,7 +2239,7 @@ public class RpcApiService implements Service {
     public void getDiversifier(EmptyMessage request,
         StreamObserver<DiversifierMessage> responseObserver) {
       try {
-        checkSupportShieldedTRC20Transaction();
+        checkSupportShieldedSRC20Transaction();
 
         DiversifierMessage d = wallet.getDiversifier();
         responseObserver.onNext(d);
@@ -2258,7 +2258,7 @@ public class RpcApiService implements Service {
       DiversifierMessage d = request.getD();
 
       try {
-        checkSupportShieldedTRC20Transaction();
+        checkSupportShieldedSRC20Transaction();
 
         PaymentAddressMessage saplingPaymentAddressMessage =
             wallet.getPaymentAddress(new IncomingViewingKey(ivk.getIvk().toByteArray()),
@@ -2367,7 +2367,7 @@ public class RpcApiService implements Service {
     public void createSpendAuthSig(SpendAuthSigParameters request,
         StreamObserver<GrpcAPI.BytesMessage> responseObserver) {
       try {
-        checkSupportShieldedTRC20Transaction();
+        checkSupportShieldedSRC20Transaction();
 
         BytesMessage spendAuthSig = wallet.createSpendAuthSig(request);
         responseObserver.onNext(spendAuthSig);
@@ -2395,14 +2395,14 @@ public class RpcApiService implements Service {
 
     @Override
     public void createShieldedContractParameters(
-        PrivateShieldedTRC20Parameters request,
-        StreamObserver<org.stabila.api.GrpcAPI.ShieldedTRC20Parameters> responseObserver) {
+        PrivateShieldedSRC20Parameters request,
+        StreamObserver<org.stabila.api.GrpcAPI.ShieldedSRC20Parameters> responseObserver) {
       try {
-        checkSupportShieldedTRC20Transaction();
+        checkSupportShieldedSRC20Transaction();
 
-        ShieldedTRC20Parameters shieldedTRC20Parameters = wallet
+        ShieldedSRC20Parameters shieldedSRC20Parameters = wallet
             .createShieldedContractParameters(request);
-        responseObserver.onNext(shieldedTRC20Parameters);
+        responseObserver.onNext(shieldedSRC20Parameters);
       } catch (Exception e) {
         responseObserver.onError(getRunTimeException(e));
         logger.info("createShieldedContractParameters exception caught: " + e.getMessage());
@@ -2413,14 +2413,14 @@ public class RpcApiService implements Service {
 
     @Override
     public void createShieldedContractParametersWithoutAsk(
-        PrivateShieldedTRC20ParametersWithoutAsk request,
-        StreamObserver<org.stabila.api.GrpcAPI.ShieldedTRC20Parameters> responseObserver) {
+        PrivateShieldedSRC20ParametersWithoutAsk request,
+        StreamObserver<org.stabila.api.GrpcAPI.ShieldedSRC20Parameters> responseObserver) {
       try {
-        checkSupportShieldedTRC20Transaction();
+        checkSupportShieldedSRC20Transaction();
 
-        ShieldedTRC20Parameters shieldedTRC20Parameters = wallet
+        ShieldedSRC20Parameters shieldedSRC20Parameters = wallet
             .createShieldedContractParametersWithoutAsk(request);
-        responseObserver.onNext(shieldedTRC20Parameters);
+        responseObserver.onNext(shieldedSRC20Parameters);
       } catch (Exception e) {
         responseObserver.onError(getRunTimeException(e));
         logger
@@ -2431,16 +2431,16 @@ public class RpcApiService implements Service {
     }
 
     @Override
-    public void scanShieldedTRC20NotesByIvk(
-        IvkDecryptTRC20Parameters request,
-        StreamObserver<org.stabila.api.GrpcAPI.DecryptNotesTRC20> responseObserver) {
+    public void scanShieldedSRC20NotesByIvk(
+        IvkDecryptSRC20Parameters request,
+        StreamObserver<org.stabila.api.GrpcAPI.DecryptNotesSRC20> responseObserver) {
       long startNum = request.getStartBlockIndex();
       long endNum = request.getEndBlockIndex();
       try {
-        checkSupportShieldedTRC20Transaction();
+        checkSupportShieldedSRC20Transaction();
 
-        DecryptNotesTRC20 decryptNotes = wallet.scanShieldedTRC20NotesByIvk(startNum, endNum,
-            request.getShieldedTRC20ContractAddress().toByteArray(),
+        DecryptNotesSRC20 decryptNotes = wallet.scanShieldedSRC20NotesByIvk(startNum, endNum,
+            request.getShieldedSRC20ContractAddress().toByteArray(),
             request.getIvk().toByteArray(),
             request.getAk().toByteArray(),
             request.getNk().toByteArray(),
@@ -2448,42 +2448,42 @@ public class RpcApiService implements Service {
         responseObserver.onNext(decryptNotes);
       } catch (Exception e) {
         responseObserver.onError(getRunTimeException(e));
-        logger.info("scanShieldedTRC20NotesByIvk exception caught: " + e.getMessage());
+        logger.info("scanShieldedSRC20NotesByIvk exception caught: " + e.getMessage());
         return;
       }
       responseObserver.onCompleted();
     }
 
     @Override
-    public void scanShieldedTRC20NotesByOvk(
-        OvkDecryptTRC20Parameters request,
-        StreamObserver<org.stabila.api.GrpcAPI.DecryptNotesTRC20> responseObserver) {
+    public void scanShieldedSRC20NotesByOvk(
+        OvkDecryptSRC20Parameters request,
+        StreamObserver<org.stabila.api.GrpcAPI.DecryptNotesSRC20> responseObserver) {
       long startNum = request.getStartBlockIndex();
       long endNum = request.getEndBlockIndex();
       try {
-        checkSupportShieldedTRC20Transaction();
+        checkSupportShieldedSRC20Transaction();
 
-        DecryptNotesTRC20 decryptNotes = wallet.scanShieldedTRC20NotesByOvk(startNum, endNum,
+        DecryptNotesSRC20 decryptNotes = wallet.scanShieldedSRC20NotesByOvk(startNum, endNum,
             request.getOvk().toByteArray(),
-            request.getShieldedTRC20ContractAddress().toByteArray(),
+            request.getShieldedSRC20ContractAddress().toByteArray(),
             request.getEventsList());
         responseObserver.onNext(decryptNotes);
       } catch (Exception e) {
         responseObserver.onError(getRunTimeException(e));
-        logger.info("scanShieldedTRC20NotesByOvk exception caught: " + e.getMessage());
+        logger.info("scanShieldedSRC20NotesByOvk exception caught: " + e.getMessage());
         return;
       }
       responseObserver.onCompleted();
     }
 
     @Override
-    public void isShieldedTRC20ContractNoteSpent(NfTRC20Parameters request,
+    public void isShieldedSRC20ContractNoteSpent(NfSRC20Parameters request,
         StreamObserver<GrpcAPI.NullifierResult> responseObserver) {
       try {
-        checkSupportShieldedTRC20Transaction();
+        checkSupportShieldedSRC20Transaction();
 
         GrpcAPI.NullifierResult nf = wallet
-            .isShieldedTRC20ContractNoteSpent(request);
+            .isShieldedSRC20ContractNoteSpent(request);
         responseObserver.onNext(nf);
       } catch (Exception e) {
         responseObserver.onError(getRunTimeException(e));
@@ -2493,13 +2493,13 @@ public class RpcApiService implements Service {
     }
 
     @Override
-    public void getTriggerInputForShieldedTRC20Contract(
-        ShieldedTRC20TriggerContractParameters request,
+    public void getTriggerInputForShieldedSRC20Contract(
+        ShieldedSRC20TriggerContractParameters request,
         StreamObserver<org.stabila.api.GrpcAPI.BytesMessage> responseObserver) {
       try {
-        checkSupportShieldedTRC20Transaction();
+        checkSupportShieldedSRC20Transaction();
 
-        responseObserver.onNext(wallet.getTriggerInputForShieldedTRC20Contract(request));
+        responseObserver.onNext(wallet.getTriggerInputForShieldedSRC20Contract(request));
       } catch (Exception e) {
         responseObserver.onError(e);
         return;

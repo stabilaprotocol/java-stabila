@@ -6,20 +6,20 @@ contract svmAssetIssue001 {
         return assetissue(name, abbr, totalSupply, precision);
     }
 
-    function updateAsset(trcToken tokenId, string memory url, string memory desc) public returns (bool) {
+    function updateAsset(srcToken tokenId, string memory url, string memory desc) public returns (bool) {
         return updateasset(tokenId, bytes(url), bytes(desc));
     }
 
     function updateOtherAccountAsset(string memory url, string memory desc) public returns (bool) {
-        trcToken tokenId = trcToken(1000004);
+        srcToken tokenId = srcToken(1000004);
         return updateasset(tokenId, bytes(url), bytes(desc));
     }
 
-    function updateAssetOnBytes(trcToken tokenId, bytes memory url, bytes memory desc) public returns (bool) {
+    function updateAssetOnBytes(srcToken tokenId, bytes memory url, bytes memory desc) public returns (bool) {
         return updateasset(tokenId, url, desc);
     }
 
-    function transferToken(address payable toAddress, uint256 tokenValue, trcToken id) payable public {
+    function transferToken(address payable toAddress, uint256 tokenValue, srcToken id) payable public {
         toAddress.transferToken(tokenValue, id);
     }
 }

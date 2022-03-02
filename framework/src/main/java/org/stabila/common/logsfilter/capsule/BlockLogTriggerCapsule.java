@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.stabila.common.logsfilter.EventPluginLoader;
 import org.stabila.common.logsfilter.trigger.BlockLogTrigger;
+import org.stabila.common.utils.StringUtil;
 import org.stabila.core.capsule.BlockCapsule;
 
 public class BlockLogTriggerCapsule extends TriggerCapsule {
@@ -18,6 +19,7 @@ public class BlockLogTriggerCapsule extends TriggerCapsule {
     blockLogTrigger.setTimeStamp(block.getTimeStamp());
     blockLogTrigger.setBlockNumber(block.getNum());
     blockLogTrigger.setTransactionSize(block.getTransactions().size());
+    blockLogTrigger.setProducedBy(StringUtil.encode58Check(block.getExecutiveAddress().toByteArray()));
     block.getTransactions().forEach(stb ->
         blockLogTrigger.getTransactionList().add(stb.getTransactionId().toString())
     );

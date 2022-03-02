@@ -293,7 +293,7 @@ public class SupportStabilalinkAutoTest {
 
 
   @Test(enabled = true, threadPoolSize = 1, invocationCount = 1)
-  public void test005SendTrc20() {
+  public void test005SendSrc20() {
 
     String[] executiveKey = {
         "TR8CyAPJFMjCvphCVuWeeVxBh5iTG7VWxe",
@@ -322,9 +322,9 @@ public class SupportStabilalinkAutoTest {
       String triggerString = "\"" + ownerKey
           + "\"" + ", 20000000000";
       System.out.println(triggerString);
-      //dapp chain trc20 tract TXkdXbzjoLpxGAD2strP1zwjJzR6osNfD7
+      //dapp chain src20 tract TXkdXbzjoLpxGAD2strP1zwjJzR6osNfD7
       byte[] contractAddress = PublicMethed.decode58Check("TXkdXbzjoLpxGAD2strP1zwjJzR6osNfD7");
-      //main chain TRC 20 contract TCCcBZEdTHmS1NfFtCYfwpjBKeTv515n71
+      //main chain SRC 20 contract TCCcBZEdTHmS1NfFtCYfwpjBKeTv515n71
       //byte[] contractAddress =  PublicMethed.decode58Check("TCCcBZEdTHmS1NfFtCYfwpjBKeTv515n71");
 
       PublicMethed

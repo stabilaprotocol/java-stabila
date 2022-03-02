@@ -38,7 +38,7 @@ public class TransferFailedUcrTest extends VMTestBase {
           msg.sender.send(10);
       }
 
-      function testTransferTokenInsufficientBalance(trcToken tokenId) payable public{
+      function testTransferTokenInsufficientBalance(srcToken tokenId) payable public{
           msg.sender.transferToken(10, tokenId);
       }
 
@@ -57,7 +57,7 @@ public class TransferFailedUcrTest extends VMTestBase {
       }
 
       function testTransferTokenNonexistentTarget(address payable nonexistentTarget,
-       trcToken tokenId) payable public {
+       srcToken tokenId) payable public {
           require(address(this).balance >= 10);
           nonexistentTarget.transferToken(10, tokenId);
       }
@@ -84,7 +84,7 @@ public class TransferFailedUcrTest extends VMTestBase {
           self.send(10);
       }
 
-      function testTransferTokenSelf(trcToken tokenId) payable public{
+      function testTransferTokenSelf(srcToken tokenId) payable public{
           require(address(this).balance >= 10);
           address payable self = address(uint160(address(this)));
           self.transferToken(10, tokenId);
@@ -116,7 +116,7 @@ public class TransferFailedUcrTest extends VMTestBase {
           msg.sender.send(10);
       }
 
-      function testTransferTokenInsufficientBalance(trcToken tokenId) payable public{
+      function testTransferTokenInsufficientBalance(srcToken tokenId) payable public{
           msg.sender.transferToken(10, tokenId);
       }
 
@@ -135,7 +135,7 @@ public class TransferFailedUcrTest extends VMTestBase {
       }
 
       function testTransferTokenNonexistentTarget(address nonexistentTarget,
-       trcToken tokenId) payable public {
+       srcToken tokenId) payable public {
           require(address(this).balance >= 10);
           nonexistentTarget.transferToken(10, tokenId);
       }
@@ -162,7 +162,7 @@ public class TransferFailedUcrTest extends VMTestBase {
           self.send(10);
       }
 
-      function testTransferTokenSelf(trcToken tokenId) payable public{
+      function testTransferTokenSelf(srcToken tokenId) payable public{
           require(address(this).balance >= 10);
           address self = address(uint160(address(this)));
           self.transferToken(10, tokenId);
@@ -219,7 +219,7 @@ public class TransferFailedUcrTest extends VMTestBase {
       new TestCase("testCallStbInsufficientBalance()", Collections.emptyList(),
           false,
           contractResult.REVERT),
-      new TestCase("testTransferTokenInsufficientBalance(trcToken)",
+      new TestCase("testTransferTokenInsufficientBalance(srcToken)",
           Collections.singletonList(1000001), false, contractResult.REVERT),
   };
 
@@ -228,7 +228,7 @@ public class TransferFailedUcrTest extends VMTestBase {
       throws ContractExeException, ReceiptCheckErrException,
       VMIllegalException, ContractValidateException {
     ConfigLoader.disable = false;
-    manager.getDynamicPropertiesStore().saveAllowSvmTransferTrc10(1);
+    manager.getDynamicPropertiesStore().saveAllowSvmTransferSrc10(1);
     manager.getDynamicPropertiesStore().saveAllowSvmConstantinople(1);
     manager.getDynamicPropertiesStore().saveAllowSvmSolidity059(0);
 
@@ -305,7 +305,7 @@ public class TransferFailedUcrTest extends VMTestBase {
       throws ContractExeException, ReceiptCheckErrException,
       VMIllegalException, ContractValidateException {
     ConfigLoader.disable = false;
-    manager.getDynamicPropertiesStore().saveAllowSvmTransferTrc10(1);
+    manager.getDynamicPropertiesStore().saveAllowSvmTransferSrc10(1);
     manager.getDynamicPropertiesStore().saveAllowSvmConstantinople(0);
     manager.getDynamicPropertiesStore().saveAllowSvmSolidity059(0);
 

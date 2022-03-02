@@ -16,17 +16,17 @@ import org.stabila.api.GrpcAPI.AssetIssueList;
 import org.stabila.api.GrpcAPI.BlockExtention;
 import org.stabila.api.GrpcAPI.BlockReference;
 import org.stabila.api.GrpcAPI.BytesMessage;
-import org.stabila.api.GrpcAPI.DecryptNotesTRC20;
+import org.stabila.api.GrpcAPI.DecryptNotesSRC20;
 import org.stabila.api.GrpcAPI.DelegatedResourceList;
 import org.stabila.api.GrpcAPI.DelegatedResourceMessage;
 import org.stabila.api.GrpcAPI.EmptyMessage;
 import org.stabila.api.GrpcAPI.ExchangeList;
-import org.stabila.api.GrpcAPI.IvkDecryptTRC20Parameters;
-import org.stabila.api.GrpcAPI.NfTRC20Parameters;
+import org.stabila.api.GrpcAPI.IvkDecryptSRC20Parameters;
+import org.stabila.api.GrpcAPI.NfSRC20Parameters;
 import org.stabila.api.GrpcAPI.NoteParameters;
 import org.stabila.api.GrpcAPI.NullifierResult;
 import org.stabila.api.GrpcAPI.NumberMessage;
-import org.stabila.api.GrpcAPI.OvkDecryptTRC20Parameters;
+import org.stabila.api.GrpcAPI.OvkDecryptSRC20Parameters;
 import org.stabila.api.GrpcAPI.PaginatedMessage;
 import org.stabila.api.GrpcAPI.SpendResult;
 import org.stabila.api.GrpcAPI.TransactionExtention;
@@ -463,29 +463,29 @@ public class RpcApiServiceOnPBFT implements Service {
     }
 
     @Override
-    public void scanShieldedTRC20NotesByIvk(IvkDecryptTRC20Parameters request,
-        StreamObserver<DecryptNotesTRC20> responseObserver) {
+    public void scanShieldedSRC20NotesByIvk(IvkDecryptSRC20Parameters request,
+        StreamObserver<DecryptNotesSRC20> responseObserver) {
       walletOnPBFT.futureGet(
           () -> rpcApiService.getWalletSolidityApi()
-              .scanShieldedTRC20NotesByIvk(request, responseObserver)
+              .scanShieldedSRC20NotesByIvk(request, responseObserver)
       );
     }
 
     @Override
-    public void scanShieldedTRC20NotesByOvk(OvkDecryptTRC20Parameters request,
-        StreamObserver<DecryptNotesTRC20> responseObserver) {
+    public void scanShieldedSRC20NotesByOvk(OvkDecryptSRC20Parameters request,
+        StreamObserver<DecryptNotesSRC20> responseObserver) {
       walletOnPBFT.futureGet(
           () -> rpcApiService.getWalletSolidityApi()
-              .scanShieldedTRC20NotesByOvk(request, responseObserver)
+              .scanShieldedSRC20NotesByOvk(request, responseObserver)
       );
     }
 
     @Override
-    public void isShieldedTRC20ContractNoteSpent(NfTRC20Parameters request,
+    public void isShieldedSRC20ContractNoteSpent(NfSRC20Parameters request,
         StreamObserver<NullifierResult> responseObserver) {
       walletOnPBFT.futureGet(
           () -> rpcApiService.getWalletSolidityApi()
-              .isShieldedTRC20ContractNoteSpent(request, responseObserver)
+              .isShieldedSRC20ContractNoteSpent(request, responseObserver)
       );
     }
 

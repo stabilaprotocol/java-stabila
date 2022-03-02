@@ -564,7 +564,7 @@ public class TransactionFee001 {
    * constructor.
    */
 
-  @Test(enabled = true, description = "Test create trc10 token with fee not to sr")
+  @Test(enabled = true, description = "Test create src10 token with fee not to sr")
   public void test06CreateAssetIssue() {
     //get account
     ECKey ecKey1 = new ECKey(Utils.getRandom());
