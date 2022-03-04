@@ -198,13 +198,13 @@ public class ReceiptCapsule {
         dynamicPropertiesStore.saveBlockUcrUsage(blockUcrUsage);
       }
 
-      long unitPerUcr = Constant.UNIT_PER_UCR;
-      long dynamicUcrFee = dynamicPropertiesStore.getUcrFee();
-      if (dynamicUcrFee > 0) {
+      double unitPerUcr = Constant.UNIT_PER_UCR;
+      double dynamicUcrFee = (double)(dynamicPropertiesStore.getUcrFee()) / 1000000.0;
+      if (dynamicUcrFee > 0.0) {
         unitPerUcr = dynamicUcrFee;
       }
       long ucrFee =
-          (usage - accountUcrLeft) * unitPerUcr;
+              (long)((double)(usage - accountUcrLeft) * unitPerUcr);
       this.setUcrUsage(accountUcrLeft);
       this.setUcrFee(ucrFee);
       long balance = account.getBalance();

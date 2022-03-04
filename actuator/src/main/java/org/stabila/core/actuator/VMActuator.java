@@ -538,9 +538,9 @@ public class VMActuator implements Actuator2 {
   public long getAccountUcrLimitWithFixRatio(AccountCapsule account, long feeLimit,
       long callValue) {
 
-    long unitPerUcr = VMConstant.UNIT_PER_UCR;
+    double unitPerUcr = (double)(VMConstant.UNIT_PER_UCR);
     if (repository.getDynamicPropertiesStore().getUcrFee() > 0) {
-      unitPerUcr = repository.getDynamicPropertiesStore().getUcrFee();
+      unitPerUcr = (double)(repository.getDynamicPropertiesStore().getUcrFee()) / 1000000.0;
     }
 
     long leftCdedUcr = repository.getAccountLeftUcrFromCd(account);
@@ -548,32 +548,30 @@ public class VMActuator implements Actuator2 {
       receipt.setCallerUcrLeft(leftCdedUcr);
     }
 
-    long ucrFromBalance = max(account.getBalance() - callValue, 0) / unitPerUcr;
-    long availableUcr = Math.addExact(leftCdedUcr, ucrFromBalance);
+    double ucrFromBalance = (double)(max(account.getBalance() - callValue, 0)) / unitPerUcr;
+    double availableUcr = Math.addExact(leftCdedUcr, (long)ucrFromBalance);
 
-    long ucrFromFeeLimit = feeLimit / unitPerUcr;
-    return min(availableUcr, ucrFromFeeLimit);
-
+    double ucrFromFeeLimit = (double)feeLimit / unitPerUcr;
+    return (long)(min(availableUcr, ucrFromFeeLimit));
   }
 
   private long getAccountUcrLimitWithFloatRatio(AccountCapsule account, long feeLimit,
       long callValue) {
 
-    long unitPerUcr = VMConstant.UNIT_PER_UCR;
+    double unitPerUcr = (double)VMConstant.UNIT_PER_UCR;
     if (repository.getDynamicPropertiesStore().getUcrFee() > 0) {
-      unitPerUcr = repository.getDynamicPropertiesStore().getUcrFee();
+      unitPerUcr = (double)(repository.getDynamicPropertiesStore().getUcrFee()) / 1000000.0;
     }
     // can change the calc way
     long leftUcrFromCd = repository.getAccountLeftUcrFromCd(account);
     callValue = max(callValue, 0);
-    long ucrFromBalance = Math
-        .floorDiv(max(account.getBalance() - callValue, 0), unitPerUcr);
+    double ucrFromBalance = (double)(max(account.getBalance() - callValue, 0)) / unitPerUcr;
 
-    long ucrFromFeeLimit;
+    double ucrFromFeeLimit;
     long totalBalanceForUcrCd = account.getAllCdedBalanceForUcr();
     if (0 == totalBalanceForUcrCd) {
       ucrFromFeeLimit =
-          feeLimit / unitPerUcr;
+              (double)feeLimit / unitPerUcr;
     } else {
       long totalUcrFromCd = repository
           .calculateGlobalUcrLimit(account);
@@ -588,11 +586,11 @@ public class VMActuator implements Actuator2 {
       } else {
         ucrFromFeeLimit = Math
             .addExact(leftUcrFromCd,
-                (feeLimit - leftBalanceForUcrCd) / unitPerUcr);
+                    (long)((feeLimit - leftBalanceForUcrCd) / unitPerUcr));
       }
     }
 
-    return min(Math.addExact(leftUcrFromCd, ucrFromBalance), ucrFromFeeLimit);
+    return min(Math.addExact(leftUcrFromCd, (long)ucrFromBalance), (long)ucrFromFeeLimit);
   }
 
   public long getTotalUcrLimit(AccountCapsule creator, AccountCapsule caller,
